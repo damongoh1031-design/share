@@ -1,0 +1,59 @@
+{
+  "_comment": "skill-lint 用的工具签名快照。抓取于 2026-10-12，来源：recon/ 里的源码直读（nix-agent: src/nix_agent/tools/*.py 的函数定义；mcp-nixos: mcp_nixos/server.py 的 @mcp.tool()）。这是 REFERENCE SNAPSHOT，会随上游过期 —— CI 里请改用 tools/list 实时抓取。",
+  "_sources": {
+    "nix-agent": "JEFF7712/nix-agent v0.12.0 — src/nix_agent/tools/{build,switch,check,eval,locate}.py",
+    "mcp-nixos": "utensils/mcp-nixos v3.1.0 — mcp_nixos/server.py"
+  },
+  "tools": [
+    {
+      "name": "build",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "flake_uri": {}, "mode": {} } }
+    },
+    {
+      "name": "diff",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "flake_uri": {}, "mode": {} } }
+    },
+    {
+      "name": "switch",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "flake_uri": {}, "mode": {}, "validate": {}, "full_log": {} } }
+    },
+    {
+      "name": "generations",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "action": {}, "mode": {}, "generation": {} } }
+    },
+    {
+      "name": "eval_config",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "attr": {}, "flake_uri": {}, "mode": {} } }
+    },
+    {
+      "name": "locate_option",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "attr": {}, "flake_uri": {}, "mode": {} } }
+    },
+    {
+      "name": "check",
+      "server": "nix-agent",
+      "inputSchema": { "properties": { "level": {}, "flake_uri": {}, "mode": {} } }
+    },
+    {
+      "name": "nix",
+      "server": "mcp-nixos",
+      "inputSchema": {
+        "properties": {
+          "action": {}, "query": {}, "source": {}, "type": {},
+          "channel": {}, "limit": {}, "version": {}, "system": {}
+        }
+      }
+    },
+    {
+      "name": "nix_versions",
+      "server": "mcp-nixos",
+      "inputSchema": { "properties": { "package": {}, "version": {}, "limit": {} } }
+    }
+  ]
+}

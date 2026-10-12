@@ -1,0 +1,138 @@
+# Hermes MCP 配置片段 —— nix-agent + mcp-nixos
+#
+# 用法：把下面的 mcp_servers 段合并进 ~/.hermes/config.yaml
+#       （Windows: %LOCALAPPDATA%\hermes\config.yaml）
+#
+# 下面所有 trust / tools 语义都是从 Hermes 源码核对过的（见文件末尾"语义来源"）。
+# 分三个阶段，从最保守往上走。**别一上来就用阶段 2。**
+
+# =============================================================================
+# 阶段 0 —— 只读试用（推荐起点，跑两周再升级）
+# =============================================================================
+# 只注册不改系统的 5 个工具。switch / generations 根本没被注册，
+# 所以模型连"想调"都做不到 —— 这是比"提示词禁止"强得多的强制。
+#
+# mcp_servers:
+#   nixos:
+#     command: nix
+#     args: ["run", "github:utensils/mcp-nixos", "--"]
+#     trust: full              # 纯只读服务器，无写能力
+#
+#   nix-agent:
+#     command: nix-agent
+#     env:
+#       NIX_AGENT_USAGE_LOG: "1"
+#     trust: full
+#     tools:
+#       include: [build, diff, eval_config, locate_option, check]
+
+# =============================================================================
+# 阶段 1 —— 日常使用（本文档的推荐配置）
+# =============================================================================
+# 全部 7 个工具。约束靠两层：
+#   ① 宿主侧：下面这段（工具白名单 + 可选 trust）
+#   ② 系统侧：programs.nix-agent.privilegedAutomation 的 sudoers 窄白名单
+#      ← 这才是真正以 root 运行的边界
+#
+mcp_servers:
+  nixos:
+    command: nix
+    args: ["run", "github:utensils/mcp-nixos", "--"]
+    trust: full
+    tools:
+      # 可选：只保留查询工具，去掉 store 的写能力疑虑（其实它只读）
+      # include: [nix, nix_versions]
+      resources: false       # 不需要 MCP resources
+      prompts: false         # 不需要 MCP prompts
+
+  nix-agent:
+    command: nix-agent
+    env:
+      NIX_AGENT_USAGE_LOG: "1"
+    trust: full
+    tools:
+      # 显式列全，方便日后想收窄时只删一行
+      include: [build, diff, switch, generations, eval_config, locate_option, check]
+      resources: false
+      prompts: false
+
+# =============================================================================
+# 阶段 2 —— 要人工闸门（摩擦大，想清楚再用）
+# =============================================================================
+# trust: untrusted 会对**写能力工具**逐个弹审批。
+#
+# ⚠️ 关键事实：判"写能力"的依据是 MCP 的 annotations.readOnlyHint === true。
+#    nix-agent 的 7 个工具**都没有标 readOnlyHint**（它用 Tool.from_function
+#    注册，不带 annotations）→ **全部 7 个都被当成写能力**。
+#    结果：连 diff() 都会弹窗。这是安全换摩擦的取舍，不是 bug。
+#
+# 所以阶段 2 更实用的形态是「trust: untrusted + 只留变更工具」：
+#
+#   nix-agent:
+#     command: nix-agent
+#     trust: untrusted
+#     tools:
+#       include: [switch, generations]     # 只有这两个会弹窗
+#     # 但这样 build/diff/check 也一起没了 —— 得单独再挂一个实例
+#
+# 完整版（全部 7 个 + 每次弹窗）：
+#
+#   nix-agent:
+#     command: nix-agent
+#     trust: untrusted
+#     tools:
+#       include: [build, diff, switch, generations, eval_config, locate_option, check]
+
+# =============================================================================
+# NixOS 声明式接法（推荐，替代手改 config.yaml）
+# =============================================================================
+#
+# services.hermes-agent.mcpServers = {
+#   nixos.command = "nix";
+#   nixos.args = [ "run" "github:utensils/mcp-nixos" "--" ];
+#
+#   nix-agent.command = "nix-agent";
+#   nix-agent.tools.include = [ "build" "diff" "switch" "generations"
+#                               "eval_config" "locate_option" "check" ];
+# };
+#
+# ⚠️ 密钥/环境变量必须走 environmentFiles，**不要**放进 settings：
+#    settings 里的值会进 /nix/store（全世界可读）。
+
+# =============================================================================
+# 关于两个服务器的 FastMCP 版本冲突
+# =============================================================================
+#
+# mcp-nixos 要 fastmcp >= 4.0.0；nix-agent 要 fastmcp >= 2.14,<4。
+# **同一个 Python 环境装不了两个。**
+#
+# 上面两条命令天然隔离：
+#   - mcp-nixos 走 `nix run github:utensils/mcp-nixos` → 自己的闭包
+#   - nix-agent 走 `nix-agent`（由 NixOS 模块提供的包）→ 自己的闭包
+#
+# 非 NixOS 上要自己建两个 venv，分别 uvx / pipx 装。
+
+# =============================================================================
+# 语义来源（从 Hermes 源码核对，不是猜的）
+# =============================================================================
+#
+# trust（tools/mcp_tool_registration.py::_normalize_server_trust）
+#   - 未设 → "full"（向后兼容默认）
+#   - "full" / "untrusted" → 采用
+#   - **其他任何值 → 警告并降级为 "untrusted"（fail closed）**
+#
+# tools.include / tools.exclude（tools/mcp_tool_registration.py::_make_tool_filter）
+#   - include = 白名单；**include: [] 表示一个工具都不注册**
+#   - exclude = 黑名单
+#   - 条目可以是精确名或 fnmatch glob（如 "*_radar_*"）
+#   - **include 优先于 exclude**
+#   - 两个都不设 → 注册全部（向后兼容默认）
+#
+# trust: untrusted 的实际行为（tools/mcp_tool_handlers.py::_trust_gate_check）
+#   - 只对「写能力」工具弹审批
+#   - 写能力判定：readOnlyHint **必须严格 === true** 才算只读；
+#     缺失或非 bool（含字符串 "yes"）一律当写能力（fail closed）
+#   - **审批系统不可用 → 直接阻断（fail closed），不是放行**
+#
+# 另外还有一个断路器：连续失败达到阈值 → 暂停该服务器约 N 秒，
+# 期间调用会收到"不要重试"的明确指引（区分"不可达"与"每次都拒绝"）。
