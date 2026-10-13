@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ghan 与 Indian Pacific — 全面介绍</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#30363d;
+    --txt:#e6edf3; --dim:#9da7b3; --gold:#d4af37; --gold2:#e8c874;
+    --red:#c94f4f; --green:#4a9d6e; --blue:#6cb6ff; --ochre:#c98a4f;
+    --ga:#e0a83c; --ip:#5fa8d3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75;padding-bottom:60px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  header{background:linear-gradient(135deg,#1a1f2e 0%,#3d2c10 55%,#1a2a3a 100%);border-bottom:2px solid var(--gold);padding:48px 0 36px;margin-bottom:34px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-50px;top:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(212,175,55,.14),transparent 70%)}
+  header::before{content:"";position:absolute;left:-60px;bottom:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(95,168,211,.10),transparent 70%)}
+  h1{font-size:2.05em;font-weight:800;letter-spacing:.5px;margin-bottom:10px;position:relative}
+  h1 .g{color:var(--ga)}
+  h1 .i{color:var(--ip)}
+  .lede{color:var(--dim);font-size:1.02em;max-width:860px;position:relative}
+  .lede strong{color:#fff}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;position:relative}
+  .chip{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.38);color:#e8c874;padding:4px 13px;border-radius:20px;font-size:.82em}
+  .chip.b{background:rgba(95,168,211,.12);border-color:rgba(95,168,211,.4);color:#8fc9e8}
+  h2{font-size:1.32em;margin:42px 0 16px;padding-left:13px;border-left:4px solid var(--gold);color:#e8c874}
+  h3{font-size:1.08em;margin:26px 0 10px;color:#fff}
+  h4{font-size:.98em;margin:18px 0 8px;color:#e8c874}
+  .tldr{background:linear-gradient(135deg,#1b2130,#2a2214);border:1px solid rgba(212,175,55,.32);border-radius:12px;padding:20px 24px;margin-bottom:10px}
+  .tldr .label{color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:1px;margin-bottom:8px}
+  .tldr ul{margin-left:18px;font-size:.95em}
+  .tldr li{margin:5px 0}
+  table{width:100%;border-collapse:collapse;margin:14px 0 24px;font-size:.86em;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:#e8c874;text-align:left;padding:11px;font-weight:600;border-bottom:2px solid var(--line)}
+  td{padding:10px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(212,175,55,.05)}
+  td:first-child{font-weight:600;color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:16px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:16px 18px}
+  .card.ga{border-left-color:var(--ga)}
+  .card.ip{border-left-color:var(--ip)}
+  .card h4{margin-top:0}
+  .card p{font-size:.88em;color:var(--dim)}
+  .yes{color:#7fd7a3}.no{color:#ff8f8f}
+  .warn{background:rgba(201,79,79,.1);border-left:4px solid var(--red);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .warn h3{color:#ff8f8f;margin-top:0}
+  .tip{background:rgba(74,157,110,.09);border-left:4px solid var(--green);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .tip h3{color:#7fd7a3;margin-top:0}
+  code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-size:.88em;color:#e8c874}
+  .refs li{margin:6px 0;font-size:.88em}
+  .refs a{color:var(--blue);text-decoration:none}
+  .refs a:hover{text-decoration:underline}
+  .foot{color:var(--dim);font-size:.85em;margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+  .unc{background:rgba(108,182,255,.08);border-left:4px solid var(--blue);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .unc h3{color:var(--blue);margin-top:0}
+  .price{color:#e8c874;font-weight:700}
+  .badge{display:inline-block;background:rgba(74,157,110,.18);color:#7fd7a3;border:1px solid rgba(74,157,110,.4);border-radius:6px;padding:1px 7px;font-size:.82em;margin-left:4px}
+  .new{display:inline-block;background:rgba(212,175,55,.2);color:#e8c874;border:1px solid rgba(212,175,55,.5);border-radius:6px;padding:1px 7px;font-size:.82em;font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1><span class="g">The Ghan 汗号</span> × <span class="i">Indian Pacific</span> 全面介绍</h1>
+    <div class="lede">
+      <strong>Journey Beyond</strong> 旗下澳洲双雄。The Ghan <strong>纵贯南北</strong>（阿德莱德 ↔ 达尔文，2,979km），Indian Pacific <strong>横贯东西</strong>（悉尼 ↔ 珀斯，4,352km）。
+      两车共用同一套舱型（Gold / Platinum / Aurora / Australis），并于 <strong>2026 年 4 月同步上线全新 Aurora Suite 与 Australis Suite</strong>（Woods Bagot 设计）。
+    </div>
+    <div class="meta">
+      <span class="chip">1929 The Ghan 首航</span>
+      <span class="chip b">1970 Indian Pacific 首发</span>
+      <span class="chip">2,979 km / 4,352 km</span>
+      <span class="chip">3–5 天</span>
+      <span class="chip">Gold / Platinum / Aurora / Australis</span>
+      <span class="chip">A$2,290 起</span>
+      <span class="chip">顶配 A$22,490</span>
+      <span class="chip b">Journey Beyond</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tldr">
+    <div class="label">一句话区分</div>
+    <ul>
+      <li><strong>The Ghan（汗号）</strong>——<strong>纵贯澳洲南北</strong>（Adelaide ↔ Darwin），约 <strong>2,979 km</strong>，红土中心 + 热带北端，<strong>3 天</strong>（北行）/ <strong>4 天</strong>（Expedition 南行）。约 <strong>3–11 月</strong>运营。</li>
+      <li><strong>Indian Pacific</strong>——<strong>横贯澳洲东西</strong>（Sydney ↔ Perth），约 <strong>4,352 km</strong>，蓝山 + 纳拉伯平原（世界最长直线铁路），<strong>4 天</strong>（Syd→Perth）/ <strong>5 天</strong>（Perth→Syd）。<strong>全年运营，每周三发车</strong>。</li>
+      <li>二者同属 <strong>Journey Beyond</strong>，<strong>共用同一套舱型与餐车</strong>；<strong>2026 年 4 月同步上线 Aurora / Australis Suite</strong>。</li>
+      <li>票价 <span class="price">A$2,290 起</span>（Gold Single Advance），顶配 <span class="price">A$22,490</span>（Australis Suite，Perth→Syd 旺季）。<strong>Advance Purchase 须提前 ≥6 个月全款</strong>。</li>
+    </ul>
+  </div>
+
+  <h2>一、总览对比</h2>
+  <table>
+    <tr><th></th><th style="color:var(--ga)">The Ghan 汗号</th><th style="color:var(--ip)">Indian Pacific</th></tr>
+    <tr><td>走向</td><td><strong>南北纵贯</strong>（Adelaide ↔ Darwin）</td><td><strong>东西横贯</strong>（Sydney ↔ Perth）</td></tr>
+    <tr><td>距离</td><td>约 2,979 km</td><td>约 <strong>4,352 km</strong>（世界最长跨大陆铁路之一）</td></tr>
+    <tr><td>时长</td><td>3天2晚（北行 Legendary）/ 4天3晚（Expedition 南行）/ 2天1晚（Adelaide↔Alice Springs）</td><td>4天3晚（Syd→Perth）/ 5天4晚（Perth→Syd）/ 3天（Perth↔Adelaide）</td></tr>
+    <tr><td>首航</td><td><strong>1929 年</strong>（原名 Afghan Express）</td><td><strong>1970 年</strong>（前身可追溯至 1917 年打通标准轨距）</td></tr>
+    <tr><td>运营期</td><td>约 <strong>3–11 月</strong>（有季节性停运）</td><td><strong>全年</strong>，每周三发车</td></tr>
+    <tr><td>核心景观</td><td>红土中心、爱丽斯泉、Katherine 峡谷、Coober Pedy 地下城</td><td>蓝山、Broken Hill、纳拉伯平原、Rawlinna 星空晚宴</td></tr>
+    <tr><td>招牌体验</td><td>Nitmiluk 峡谷游船、Marla 日出 / Manguri 星空、地下午餐</td><td><strong>Rawlinna 星空下长桌晚宴</strong>、McLaren Vale 酒乡、Kalgoorlie 金矿</td></tr>
+    <tr><td>起步价（A$/人）</td><td>Gold Single Advance <span class="price">2,290</span> 起</td><td>Gold Twin Advance <span class="price">2,990</span> 起（Syd→Perth）</td></tr>
+    <tr><td>顶配价（A$/人）</td><td>Australis Suite <span class="price">20,390</span>（Expedition 5-8月）</td><td>Australis Suite <span class="price">22,490</span>（Perth→Syd 旺季）</td></tr>
+  </table>
+
+  <h2>二、舱型体系（两车通用）</h2>
+  <p style="font-size:.9em;color:var(--dim)">两列车共用<strong>同一套舱型</strong>，从低到高共六档。全部含独立卫浴、全含餐食与酒水、Off Train Experiences。</p>
+  <table>
+    <tr><th>舱型</th><th>特点</th><th>行李额</th><th>权益</th></tr>
+    <tr>
+      <td>Gold Single</td>
+      <td>黄金单人舱，紧凑独立卫浴</td>
+      <td>—</td>
+      <td>Queen Adelaide 餐车 + Outback Explorer 休息车</td>
+    </tr>
+    <tr>
+      <td>Gold Twin <span class="badge">最热销</span></td>
+      <td>黄金双人舱，上下铺白天转<strong>三座沙发</strong>，紧凑独立卫浴</td>
+      <td>60kg（2×30kg）</td>
+      <td>同上</td>
+    </tr>
+    <tr>
+      <td>Gold Premium Twin</td>
+      <td>黄金高级双人舱（2024 新增），更大空间 + 更多权益</td>
+      <td>—</td>
+      <td>同上 + 升级权益</td>
+    </tr>
+    <tr>
+      <td>Platinum（Twin / Double）</td>
+      <td><strong>约 Gold Twin 两倍大</strong>，独立卫浴，<strong>双程观景窗</strong>，房内欧陆早餐</td>
+      <td>90kg（3×30kg）</td>
+      <td><strong>Platinum Club</strong> 专属餐车与休息室 + 起止 60km 内接送</td>
+    </tr>
+    <tr>
+      <td>Aurora Suite <span class="new">2026.4 新</span></td>
+      <td><strong>约 Platinum 两倍大</strong>；固定 queen 床 + 休息区 + 独立卫浴（Jurlique 洗浴用品）</td>
+      <td><strong>无限额</strong>（每件 ≤32kg）</td>
+      <td>专属<strong>管家</strong>、开箱整理、枕头菜单、个性化房内酒吧、房内用餐、<strong>私人司机接送</strong>、Bollinger La Grande Année 香槟、Platinum Club</td>
+    </tr>
+    <tr>
+      <td>Australis Suite <span class="new">2026.4 新</span></td>
+      <td><strong>约 Platinum 三倍大</strong>；<strong>独立卧室</strong> + 固定床 + 全套休息区 + <strong>双台盆卫浴</strong> + 书写桌；<strong>澳洲火车最豪华套房</strong></td>
+      <td><strong>无限额</strong>（每件 ≤32kg）</td>
+      <td>同 Aurora，全部权益</td>
+    </tr>
+  </table>
+
+  <div class="warn">
+    <h3>面积口径说明（易被误导）</h3>
+    <p style="font-size:.92em">官方<strong>从未公布具体平米数</strong>，只以<strong>相对倍数</strong>描述：<code>Australis ≈ Platinum × 3</code>、<code>Aurora ≈ Platinum × 2</code>、<code>Platinum ≈ Gold Twin × 2</code>。<strong>第三方网站给出的具体㎡数字不可信</strong>。</p>
+  </div>
+
+  <div class="tip">
+    <h3>设计：Woods Bagot</h3>
+    <p style="font-size:.92em">Aurora / Australis Suite 由澳大利亚知名事务所 <strong>Woods Bagot</strong> 设计，2026 年 4 月启用，在南澳 Journey Beyond 车辆工场手工打造。当代住宅美学——木材饰面、石材砌体、铁艺 filigree、穹顶线脚；地域主题色（红土赭、暖木、祖母绿天鹅绒）。</p>
+  </div>
+
+  <h2>三、The Ghan（汗号）</h2>
+
+  <h3>3.1 基本信息</h3>
+  <table>
+    <tr><th>项</th><th>内容</th></tr>
+    <tr><td>名称</td><td>The Ghan（汗号）</td></tr>
+    <tr><td>运营方</td><td>Journey Beyond Rail（原 Great Southern Rail）</td></tr>
+    <tr><td>首航</td><td><strong>1929 年</strong>，原名 Afghan Express，纪念<strong>阿富汗驼队向导（Afghan cameleers）</strong></td></tr>
+    <tr><td>线路</td><td>Adelaide ↔ Darwin，约 2,979 km</td></tr>
+    <tr><td>运营期</td><td>约 <strong>3–11 月</strong>（冬季部分班次停运）</td></tr>
+    <tr><td>餐车</td><td>Queen Adelaide（Gold）、Platinum Club（Platinum 专属）</td></tr>
+    <tr><td>休息车</td><td>Outback Explorer（Gold）、Manguri 社交车</td></tr>
+  </table>
+
+  <h3>3.2 三种行程</h3>
+  <table>
+    <tr><th>行程</th><th>方向</th><th>时长</th><th>出发时刻</th><th>关键节点</th></tr>
+    <tr>
+      <td>The Legendary Ghan</td><td>Adelaide → Darwin（或反向）</td><td>3天2晚</td><td>Sun/Wed <strong>12:15</strong></td>
+      <td>Marla（北行日出）→ 爱丽斯泉 → Katherine → Darwin</td>
+    </tr>
+    <tr>
+      <td>The Ghan Expedition</td><td>Darwin → Adelaide</td><td><strong>4天3晚</strong></td><td>Wed/Sat <strong>10:00 / 09:00</strong></td>
+      <td>Katherine → 爱丽斯泉（全日）→ <strong>Coober Pedy（全日）</strong> → Adelaide</td>
+    </tr>
+    <tr>
+      <td>短线</td><td>Adelaide ↔ Alice Springs</td><td>2天1晚</td><td>—</td><td>红土中心短线</td>
+    </tr>
+  </table>
+  <p style="font-size:.88em;color:var(--dim)"><strong>3 天版时刻（Adelaide→Darwin）</strong>：Sun 12:15 发车 → Mon 抵 Marla（晨间体验）→ Mon 13:45 抵爱丽斯泉（下午体验）→ 18:15 离开 → Mon/Tue 抵 Katherine（晨间体验）→ <strong>17:30/19:50 抵达尔文</strong>。</p>
+
+  <h3>3.3 逐日行程（The Ghan Expedition 4 天 · Darwin → Adelaide）</h3>
+  <table>
+    <tr><th>天</th><th>行程</th></tr>
+    <tr><td>D1</td><td>上午从达尔文出发，安顿套房；午餐配全含酒水；下午抵 <strong>Katherine（凯瑟琳）</strong>，巡游 <strong>Nitmiluk 峡谷</strong>，了解 Jawoyn 原住民岩画与文化；日落晚餐后开床</td></tr>
+    <tr><td>D2</td><td>晨抵<strong>爱丽斯泉</strong>（红土中心），整日游览；可选升级 <strong>Uluru 观光飞行</strong>；晚间于历史悠久的 <strong>Telegraph Station</strong> 星空下烧烤晚宴</td></tr>
+    <tr><td>D3</td><td>晨停 <strong>Manguri</strong> 内陆小站 → 前往 <strong>Coober Pedy</strong> 地下蛋白石镇（半数居民住地下），全日探索 + <strong>地下 gourmet 午餐</strong>；晚间车内晚餐 + nightcap</td></tr>
+    <tr><td>D4</td><td>早餐后 <strong>10:50 / 11:50 抵阿德莱德</strong></td></tr>
+  </table>
+
+  <h3>3.4 The Ghan 2026 价目（A$/人，单程）</h3>
+  <h4>The Legendary Ghan · 3 Days · Adelaide → Darwin</h4>
+  <table>
+    <tr><th>舱型</th><th>票价类型</th><th>3月 &amp; 11月</th><th>4月 &amp; 9-10月</th><th>5–8月</th></tr>
+    <tr><td>Australis Suite</td><td>Everyday</td><td class="price">12,490</td><td class="price">13,390</td><td class="price">13,590</td></tr>
+    <tr><td>Aurora Suite</td><td>Everyday</td><td class="price">8,390</td><td class="price">8,890</td><td class="price">9,090</td></tr>
+    <tr><td>Platinum Twin</td><td>Everyday</td><td class="price">4,790</td><td class="price">5,790</td><td class="price">6,090</td></tr>
+    <tr><td>Platinum Twin</td><td>Flexible</td><td class="price">5,490</td><td class="price">6,590</td><td class="price">6,890</td></tr>
+    <tr><td>Gold Premium Twin</td><td>Advance</td><td class="price">3,190</td><td class="price">3,790</td><td class="price">4,090</td></tr>
+    <tr><td>Gold Premium Twin</td><td>Everyday</td><td class="price">3,690</td><td class="price">4,390</td><td class="price">4,790</td></tr>
+    <tr><td>Gold Twin</td><td>Advance</td><td class="price">2,690</td><td class="price">3,090</td><td class="price">3,490</td></tr>
+    <tr><td>Gold Twin</td><td>Everyday</td><td class="price">3,190</td><td class="price">3,690</td><td class="price">3,990</td></tr>
+    <tr><td>Gold Twin</td><td>Flexible</td><td class="price">3,490</td><td class="price">4,090</td><td class="price">4,490</td></tr>
+    <tr><td>Gold Single</td><td>Advance</td><td class="price">2,290</td><td class="price">2,790</td><td class="price">3,090</td></tr>
+    <tr><td>Gold Single</td><td>Everyday</td><td class="price">2,790</td><td class="price">3,290</td><td class="price">3,590</td></tr>
+  </table>
+
+  <h4>The Ghan Expedition · 4 Days · Darwin → Adelaide</h4>
+  <table>
+    <tr><th>舱型</th><th>票价类型</th><th>3月 &amp; 11月</th><th>4月 &amp; 9-10月</th><th>5–8月</th></tr>
+    <tr><td>Australis Suite</td><td>Everyday</td><td class="price">18,290</td><td class="price">18,890</td><td class="price">20,390</td></tr>
+    <tr><td>Aurora Suite</td><td>Everyday</td><td class="price">12,190</td><td class="price">12,590</td><td class="price">13,590</td></tr>
+    <tr><td>Platinum Twin</td><td>Everyday</td><td class="price">7,290</td><td class="price">8,390</td><td class="price">9,090</td></tr>
+    <tr><td>Platinum Twin</td><td>Flexible</td><td class="price">8,390</td><td class="price">9,590</td><td class="price">10,390</td></tr>
+    <tr><td>Gold Premium Twin</td><td>Advance</td><td class="price">4,990</td><td class="price">5,690</td><td class="price">6,090</td></tr>
+    <tr><td>Gold Twin</td><td>Advance</td><td class="price">3,990</td><td class="price">4,690</td><td class="price">5,190</td></tr>
+    <tr><td>Gold Twin</td><td>Everyday</td><td class="price">4,790</td><td class="price">5,490</td><td class="price">5,990</td></tr>
+  </table>
+
+  <h4>2027 年票价（已公布，A$/人）</h4>
+  <table>
+    <tr><th>行程</th><th>舱型</th><th>3月 &amp; 11月</th><th>4、9-10月</th><th>5–8月</th></tr>
+    <tr><td>3天 Adel→Darwin</td><td>Australis</td><td class="price">16,390</td><td class="price">16,990</td><td class="price">18,290</td></tr>
+    <tr><td>3天 Adel→Darwin</td><td>Aurora</td><td class="price">10,890</td><td class="price">11,290</td><td class="price">12,090</td></tr>
+    <tr><td>4天 Darwin→Adel</td><td>Australis</td><td class="price">18,890</td><td class="price">19,390</td><td class="price">20,990</td></tr>
+    <tr><td>4天 Darwin→Adel</td><td>Aurora</td><td class="price">12,490</td><td class="price">12,990</td><td class="price">13,990</td></tr>
+  </table>
+
+  <h2>四、Indian Pacific（印度洋-太平洋号）</h2>
+
+  <h3>4.1 基本信息</h3>
+  <table>
+    <tr><th>项</th><th>内容</th></tr>
+    <tr><td>名称</td><td>Indian Pacific（印度洋-太平洋号）</td></tr>
+    <tr><td>运营方</td><td>Journey Beyond Rail</td></tr>
+    <tr><td>首发</td><td><strong>1970 年</strong>（前身可追溯至 1917 年打通标准轨距）</td></tr>
+    <tr><td>线路</td><td>Sydney ↔ Perth，约 <strong>4,352 km</strong></td></tr>
+    <tr><td>运营期</td><td><strong>全年</strong>，每周三发车（Sydney 14:15）</td></tr>
+    <tr><td>餐车</td><td>Queen Adelaide（Gold）、Platinum Club（Platinum 专属）</td></tr>
+  </table>
+
+  <h3>4.2 逐日行程（Sydney → Perth 4 天 3 晚）</h3>
+  <table>
+    <tr><th>天</th><th>行程</th></tr>
+    <tr><td>D1</td><td>午后从悉尼出发，穿越<strong>蓝山</strong>砂岩峡谷；配澳洲葡萄酒的晚宴；nightcap 后就寝</td></tr>
+    <tr><td>D2</td><td>晨抵<strong>Broken Hill</strong>（银矿镇），多项 Off Train Experience 可选（矿业/文化/艺术）；车上早餐后西行；午餐时进入 <strong>Flinders Ranges</strong> 南端；下午抵<strong>阿德莱德</strong>，可选城市游 / <strong>McLaren Vale 酒庄</strong> / <strong>Adelaide Hills + Hahndorf 德国村</strong>（均含晚餐）；晚间重新登车</td></tr>
+    <tr><td>D3</td><td>在无尽的 <strong>Nullarbor 平原</strong>醒来，沿<strong>世界最长直线铁路段</strong>行驶；晚间在 <strong>Rawlinna</strong> 星空下用晚餐（季节性）</td></tr>
+    <tr><td>D4</td><td>早餐时穿越 <strong>Avon Valley</strong> 起伏丘陵；车上午餐后抵<strong>珀斯</strong></td></tr>
+  </table>
+  <p style="font-size:.88em;color:var(--dim)"><strong>珀斯→悉尼方向为 5 天 4 晚</strong>，多一晚并增加 <strong>Kalgoorlie 金矿镇</strong>等内容。</p>
+
+  <h3>4.3 Indian Pacific 2026 价目（A$/人，单程）</h3>
+  <h4>Perth → Sydney · 5 Days（价格更高）</h4>
+  <table>
+    <tr><th>舱型</th><th>票价类型</th><th>6–7月</th><th>1-2、4-5、8、12月</th><th>3月 &amp; 9-11月</th></tr>
+    <tr><td>Australis Suite</td><td>Everyday</td><td class="price">19,090</td><td class="price">20,190</td><td class="price">22,490</td></tr>
+    <tr><td>Aurora Suite</td><td>Everyday</td><td class="price">12,790</td><td class="price">13,390</td><td class="price">14,990</td></tr>
+    <tr><td>Platinum Twin</td><td>Everyday</td><td class="price">7,490</td><td class="price">8,990</td><td class="price">10,090</td></tr>
+    <tr><td>Platinum Twin</td><td>Flexible</td><td class="price">8,590</td><td class="price">10,290</td><td class="price">11,490</td></tr>
+    <tr><td>Gold Premium Twin</td><td>Advance</td><td class="price">4,390</td><td class="price">5,090</td><td class="price">5,790</td></tr>
+    <tr><td>Gold Twin</td><td>Advance</td><td class="price">3,690</td><td class="price">4,190</td><td class="price">5,090</td></tr>
+    <tr><td>Gold Twin</td><td>Everyday</td><td class="price">4,290</td><td class="price">4,990</td><td class="price">5,690</td></tr>
+    <tr><td>Gold Single</td><td>Advance</td><td class="price">3,390</td><td class="price">3,790</td><td class="price">4,490</td></tr>
+  </table>
+
+  <h4>Sydney → Perth · 4 Days</h4>
+  <table>
+    <tr><th>舱型</th><th>票价类型</th><th>6–7月</th><th>1-2、4-5、8、12月</th><th>3月 &amp; 9-11月</th></tr>
+    <tr><td>Australis Suite</td><td>Everyday</td><td class="price">16,090</td><td class="price">17,290</td><td class="price">18,990</td></tr>
+    <tr><td>Aurora Suite</td><td>Everyday</td><td class="price">10,690</td><td class="price">11,490</td><td class="price">12,690</td></tr>
+    <tr><td>Platinum Twin</td><td>Everyday</td><td class="price">6,490</td><td class="price">7,690</td><td class="price">8,490</td></tr>
+    <tr><td>Platinum Twin</td><td>Flexible</td><td class="price">7,390</td><td class="price">8,790</td><td class="price">9,690</td></tr>
+    <tr><td>Gold Premium Twin</td><td>Advance</td><td class="price">3,690</td><td class="price">4,290</td><td class="price">4,890</td></tr>
+    <tr><td>Gold Twin</td><td>Advance</td><td class="price">2,990</td><td class="price">3,490</td><td class="price">3,990</td></tr>
+    <tr><td>Gold Twin</td><td>Everyday</td><td class="price">3,690</td><td class="price">4,090</td><td class="price">4,590</td></tr>
+    <tr><td>Gold Single</td><td>Advance</td><td class="price">2,790</td><td class="price">3,090</td><td class="price">3,590</td></tr>
+  </table>
+
+  <h4>2027 年（Sydney → Perth 4 天）</h4>
+  <table>
+    <tr><th>舱型</th><th>6–7月</th><th>3月 &amp; 9-11月</th></tr>
+    <tr><td>Australis Suite</td><td class="price">17,690</td><td class="price">20,490</td></tr>
+    <tr><td>Aurora Suite</td><td class="price">11,790</td><td class="price">13,590</td></tr>
+    <tr><td>Platinum Twin（Everyday）</td><td class="price">7,890</td><td class="price">9,090</td></tr>
+  </table>
+
+  <h2>五、票价体系说明（两车通用）</h2>
+  <p style="font-size:.9em;color:var(--dim)">三种票价类型，<strong>同一舱位价差可达 40%</strong>。</p>
+  <table>
+    <tr><th>票价类型</th><th>付款规则</th><th>价格</th><th>适用</th></tr>
+    <tr><td>Advance Purchase</td><td>须<strong>提前 ≥6 个月</strong>预订并<strong>全款付清</strong>；每班次限量</td><td><strong>最低</strong></td><td>计划性强、早定者</td></tr>
+    <tr><td>Everyday</td><td>订金：Gold Service <strong>A$1,000/人</strong>、Platinum <strong>A$1,500/人</strong>（2026 起）；余款<strong>出发前 2 个月</strong>付清</td><td>中</td><td>多数旅客</td></tr>
+    <tr><td>Flexible</td><td>订时<strong>全款</strong>支付</td><td><strong>最高</strong></td><td>需灵活改期者</td></tr>
+  </table>
+  <p style="font-size:.9em"><strong>儿童</strong>：4–15 岁享成人票 <strong>8 折</strong>；0–3 岁<strong>免费</strong>（使用现有床位）。</p>
+
+  <h2>六、注意事项</h2>
+
+  <div class="warn">
+    <h3>⚠️ 6.1 运营期差异（关键）</h3>
+    <table style="margin-top:8px">
+      <tr><th></th><th>The Ghan</th><th>Indian Pacific</th></tr>
+      <tr><td>运营期</td><td><strong>约 3–11 月</strong>（冬季停运部分班次）</td><td><strong>全年</strong>，每周三</td></tr>
+      <tr><td>发车日</td><td>3 月 &amp; 11 月：周日/周三；4-10 月：周三</td><td>每周三</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.92em">若你的行程含 <strong>12 月或 1-2 月</strong>，<strong>The Ghan 可能无班次</strong>，需改乘 Indian Pacific 或 Great Southern。</p>
+  </div>
+
+  <h3>6.2 季节与价格</h3>
+  <ul style="margin-left:18px;font-size:.92em">
+    <li><strong>The Ghan</strong>：旺季 <strong>5-8 月</strong>（价格最高）；平季 4 月、9-10 月；淡季 3 月、11 月</li>
+    <li><strong>Indian Pacific</strong>：旺季 <strong>3 月、9-11 月</strong>；淡季 <strong>6-7 月</strong>（价格最低，Syd→Perth Gold Twin Advance 仅 2,990）</li>
+    <li><strong>Rawlinna 星空晚宴</strong>季节性（通常 9-5 月），冬季改篝火酒会</li>
+  </ul>
+
+  <div class="tip">
+    <h3>6.3 套房稀缺性</h3>
+    <ul style="margin-left:18px;font-size:.92em">
+      <li><strong>Aurora / Australis Suite 2026 年 4 月才上线</strong>，班次内数量极少，务必提早锁定</li>
+      <li>Australis Suite 单程可超 <strong>A$22,000/人</strong>（Perth→Syd 旺季），是澳洲火车最贵产品</li>
+      <li>套房含<strong>私人司机接送</strong>（车站 60km 内）与<strong>无限行李额</strong>（每件 ≤32kg）</li>
+    </ul>
+  </div>
+
+  <h3>6.4 行李额</h3>
+  <table>
+    <tr><th>舱型</th><th>托运行李</th></tr>
+    <tr><td>Gold Twin</td><td>60kg（2 × 30kg）</td></tr>
+    <tr><td>Platinum</td><td>90kg（3 × 30kg）</td></tr>
+    <tr><td>Aurora / Australis Suite</td><td><strong>无限额</strong>（每件 ≤32kg；可放套房或托运）</td></tr>
+  </table>
+
+  <h3>6.5 其他</h3>
+  <ul style="margin-left:18px;font-size:.92em">
+    <li><strong>着装</strong>：智能休闲（smart casual），晚餐略正式但<strong>无需礼服</strong>（与 Rovos Rail 的正装要求不同）</li>
+    <li><strong>面积不公布</strong>：官方只给相对倍数，不公布㎡——不要轻信第三方给出的具体数字</li>
+    <li><strong>Coober Pedy / Uluru</strong>：Uluru 观光飞行为<strong>加购升级</strong>，非一价全含</li>
+    <li><strong>Off Train Experiences 可能调整</strong>（官方明确提示）</li>
+    <li>无随车医生 [不确定]</li>
+  </ul>
+
+  <h2>七、适合谁 / 不适合谁</h2>
+  <table>
+    <tr><th>✅ 适合</th><th>❌ 不适合</th></tr>
+    <tr><td>想一次看透澳洲内陆（The Ghan）或横贯大陆（Indian Pacific）的人</td><td>12-2 月想坐 The Ghan 的人（可能无班次）</td></tr>
+    <tr><td>计划性强、提前 6 个月以上预订者（可省 30-40%）</td><td>临时起意者（Advance 价已抢光，只剩 Flexible）</td></tr>
+    <tr><td>追求极致私密与管家服务者（Aurora / Australis Suite）</td><td>预算敏感者（套房 A$10,000–22,000/人量级）</td></tr>
+    <tr><td>家庭（4-15 岁 8 折，0-3 岁免费）</td><td>需要随车医疗保障者（无医生）</td></tr>
+    <tr><td>摄影爱好者（纳拉伯平原、红土中心、星空晚宴）</td><td>不愿下车参与游览者（行程精华在 Off Train Experiences）</td></tr>
+    <tr><td>首次体验澳洲豪华列车者（Gold Twin 性价比最高）</td><td>期待正装晚宴仪式感者（此处为 smart casual）</td></tr>
+  </table>
+
+  <h2>八、与全球其他豪华列车对比</h2>
+  <table>
+    <tr><th></th><th style="color:var(--ga)">The Ghan</th><th style="color:var(--ip)">Indian Pacific</th><th>Rovos Rail 非洲之傲</th><th>Golden Eagle Danube Express</th></tr>
+    <tr><td>区域</td><td>澳洲南北</td><td>澳洲东西</td><td>南部非洲</td><td>中东欧/巴尔干</td></tr>
+    <tr><td>载客</td><td>数百人</td><td>数百人</td><td>72</td><td>50</td></tr>
+    <tr><td>时长</td><td>3–4 天</td><td>4–5 天</td><td>2–16 晚</td><td>5–14 天</td></tr>
+    <tr><td>顶配舱</td><td>Aurora/Australis Suite</td><td>Aurora/Australis Suite</td><td>Royal Suite 16㎡</td><td>Superior Deluxe 8.6㎡</td></tr>
+    <tr><td>顶配价</td><td>A$20,390</td><td>A$22,490</td><td>R480,000 / US$31,500</td><td>€28,000</td></tr>
+    <tr><td><strong>着装</strong></td><td>智能休闲</td><td>智能休闲</td><td><strong>晚间正装</strong></td><td><strong>休闲</strong></td></tr>
+    <tr><td>起步价</td><td>A$2,290</td><td>A$2,990</td><td>R49,900</td><td>€9,900</td></tr>
+    <tr><td>医生</td><td>无 [不确定]</td><td>无 [不确定]</td><td>仅长线有</td><td>全程有</td></tr>
+  </table>
+
+  <div class="unc">
+    <h3>九、未核实 / 存疑</h3>
+    <ul style="margin-left:18px;font-size:.92em">
+      <li><strong>单列精确载客数</strong>：官方未公布 [不确定]</li>
+      <li><strong>各舱型具体面积（㎡）</strong>：官方仅给相对倍数（Australis ≈ Platinum × 3 等），未公布数字 [不确定]</li>
+      <li><strong>是否有明星主厨合作</strong> [不确定]</li>
+      <li><strong>是否有随车医生</strong> [不确定]</li>
+      <li><strong>2027 年 12 月班期与票价</strong>：部分未公布 [不确定]</li>
+      <li>价格档位为相对判定，非官方分级</li>
+    </ul>
+  </div>
+
+  <h2>参考资料</h2>
+  <ul class="refs">
+    <li><a href="https://journeybeyondrail.com.au/">journeybeyondrail.com.au</a> — <strong>官方一手：套房详情、行程、时间表、Aurora / Australis 官方页</strong></li>
+    <li><a href="https://www.aussietrains.com.au/">aussietrains.com.au</a> — 授权代理：<strong>完整 2026/2027 价目表 + 时刻表</strong></li>
+    <li><a href="https://www.greattrains.com.au/">greattrains.com.au</a> — 授权代理：舱型规格、行李额、2027 套房价目</li>
+    <li>travelmonitor.com.au — 行业媒体：Aurora / Australis 首发报道（起价 A$11,190 / A$16,790）</li>
+    <li>munchable.com — 独立导购：票价交叉校验</li>
+  </ul>
+
+  <div class="foot">
+    调研更新：2026-10-13 · 价格币种：<strong>澳元（A$）</strong>，均为每人单程。Advance Purchase 须提前 ≥6 个月全款。价格、班期与舱位随时变动，预订前须以官方最终确认为准。<br>
+    本文件由 WorkBuddy AI 生成，仅供研究参考，不构成预订依据。
+  </div>
+
+</div>
+</body>
+</html>
