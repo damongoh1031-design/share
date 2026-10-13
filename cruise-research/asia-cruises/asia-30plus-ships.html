@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全球邮轮的主要航线 — 深度调研报告</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #161a21; --panel-2: #1c2230; --line: #2a3140;
+    --fg: #e6eaf2; --fg-dim: #a3adc2; --accent: #5aa9ff; --accent-2: #7ee0c0;
+    --warn: #ffb454;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", Roboto, sans-serif;
+    font-size: 15px; line-height: 1.75;
+  }
+  .wrap { display: flex; align-items: flex-start; max-width: 1500px; margin: 0 auto; }
+  aside {
+    position: sticky; top: 0; flex: 0 0 290px; height: 100vh; overflow-y: auto;
+    padding: 22px 14px 40px 22px; border-right: 1px solid var(--line);
+    background: var(--panel);
+  }
+  aside h4 { margin: 0 0 12px; font-size: 13px; letter-spacing: .12em; color: var(--fg-dim); text-transform: uppercase; }
+  aside a { display: block; padding: 5px 10px; border-radius: 6px; color: var(--fg-dim);
+    text-decoration: none; font-size: 13px; line-height: 1.5; }
+  aside a:hover { background: var(--panel-2); color: var(--fg); }
+  aside a.nav-h2 { color: var(--accent); font-weight: 600; margin-top: 10px; }
+  aside a.nav-h3 { padding-left: 18px; }
+  aside a.nav-h4 { padding-left: 30px; font-size: 12.5px; opacity: .88; }
+  main { flex: 1 1 auto; min-width: 0; padding: 34px 44px 90px; }
+  h1 { font-size: 30px; margin: 0 0 10px; letter-spacing: .01em; }
+  h2 { font-size: 22px; margin: 46px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 30px 0 12px; padding: 9px 14px; border-radius: 8px;
+        background: linear-gradient(90deg, var(--panel-2), transparent); border-left: 3px solid var(--accent); }
+  blockquote { margin: 14px 0; padding: 10px 16px; border-left: 3px solid var(--accent-2);
+    background: var(--panel); color: var(--fg-dim); border-radius: 0 8px 8px 0; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 20px; font-size: 13.5px; }
+  th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--panel-2); color: var(--fg); font-weight: 600; }
+  tr:nth-child(even) td { background: rgba(255,255,255,.017); }
+  a { color: var(--accent); }
+  ul { margin: 10px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li strong { color: var(--accent-2); font-weight: 600; }
+  hr { border: none; border-top: 1px dashed var(--line); margin: 34px 0; }
+  code { background: var(--panel-2); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  @media (max-width: 900px) { aside { display: none; } main { padding: 22px 16px 60px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <h4>目录导航</h4>
+    <a class="nav-h2" href="#一结论速览">一、结论速览</a>
+<a class="nav-h2" href="#二表-a真正亚洲区内出发并返回亚洲的-30-晚仅-3-条">二、表 A：真正「亚洲区内出发并返回亚洲」的 30+ 晚（仅 3 条）</a>
+<a class="nav-h2" href="#三表-b亚洲进-亚洲出的单程-30-晚两端都在亚洲">三、表 B：亚洲进 / 亚洲出的单程 30+ 晚（两端都在亚洲）</a>
+<a class="nav-h2" href="#四表-c环球航线中的亚洲段30-晚可单独购买">四、表 C：环球航线中的亚洲段（30+ 晚，可单独购买）</a>
+<a class="nav-h3" href="#c-1-cunard2028-年-queen-anne-是亚洲分段最丰富的一艘">C-1 Cunard（2028 年 Queen Anne 是亚洲分段最丰富的一艘）</a>
+<a class="nav-h3" href="#c-2-pampo-cruises-ukarcadia英国无飞行往返">C-2 P&amp;O Cruises UK（Arcadia，英国无飞行往返）</a>
+<a class="nav-h3" href="#c-3-其他">C-3 其他</a>
+<a class="nav-h2" href="#五表-d亚洲出发的跨洋长线30-晚">五、表 D：亚洲出发的跨洋长线（30+ 晚）</a>
+<a class="nav-h2" href="#六表-e日本本土船公司的-30-晚日语服务">六、表 E：日本本土船公司的 30+ 晚（日语服务）</a>
+<a class="nav-h2" href="#七准长线-2229-晚做-30-的入口或预算敏感时的替代">七、准长线 22–29 晚（做 30+ 的入口，或预算敏感时的替代）</a>
+<a class="nav-h2" href="#八明确没有30-晚亚洲产品的公司避免踩空">八、明确「没有」30+ 晚亚洲产品的公司（避免踩空）</a>
+<a class="nav-h2" href="#九价格梯度与选型建议">九、价格梯度与选型建议</a>
+<a class="nav-h3" href="#人均每晚单价30-晚档">人均每晚单价（30+ 晚档）</a>
+<a class="nav-h3" href="#按需求选">按需求选</a>
+<a class="nav-h2" href="#十口径与注意事项">十、口径与注意事项</a>
+<a class="nav-h2" href="#数据来源">数据来源</a>
+  </aside>
+  <main>
+<h1>亚洲 30+ 晚长线邮轮总表（不限母港）</h1>
+<blockquote>
+<p>查询日期：2026-10-06 ｜ 口径：<strong>30 晚及以上（nights ≥ 30）</strong>，与亚洲相关（亚洲区内往返 / 亚洲进亚洲出 / 亚洲出发跨洋 / 环球航线的亚洲段）<br />
+说明：邮轮业以「晚（nights）」计价，日本公司常用「日」，本表已分别标注。价格均为每人起价、双人入住，币种与舱位类型随行标注。</p>
+</blockquote>
+<hr />
+<h2 id="一结论速览">一、结论速览</h2>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>整理到的 30+ 晚航次</td>
+<td><strong>59 条</strong>（含环球整船；已按航次拆分，和平船 9 个航次单列）</td>
+</tr>
+<tr>
+<td>涉及邮轮</td>
+<td><strong>26 艘</strong></td>
+</tr>
+<tr>
+<td>涉及公司</td>
+<td><strong>18 家</strong></td>
+</tr>
+<tr>
+<td>真正「亚洲区内同港往返」</td>
+<td><strong>仅 1 条</strong>——HAL Noordam 新加坡往返 30 晚</td>
+</tr>
+<tr>
+<td>「亚洲进、亚洲出」（两端都在亚洲，单程）</td>
+<td><strong>3 条</strong>——Regent 61 晚、Silversea 51 天、HAL Noordam 30 晚</td>
+</tr>
+<tr>
+<td>亚洲本土有 30+ 晚产品的公司</td>
+<td><strong>只有日本 3 家</strong>（三井海洋邮轮、日本邮船、和平船）</td>
+</tr>
+<tr>
+<td>韩国 / 中国 / 新加坡 / 台湾本土</td>
+<td><strong>全部为 0</strong>（最长 5–13 晚）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三个必须知道的判断：</strong></p>
+<ol>
+<li><strong>大众档的亚洲 30+ 晚，本质都是「环球/世界巡航分段」。</strong> Cunard、P&amp;O、Fred Olsen、Phoenix、Plantours 的亚洲长段全部挂靠在环球航线上，单卖分段。真正的「亚洲区域环线」在大众档几乎不存在。</li>
+<li><strong>想做「亚洲进、亚洲出」的 30+ 晚，只有 3 条</strong>：Regent Seven Seas Explorer 香港→东京 61 晚（奢华全包）、Silversea Silver Muse 新加坡→东京 51 天（奢华全包）、HAL Noordam 新加坡往返 30 晚（中高端，唯一同港往返）。</li>
+<li><strong>亚洲本土船队语言是硬门槛。</strong> 日本三家（三井、飞鸟、和平船）全部以<strong>日语服务为主，无中文随船服务</strong>；和平船可由台湾代理以中文对接。</li>
+</ol>
+<hr />
+<h2 id="二表-a真正亚洲区内出发并返回亚洲的-30-晚仅-3-条">二、表 A：真正「亚洲区内出发并返回亚洲」的 30+ 晚（仅 3 条）</h2>
+<p>这是最符合「亚洲长线」直觉的一档——不用飞越半个地球去登船，也不用异地返程。</p>
+<table>
+<thead>
+<tr>
+<th>航线</th>
+<th>公司 · 船</th>
+<th>晚数</th>
+<th>出发 → 抵达</th>
+<th>日期 / 航次</th>
+<th>主要停靠港</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>远东发现假日精选之旅<br>Far East Discovery Holiday Collectors' Voyage</td>
+<td><strong>HAL</strong> · Noordam</td>
+<td><strong>30</strong></td>
+<td><strong>新加坡 → 新加坡</strong>（同港往返）</td>
+<td>2027-12-05 → 2028-01-04<br>N770A</td>
+<td>苏梅岛、曼谷（过夜）、西哈努克、胡志明、岘港、下龙湾（过夜）、香港、芭提雅、马六甲、巴生港</td>
+<td>内舱 <strong>US$5,669</strong>（≈$189/晚）</td>
+</tr>
+<tr>
+<td>伟大亚洲之旅<br>Grand Asia Escape</td>
+<td><strong>Regent</strong> · Seven Seas Explorer</td>
+<td><strong>61</strong></td>
+<td><strong>香港 → 东京</strong></td>
+<td>2028-01-05 → 03-06<br>EXP280105D</td>
+<td>马尼拉、科隆、巴厘、科莫多、新加坡、曼谷、下龙湾、上海、仁川、大阪、清水等 <strong>43 港</strong></td>
+<td><strong>US$49,799</strong>（Suite 起，<strong>全包</strong>：含无限岸上游、酒水、小费、Wi-Fi、1 晚行前酒店）</td>
+</tr>
+<tr>
+<td>亚洲大航行<br>Grand Asia 2028</td>
+<td><strong>Silversea</strong> · Silver Muse</td>
+<td><strong>51 天</strong></td>
+<td><strong>新加坡 → 东京</strong></td>
+<td>2028-02-11 → 04-02<br>SM280211012 等</td>
+<td>普吉、兰卡威、槟城、马六甲、曼谷、香港、仁川、东京等，<strong>7 国 28 港</strong></td>
+<td>[不确定]（Grand Voyage 全包，含商务舱机票、岸上游额度、$500 船上消费金）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="三表-b亚洲进-亚洲出的单程-30-晚两端都在亚洲">三、表 B：亚洲进 / 亚洲出的单程 30+ 晚（两端都在亚洲）</h2>
+<table>
+<thead>
+<tr>
+<th>航线</th>
+<th>公司 · 船</th>
+<th>晚数</th>
+<th>出发 → 抵达</th>
+<th>日期 / 航次</th>
+<th>备注</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>东南亚与日本（含下龙湾）<br>Southeast Asia &amp; Japan with Halong Bay</td>
+<td><strong>Princess</strong> · Diamond Princess</td>
+<td><strong>31</strong></td>
+<td>新加坡 → 横滨</td>
+<td>2027-02-13 → 03-16</td>
+<td>巴生港、兰卡威、槟城、普吉、芽庄、下龙湾、顺化、胡志明、香港（过夜）、基隆、石垣、冲绳、高知、神户</td>
+<td>内舱 <strong>US$7,507</strong>（含税）</td>
+</tr>
+<tr>
+<td>上海之夜·首尔日落与东南亚<br>Shanghai Nights, Seoul Sunsets &amp; Southeast Asia</td>
+<td><strong>Seabourn</strong> · Encore</td>
+<td><strong>30</strong></td>
+<td>东京 → 新加坡</td>
+<td>2027-11-20 → 12-20<br>O7A30A</td>
+<td>大阪、釜山、仁川、上海、香港、下龙湾、岘港、西贡、西哈努克、曼谷</td>
+<td>Balcony <strong>US$17,098</strong>（全包）；Suite US$43,998</td>
+</tr>
+<tr>
+<td>南洋乐园邮轮 A 线<br>南洋の楽園クルーズ Aコース</td>
+<td><strong>三井海洋邮轮</strong> · MITSUI OCEAN FUJI</td>
+<td><strong>46 泊 47 日</strong></td>
+<td><strong>横滨 → 横滨</strong>（同港往返）</td>
+<td>2027-02-03 → 03-21</td>
+<td>塞班、楚克、凯恩斯、维拉港、劳托卡、阿皮亚、茉莉亚、帕皮提、赖阿特阿、波拉波拉、帕果帕果、马朱罗、关岛</td>
+<td><strong>¥3,312,000</strong> 起（早鸟 ¥2,980,000）；<strong>日语服务</strong></td>
+</tr>
+<tr>
+<td>阿拉斯加·西海岸·夏威夷大巡航 A 线</td>
+<td><strong>日本邮船</strong> · 飞鸟 II（Asuka II）</td>
+<td><strong>45 泊 46 日</strong></td>
+<td><strong>横滨 → 横滨</strong>（同港往返）</td>
+<td>2027-04-26 → 06-10</td>
+<td>苏厄德、学院峡湾、哈伯德冰川、朱诺、斯卡圭、内湾航道、凯奇坦、温哥华、旧金山、洛杉矶、圣迭戈、希洛、纳帕利海岸、檀香山</td>
+<td>未公开票价表 [不确定]；<strong>日语服务</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>日本两艘（三井富士、飞鸟 II）虽然从横滨出发并返回横滨，但<strong>目的地是太平洋岛屿与北美，不是亚洲境内</strong>，因此与表 A 的「亚洲区内」性质不同，单列在此。</p>
+</blockquote>
+<hr />
+<h2 id="四表-c环球航线中的亚洲段30-晚可单独购买">四、表 C：环球航线中的亚洲段（30+ 晚，可单独购买）</h2>
+<p>这是<strong>数量最多、性价比最高</strong>的一档。以下均为可单订的亚洲段。</p>
+<h3 id="c-1-cunard2028-年-queen-anne-是亚洲分段最丰富的一艘">C-1 Cunard（2028 年 Queen Anne 是亚洲分段最丰富的一艘）</h3>
+<table>
+<thead>
+<tr>
+<th>航段</th>
+<th>船</th>
+<th>晚数</th>
+<th>航段</th>
+<th>日期 / 航次</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>南安普顿 → 香港</td>
+<td>Queen Anne</td>
+<td><strong>65</strong></td>
+<td>经巴拿马、洛杉矶、夏威夷、悉尼、布里斯班、巴厘</td>
+<td>2028-01-11 → 03-15<br>H803C</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>洛杉矶 → 新加坡</td>
+<td>Queen Anne</td>
+<td><strong>46</strong></td>
+<td>夏威夷、南太平洋、悉尼、布里斯班、巴厘、马尼拉、香港、曼谷</td>
+<td>2028-02-07 → 03-25<br>H805B</td>
+<td><strong>US$6,979</strong></td>
+</tr>
+<tr>
+<td>香港 → 开普敦</td>
+<td>Queen Anne</td>
+<td><strong>31</strong></td>
+<td>新加坡、巴生港、槟城、科伦坡、毛里求斯、德班</td>
+<td>2028-03-15 → 04-15<br>H807</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>香港 → 南安普顿</td>
+<td>Queen Anne</td>
+<td><strong>48</strong></td>
+<td>同上 + 非洲、加那利</td>
+<td>2028-03-15 → 05-02<br>H807B</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>香港 → 汉堡</td>
+<td>Queen Anne</td>
+<td><strong>50</strong></td>
+<td>同上</td>
+<td>2028-03-15 → 05-04<br>H807C</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>新加坡 → 南安普顿</td>
+<td>Queen Anne</td>
+<td><strong>38</strong></td>
+<td>巴生港、科伦坡、马尔代夫、毛里求斯、开普敦</td>
+<td>2028-03-25 → 05-02<br>H807E</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>悉尼 → 南安普顿</td>
+<td>Queen Victoria</td>
+<td><strong>65</strong></td>
+<td>东南亚（新加坡、香港等）→ 印度洋 → 非洲 → 欧洲</td>
+<td>2027-02-24 → 04-30<br>V706C</td>
+<td>阳台 <strong>£12,399</strong>（内舱/海景已售罄）</td>
+</tr>
+<tr>
+<td>南安普顿 → 悉尼</td>
+<td>Queen Victoria</td>
+<td><strong>44</strong></td>
+<td>欧洲 → 印度洋 → 东南亚</td>
+<td>2027-01-10 → 02-24<br>V703B</td>
+<td>[不确定]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-2-pampo-cruises-ukarcadia英国无飞行往返">C-2 P&amp;O Cruises UK（Arcadia，英国无飞行往返）</h3>
+<table>
+<thead>
+<tr>
+<th>航段</th>
+<th>晚数</th>
+<th>航段</th>
+<th>日期</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>世界发现 World Discovery</td>
+<td><strong>50</strong></td>
+<td><strong>香港 → 南安普顿</strong></td>
+<td>2028-03-21 → 05-10</td>
+<td><strong>£5,859</strong></td>
+</tr>
+<tr>
+<td>亚洲→大西洋 Asia to Atlantic</td>
+<td><strong>43</strong></td>
+<td><strong>香港 → 南安普顿</strong></td>
+<td>2027-03-11 → 04-23</td>
+<td><strong>£5,439</strong></td>
+</tr>
+<tr>
+<td>新加坡 → 南安普顿</td>
+<td><strong>39</strong></td>
+<td>新加坡 → 南安普顿</td>
+<td>2028-04-01 → 05-10</td>
+<td><strong>£5,039</strong></td>
+</tr>
+<tr>
+<td>跨洋史诗段 Epic Transoceanic Passage</td>
+<td><strong>63</strong></td>
+<td>悉尼 → 南安普顿</td>
+<td>2027-02-19 → 04-23</td>
+<td><strong>£6,799</strong></td>
+</tr>
+<tr>
+<td>亚洲·印度洋·非洲</td>
+<td><strong>76</strong></td>
+<td>悉尼 → 南安普顿</td>
+<td>2028-02-24 → 05-10</td>
+<td><strong>£7,919</strong></td>
+</tr>
+<tr>
+<td>太平洋·亚洲·印度洋</td>
+<td><strong>83</strong></td>
+<td>奥克兰 → 南安普顿</td>
+<td>2028-02-17 → 05-10</td>
+<td><strong>£9,449</strong></td>
+</tr>
+<tr>
+<td>环球航行 World Cruise（整船）</td>
+<td><strong>106</strong></td>
+<td>南安普顿往返</td>
+<td>2027-01-06 → 04-22</td>
+<td><strong>£10,889</strong></td>
+</tr>
+<tr>
+<td>史诗环球探索（整船）</td>
+<td><strong>124</strong></td>
+<td>南安普顿往返</td>
+<td>2028-01-06 → 05-09</td>
+<td><strong>£17,119</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-3-其他">C-3 其他</h3>
+<table>
+<thead>
+<tr>
+<th>航线</th>
+<th>公司 · 船</th>
+<th>晚数</th>
+<th>航段</th>
+<th>日期 / 航次</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>South Pacific（环球段）</td>
+<td>Princess · Coral Princess</td>
+<td><strong>68</strong></td>
+<td>洛杉矶 → 新加坡（约 30 港）</td>
+<td>2027-01-21 → 03-31</td>
+<td>内舱 <strong>US$13,794</strong></td>
+</tr>
+<tr>
+<td>世界巡航段</td>
+<td>Princess · Grand Princess</td>
+<td><strong>30</strong></td>
+<td>横滨 → 悉尼</td>
+<td>2027-08-05 → 09-04</td>
+<td>内舱 <strong>US$5,065</strong></td>
+</tr>
+<tr>
+<td>Sydney → Cape Town</td>
+<td>HAL · Volendam</td>
+<td><strong>40</strong></td>
+<td>悉尼 → 开普敦（经巴厘、毛里求斯）</td>
+<td>2027-02-10 → 03-22<br>W7W40A / V710B</td>
+<td>内舱约 <strong>€8,599</strong></td>
+</tr>
+<tr>
+<td>Cape Town → Ft. Lauderdale</td>
+<td>HAL · Volendam</td>
+<td><strong>54</strong></td>
+<td>开普敦 → 劳德代尔堡</td>
+<td>2027-03-22 → 05-15<br>W7W54A / V710E</td>
+<td>约 US$9,000–11,000（含税港费）</td>
+</tr>
+<tr>
+<td>东京 → 布宜诺斯艾利斯</td>
+<td>Costa · Serena</td>
+<td><strong>66 日</strong>（约 65 晚）</td>
+<td>东京 → 布宜诺斯艾利斯</td>
+<td>2026-10-18 → 12-22</td>
+<td>内舱 <strong>US$9,366</strong>（含税）</td>
+</tr>
+<tr>
+<td>香港 → 布宜诺斯艾利斯</td>
+<td>Costa · Serena</td>
+<td><strong>61 日</strong></td>
+<td>香港 → 布宜诺斯艾利斯</td>
+<td>2026-10-23 → 12-22</td>
+<td>内舱 <strong>US$9,079</strong>（含税）</td>
+</tr>
+<tr>
+<td>夏威夷·日本与亚洲奇观</td>
+<td>Fred Olsen · Borealis</td>
+<td><strong>58</strong></td>
+<td>南安普顿 → 新加坡</td>
+<td>2027-01-21 → 03-22<br>S2702S1</td>
+<td>内舱 <strong>£8,799</strong></td>
+</tr>
+<tr>
+<td>Around the World with Japan &amp; Hawaii（整船）</td>
+<td>Fred Olsen · Borealis</td>
+<td><strong>98</strong></td>
+<td>南安普顿往返</td>
+<td>2027-01-21 → 04-29<br>S2702</td>
+<td><strong>£13,499</strong></td>
+</tr>
+<tr>
+<td>Große Weltreise（整船）</td>
+<td>Phoenix · Artania</td>
+<td><strong>149</strong></td>
+<td>萨沃纳 → 不来梅哈芬</td>
+<td>2026-12-18 → 2027-05-16<br>ART411</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>Weltreise（整船）</td>
+<td>Plantours · MS Hamburg</td>
+<td><strong>147</strong></td>
+<td>汉堡往返</td>
+<td>2027</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>东向环球（整船）</td>
+<td>Cunard · Queen Elizabeth</td>
+<td><strong>113</strong></td>
+<td>南安普顿往返</td>
+<td>2028-01-06 → 04-28</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>Brisbane → Hong Kong</td>
+<td>Crystal · Serenity</td>
+<td><strong>36</strong></td>
+<td>布里斯班 → 香港</td>
+<td>2027-03-18 → 04-23</td>
+<td>[不确定]（全包）</td>
+</tr>
+<tr>
+<td>Hong Kong → Vancouver</td>
+<td>Crystal · Serenity</td>
+<td><strong>35</strong></td>
+<td>香港 → 温哥华</td>
+<td>2027-04-23 → 05-27</td>
+<td>[不确定]（全包）</td>
+</tr>
+<tr>
+<td>2028 Grand Journey</td>
+<td>Crystal · Symphony</td>
+<td><strong>85</strong></td>
+<td>劳德代尔堡 → 新加坡</td>
+<td>2028-01-11 → 04-06<br>CSY-G85-280111</td>
+<td>[不确定]（全包 + 机票额度）</td>
+</tr>
+<tr>
+<td>南方海域漫游 Grand Southern Seas Sojourn</td>
+<td>Regent · Seven Seas Mariner</td>
+<td><strong>69</strong></td>
+<td>悉尼 → 开普敦（含巴厘、新加坡）</td>
+<td>2028-02-19</td>
+<td>[不确定]（全包）</td>
+</tr>
+<tr>
+<td>太平洋传奇 Legends of the Pacific（整船环球）</td>
+<td>Regent · Seven Seas Splendor</td>
+<td><strong>133</strong></td>
+<td>洛杉矶 → 旧金山</td>
+<td>2028-01-05<br>SPL280105I</td>
+<td><strong>US$88,499</strong>（Veranda Suite，全包）</td>
+</tr>
+<tr>
+<td>Grand Voyage（香港出发）</td>
+<td>Oceania · Nautica</td>
+<td><strong>32</strong></td>
+<td>香港 → 越南/泰/马/印度方向</td>
+<td>2027-04-24 → 05-26</td>
+<td>内舱 <strong>US$11,349</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五表-d亚洲出发的跨洋长线30-晚">五、表 D：亚洲出发的跨洋长线（30+ 晚）</h2>
+<table>
+<thead>
+<tr>
+<th>航线</th>
+<th>公司 · 船</th>
+<th>晚数</th>
+<th>出发 → 抵达</th>
+<th>日期 / 航次</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>温哥华 → 香港</td>
+<td><strong>Viking</strong> · Orion</td>
+<td><strong>36</strong></td>
+<td>温哥华 → 香港（含阿拉斯加、白令海、日本本州/九州、基隆）</td>
+<td>2026-09-23；2027-09-21<br>VO-OOR260923A</td>
+<td>阳台 <strong>US$18,998</strong>（含税）</td>
+</tr>
+<tr>
+<td>温哥华 → 东京</td>
+<td><strong>Viking</strong> · Orion</td>
+<td><strong>35</strong></td>
+<td>温哥华 → 东京（内湾航道、冰川湾、白令海、鄂霍次克海）</td>
+<td>2028-09-18 → 10-24</td>
+<td><strong>US$18,998</strong></td>
+</tr>
+<tr>
+<td>巴厘 → 奥克兰</td>
+<td><strong>Viking</strong> · Orion</td>
+<td><strong>30</strong></td>
+<td>巴厘（印尼）→ 奥克兰（龙目、达尔文、凯恩斯、悉尼、墨尔本、霍巴特、新西兰）</td>
+<td>2028-11-20</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>新加坡 → 南安普顿（跨印度洋）</td>
+<td><strong>Cunard</strong> · Queen Mary 2</td>
+<td><strong>33</strong></td>
+<td>新加坡 → 南安普顿（路易港、德班、开普敦过夜、沃尔维斯湾、达喀尔、加的斯、特内里费）</td>
+<td>2026-03-28<br>M607E</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>新加坡 → 南安普顿</td>
+<td><strong>Cunard</strong> · Queen Victoria</td>
+<td><strong>40</strong></td>
+<td>新加坡 → 南安普顿</td>
+<td>2027-03-21 / 03-22</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>新加坡往返 + 悉尼→新加坡（背靠背）</td>
+<td><strong>NCL</strong> · Norwegian Spirit</td>
+<td><strong>35</strong></td>
+<td>悉尼往返 + 悉尼 → 新加坡</td>
+<td>2027-12 – 2028-04 航季</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>新加坡→悉尼 + 悉尼→奥克兰（背靠背）</td>
+<td><strong>NCL</strong> · Norwegian Spirit</td>
+<td><strong>30</strong></td>
+<td>新加坡 → 悉尼 + 悉尼 → 奥克兰</td>
+<td>2027-12 – 2028-04 航季</td>
+<td>[不确定]</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>NCL Norwegian Spirit 是<strong>唯一靠「背靠背拼舱」达到 30+ 晚的大众品牌</strong>——它没有单一 30+ 晚航次，但可连续预订两段拼成 30/35 晚。</p>
+</blockquote>
+<hr />
+<h2 id="六表-e日本本土船公司的-30-晚日语服务">六、表 E：日本本土船公司的 30+ 晚（日语服务）</h2>
+<table>
+<thead>
+<tr>
+<th>航线</th>
+<th>公司 · 船</th>
+<th>晚 / 日</th>
+<th>出发 → 抵达</th>
+<th>日期</th>
+<th>起价</th>
+<th>中文服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>南洋乐园邮轮 A 线</td>
+<td>三井海洋邮轮 · MITSUI OCEAN FUJI</td>
+<td><strong>46 泊 47 日</strong></td>
+<td>横滨 → 横滨</td>
+<td>2027-02-03 → 03-21</td>
+<td>¥3,312,000（早鸟 ¥2,980,000）</td>
+<td>日语为主</td>
+</tr>
+<tr>
+<td>南洋乐园邮轮 C 线</td>
+<td>三井海洋邮轮 · MITSUI OCEAN FUJI</td>
+<td><strong>34 泊 35 日</strong></td>
+<td>凯恩斯 → 横滨</td>
+<td>2027-02-15 → 03-21</td>
+<td>¥2,497,000</td>
+<td>日语为主</td>
+</tr>
+<tr>
+<td>南太平洋 + 大溪地</td>
+<td>三井海洋邮轮 · MITSUI OCEAN FUJI</td>
+<td><strong>30 泊 31 日</strong></td>
+<td>横滨 → 成田（含单程机票）</td>
+<td>2027-02-03 → 03-05</td>
+<td>¥2,980,000</td>
+<td>日语为主</td>
+</tr>
+<tr>
+<td>阿拉斯加·西海岸·夏威夷大巡航 A 线</td>
+<td>日本邮船 · 飞鸟 II</td>
+<td><strong>45 泊 46 日</strong></td>
+<td>横滨 → 横滨</td>
+<td>2027-04-26 → 06-10</td>
+<td>[不确定]</td>
+<td>日语为主</td>
+</tr>
+<tr>
+<td>同上 B 线</td>
+<td>日本邮船 · 飞鸟 II</td>
+<td><strong>46 泊 47 日</strong></td>
+<td>横滨 → 神户</td>
+<td>2027-04-26 → 06-11</td>
+<td>[不确定]</td>
+<td>日语为主</td>
+</tr>
+<tr>
+<td>第 123–131 回 地球一周の船旅</td>
+<td>和平船 · Pacific World</td>
+<td><strong>各约 105–109 日</strong>（9 个航次）</td>
+<td>横滨 → 横滨</td>
+<td>2026-04-07 / 2026-08-21 / 2026-12-15 / 2027-04-07 / 2027-08-13 / 2027-12-07 / 2028-04-28 / 2028-08-21 / 2028-12-18</td>
+<td>约 ¥174 万（4 人房早鸟）～¥1,505 万（Owner Suite）</td>
+<td>日语；台湾代理可中文对接</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="七准长线-2229-晚做-30-的入口或预算敏感时的替代">七、准长线 22–29 晚（做 30+ 的入口，或预算敏感时的替代）</h2>
+<table>
+<thead>
+<tr>
+<th>航线</th>
+<th>公司 · 船</th>
+<th>晚数</th>
+<th>出发 → 抵达</th>
+<th>日期</th>
+<th>起价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>传奇珊瑚三角与大堡礁</td>
+<td>HAL · Westerdam</td>
+<td><strong>28</strong></td>
+<td>新加坡 → 新加坡（往返）</td>
+<td>2027-01-03 → 01-31</td>
+<td>内舱 <strong>US$4,549</strong>（含税）</td>
+</tr>
+<tr>
+<td>东南亚·菲律宾·台湾与日本</td>
+<td>HAL · Westerdam</td>
+<td><strong>28</strong></td>
+<td>新加坡 → 新加坡（往返）</td>
+<td>2027-01-31 → 02-28</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>菲律宾·台湾与远东精选</td>
+<td>HAL · Noordam</td>
+<td><strong>26</strong></td>
+<td>新加坡 → 新加坡（往返）</td>
+<td>2028-01-04 → 01-30<br>N810A</td>
+<td><strong>£2,448</strong></td>
+</tr>
+<tr>
+<td>日本与东南亚大冒险</td>
+<td>Princess · Sapphire Princess</td>
+<td><strong>24</strong></td>
+<td>东京 → 新加坡</td>
+<td>2027-09-04 → 09-28</td>
+<td>内舱 <strong>US$3,173</strong>（含税）</td>
+</tr>
+<tr>
+<td>东南亚地平线</td>
+<td>Viking · Venus</td>
+<td><strong>28</strong></td>
+<td>东京出发</td>
+<td>2027-09-30</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>悉尼 → 新加坡</td>
+<td>Cunard · Queen Anne</td>
+<td><strong>27</strong></td>
+<td>悉尼 → 新加坡</td>
+<td>2028-02-27 → 03-25<br>H806A</td>
+<td>[不确定]</td>
+</tr>
+<tr>
+<td>东京 → 温哥华</td>
+<td>Silversea · Silver Moon</td>
+<td><strong>26</strong></td>
+<td>东京 → 温哥华</td>
+<td>2027</td>
+<td>约 US$15,000–25,000（全包）</td>
+</tr>
+<tr>
+<td>东京跨洋</td>
+<td>Oceania</td>
+<td><strong>30 日</strong></td>
+<td>东京出发</td>
+<td>2028-04-11</td>
+<td>[不确定]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="八明确没有30-晚亚洲产品的公司避免踩空">八、明确「没有」30+ 晚亚洲产品的公司（避免踩空）</h2>
+<table>
+<thead>
+<tr>
+<th>公司</th>
+<th>实际情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MSC</strong></td>
+<td>Grand Voyages 全在大西洋/南美；MSC World Asia 首航季改加勒比（7/14 晚）；亚洲仅 Bellissima 短程</td>
+</tr>
+<tr>
+<td><strong>Celebrity</strong></td>
+<td>Millennium / Solstice 全年亚洲线，<strong>最长 15 晚</strong>（含东京→温哥华跨太平洋 15 晚）</td>
+</tr>
+<tr>
+<td><strong>Royal Caribbean</strong></td>
+<td>最长 25 晚（西雅图→布里斯班，不含亚洲）；新加坡段 15 晚、东京→新加坡 12 晚</td>
+</tr>
+<tr>
+<td><strong>Cunard Queen Mary 2</strong></td>
+<td>2027 全年跨大西洋/加勒比/加拿大，<strong>2028 上半年亦无亚洲挂靠</strong>；亚洲段由 Queen Anne / Queen Victoria / Queen Elizabeth 承担</td>
+</tr>
+<tr>
+<td><strong>Ponant / Hapag-Lloyd / Swan Hellenic / Heritage / Quark / Lindblad / Scenic / Emerald</strong></td>
+<td>亚洲段普遍仅 <strong>10–20 晚</strong>（Hapag-Lloyd 最长 19 天），须靠 back-to-back 拼段才达 30+</td>
+</tr>
+<tr>
+<td><strong>Oceania</strong></td>
+<td>2027–28 Grand Voyage 集中在美洲/地中海/大西洋；2027 环球拆 17 段、每段仅 9–20 晚</td>
+</tr>
+<tr>
+<td><strong>Ambassador / TUI</strong></td>
+<td>Ambassador 2027 仅加勒比 42/45 晚；TUI 亚洲仅新加坡往返 14 晚</td>
+</tr>
+<tr>
+<td><strong>韩国 / 中国 / 新加坡 / 台湾本土</strong></td>
+<td>全部为 0——Panstar 1–2 晚、Eastern Venus 2–3 晚、爱达 4–8 晚、鼓浪屿号最长 13 天 12 晚、云顶梦号 5–7 晚</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="九价格梯度与选型建议">九、价格梯度与选型建议</h2>
+<h3 id="人均每晚单价30-晚档">人均每晚单价（30+ 晚档）</h3>
+<table>
+<thead>
+<tr>
+<th>档位</th>
+<th>人均每晚</th>
+<th>代表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大众环球分段（性价比最高）</td>
+<td><strong>US$140–200</strong></td>
+<td>Costa Serena 约 $140–145；HAL Noordam $189；P&amp;O Arcadia ≈$150–170；Princess Grand $169</td>
+</tr>
+<tr>
+<td>中高端</td>
+<td>US$200–280</td>
+<td>HAL Volendam $210–230；Princess Coral $200；Cunard Queen Victoria ≈$240</td>
+</tr>
+<tr>
+<td>高端全包</td>
+<td>US$420–670</td>
+<td>Viking ≈$500–530；Azamara ≈$420–670；Seabourn Encore $570</td>
+</tr>
+<tr>
+<td>奢华全包</td>
+<td>US$580–960</td>
+<td>Silversea ≈$580–960；Regent 61 晚 ≈$816（但含无限岸上游）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="按需求选">按需求选</h3>
+<table>
+<thead>
+<tr>
+<th>你的诉求</th>
+<th>推荐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>亚洲进、亚洲出，不想飞半个地球登船</td>
+<td><strong>HAL Noordam 新加坡往返 30 晚（$5,669）</strong>——唯一同港往返，性价比最高</td>
+</tr>
+<tr>
+<td>亚洲进、亚洲出，要奢华全包</td>
+<td><strong>Regent Seven Seas Explorer 香港→东京 61 晚</strong> 或 <strong>Silversea Silver Muse 新加坡→东京 51 天</strong></td>
+</tr>
+<tr>
+<td>预算最紧</td>
+<td><strong>Costa Serena 东京→布宜诺斯艾利斯 66 日（$9,366 含税）</strong>，人均每晚仅约 $140</td>
+</tr>
+<tr>
+<td>日本深度 + 日式服务体验</td>
+<td><strong>三井海洋富士 横滨往返 46 泊 47 日</strong> 或 <strong>飞鸟 II 横滨往返 45 泊 46 日</strong></td>
+</tr>
+<tr>
+<td>最长时间</td>
+<td><strong>Phoenix Artania 149 晚</strong> / <strong>Plantours MS Hamburg 147 晚</strong> / <strong>Regent Splendor 133 晚</strong></td>
+</tr>
+<tr>
+<td>亚洲出发去北美</td>
+<td><strong>Viking Orion 温哥华↔香港 36 晚（$18,998）</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十口径与注意事项">十、口径与注意事项</h2>
+<ol>
+<li><strong>晚 ≠ 日</strong>：Cunard / HAL / Princess / Seabourn / Regent / Silversea 用「晚」；<strong>Costa 用「日」</strong>；<strong>日本三家用「日間」</strong>（如「46 泊 47 日」）。跨公司比价前务必统一口径。</li>
+<li><strong>「环球分段」可单订</strong>：Cunard、P&amp;O、HAL、Princess、Costa、Fred Olsen 的亚洲段均可单独购买，不必买整船。</li>
+<li><strong>价格口径差异极大</strong>：大众线多为<strong>船票 + 税港费</strong>，<strong>不含小费（$16.5–21/人·晚）与岸上游</strong>；奢华线（Regent、Silversea、Seabourn、Crystal）多为<strong>全包</strong>，Regent 与 Silversea 另含岸上游或额度。直接比「每人起价」会严重误导。</li>
+<li><strong>签证</strong>：亚洲段多为单程，会跨越多个签证区（申根、南非、巴西、日本、韩国、东南亚各国），<strong>必须按整条航段的港口逐一核对</strong>，不能只看出发港。韩国 C-3-2 团体签证已不适用于邮轮行程（济州仍免签）。</li>
+<li><strong>语言</strong>：日本三家船公司<strong>无中文随船服务</strong>；欧美公司的大众船通常提供中文菜单与中文岸上游，但船上广播以英文为主。</li>
+<li><strong>订舱窗口</strong>：环球分段通常提前 12–18 个月开卖，热门段（如 Cunard 内舱）常早早售罄——Queen Victoria 65 晚的内舱与海景即已售罄，仅剩阳台及以上。</li>
+<li><strong>存疑项</strong>：标注 [不确定] 的多为「Call for rates」或第三方代理报价，下单前须向船司或授权代理询价确认。</li>
+</ol>
+<hr />
+<h2 id="数据来源">数据来源</h2>
+<ul>
+<li><strong>HAL</strong>：<a href="https://www.hollandamerica.com/en/us/cruise-destinations/asia-cruises">亚洲航线总览</a>、<a href="https://cruisecaptain.ai/cruise/asia-30night-2027-12-05-holland-america-line-15-2356501">Noordam 30 晚</a>、<a href="https://www.icruise.com/itineraries/28-night-legendary-coral-triangle-and-great-barrier-reef-cruise_westerdam_1-3-2027.html">Westerdam 28 晚</a></li>
+<li><strong>Princess</strong>：<a href="https://www.icruise.com/itineraries/31-night-southeast-asia-and-japan-with-halong-bay-cruise_diamond-princess_2-13-2027.html">Diamond Princess 31 晚</a>、<a href="https://cruiselookup.com/cruise/25703/princess-grand-princess-30-night-yokohama-to-sydney-aug-5-2027">Grand Princess 30 晚</a>、<a href="https://www.icruise.com/itineraries/24-night-japan-and-southeast-asia-grand-adventure-cruise_sapphire-princess_9-4-2027.html">Sapphire Princess 24 晚</a></li>
+<li><strong>Cunard</strong>：<a href="https://cunard-world-cruises.com/queen-anne-qa-infos/qa-2028/">Queen Anne 2028 分段全表</a>、<a href="https://www.cunard.com/en-us/find-a-cruise/H805B/H805B">H805B 官网</a>、<a href="https://www.southamptoncruisecentre.com/blog/cunard-new-voyages-2027-2028-two-world-cruises/">2027/28 两条环球航线</a></li>
+<li><strong>P&amp;O UK</strong>：<a href="https://hellocruise.co.uk/po-arcadia/cruises/world/">Arcadia 世界巡航</a></li>
+<li><strong>Fred Olsen</strong>：<a href="https://www.fredolsencruises.com/cruise/hawaii-japan-and-the-wonders-of-asia-s2702s1">Hawaii, Japan &amp; the Wonders of Asia</a>、<a href="https://www.fredolsencruises.com/long-cruises/world-cruise">World Cruise</a></li>
+<li><strong>Phoenix</strong>：<a href="https://www.phoenixreisen.com/asien-kreuzfahrt-gesucht-jetzt-viele-angebote-bei-phoenix-reisen.html">Artania 环球</a></li>
+<li><strong>Plantours</strong>：<a href="https://www.plantours-kreuzfahrten.de/infos-service/drucksachen/neu-routenvorschau-ms-hamburg-2027-2028/">MS Hamburg 2027–28 航次预览</a></li>
+<li><strong>Regent</strong>：<a href="https://www.rssc.com/cruises/EXP280105D/summary">Grand Asia Escape 官方</a>、<a href="https://cruiseweb.com/cruise-lines/regent-seven-seas-cruises/ship-seven-seas-explorer/61-night-grand-asia-escape-cruise-from-hong-kong-china">61 晚逐日行程</a>、<a href="https://globalagents.us/news/regent-seven-seas-launches-2028-world-cruise-and-2027-2028-grand-voyages">2028 环球与 Grand Voyages</a></li>
+<li><strong>Silversea</strong>：<a href="https://www.silversea.com/destinations/grand-voyages-cruise/grand-voyage-2028-asia.html">Grand Asia 2028 官方</a>、<a href="https://www.silversea.com/destinations/grand-voyages-cruise.html">Grand Voyages 总览</a></li>
+<li><strong>Seabourn</strong>：<a href="https://www.tripbase.com/cruises/seabourn-seabourn-encore-2027-11-20-30n-62e01b/">Encore 30 晚</a>、<a href="https://www.globaljourneys.com/trip/seabourn-o7a30a">O7A30A</a></li>
+<li><strong>Crystal</strong>：<a href="https://www.crystalcruises.com/2028-grand-journeys">2028 Grand Journeys</a>、<a href="https://deluxecruises.com/crystal/crystal_serenity/cruises-2027/calendar.htm">Serenity 2027 日历</a></li>
+<li><strong>Viking</strong>：<a href="https://www.cruisecritic.com/en-gb/find-a-cruise/itinerary/30-night-viking-orion-to-asia-on-november-20-2028">Orion 30 晚</a>、<a href="https://www.cruisecritic.com/find-a-cruise/itinerary/28-night-viking-venus-to-asia-on-september-30-2027">Venus 28 晚</a></li>
+<li><strong>Oceania</strong>：<a href="https://www.oceaniacruises.com/grand-voyage-cruises/">Grand Voyages</a></li>
+<li><strong>Azamara</strong>：<a href="https://www.azamara.com/azamara-world-cruise-2027">2027 环球</a>、<a href="https://cruiseindustrynews.com/cruise-news/2026/05/azamara-cruises-to-sail-first-full-asia-season-in-2028/">2028 首个完整亚洲季</a></li>
+<li><strong>Costa</strong>：<a href="https://www.costacruises.com/destinations/round-the-world/costa-serena-2026.html">Costa Serena 2026 环球</a></li>
+<li><strong>三井海洋邮轮</strong>：<a href="https://www.mitsuioceancruises.com/tour/fuji/F70203.html">南洋の楽園クルーズ Aコース</a>、<a href="https://www.mitsuioceancruises.com/tour/?ship=fuji">排期页</a>、<a href="https://www.mol.co.jp/pr/2025/25054.html">にっぽん丸引退公告</a></li>
+<li><strong>日本邮船</strong>：<a href="https://prtimes.jp/main/html/rd/p/000000030.000159405.html">飛鳥II 2027 阿拉斯加·夏威夷大巡航</a></li>
+<li><strong>和平船</strong>：<a href="https://cruise-column.peace-boat.jp/posts/peaceboat-2026-all-courses">2026 全 4 航次</a>、<a href="https://cruise-column.peace-boat.jp/posts/peaceboat-2027-all-courses">2027 全 3 航次</a>、<a href="https://peaceboat.org/english/voyages">官方 Voyages</a></li>
+<li><strong>未发现产品</strong>：<a href="https://www.cruisemapper.com/ships/MSC-World-Asia-2185">MSC World Asia</a>、<a href="https://www.celebritycruises.com/int/2026-2027-cruises/2026-asia-cruises">Celebrity 2026 亚洲</a>、<a href="https://www.meinschiff.com/en/region/asia">Mein Schiff 亚洲</a>、<a href="https://www.ambassadorcruiseline.com/cruise-types/cruises-2027/">Ambassador 2027</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

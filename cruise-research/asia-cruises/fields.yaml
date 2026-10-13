@@ -1,0 +1,124 @@
+topic: 亚洲（中日韩）长程邮轮深度调研
+version: 1.0
+output_structure: flat
+note: >
+  JSON 采用扁平结构：27 个字段名直接位于顶层，另加 uncertain 数组。
+  所有字段值须用中文；无法确认者填 "[不确定]" 并列入 uncertain。
+  required: true 的字段为核心字段，必须给出实质内容（可为 [不确定]，但不可缺字段）。
+
+field_categories:
+  - category: 基本信息
+    key: basic_info
+    fields:
+      - name: 航线中文名
+        description: 该航线的中文称呼
+        detail_level: 简要
+        required: true
+      - name: 航线英文名
+        description: 国际通用英文名称（保留英文原名）
+        detail_level: 简要
+      - name: 档位分类
+        description: 短线3-6晚 / 中长线7-15晚 / 长线16-29晚 / 超长线30晚+
+        detail_level: 极简
+        required: true
+      - name: 典型天数与晚数
+        description: 最常见产品天数与晚数（注明口径）
+        detail_level: 简要
+        required: true
+      - name: 出发港与返回港
+        description: 出发与返回/抵达港口城市
+        detail_level: 简要
+        required: true
+      - name: 航线类型
+        description: 往返 / 单程 / 换船 / 多航段串联
+        detail_level: 简要
+
+  - category: 航线与船期
+    key: itinerary_schedule
+    fields:
+      - name: 2026至2027船期与出发日期
+        description: 已公布的 2026-2027 具体出发日期与航次号
+        detail_level: 详细
+      - name: 主要停靠港
+        description: 5-8 个代表性停靠港
+        detail_level: 详细
+        required: true
+      - name: 航行水域与路线走向
+        description: 经过的海域与整体走向
+        detail_level: 简要
+      - name: 最佳出行季节
+        description: 气候与体验最优的月份区间
+        detail_level: 简要
+
+  - category: 运营公司与船
+    key: operators_ships
+    fields:
+      - name: 邮轮公司
+        description: 运营该航线的邮轮公司
+        detail_level: 简要
+        required: true
+      - name: 具体船名
+        description: 实际执航的船名
+        detail_level: 简要
+        required: true
+      - name: 吨位与载客量
+        description: 总吨位与双人载客量
+        detail_level: 简要
+      - name: 船上设施与亮点
+        description: 特色设施、娱乐、餐饮亮点
+        detail_level: 简要
+      - name: 中文服务与餐饮适配
+        description: 是否有中文服务、中餐、中文领队
+        detail_level: 简要
+
+  - category: 价格与性价比
+    key: price_value
+    fields:
+      - name: 人均价格区间
+        description: 每人起价区间（注明币种与舱位类型）
+        detail_level: 详细
+        required: true
+      - name: 人均每晚单价
+        description: 折算成每人每晚单价，便于横向比较
+        detail_level: 简要
+      - name: 淡旺季价差
+        description: 淡季相对旺季的倍数或百分比
+        detail_level: 简要
+      - name: 价格口径
+        description: 是否含税、含港务费、含小费、含岸上游
+        detail_level: 简要
+      - name: 性价比评价
+        description: 与同档位航线的性价比对比结论
+        detail_level: 简要
+
+  - category: 签证与政策
+    key: visa_policy
+    fields:
+      - name: 签证要求
+        description: 途经国家对中国护照的签证要求
+        detail_level: 详细
+        required: true
+      - name: 中国旅客免签与团签政策
+        description: 免签、落地签、邮轮团签、过境免签等适用情况
+        detail_level: 简要
+      - name: 岸上自由行限制
+        description: 是否必须跟团下船、能否自由行
+        detail_level: 简要
+      - name: 其他政策限制
+        description: 如日本免税限额、韩国入境审查、燃油附加费等
+        detail_level: 简要
+
+  - category: 差异化与注意
+    key: differentiation_cautions
+    fields:
+      - name: 独特卖点
+        description: 不可替代的体验
+        detail_level: 简要
+      - name: 与邻近航线差异
+        description: 与相似亚洲航线的核心区别
+        detail_level: 简要
+      - name: 注意事项
+        description: 台风季、晕船、拥挤度、语言、旺季订舱难度等
+        detail_level: 简要
+
+uncertain: []
