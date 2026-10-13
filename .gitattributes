@@ -1,0 +1,6 @@
+# 保持 CSV 字节精确（meta.json 里的 sha256 是按原始字节算的，不能做换行转换）
+*.csv -text
+*.json text
+*.md text
+*.py text
+*.html text
