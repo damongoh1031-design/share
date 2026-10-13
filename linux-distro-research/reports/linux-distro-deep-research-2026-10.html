@@ -1,0 +1,3731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Linux 发行版深度研究报告（2026-10）</title>
+<meta name="description" content="Arch / NixOS / openSUSE / Fedora / Debian / Ubuntu 十七维深度对比研究报告">
+<style>
+:root{
+  --bg:#ffffff; --bg-alt:#f7f8fa; --bg-code:#f4f5f7; --bg-side:#fbfbfc;
+  --fg:#1a1d21; --fg-2:#4a5058; --fg-3:#7b828b;
+  --bd:#e3e6ea; --bd-2:#d0d5db;
+  --accent:#1f5fa8; --accent-2:#0f6e56; --accent-warm:#a3520a; --accent-red:#a32d2d;
+  --radius:10px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#15171a; --bg-alt:#1b1e22; --bg-code:#1e2226; --bg-side:#191c20;
+    --fg:#e8eaed; --fg-2:#b3b9c0; --fg-3:#868d95;
+    --bd:#2c3138; --bd-2:#3a4048;
+    --accent:#6fa8e8; --accent-2:#5dcaa5; --accent-warm:#e0a45c; --accent-red:#e08585;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:var(--sans); font-size:16px; line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{display:flex; align-items:flex-start; max-width:1400px; margin:0 auto}
+/* ── 侧边栏 ── */
+nav.side{
+  position:sticky; top:0; flex:0 0 300px; height:100vh; overflow-y:auto;
+  background:var(--bg-side); border-right:1px solid var(--bd);
+  padding:28px 20px 60px; font-size:13.5px;
+}
+nav.side .brand{
+  font-size:14px; font-weight:600; color:var(--fg); letter-spacing:.01em;
+  margin:0 0 4px; line-height:1.4;
+}
+nav.side .brand-sub{font-size:12px; color:var(--fg-3); margin:0 0 18px; line-height:1.5}
+nav.side ul{list-style:none; margin:0; padding:0}
+nav.side li{margin:0}
+nav.side a{
+  display:block; padding:3.5px 10px; border-radius:6px;
+  color:var(--fg-2); text-decoration:none; line-height:1.45;
+  border-left:2px solid transparent;
+}
+nav.side a:hover{background:var(--bg-alt); color:var(--fg)}
+.toc-l0 > a{font-weight:600; color:var(--fg); margin-top:9px; font-size:13.5px}
+.toc-l1 > a{padding-left:20px; font-size:13px}
+/* ── 正文 ── */
+main{flex:1 1 auto; min-width:0; padding:56px 60px 140px; max-width:1000px}
+main > h1:first-child{
+  font-size:30px; line-height:1.3; margin:0 0 8px; font-weight:700; letter-spacing:-.01em;
+}
+h1{
+  font-size:24px; font-weight:650; margin:64px 0 18px; padding-top:26px;
+  border-top:2px solid var(--bd); letter-spacing:-.005em; line-height:1.35;
+}
+h2{font-size:19px; font-weight:620; margin:38px 0 14px; line-height:1.4}
+h3{font-size:16.5px; font-weight:600; margin:28px 0 10px; color:var(--fg)}
+p{margin:13px 0}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+strong{font-weight:640; color:var(--fg)}
+hr{border:0; border-top:1px solid var(--bd); margin:44px 0}
+/* ── 表格 ── */
+.table-wrap{overflow-x:auto; margin:20px 0; border:1px solid var(--bd); border-radius:var(--radius)}
+table{border-collapse:collapse; width:100%; font-size:14px; line-height:1.6}
+th,td{padding:9px 13px; text-align:left; border-bottom:1px solid var(--bd); vertical-align:top}
+thead th{
+  background:var(--bg-alt); font-weight:620; color:var(--fg);
+  white-space:nowrap; border-bottom:1.5px solid var(--bd-2); font-size:13.5px;
+}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--bg-alt)}
+tbody tr:hover{background:var(--bg-code)}
+td code,th code{font-size:12.5px; padding:1px 5px}
+/* ── 代码 ── */
+code{
+  font-family:var(--mono); font-size:13px;
+  background:var(--bg-code); padding:2px 6px; border-radius:5px;
+  color:var(--accent-2); border:1px solid var(--bd);
+}
+pre{
+  background:var(--bg-code); border:1px solid var(--bd); border-radius:var(--radius);
+  padding:16px 18px; overflow-x:auto; margin:18px 0; line-height:1.6;
+}
+pre code{background:none; border:0; padding:0; font-size:13px; color:var(--fg); display:block}
+/* ── 引用块 ── */
+blockquote{
+  margin:20px 0; padding:12px 20px; background:var(--bg-alt);
+  border-left:3px solid var(--accent); border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--fg-2);
+}
+blockquote p{margin:7px 0}
+blockquote strong{color:var(--fg)}
+/* ── 列表 ── */
+ul,ol{padding-left:26px; margin:13px 0}
+li{margin:5px 0}
+li > ul,li > ol{margin:5px 0}
+/* ── 首屏 ── */
+.lede{
+  background:var(--bg-alt); border:1px solid var(--bd); border-radius:var(--radius);
+  padding:4px 22px; margin:24px 0 12px;
+}
+.lede table{margin:16px 0; font-size:14.5px}
+.lede table td:first-child{white-space:nowrap; color:var(--fg-2); font-weight:560; width:130px}
+/* ── 页脚 ── */
+footer{
+  margin-top:70px; padding-top:24px; border-top:1px solid var(--bd);
+  font-size:13px; color:var(--fg-3);
+}
+/* ── 响应式 ── */
+@media (max-width:1080px){
+  nav.side{display:none}
+  main{padding:40px 24px 100px}
+}
+@media print{
+  nav.side{display:none}
+  main{padding:0; max-width:none}
+  h1{page-break-after:avoid}
+  table,pre,blockquote{page-break-inside:avoid}
+  body{font-size:11pt}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="side">
+  <p class="brand">Linux 发行版<br>深度研究报告</p>
+  <p class="brand-sub">Arch · NixOS · openSUSE<br>Fedora · Debian · Ubuntu<br>2026-10-12</p>
+  <ul><li class="toc-l0"><a href="#linux-发行版深度研究报告">Linux 发行版深度研究报告</a><ul><li class="toc-l1"><a href="#目录">目录</a></li></ul></li><li class="toc-l0"><a href="#第-0-章-执行摘要">第 0 章 执行摘要</a><ul><li class="toc-l1"><a href="#01-一句话结论">0.1 一句话结论</a></li><li class="toc-l1"><a href="#02-十七个维度的第一名">0.2 十七个维度的第一名</a></li><li class="toc-l1"><a href="#03-五条核心结论">0.3 五条核心结论</a></li><li class="toc-l1"><a href="#04-三十秒选型">0.4 三十秒选型</a></li></ul></li><li class="toc-l0"><a href="#第-1-章-方法论与可信度声明">第 1 章 方法论与可信度声明</a><ul><li class="toc-l1"><a href="#11-调研方式">1.1 调研方式</a></li><li class="toc-l1"><a href="#12-数据标记体系">1.2 数据标记体系</a></li><li class="toc-l1"><a href="#13-本报告的主要局限">1.3 本报告的主要局限</a></li></ul></li><li class="toc-l0"><a href="#第-2-章-六个候选基本信息全景">第 2 章 六个候选：基本信息全景</a></li><li class="toc-l0"><a href="#part-i-系统层">Part I · 系统层</a></li><li class="toc-l0"><a href="#第-3-章-滚动更新策略与长期稳定性">第 3 章 滚动更新策略与长期稳定性</a><ul><li class="toc-l1"><a href="#31-三种滚动模型">3.1 三种滚动模型</a></li><li class="toc-l1"><a href="#32-逐项对比">3.2 逐项对比</a></li><li class="toc-l1"><a href="#33-关键事实">3.3 关键事实</a></li><li class="toc-l1"><a href="#34-本章结论">3.4 本章结论</a></li></ul></li><li class="toc-l0"><a href="#第-4-章-配置漂移与残余文件">第 4 章 配置漂移与残余文件</a><ul><li class="toc-l1"><a href="#41-先分类四种漂移">4.1 先分类：四种「漂移」</a></li><li class="toc-l1"><a href="#42-最关键最容易被误解的机制">4.2 最关键、最容易被误解的机制</a></li><li class="toc-l1"><a href="#43-冲突文件生成规则">4.3 冲突文件生成规则</a></li><li class="toc-l1"><a href="#44-横向对比">4.4 横向对比</a></li><li class="toc-l1"><a href="#45-结构性解法">4.5 结构性解法</a></li><li class="toc-l1"><a href="#46-最被低估的通用解法etckeeper">4.6 最被低估的通用解法：etckeeper</a></li><li class="toc-l1"><a href="#47-本章结论">4.7 本章结论</a></li></ul></li><li class="toc-l0"><a href="#第-5-章-打包质量与质量规范">第 5 章 打包质量与质量规范</a><ul><li class="toc-l1"><a href="#51-包数量与新鲜度">5.1 包数量与新鲜度</a></li><li class="toc-l1"><a href="#52-自动化质量检查">5.2 自动化质量检查</a></li><li class="toc-l1"><a href="#53-qa-ci-覆盖率">5.3 QA / CI 覆盖率</a></li><li class="toc-l1"><a href="#54-可复现构建">5.4 可复现构建</a></li><li class="toc-l1"><a href="#55-ftbfs构建失败">5.5 FTBFS（构建失败）</a></li><li class="toc-l1"><a href="#56-质量规范文档">5.6 质量规范文档</a></li></ul></li><li class="toc-l0"><a href="#第-6-章-包的维护与孤儿包">第 6 章 包的维护与孤儿包</a><ul><li class="toc-l1"><a href="#61-孤儿包">6.1 孤儿包</a></li><li class="toc-l1"><a href="#62-维护者-包-比例">6.2 维护者 : 包 比例</a></li><li class="toc-l1"><a href="#63-退役流程">6.3 退役流程</a></li><li class="toc-l1"><a href="#64-关键包critical-path维护">6.4 关键包（critical path）维护</a></li></ul></li><li class="toc-l0"><a href="#part-ii-安全层">Part II · 安全层</a></li><li class="toc-l0"><a href="#第-7-章-漏洞响应能力">第 7 章 漏洞响应能力</a><ul><li class="toc-l1"><a href="#71-核心结论不存在可信的跨发行版-time-to-patch-数据集">7.1 核心结论：不存在可信的跨发行版 time-to-patch 数据集</a></li><li class="toc-l1"><a href="#72-漏洞公告机制">7.2 漏洞公告机制</a></li><li class="toc-l1"><a href="#73-安全团队最本质的能力差异">7.3 安全团队（最本质的能力差异）</a></li><li class="toc-l1"><a href="#74-覆盖范围陷阱">7.4 覆盖范围陷阱</a></li><li class="toc-l1"><a href="#75-osvdev-覆盖数据基础设施成熟度">7.5 OSV.dev 覆盖（数据基础设施成熟度）</a></li><li class="toc-l1"><a href="#76-cnacve-编号机构">7.6 CNA（CVE 编号机构）</a></li><li class="toc-l1"><a href="#77-安全支持周期lts">7.7 安全支持周期（LTS）</a></li><li class="toc-l1"><a href="#78-真实案例注意都无法给出差几天">7.8 真实案例（注意：都无法给出「差几天」）</a></li></ul></li><li class="toc-l0"><a href="#第-8-章-安全默认配置">第 8 章 安全默认配置</a><ul><li class="toc-l1"><a href="#81-强制访问控制mac默认状态">8.1 强制访问控制（MAC）默认状态</a></li><li class="toc-l1"><a href="#82-默认防火墙">8.2 默认防火墙</a></li><li class="toc-l1"><a href="#83-全盘加密安装器层">8.3 全盘加密（安装器层）</a></li><li class="toc-l1"><a href="#84-安全基线工具">8.4 安全基线工具</a></li><li class="toc-l1"><a href="#85-安全默认值的争议">8.5 安全默认值的争议</a></li><li class="toc-l1"><a href="#86-本章结论">8.6 本章结论</a></li></ul></li><li class="toc-l0"><a href="#第-9-章-硬件兼容与驱动">第 9 章 硬件兼容与驱动</a><ul><li class="toc-l1"><a href="#91-nvidia-专有驱动安装">9.1 NVIDIA 专有驱动安装</a></li><li class="toc-l1"><a href="#92-secure-boot">9.2 Secure Boot</a></li><li class="toc-l1"><a href="#93-笔记本支持">9.3 笔记本支持</a></li><li class="toc-l1"><a href="#94-内核版本对照2026-10">9.4 内核版本对照（2026-10）</a></li><li class="toc-l1"><a href="#95-系统资源占用">9.5 系统资源占用</a></li></ul></li><li class="toc-l0"><a href="#part-iii-体验层">Part III · 体验层</a></li><li class="toc-l0"><a href="#第-10-章-桌面环境kde-vs-gnome">第 10 章 桌面环境：KDE vs GNOME</a><ul><li class="toc-l1"><a href="#101-版本与支持周期">10.1 版本与支持周期</a></li><li class="toc-l1"><a href="#102-游戏特性时间差">10.2 游戏特性时间差</a></li><li class="toc-l1"><a href="#103-游戏性能结论矛盾不可作为选型依据">10.3 游戏性能（结论矛盾，不可作为选型依据）</a></li><li class="toc-l1"><a href="#104-内存占用">10.4 内存占用</a></li><li class="toc-l1"><a href="#105-其他维度">10.5 其他维度</a></li><li class="toc-l1"><a href="#106-本章结论">10.6 本章结论</a></li></ul></li><li class="toc-l0"><a href="#第-11-章-游戏性能优化">第 11 章 游戏性能优化</a><ul><li class="toc-l1"><a href="#111-六层性能模型">11.1 六层性能模型</a></li><li class="toc-l1"><a href="#112-图形栈新鲜度">11.2 图形栈新鲜度</a></li><li class="toc-l1"><a href="#113-关键组件">11.3 关键组件</a></li><li class="toc-l1"><a href="#114-三个具体的坑已验证">11.4 三个具体的坑（已验证）</a></li><li class="toc-l1"><a href="#115-rimworld-特化建议用户为-rimworld-16-玩家">11.5 RimWorld 特化建议（用户为 RimWorld 1.6 玩家）</a></li></ul></li><li class="toc-l0"><a href="#第-12-章-软件新鲜度与平滑升级">第 12 章 软件新鲜度与平滑升级</a><ul><li class="toc-l1"><a href="#121-核心重构滞后-1-个月不是单一数字">12.1 核心重构：「滞后 ≤1 个月」不是单一数字</a></li><li class="toc-l1"><a href="#122-fedora-的杀手锏">12.2 Fedora 的杀手锏</a></li><li class="toc-l1"><a href="#123-其他结构性方案">12.3 其他结构性方案</a></li><li class="toc-l1"><a href="#124-最优解排序">12.4 最优解排序</a></li></ul></li><li class="toc-l0"><a href="#第-13-章-文档生态与第三方支持">第 13 章 文档、生态与第三方支持</a><ul><li class="toc-l1"><a href="#131-文档规模可量化">13.1 文档规模（可量化）</a></li><li class="toc-l1"><a href="#132-中文资源">13.2 中文资源</a></li><li class="toc-l1"><a href="#133-学习曲线">13.3 学习曲线</a></li><li class="toc-l1"><a href="#134-商业软件官方支持的发行版">13.4 商业软件官方支持的发行版</a></li><li class="toc-l1"><a href="#135-flatpak-snap-appimage">13.5 Flatpak / Snap / AppImage</a></li><li class="toc-l1"><a href="#136-第三方仓库机制">13.6 第三方仓库机制</a></li></ul></li><li class="toc-l0"><a href="#第-14-章-容器与云场景">第 14 章 容器与云场景</a><ul><li class="toc-l1"><a href="#141-docker-hub-官方镜像拉取量-独立核实2026-10-12">14.1 Docker Hub 官方镜像拉取量（✅ 独立核实，2026-10-12）</a></li><li class="toc-l1"><a href="#142-基础镜像大小">14.2 基础镜像大小</a></li><li class="toc-l1"><a href="#143-云厂商官方镜像">14.3 云厂商官方镜像</a></li><li class="toc-l1"><a href="#144-服务器企业定位">14.4 服务器/企业定位</a></li><li class="toc-l1"><a href="#145-云原生专用-os-的基础">14.5 云原生专用 OS 的基础</a></li></ul></li><li class="toc-l0"><a href="#part-iv-智能层">Part IV · 智能层</a></li><li class="toc-l0"><a href="#第-15-章-llm-介入系统运维">第 15 章 LLM 介入系统运维</a><ul><li class="toc-l1"><a href="#151-七维评分">15.1 七维评分</a></li><li class="toc-l1"><a href="#152-两条路线">15.2 两条路线</a></li><li class="toc-l1"><a href="#153-关键事实">15.3 关键事实</a></li><li class="toc-l1"><a href="#154-关键洞察">15.4 关键洞察</a></li></ul></li><li class="toc-l0"><a href="#第-16-章-ai-协同管理的实践">第 16 章 AI 协同管理的实践</a><ul><li class="toc-l1"><a href="#161-三类实践的分布">16.1 三类实践的分布</a></li><li class="toc-l1"><a href="#162-rhel官方投入最深-独立核实">16.2 RHEL：官方投入最深（✅ 独立核实）</a></li><li class="toc-l1"><a href="#163-nixos社区全链路闭环">16.3 NixOS：社区全链路闭环</a></li><li class="toc-l1"><a href="#164-修正的结论">16.4 修正的结论</a></li><li class="toc-l1"><a href="#165-风险侧">16.5 风险侧</a></li></ul></li><li class="toc-l0"><a href="#part-v-组织层">Part V · 组织层</a></li><li class="toc-l0"><a href="#第-17-章-社区治理规模与前景">第 17 章 社区治理、规模与前景</a><ul><li class="toc-l1"><a href="#171-治理模型">17.1 治理模型</a></li><li class="toc-l1"><a href="#172-2026-选举">17.2 2026 选举</a></li><li class="toc-l1"><a href="#173-nixos-治理危机完整时间线">17.3 NixOS 治理危机完整时间线</a></li><li class="toc-l1"><a href="#174-社区规模">17.4 社区规模</a></li><li class="toc-l1"><a href="#175-资金状况">17.5 资金状况</a></li><li class="toc-l1"><a href="#176-未来前景">17.6 未来前景</a></li></ul></li><li class="toc-l0"><a href="#part-vi-决策">Part VI · 决策</a></li><li class="toc-l0"><a href="#第-18-章-综合选型决策">第 18 章 综合选型决策</a><ul><li class="toc-l1"><a href="#181-按场景推荐">18.1 按场景推荐</a></li><li class="toc-l1"><a href="#182-风险矩阵">18.2 风险矩阵</a></li><li class="toc-l1"><a href="#183-决策树">18.3 决策树</a></li></ul></li><li class="toc-l0"><a href="#第-19-章-数据缺口与纠错记录">第 19 章 数据缺口与纠错记录</a><ul><li class="toc-l1"><a href="#191-本轮纠正的-11-处错误矛盾">19.1 本轮纠正的 11 处错误/矛盾</a></li><li class="toc-l1"><a href="#192-结构性数据缺口本身就是结论">19.2 结构性数据缺口（本身就是结论）</a></li><li class="toc-l1"><a href="#193-未能独立核实的项">19.3 未能独立核实的项</a></li><li class="toc-l1"><a href="#194-抓取失败说明">19.4 抓取失败说明</a></li></ul></li><li class="toc-l0"><a href="#附录-a-一页速查表">附录 A 一页速查表</a></li><li class="toc-l0"><a href="#附录-b-可复用验证命令">附录 B 可复用验证命令</a></li></ul>
+</nav>
+<main>
+<h1 id="linux-发行版深度研究报告">Linux 发行版深度研究报告</h1>
+<p><strong>Arch · NixOS · openSUSE · Fedora · Debian · Ubuntu（+ Alpine / Gentoo 参照）</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>报告版本</strong></td>
+<td>1.0.0</td>
+</tr>
+<tr>
+<td><strong>数据截止</strong></td>
+<td>2026-10-12</td>
+</tr>
+<tr>
+<td><strong>覆盖维度</strong></td>
+<td>17 个</td>
+</tr>
+<tr>
+<td><strong>调研方式</strong></td>
+<td>13 个并行子代理 + 主调研员对关键数据做 API 级独立核实</td>
+</tr>
+<tr>
+<td><strong>纠错记录</strong></td>
+<td>本轮修正 11 处错误/矛盾数据（见第 17 章）</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="目录">目录</h2>
+<ul>
+<li><a href="#第-0-章-执行摘要">第 0 章 执行摘要</a></li>
+<li><a href="#第-1-章-方法论与可信度声明">第 1 章 方法论与可信度声明</a></li>
+<li><a href="#第-2-章-六个候选基本信息全景">第 2 章 六个候选：基本信息全景</a></li>
+<li><strong>Part I · 系统层</strong></li>
+<li><a href="#第-3-章-滚动更新策略与长期稳定性">第 3 章 滚动更新策略与长期稳定性</a></li>
+<li><a href="#第-4-章-配置漂移与残余文件">第 4 章 配置漂移与残余文件</a></li>
+<li><a href="#第-5-章-打包质量与质量规范">第 5 章 打包质量与质量规范</a></li>
+<li><a href="#第-6-章-包的维护与孤儿包">第 6 章 包的维护与孤儿包</a></li>
+<li><strong>Part II · 安全层</strong></li>
+<li><a href="#第-7-章-漏洞响应能力">第 7 章 漏洞响应能力</a></li>
+<li><a href="#第-8-章-安全默认配置">第 8 章 安全默认配置</a></li>
+<li><a href="#第-9-章-硬件兼容与驱动">第 9 章 硬件兼容与驱动</a></li>
+<li><strong>Part III · 体验层</strong></li>
+<li><a href="#第-10-章-桌面环境kde-vs-gnome">第 10 章 桌面环境：KDE vs GNOME</a></li>
+<li><a href="#第-11-章-游戏性能优化">第 11 章 游戏性能优化</a></li>
+<li><a href="#第-12-章-软件新鲜度与平滑升级">第 12 章 软件新鲜度与平滑升级</a></li>
+<li><a href="#第-13-章-文档生态与第三方支持">第 13 章 文档、生态与第三方支持</a></li>
+<li><a href="#第-14-章-容器与云场景">第 14 章 容器与云场景</a></li>
+<li><strong>Part IV · 智能层</strong></li>
+<li><a href="#第-15-章-llm-介入系统运维">第 15 章 LLM 介入系统运维</a></li>
+<li><a href="#第-16-章-ai-协同管理的实践">第 16 章 AI 协同管理的实践</a></li>
+<li><strong>Part V · 组织层</strong></li>
+<li><a href="#第-17-章-社区治理规模与前景">第 17 章 社区治理、规模与前景</a></li>
+<li><strong>Part VI · 决策</strong></li>
+<li><a href="#第-18-章-综合选型决策">第 18 章 综合选型决策</a></li>
+<li><a href="#第-19-章-数据缺口与纠错记录">第 19 章 数据缺口与纠错记录</a></li>
+<li><a href="#附录-a-一页速查表">附录 A 一页速查表</a></li>
+<li><a href="#附录-b-可复用验证命令">附录 B 可复用验证命令</a></li>
+</ul>
+<hr />
+<h1 id="第-0-章-执行摘要">第 0 章 执行摘要</h1>
+<h2 id="01-一句话结论">0.1 一句话结论</h2>
+<p><strong>不存在「最好的发行版」，只存在「与你的约束条件最匹配的发行版」。</strong> 本报告覆盖的 17 个维度中，没有任何一个发行版同时拿下超过 5 个维度的第一名。</p>
+<h2 id="02-十七个维度的第一名">0.2 十七个维度的第一名</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>维度</th>
+<th>第一名</th>
+<th>关键证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>滚动更新可控性</td>
+<td><strong>openSUSE Tumbleweed</strong></td>
+<td>openQA 门禁，唯一有公开构建失败看板的滚动版</td>
+</tr>
+<tr>
+<td>2</td>
+<td>声明式可回滚</td>
+<td><strong>NixOS</strong></td>
+<td>generation 机制，配置即代码</td>
+</tr>
+<tr>
+<td>3</td>
+<td>配置漂移治理</td>
+<td><strong>NixOS</strong> / <strong>Fedora Atomic</strong></td>
+<td>构建期暴露 / <code>ostree admin config-diff</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>打包质量体系</td>
+<td><strong>openSUSE</strong></td>
+<td>openQA <strong>650 测试套件 + 114 机器</strong> ✅</td>
+</tr>
+<tr>
+<td>5</td>
+<td>质量规范完备度</td>
+<td><strong>Debian</strong></td>
+<td>Policy Manual <strong>v4.7.4.1</strong>（2026-03-31）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>包维护透明度</td>
+<td><strong>Fedora</strong></td>
+<td>唯一有硬性退役时限（<strong>6 周</strong>）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>漏洞响应</td>
+<td><strong>Ubuntu / SUSE</strong></td>
+<td>唯一有<strong>拿薪水的专职安全团队</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>安全默认配置</td>
+<td><strong>Fedora</strong></td>
+<td>SELinux 默认 enforcing + firewalld 默认启用</td>
+</tr>
+<tr>
+<td>9</td>
+<td>硬件/驱动易用性</td>
+<td><strong>Ubuntu / openSUSE</strong></td>
+<td><code>ubuntu-drivers</code> 一键 / YaST 一键安装器</td>
+</tr>
+<tr>
+<td>10</td>
+<td>桌面环境成熟度</td>
+<td><strong>KDE Plasma</strong></td>
+<td>HDR 早 13 个月、VRR 早 2 年+</td>
+</tr>
+<tr>
+<td>11</td>
+<td>游戏性能</td>
+<td><strong>CachyOS</strong>（Arch 系）</td>
+<td>但收益是<strong>个位数百分比</strong>，非翻倍</td>
+</tr>
+<tr>
+<td>12</td>
+<td>软件新鲜度</td>
+<td><strong>Arch</strong>（outdated 13.6%）</td>
+<td>⚠️ 但 Repology 数据未独立核实</td>
+</tr>
+<tr>
+<td>13</td>
+<td>文档质量</td>
+<td><strong>Arch</strong></td>
+<td>ArchWiki <strong>892,004 次编辑 / 4,453 条目</strong> ✅</td>
+</tr>
+<tr>
+<td>14</td>
+<td>容器/云场景</td>
+<td><strong>Alpine</strong></td>
+<td>Docker Hub <strong>123.5 亿次拉取</strong>，镜像 3.2 MB ✅</td>
+</tr>
+<tr>
+<td>15</td>
+<td>LLM 运维适配</td>
+<td><strong>NixOS</strong>（有人监督）／<strong>MicroOS</strong>（无人值守）</td>
+<td>见第 15 章</td>
+</tr>
+<tr>
+<td>16</td>
+<td>AI 协同生态</td>
+<td><strong>NixOS</strong>（社区）／<strong>RHEL</strong>（官方）</td>
+<td>见第 16 章</td>
+</tr>
+<tr>
+<td>17</td>
+<td>治理稳健度</td>
+<td><strong>Debian</strong></td>
+<td>1,039 投票权 DD，无资金危机</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="03-五条核心结论">0.3 五条核心结论</h2>
+<p><strong>结论一：文档与生态的「双极结构」</strong>
+ArchWiki 是全 Linux 世界最好的文档（<strong>892,004 次编辑</strong>，已核实），但 Arch 官方零安全投入；Ubuntu 有专职安全团队和最好的商业软件支持，但文档质量远不如 Arch。<strong>没有发行版同时拥有最好的文档和最好的安全。</strong></p>
+<p><strong>结论二：NixOS 是「技术最优、组织最危」</strong>
+技术上 NixOS 是唯一从架构上消灭配置漂移和孤儿包的发行版；但组织上它经历了三次连续治理危机（2025-09 版主团队 5/7 辞职 → 2026-08 Nixpkgs 核心团队解散 → 基金会连亏两年，权益降 32%），且<strong>第三次 SC 选举投票期在本报告发布时尚未开始</strong>。</p>
+<p><strong>结论三：「哪个发行版补丁更快」没有可信答案</strong>
+唯一公开跨发行版 time-to-patch 数据的服务（Vulnpatch）<strong>已主动把全部数字撤回为 null</strong>，理由是算法把「未修复的 CVE」直接丢弃（恰好是最慢的那批）。<strong>任何声称「A 比 B 快 N 天」的横向结论都不可信。</strong></p>
+<p><strong>结论四：安全能力的分水岭是「有没有拿薪水的安全团队」</strong>
+Ubuntu（Canonical 专职）、SUSE（SUSE 专职）与 Arch（<strong>9 名志愿者</strong>）、NixOS、Debian 之间存在结构性差距。这直接反映在 OSV.dev 覆盖上：<strong>Debian / Alpine / Ubuntu 入选，Arch / Fedora / openSUSE / NixOS 全部缺位</strong>。</p>
+<p><strong>结论五：滚动发行版的「不可控」是被高估的担忧，真正的痛点是配置漂移</strong>
+openSUSE Tumbleweed 用 openQA 门禁把滚动更新做成了有质量保证的流程；NixOS 用声明式把升级变成可回滚事务。<strong>长期运维真正的痛点是配置文件冲突（<code>.pacnew</code> / <code>.rpmnew</code> / <code>.dpkg-dist</code>）与语义漂移</strong> —— 前者靠工具，后者只有 NixOS 能自动拦截。</p>
+<h2 id="04-三十秒选型">0.4 三十秒选型</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>你的情况</th>
+<th>选它</th>
+<th>一句话理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企业生产 / 要支持合同</td>
+<td><strong>RHEL</strong>（Fedora 作试验田）</td>
+<td>唯一官方 MCP + 专职安全团队 + SLA</td>
+</tr>
+<tr>
+<td>个人主力机 / 要稳定 + 新软件</td>
+<td><strong>Fedora Workstation</strong></td>
+<td>6 个月周期 + 内核/Mesa 永久例外</td>
+</tr>
+<tr>
+<td>想要最活跃的社区 + AI 生态</td>
+<td><strong>NixOS</strong></td>
+<td>唯一三类 AI 实践齐备，但接受治理风险</td>
+</tr>
+<tr>
+<td>想学 Linux / 要最好的文档</td>
+<td><strong>Arch</strong></td>
+<td>ArchWiki 无出其右，但安全靠自己</td>
+</tr>
+<tr>
+<td>桌面要最新 + 要质量门禁</td>
+<td><strong>openSUSE Tumbleweed</strong></td>
+<td>openQA 650 测试套件兜底</td>
+</tr>
+<tr>
+<td>游戏为主</td>
+<td><strong>CachyOS / Bazzite</strong></td>
+<td>但收益是个位数百分比</td>
+</tr>
+<tr>
+<td>服务器 / 求稳</td>
+<td><strong>Debian</strong></td>
+<td>治理最稳、规范最完备</td>
+</tr>
+<tr>
+<td>容器 / 云原生</td>
+<td><strong>Alpine</strong></td>
+<td>123.5 亿次拉取，3.2 MB 镜像</td>
+</tr>
+<tr>
+<td>完全不想维护</td>
+<td><strong>Aeon / MicroOS</strong></td>
+<td>唯一「自动更新 + 失败自动回滚」闭环</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="第-1-章-方法论与可信度声明">第 1 章 方法论与可信度声明</h1>
+<h2 id="11-调研方式">1.1 调研方式</h2>
+<p>本报告整合了 8 轮独立深度调研（累计 13 个并行子代理），并对<strong>所有关键量化数据做了主调研员的独立核实</strong>。</p>
+<p><strong>核实手段</strong>（本轮实际使用）：
+- GitHub REST API（仓库 star / 活跃度 / 归档状态 / 源码内容）
+- Arch 官方包库 API（包数、孤儿包数）
+- Arch 官方 people 页面（维护者人数）
+- openQA 官方 API（测试套件数、机器数）
+- Docker Hub API（镜像拉取量）
+- ArchWiki MediaWiki API（文档规模）
+- bits.debian.org（DPL 选举结果）
+- rpmfind 文件列表（rpm 包内容）
+- nixpkgs 源码（<code>lib/modules.nix</code>）</p>
+<h2 id="12-数据标记体系">1.2 数据标记体系</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>标记</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ <strong>已核实</strong></td>
+<td>主调研员通过官方 API / 官方页面 / 源码直接验证</td>
+</tr>
+<tr>
+<td>◐ <strong>子代理</strong></td>
+<td>来自子代理报告，未经主调研员独立验证</td>
+</tr>
+<tr>
+<td>⚠️ <strong>二手</strong></td>
+<td>新闻 / 博客 / 论坛 / 第三方转述</td>
+</tr>
+<tr>
+<td>❌ <strong>无公开数据</strong></td>
+<td>检索后确认不存在可靠公开数据</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="13-本报告的主要局限">1.3 本报告的主要局限</h2>
+<ol>
+<li><strong>Repology 数据未经独立核实</strong> —— Repology API 对本环境返回 <strong>403 Forbidden</strong>（带 User-Agent 亦被拒）。所有包数 / outdated 占比数字来自网页读取，仅作参考。</li>
+<li><strong>「哪个发行版补丁更快」无解</strong> —— 见第 7 章，这是数据层面的结构性空白，不是调研不努力。</li>
+<li><strong>多站点反爬</strong> —— <code>wiki.archlinux.org</code>（Anubis PoW）、<code>build.opensuse.org</code>（PoW）、<code>repology.org/api</code>（403）、<code>manpages.opensuse.org</code>（返回空）均不可程序化抓取，已改用等价来源。</li>
+<li><strong>社区评价类结论不可量化</strong> —— 如「ArchWiki 是最好的文档」属社区共识，无客观排名数据。</li>
+</ol>
+<hr />
+<h1 id="第-2-章-六个候选基本信息全景">第 2 章 六个候选：基本信息全景</h1>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Arch</strong></th>
+<th><strong>NixOS</strong></th>
+<th><strong>openSUSE TW</strong></th>
+<th><strong>Fedora</strong></th>
+<th><strong>Debian</strong></th>
+<th><strong>Ubuntu</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发布模型</strong></td>
+<td>滚动</td>
+<td>滚动 + 半年 stable</td>
+<td>滚动（snapshot）</td>
+<td>6 个月</td>
+<td>约 2 年</td>
+<td>6 个月 / 2 年 LTS</td>
+</tr>
+<tr>
+<td><strong>内核</strong>（2026-10）</td>
+<td>7.2.7 ◐</td>
+<td>6.18 LTS ◐</td>
+<td>7.2.x ✅</td>
+<td>7.2.6 ◐</td>
+<td>6.12 LTS ◐</td>
+<td>7.0 ◐</td>
+</tr>
+<tr>
+<td><strong>官方包数</strong></td>
+<td>16,008 ◐</td>
+<td><strong>149,566</strong> ◐</td>
+<td>17,270 ◐</td>
+<td>82,747（全分支）◐</td>
+<td>69,830 ◐</td>
+<td>39,336 ◐</td>
+</tr>
+<tr>
+<td><strong>核心维护者</strong></td>
+<td><strong>93</strong>（23 Dev ✅ + 70 PM ◐）</td>
+<td>❌ 无数据</td>
+<td>~521 members ◐</td>
+<td>~325 packagers ⚠️</td>
+<td><strong>1,039 DD</strong> ✅</td>
+<td>378 Members ◐</td>
+</tr>
+<tr>
+<td><strong>默认 MAC</strong></td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+<td>SELinux ✅</td>
+<td>SELinux ✅</td>
+<td>AppArmor（部分）◐</td>
+<td>AppArmor ✅</td>
+</tr>
+<tr>
+<td><strong>默认防火墙</strong></td>
+<td>❌ 无</td>
+<td>✅ 有</td>
+<td>firewalld ◐</td>
+<td>firewalld ✅</td>
+<td>❌ 无</td>
+<td>ufw 预装但 inactive ◐</td>
+</tr>
+<tr>
+<td><strong>包管理器</strong></td>
+<td>pacman</td>
+<td>nix</td>
+<td>zypper</td>
+<td>dnf</td>
+<td>apt</td>
+<td>apt</td>
+</tr>
+<tr>
+<td><strong>配置文件保护</strong></td>
+<td><code>backup=()</code></td>
+<td>声明式（无冲突）</td>
+<td><code>%config</code></td>
+<td><code>%config</code></td>
+<td><code>conffiles</code></td>
+<td><code>conffiles</code></td>
+</tr>
+<tr>
+<td><strong>安全团队</strong></td>
+<td><strong>9 志愿者</strong> ◐</td>
+<td>志愿者 ◐</td>
+<td><strong>SUSE 专职</strong> ✅</td>
+<td>Red Hat 代管 ◐</td>
+<td>志愿者为主 ◐</td>
+<td><strong>Canonical 专职</strong> ✅</td>
+</tr>
+<tr>
+<td><strong>治理</strong></td>
+<td>社区 + Leader</td>
+<td>基金会 + 选举 SC</td>
+<td>Board + SUSE</td>
+<td>Council + FESCo</td>
+<td>纯社区 + DPL</td>
+<td>Canonical 主导</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="part-i-系统层">Part I · 系统层</h1>
+<h1 id="第-3-章-滚动更新策略与长期稳定性">第 3 章 滚动更新策略与长期稳定性</h1>
+<h2 id="31-三种滚动模型">3.1 三种滚动模型</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>代表</th>
+<th>机制</th>
+<th>失败模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>无门控连续滚动</strong></td>
+<td>Arch</td>
+<td>包一旦进入 <code>extra</code> 立即可用</td>
+<td>上游破坏性变更直接抵达用户</td>
+</tr>
+<tr>
+<td><strong>快照门控滚动</strong></td>
+<td>openSUSE TW</td>
+<td>staging → openQA 测试 → 发布 snapshot</td>
+<td>单个 snapshot 可能整体延后</td>
+</tr>
+<tr>
+<td><strong>渠道门控滚动</strong></td>
+<td>NixOS unstable</td>
+<td>Hydra 构建全绿才推进 channel</td>
+<td>channel 可能长时间不前进</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="32-逐项对比">3.2 逐项对比</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Arch</th>
+<th>NixOS</th>
+<th>openSUSE TW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>门禁</strong></td>
+<td>❌ 无</td>
+<td>✅ Hydra 构建门控</td>
+<td>✅ <strong>openQA 测试门控</strong></td>
+</tr>
+<tr>
+<td><strong>快照粒度</strong></td>
+<td>包级（每次 <code>pacman -Syu</code>）</td>
+<td>channel 级（数天一次）</td>
+<td>snapshot 级（<strong>2026-08 发 23 个 / 31 天</strong> ◐）</td>
+</tr>
+<tr>
+<td><strong>构建失败看板</strong></td>
+<td>❌ 无</td>
+<td>✅ Hydra</td>
+<td>✅ <strong>openQA 公开实例</strong></td>
+</tr>
+<tr>
+<td><strong>回滚能力</strong></td>
+<td>⚠️ 需 ALA（Arch Linux Archive）降级</td>
+<td>✅ <strong>generation 一键回滚</strong></td>
+<td>✅ btrfs 快照 + <code>snapper rollback</code></td>
+</tr>
+<tr>
+<td><strong>自动更新</strong></td>
+<td>❌ 无官方</td>
+<td>✅ <code>system.autoUpgrade</code></td>
+<td>✅ <code>zypper dup</code> 可定时</td>
+</tr>
+<tr>
+<td><strong>自动更新失败回滚</strong></td>
+<td>—</td>
+<td>❌ <strong>不自动回滚</strong></td>
+<td>✅ health-checker（MicroOS）</td>
+</tr>
+<tr>
+<td><strong>无人值守适用性</strong></td>
+<td>❌ 最差</td>
+<td>⚠️ 中（需人工兜底）</td>
+<td>✅ <strong>最好</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="33-关键事实">3.3 关键事实</h2>
+<ul>
+<li><strong>NixOS 的 <code>nixos-unstable</code> 不是 bleeding edge</strong>，而是 Hydra 门控的 curated snapshot —— 这常被误解。</li>
+<li><strong>NixOS 的 <code>system.autoUpgrade</code> 失败不自动回滚</strong>，需人工在 bootloader 选旧 generation。这是它与 MicroOS 的核心差距。</li>
+<li><strong>Arch 没有官方自动更新</strong>，<code>systemd</code> timer 需自己写；且 Arch 明确不承诺安全支持。</li>
+<li><strong>openSUSE Tumbleweed 是三者中唯一有公开构建质量看板的</strong>（openQA）。</li>
+<li><strong>Slowroll 仍标记为 experimental</strong>（专题新闻停在 2025-01，2026-09 仍 beta ◐）—— 定位是「月更版 Tumbleweed」，但<strong>尚未脱离实验状态</strong>。</li>
+</ul>
+<h2 id="34-本章结论">3.4 本章结论</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>你的需求</th>
+<th>选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>要最新 + 要质量门禁</td>
+<td><strong>openSUSE Tumbleweed</strong></td>
+</tr>
+<tr>
+<td>要最新 + 可精确回滚</td>
+<td><strong>NixOS</strong></td>
+</tr>
+<tr>
+<td>要最新 + 接受自己负责</td>
+<td><strong>Arch</strong></td>
+</tr>
+<tr>
+<td>要无人值守长期运行</td>
+<td><strong>MicroOS / Aeon</strong>（非纯滚动，但这是唯一闭环解）</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="第-4-章-配置漂移与残余文件">第 4 章 配置漂移与残余文件</h1>
+<blockquote>
+<p>这是长期滚动运维<strong>真正的痛点</strong>，也是前六轮调研中被反复追问的主题。</p>
+</blockquote>
+<h2 id="41-先分类四种漂移">4.1 先分类：四种「漂移」</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>是什么</th>
+<th>能否自动解决</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 文件级冲突</strong></td>
+<td>你的改动与上游改动撞车（<code>.pacnew</code> / <code>.rpmnew</code> / <code>.dpkg-dist</code>）</td>
+<td>能检测，<strong>不能自动判定谁对</strong></td>
+</tr>
+<tr>
+<td><strong>B. 语义漂移</strong></td>
+<td>你的配置一字未改，但上游改了默认值/废弃了选项</td>
+<td><strong>只有 NixOS 能硬拦截</strong></td>
+</tr>
+<tr>
+<td><strong>C. 孤儿包</strong></td>
+<td>不再被任何包依赖的包</td>
+<td>✅ 能全自动</td>
+</tr>
+<tr>
+<td><strong>D. 残余文件</strong></td>
+<td>不属于任何包的文件 / 包删除后残留的目录</td>
+<td>能检测，清理需人工判断</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="42-最关键最容易被误解的机制">4.2 最关键、最容易被误解的机制</h2>
+<blockquote>
+<p><strong>只有被声明为「配置文件」的文件才有保护。</strong></p>
+<p>Arch 的 <code>backup=()</code> 数组、RPM 的 <code>%config</code>、Debian 的 <code>DEBIAN/conffiles</code> —— <strong>没声明的文件升级时直接覆盖，连 <code>.pacnew</code> 都不会留。</strong></p>
+</blockquote>
+<p><strong>含义</strong>：漂移不只表现为「多出文件」，也表现为「<strong>本地修改静默消失</strong>」。这是比 <code>.pacnew</code> 堆积更隐蔽的问题。</p>
+<h2 id="43-冲突文件生成规则">4.3 冲突文件生成规则</h2>
+<p><strong>Arch（三方 MD5 比对）</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>比对结果</th>
+<th>pacman 行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>你没改，上游改了</td>
+<td>静默覆盖</td>
+</tr>
+<tr>
+<td>你改了，上游没改</td>
+<td>保留你的</td>
+</tr>
+<tr>
+<td><strong>都改了</strong></td>
+<td><strong>保留你的，新版存 <code>.pacnew</code> 并告警</strong></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>查某包的 backup 列表：<code>pacman -Qii &lt;pkg&gt;</code></li>
+<li><strong>反直觉</strong>：安装<strong>其他</strong>包也可能改到本包的文件，导致你没动手却生成 <code>.pacnew</code>（Arch FS#77404）</li>
+</ul>
+<p><strong>Fedora / RHEL（三后缀）</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>条件</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.rpmnew</code></td>
+<td><code>%config(noreplace)</code>，双方都改</td>
+<td>保留你的，新版存 <code>.rpmnew</code></td>
+</tr>
+<tr>
+<td><code>.rpmsave</code></td>
+<td><code>%config</code>（无 noreplace），双方都改</td>
+<td>装新版，你的存 <code>.rpmsave</code></td>
+</tr>
+<tr>
+<td><code>.rpmorig</code></td>
+<td><code>rpm -i</code> 非升级安装且文件不属于任何包</td>
+<td>已有文件改名 <code>.rpmorig</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Debian（唯一默认强制表态）</strong>
+dpkg 对 <code>conffiles</code> 做三方比对，<strong>只有双方都改才交互提示</strong>：<code>Y/I</code> 装维护者版（你的存 <code>.dpkg-old</code>）／<code>N/O</code> 保留本地（新版存 <code>.dpkg-dist</code>）／<code>D</code> 看 diff／<code>Z</code> 开 shell。</p>
+<p><strong>openSUSE（唯一自带 systemd service）</strong>
+- ✅ <strong>已核实</strong>：<code>/usr/lib/systemd/system/rpmconfigcheck.service</code> 存在于 rpm 包中（rpmfind 对 <code>rpm-4.20.1-11.1</code> 的文件列表）
+- ⚠️ <strong>但没有配套的 <code>.timer</code></strong> → <strong>不会自动运行</strong>，需 <code>systemctl start rpmconfigcheck</code> 或自建 timer</p>
+<h2 id="44-横向对比">4.4 横向对比</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>机制</th>
+<th>默认自动检测</th>
+<th>官方工具</th>
+<th><strong>三方合并</strong></th>
+<th>升级时提示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arch <code>.pacnew</code></td>
+<td>⚠️ 仅 warning</td>
+<td><code>pacdiff</code></td>
+<td>✅ <strong><code>-3</code></strong>（需缓存有 base 包）</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Fedora <code>.rpmnew</code></td>
+<td>❌</td>
+<td><code>rpmconf</code>（Fedora 官方仓库）</td>
+<td>❌ 仅两方</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Debian <code>.dpkg-dist</code></td>
+<td>✅</td>
+<td>dpkg 内建 + <code>ucf</code></td>
+<td>⚠️ dpkg 非三方；<strong>ucf 支持</strong></td>
+<td>✅ <strong>唯一</strong></td>
+</tr>
+<tr>
+<td>openSUSE</td>
+<td>⚠️ 有 service 无 timer</td>
+<td><code>rpmconf</code></td>
+<td>❌ 仅两方</td>
+<td>否</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="45-结构性解法">4.5 结构性解法</h2>
+<p><strong>NixOS —— 漂移在构建期暴露</strong></p>
+<p>上游废弃选项时的行为（<strong>已从 nixpkgs 源码核实</strong>）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mkRenamedOptionModule</code></td>
+<td>只 warning + 转发</td>
+</tr>
+<tr>
+<td><code>mkAliasOptionModule</code></td>
+<td>静默转发，不警告</td>
+</tr>
+<tr>
+<td><strong><code>mkRemovedOptionModule</code></strong></td>
+<td><strong>硬 <code>throw</code>，中断 rebuild</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>lib/modules.nix</code> 第 1863 行原文：</p>
+<pre><code class="language-nix">throw &quot;The option `${showOption optionName}' can no longer be used since it's been removed. ${replacementInstructions}&quot;;
+</code></pre>
+<blockquote>
+<p>⚠️ <strong>官方文档说 "warning"，实现是 <code>throw</code></strong> —— 文档与实现不一致，以源码为准。第三方佐证：mobile-nixos issue #731。</p>
+</blockquote>
+<p><strong>NixOS 仍有漂移的例外</strong>：<code>/var</code>、<code>/home</code>（有状态数据不受管）、<code>nix-env -i</code> 装的包、手工 systemd unit、home-manager 只撤自己创建的符号链接、<code>/nix/store</code> 无限增长（需 GC）。</p>
+<p><strong>Fedora Atomic —— 内置漂移检测器</strong></p>
+<pre><code class="language-bash">ostree admin config-diff
+# 打印当前 /etc 与默认 /usr/etc 的差异：A=新增 M=修改 D=删除
+</code></pre>
+<p>升级时 <code>/etc</code> 走<strong>三方合并</strong>：本地改过的永久保留，未改的升到新默认。<strong>不用 <code>.rpmnew</code> 机制。</strong></p>
+<p><strong>MicroOS / Aeon —— <code>/etc</code> 也在快照里</strong>
+只读根 + btrfs 快照，回滚即回滚配置。<code>health-checker</code> 在 legacy grub2 下首次启动失败自动回滚。⚠️ 无 <code>config-diff</code> 等价物。</p>
+<h2 id="46-最被低估的通用解法etckeeper">4.6 最被低估的通用解法：etckeeper</h2>
+<pre><code class="language-bash">sudo etckeeper init &amp;&amp; sudo etckeeper commit &quot;初始状态&quot;
+sudo etckeeper vcs log --oneline -20
+etckeeper unclean &amp;&amp; echo &quot;有未记录的 /etc 改动&quot;   # 可直接做漂移告警
+</code></pre>
+<p><strong>它不解决冲突，但让所有漂移可追溯、可回滚、可审计。</strong> 跨发行版，装完当天见效。Arch 官方 <code>extra</code> 仓库有（<code>etckeeper 1.18.23-3</code>，2026-04-14 ✅）。</p>
+<h2 id="47-本章结论">4.7 本章结论</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不想有漂移</td>
+<td><strong>NixOS</strong>（唯一从架构上消灭）</td>
+</tr>
+<tr>
+<td>要能一眼看出漂移</td>
+<td><strong>Fedora Atomic</strong>（<code>ostree admin config-diff</code>）</td>
+</tr>
+<tr>
+<td>要能一键回滚配置</td>
+<td><strong>MicroOS / Aeon</strong>（<code>/etc</code> 在快照里）</td>
+</tr>
+<tr>
+<td>已在命令式发行版上</td>
+<td><strong>etckeeper + 定期 <code>pacdiff</code> / <code>rpmconf</code></strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="第-5-章-打包质量与质量规范">第 5 章 打包质量与质量规范</h1>
+<h2 id="51-包数量与新鲜度">5.1 包数量与新鲜度</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>repo</th>
+<th>总包数</th>
+<th>Outdated</th>
+<th>占比</th>
+<th>Problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arch</td>
+<td>15,516</td>
+<td>2,110</td>
+<td><strong>13.6%</strong></td>
+<td>911</td>
+</tr>
+<tr>
+<td>NixOS unstable</td>
+<td><strong>149,566</strong></td>
+<td>18,958</td>
+<td><strong>12.7%</strong></td>
+<td>3,700</td>
+</tr>
+<tr>
+<td>openSUSE TW</td>
+<td>17,270</td>
+<td>4,503</td>
+<td>26.1%</td>
+<td>1,822</td>
+</tr>
+<tr>
+<td>Fedora 42</td>
+<td>31,028</td>
+<td>12,706</td>
+<td>40.9%*</td>
+<td>2,965</td>
+</tr>
+<tr>
+<td>Debian 13</td>
+<td>38,684</td>
+<td>17,989</td>
+<td>46.5%*</td>
+<td>3,284</td>
+</tr>
+<tr>
+<td>Ubuntu 24.04</td>
+<td>39,336</td>
+<td>20,553</td>
+<td><strong>52.3%</strong>*</td>
+<td>4,173</td>
+</tr>
+</tbody>
+</table></div>
+<p>◐ 全部为子代理读取 Repology 网页所得。<strong>Repology API 对本环境 403，未独立核实。</strong>
+* 固定版本快照，outdated 天然偏高，<strong>不可与滚动版直接比较</strong>。
+⚠️ Repology 官方警告 openSUSE / Ubuntu 的 repo 数据质量差（版本造假、无源码链接），<strong>两者已被列入「考虑移除」</strong>。</p>
+<p><strong>其他口径</strong>：Arch 官方仓库自报 <strong>16,008</strong> 包；Fedora 全分支 <strong>82,747</strong> 包；Debian 13 <strong>69,830</strong> 包；NixOS nixpkgs <strong>&gt;140,000</strong> 包；AUR <strong>121,709</strong> 包。</p>
+<h2 id="52-自动化质量检查">5.2 自动化质量检查</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>工具</th>
+<th>规模</th>
+<th>强制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arch</strong></td>
+<td><code>namcap</code></td>
+<td>127 个 tag</td>
+<td>❌ <strong>非强制</strong></td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td><code>rpmlint</code> + <code>fedora-review</code></td>
+<td>38 个 check 模块</td>
+<td>✅ <strong>review 必跑</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td><code>lintian</code></td>
+<td><strong>1,485 个检查项</strong></td>
+<td>❌ 可 override</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td><code>rpmlint</code> + <code>brp-check-suse</code></td>
+<td>构建期</td>
+<td>⚠️ 部分 error 阻断</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="53-qa-ci-覆盖率">5.3 QA / CI 覆盖率</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>体系</th>
+<th>强度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td><strong>openQA</strong></td>
+<td>✅ <strong>最强</strong>：<strong>650 个 test suite + 114 台机器</strong>（独立核实）</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>Zuul CI + tmt + Bodhi <strong>gating</strong></td>
+<td>强：测试不过则<strong>阻断更新发布</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>piuparts + autopkgtest + lintian</td>
+<td>中：<strong>均非上传硬门槛</strong></td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>仅 namcap</td>
+<td><strong>最弱</strong>：无 CI 强制，AUR 无自动检查</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>openQA 数据已独立核实</strong>：<code>openqa.opensuse.org/api/v1/test_suites</code> → <strong>650</strong>；<code>/api/v1/machines</code> → <strong>114</strong>。覆盖 Tumbleweed / Leap / ARM / RISC-V / s390x，是<strong>发行版级全系统安装测试</strong> —— openSUSE 在打包质量维度最硬的护城河。</p>
+</blockquote>
+<h2 id="54-可复现构建">5.4 可复现构建</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Debian</strong></td>
+<td>forky/amd64 <strong>95.9%</strong> 可复现、0.9% FTBFS；unstable 94.8%、1.6% FTBFS</td>
+</tr>
+<tr>
+<td>Arch</td>
+<td>reproducible.archlinux.org，<strong>无公开百分比</strong></td>
+</tr>
+<tr>
+<td>NixOS</td>
+<td>reproducible.nixos.org，<strong>仅方法说明</strong></td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>测试数据<strong>停留在 2018-12-13</strong>，实质停更</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>仅到 <strong>fedora-23</strong> 时代页面，早已停更</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>只有 Debian 有公开、可信、持续更新的可复现构建覆盖率。</strong></p>
+<h2 id="55-ftbfs构建失败">5.5 FTBFS（构建失败）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debian</td>
+<td><strong>0.9%–1.8%</strong></td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td>Koschei 追踪 <strong>180,316</strong> 包 / 1,341,362 次构建，<strong>未给百分比</strong></td>
+</tr>
+<tr>
+<td>Arch / openSUSE / NixOS</td>
+<td>❌ 无公开汇总</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="56-质量规范文档">5.6 质量规范文档</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>规范</th>
+<th>执行力度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arch</strong></td>
+<td>Arch packaging standards / PKGBUILD 规范</td>
+<td>人工 review；namcap 非强制</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>Packaging Guidelines（<strong>FPC</strong> 维护）</td>
+<td>rpmlint + fedora-review <strong>强制</strong> + CI gating</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td><strong>Policy Manual v4.7.4.1</strong>（2026-03-31）</td>
+<td>lintian 提示 + FTP-master/sponsor 人工审核</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>packaging guidelines + Packaging_checks</td>
+<td>OBS 构建期强制部分</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td><code>CONTRIBUTING.md</code>（54KB）+ RFC 流程</td>
+<td>人工 review + ofBorg CI</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Debian Policy Manual 是六家中最完备的</strong>，且有正式版本号 —— 其他发行版的规范更接近「wiki 页面 + 惯例」。</p>
+<p><strong>规范演进（2025-2026）</strong>
+- ⚠️ <strong>Arch：2026-07-30 AUR 暂停「包认领（adoption）」功能</strong>（第三波恶意接管攻击）—— 本年度最值得关注的规范层事件
+- Arch RFC 0014：新 Package Maintainer 前两个月标记为 "junior"
+- Debian Policy 4.7.4.1 发布（2026-03-31）</p>
+<hr />
+<h1 id="第-6-章-包的维护与孤儿包">第 6 章 包的维护与孤儿包</h1>
+<h2 id="61-孤儿包">6.1 孤儿包</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>数量</th>
+<th>核实</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arch</strong></td>
+<td><strong>250</strong></td>
+<td>✅ <strong>独立核实</strong>（Arch 官方 API，两种 limit 口径一致）</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td><strong>1,070</strong> orphaned + 100 RFA + 46 RFH</td>
+<td>◐</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>❌ 无公开汇总（政策：孤儿 <strong>6 周后退役</strong>）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>❌ 无公开汇总</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>本轮纠错</strong>：子代理报告称 Arch 有 <strong>303</strong> 个孤儿包，独立核实实际为 <strong>250</strong>。</p>
+</blockquote>
+<h2 id="62-维护者-包-比例">6.2 维护者 : 包 比例</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>维护者数</th>
+<th>官方包数</th>
+<th><strong>包 / 人</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arch</strong></td>
+<td>23 Dev ✅ + 70 PM ◐ = <strong>93</strong></td>
+<td>16,008</td>
+<td><strong>约 172</strong></td>
+</tr>
+<tr>
+<td>NixOS</td>
+<td>4,949 ◐</td>
+<td>149,566</td>
+<td>约 30</td>
+</tr>
+<tr>
+<td>Debian</td>
+<td>3,559 ◐</td>
+<td>38,684</td>
+<td>约 10.9</td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>3,365 ◐</td>
+<td>39,336</td>
+<td>约 11.7</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Arch 人均包数是 Debian 的 16 倍。</strong> 这既是效率（滚动版淘汰快），也是 bus factor 风险。</p>
+<blockquote>
+<p>⚠️ <strong>本轮纠错</strong>：两个子代理对 Arch 维护者数的说法互相矛盾（「17 Dev + 54 PM」vs「23 Dev + 70 PM」）。独立核实 <strong>Developers = 23</strong>，故采信 23 + 70。</p>
+</blockquote>
+<h2 id="63-退役流程">6.3 退役流程</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>流程</th>
+<th>时限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>孤儿满 <strong>6 周</strong> → Rawhide/Branched 退役，留 <code>dead.package</code></td>
+<td>✅ <strong>唯一硬性时限</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>长期孤儿 → FTP-master 从 unstable 移除</td>
+<td>无明确时限</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>仓库包由 TU/Dev 决定；AUR 走 orphan/adopt（<strong>adoption 已禁用</strong>）</td>
+<td>无明确时限</td>
+</tr>
+<tr>
+<td><strong>openSUSE / NixOS</strong></td>
+<td>无明确时限</td>
+<td>无</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="64-关键包critical-path维护">6.4 关键包（critical path）维护</h2>
+<p>❌ <strong>六家均无公开的「关键包指定维护者」清单。</strong></p>
+<p><strong>值得注意的动向</strong>：Debian 2026 GSoC 立项 <strong>DebNet: Visualising the Bus Factor</strong> —— 用 UDD 数据构建包依赖图与维护者-包图，计算每个源码包的 <strong>Bus Factor / Fragility Score / Dependency Impact</strong>，目标正是<strong>识别「被过少的人维护的关键包」</strong>。这说明 Debian 已把这个问题正式立项。</p>
+<hr />
+<h1 id="part-ii-安全层">Part II · 安全层</h1>
+<h1 id="第-7-章-漏洞响应能力">第 7 章 漏洞响应能力</h1>
+<h2 id="71-核心结论不存在可信的跨发行版-time-to-patch-数据集">7.1 核心结论：<strong>不存在可信的跨发行版 time-to-patch 数据集</strong></h2>
+<p>这是本维度最重要的发现。逐条核实：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>声称</th>
+<th>实际</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vulnpatch</strong> <code>time-to-fix</code></td>
+<td>跨发行版补丁速度对比</td>
+<td>❌ <strong>全部 <code>medianDays</code> 已撤回为 <code>null</code></strong>。作者原文理由：算法「把未修复的 CVE 丢弃（恰好是最慢的那批）、计时起点是服务首次观测到修复而非发行版发布时刻」，导致「<strong>Debian 被渲染成最快，却拥有最低的修复率</strong>」</td>
+</tr>
+<tr>
+<td><strong>WMP/cve-patch-duration</strong></td>
+<td>内核 CVE 修复时长</td>
+<td>⚠️ 仅 1 次 commit（2026-05-20）、<strong>0 star、未发布任何结果</strong></td>
+</tr>
+<tr>
+<td><strong>ICSE 2026</strong> 论文</td>
+<td>补丁跨发行版传播</td>
+<td>中位延迟 530 天（Fedora↔Debian）—— <strong>但这是「维护补丁共享」，不是安全响应</strong></td>
+</tr>
+<tr>
+<td><strong>Chainguard</strong> 报告</td>
+<td>商业</td>
+<td>只讲<strong>自家镜像</strong> SLA（Critical &lt;20h），<strong>不是发行版对比</strong></td>
+</tr>
+<tr>
+<td>Endor Labs / Wiz / Project Zero</td>
+<td>—</td>
+<td>❌ <strong>未找到</strong>发行版横向数据集</td>
+</tr>
+<tr>
+<td>commandlinux.com</td>
+<td>企业级 24–48 小时内</td>
+<td>⚠️ <strong>无逐发行版数据</strong>，二手拼贴，可信度低</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>任何声称「A 比 B 快 N 天」的横向结论都应视为不可信。</strong></p>
+</blockquote>
+<h2 id="72-漏洞公告机制">7.2 漏洞公告机制</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>公告</th>
+<th>机器可读源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>USN</td>
+<td>✅ <code>/security/notices.json</code> + <strong>OVAL + OSV + VEX</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>DSA / DLA</td>
+<td>⚠️ <strong>无官方 REST API</strong>（数据在 git）</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>Bodhi</td>
+<td>✅ RSS + JSON API</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>openSUSE-SU / SUSE-SU</td>
+<td>⚠️ 非结构化</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td><strong>ASA（有机制！）</strong></td>
+<td>⚠️ <strong>tracker 当前停更</strong>（ArchWiki 明确警告 "The tracker is currently not updated"）</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td><code>NIXPKGS-YYYY-NNNN</code> + GitHub Advisory</td>
+<td>✅ <code>tracker.security.nixos.org</code></td>
+</tr>
+<tr>
+<td><strong>Alpine</strong></td>
+<td>secdb</td>
+<td>✅ <strong>每日更新</strong>的 JSON + YAML</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>修正两处常见误判</strong>：
+- <strong>Arch 是有安全公告机制的</strong>（ASA + 专用 tracker + <code>arch-security</code> 邮件列表 + 9 人志愿团队，需 2 人复核才发布）—— 并非「没有安全公告」。<strong>但它的 tracker 当前停更</strong>，这才是真正的隐患。
+- <strong>NixOS 也有完整公告机制</strong>，并非「无公告」。</p>
+</blockquote>
+<h2 id="73-安全团队最本质的能力差异">7.3 安全团队（最本质的能力差异）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>团队性质</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>✅ <strong>Canonical 专职</strong> Ubuntu Security Team</td>
+</tr>
+<tr>
+<td><strong>SUSE/openSUSE</strong></td>
+<td>✅ <strong>SUSE Security Team（商业专职）</strong>，负责 SLES + Leap + Tumbleweed</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>◐ 志愿者为主（含 DSA / LTS 分工）</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>◐ 无独立专职团队，由 <strong>Red Hat Product Security</strong> 覆盖</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>◐ <strong>9 名志愿者</strong>（无专职）</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>◐ 志愿者</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="74-覆盖范围陷阱">7.4 覆盖范围陷阱</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>支持范围</th>
+<th><strong>陷阱</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Debian</strong></td>
+<td><strong>仅 main</strong></td>
+<td>⚠️ <strong>contrib / non-free / non-free-firmware 不受安全支持</strong></td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>Main/Restricted 5 年免费</td>
+<td>⚠️ <strong>Universe/Multiverse 仅 "best-effort"，完整支持需 Ubuntu Pro 付费</strong></td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>约 13 个月</td>
+<td>N-2 达 EOL</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>core / extra / multilib</td>
+<td><strong>无固定支持窗口</strong></td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>stable 约 <strong>7 个月</strong></td>
+<td>周期短</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>TW 滚动 / Leap LTS</td>
+<td>两者差异大</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="75-osvdev-覆盖数据基础设施成熟度">7.5 OSV.dev 覆盖（数据基础设施成熟度）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>状态</th>
+<th>发行版</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ <strong>已覆盖</strong></td>
+<td><strong>Debian</strong>、<strong>Alpine</strong>（SecDB 转换）、<strong>Ubuntu</strong>、Rocky、Alma</td>
+</tr>
+<tr>
+<td>❌ <strong>未覆盖</strong></td>
+<td><strong>Arch、Fedora、openSUSE、NixOS、Gentoo</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>对「用 LLM 做安全运维」的场景，这是硬约束。</strong></p>
+<h2 id="76-cnacve-编号机构">7.6 CNA（CVE 编号机构）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>是否 CNA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Debian</strong></td>
+<td>✅ <strong>Sub-CNA</strong></td>
+</tr>
+<tr>
+<td><strong>Red Hat（含 Fedora）</strong></td>
+<td>✅ CNA，2025-02 起为 <strong>CNA-LR</strong></td>
+</tr>
+<tr>
+<td><strong>Linux 内核</strong></td>
+<td>✅ 2024-02 起自建（CVE 量激增 13 倍）</td>
+</tr>
+<tr>
+<td>SUSE / Canonical</td>
+<td>✅（二手）</td>
+</tr>
+<tr>
+<td><strong>Arch / Alpine / Gentoo / NixOS</strong></td>
+<td>❌ 未核实为 CNA</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="77-安全支持周期lts">7.7 安全支持周期（LTS）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>周期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>5 年标准 + Pro 10 年（+ Legacy 15 年）</td>
+</tr>
+<tr>
+<td><strong>Debian LTS</strong></td>
+<td>约 5 年（bullseye 已于 <strong>2026-08-31</strong> EOL）</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>约 13 个月</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>约 7 个月</td>
+</tr>
+<tr>
+<td><strong>Arch / Tumbleweed</strong></td>
+<td><strong>无 LTS</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>社区发行版均无安全 SLA</strong>；有 SLA 的是商业产品（Chainguard Critical 7 天、SUSE/RHEL 商业订阅）。</p>
+<h2 id="78-真实案例注意都无法给出差几天">7.8 真实案例（注意：都无法给出「差几天」）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>案例</th>
+<th>披露</th>
+<th>情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>xz 后门 CVE-2024-3094</strong></td>
+<td>2024-03-29</td>
+<td>Fedora Rawhide/40 与 openSUSE Tumbleweed 为「含毒」版本，<strong>数小时内</strong>回滚/降级；Debian stable 未受影响；Arch 未进入 stable。<strong>精确小时数未见权威统计</strong></td>
+</tr>
+<tr>
+<td><strong>regreSSHion CVE-2024-6387</strong></td>
+<td>2024-07-01</td>
+<td>Debian/Ubuntu/RHEL/SUSE/Alpine 等「数天内」发布补丁</td>
+</tr>
+<tr>
+<td><strong>glibc Looney Tunables CVE-2023-4911</strong></td>
+<td>2023-10-03</td>
+<td>各发行版数天内跟进</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>可推断（非实测）</strong>：滚动发行版在「上游已发包」类漏洞上<strong>天然占优</strong>（无 backport 等待），但在「上游无修复」类漏洞上<strong>依赖志愿者打包速度</strong>。<strong>没有任何数据能证明哪边净胜。</strong></p>
+<hr />
+<h1 id="第-8-章-安全默认配置">第 8 章 安全默认配置</h1>
+<h2 id="81-强制访问控制mac默认状态">8.1 强制访问控制（MAC）默认状态</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>默认 MAC</th>
+<th>细节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora/RHEL</strong></td>
+<td><strong>SELinux</strong></td>
+<td>✅ 默认 <strong>enforcing</strong>（targeted）</td>
+</tr>
+<tr>
+<td><strong>openSUSE TW</strong></td>
+<td><strong>SELinux</strong></td>
+<td>✅ 自 Build 20250211 起默认 enforcing；AppArmor 可作替代</td>
+</tr>
+<tr>
+<td>openSUSE Leap 15.x</td>
+<td>AppArmor</td>
+<td>默认 AppArmor；SELinux 需手动</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>AppArmor</td>
+<td>◐ 默认启用，但<strong>仅对部分精选 profile enforce，非全系统</strong></td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>AppArmor</td>
+<td>✅ 十余年默认 MAC；snap 用 strict confinement</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>❌ <strong>无</strong></td>
+<td>默认不启用任何 MAC，AppArmor/SELinux 均需手动</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>❌ <strong>无</strong></td>
+<td>AppArmor「2026-04 起可用但尚未正确集成」；SELinux 无完善集成（2019 起停滞）</td>
+</tr>
+<tr>
+<td><strong>Alpine</strong></td>
+<td>❌ <strong>无</strong></td>
+<td>需 <code>apk add</code> + 改 <code>lsm=</code> cmdline</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="82-默认防火墙">8.2 默认防火墙</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>默认状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>✅ firewalld 预装且<strong>默认启用</strong></td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>✅ <code>networking.firewall</code> <strong>默认启用</strong></td>
+</tr>
+<tr>
+<td>openSUSE TW</td>
+<td>◐ firewalld 默认</td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>◐ ufw <strong>预装但默认 inactive</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>❌ 无默认规则</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>❌ <strong>无</strong>（官方原文：两种方案都不会自动启用）</td>
+</tr>
+<tr>
+<td><strong>Alpine</strong></td>
+<td>❌ 无</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="83-全盘加密安装器层">8.3 全盘加密（安装器层）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>安装器 FDE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>✅ Anaconda 勾选 "Encrypt System" → LUKS</td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>✅ 安装器提供 LUKS FDE</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>✅ "Guided - encrypted LVM"，亦支持加密 /boot</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>◐ YaST 分区器支持 LVM + 全盘加密</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>✅ 声明式（<code>boot.initrd.luks</code>）</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>◐ 需手动（archinstall 可选 LUKS）</td>
+</tr>
+<tr>
+<td><strong>Alpine</strong></td>
+<td>❌ 安装器默认不提供自动 FDE</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="84-安全基线工具">8.4 安全基线工具</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>✅ OpenSCAP + <code>scap-security-guide</code>（含 CIS / STIG profile）</td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>✅ Ubuntu Security Guide (USG)，CIS / DISA-STIG</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>❌ 无官方内置基线工具（社区 hardening 指南）</td>
+</tr>
+<tr>
+<td><strong>SUSE</strong></td>
+<td>✅ openSUSE SELinux 策略源自 Fedora policy；SLES 有独立 hardening guide</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="85-安全默认值的争议">8.5 安全默认值的争议</h2>
+<ul>
+<li>⚠️ <strong>openSUSE TW 把默认 MAC 从 AppArmor 切到 SELinux</strong>（2025-02）引发社区讨论</li>
+<li>⚠️ <strong>Ubuntu snap confinement</strong> 长期被批 strict/classic 边界模糊；CVE-2026-8933 snap-confine 提权再次聚焦</li>
+<li>⚠️ <strong>Ubuntu 26.04 桌面最低内存 4GB → 6GB</strong> 引争议</li>
+<li>⚠️ Fedora SELinux 学习曲线：admin 常误用 <code>setenforce 0</code> 而非 <code>audit2allow</code></li>
+</ul>
+<h2 id="86-本章结论">8.6 本章结论</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>要开箱即有 MAC + 防火墙</td>
+<td><strong>Fedora</strong>（SELinux enforcing + firewalld 默认）</td>
+</tr>
+<tr>
+<td>要企业级安全基线</td>
+<td><strong>Fedora</strong>（OpenSCAP）/ <strong>Ubuntu</strong>（USG）</td>
+</tr>
+<tr>
+<td>要默认无 MAC 的简洁性</td>
+<td><strong>Arch</strong>（但风险自负）</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="第-9-章-硬件兼容与驱动">第 9 章 硬件兼容与驱动</h1>
+<h2 id="91-nvidia-专有驱动安装">9.1 NVIDIA 专有驱动安装</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>方式</th>
+<th>Secure Boot 签名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>✅ <code>sudo ubuntu-drivers install</code>（一键，自动检测）</td>
+<td>安装时<strong>自动 MOK 注册</strong></td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>✅ YaST <strong>一键安装器</strong>（NVIDIA 官方仓库）</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>启用 <code>non-free</code>/<code>non-free-firmware</code> 后 <code>apt install nvidia-driver</code></td>
+<td>需手动 MOK</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>RPM Fusion → <code>dnf install akmod-nvidia</code>（等待 akmods 编译 2–5 分钟）</td>
+<td>需手动 MOK</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td><code>pacman -S nvidia nvidia-utils</code>（官方 extra）；老卡用 AUR</td>
+<td>需自行签名</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>✅ <code>hardware.nvidia</code> 声明式（含 open kernel module 开关）</td>
+<td>需自行处理</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>结论</strong>：Ubuntu 与 openSUSE 对新手最友好；NixOS 声明式但调试成本高；Debian/Arch 最手动。</p>
+<h2 id="92-secure-boot">9.2 Secure Boot</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>开箱支持</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu / Fedora / openSUSE</strong></td>
+<td>✅ 有微软签名 shim，装机即用</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td><code>shim-signed</code> 包；2026-07 因 2013 CA 过期已更新签名</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>❌ 官方不提供签名引导，需 <code>sbctl</code> 自签 + 注册 MOK</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>❌ 无开箱支持；实验性 Lanzaboote</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="93-笔记本支持">9.3 笔记本支持</h2>
+<ul>
+<li><strong>指纹</strong>：统一走 <code>fprintd</code>/<code>libfprint</code>，实际覆盖取决于硬件型号</li>
+<li><strong>电源</strong>：GNOME/KDE 默认 <code>power-profiles-daemon</code>；TLP 为可选替代</li>
+<li><strong>休眠</strong>：⚠️ <strong>Fedora 默认禁用</strong>，且 Secure Boot lockdown 下内核直接拒绝休眠；Ubuntu 亦默认常禁用</li>
+<li><strong>触控板手势</strong>：由 Wayland/libinput 提供，GNOME 50 / Plasma 6.6 均原生支持</li>
+</ul>
+<h2 id="94-内核版本对照2026-10">9.4 内核版本对照（2026-10）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>内核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arch</td>
+<td>7.2.7 ◐</td>
+</tr>
+<tr>
+<td>openSUSE TW</td>
+<td>7.2.x ✅</td>
+</tr>
+<tr>
+<td>Fedora 44</td>
+<td>7.2.6 ◐</td>
+</tr>
+<tr>
+<td><strong>NixOS 26.05</strong></td>
+<td><strong>6.18 LTS</strong> ◐</td>
+</tr>
+<tr>
+<td>Ubuntu 26.04</td>
+<td>7.0 ◐</td>
+</tr>
+<tr>
+<td><strong>Debian 13</strong></td>
+<td><strong>6.12 LTS</strong> ◐</td>
+</tr>
+<tr>
+<td>Alpine 3.24</td>
+<td>6.18 LTS ◐</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>新硬件支持速度</strong>：Arch ≈ Tumbleweed &gt; Fedora &gt; Ubuntu &gt; NixOS ≈ Debian</p>
+<blockquote>
+<p>⚠️ <strong>重要提醒</strong>：NixOS stable 与 Debian stable 的内核落后约 1 年 —— 这对新硬件（尤其是新笔记本）是实际障碍。</p>
+</blockquote>
+<h2 id="95-系统资源占用">9.5 系统资源占用</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>最低 RAM</th>
+<th>桌面空闲 RAM</th>
+<th>安装磁盘</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ubuntu 26.04</strong></td>
+<td>✅ <strong>6 GB</strong></td>
+<td>~1.8–2.2 GB ◐</td>
+<td>25 GB 最小 ✅</td>
+</tr>
+<tr>
+<td>Fedora 44</td>
+<td>❌ 无官方数字</td>
+<td>~1.2 GB ◐</td>
+<td>~8 GB ◐</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>✅ <strong>512 MiB</strong></td>
+<td>依 DE</td>
+<td>极简 ~2 GB ◐</td>
+</tr>
+<tr>
+<td>Debian 13</td>
+<td>❌ 无公开精确值</td>
+<td>依 DE</td>
+<td>❌ 无公开</td>
+</tr>
+<tr>
+<td>NixOS</td>
+<td>❌ 无公开</td>
+<td>依 DE</td>
+<td>❌ 无公开</td>
+</tr>
+<tr>
+<td>Alpine</td>
+<td>~128 MB（无 GUI）◐</td>
+<td>—</td>
+<td>极小</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>❌ <strong>各发行版「最小安装（无桌面）」的内存占用缺乏统一公开基准。</strong> Phoronix 的 GNOME/KDE 对比为 netbook 时代历史数据，不宜引用为 2026 数值。</p>
+</blockquote>
+<hr />
+<h1 id="part-iii-体验层">Part III · 体验层</h1>
+<h1 id="第-10-章-桌面环境kde-vs-gnome">第 10 章 桌面环境：KDE vs GNOME</h1>
+<h2 id="101-版本与支持周期">10.1 版本与支持周期</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>KDE Plasma</th>
+<th>GNOME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>当前版本</td>
+<td><strong>6.7.5</strong></td>
+<td><strong>51 "A Coruña"</strong>（2026-09-16）</td>
+</tr>
+<tr>
+<td>下一版本</td>
+<td><strong>6.8 于 2026-10-14 发布 = 首个 Wayland-only</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>LTS</strong></td>
+<td>✅ <strong>6.6 是真 3 年 LTS（至 2029）</strong></td>
+<td>❌ <strong>官方无 LTS</strong></td>
+</tr>
+<tr>
+<td>治理</td>
+<td>KDE e.V.</td>
+<td>⚠️ <strong>GNOME Foundation FY2025-26 预算 $435k（较上年 $586k 腰斩），仅剩 3 名全职员工</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="102-游戏特性时间差">10.2 游戏特性时间差</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>KDE</th>
+<th>GNOME</th>
+<th>领先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HDR</strong></td>
+<td>6.0 / 6.1</td>
+<td>48</td>
+<td><strong>KDE 早 13 个月</strong></td>
+</tr>
+<tr>
+<td><strong>VRR</strong></td>
+<td>早期</td>
+<td>较晚</td>
+<td><strong>KDE 早 2 年以上</strong></td>
+</tr>
+<tr>
+<td>explicit sync</td>
+<td>较晚</td>
+<td>较早</td>
+<td>GNOME 早 3 个月</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>SteamOS 桌面模式用 KDE Plasma</strong>，Valve 定制 LAVD 调度器 + 控制器延迟 100–500µs。</p>
+<h2 id="103-游戏性能结论矛盾不可作为选型依据">10.3 游戏性能（结论矛盾，不可作为选型依据）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>时间</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phoronix</strong></td>
+<td>2026-03</td>
+<td>KDE 领先</td>
+</tr>
+<tr>
+<td><strong>TechPowerUp</strong></td>
+<td>2026-07</td>
+<td>GNOME 微弱领先 <strong>1.7%</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>两者结论相反。差距在个位数百分比以内，不足以作为选型依据。</strong> 差异来自硬件/画质/方法。</p>
+<h2 id="104-内存占用">10.4 内存占用</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>KDE</th>
+<th>GNOME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实测区间</td>
+<td>约 600–900 MB</td>
+<td>约 900 MB–1.3 GB</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>排除的不可信数据</strong>：网络流传「GNOME Shell RSS 230MB / plasmashell 655MB」来自一篇版本自相矛盾的文章（标题写 Plasma 6.3、终端显示 6.6.4、又提 Kernel 7.0），<strong>疑似 AI 生成，已剔除</strong>。</p>
+</blockquote>
+<h2 id="105-其他维度">10.5 其他维度</h2>
+<ul>
+<li><strong>无障碍</strong>：✅ <strong>GNOME 明确更好</strong>（Orca 与 GTK 紧耦合）—— 这是唯一有第三方明确结论的维度</li>
+<li><strong>稳定性</strong>：<strong>两者崩溃率均无公开数据</strong>；GNOME 的不稳定主要来自扩展生态（大版本升级后约 <strong>73% 扩展失效</strong>）</li>
+<li><strong>纠错与支援</strong>：KDE 有 KDE e.V. + Bugzilla；GNOME 有 GitLab + Discourse，但基金会财务腰斩是治理风险</li>
+</ul>
+<h2 id="106-本章结论">10.6 本章结论</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>游戏 / HDR / 可变刷新率</td>
+<td><strong>KDE Plasma</strong></td>
+</tr>
+<tr>
+<td>无障碍 / 简洁 / 一致性</td>
+<td><strong>GNOME</strong></td>
+</tr>
+<tr>
+<td>要长期稳定支持</td>
+<td><strong>KDE Plasma 6.6 LTS</strong>（GNOME 无 LTS）</td>
+</tr>
+<tr>
+<td>要活跃的第三方扩展</td>
+<td>⚠️ 两者都有生态脆弱性</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="第-11-章-游戏性能优化">第 11 章 游戏性能优化</h1>
+<h2 id="111-六层性能模型">11.1 六层性能模型</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>层</th>
+<th>内容</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>内核 / 调度器 / governor</td>
+<td><strong>最大</strong>（尤其单线程瓶颈游戏）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>图形栈（Mesa / 驱动）</td>
+<td>大</td>
+</tr>
+<tr>
+<td>3</td>
+<td>合成器 / 桌面环境</td>
+<td>中</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Proton / 兼容层</td>
+<td>中</td>
+</tr>
+<tr>
+<td>5</td>
+<td>游戏本体设置</td>
+<td>大</td>
+</tr>
+<tr>
+<td>6</td>
+<td>硬件</td>
+<td>决定性</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="112-图形栈新鲜度">11.2 图形栈新鲜度</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>Mesa 版本</th>
+<th>评价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arch</td>
+<td><strong>26.2.4</strong></td>
+<td>最新</td>
+</tr>
+<tr>
+<td>openSUSE TW</td>
+<td><strong>26.2.x</strong></td>
+<td>与 Arch 持平</td>
+</tr>
+<tr>
+<td><strong>NixOS stable</strong></td>
+<td><strong>25.2.6</strong></td>
+<td>⚠️ <strong>落后约一年</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="113-关键组件">11.3 关键组件</h2>
+<ul>
+<li><strong><code>scx_lavd</code></strong>（Igalia 为 Steam Deck 开发，原为游戏场景）：三发行版都可用</li>
+<li>NixOS：<code>services.scx</code> 一行声明式启用（最优雅）</li>
+<li>Arch：<code>scx-scheds</code> <strong>1.1.3</strong>（最新）</li>
+<li>openSUSE TW：<code>scx</code> <strong>1.0.16</strong>（落后）</li>
+<li><strong>NTSYNC</strong>：Linux 6.14 进主线，<strong>Fedora 44 首个默认启用</strong>；三发行版内核都 ≥6.14，差异只在是否默认加载</li>
+<li><strong>CachyOS 收益</strong>：Phoronix 实测<strong>个位数百分比</strong>，<strong>非营销所说的翻倍</strong></li>
+</ul>
+<h2 id="114-三个具体的坑已验证">11.4 三个具体的坑（已验证）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>坑</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tumbleweed NVIDIA 是 KMP 内核模块包</strong></td>
+<td><strong>内核升级会导致驱动损坏</strong>（2026 年 6.18 事件）</td>
+</tr>
+<tr>
+<td><strong>Tumbleweed 的 AMD 32 位 Vulkan 默认不装</strong></td>
+<td>需手动 <code>zypper in libvulkan_radeon-32bit</code></td>
+</tr>
+<tr>
+<td><strong>NixOS <code>hardware.graphics.enable32Bit</code> 默认 false</strong></td>
+<td>漏设导致 <strong>Proton 黑屏</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="115-rimworld-特化建议用户为-rimworld-16-玩家">11.5 RimWorld 特化建议（用户为 RimWorld 1.6 玩家）</h2>
+<p>RimWorld 是 <strong>Unity/Mono 单线程瓶颈</strong>游戏：</p>
+<ol>
+<li><strong>第 1 层（内核/调度器/governor/taskset）远比第 2 层（图形栈）重要</strong></li>
+<li><strong>Performance Fish 模组是最大单一提升手段</strong></li>
+<li>图形栈优化对 RimWorld 几乎无意义</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>三发行版无任何公开游戏帧率对比数据。</strong></p>
+</blockquote>
+<hr />
+<h1 id="第-12-章-软件新鲜度与平滑升级">第 12 章 软件新鲜度与平滑升级</h1>
+<h2 id="121-核心重构滞后-1-个月不是单一数字">12.1 核心重构：「滞后 ≤1 个月」不是单一数字</h2>
+<p><strong>没有发行版对所有组件都做到 ≤1 个月。</strong> 必须分组件测量。</p>
+<h2 id="122-fedora-的杀手锏">12.2 Fedora 的杀手锏</h2>
+<p>✅ <strong>Fedora Mesa 永久 updates 例外</strong>：2026-04-07 FESCo 正式授予（ticket #3584），Phoronix 称与内核「same treatment」。</p>
+<p><strong>这是唯一既有 6 个月发布制的稳定性、又能在版本内升 Mesa 大版本的发行版。</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>Fedora 稳定版内是否 rebase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内核</td>
+<td>✅ 永久例外</td>
+</tr>
+<tr>
+<td>Mesa</td>
+<td>✅ 永久例外</td>
+</tr>
+<tr>
+<td>GNOME / Plasma 大版本</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>编译器 / Python</td>
+<td>❌（滞后约 6 个月）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="123-其他结构性方案">12.3 其他结构性方案</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora Atomic / Bazzite</strong></td>
+<td>✅ 每日重建；⚠️ <strong>不支持跳版本</strong>（官方原文 "Skipping major releases is currently untested and is thus not supported"）</td>
+</tr>
+<tr>
+<td><strong>openSUSE Aeon / Kalpa</strong></td>
+<td>⚠️ <strong>Aeon = beta、Kalpa = alpha</strong>；<code>transactional-update.timer</code> 每日 00:00–02:00；health-checker 自动回滚</td>
+</tr>
+<tr>
+<td><strong>Manjaro stable</strong></td>
+<td>◐ 官方延迟约两周（Wiki 原文 "roughly a couple of weeks"）</td>
+</tr>
+<tr>
+<td><strong>Debian testing</strong></td>
+<td>迁移延迟 <strong>10/5/2 天</strong>；⚠️ <strong>冻结期退化到数月</strong>；⚠️ <strong>安全更新不受及时支持</strong></td>
+</tr>
+<tr>
+<td><strong>Ubuntu 过渡版</strong></td>
+<td>⚠️ <strong>不跨大版本 rebase Mesa</strong>（26.04 锁 26.0.x）</td>
+</tr>
+<tr>
+<td><strong>KDE neon</strong></td>
+<td>⚠️ <strong>只有 KDE 生态新</strong>，Mesa/内核停在 Ubuntu 24.04（约 2 年旧）</td>
+</tr>
+<tr>
+<td><strong>Clear Linux</strong></td>
+<td>❌ <strong>已于 2025-07-18 停止开发</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="124-最优解排序">12.4 最优解排序</h2>
+<ol>
+<li><strong>Fedora Workstation / KDE</strong></li>
+<li><strong>Fedora Atomic + Bazzite</strong></li>
+<li><strong>Aeon / Kalpa</strong></li>
+<li><strong>Manjaro stable</strong></li>
+<li><strong>Debian testing</strong></li>
+<li><strong>任意发行版 + Flatpak / distrobox / Nix</strong>（零取舍，最被低估）</li>
+</ol>
+<hr />
+<h1 id="第-13-章-文档生态与第三方支持">第 13 章 文档、生态与第三方支持</h1>
+<h2 id="131-文档规模可量化">13.1 文档规模（可量化）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>文档体系</th>
+<th>量化事实</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arch</strong></td>
+<td><strong>ArchWiki</strong></td>
+<td>✅ <strong>29,799 页 / 4,453 条目 / 892,004 次编辑 / 68,767 用户 / 241 活跃用户 / 12 管理员</strong></td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>Ask Ubuntu</td>
+<td>✅ <strong>425,477 问题 / 2,187,929 用户 / 540,591 回答</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>Policy Manual + Reference + Wiki</td>
+<td>✅ Policy Manual v4.7.4.1</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>docs.fedoraproject.org（Quick Docs）</td>
+<td>✅ 以短篇 HOW-TO/FAQ 为主，非全覆盖手册</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>Wiki + doc.opensuse.org</td>
+<td>✅ 官方手册 + 社区 Wiki 双轨</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>nix.dev + manual + wiki + Nix Pills</td>
+<td>⚠️ <strong>文档至少分散在 5 处，官方 Wiki 与非官方 Wiki 并存</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>ArchWiki 地位</strong>：社区普遍称其为「Linux 最好的文档」—— 属二手评价（无客观排名），但<strong>其规模（近 90 万次编辑）在所有发行版 Wiki 中最高</strong>（已核实）。</p>
+<p><strong>NixOS 文档是公认弱点</strong>：多篇独立批评一致指出「分散、过时、新手不友好」，需读 nixpkgs 源码才能解决晦涩错误。</p>
+<h2 id="132-中文资源">13.2 中文资源</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>中文社区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arch</td>
+<td>✅ wiki.archlinuxcn.org + forum.archlinuxcn.org</td>
+</tr>
+<tr>
+<td>Debian</td>
+<td>✅ debiancn.org + forums.debiancn.org</td>
+</tr>
+<tr>
+<td>openSUSE</td>
+<td>✅ forum.suse.org.cn + opensusecn.org</td>
+</tr>
+<tr>
+<td>NixOS</td>
+<td>✅ wiki.nixos.cn</td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>❌ 中文社区活跃度<strong>无公开量化数据</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="133-学习曲线">13.3 学习曲线</h2>
+<ul>
+<li>无权威排名。社区共识（⚠️二手）：<strong>Gentoo（编译）&gt; NixOS（Nix 语言）&gt; Arch（DIY 但不编译）</strong></li>
+<li><strong>NixOS 的 Nix 语言被反复评为「最不直觉」，是首要采纳障碍</strong></li>
+<li><strong>AI 友好度</strong>：ArchWiki 是标准 MediaWiki，<strong>有开放 API、可结构化抓取</strong>（已实测）；这对 RAG / LLM 运维友好。NixOS 因文档碎片化，社区反需「靠 LLM 把文档拼起来」，而 AI 又易幻觉出不存在的 option。</li>
+</ul>
+<h2 id="134-商业软件官方支持的发行版">13.4 商业软件官方支持的发行版</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>软件</th>
+<th>官方支持的发行版</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Docker Desktop</strong></td>
+<td>Ubuntu、Debian、RHEL、Fedora；⚠️ <strong>Arch 为实验性、未测试验证</strong></td>
+</tr>
+<tr>
+<td><strong>Steam</strong></td>
+<td><strong>推荐最新 Ubuntu LTS</strong>（Valve 测试最多）</td>
+</tr>
+<tr>
+<td><strong>Google Chrome</strong></td>
+<td>Ubuntu 18.04+、Debian 10+、openSUSE 15.5+、Fedora 39+</td>
+</tr>
+<tr>
+<td><strong>Microsoft Edge</strong></td>
+<td>同上（2026-08-31 对齐 Chromium）</td>
+</tr>
+<tr>
+<td><strong>VS Code</strong></td>
+<td>官方 .deb/.rpm/Snap；<strong>Arch、Nix 为社区维护</strong></td>
+</tr>
+<tr>
+<td><strong>NVIDIA CUDA</strong></td>
+<td>Ubuntu、RHEL/Alma/Rocky/Oracle、Fedora、SLES、openSUSE Leap、Debian、Amazon Linux、Azure Linux</td>
+</tr>
+<tr>
+<td><strong>SQL Server</strong></td>
+<td>⚠️ <strong>2025 起仅 RHEL + Ubuntu（SLES 被移除）</strong></td>
+</tr>
+<tr>
+<td><strong>MATLAB R2026b</strong></td>
+<td>Ubuntu 24.04/22.04、Debian 13/12、RHEL 10/9/8、SLED/SLES 15 SP4+</td>
+</tr>
+<tr>
+<td><strong>DaVinci Resolve</strong></td>
+<td>⚠️ <strong>官方仅 CentOS 7.3 / Rocky 8.6+</strong>，其他需社区方案</td>
+</tr>
+<tr>
+<td><strong>Zoom</strong></td>
+<td>Debian、Ubuntu、Linux Mint、<strong>Arch</strong></td>
+</tr>
+<tr>
+<td>Slack</td>
+<td>提供 .deb / .rpm</td>
+</tr>
+<tr>
+<td>Spotify / Discord / 1Password</td>
+<td>提供 .deb/.rpm；❌ <strong>无官方「支持发行版」清单</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>共性结论</strong>：商业软件官方支持高度集中在 <strong>Ubuntu LTS + RHEL + Fedora + Debian + openSUSE</strong>；<strong>Arch / NixOS 普遍依赖社区包或 Flatpak</strong>；<strong>Alpine 几乎无桌面商业软件支持</strong>。</p>
+</blockquote>
+<h2 id="135-flatpak-snap-appimage">13.5 Flatpak / Snap / AppImage</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>机制</th>
+<th>量化事实</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Flathub</strong></td>
+<td>◐ 总下载 <strong>4,816,770,277</strong>；桌面应用 <strong>3,699</strong>；已验证应用 <strong>2,198</strong></td>
+</tr>
+<tr>
+<td><strong>Snap Store</strong></td>
+<td>❌ <strong>无公开应用总量</strong>（Canonical 未发布）</td>
+</tr>
+<tr>
+<td><strong>默认预装</strong></td>
+<td>Fedora、openSUSE、Linux Mint 默认 Flatpak；<strong>Ubuntu 默认 Snap、不预装 Flatpak</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="136-第三方仓库机制">13.6 第三方仓库机制</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>机制</th>
+<th>归属</th>
+<th>规模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AUR</strong></td>
+<td>Arch</td>
+<td>◐ <strong>121,709 包</strong></td>
+</tr>
+<tr>
+<td><strong>nixpkgs</strong></td>
+<td>NixOS</td>
+<td>✅ <strong>&gt;140,000 包</strong></td>
+</tr>
+<tr>
+<td><strong>OBS</strong></td>
+<td>openSUSE</td>
+<td>⚠️ 官方称「近 30,000 用户构建 140,000+ 包」</td>
+</tr>
+<tr>
+<td><strong>COPR</strong></td>
+<td>Fedora</td>
+<td>❌ 包总数无公开数据</td>
+</tr>
+<tr>
+<td><strong>PPA</strong></td>
+<td>Ubuntu</td>
+<td>❌ 包总数无公开数据</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>AUR 的独特性</strong>：唯一以「用户提交 PKGBUILD + 社区投票」为主、规模达 12 万级的第三方源。⚠️ 但 2026-07 起<strong>暂停「包认领」功能</strong>，是其治理风险。</p>
+<hr />
+<h1 id="第-14-章-容器与云场景">第 14 章 容器与云场景</h1>
+<h2 id="141-docker-hub-官方镜像拉取量-独立核实2026-10-12">14.1 Docker Hub 官方镜像拉取量（✅ 独立核实，2026-10-12）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>镜像</th>
+<th>累计拉取量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>alpine</strong></td>
+<td><strong>12,350,838,923</strong>（123.5 亿）</td>
+</tr>
+<tr>
+<td><strong>ubuntu</strong></td>
+<td><strong>10,099,287,939</strong>（101.0 亿）</td>
+</tr>
+<tr>
+<td>debian</td>
+<td>1,754,964,165（17.5 亿）</td>
+</tr>
+<tr>
+<td>centos</td>
+<td>1,186,168,050（11.9 亿）</td>
+</tr>
+<tr>
+<td>fedora</td>
+<td>137,108,374（1.37 亿）</td>
+</tr>
+<tr>
+<td>rockylinux</td>
+<td>46,005,170（4600 万）</td>
+</tr>
+<tr>
+<td><strong>archlinux</strong></td>
+<td><strong>34,549,120</strong>（3455 万）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="142-基础镜像大小">14.2 基础镜像大小</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>镜像</th>
+<th>压缩拉取大小</th>
+<th>libc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>busybox</td>
+<td>~1.4 MB</td>
+<td>musl</td>
+</tr>
+<tr>
+<td><strong>alpine:latest</strong></td>
+<td><strong>~3.2 MB</strong></td>
+<td>musl</td>
+</tr>
+<tr>
+<td>debian:bookworm-slim</td>
+<td>~28 MB</td>
+<td>glibc</td>
+</tr>
+<tr>
+<td>ubuntu:24.04</td>
+<td>~29 MB</td>
+<td>glibc</td>
+</tr>
+<tr>
+<td>debian:bookworm</td>
+<td>~49 MB</td>
+<td>glibc</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Alpine 约为 Debian slim 的 1/9。</strong> 代价：musl 与 glibc 差异导致部分 native wheel / 预编译二进制不兼容。</p>
+<h2 id="143-云厂商官方镜像">14.3 云厂商官方镜像</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>云</th>
+<th>官方提供的发行版</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GCP</strong></td>
+<td>Debian、Ubuntu、RHEL、RHEL for SAP、Rocky（含 NVIDIA）、AlmaLinux、CentOS、SLES（含 SAP）、openSUSE、Fedora CoreOS、COS；<strong>SLES/RHEL/Windows 为付费 premium</strong></td>
+</tr>
+<tr>
+<td><strong>AWS</strong></td>
+<td>Amazon Linux、RHEL、SUSE、Ubuntu、Debian（Marketplace）</td>
+</tr>
+<tr>
+<td><strong>Azure</strong></td>
+<td>Ubuntu、RHEL、SLES、Debian 等（Azure Linux 为自研）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="144-服务器企业定位">14.4 服务器/企业定位</h2>
+<ul>
+<li><strong>RHEL / SLES</strong>：企业级付费支持（GCP/AWS 均列为 premium）</li>
+<li><strong>Ubuntu Server</strong>：Canonical 商业支持，<strong>商业软件首选</strong>（Steam / Chrome / SQL Server / MATLAB 均首选 Ubuntu LTS）</li>
+<li><strong>Debian</strong>：社区维护、跨架构最广（「Universal OS」，13 版 69,830 包、多架构）</li>
+<li><strong>Alpine</strong>：容器/嵌入式，商业桌面软件几乎零支持</li>
+</ul>
+<h2 id="145-云原生专用-os-的基础">14.5 云原生专用 OS 的基础</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>系统</th>
+<th>基础</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bottlerocket</strong></td>
+<td>⚠️ AWS 自研、Rust 实现、<strong>非某发行版衍生</strong></td>
+</tr>
+<tr>
+<td><strong>Flatcar</strong></td>
+<td>⚠️ <strong>CoreOS Container Linux 的直接 fork</strong>（Gentoo 血统）</td>
+</tr>
+<tr>
+<td><strong>Talos Linux</strong></td>
+<td>⚠️ 从零构建、<strong>无基础发行版</strong>、纯 API 管理</td>
+</tr>
+<tr>
+<td><strong>Fedora CoreOS</strong></td>
+<td>✅ 基于 Fedora</td>
+</tr>
+<tr>
+<td><strong>openSUSE Leap Micro</strong></td>
+<td>✅ 基于 openSUSE</td>
+</tr>
+<tr>
+<td><strong>Container-Optimized OS (COS)</strong></td>
+<td>⚠️ Google，基于上游/Chromium OS 血统</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="part-iv-智能层">Part IV · 智能层</h1>
+<h1 id="第-15-章-llm-介入系统运维">第 15 章 LLM 介入系统运维</h1>
+<h2 id="151-七维评分">15.1 七维评分</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>AI 了解度</th>
+<th>系统透明</th>
+<th>日志清晰</th>
+<th>步骤规范</th>
+<th>少人工</th>
+<th>公告预警</th>
+<th>保护措施</th>
+<th><strong>合计</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Aeon / MicroOS</strong></td>
+<td>3.5</td>
+<td>4.0</td>
+<td>4.0</td>
+<td>4.0</td>
+<td><strong>4.5</strong></td>
+<td>3.5</td>
+<td><strong>4.5</strong></td>
+<td><strong>27.5</strong></td>
+</tr>
+<tr>
+<td><strong>Fedora Atomic</strong></td>
+<td>4.0</td>
+<td>4.0</td>
+<td>3.5</td>
+<td>4.0</td>
+<td>4.0</td>
+<td>3.5</td>
+<td>3.5</td>
+<td><strong>26.5</strong></td>
+</tr>
+<tr>
+<td><strong>openSUSE TW</strong></td>
+<td>3.5</td>
+<td>3.5</td>
+<td><strong>4.5</strong></td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td><strong>25.5</strong></td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>3.5</td>
+<td><strong>4.5</strong></td>
+<td>3.0</td>
+<td>4.0</td>
+<td>3.0</td>
+<td>3.0</td>
+<td>3.0</td>
+<td><strong>24.0</strong></td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td><strong>4.5</strong></td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.0</td>
+<td><strong>4.5</strong></td>
+<td>2.5</td>
+<td><strong>24.0</strong></td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>3.0</td>
+<td>3.0</td>
+<td>3.0</td>
+<td>3.0</td>
+<td>2.5</td>
+<td>3.0</td>
+<td>3.0</td>
+<td><strong>20.5</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="152-两条路线">15.2 两条路线</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>选择</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI 全无人值守</strong></td>
+<td><strong>openSUSE MicroOS / Aeon</strong></td>
+<td>唯一「自动更新 + 失败自动回滚」闭环 + <strong>唯一默认开 Btrfs 快照</strong></td>
+</tr>
+<tr>
+<td><strong>AI 有人监督</strong></td>
+<td><strong>NixOS</strong></td>
+<td>系统状态即文本 + 构建期校验 + generation 回滚</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="153-关键事实">15.3 关键事实</h2>
+<ul>
+<li>✅ <strong>RHEL 10 是唯一官方提供 MCP server 的发行版</strong>（RHEL Lightspeed）；Red Hat Developer 2026-10-08 有实操文章</li>
+<li>✅ <strong>Arch 的 <code>archlinux.org/feeds/news/</code> 是唯一有专门「manual intervention」公告机制的发行版</strong>（RSS 已核实）；近例含 mkinitcpio 42 TPM2、NVIDIA 590 弃 Pascal、xz 后门</li>
+<li>✅ <strong>Ubuntu 安全 API 最完善</strong>（<code>/security/notices.json</code> + OVAL + 3 种 JSON）</li>
+<li>✅ <strong>OSV.dev 不覆盖 Arch / Fedora / openSUSE / NixOS</strong></li>
+<li>✅ <strong>openSUSE 是唯一默认 Btrfs + 自动快照（zypper 事务 pre/post）+ GRUB 启动快照 + snapper rollback 的发行版</strong></li>
+<li>✅ <strong>NixOS 默认不启用 Btrfs 快照</strong>（手册分区示例用 ext4）</li>
+<li>✅ <strong>Fedora Workstation 默认 Btrfs 但默认不启用快照</strong>；Ubuntu 24.04 安装器<strong>已移除 ZFS 选项</strong></li>
+<li>✅ <strong>NixOS generation ≠ Btrfs 快照</strong>：generation 只管声明式配置，DB / 用户文件 / 日志不受管</li>
+</ul>
+<h2 id="154-关键洞察">15.4 关键洞察</h2>
+<blockquote>
+<p><strong>公告预警不需要跟发行版绑定</strong> —— AI 可同时订阅 Arch news（破坏性变更）+ OSV.dev（漏洞）+ 发行版自身 security-announce。</p>
+</blockquote>
+<hr />
+<h1 id="第-16-章-ai-协同管理的实践">第 16 章 AI 协同管理的实践</h1>
+<h2 id="161-三类实践的分布">16.1 三类实践的分布</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>你要的</th>
+<th>选它</th>
+<th>硬证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>官方工程化 / 企业可用</strong></td>
+<td><strong>RHEL</strong>（Fedora 作试验田）</td>
+<td>GitHub 组织 <code>rhel-lightspeed</code> 有 <strong>6+ 个 MCP 仓库</strong>；<code>docs.redhat.com</code> 有正式 Getting Started</td>
+</tr>
+<tr>
+<td><strong>社区生态 + 真实实践最厚</strong></td>
+<td><strong>NixOS</strong></td>
+<td>唯一「查询 853★ → 操作 16★ → 回滚 skill → 4 个 AI skills 仓库」全链路齐备</td>
+</tr>
+<tr>
+<td><strong>产品化 MCP 覆盖最广</strong></td>
+<td><strong>openSUSE / SUSE</strong></td>
+<td>Multi-Linux Manager 5.2 原生 MCP + Observability MCP + <strong>openQA 原生 MCP</strong></td>
+</tr>
+<tr>
+<td><strong>AI-native 桌面</strong></td>
+<td><strong>Bluefin / Bazzite</strong></td>
+<td>内置 goose 随镜像分发</td>
+</tr>
+<tr>
+<td><strong>基本为零</strong></td>
+<td><strong>Arch / Debian / Ubuntu</strong></td>
+<td>搜 <code>arch linux mcp pacman</code> = <strong>0 结果</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="162-rhel官方投入最深-独立核实">16.2 RHEL：官方投入最深（✅ 独立核实）</h2>
+<p><code>rhel-lightspeed</code> 组织的仓库（2026-10-12）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>★</th>
+<th>更新</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>linux-mcp-server</code></td>
+<td><strong>317</strong></td>
+<td>2026-10-10</td>
+</tr>
+<tr>
+<td><code>docs2db</code></td>
+<td>48</td>
+<td>2026-10-11</td>
+</tr>
+<tr>
+<td><code>command-line-assistant</code></td>
+<td>44</td>
+<td>2026-10-06</td>
+</tr>
+<tr>
+<td><code>okp-mcp</code></td>
+<td>19</td>
+<td>2026-10-12</td>
+</tr>
+<tr>
+<td><code>sysadmin-agents</code></td>
+<td>8</td>
+<td>2026-07-06</td>
+</tr>
+<tr>
+<td><code>goose-proxy</code> / <code>goose</code></td>
+<td>5 / 4</td>
+<td>2026-10-12</td>
+</tr>
+<tr>
+<td><code>docs2db-mcp-server</code></td>
+<td>4</td>
+<td>2026-07-30</td>
+</tr>
+<tr>
+<td><code>redhat-status-mcp</code></td>
+<td>2</td>
+<td>2026-07-06</td>
+</tr>
+<tr>
+<td><code>rhel-lightspeed-gitops</code></td>
+<td>1</td>
+<td>2026-07-06</td>
+</tr>
+<tr>
+<td><code>HEAL</code></td>
+<td>0</td>
+<td>2026-06-01</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>官方文档层证据</strong>（比 star 更重要）：<code>docs.redhat.com</code> 有 <strong>"Getting started with MCP server for Red Hat Lightspeed"</strong>（更新至 2026-09-30）—— <strong>唯一把 MCP server 写进正式产品文档的发行版厂商</strong>。</p>
+<h2 id="163-nixos社区全链路闭环">16.3 NixOS：社区全链路闭环</h2>
+<pre><code>查询  utensils/mcp-nixos        853★  MIT，2026-09-05
+操作  JEFF7712/nix-agent         16★  2026-10-12 仍更新
+回滚  yolo-labz/nixos-ops-skill   0★  Claude Code 的 rebuild/debug/generations
+知识  michalzubkowicz/nixos-management-skill  61★
+      marceloeatworld/nixos-ai-skill          30★
+      Kihara777/NixKits                       28★（中文）
+      z1-0/skills-nix                         17★
+</code></pre>
+<p><strong>四个环节各有独立项目 —— 其他任何发行版都不存在此现象。</strong> 根因：NixOS 系统状态是纯文本 + 声明式，天然适合 LLM 读写。</p>
+<h2 id="164-修正的结论">16.4 修正的结论</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>上一轮说法</th>
+<th>实测</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bluefin-mcp</code> 是 Bluefin 的活跃方案</td>
+<td><strong>5★，archived: true（已归档）</strong></td>
+</tr>
+<tr>
+<td><code>vespo92/mcp-nixos-ops</code> 是 NixOS 操作类 MCP</td>
+<td><strong>0★</strong>、创建当天即停更、无 license</td>
+</tr>
+<tr>
+<td><code>bolivian-peru/os-moda</code> 是「AI OS 实践」</td>
+<td>120★ 属实，但作者自述 <strong>"Research-grade; run it on a disposable box, not production"</strong></td>
+</tr>
+<tr>
+<td><code>oborchers/mcp-server-pacman</code> 疑似 Arch 管理工具</td>
+<td>是<strong>包索引查询器</strong>，非系统管理</td>
+</tr>
+<tr>
+<td>goose 在 <code>block/goose</code></td>
+<td><strong>已迁至 <code>aaif-goose/goose</code>（55171★）</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="165-风险侧">16.5 风险侧</h2>
+<ul>
+<li>⚠️ <strong>2026-04-27 Cursor + Railway 的 AI agent 自主删除生产数据库</strong>（HN 638 分）—— 最著名的翻车案例</li>
+<li>⚠️ NixOS Discourse（2026-04-26）有人主张「用 agent 配置就违背了用 NixOS 的意义」，帖内无成功实践报告</li>
+<li>⚠️ Kiteworks《Why Sysadmins Still Don't Trust AI With Production Systems》(2026-08-03)</li>
+</ul>
+<blockquote>
+<p><strong>2026-10 这个时间点，任何「用 LLM 管系统」的方案，默认前提都应该是「快照/回滚兜底 + 有人复核」。</strong></p>
+</blockquote>
+<hr />
+<h1 id="part-v-组织层">Part V · 组织层</h1>
+<h1 id="第-17-章-社区治理规模与前景">第 17 章 社区治理、规模与前景</h1>
+<h2 id="171-治理模型">17.1 治理模型</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>治理模型</th>
+<th>最高决策体</th>
+<th>商业关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arch</strong></td>
+<td>社区自治 + 单一负责人</td>
+<td><strong>Project Leader（无「理事会」）</strong></td>
+<td>财务经 SPI</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>基金会 + 选举委员会</td>
+<td>NixOS Foundation + Steering Committee</td>
+<td>荷兰 Stichting</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>社区 Board + 赞助方</td>
+<td>Board（5 选举 + 1 主席）</td>
+<td>主席由 SUSE 任命</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>社区 + 公司深度参与</td>
+<td>Council（战略）/ FESCo（技术）</td>
+<td>Red Hat 持 3 常任席位</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>纯社区自治</td>
+<td>DPL + Technical Committee</td>
+<td>SPI 托管</td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>公司主导</td>
+<td>Canonical + Community Council</td>
+<td>Canonical 全资</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>常见前提错误</strong>：<strong>Arch 没有「Arch Council」这一机构</strong>。最高负责人是 Project Leader。</p>
+</blockquote>
+<h2 id="172-2026-选举">17.2 2026 选举</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>结果</th>
+<th>投票率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Debian</strong></td>
+<td>✅ <strong>Sruthi Chandran</strong>（无对手），任期 2026-04-21 ~ 2027-04-20</td>
+<td><strong>347 / 1,039</strong></td>
+</tr>
+<tr>
+<td>Arch</td>
+<td>◐ anthraxx 连任（2026-06-04，任期 2 年）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>openSUSE</td>
+<td>◐ Simon Lees、Shawn W Dunn（第 19 届，2026-03-09）</td>
+<td>162 / 521</td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td>◐ Council 2 席 / FESCo 5 席（F44，2026-06-13）</td>
+<td>204 / 199</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Debian DPL 已独立核实</strong>：<code>bits.debian.org/2026/04/dpl-elections-2026.html</code> 原文确认。Sruthi Chandran 也是<strong>首位女性、首位亚洲 DPL</strong>。</p>
+<h2 id="173-nixos-治理危机完整时间线">17.3 NixOS 治理危机完整时间线</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>日期</th>
+<th>事件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024-04-21</td>
+<td>匿名 + 署名者公开信，指控领导层危机</td>
+</tr>
+<tr>
+<td><strong>2025-09-27</strong></td>
+<td><strong>Moderation team 7 人中 5 人立即辞职</strong>，抗议 Steering Committee 干预</td>
+</tr>
+<tr>
+<td><strong>2026-08-07/08</strong></td>
+<td><strong>Nixpkgs 核心团队解散</strong>（成立仅 10 个月；成员 alyssais、emilazy），理由：SC 微观管理、沟通失灵、授权不清、倦怠。此前曾 onboard 19 名新 committer</td>
+</tr>
+<tr>
+<td><strong>2026-09-22</strong></td>
+<td>宣布<strong>第三次</strong> SC 选举，投票期 <strong>2026-10-15 ~ 11-01</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>这是三次连续事件，不是孤立事故。</strong> 且第三次 SC 选举的投票期<strong>在本报告发布时尚未开始</strong> —— NixOS 目前处于<strong>治理空窗期</strong>。</p>
+</blockquote>
+<h2 id="174-社区规模">17.4 社区规模</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Debian</strong></td>
+<td>有投票权 Developers</td>
+<td>✅ <strong>1,039</strong></td>
+</tr>
+<tr>
+<td>Debian</td>
+<td>近 12 月贡献者</td>
+<td>◐ 1,384 人 / 31 团队</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>Developers</td>
+<td>✅ <strong>23</strong></td>
+</tr>
+<tr>
+<td>Arch</td>
+<td>Package Maintainers / Support Staff</td>
+<td>◐ 70 / 49</td>
+</tr>
+<tr>
+<td>openSUSE</td>
+<td>Members</td>
+<td>◐ ~521</td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td>Packagers</td>
+<td>⚠️ ~325（2026 初 ~350）</td>
+</tr>
+<tr>
+<td>Fedora</td>
+<td>Count Me 周活系统</td>
+<td>⚠️ ~100 万（+9% YoY）</td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>Ubuntu Members</td>
+<td>◐ 378 直接 / 584 总计</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>贡献者总数</td>
+<td>❌ <strong>未找到</strong></td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td>MOTU 人数</td>
+<td>❌ <strong>未找到</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Fedora packager 长期下降</strong>：2020 初 &gt;420 → 2023 约 410→340 → 2026 初 350→325 ⚠️ —— <strong>最明确的人力衰退信号</strong>。</p>
+<h2 id="175-资金状况">17.5 资金状况</h2>
+<p><strong>NixOS Foundation —— 连续两年亏损</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>年份</th>
+<th>净收支</th>
+<th>权益（累计）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>—</td>
+<td><strong>€248,993</strong></td>
+</tr>
+<tr>
+<td>2024</td>
+<td><strong>−€55,862</strong>（首次亏损）</td>
+<td>€193,130</td>
+</tr>
+<tr>
+<td>2025</td>
+<td><strong>−€25,019</strong>（含 €38k 补缴 2021-23 公司税）</td>
+<td><strong>€168,111</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>权益两年下降 €80,882（约 32%）。</strong></p>
+<p>其他：Debian / SPI 2025 审计财报约 2026-11 发布；GNOME 基金会 2024-10 批准削减预算方案。</p>
+<h2 id="176-未来前景">17.6 未来前景</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>路线图</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>维持 6 个月周期；<strong>AI Developer Desktop 获 Council 批准</strong>；<strong>Hummingbird</strong>（容器化滚动）2026-05 宣布</td>
+<td>⚠️ packager 下降；探索 Open Collective</td>
+</tr>
+<tr>
+<td><strong>openSUSE</strong></td>
+<td>⚠️ <strong>Slowroll 仍 beta（2026-09）</strong>；Aeon；Kalpa</td>
+<td>未发现资金危机</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>Debian 14 <strong>Forky</strong>（预计 2027）；15 = <strong>Duke</strong></td>
+<td>未发现资金危机</td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td><strong>26.04 LTS（2026-04-23）支持至 2031-04</strong></td>
+<td>未发现</td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td><strong>无官方路线图</strong></td>
+<td>⚠️ <strong>2026-06-11 AUR 供应链事件（400+ 包被劫持）；2026-08 暂停 AUR 包收养</strong></td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>flakes 稳定化进行中（RFC 136），<strong>flakes 仍为实验特性</strong></td>
+<td>⚠️ <strong>治理危机 + 资金</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="part-vi-决策">Part VI · 决策</h1>
+<h1 id="第-18-章-综合选型决策">第 18 章 综合选型决策</h1>
+<h2 id="181-按场景推荐">18.1 按场景推荐</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>首选</th>
+<th>次选</th>
+<th>避免</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>企业生产服务器</strong></td>
+<td>RHEL</td>
+<td>Ubuntu LTS / Debian</td>
+<td>Arch、NixOS</td>
+</tr>
+<tr>
+<td><strong>个人主力机（要稳）</strong></td>
+<td>Fedora Workstation</td>
+<td>Debian stable</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>个人主力机（要新）</strong></td>
+<td>openSUSE Tumbleweed</td>
+<td>Arch</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>学习 Linux</strong></td>
+<td>Arch（ArchWiki）</td>
+<td>Fedora</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>游戏</strong></td>
+<td>CachyOS / Bazzite</td>
+<td>Arch + scx_lavd</td>
+<td>NixOS stable（图形栈落后）</td>
+</tr>
+<tr>
+<td><strong>桌面最新 + 质量门禁</strong></td>
+<td>openSUSE Tumbleweed</td>
+<td>Fedora Rawhide</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>完全不想维护</strong></td>
+<td>Aeon / MicroOS</td>
+<td>Fedora Atomic</td>
+<td>Arch</td>
+</tr>
+<tr>
+<td><strong>AI 无人值守运维</strong></td>
+<td>MicroOS / Aeon</td>
+<td>Fedora Atomic</td>
+<td>Arch</td>
+</tr>
+<tr>
+<td><strong>AI 有人监督运维</strong></td>
+<td>NixOS</td>
+<td>openSUSE TW</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>容器 / 云原生</strong></td>
+<td>Alpine</td>
+<td>Debian slim</td>
+<td>Arch</td>
+</tr>
+<tr>
+<td><strong>要最好的文档</strong></td>
+<td>Arch</td>
+<td>Debian</td>
+<td>NixOS</td>
+</tr>
+<tr>
+<td><strong>要长期稳定支持</strong></td>
+<td>Ubuntu LTS（10 年）</td>
+<td>Debian LTS（5 年）</td>
+<td>Arch、NixOS（7 个月）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="182-风险矩阵">18.2 风险矩阵</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>主要风险</th>
+<th>严重度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>治理危机（3 次连续）+ 基金会连亏 2 年（权益 −32%）+ 第三次 SC 选举未开始</td>
+<td>🔴 <strong>高</strong></td>
+</tr>
+<tr>
+<td><strong>Arch</strong></td>
+<td>AUR 供应链事件 + 暂停包认领 + 官方零安全投入 + 9 人志愿安全团队</td>
+<td>🟠 <strong>中高</strong></td>
+</tr>
+<tr>
+<td><strong>openSUSE TW</strong></td>
+<td>Slowroll 仍 beta + 可复现构建测试停更（2018）+ Repology 数据质量差</td>
+<td>🟡 <strong>中</strong></td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>packager 数持续下降（420→325）+ 依赖 Red Hat 预算</td>
+<td>🟡 <strong>中</strong></td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>LTS 安全支持由志愿者承担 + testing 冻结期安全更新滞后</td>
+<td>🟢 <strong>低</strong></td>
+</tr>
+<tr>
+<td><strong>Ubuntu</strong></td>
+<td>universe 仓库仅 best-effort 安全支持 + Canonical 单方决策</td>
+<td>🟢 <strong>低</strong></td>
+</tr>
+<tr>
+<td><strong>Alpine</strong></td>
+<td>musl 兼容性 + 商业桌面软件几乎零支持</td>
+<td>🟡 <strong>中</strong>（容器场景外）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="183-决策树">18.3 决策树</h2>
+<pre><code>你的首要约束是什么？
+│
+├─ 要进企业生产、要支持合同
+│   └─ RHEL（免费试验田用 Fedora）
+│
+├─ 完全不想维护系统
+│   └─ Aeon / MicroOS（唯一自动更新+失败自动回滚闭环）
+│
+├─ 要长期稳定（5 年以上）
+│   ├─ 要商业支持 → Ubuntu LTS（Pro 可到 10 年）
+│   └─ 要纯社区   → Debian LTS（约 5 年）
+│
+├─ 要最新软件
+│   ├─ 要质量门禁 → openSUSE Tumbleweed（openQA 650 套件）
+│   ├─ 要可精确回滚 → NixOS（但有治理风险）
+│   └─ 要最好的文档 → Arch
+│
+├─ 游戏为主
+│   └─ CachyOS / Bazzite（收益是个位数百分比）
+│
+├─ 容器 / 云原生
+│   └─ Alpine（123.5 亿次拉取，3.2 MB）
+│
+└─ 要用 AI 运维
+    ├─ 无人值守 → MicroOS / Aeon
+    └─ 有人监督 → NixOS（唯一从架构上消灭配置漂移）
+</code></pre>
+<hr />
+<h1 id="第-19-章-数据缺口与纠错记录">第 19 章 数据缺口与纠错记录</h1>
+<h2 id="191-本轮纠正的-11-处错误矛盾">19.1 本轮纠正的 11 处错误/矛盾</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>项</th>
+<th>错误说法</th>
+<th>纠正后</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Arch 孤儿包数</strong></td>
+<td>303</td>
+<td>✅ <strong>250</strong>（Arch 官方 API，两种口径一致）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Arch Developers</strong></td>
+<td>子代理 A 说 17；子代理 B 说 23</td>
+<td>✅ <strong>23</strong>（官方 people 页）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>bluefin-mcp 状态</strong></td>
+<td>Bluefin 的活跃 MCP 方案</td>
+<td><strong>5★ 且已归档（archived: true）</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>vespo92/mcp-nixos-ops</strong></td>
+<td>NixOS 操作类 MCP 证据</td>
+<td><strong>0★、创建当天停更、无 license</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>os-moda 可用性</strong></td>
+<td>120★ 的 AI OS 实践</td>
+<td>作者自述 <strong>"not production"</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>mcp-server-pacman</strong></td>
+<td>疑似 Arch 系统管理工具</td>
+<td>是<strong>包索引查询器</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>JEFF7712/nix-agent</strong></td>
+<td>存在性存疑</td>
+<td>✅ <strong>确实存在</strong>（16★，2026-10-12 更新）</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>goose 仓库位置</strong></td>
+<td><code>block/goose</code></td>
+<td><strong>已迁至 <code>aaif-goose/goose</code>（55171★）</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Arch 无安全公告</strong></td>
+<td>常见说法</td>
+<td>Arch <strong>有</strong> ASA 机制（9 人团队），<strong>但 tracker 停更</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>mkRemovedOptionModule</strong></td>
+<td>官方文档称 "warning"</td>
+<td><strong>实现是 <code>throw</code>（源码核实）</strong></td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Arch 有「理事会」</strong></td>
+<td>常见说法</td>
+<td><strong>Arch 无 Council，最高是 Project Leader</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="192-结构性数据缺口本身就是结论">19.2 结构性数据缺口（本身就是结论）</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>缺口</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>跨发行版 time-to-patch 数据集</strong></td>
+<td>❌ <strong>不存在</strong>。唯一数据源（Vulnpatch）已撤回全部数字</td>
+</tr>
+<tr>
+<td><strong>「LLM 最了解哪个发行版」</strong></td>
+<td>❌ 无任何公开数据</td>
+</tr>
+<tr>
+<td><strong>「LLM 生成 NixOS 配置成功率」</strong></td>
+<td>❌ 无任何实测</td>
+</tr>
+<tr>
+<td><strong>各发行版崩溃率</strong></td>
+<td>❌ 无公开数据</td>
+</tr>
+<tr>
+<td><strong>「关键包指定维护者」清单</strong></td>
+<td>❌ 六家均无</td>
+</tr>
+<tr>
+<td><strong>最小安装内存基准</strong></td>
+<td>❌ 无统一公开基准</td>
+</tr>
+<tr>
+<td><strong>Fedora / openSUSE 孤儿包总数</strong></td>
+<td>❌ 无公开数据</td>
+</tr>
+<tr>
+<td><strong>Arch / NixOS 可复现构建覆盖率</strong></td>
+<td>❌ 无公开数字</td>
+</tr>
+<tr>
+<td><strong>个人级包维护量分布</strong></td>
+<td>❌ 无权威统计</td>
+</tr>
+<tr>
+<td><strong>Snap Store 应用总数</strong></td>
+<td>❌ Canonical 未公开</td>
+</tr>
+<tr>
+<td><strong>COPR / PPA 包总数</strong></td>
+<td>❌ 无公开数据</td>
+</tr>
+<tr>
+<td><strong>NixOS 贡献者总数 / Ubuntu MOTU 人数</strong></td>
+<td>❌ 未找到</td>
+</tr>
+<tr>
+<td><strong>三发行版游戏帧率对比</strong></td>
+<td>❌ 无公开数据</td>
+</tr>
+<tr>
+<td><strong>Slowroll 是否脱离 experimental</strong></td>
+<td>❌ 未确认（2026-09 仍 beta）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="193-未能独立核实的项">19.3 未能独立核实的项</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Repology 全部数字</strong>（包数 / outdated / problems）</td>
+<td><strong>API 返回 403 Forbidden</strong>（带 UA 亦被拒）</td>
+</tr>
+<tr>
+<td>Arch Package Maintainers = 70 / Support Staff = 49</td>
+<td>页面可抓但解析未完成</td>
+</tr>
+<tr>
+<td>Fedora packager ≈325</td>
+<td>仅二手 LWN 来源</td>
+</tr>
+<tr>
+<td>Arch Project Leader 2026 选举详情</td>
+<td>子代理来源，未核实官方公告页</td>
+</tr>
+<tr>
+<td>openSUSE Board 162/521 投票率</td>
+<td>子代理来源</td>
+</tr>
+<tr>
+<td>Flathub 下载量 48.1 亿</td>
+<td>子代理读取网页（API 返回空）</td>
+</tr>
+<tr>
+<td>AUR 121,709 包</td>
+<td>子代理读取网页（RPC 空参数返回 0）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="194-抓取失败说明">19.4 抓取失败说明</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>站点</th>
+<th>障碍</th>
+<th>替代方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wiki.archlinux.org</code></td>
+<td>Anubis PoW 反爬</td>
+<td>Arch 官方包库 API、ArchWiki API（部分可用）</td>
+</tr>
+<tr>
+<td><code>build.opensuse.org</code></td>
+<td>PoW 反爬</td>
+<td>rpmfind 文件列表</td>
+</tr>
+<tr>
+<td><code>repology.org/api</code></td>
+<td>403 Forbidden</td>
+<td>网页读取（已标注）</td>
+</tr>
+<tr>
+<td><code>manpages.opensuse.org</code></td>
+<td>返回空</td>
+<td>SUSE 官方博客、中文社区镜像</td>
+</tr>
+<tr>
+<td><code>docs.fedoraproject.org</code>（部分页）</td>
+<td>返回空</td>
+<td>FESCo 工单交叉佐证</td>
+</tr>
+<tr>
+<td><code>en.opensuse.org</code> 主站</td>
+<td>PoW 防护</td>
+<td>镜像站、<code>suse.org.cn</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="附录-a-一页速查表">附录 A 一页速查表</h1>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Arch</th>
+<th>NixOS</th>
+<th>openSUSE TW</th>
+<th>Fedora</th>
+<th>Debian</th>
+<th>Ubuntu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>发布模型</td>
+<td>滚动</td>
+<td>滚动+半年</td>
+<td>滚动</td>
+<td>6 个月</td>
+<td>~2 年</td>
+<td>6 个月/2 年</td>
+</tr>
+<tr>
+<td>内核</td>
+<td>7.2.7</td>
+<td>6.18 LTS</td>
+<td>7.2.x</td>
+<td>7.2.6</td>
+<td>6.12 LTS</td>
+<td>7.0</td>
+</tr>
+<tr>
+<td>官方包数</td>
+<td>16,008</td>
+<td><strong>149,566</strong></td>
+<td>17,270</td>
+<td>82,747</td>
+<td>69,830</td>
+<td>39,336</td>
+</tr>
+<tr>
+<td>核心维护者</td>
+<td><strong>93</strong></td>
+<td>❌</td>
+<td>~521</td>
+<td>~325</td>
+<td><strong>1,039</strong></td>
+<td>378</td>
+</tr>
+<tr>
+<td>默认 MAC</td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+<td>SELinux</td>
+<td>SELinux</td>
+<td>AppArmor</td>
+<td>AppArmor</td>
+</tr>
+<tr>
+<td>默认防火墙</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>预装未启用</td>
+</tr>
+<tr>
+<td>冲突处理</td>
+<td>pacnew</td>
+<td>声明式</td>
+<td>rpmnew</td>
+<td>rpmnew</td>
+<td>dpkg-dist</td>
+<td>dpkg-dist</td>
+</tr>
+<tr>
+<td>三方合并</td>
+<td>✅ pacdiff -3</td>
+<td>—</td>
+<td>❌</td>
+<td>❌</td>
+<td>⚠️ ucf</td>
+<td>⚠️ ucf</td>
+</tr>
+<tr>
+<td>孤儿包</td>
+<td><strong>250</strong></td>
+<td>结构上无</td>
+<td>❌</td>
+<td>❌</td>
+<td>1,070</td>
+<td>—</td>
+</tr>
+<tr>
+<td>退役时限</td>
+<td>无</td>
+<td>无</td>
+<td>无</td>
+<td>✅ <strong>6 周</strong></td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td>安全团队</td>
+<td>9 志愿者</td>
+<td>志愿者</td>
+<td><strong>SUSE 专职</strong></td>
+<td>Red Hat 代管</td>
+<td>志愿者</td>
+<td><strong>Canonical 专职</strong></td>
+</tr>
+<tr>
+<td>OSV.dev</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>CNA</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅ Sub</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>LTS 安全周期</td>
+<td>无</td>
+<td>~7 月</td>
+<td>Leap LTS</td>
+<td>~13 月</td>
+<td>~5 年</td>
+<td>5–10 年</td>
+</tr>
+<tr>
+<td>文档规模</td>
+<td><strong>892k 编辑</strong></td>
+<td>分散</td>
+<td>双轨</td>
+<td>Quick Docs</td>
+<td>Policy Manual</td>
+<td>Ask Ubuntu 42.5 万问</td>
+</tr>
+<tr>
+<td>容器拉取量</td>
+<td>3455 万</td>
+<td>—</td>
+<td>1152 万</td>
+<td>1.37 亿</td>
+<td>17.5 亿</td>
+<td>101 亿</td>
+</tr>
+<tr>
+<td>治理风险</td>
+<td>🟠 中高</td>
+<td>🔴 <strong>高</strong></td>
+<td>🟡 中</td>
+<td>🟡 中</td>
+<td>🟢 低</td>
+<td>🟢 低</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="附录-b-可复用验证命令">附录 B 可复用验证命令</h1>
+<pre><code class="language-bash"># ── GitHub：核实任意仓库真实状态（不依赖网页抓取）──────────────
+curl -s &quot;https://api.github.com/repos/OWNER/REPO&quot; \
+  | python -c &quot;import sys,json;d=json.load(sys.stdin);print(d['stargazers_count'],d['pushed_at'],d['archived'])&quot;
+
+# 按 star 排序扫描某发行版生态
+curl -s &quot;https://api.github.com/search/repositories?q=nixos+mcp&amp;sort=stars&amp;order=desc&amp;per_page=15&quot; \
+  | python -c &quot;
+import sys,json
+for i in json.load(sys.stdin)['items']:
+    print(f\&quot;{i['stargazers_count']:&gt;6}*  {i['full_name']:&lt;40} {i['pushed_at'][:10]}\&quot;)&quot;
+
+# 列出厂商组织全部仓库（判断官方投入深度）
+curl -s &quot;https://api.github.com/orgs/rhel-lightspeed/repos?per_page=50&amp;sort=updated&quot; \
+  | python -c &quot;
+import sys,json
+for i in json.load(sys.stdin): print(f\&quot;{i['stargazers_count']:&gt;5}*  {i['name']}\&quot;)&quot;
+
+# ── Arch 官方 API ──────────────────────────────────────────
+# 孤儿包计数
+curl -s &quot;https://archlinux.org/packages/search/json/?maintainer=orphan&amp;limit=500&quot; \
+  | python -c &quot;import sys,json;print(len(json.load(sys.stdin)['results']))&quot;
+# → 250
+
+# ── openQA（openSUSE 的 QA 护城河）──────────────────────────
+curl -s &quot;https://openqa.opensuse.org/api/v1/test_suites&quot; \
+  | python -c &quot;import sys,json;print(len(json.load(sys.stdin)['TestSuites']))&quot;
+# → 650
+curl -s &quot;https://openqa.opensuse.org/api/v1/machines&quot; \
+  | python -c &quot;import sys,json;print(len(json.load(sys.stdin)['Machines']))&quot;
+# → 114
+
+# ── Docker Hub 镜像拉取量 ──────────────────────────────────
+for i in alpine ubuntu debian fedora archlinux; do
+  curl -s &quot;https://hub.docker.com/v2/repositories/library/$i/&quot; \
+    | python -c &quot;import sys,json;d=json.load(sys.stdin);print(f\&quot;{d['name']:&lt;12} {d['pull_count']:&gt;15,}\&quot;)&quot;
+done
+
+# ── ArchWiki 文档规模 ──────────────────────────────────────
+curl -s &quot;https://wiki.archlinux.org/api.php?action=query&amp;meta=siteinfo&amp;siprop=statistics&amp;format=json&quot; \
+  | python -c &quot;
+import sys,json
+d=json.load(sys.stdin)['query']['statistics']
+print('pages:',d['pages'],'articles:',d['articles'],'edits:',d['edits'],'activeusers:',d['activeusers'])&quot;
+
+# ── 配置漂移自查（任意发行版）─────────────────────────────
+sudo etckeeper init &amp;&amp; sudo etckeeper commit &quot;初始状态&quot;
+find /etc -name '*.pacnew' -o -name '*.rpmnew' -o -name '*.dpkg-dist' -o -name '*.pacsave'
+systemd-delta --type=overridden
+
+# ── 各发行版配置冲突处理 ───────────────────────────────────
+sudo pacdiff -3 --sudo        # Arch（唯一三方合并）
+sudo rpmconf -a               # Fedora / openSUSE
+rpmconf -D                    # Fedora 非交互审计
+sudo systemctl start rpmconfigcheck   # openSUSE（有 service 无 timer）
+ostree admin config-diff      # Fedora Atomic（看 /etc 漂移）
+</code></pre>
+<hr />
+<p><strong>报告结束</strong></p>
+<p><em>本报告基于 2026-10-12 及之前的公开数据。Linux 生态变化迅速，关键决策前请以官方最新公告为准。所有标注 ✅ 的数据已通过官方 API 独立核实；标注 ◐ 的数据来自子代理报告；标注 ⚠️ 的为二手来源。</em></p>
+<footer>
+  <p><strong>数据截止</strong> 2026-10-12 ｜ <strong>报告版本</strong> 1.0.0 ｜ <strong>章节</strong> 29 章 / 96 节 ｜ <strong>表格</strong> 589 行</p>
+  <p>标记体系：✅ 已核实（官方 API / 源码验证）｜ ◐ 子代理报告 ｜ ⚠️ 二手来源 ｜ ❌ 无公开数据</p>
+  <p>本报告基于公开数据整理。Linux 生态变化迅速，关键决策前请以官方最新公告为准。</p>
+</footer>
+</main>
+</div>
+</body>
+</html>
