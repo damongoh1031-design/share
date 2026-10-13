@@ -105,7 +105,7 @@
 <div class="layout">
   <aside>
     <div class="brand">NixOS Teaching Guide</div>
-    <div class="ver">1.6</div>
+    <div class="ver">1.7</div>
     <div class="toc-group"><a class="toc-item" href="#sec-0"><span class="toc-num">01</span><span>零、怎么用这份指南</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-0-0">0.1 你的硬件画像决定了「哪些坑你根本不会踩」</a>
 <a class="toc-sub" href="#sub-0-1">0.2 证据分级（全文遵守）</a>
 <a class="toc-sub" href="#sub-0-2">0.3 三条铁律（先记住，能省你几天时间）</a>
@@ -290,35 +290,46 @@
 <a class="toc-sub" href="#sub-23-14">23.15 层级 ① 里真正没有的东西：Bazzite Portal</a>
 <a class="toc-sub" href="#sub-23-15">23.16 别照抄的地方：Bazzite 模式在 NixOS 上的四个反模式</a>
 <a class="toc-sub" href="#sub-23-16">23.17 一页裁决表：你到底该选哪个</a></div></div>
-<div class="toc-group"><a class="toc-item" href="#sec-24"><span class="toc-num">25</span><span>附录 A：命令速查</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-24-0">A.1 系统重建与验证</a>
-<a class="toc-sub" href="#sub-24-1">A.2 回滚与 generation</a>
-<a class="toc-sub" href="#sub-24-2">A.3 磁盘与 store</a>
-<a class="toc-sub" href="#sub-24-3">A.4 查询</a>
-<a class="toc-sub" href="#sub-24-4">A.5 flake 操作</a>
-<a class="toc-sub" href="#sub-24-5">A.6 诊断（AMD 平台专用）</a>
-<a class="toc-sub" href="#sub-24-6">A.7 自动升级</a>
-<a class="toc-sub" href="#sub-24-7">A.8 游戏 / 性能诊断（第十四章）</a>
-<a class="toc-sub" href="#sub-24-8">A.9 语言工具链与 MCP（第十五、十六章）</a></div></div>
-<div class="toc-group"><a class="toc-item" href="#sec-25"><span class="toc-num">26</span><span>附录 B：出处汇总</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-25-0">B.1 官方文档与手册</a>
-<a class="toc-sub" href="#sub-25-1">B.2 NixOS Wiki</a>
-<a class="toc-sub" href="#sub-25-2">B.3 nixpkgs 源码（nixos-26.05 分支，逐条比对）</a>
-<a class="toc-sub" href="#sub-25-3">B.3.1 非 nixpkgs 的上游源码</a>
-<a class="toc-sub" href="#sub-25-4">B.4 镜像源</a>
-<a class="toc-sub" href="#sub-25-5">B.5 AI agent 工具与 MCP</a>
-<a class="toc-sub" href="#sub-25-6">B.6 生态查询工具（第十二章）</a>
-<a class="toc-sub" href="#sub-25-7">B.7 社区</a>
-<a class="toc-sub" href="#sub-25-8">B.8 第十四～十七章的新增出处</a>
-<a class="toc-sub" href="#sub-25-9">B.9 第十八章的新增出处（CachyOS 对照）</a>
-<a class="toc-sub" href="#sub-25-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</a>
-<a class="toc-sub" href="#sub-25-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</a>
-<a class="toc-sub" href="#sub-25-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</a>
-<a class="toc-sub" href="#sub-25-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</a></div></div>
-<div class="toc-group"><a class="toc-item" href="#sec-26"><span class="toc-num">27</span><span>附录 C：未核实 / 存疑项</span></a></div>
-<div class="toc-group"><a class="toc-item" href="#sec-27"><span class="toc-num">28</span><span>附录 D：与姊妹文档的关系</span></a></div>
-<div class="toc-group"><a class="toc-item" href="#sec-28"><span class="toc-num">29</span><span>附录 E：还可以补充什么（Roadmap）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-28-0">E.1 高价值（建议下一轮补）</a>
-<a class="toc-sub" href="#sub-28-1">E.2 中价值</a>
-<a class="toc-sub" href="#sub-28-2">E.3 低价值 / 已知无法补充</a>
-<a class="toc-sub" href="#sub-28-3">E.4 建议你自己做的验证（本文无法替代）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-24"><span class="toc-num">25</span><span>二十四、openSUSE Aeon 模式：稳定基座 + 最新应用（本章回答「基座是稳定，apps 是最新的，如何做」）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-24-0">24.1 纠正前提：Aeon 的「稳定」是怎么来的</a>
+<a class="toc-sub" href="#sub-24-1">24.2 Aeon 技术栈逐条拆解（全部一手出处）</a>
+<a class="toc-sub" href="#sub-24-2">24.3 三条路：NixOS 上「稳定基座 + 最新应用」的三种做法</a>
+<a class="toc-sub" href="#sub-24-3">24.4 路 A：Aeon 式（Flatpak 优先）—— 最像 Aeon，代价是 §7 的三个坑</a>
+<a class="toc-sub" href="#sub-24-4">24.5 路 B：双 nixpkgs —— NixOS 原生做法（Home Manager 官方 FAQ 给的写法）</a>
+<a class="toc-sub" href="#sub-24-5">24.6 路 C：混合（本文推荐）</a>
+<a class="toc-sub" href="#sub-24-6">24.7 更新与回滚：Aeon 的两条机制在 NixOS 上的对应</a>
+<a class="toc-sub" href="#sub-24-7">24.8 基座该留什么、不该留什么</a>
+<a class="toc-sub" href="#sub-24-8">24.9 四条反模式</a>
+<a class="toc-sub" href="#sub-24-9">24.10 一页裁决表</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-25"><span class="toc-num">26</span><span>附录 A：命令速查</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-25-0">A.1 系统重建与验证</a>
+<a class="toc-sub" href="#sub-25-1">A.2 回滚与 generation</a>
+<a class="toc-sub" href="#sub-25-2">A.3 磁盘与 store</a>
+<a class="toc-sub" href="#sub-25-3">A.4 查询</a>
+<a class="toc-sub" href="#sub-25-4">A.5 flake 操作</a>
+<a class="toc-sub" href="#sub-25-5">A.6 诊断（AMD 平台专用）</a>
+<a class="toc-sub" href="#sub-25-6">A.7 自动升级</a>
+<a class="toc-sub" href="#sub-25-7">A.8 游戏 / 性能诊断（第十四章）</a>
+<a class="toc-sub" href="#sub-25-8">A.9 语言工具链与 MCP（第十五、十六章）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-26"><span class="toc-num">27</span><span>附录 B：出处汇总</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-26-0">B.1 官方文档与手册</a>
+<a class="toc-sub" href="#sub-26-1">B.2 NixOS Wiki</a>
+<a class="toc-sub" href="#sub-26-2">B.3 nixpkgs 源码（nixos-26.05 分支，逐条比对）</a>
+<a class="toc-sub" href="#sub-26-3">B.3.1 非 nixpkgs 的上游源码</a>
+<a class="toc-sub" href="#sub-26-4">B.4 镜像源</a>
+<a class="toc-sub" href="#sub-26-5">B.5 AI agent 工具与 MCP</a>
+<a class="toc-sub" href="#sub-26-6">B.6 生态查询工具（第十二章）</a>
+<a class="toc-sub" href="#sub-26-7">B.7 社区</a>
+<a class="toc-sub" href="#sub-26-8">B.8 第十四～十七章的新增出处</a>
+<a class="toc-sub" href="#sub-26-9">B.9 第十八章的新增出处（CachyOS 对照）</a>
+<a class="toc-sub" href="#sub-26-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</a>
+<a class="toc-sub" href="#sub-26-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</a>
+<a class="toc-sub" href="#sub-26-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</a>
+<a class="toc-sub" href="#sub-26-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</a>
+<a class="toc-sub" href="#sub-26-14">B.14 第六轮（2026-10-12）第二十四章「Aeon 模式」的新增出处</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-27"><span class="toc-num">28</span><span>附录 C：未核实 / 存疑项</span></a></div>
+<div class="toc-group"><a class="toc-item" href="#sec-28"><span class="toc-num">29</span><span>附录 D：与姊妹文档的关系</span></a></div>
+<div class="toc-group"><a class="toc-item" href="#sec-29"><span class="toc-num">30</span><span>附录 E：还可以补充什么（Roadmap）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-29-0">E.1 高价值（建议下一轮补）</a>
+<a class="toc-sub" href="#sub-29-1">E.2 中价值</a>
+<a class="toc-sub" href="#sub-29-2">E.3 低价值 / 已知无法补充</a>
+<a class="toc-sub" href="#sub-29-3">E.4 建议你自己做的验证（本文无法替代）</a></div></div>
   </aside>
   <main><h1>NixOS 教学指南（AMD 平台 · 中文用户 · Vibe Coding）</h1>
 <h3>从装机到日常：AMD 显卡 / AMD CPU / Realtek 有线网卡 / GNOME 与 KDE / Flatpak / Steam / AI Agent 管理</h3>
@@ -347,11 +358,11 @@
 </tr>
 <tr>
 <td>文档版本</td>
-<td>1.6</td>
+<td>1.7</td>
 </tr>
 <tr>
 <td>核实日期</td>
-<td>2026-10-12（<strong>第五轮：新增第二十三章「把 NixOS 用成 Bazzite 模式」</strong>，见附录 B.13）</td>
+<td>2026-10-12（<strong>第六轮：新增第二十四章「openSUSE Aeon 模式：稳定基座 + 最新应用」</strong>，见附录 B.14）</td>
 </tr>
 <tr>
 <td>姊妹文档</td>
@@ -489,8 +500,13 @@
 <td>Bazzite 六层软件层级逐条映射 / <code>nh</code> 与 <code>ujust</code> 对照 / 掌机工具链在 nixpkgs 的现状 / <strong>四个反模式</strong></td>
 </tr>
 <tr>
+<td><strong>二十四</strong></td>
+<td><strong>openSUSE Aeon 模式：稳定基座 + 最新应用</strong></td>
+<td>「稳定」的两种含义 / Aeon 技术栈拆解 / <strong>三条路（Flatpak 优先 · 双 nixpkgs · 混合）</strong> / HM 官方 FAQ 的 <code>pkgsUnstable</code> 写法</td>
+</tr>
+<tr>
 <td><strong>附录</strong></td>
-<td>A 命令速查 · B 出处汇总（<strong>含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照</strong>） · C 未核实项 · D 姊妹文档 · E 可补充方向</td>
+<td>A 命令速查 · B 出处汇总（<strong>含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照</strong>） · C 未核实项 · D 姊妹文档 · E 可补充方向</td>
 <td>备查</td>
 </tr>
 </tbody></table>
@@ -11306,8 +11322,679 @@ NixOS：改 nixpkgs 输入 → <strong>重新 build</strong> → 缓存命中就
 <p><strong>所以正确的问题不是「NixOS 怎么变成 Bazzite」，而是「你要的是『装好的玩具』还是『可复现的积木』」。</strong> 想清楚这个，剩下的选择都是推论。</p>
 </div></div>
 <hr>
-<h2 id="sec-24">附录 A：命令速查</h2>
-<h3 id="sub-24-0">A.1 系统重建与验证</h3>
+<h2 id="sec-24">二十四、openSUSE Aeon 模式：稳定基座 + 最新应用（本章回答「基座是稳定，apps 是最新的，如何做」）</h2>
+<p>你的原话是：<strong>「要做到类似 openSUSE Aeon，基座是稳定，但 apps 是最新的，如何做」</strong>。</p>
+<p><strong>先纠正一个前提，否则后面全错</strong>：<strong>Aeon 的基座不是「冻结的稳定版」，而是滚动的 openSUSE Tumbleweed。</strong> 它的「稳定」不来自版本冻结，来自<strong>原子性 + 极简 + 隔离</strong>这三件机制。理解这一点之后，「稳定基座 + 最新应用」在 NixOS 上就有<strong>三条</strong>路可走，而不只是一条。</p>
+<h3 id="sub-24-0">24.1 纠正前提：Aeon 的「稳定」是怎么来的</h3>
+<p>Aeon（前身 openSUSE MicroOS Desktop）的技术栈，LWN 2023 年那篇一手分析写得最清楚（<code>[媒体·一手]</code> <a href="https://lwn.net/Articles/927373/">https://lwn.net/Articles/927373/</a>）：</p>
+<blockquote>
+<p><em>&quot;OpenSUSE MicroOS Desktop is one of them, with a <strong>minimal openSUSE Tumbleweed as the base operating system</strong> and applications running as Flatpaks or in containers.&quot;</em></p>
+<p><em>&quot;Its biggest benefit is <strong>availability of the newest software releases without sacrificing system stability</strong>.&quot;</em></p>
+</blockquote>
+<p>注意「Tumbleweed」= <strong>滚动发行版</strong>。所以 Aeon 的基座本身是<strong>追新</strong>的。</p>
+<p>LWN 还把这篇文章的核心问题写成了和你一模一样的措辞：</p>
+<blockquote>
+<p><em>&quot;many users want the best of both worlds: <strong>the latest software versions on a stable base operating system</strong>.&quot;</em></p>
+</blockquote>
+<p><strong>所以「稳定基座」有两种完全不同的实现方式，Aeon 用的是第二种：</strong></p>
+<table>
+<thead>
+<tr>
+<th>实现方式</th>
+<th>代表</th>
+<th>「稳定」的来源</th>
+<th>基座版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>冻结版本集</strong></td>
+<td>Debian stable / RHEL / <strong>NixOS 26.05</strong></td>
+<td>版本不变，所以行为不变</td>
+<td>固定</td>
+</tr>
+<tr>
+<td><strong>原子 + 极简 + 隔离</strong></td>
+<td><strong>Aeon</strong> / MicroOS / Fedora Silverblue / <strong>NixOS</strong></td>
+<td>变了也能整批回滚，且坏不到基座</td>
+<td>滚动</td>
+</tr>
+</tbody></table>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>这是本章最重要的一句话：NixOS 两种模式都能给你。</strong></p>
+<ul>
+<li>想要<strong>冻结版本集的稳定</strong> → 用 <code>nixos-26.05</code>（本文档全篇的做法）。</li>
+<li>想要<strong>Aeon 那种「滚动但原子」的稳定</strong> → 用 <code>nixos-unstable</code>，靠 generations 回滚。</li>
+<li>想要<strong>两者混搭</strong>（基座冻结 + 部分组件滚动 + 应用追新）→ <strong>这是 NixOS 独有的能力，Aeon 做不到。</strong></li>
+</ul>
+<p>你的问题「基座稳定、apps 最新」在 NixOS 上有 <strong>3 条路</strong>（§24.3），而 Aeon 只有 1 条。</p>
+</div></div>
+<h3 id="sub-24-1">24.2 Aeon 技术栈逐条拆解（全部一手出处）</h3>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>Aeon 怎么做</th>
+<th>出处原话</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>基座</strong></td>
+<td><strong>minimal openSUSE Tumbleweed</strong>；Btrfs root，<strong>boot 后挂载为只读</strong></td>
+<td><em>&quot;with a minimal openSUSE Tumbleweed as the base operating system&quot;</em> / <em>&quot;this filesystem is mounted read-only after boot&quot;</em></td>
+</tr>
+<tr>
+<td><strong>更新</strong></td>
+<td>systemd timer <strong>每天</strong>跑 <code>transactional-update</code>（zypper 的包装脚本）→ <strong>新建 Btrfs snapshot</strong> → 在快照里更新 → 成功则标记为下次启动的默认快照</td>
+<td><em>&quot;System updates are done automatically every day. This is implemented as a systemd timer unit that runs the <code>transactional-update</code> command, which is a wrapper script around the package manager <code>zypper</code>.&quot;</em></td>
+</tr>
+<tr>
+<td><strong>失败处理</strong></td>
+<td>出错则<strong>丢弃快照</strong>，旧的仍是默认；启动时检测到问题<strong>自动回滚</strong>；手动 <code>transactional-update rollback</code></td>
+<td><em>&quot;On errors, the snapshot is discarded and the previous one remains as the default.&quot;</em> / <em>&quot;if the system detects a problem during the reboot, it automatically rolls back&quot;</em></td>
+</tr>
+<tr>
+<td><strong>GUI 应用</strong></td>
+<td><strong>全部 Flatpak</strong>，装在用户目录 <code>~/.local/share/flatpak</code>，<strong>自动更新</strong>；GNOME Software 被配置成<strong>只装 Flathub</strong></td>
+<td><em>&quot;All desktop applications in MicroOS Desktop are installed as Flatpaks in the user&#39;s directory and automatically get updated.&quot;</em> / <em>&quot;it&#39;s configured to <strong>only</strong> install Flatpaks from Flathub&quot;</em></td>
+</tr>
+<tr>
+<td><strong>CLI / 开发</strong></td>
+<td><strong>Distrobox</strong>（预配 Tumbleweed 容器，&gt;75,000 个 RPM 可用）；<code>distrobox-export</code> 把容器里的应用导出到宿主菜单</td>
+<td><em>&quot;a simple <code>distrobox-enter</code> command in the terminal creates (or enters…) a container running Tumbleweed&quot;</em></td>
+</tr>
+<tr>
+<td><strong>兜底（往基座装包）</strong></td>
+<td><code>transactional-update</code> 装 RPM —— <strong>只推荐给驱动 / 内核模块 / VPN 客户端这类必须紧耦合的</strong></td>
+<td><em>&quot;this is only recommended for drivers, kernel modules, virtual private network (VPN) clients, and other low-level packages that have to integrate tightly with the operating system, because <strong>every extra package in the host incurs extra risk of instability</strong>&quot;</em></td>
+</tr>
+<tr>
+<td><strong>防火墙</strong></td>
+<td><strong>默认没有</strong>（官方称是设计，因为与容器运行时冲突）</td>
+<td><em>&quot;MicroOS also lacks a firewall. According to Brown, this is by design, because they cause problems with container runtimes&quot;</em></td>
+</tr>
+</tbody></table>
+<p>Aeon 官网自己的三条卖点（<code>[官方]</code> <a href="https://aeondesktop.github.io/">https://aeondesktop.github.io/</a>）：</p>
+<blockquote>
+<ul>
+<li><strong>Automated Maintenance</strong>：<em>&quot;Daily system updates happen automatically while you work. <strong>Your running system is not affected until you reboot</strong>&quot;</em></li>
+<li><strong>Minimal Yet Functional</strong>：<em>&quot;The base system is kept small and simple&quot;</em></li>
+<li><strong>Flatpak</strong>：<em>&quot;already set up to let you install any app from a vast catalogue available from Flathub&quot;</em></li>
+</ul>
+</blockquote>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>注意最后那句「your running system is not affected until you reboot」</strong> —— 这就是 <code>system.autoUpgrade</code> + <code>operation = &quot;boot&quot;</code> 的语义（§24.7）。<strong>NixOS 可以做出一模一样的行为，而且还能额外做到「不重启就生效」。</strong></p>
+</div></div>
+<h3 id="sub-24-2">24.3 三条路：NixOS 上「稳定基座 + 最新应用」的三种做法</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th><strong>路 A：Aeon 式（外挂优先）</strong></th>
+<th><strong>路 B：双 nixpkgs（Nix 原生）</strong></th>
+<th><strong>路 C：混合（推荐）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基座</td>
+<td>NixOS 26.05，<strong>极简</strong></td>
+<td>NixOS 26.05</td>
+<td>NixOS 26.05</td>
+</tr>
+<tr>
+<td>GUI 应用来源</td>
+<td><strong>Flatpak（Flathub）</strong></td>
+<td><strong>nixpkgs-unstable</strong></td>
+<td>按需：Flatpak 或 unstable</td>
+</tr>
+<tr>
+<td>CLI / 开发工具</td>
+<td><strong>Distrobox 容器</strong></td>
+<td><strong>HM + nixpkgs-unstable</strong></td>
+<td>HM + nixpkgs-unstable</td>
+</tr>
+<tr>
+<td>系统级滚动组件（mesa/内核）</td>
+<td>不动</td>
+<td>unstable（只取需要的）</td>
+<td>unstable（只取 mesa，§20.4）</td>
+</tr>
+<tr>
+<td>应用进配置版本控制</td>
+<td>❌ <strong>不在</strong></td>
+<td>✅ <strong>全在</strong></td>
+<td>⚠️ 部分在</td>
+</tr>
+<tr>
+<td>构建成本</td>
+<td><strong>零</strong>（Flatpak 是下载）</td>
+<td>中（多数命中官方缓存）</td>
+<td>低</td>
+</tr>
+<tr>
+<td>可复现 / 可回滚</td>
+<td>❌ Flatpak 版本会漂</td>
+<td>✅ 完全</td>
+<td>⚠️ Flatpak 部分不保证</td>
+</tr>
+<tr>
+<td>主题 / 字体 / <strong>中文输入法</strong> 一致性</td>
+<td>❌ <strong>要额外打通</strong>（§7 的三个坑）</td>
+<td>✅ 天然一致</td>
+<td>⚠️ Flatpak 那部分要打通</td>
+</tr>
+<tr>
+<td>换机器重现</td>
+<td>❌ 要手动重装 Flatpak</td>
+<td>✅ <code>nixos-rebuild</code> 一条命令</td>
+<td>⚠️ 一半</td>
+</tr>
+<tr>
+<td>最像 Aeon</td>
+<td>✅ <strong>最像</strong></td>
+<td>❌ 哲学不同</td>
+<td>⚠️ 折中</td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>三句话选路：</strong></p>
+<ul>
+<li><strong>路 A</strong>：你就是想要 Aeon 的体验，且<strong>接受应用不进配置</strong>。代价是 §7 的三个坑。</li>
+<li><strong>路 B</strong>：你要「基座稳定 + 应用最新」<strong>且全部声明式、可复现、可回滚</strong>。这是 NixOS 独有的，Aeon 做不到。</li>
+<li><strong>路 C</strong>：两者都要一点。<strong>本文推荐这条</strong> —— 系统级用 Nix（可复现），应用级按需（Flatpak 省构建，HM 省手动）。</li>
+</ul>
+</div></div>
+<h3 id="sub-24-3">24.4 路 A：Aeon 式（Flatpak 优先）—— 最像 Aeon，代价是 §7 的三个坑</h3>
+<p>核心原则：<strong><code>environment.systemPackages</code> 里只放「工具」，不放「应用」。</strong></p>
+<pre><code class="language-nix"># configuration.nix —— 路 A 的基座
+{ config, pkgs, ... }:
+{
+  # ── 1) 基座只放工具（系统级、所有用户、不常换版本） ──
+  environment.systemPackages = with pkgs; [
+    git curl wget htop tree jq ripgrep fd unzip p7zip
+    # ↑ 这些是「工具」。注意：没有 firefox / chromium / vscode / gimp
+  ];
+
+  # ── 2) 应用全部走 Flatpak ──
+  xdg.portal = {
+    enable = true;
+    # extraPortals 断言非空：GNOME/KDE 会自动填，其它桌面要手写（§7）
+    # extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = [ &quot;gtk&quot; ];
+  };
+  services.flatpak.enable = true;   # ⚠️ 有硬断言要求 xdg.portal.enable = true（§7）
+
+  # ── 3) CLI / 开发走 Distrobox ──
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    defaultNetwork.settings.dns_enabled = true;   # 容器内 DNS
+  };
+  environment.systemPackages = [ pkgs.distrobox ];   # 注意：与上面合并成一个列表
+  users.users.&lt;你&gt;.extraGroups = [ &quot;podman&quot; ];
+}
+</code></pre>
+<p>装应用（<strong>这一步是命令式的，不在配置里</strong> —— 这正是 Aeon 的做法）：</p>
+<pre><code class="language-bash"># 加 Flathub（services.flatpak 模块不管这件事，要自己来 —— §23.6）
+flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# 装应用（会用上游最新版本，与基座版本无关）
+flatpak install --user flathub org.mozilla.firefox
+flatpak install --user flathub com.visualstudio.code
+flatpak update          # 独立于 nixos-rebuild 更新
+</code></pre>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong>路 A 的三个真实代价（§7 已详述，这里只列结论）：</strong></p>
+<ol>
+<li><strong>主题 / 字体不一致</strong> —— Flatpak 沙箱看不到宿主的部分字体与主题；CJK 字体要额外配（<code>fonts.packages</code> 对 Flatpak 不自动生效）。</li>
+<li><strong>中文输入法在沙箱内可能失效</strong> —— 这是普遍报告，<code>[未核实]</code> 但确实存在（§7、附录 C）。</li>
+<li><strong>应用不在配置版本控制里</strong> —— 换机器时 <code>nixos-rebuild</code> <strong>不会</strong>帮你装回 Flatpak；你要手动重装一遍。</li>
+</ol>
+<p><strong>还有一条 Aeon 有、NixOS 没有的</strong>：Aeon 的 GNOME Software 被<strong>故意配置成只能装 Flatpak</strong>（防止你误装进基座）。NixOS 上没有这种「防呆」，<strong>全靠自律</strong> —— 你随时可以 <code>environment.systemPackages = [ pkgs.firefox ]</code> 把它塞回基座。</p>
+</div></div>
+<h3 id="sub-24-4">24.5 路 B：双 nixpkgs —— NixOS 原生做法（Home Manager 官方 FAQ 给的写法）</h3>
+<p>这是<strong>官方文档明文推荐</strong>的做法。Home Manager 的 FAQ 里有一节就叫 <em>&quot;How do I install packages from Nixpkgs unstable?&quot;</em>（<code>[官方]</code> <a href="https://github.com/nix-community/home-manager/blob/release-26.05/docs/manual/faq/unstable.md">https://github.com/nix-community/home-manager/blob/release-26.05/docs/manual/faq/unstable.md</a>）：</p>
+<blockquote>
+<p><em>&quot;If you are using a stable version of Nixpkgs but would like to install some particular packages from Nixpkgs unstable -- or some other channel -- then you can import the unstable Nixpkgs and refer to its packages within your configuration.&quot;</em></p>
+</blockquote>
+<h4>24.5.1 flake.nix：两个 nixpkgs 输入</h4>
+<pre><code class="language-nix">{
+  inputs = {
+    # 基座：稳定
+    nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+    # 应用：最新（注意分支名 —— 官方 FAQ 用的是 nixpkgs-unstable）
+    nixpkgs-unstable.url = &quot;github:NixOS/nixpkgs/nixpkgs-unstable&quot;;
+    # Home Manager：分支要和基座对齐，且 follow 基座
+    home-manager = {
+      url = &quot;github:nix-community/home-manager/release-26.05&quot;;
+      inputs.nixpkgs.follows = &quot;nixpkgs&quot;;   # ← 见 §20.6，漏了会多拉一份 nixpkgs
+    };
+  };
+
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  let
+    system = &quot;x86_64-linux&quot;;
+  in {
+    nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.home-manager
+        ({ config, ... }: {
+          # ── 官方 FAQ 的写法：把 unstable 传给 HM ──
+          home-manager.extraSpecialArgs = {
+            pkgsUnstable = import nixpkgs-unstable {
+              inherit system;
+              # ★★ 关键两行：把基座的 config / overlays 一起传进去 ★★
+              config   = config.nixpkgs.config;
+              overlays = config.nixpkgs.overlays;
+            };
+
+            # 如果你的 nixpkgs 配置是默认的（没有 allowUnfree 之类），
+            # 官方 FAQ 说可以用这一行代替上面整个 import：
+            # pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
+          };
+        })
+      ];
+    };
+  };
+}
+</code></pre>
+<h4>24.5.2 home.nix：用 <code>pkgsUnstable</code> 装应用</h4>
+<pre><code class="language-nix"># home.nix —— 应用全部来自 unstable，基座仍是 26.05
+{ pkgs, pkgsUnstable, ... }:
+{
+  # 基座自带的 pkgs（26.05）—— 放「和系统配套」的东西
+  home.packages = with pkgs; [
+    # 一般不放应用
+  ];
+
+  # 应用全部来自 unstable —— 追新
+  home.packages = with pkgsUnstable; [
+    firefox
+    chromium
+    vscode
+    obs-studio
+    gimp
+    libreoffice
+  ];
+
+  # 想要系统级的（所有用户可见）就放 systemPackages，见 §20.4
+}
+</code></pre>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong><code>config</code> 和 <code>overlays</code> 那两行是官方 FAQ 明确写的，不是可选项。</strong></p>
+<p>如果你只写 <code>import nixpkgs-unstable { inherit system; }</code>，那么 <code>pkgsUnstable</code> 会用<strong>默认</strong>的 nixpkgs 配置 —— 后果是：</p>
+<ul>
+<li>你的基座开了 <code>nixpkgs.config.allowUnfree = true</code>，但 <code>pkgsUnstable.vscode</code> 会<strong>求值失败</strong>（因为 unstable 那份没开 unfree）</li>
+<li>你基座上的 overlay（比如 §20 的 mesa 覆盖）在 <code>pkgsUnstable</code> 里<strong>不存在</strong></li>
+</ul>
+<p>报错信息通常是 <em>&quot;Package &#39;vscode&#39; has an unfree license&quot;</em>，看到这个就回来检查这两行。</p>
+</div></div>
+<h4>24.5.3 另一种写法：让<strong>整个 Home Manager</strong> 用 unstable</h4>
+<p>如果你想要「<strong>HM 管的全部应用</strong>都追新」，而不是逐个指定 <code>pkgsUnstable.xxx</code>，可以换掉 HM 的 nixpkgs。机制（源码级核实，<code>[核实·源码: home-manager/release-26.05/modules/modules.nix]</code>）：</p>
+<pre><code class="language-nix"># HM 内部的默认值（mkDefault，所以你可以覆盖）：
+_module.args.pkgsPath = lib.mkDefault (
+  if lib.versionAtLeast config.home.stateVersion &quot;20.09&quot; then pkgs.path else &lt;nixpkgs&gt;
+);
+</code></pre>
+<p><strong>因为它是 <code>mkDefault</code>，所以可以覆盖：</strong></p>
+<pre><code class="language-nix">({ config, inputs, ... }: {
+  home-manager = {
+    # ① 必须关掉 useGlobalPkgs —— 否则 nixpkgs.* 选项被禁用（见下方警告框）
+    useGlobalPkgs = false;
+    # ② 让 HM 用 unstable 的 nixpkgs 源
+    sharedModules = [
+      { _module.args.pkgsPath = inputs.nixpkgs-unstable.outPath; }
+    ];
+    # ③ 之后 HM 里的 `pkgs` 就是 unstable 了
+    users.&lt;你&gt; = { pkgs, ... }: {
+      home.packages = with pkgs; [ firefox vscode ];   # 都来自 unstable
+    };
+  };
+})
+</code></pre>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong><code>home-manager.useGlobalPkgs = true</code> 时，<code>nixpkgs.*</code> 选项是被禁用的。</strong></p>
+<p>nixpkgs 的 HM 模块里有一条显式断言 + 警告（<code>[核实·源码: home-manager/release-26.05/modules/misc/nixpkgs-disabled.nix]</code>）：</p>
+<pre><code>assertion = cfg.config == null || cfg.overlays == null;
+message = &quot;`nixpkgs` options are disabled when `home-manager.useGlobalPkgs` is enabled.&quot;;
+</code></pre>
+<p>所以「改 <code>pkgsPath</code> 但没关 <code>useGlobalPkgs</code>」= <strong>改了没用</strong>，而且你会得到一条 warning。</p>
+<p><strong>代价对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>HM 的 <code>pkgs</code></th>
+<th>代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>useGlobalPkgs = true</code> + <code>extraSpecialArgs.pkgsUnstable</code>（§24.5.1）</td>
+<td>系统（26.05）</td>
+<td>无额外代价；但要逐个写 <code>pkgsUnstable.xxx</code></td>
+</tr>
+<tr>
+<td><code>useGlobalPkgs = false</code> + <code>pkgsPath = unstable</code></td>
+<td>unstable</td>
+<td><strong>HM 会自己 <code>import nixpkgs</code></strong> → <strong>多一次 nixpkgs 求值</strong>（内存/时间），且 HM 的包与系统的包<strong>哈希不同、无法共享</strong>（同一个 Firefox 会被 build 两份）</td>
+</tr>
+</tbody></table>
+</div></div>
+<h3 id="sub-24-5">24.6 路 C：混合（本文推荐）</h3>
+<p>分三层，每层选不同的「新鲜度」：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>来源</th>
+<th>为什么这么选</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>内核 / 驱动 / systemd / 引导</strong></td>
+<td><strong>26.05（基座）</strong></td>
+<td>必须和基座配套；跨源拿这些有配对风险（§11.2）</td>
+</tr>
+<tr>
+<td><strong>mesa / Vulkan</strong></td>
+<td><strong>只这一个取 unstable</strong>（§20.4 的三种写法）</td>
+<td>显卡驱动是唯一「追新有实质收益」的系统级组件（新游戏/新 GPU 需要新 mesa）</td>
+</tr>
+<tr>
+<td><strong>系统级应用</strong>（需要所有用户可见）</td>
+<td>26.05 或 <code>pkgsUnstable</code>（§20.4）</td>
+<td>声明式、进配置、可回滚</td>
+</tr>
+<tr>
+<td><strong>用户级 GUI 应用</strong></td>
+<td><strong>Flatpak</strong>（零构建、追新）或 <strong>HM + unstable</strong>（可复现）</td>
+<td>你自己权衡</td>
+</tr>
+<tr>
+<td><strong>CLI / 开发工具</strong></td>
+<td><strong>HM + nixpkgs-unstable</strong></td>
+<td>免 root、用户级回滚（§19.4 的 5 项好处）</td>
+</tr>
+</tbody></table>
+<p>完整可抄的三层配置：</p>
+<pre><code class="language-nix"># ─────────── flake.nix ───────────
+{
+  inputs = {
+    nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+    nixpkgs-unstable.url = &quot;github:NixOS/nixpkgs/nixpkgs-unstable&quot;;
+    home-manager = {
+      url = &quot;github:nix-community/home-manager/release-26.05&quot;;
+      inputs.nixpkgs.follows = &quot;nixpkgs&quot;;
+    };
+  };
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  let system = &quot;x86_64-linux&quot;; in {
+    nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.home-manager
+        ({ config, ... }: {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = {
+              pkgsUnstable = import nixpkgs-unstable {
+                inherit system;
+                config   = config.nixpkgs.config;
+                overlays = config.nixpkgs.overlays;
+              };
+            };
+          };
+        })
+      ];
+    };
+  };
+}
+</code></pre>
+<pre><code class="language-nix"># ─────────── configuration.nix（基座：稳定 + 极简）───────────
+{ pkgs, pkgsUnstable, ... }:
+{
+  # 只让 mesa 走 unstable（§20.4.1 推荐的 _module.args 路线）
+  _module.args.pkgsUnstable = pkgsUnstable;
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    package = pkgsUnstable.mesa;                       # ← 系统级 mesa 追新
+    package32 = pkgsUnstable.pkgsi686Linux.mesa;       # ← 32/64 必须一起换
+  };
+
+  # 基座只放工具
+  environment.systemPackages = with pkgs; [
+    git curl wget htop jq ripgrep fd
+  ];
+
+  # 自动更新：Aeon 式的「每天下载，重启生效」
+  system.autoUpgrade = {
+    enable = true;
+    operation = &quot;boot&quot;;          # ← 关键：不影响运行中的系统
+    flake = &quot;/etc/nixos&quot;;
+    dates = &quot;04:40&quot;;
+    randomizedDelaySec = &quot;30min&quot;;
+    allowReboot = false;
+  };
+
+  # Flatpak 兜底（专有软件 / 只发 Flatpak 的）
+  xdg.portal = { enable = true; config.common.default = [ &quot;gtk&quot; ]; };
+  services.flatpak.enable = true;
+}
+</code></pre>
+<pre><code class="language-nix"># ─────────── home.nix（应用层：追新）───────────
+{ pkgs, pkgsUnstable, ... }:
+{
+  # CLI / 开发工具：unstable
+  home.packages = with pkgsUnstable; [
+    neovim
+    helix
+    nodejs_24
+    bun
+    uv
+    rustup
+    go
+  ];
+
+  # GUI 应用：两条路二选一
+  #   ① 想可复现 → 用 unstable 的 nixpkgs
+  home.packages = with pkgsUnstable; [ firefox ];
+  #   ② 想省构建 → 用 Flatpak（配置见 §24.4，装的时候 flatpak install）
+}
+</code></pre>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>路 C 的「稳定」是怎么保证的？</strong></p>
+<p>三层各自有各自的稳定机制，<strong>互不牵连</strong>：</p>
+<ul>
+<li><strong>基座</strong>：26.05 冻结 + 官方缓存 → 不会突然坏</li>
+<li><strong>mesa</strong>：unstable 但<strong>只影响图形栈</strong> → 坏了 <code>nixos-rebuild --rollback</code> 一条命令回去（§11.5）</li>
+<li><strong>应用</strong>：Flatpak 或 HM → 坏了单独回滚，<strong>碰不到基座</strong></li>
+</ul>
+<p><strong>这正是 Aeon 的设计意图</strong>（<em>&quot;every extra package in the host incurs extra risk of instability&quot;</em>），只是 NixOS 把「隔离」做得更彻底 —— <strong>Aeon 靠容器隔离，NixOS 靠 store 路径隔离。</strong></p>
+</div></div>
+<h3 id="sub-24-6">24.7 更新与回滚：Aeon 的两条机制在 NixOS 上的对应</h3>
+<table>
+<thead>
+<tr>
+<th>Aeon 机制</th>
+<th>NixOS 对应</th>
+<th>配置/命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每天自动跑 <code>transactional-update</code></td>
+<td><code>system.autoUpgrade.enable = true</code> + <code>dates = &quot;04:40&quot;</code></td>
+<td>§24.6 的配置</td>
+</tr>
+<tr>
+<td>更新<strong>不影响运行中的系统</strong>，重启才生效</td>
+<td><code>operation = &quot;boot&quot;</code>（enum 只有 <code>switch</code>/<code>boot</code>）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>更新失败 → 丢弃快照</td>
+<td>build 失败 → 不生成新 generation</td>
+<td>天然</td>
+</tr>
+<tr>
+<td>启动检测到问题 → <strong>自动回滚</strong></td>
+<td>启动菜单选上一个 generation（<strong>手动</strong>）</td>
+<td><code>boot.loader.systemd-boot.configurationLimit = 10</code></td>
+</tr>
+<tr>
+<td><code>transactional-update rollback</code></td>
+<td><code>nixos-rebuild switch --rollback</code></td>
+<td>§11.5</td>
+</tr>
+<tr>
+<td>Btrfs snapshot 保留策略</td>
+<td>generation 保留（<code>configurationLimit</code> + GC）</td>
+<td>§23.3</td>
+</tr>
+<tr>
+<td>手动装包进基座 → 需要<strong>重建快照 + 重启</strong></td>
+<td><code>environment.systemPackages</code> → 只需 rebuild（<strong>不用重启</strong>）</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>两条比 Aeon 强、一条比 Aeon 弱：</strong></p>
+<p>✅ <strong>强 1：不需要重启。</strong> Aeon 的 <code>transactional-update</code> 必须重启才能用上新软件；NixOS 的 <code>switch</code> 立刻生效（除内核/驱动）。
+✅ <strong>强 2：回滚粒度。</strong> Aeon 只能整镜像回滚；NixOS 可以<strong>只回滚一个包</strong>（<code>nixos-rebuild</code> 到上一个 generation，或临时 <code>nix shell</code> 旧版本）。
+⚠️ <strong>弱 1：没有「启动自动回滚」。</strong> Aeon 在启动检测到失败时会<strong>自动</strong>回到上一个快照；NixOS 需要你<strong>手动</strong>在启动菜单里选（或者用 §11.5 的三级逃生通道）。<strong>这是 NixOS 唯一明显不如 Aeon 的一项。</strong></p>
+<p>想补上这一条，可以：</p>
+<ul>
+<li>用 <code>systemd-boot</code> 的 <code>boot.loader.systemd-boot.configurationLimit</code> 保证旧 generation 一定在</li>
+<li>或者上 <strong><code>systemd-boot</code> + <code>boot.loader.efi.canTouchEfiVariables</code></strong> 配合 <code>lanzaboote</code>（§23.13）做更完整的引导链</li>
+<li><strong>但真正的「启动失败自动回滚」在 NixOS 上没有开箱实现</strong>（<code>[未核实]</code> 是否有第三方方案；已知 nixpkgs 无此模块）</li>
+</ul>
+</div></div>
+<h3 id="sub-24-7">24.8 基座该留什么、不该留什么</h3>
+<p>Aeon 的判据（原文）：<em>&quot;only recommended for <strong>drivers, kernel modules, VPN clients</strong>, and other low-level packages that <strong>have to integrate tightly with the operating system</strong>&quot;</em>。</p>
+<p>翻译成 NixOS 的判据：</p>
+<table>
+<thead>
+<tr>
+<th>该进基座（<code>environment.systemPackages</code>）</th>
+<th>不该进基座</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内核 / 内核模块 / 固件</td>
+<td><strong>GUI 应用</strong>（浏览器、编辑器、IDE、游戏启动器）</td>
+</tr>
+<tr>
+<td>图形驱动（mesa / amdgpu / vulkan）</td>
+<td><strong>CLI 工具</strong>（<code>jq</code> / <code>ripgrep</code> / <code>neovim</code> —— 放 HM）</td>
+</tr>
+<tr>
+<td>桌面环境本体（GNOME / KDE）</td>
+<td><strong>语言工具链</strong>（node / python / rust / go —— 放 HM 或 <code>nix shell</code>）</td>
+</tr>
+<tr>
+<td>显示管理器 / 网络管理器 / 音频栈</td>
+<td><strong>媒体应用</strong>（OBS / GIMP / LibreOffice —— Flatpak 或 HM）</td>
+</tr>
+<tr>
+<td>必须全局可见的工具（<code>git</code> / <code>curl</code> / <code>htop</code>）</td>
+<td><strong>一次性的东西</strong>（<code>nix shell</code> 用完即弃）</td>
+</tr>
+<tr>
+<td><code>programs.*</code> 模块启用的东西（<code>programs.steam</code> 等）</td>
+<td><strong><code>nix profile install</code> 装的任何东西</strong>（命令式、会漂）</td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>注意 NixOS 的判据和 Aeon 有一处关键差异。</strong></p>
+<p>Aeon 说「不要往基座装包，因为<strong>每次多一个包就多一分不稳定风险</strong>」—— 这个理由在 NixOS 上<strong>只对一半</strong>：</p>
+<ul>
+<li><strong>对的一半</strong>：基座包越多，<code>nixos-rebuild</code> 越慢、闭包越大、<code>nix flake update</code> 时重建面越广（§22.2 的 666 个 derivation 就是这么来的）。</li>
+<li><strong>不对的一半</strong>：NixOS 的基座包<strong>不会互相污染</strong>（每个包独立闭包、独立 store 路径），所以「装一个包搞坏另一个」在 NixOS 上基本不会发生。</li>
+</ul>
+<p><strong>所以 NixOS 的判据应该是「作用域」而不是「风险」</strong>：全局可见的进基座，个人的进 HM，一次性的进 <code>nix shell</code>。</p>
+</div></div>
+<h3 id="sub-24-8">24.9 四条反模式</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>反模式</th>
+<th>后果</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>以为「稳定基座」= 冻结版本</strong></td>
+<td>会误以为必须用 26.05 才能稳定，从而错过「滚动 + 原子回滚」这条路</td>
+<td>先想清楚你要的是<strong>冻结式稳定</strong>还是<strong>原子式稳定</strong>（§24.1），两者 NixOS 都能给</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>照抄 Aeon 的「Flatpak 是唯一应用渠道」</strong></td>
+<td>失去 Nix 的可复现性 + 付 §7 的三个坑（主题/字体/<strong>输入法</strong>）+ 换机器要手动重装</td>
+<td>NixOS 上 Flatpak 是<strong>兜底</strong>，不是主渠道（§23.6、§24.3）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong><code>pkgsUnstable</code> 不传 <code>config.nixpkgs.config</code></strong></td>
+<td>unfree 包（vscode 等）<strong>求值直接失败</strong>，报 <em>&quot;has an unfree license&quot;</em></td>
+<td>照抄官方 FAQ 的 <code>config = config.nixpkgs.config; overlays = config.nixpkgs.overlays;</code>（§24.5.1）</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>改 <code>pkgsPath</code> 却忘了 <code>useGlobalPkgs = false</code></strong></td>
+<td>改了没用，还会收到一条 warning：<em>&quot;<code>nixpkgs</code> options are disabled when <code>home-manager.useGlobalPkgs</code> is enabled&quot;</em></td>
+<td>两者必须成对出现（§24.5.3）</td>
+</tr>
+</tbody></table>
+<h3 id="sub-24-9">24.10 一页裁决表</h3>
+<table>
+<thead>
+<tr>
+<th>你真正想要的</th>
+<th>走哪条路</th>
+<th>关键配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>就是想要 Aeon 的体验</strong></td>
+<td><strong>路 A</strong>（Flatpak 优先）</td>
+<td>§24.4；基座只放工具 + <code>services.flatpak</code> + Distrobox</td>
+</tr>
+<tr>
+<td><strong>要「基座稳定 + 应用最新」且全部声明式可复现</strong></td>
+<td><strong>路 B</strong>（双 nixpkgs）</td>
+<td>§24.5；<code>nixpkgs-unstable</code> input + <code>home-manager.extraSpecialArgs</code></td>
+</tr>
+<tr>
+<td><strong>两者都要一点，且不想付构建成本</strong></td>
+<td><strong>路 C</strong>（混合，<strong>推荐</strong>）</td>
+<td>§24.6；mesa 取 unstable + 应用按需 Flatpak / HM</td>
+</tr>
+<tr>
+<td><strong>想要 Aeon 那种「滚动但原子」的稳定</strong></td>
+<td>用 <code>nixos-unstable</code> 做基座</td>
+<td>靠 generations 回滚（§11.5）；不推荐给新手</td>
+</tr>
+<tr>
+<td><strong>只要最新 mesa，其它都不动</strong></td>
+<td>最小改动</td>
+<td>§20.4 的三种写法之一</td>
+</tr>
+<tr>
+<td><strong>只想让某个包用最新</strong></td>
+<td><code>pkgsUnstable.&lt;包&gt;</code> 单点取用</td>
+<td>§20.4</td>
+</tr>
+</tbody></table>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>一句话回答你的问题：</strong></p>
+<p><strong>Aeon 的「稳定基座 + 最新应用」在 NixOS 上有三条路，而 NixOS 比 Aeon 多一个能力 —— 可以让基座、组件、应用各自有各自的新鲜度和回滚粒度。</strong></p>
+<ul>
+<li><strong>路 A（Aeon 式）</strong>：基座极简 + Flatpak 装应用 + Distrobox 装 CLI。<strong>最像 Aeon</strong>，代价是应用不进配置、要付 §7 的坑。</li>
+<li><strong>路 B（双 nixpkgs）</strong>：基座 26.05 + 第二个 <code>nixpkgs-unstable</code> 输入只给应用。<strong>官方 FAQ 明文推荐</strong>，全部声明式可复现。代价是构建/eval 成本。</li>
+<li><strong>路 C（混合，推荐）</strong>：基座 26.05 + <strong>只把 mesa 取 unstable</strong> + 应用按需（Flatpak 省构建 / HM 保可复现）。<strong>这是「Aeon 的设计意图」+「NixOS 的可复现性」的结合。</strong></li>
+</ul>
+<p><strong>还要记住一句前提修正</strong>：Aeon 的基座<strong>本身是滚动的 Tumbleweed</strong>。它的稳定来自<strong>原子 + 极简 + 隔离</strong>，不是来自版本冻结。<strong>你在 NixOS 上真正要复刻的是这三件机制，而不是「用一个冻结的版本」</strong> —— 而这三件机制，NixOS 靠 generations + store 路径隔离，做得比 Aeon 更彻底。</p>
+</div></div>
+<hr>
+<h2 id="sec-25">附录 A：命令速查</h2>
+<h3 id="sub-25-0">A.1 系统重建与验证</h3>
 <pre><code class="language-bash"># 日常改配置（立即生效）
 sudo nixos-rebuild switch
 
@@ -11328,7 +12015,7 @@ sudo nixos-rebuild build-vm
 sudo nixos-rebuild switch --flake /etc/nixos#mypc
 sudo nixos-rebuild dry-build --flake .#mypc
 </code></pre>
-<h3 id="sub-24-1">A.2 回滚与 generation</h3>
+<h3 id="sub-25-1">A.2 回滚与 generation</h3>
 <pre><code class="language-bash"># 列出所有 generation
 sudo nixos-rebuild list-generations
 
@@ -11344,7 +12031,7 @@ sudo nix-collect-garbage --delete-older-than 30d
 # ⛔ 危险：删除所有旧 generation（不要用）
 # sudo nix-collect-garbage -d
 </code></pre>
-<h3 id="sub-24-2">A.3 磁盘与 store</h3>
+<h3 id="sub-25-2">A.3 磁盘与 store</h3>
 <pre><code class="language-bash"># 看磁盘占用
 df -h /nix /boot
 du -sh /nix/store
@@ -11364,7 +12051,7 @@ nix path-info -Sh /nix/store/&lt;hash&gt;-&lt;name&gt;
 # 树状查看依赖大小
 nix-tree /run/current-system
 </code></pre>
-<h3 id="sub-24-3">A.4 查询</h3>
+<h3 id="sub-25-3">A.4 查询</h3>
 <pre><code class="language-bash"># 查选项定义（本机已安装系统内）
 nixos-option programs.steam.enable
 
@@ -11381,7 +12068,7 @@ nix eval --json .#nixosConfigurations.mypc.config &gt; current-config.json
 nix shell nixpkgs#ffmpeg
 nix run nixpkgs#cowsay -- hello
 </code></pre>
-<h3 id="sub-24-4">A.5 flake 操作</h3>
+<h3 id="sub-25-4">A.5 flake 操作</h3>
 <pre><code class="language-bash"># 更新所有 input
 nix flake update
 
@@ -11400,7 +12087,7 @@ nix flake metadata
 # ⚠️ 改了 flake.nix 后必须先 git add，否则 Nix 看不到
 git add flake.nix flake.lock
 </code></pre>
-<h3 id="sub-24-5">A.6 诊断（AMD 平台专用）</h3>
+<h3 id="sub-25-5">A.6 诊断（AMD 平台专用）</h3>
 <pre><code class="language-bash"># 显卡是否被识别、用的什么驱动
 lspci -k | grep -A 3 -i vga
 # 期望看到：Kernel driver in use: amdgpu
@@ -11429,7 +12116,7 @@ journalctl -b -p err --no-pager
 # 看某个服务的日志
 journalctl -u nixos-upgrade.service --no-pager
 </code></pre>
-<h3 id="sub-24-6">A.7 自动升级</h3>
+<h3 id="sub-25-6">A.7 自动升级</h3>
 <pre><code class="language-bash"># 手动触发一次自动升级
 sudo systemctl start nixos-upgrade
 
@@ -11439,7 +12126,7 @@ journalctl -u nixos-upgrade.service --no-pager
 # 看定时器状态
 systemctl list-timers | grep -E &quot;nixos|flake&quot;
 </code></pre>
-<h3 id="sub-24-7">A.8 游戏 / 性能诊断（第十四章）</h3>
+<h3 id="sub-25-7">A.8 游戏 / 性能诊断（第十四章）</h3>
 <pre><code class="language-bash"># ── 调度器（scx） ──
 ls /sys/kernel/sched_ext                    # 存在 = 内核支持 sched-ext
 systemctl status scx                        # 服务状态
@@ -11480,7 +12167,7 @@ free -h
 sysctl vm.max_map_count
 sysctl fs.inotify.max_user_watches
 </code></pre>
-<h3 id="sub-24-8">A.9 语言工具链与 MCP（第十五、十六章）</h3>
+<h3 id="sub-25-8">A.9 语言工具链与 MCP（第十五、十六章）</h3>
 <pre><code class="language-bash"># ── 语言版本确认 ──
 node -v ; npm -v ; npx -v
 python3 -V ; uv --version
@@ -11521,8 +12208,8 @@ export PLAYWRIGHT_BROWSERS_PATH=&quot;$(nix-build &#39;&lt;nixpkgs&gt;&#39; -A p
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 </code></pre>
 <hr>
-<h2 id="sec-25">附录 B：出处汇总</h2>
-<h3 id="sub-25-0">B.1 官方文档与手册</h3>
+<h2 id="sec-26">附录 B：出处汇总</h2>
+<h3 id="sub-26-0">B.1 官方文档与手册</h3>
 <table>
 <thead>
 <tr>
@@ -11579,7 +12266,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows">https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-1">B.2 NixOS Wiki</h3>
+<h3 id="sub-26-1">B.2 NixOS Wiki</h3>
 <table>
 <thead>
 <tr>
@@ -11652,7 +12339,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://wiki.nixos.org/wiki/NixOS_search">https://wiki.nixos.org/wiki/NixOS_search</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-2">B.3 nixpkgs 源码（<code>nixos-26.05</code> 分支，逐条比对）</h3>
+<h3 id="sub-26-2">B.3 nixpkgs 源码（<code>nixos-26.05</code> 分支，逐条比对）</h3>
 <p>前缀：<code>https://github.com/NixOS/nixpkgs/blob/nixos-26.05/</code></p>
 <table>
 <thead>
@@ -11842,7 +12529,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><code>nixos/doc/manual/release-notes/rl-2605.section.md</code>（⚠️ <strong>NixOS</strong> 发布说明，与上面那个<strong>是两个不同文件</strong>）</td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-3">B.3.1 非 nixpkgs 的上游源码</h3>
+<h3 id="sub-26-3">B.3.1 非 nixpkgs 的上游源码</h3>
 <table>
 <thead>
 <tr>
@@ -11855,7 +12542,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><code>torvalds/linux</code> <code>block/elevator.c:893-898</code></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-4">B.4 镜像源</h3>
+<h3 id="sub-26-4">B.4 镜像源</h3>
 <table>
 <thead>
 <tr>
@@ -11888,7 +12575,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://mirrors.ustc.edu.cn/flathub">https://mirrors.ustc.edu.cn/flathub</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-5">B.5 AI agent 工具与 MCP</h3>
+<h3 id="sub-26-5">B.5 AI agent 工具与 MCP</h3>
 <table>
 <thead>
 <tr>
@@ -11917,7 +12604,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html">https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-6">B.6 生态查询工具（第十二章）</h3>
+<h3 id="sub-26-6">B.6 生态查询工具（第十二章）</h3>
 <table>
 <thead>
 <tr>
@@ -11974,7 +12661,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://www.jetify.com/docs">https://www.jetify.com/docs</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-7">B.7 社区</h3>
+<h3 id="sub-26-7">B.7 社区</h3>
 <table>
 <thead>
 <tr>
@@ -12007,7 +12694,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://github.com/fufexan/nix-gaming">https://github.com/fufexan/nix-gaming</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-8">B.8 第十四～十七章的新增出处</h3>
+<h3 id="sub-26-8">B.8 第十四～十七章的新增出处</h3>
 <p><strong>游戏 / 内核 / 调度器</strong></p>
 <table>
 <thead>
@@ -12156,7 +12843,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://nixos.org/manual/nix/stable/command-ref/conf-file.html">https://nixos.org/manual/nix/stable/command-ref/conf-file.html</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-9">B.9 第十八章的新增出处（CachyOS 对照）</h3>
+<h3 id="sub-26-9">B.9 第十八章的新增出处（CachyOS 对照）</h3>
 <p><strong>CachyOS 官方仓库（一手）</strong></p>
 <table>
 <thead>
@@ -12272,7 +12959,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://github.com/zen-kernel/zen-kernel/tree/v7.2.9-zen1">https://github.com/zen-kernel/zen-kernel/tree/v7.2.9-zen1</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</h3>
+<h3 id="sub-26-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</h3>
 <blockquote>
 <p>本轮对全文做了一次<strong>逐条一手复核</strong>：把 22 个 nixpkgs 模块文件 + 内核源码 + 两套 release notes + NixOS Wiki 全部重读一遍。以下是<strong>新发现或修正</strong>的部分。</p>
 </blockquote>
@@ -12573,7 +13260,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td>✅</td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</h3>
+<h3 id="sub-26-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</h3>
 <h4>B.11.1 nixpkgs / 上游仓库存在性核实（<code>[核实·源码]</code>，逐条 HTTP 状态码）</h4>
 <table>
 <thead>
@@ -12968,7 +13655,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td>发帖人是 nixpkgs 里 OpenClaw 的维护者 <code>chrisportela</code>；原话 <em>&quot;There are also a number of CVEs filed for it routinely&quot;</em>；社区回答 <em>&quot;No&quot;</em>（无法既自动更新又不标 insecure）</td>
 </tr>
 </tbody></table>
-<h3 id="sub-25-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</h3>
+<h3 id="sub-26-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</h3>
 <p><strong>本轮做了什么</strong>：在 <code>nixos-26.05</code> 与 <code>nixos-unstable</code> 两个分支上，逐包比对内核 / Mesa / 游戏组件的版本，并复核第二十章的结论。<strong>结论：第二十章 §20.1 有一处过宽表述被修正。</strong></p>
 <h4>B.12.1 双分支逐包版本比对（2026-10-12 实测）</h4>
 <table>
@@ -13093,7 +13780,7 @@ packageAliases = {
 </tr>
 </tbody></table>
 <p><strong>姊妹文档交叉引用</strong>：<code>nixos-ops-guide.md</code> 第六章 §6.0 / §6.2 / §6.4 ③ / §6.6 有同一发现的详版。</p>
-<h3 id="sub-25-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</h3>
+<h3 id="sub-26-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</h3>
 <p>本章全部断言分两类：<strong>Bazzite 侧的官方文档</strong>（原文引用）与 <strong>NixOS 侧的源码核实</strong>。</p>
 <h4>B.13.1 Bazzite 侧（官方来源）</h4>
 <table>
@@ -13213,8 +13900,109 @@ packageAliases = {
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本轮的核实方法与前三轮一致</strong>：<strong>Bazzite 侧的每条主张都取自官方文档原文</strong>（不用二手转述），<strong>NixOS 侧的每条主张都直接读 <code>nixos-26.05</code> 源码</strong>（不用「我记得」）。两者都给了可直接复验的路径。</p>
 <p>特别值得记下的一条：<strong><code>ANDROID_BINDER_IPC = &quot;y&quot;</code></strong> —— 这条推翻了社区广泛流传的「NixOS 装 Waydroid 必须自定义内核」。<strong>这类「社区共识其实是过时信息」的案例，是本文档坚持源码核实的主要原因。</strong></p>
 </div></div>
+<h3 id="sub-26-14">B.14 第六轮（2026-10-12）第二十四章「Aeon 模式」的新增出处</h3>
+<p>本章同样是<strong>两边都一手</strong>：Aeon 侧取官方站点与 LWN 的一手技术分析，NixOS 侧直接读 nixpkgs / Home Manager 源码。</p>
+<h4>B.14.1 Aeon / MicroOS Desktop 侧</h4>
+<table>
+<thead>
+<tr>
+<th>出处</th>
+<th>URL</th>
+<th>用在哪</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Aeon 官网</td>
+<td><a href="https://aeondesktop.github.io/">https://aeondesktop.github.io/</a></td>
+<td>§24.2 三条卖点原文（Automated Maintenance / Minimal Yet Functional / Flatpak / Distrobox / Transactional Update）；<code>aeondesktop.org</code> 为同一站点</td>
+</tr>
+<tr>
+<td><strong>LWN · OpenSUSE MicroOS Desktop: a Flatpak-based immutable distribution</strong>（Koen Vervloesem，2023-03-29）</td>
+<td><a href="https://lwn.net/Articles/927373/">https://lwn.net/Articles/927373/</a></td>
+<td>§24.1 §24.2 的<strong>全部技术细节原文</strong>：基座是 <em>&quot;minimal openSUSE Tumbleweed&quot;</em>、Btrfs root <em>&quot;mounted read-only after boot&quot;</em>、<code>transactional-update</code> = zypper 包装、snapshot 失败丢弃、启动自动回滚、Flatpak 装在 <code>~/.local/share/flatpak</code>、GNOME Software <em>&quot;only install Flatpaks from Flathub&quot;</em>、Distrobox 容器 &gt;75,000 RPM、<code>transactional-update</code> 装包*&quot;only recommended for drivers, kernel modules, VPN clients&quot;* 与 <em>&quot;every extra package in the host incurs extra risk of instability&quot;</em>、无防火墙是 by design</td>
+</tr>
+<tr>
+<td>FOSS Wiki · Aeon</td>
+<td><a href="https://foss.wiki/Aeon">https://foss.wiki/Aeon</a></td>
+<td>§24.1 的「Release Model: <strong>Rolling</strong>」、<code>transactional-update</code> 为包管理器、TIK 安装器、默认 GNOME（<strong>该站自标「lacks citations」，仅作旁证，不作为主要依据</strong>）</td>
+</tr>
+<tr>
+<td>openSUSE 中文社区 · 改名公告</td>
+<td><a href="https://suse.org.cn/%E7%A4%BE%E5%8C%BA%E6%96%B0%E9%97%BB/2023/05/27/opensuse-aeon.html">https://suse.org.cn/社区新闻/2023/05/27/opensuse-aeon.html</a></td>
+<td>2023-05-27 MicroOS Desktop → Aeon 的更名背景</td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>关于 Aeon 的一处信息源质量提示</strong>：openSUSE Wiki 的 <code>Portal:Aeon</code> 在本次核实期间<strong>数据库故障</strong>（返回 <em>&quot;Cannot access the database&quot;</em>），因此本章的 Aeon 侧主张<strong>全部以 LWN 的一手技术分析 + 官网原文为据</strong>，未使用 Wiki。FOSS Wiki 页面自带 <em>&quot;little to no citations&quot;</em> 警告，<strong>只用来旁证「滚动模型」这一条</strong>。</p>
+</div></div>
+<h4>B.14.2 NixOS / Home Manager 侧（源码核实）</h4>
+<table>
+<thead>
+<tr>
+<th>断言</th>
+<th>证据文件</th>
+<th>核实方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>官方 FAQ 有专节讲「怎么装 unstable 的包」</strong>，并给出 NixOS 模块下的 <code>home-manager.extraSpecialArgs</code> 写法，<strong>明确要求传 <code>config = config.nixpkgs.config; overlays = config.nixpkgs.overlays;</code></strong></td>
+<td><code>home-manager/release-26.05/docs/manual/faq/unstable.md</code></td>
+<td>全文读取（§24.5.1 照抄官方骨架）</td>
+</tr>
+<tr>
+<td><code>home-manager.useGlobalPkgs</code> 的语义：<em>&quot;using the system configuration&#39;s <code>pkgs</code> argument in Home Manager. This disables the Home Manager options <code>nixpkgs.*</code>&quot;</em></td>
+<td><code>home-manager/release-26.05/nixos/common.nix</code></td>
+<td>选项描述逐字读取</td>
+</tr>
+<tr>
+<td><code>useGlobalPkgs = true</code> 时 <code>nixpkgs.*</code> <strong>被禁用</strong>，且有断言 + warning：<em>&quot;<code>nixpkgs</code> options are disabled when <code>home-manager.useGlobalPkgs</code> is enabled.&quot;</em></td>
+<td><code>home-manager/release-26.05/modules/misc/nixpkgs-disabled.nix</code></td>
+<td>全文读取</td>
+</tr>
+<tr>
+<td><strong>HM 的 <code>pkgsPath</code> 默认值可覆盖</strong>：<code>_module.args.pkgsPath = lib.mkDefault (if stateVersion &gt;= &quot;20.09&quot; then pkgs.path else &lt;nixpkgs&gt;)</code>；且 <code>_module.args.pkgs = lib.mkDefault pkgs</code></td>
+<td><code>home-manager/release-26.05/modules/modules.nix:119-120, 122</code></td>
+<td>行号定位（§24.5.3 的依据）</td>
+</tr>
+<tr>
+<td>HM 的 <code>useGlobalPkgs = false</code> 路径会<strong>自己 <code>import pkgsPath (...)</code></strong>（<code>_pkgs = import pkgsPath (filterAttrs (_n: v: v != null) config.nixpkgs)</code>）→ 多一次 nixpkgs 求值、包哈希与系统不同</td>
+<td><code>home-manager/release-26.05/modules/misc/nixpkgs.nix:58</code></td>
+<td>行号定位</td>
+</tr>
+<tr>
+<td>HM 的 <code>nixpkgs</code> 模块<strong>只有</strong> <code>config</code> / <code>overlays</code> / <code>system</code> 三个选项（<strong>没有 <code>nixpkgs.pkgs</code></strong>）</td>
+<td>同上，<code>options.nixpkgs</code> 段</td>
+<td>逐选项读取</td>
+</tr>
+<tr>
+<td><code>home-manager.extraSpecialArgs</code> / <code>sharedModules</code> / <code>users</code> / <code>useUserPackages</code> / <code>backupFileExtension</code> / <code>overwriteBackup</code> / <code>startAsUserService</code> / <code>minimal</code> 全部存在</td>
+<td><code>home-manager/release-26.05/nixos/common.nix</code></td>
+<td>全文读取</td>
+</tr>
+<tr>
+<td><code>home-manager/release-26.05</code> 分支存在；<code>nixos-26.05</code> / <code>nixos-unstable</code> / <strong><code>nixpkgs-unstable</code></strong> 三个 nixpkgs 分支均存在（各 HTTP 200）</td>
+<td>分支探测</td>
+<td>HTTP 状态码</td>
+</tr>
+</tbody></table>
+<h4>B.14.3 本轮的一条「前提修正」（最重要）</h4>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>常见误解</th>
+<th>事实</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>§24.1</td>
+<td>「Aeon 的基座是<strong>稳定的冻结版本</strong>（像 Leap）」</td>
+<td>❌ <strong>Aeon 的基座是滚动的 openSUSE Tumbleweed</strong>（LWN 原文）。它的「稳定」来自<strong>原子 + 极简 + 隔离</strong>，不是版本冻结。<strong>这个前提搞错，后面选路会全错</strong></td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>为什么这一条值得单列</strong>：用户的问题原话是「基座是稳定，但 apps 是最新的」。这个表述隐含了「稳定 = 冻结」的假设。<strong>而 Aeon 恰好是反例</strong> —— 它证明了「不冻结也能稳定」，靠的是机制而非版本。<strong>把这个前提讲清，用户才可能意识到 NixOS 上有三条路而不是一条。</strong></p>
+</div></div>
 <hr>
-<h2 id="sec-26">附录 C：未核实 / 存疑项</h2>
+<h2 id="sec-27">附录 C：未核实 / 存疑项</h2>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本表列出本文无法从一手来源确认的结论。</strong> 按你的要求，这些<strong>没有当成事实写进正文</strong>，而是明确标注。使用时请自行验证。</p>
 </div></div>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本轮（2026-10-12 复核轮）的状态更新</strong>：本表原有 3 条 <code>[部分未核实]</code> 已被<strong>源码级核实解决</strong>，条目标题加了删除线（<code>~~…~~</code>）并注明 ✅。同时本轮<strong>新发现并修正</strong>了正文 6 处事实错误（模块路径 5 处 + nix-ld 默认库表述 1 处），详见 §附录 B.3 与 §15.8.3 的更新。</p>
@@ -13619,8 +14407,66 @@ packageAliases = {
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本章的存疑项有一个共同特征：全部是「能不能组装起来」的问题，而不是「零件存不存在」的问题。</strong></p>
 <p>零件存在性是<strong>源码级已核实</strong>的（§23.11 的表）；组装效果需要<strong>真机 + 具体机型</strong>，本文无法替代。<strong>这也是本章与前面各章在证据性质上的区别</strong> —— 前面各章多是「选项存不存在 / 默认值是什么」这类可静态核实的问题，本章的剩余问题都是动态的。</p>
 </div></div>
+<h4>附录 C 补充：第六轮（2026-10-12 第二十四章 Aeon 对照）的新增存疑项</h4>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>NixOS 是否有「启动失败自动回滚」的实现</strong></td>
+<td><code>[未核实]</code></td>
+<td>Aeon 有（LWN 原文：<em>&quot;if the system detects a problem during the reboot, it automatically rolls back&quot;</em>）。NixOS 需手动在启动菜单选。<strong>nixpkgs 内未见对应模块</strong>，但<strong>是否有第三方方案未查</strong>（§24.7 已标为本文最弱的一项）</td>
+</tr>
+<tr>
+<td><strong><code>home-manager.useGlobalPkgs = false</code> 的实际代价</strong></td>
+<td><code>[推断]</code></td>
+<td>「多一次 nixpkgs 求值 + 包哈希不同无法共享」是<strong>源码推断</strong>（<code>_pkgs = import pkgsPath ...</code>），<strong>没有实测的内存/时间数字</strong></td>
+</tr>
+<tr>
+<td><strong><code>pkgsUnstable</code> 不传 <code>config</code> 时的具体报错</strong></td>
+<td><code>[推断]</code></td>
+<td>§24.5.1 写的 <em>&quot;has an unfree license&quot;</em> 是<strong>基于 nixpkgs unfree 机制的推断</strong>，未实际触发验证</td>
+</tr>
+<tr>
+<td><strong><code>_module.args.pkgsPath</code> 在 HM 用户级覆盖是否完全无副作用</strong></td>
+<td><code>[未核实]</code></td>
+<td>机制上 <code>mkDefault</code> 可覆盖已核实（<code>modules.nix:119</code>），但<strong>与 <code>useUserPackages</code> / <code>users.users.&lt;n&gt;.packages</code> 的交互未实测</strong></td>
+</tr>
+<tr>
+<td><strong>Aeon 当前的镜像版本 / 组件版本</strong></td>
+<td><code>[未核实]</code></td>
+<td>LWN 那篇是 <strong>2023-03</strong> 的，其中「3,600 个 Flatpak」「75,000 个 RPM」是<strong>当时数字</strong>，现在必然不同。<strong>本章引用时已标注为历史数据</strong></td>
+</tr>
+<tr>
+<td><strong>Aeon 是否仍默认不装防火墙</strong></td>
+<td><code>[媒体·2023]</code></td>
+<td>来自 2023 年 LWN 转述 Richard Brown 的说法。<strong>2026 年的现状未核实</strong></td>
+</tr>
+<tr>
+<td><strong>Aeon 的「无全盘加密」是否已解决</strong></td>
+<td><code>[媒体·2023]</code></td>
+<td>2023 年 LWN 说 FDE 不支持、等「停用 YaST 之后」。<strong>现状未核实</strong>（Aeon 已改用 TIK 安装器，可能已支持）</td>
+</tr>
+<tr>
+<td><strong><code>nixpkgs-unstable</code> 与 <code>nixos-unstable</code> 两个分支的差异</strong></td>
+<td><code>[官方]</code>（存在性）+ <code>[未核实]</code>（差异细节）</td>
+<td>两分支均 HTTP 200；HM 官方 FAQ 用的是 <strong><code>nixpkgs-unstable</code></strong>（HM 开发针对该分支）。<strong>但两者包版本是否逐字相同未实测</strong></td>
+</tr>
+<tr>
+<td><strong>路 C 里「只滚 mesa」的长期风险</strong></td>
+<td><code>[未核实]</code></td>
+<td>mesa 跨大版本可能与基座内核/<code>libdrm</code> 有 ABI 约束。§20 已讨论，<strong>无长期跟踪数据</strong></td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本章存疑项的分布很集中</strong>：一半是<strong>Aeon 侧信息时效性</strong>（LWN 是 2023 年的，Aeon 已多次迭代），一半是<strong>HM 双 pkgs 的实测空白</strong>（机制已源码核实，效果未量化）。</p>
+<p><strong>Aeon 侧的时效性问题是本章的固有局限</strong> —— 官方 Wiki 在核实期间数据库故障，只能退回 2023 年的一手技术分析。<strong>如果你要用 Aeon 的具体数字（Flatpak 数量、默认配置），请以 aeon 官网/文档的当前版本为准。</strong></p>
+</div></div>
 <hr>
-<h2 id="sec-27">附录 D：与姊妹文档的关系</h2>
+<h2 id="sec-28">附录 D：与姊妹文档的关系</h2>
 <p>本文是<strong>面向你具体配置的教学指南</strong>。更深的理论推导、NVIDIA 相关内容、以及完整的出处链，见：</p>
 <table>
 <thead>
@@ -13671,16 +14517,22 @@ packageAliases = {
 <td>二十三（Bazzite 模式对照）</td>
 <td><strong>本文独有</strong>。这是一份<strong>发行版使用模式映射</strong>（Bazzite → NixOS），姊妹文档的定位是「NixOS 内部原理」，不涉及与其他发行版的对照</td>
 </tr>
+<tr>
+<td>二十四（Aeon 模式：稳定基座 + 最新应用）</td>
+<td><strong>本文独有</strong>，但与姊妹文档的「混合版本策略」章<strong>互补</strong>：那边讲「为什么可以混」，这边讲「怎么组织成稳定基座 + 追新应用」。<strong>HM 官方 FAQ 的 <code>pkgsUnstable</code> 写法</strong>是本轮新增的一手材料</td>
+</tr>
 </tbody></table>
 <hr>
-<h2 id="sec-28">附录 E：还可以补充什么（Roadmap）</h2>
+<h2 id="sec-29">附录 E：还可以补充什么（Roadmap）</h2>
 <blockquote>
 <p>按用户要求「仔细思考还有什么资料可以补充」。以下是<strong>本次没有展开、但对你可能有用</strong>的方向，按价值排序。</p>
 </blockquote>
-<h3 id="sub-28-0">E.1 高价值（建议下一轮补）</h3>
+<h3 id="sub-29-0">E.1 高价值（建议下一轮补）</h3>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>2026-10-12 第三轮更新</strong>：下表原前四项中的三项已在本轮完成，已加删除线并注明落点。新增&quot;仍未做&quot;的方向见 E.1.1。</p>
 </div></div>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>2026-10-12 第五轮更新（新增第二十三章）</strong>：用户第 8 问的最后一条「如何让 NixOS 做到类似 Fedora Bazzite 的使用模式」已<strong>独立成章</strong>（第二十三章，17 节）。原 E.3 里被判定为「补不了」的两项（<strong>SteamOS 的 Gaming Mode UI</strong>、<strong>掌机 TDP 控制</strong>）已被<strong>部分推翻</strong> —— 见 E.3 的更新标注。</p>
+</div></div>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>2026-10-12 第六轮更新（新增第二十四章）</strong>：新增「<strong>openSUSE Aeon 模式：稳定基座 + 最新应用</strong>」（10 节）。<strong>这是对用户第 8 问之后的新提问的独立成章</strong>，材料来自 <strong>Home Manager 官方 FAQ 的 <code>unstable.md</code> 专节</strong>（本轮首次取到）+ nixpkgs / HM 源码。同时<strong>修正了一个前提</strong>：Aeon 的基座是<strong>滚动的 Tumbleweed</strong>，不是冻结版本（见 §24.1 与附录 B.14.3）。</p>
 </div></div>
 <table>
 <thead>
@@ -13719,6 +14571,11 @@ packageAliases = {
 <td><del><strong>Bazzite 使用模式的完整对照</strong></del></td>
 <td>✅ <strong>已完成（第五轮，第二十三章）</strong>：六层软件层级逐条映射 + <code>nh</code> 与 <code>ujust</code> 对照 + 掌机工具链在 nixpkgs 的现状 + 四个反模式</td>
 <td>Bazzite 官方文档全文 + <code>nixos-26.05</code> 源码逐条核实（见附录 B.13）</td>
+</tr>
+<tr>
+<td><del><strong>「稳定基座 + 最新应用」的完整组织方式</strong></del></td>
+<td>✅ <strong>已完成（第六轮，第二十四章）</strong>：三条路（Flatpak 优先 / 双 nixpkgs / 混合）+ <strong>HM 官方 FAQ 的 <code>pkgsUnstable</code> 写法</strong> + 「稳定」两种含义的辨析</td>
+<td>HM 官方 FAQ <code>unstable.md</code> + HM/NixOS 源码核实（见附录 B.14）</td>
 </tr>
 <tr>
 <td><strong>实测基准数据</strong></td>
@@ -13770,8 +14627,18 @@ packageAliases = {
 <td>第二十二章 §22.8 说 OpenClaw 的唯一支持渠道是 Discord，但<strong>Discord 无法抓取</strong>，所以那里有什么坑本文不知道</td>
 <td>你自己进去看（本指南无法代劳）</td>
 </tr>
+<tr>
+<td><strong>「启动失败自动回滚」的 NixOS 实现</strong></td>
+<td>第二十四章 §24.7 已指出这是本文<strong>唯一明显不如 Aeon</strong> 的一项（Aeon 启动检测到失败会自动回滚，NixOS 要手动选 generation）。<strong>是否有第三方方案（如基于 systemd-boot 的健康检查 + 自动 <code>bootctl set-default</code>）未查</strong></td>
+<td>查 nixpkgs / nix-community 是否有对应模块；或自己写一个 boot 计数 + 失败切换的 systemd 服务</td>
+</tr>
+<tr>
+<td><strong><code>home-manager.useGlobalPkgs = false</code> 的实测代价</strong></td>
+<td>§24.5.3 给的「多一次 nixpkgs 求值 + 包哈希不同」是<strong>源码推断</strong>，缺内存/时间数字</td>
+<td><code>nixos-rebuild</code> 加 <code>--show-trace</code> 记 eval 时间；或对同一包比较 <code>nix path-info</code> 的哈希</td>
+</tr>
 </tbody></table>
-<h3 id="sub-28-1">E.2 中价值</h3>
+<h3 id="sub-29-1">E.2 中价值</h3>
 <table>
 <thead>
 <tr>
@@ -13816,7 +14683,7 @@ packageAliases = {
 <td>进阶：根文件系统每次重启清空</td>
 </tr>
 </tbody></table>
-<h3 id="sub-28-2">E.3 低价值 / 已知无法补充</h3>
+<h3 id="sub-29-2">E.3 低价值 / 已知无法补充</h3>
 <table>
 <thead>
 <tr>
@@ -13845,7 +14712,7 @@ packageAliases = {
 <td>抓取被拦截（<code>old.reddit.com</code> 返回 Blocked）。已用 NixOS Discourse / Arch BBS / HN 替代</td>
 </tr>
 </tbody></table>
-<h3 id="sub-28-3">E.4 建议你<strong>自己</strong>做的验证（本文无法替代）</h3>
+<h3 id="sub-29-3">E.4 建议你<strong>自己</strong>做的验证（本文无法替代）</h3>
 <p>因为「优化收益」是<strong>负载与硬件相关</strong>的，以下必须你自己测：</p>
 <table>
 <thead>

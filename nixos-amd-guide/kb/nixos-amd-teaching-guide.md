@@ -1,12 +1,12 @@
 ---
 id: nixos-amd-teaching-guide
-title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——23 章配置实录
-tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update]
+title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——24 章配置实录
+tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps]
 created: 2026-10-12
 updated: 2026-10-12
-version: 1.6
+version: 1.7
 status: stable
-source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）**）
+source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）**）
 confidence: 已核实
 ---
 
@@ -655,6 +655,143 @@ curl -sL "https://raw.githubusercontent.com/NixOS/nixpkgs/<branch>/pkgs/developm
 
 **详版**：`nixos-amd-guide.md` 第二十三章（17 节）+ 附录 B.13。
 
+## 15. 第六轮（v1.7）：openSUSE Aeon 模式 —— 稳定基座 + 最新应用（第二十四章）
+
+> 用户问：「要做到类似 openSUSE Aeon，基座是稳定，但 apps 是最新的，如何做」
+
+### 15.1 ★ 前提修正：Aeon 的基座**不是**冻结版本，是滚动的 Tumbleweed
+
+LWN 一手技术分析原文（`[媒体·一手]` <https://lwn.net/Articles/927373/>）：
+
+> *"with a **minimal openSUSE Tumbleweed** as the base operating system and applications running as Flatpaks or in containers"*
+> *"Its biggest benefit is **availability of the newest software releases without sacrificing system stability**."*
+
+**「稳定基座」有两种完全不同的实现方式：**
+
+| 实现方式 | 代表 | 「稳定」的来源 | 基座版本 |
+|---|---|---|---|
+| **冻结版本集** | Debian stable / RHEL / **NixOS 26.05** | 版本不变 → 行为不变 | 固定 |
+| **原子 + 极简 + 隔离** | **Aeon** / MicroOS / Silverblue / **NixOS** | 变了能整批回滚，且坏不到基座 | 滚动 |
+
+> **NixOS 两种都能给。** 这是本章最重要的结论 —— 所以「稳定基座 + 最新应用」在 NixOS 上有**三条**路，Aeon 只有一条。
+
+### 15.2 Aeon 技术栈（LWN 一手原文）
+
+| 层 | 做法 | 原文关键句 |
+|---|---|---|
+| 基座 | minimal **Tumbleweed**，Btrfs root **boot 后只读** | *"mounted read-only after boot"* |
+| 更新 | systemd timer **每天** `transactional-update`（zypper 包装）→ 新建 snapshot → 标记下次启动 | *"System updates are done automatically every day"* |
+| 失败 | 丢弃 snapshot；**启动检测到问题自动回滚**；手动 `transactional-update rollback` | *"it automatically rolls back"* |
+| GUI 应用 | **全部 Flatpak** 在 `~/.local/share/flatpak`，自动更新；GNOME Software **只装 Flathub** | *"it's configured to **only** install Flatpaks from Flathub"* |
+| CLI/开发 | **Distrobox**（Tumbleweed 容器，>75,000 RPM）；`distrobox-export` 导出到菜单 | — |
+| 兜底装包 | `transactional-update` 装 RPM —— **只给驱动/内核模块/VPN 客户端** | *"every extra package in the host incurs extra risk of instability"* |
+| 防火墙 | 默认**没有**（by design，与容器运行时冲突） | — |
+
+### 15.3 三条路（核心表）
+
+| 维度 | 路 A：Aeon 式 | 路 B：双 nixpkgs | 路 C：混合（**推荐**） |
+|---|---|---|---|
+| 基座 | 26.05 极简 | 26.05 | 26.05 |
+| GUI 应用 | **Flatpak** | **nixpkgs-unstable** | 按需 |
+| CLI/开发 | **Distrobox** | HM + unstable | HM + unstable |
+| 系统级滚动组件 | 不动 | unstable | **只取 mesa** |
+| 应用进配置 | ❌ | ✅ | ⚠️ 部分 |
+| 构建成本 | **零** | 中 | 低 |
+| 可复现 | ❌ | ✅ | ⚠️ |
+| 主题/字体/**输入法** | ❌ 要额外打通（§7） | ✅ 天然一致 | ⚠️ 部分 |
+
+### 15.4 ★ HM 官方 FAQ 的 `pkgsUnstable` 写法（本轮首次取到的一手材料）
+
+Home Manager 官方 FAQ 有专节 *"How do I install packages from Nixpkgs unstable?"*（`home-manager/release-26.05/docs/manual/faq/unstable.md`）。NixOS 模块下的官方写法：
+
+```nix
+# flake.nix
+inputs = {
+  nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";  # ← 注意分支名
+  home-manager = {
+    url = "github:nix-community/home-manager/release-26.05";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+};
+
+# configuration.nix（模块里）
+({ config, ... }: {
+  home-manager.extraSpecialArgs = {
+    pkgsUnstable = import nixpkgs-unstable {
+      inherit system;
+      config   = config.nixpkgs.config;    # ★★ 官方明确要求
+      overlays = config.nixpkgs.overlays;  # ★★ 官方明确要求
+    };
+    # 若用默认 nixpkgs 配置，官方说可简写：
+    # pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
+  };
+})
+
+# home.nix
+{ pkgs, pkgsUnstable, ... }: {
+  home.packages = with pkgsUnstable; [ firefox chromium vscode ];
+}
+```
+
+**为什么那两行必须写**：不传 `config` → 基座开了 `allowUnfree` 但 `pkgsUnstable.vscode` 会**求值失败**；不传 `overlays` → 基座的 overlay 在 unstable 里不存在。
+
+### 15.5 让**整个 HM** 用 unstable：`pkgsPath` 覆盖（源码级）
+
+HM 内部（`modules/modules.nix:119`）：
+```nix
+_module.args.pkgsPath = lib.mkDefault (
+  if lib.versionAtLeast config.home.stateVersion "20.09" then pkgs.path else <nixpkgs>
+);
+_module.args.pkgs = lib.mkDefault pkgs;
+```
+
+**是 `mkDefault` → 可覆盖**：
+```nix
+home-manager = {
+  useGlobalPkgs = false;   # ★ 必须关（否则 nixpkgs.* 被禁用）
+  sharedModules = [ { _module.args.pkgsPath = inputs.nixpkgs-unstable.outPath; } ];
+  users.<你> = { pkgs, ... }: { home.packages = with pkgs; [ firefox ]; };
+};
+```
+
+**代价**：`useGlobalPkgs = false` 时 HM 会**自己 `import pkgsPath (...)`**（`nixpkgs.nix:58`）→ 多一次 nixpkgs 求值；且 HM 的包与系统的包**哈希不同、无法共享**（同一 Firefox build 两份）。
+
+**`useGlobalPkgs = true` 的硬约束**（`nixpkgs-disabled.nix`）：`nixpkgs.config` / `nixpkgs.overlays` **被禁用**，有断言 + warning：*"`nixpkgs` options are disabled when `home-manager.useGlobalPkgs` is enabled."*
+
+### 15.6 Aeon ↔ NixOS 更新/回滚对照
+
+| Aeon | NixOS | 备注 |
+|---|---|---|
+| 每天自动 `transactional-update` | `system.autoUpgrade` + `dates` | ✅ 等价 |
+| 更新不影响运行中的系统，重启生效 | `operation = "boot"` | ✅ 等价（enum 只有 `switch`/`boot`） |
+| 启动失败**自动**回滚 | 手动选旧 generation | ❌ **NixOS 唯一明显不如 Aeon 的一项** |
+| `transactional-update rollback` | `nixos-rebuild switch --rollback` | ✅ 等价 |
+| 装包要重建快照 + **重启** | rebuild，**不用重启** | ✅ **NixOS 更强** |
+| 整镜像回滚 | 单包 / 整 generation 都能回滚 | ✅ **NixOS 更强** |
+
+### 15.7 基座该留什么（NixOS 判据 ≠ Aeon 判据）
+
+Aeon 的判据是**风险**（*"every extra package in the host incurs extra risk of instability"*）；**NixOS 的判据应该是作用域**：
+
+| 进基座（`environment.systemPackages`） | 不进 |
+|---|---|
+| 内核/模块/固件、图形驱动、桌面环境本体、显示/网络/音频栈 | GUI 应用、CLI 工具、语言工具链、媒体应用 |
+| 必须全局可见的工具（`git`/`curl`/`htop`） | `nix profile install` 装的任何东西 |
+
+**理由**：NixOS 的基座包**不会互相污染**（独立闭包），所以「装一个搞坏另一个」基本不发生。**但基座包越多 → `nix flake update` 重建面越广**（§22.2 的 666 个 derivation）。
+
+### 15.8 四条反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 以为「稳定基座」= 冻结版本 | 错过「滚动 + 原子回滚」这条路 | 先分清两种「稳定」（§15.1） |
+| 2 | 照抄 Aeon「Flatpak 是唯一渠道」 | 失去可复现性 + §7 三个坑 + 换机要手动重装 | Flatpak 是**兜底** |
+| 3 | `pkgsUnstable` 不传 `config.nixpkgs.config` | unfree 包**求值直接失败** | 照抄官方 FAQ 那两行 |
+| 4 | 改 `pkgsPath` 忘关 `useGlobalPkgs` | 改了没用 + warning | 两者成对出现 |
+
+**详版**：`nixos-amd-guide.md` 第二十四章（10 节）+ 附录 B.14。
+
 ## 可复用操作
 
 ```bash
@@ -784,6 +921,12 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 60. **别把「Bazzite 能随意 rebase」的习惯带到 NixOS** —— Bazzite rebase = 下载镜像；NixOS 换 nixpkgs 输入 = 可能**本地编译几百个包**
 61. **`pkgs.decky-loader` / `pkgs.hhd` 不在 nixpkgs**（404）—— 想要 Bazzite 的完整掌机体验，这两块**无解**
 62. **`inputplumber` / `powerstation` / `bazaar` 都在 nixpkgs** —— 但「有零件」≠「有体验」，Bazzite 的护城河是**机型适配接线**，不是组件本身
+63. **Aeon 的基座是滚动的 Tumbleweed，不是冻结版本** —— 它的「稳定」来自**原子 + 极简 + 隔离**，不是版本冻结。**误以为「稳定 = 冻结」会漏掉 NixOS 的「滚动 + 原子回滚」这条路**
+64. **`pkgsUnstable` 必须传 `config.nixpkgs.config` 和 `overlays`** —— 否则基座开了 `allowUnfree` 而 unstable 那份没开，`pkgsUnstable.vscode` 会**求值失败**（HM 官方 FAQ 明确要求这两行）
+65. **`home-manager.useGlobalPkgs = true` 时 `nixpkgs.*` 选项被禁用** —— 有断言 + warning：*"`nixpkgs` options are disabled when `home-manager.useGlobalPkgs` is enabled."* **改 `pkgsPath` 必须同时关掉它，否则改了没用**
+66. **`useGlobalPkgs = false` 会让 HM 自己 import 一份 nixpkgs** —— 多一次求值，且 HM 的包与系统包**哈希不同、无法共享**（同一 Firefox 会被 build 两份）
+67. **Aeon 有「启动失败自动回滚」，NixOS 没有开箱实现** —— NixOS 要在启动菜单手动选旧 generation。这是本文档找到的**唯一 NixOS 明显不如 Aeon 的一项**
+68. **NixOS 的 `switch` 不需要重启，Aeon 的 `transactional-update` 需要** —— 所以 NixOS 能做到「Aeon 式原子性 + 不重启」
 
 ## 未核实 / 存疑
 
@@ -825,6 +968,14 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 | `pkgs.bazaar` 在 nixpkgs 的具体版本号 | 未核实（上游同为 `kolunmi/bazaar`，版本未读出） |
 | Bazzite 的「90 天镜像保留」是否有书面 SLA | 官方措辞有，**SLA 未核实**（官网是描述现状） |
 | `hhd`（Handheld Daemon）是否有 nixpkgs 打包计划 | 未找到 |
+| **NixOS 是否有「启动失败自动回滚」实现** | 未核实（Aeon 有，NixOS 需手动；nixpkgs 内未见模块，第三方方案未查） |
+| `home-manager.useGlobalPkgs = false` 的实际代价 | 推断（源码：HM 会 `import pkgsPath`；缺内存/时间实测数字） |
+| `pkgsUnstable` 不传 `config` 时的具体报错 | 推断（基于 nixpkgs unfree 机制，未实际触发） |
+| `_module.args.pkgsPath` 在 HM 用户级覆盖的副作用 | 未核实（`mkDefault` 可覆盖已核实；与 `useUserPackages` 的交互未实测） |
+| **Aeon 当前镜像/组件版本** | 未核实（LWN 是 2023-03 的；「3,600 Flatpak」「75,000 RPM」是当时数字） |
+| Aeon 是否仍默认不装防火墙 / 仍无 FDE | 媒体·2023（Richard Brown 说法，2026 现状未核实；Aeon 已改用 TIK 安装器） |
+| `nixpkgs-unstable` 与 `nixos-unstable` 两分支的差异 | 官方（存在性）+ 未核实（包版本是否逐字相同未实测；HM 官方 FAQ 用前者） |
+| 路 C「只滚 mesa」的长期风险 | 未核实（mesa 跨大版本可能与基座内核/`libdrm` 有 ABI 约束，无长期数据） |
 | `r8169.aspm=0` 不存在 | 社区来源（内核邮件列表），非正式文档 |
 | `r8169` 对 RTL8125 的稳定性 | 社区经验，无权威一手出处 |
 | `plasma-login-manager` 是否已取代 SDDM | **来源冲突**：Wiki 说是默认，源码仍是 SDDM → **以源码为准** |
@@ -881,5 +1032,22 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 - **lanzaboote**（Secure Boot，最新 v1.2.0）：https://github.com/nix-community/lanzaboote
 - **nixpkgs 新增核实项（第五轮）**：`nixos/modules/programs/nh.nix`、`pkgs/by-name/nh/{nh,nh-unwrapped}/package.nix`、`nixos/modules/programs/steam.nix`、`nixos/modules/programs/gamescope.nix`、`nixos/modules/virtualisation/waydroid.nix`、`nixos/modules/services/desktops/flatpak.nix`、`nixos/modules/tasks/auto-upgrade.nix`、`nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix`、`pkgs/os-specific/linux/kernel/common-config.nix:1447-1457`（binder）、`pkgs/by-name/{di/distrobox,in/inputplumber,po/powerstation,ba/bazaar,um/umu-launcher}/package.nix`
 
-- 完整逐条出处见交付物 `nixos-amd-guide.md` 附录 B（含 B.9 CachyOS 对照专节 · B.13 Bazzite 对照专节）
+- 完整逐条出处见交付物 `nixos-amd-guide.md` 附录 B（含 B.9 CachyOS 对照专节 · B.13 Bazzite 对照专节 · B.14 Aeon 对照专节）
+
+**Aeon / MicroOS Desktop 对照（第二十四章，一手）**
+
+- **LWN · OpenSUSE MicroOS Desktop: a Flatpak-based immutable distribution**（Koen Vervloesem，2023-03-29）：https://lwn.net/Articles/927373/ —— §24.1/§24.2 全部技术细节的**一手来源**（基座是 Tumbleweed、Btrfs 只读、`transactional-update` 机制、Flatpak 在 `~/.local/share/flatpak`、GNOME Software 只装 Flathub、Distrobox >75,000 RPM、*"every extra package in the host incurs extra risk of instability"*、无防火墙 by design）
+- **Aeon 官网**：https://aeondesktop.github.io/ （三条卖点原文：Automated Maintenance / Minimal Yet Functional / Flatpak / Distrobox / Transactional Update）
+- **FOSS Wiki · Aeon**：https://foss.wiki/Aeon （「Release Model: Rolling」旁证；该站自标 lacks citations，仅作旁证）
+- **openSUSE 中文社区 · 更名公告**：https://suse.org.cn/社区新闻/2023/05/27/opensuse-aeon.html
+- **⚠️ openSUSE Wiki `Portal:Aeon` 在核实期间数据库故障**（*"Cannot access the database"*），故本章未使用 Wiki
+
+**Home Manager 官方 FAQ 与源码（第六轮新增核实项）**
+
+- **HM 官方 FAQ · How do I install packages from Nixpkgs unstable?**：`home-manager/release-26.05/docs/manual/faq/unstable.md`（§24.5.1 照抄官方骨架）
+- `home-manager/release-26.05/nixos/common.nix`（`useGlobalPkgs` / `useUserPackages` / `extraSpecialArgs` / `sharedModules` / `users` / `minimal` 等全部选项）
+- `home-manager/release-26.05/modules/misc/nixpkgs.nix:58`（`_pkgs = import pkgsPath (...)`）
+- `home-manager/release-26.05/modules/misc/nixpkgs-disabled.nix`（`useGlobalPkgs = true` 时 `nixpkgs.*` 被禁用的断言与 warning）
+- `home-manager/release-26.05/modules/modules.nix:119-122`（`pkgsPath` / `pkgs` 的 `mkDefault` 默认值）
+- 分支探测：`home-manager/release-26.05`、`nixpkgs/nixpkgs-unstable`、`nixpkgs/nixos-unstable`、`nixpkgs/nixos-26.05` 均存在（HTTP 200）
 

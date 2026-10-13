@@ -4,7 +4,7 @@
 
 | id | 标题 | 版本 | 状态 | 更新 | 标签 |
 |---|---|---|---|---|---|
-| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——23 章配置实录 | 1.6 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update |
+| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——24 章配置实录 | 1.7 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps |
 | [nixos-operations-guide](./nixos-operations-guide.md) | NixOS 运维指南（26.05）——配置路线、游戏、非 Nix 二进制、混合版本策略、查询工具链、LLM 辅助 | 1.5 | stable | 2026-10-12 | nixos, nix, flakes, home-manager, gaming, steam, appimage, nix-ld, llm-ops, mcp, rolling-release, nixpkgs-unstable, nixhub, flakehub, noogle, systemd-user-service, linger, hermes-agent, openclaw |
 | [distro-ai-collaborative-management](./distro-ai-collaborative-management.md) | 发行版「AI 协同管理」实践全景——哪些发行版真的有 MCP / Skills / AI 运维方案 | 1.0 | stable | 2026-10-12 | linux-distro, mcp, agent-skills, ai-ops, redhat, nixos, opensuse, omarchy, bluefin, clawhub, skills-sh |
 
@@ -28,6 +28,16 @@
 > 3. **Bazzite 的掌机组件大多在 nixpkgs 里**：`pkgs.inputplumber`（v0.77.1）、`pkgs.powerstation`（TDP 控制 daemon）、`pkgs.bazaar`（FlatHub-first 商店）、`pkgs.distrobox`（**同为 1.8.2.5**）。**缺的不是零件，是机型适配接线。**
 >
 > 另有：`pkgs.nh`（4.4.2，**官方 NixOS 模块 `programs.nh`**）= NixOS 上最接近 `ujust` 的东西；`services.flatpak` **只有 `enable` + `package`**；`pkgs.decky-loader` / `pkgs.lanzaboote` = 404。
+>
+> **v1.7（2026-10-12 第六轮：Aeon 模式 —— 稳定基座 + 最新应用）**：`nixos-amd-teaching-guide.md` 升到 **1.7**（23 章 → 24 章），新增第 15 节。问题原话：「要做到类似 openSUSE Aeon，基座是稳定，但 apps 是最新的，如何做」。方法：**Aeon 侧取 LWN 一手技术分析 + 官网原文**，**NixOS 侧取 Home Manager 官方 FAQ 专节 + HM/NixOS 源码**。
+>
+> 三条最高价值结论：
+>
+> 1. **★ 前提修正：Aeon 的基座是滚动的 openSUSE Tumbleweed，不是冻结版本。** 它的「稳定」来自**原子 + 极简 + 隔离**，不来自版本冻结。**「稳定基座」有两种含义**（冻结式 / 原子式），**NixOS 两种都能给** —— 所以有**三条**路，Aeon 只有一条。
+> 2. **HM 官方 FAQ 有专节 *"How do I install packages from Nixpkgs unstable?"***，NixOS 模块下的官方写法是 `home-manager.extraSpecialArgs = { pkgsUnstable = import nixpkgs-unstable { inherit system; config = config.nixpkgs.config; overlays = config.nixpkgs.overlays; }; }` —— **那两行 `config`/`overlays` 是官方明确要求**，漏了 unfree 包会求值失败。
+> 3. **三条路**：A（Aeon 式：基座极简 + Flatpak + Distrobox）/ B（双 nixpkgs：官方 FAQ 写法）/ **C（混合，推荐：只把 mesa 取 unstable + 应用按需）**。NixOS 比 Aeon 多一个能力：**基座、组件、应用可各自有各自的新鲜度与回滚粒度**。
+>
+> 另有一处**诚实的短板**：**Aeon 有「启动失败自动回滚」，NixOS 没有开箱实现**（需手动在启动菜单选旧 generation）。这是本文档找到的唯一 NixOS 明显不如 Aeon 的一项。
 
 ## 约定
 
