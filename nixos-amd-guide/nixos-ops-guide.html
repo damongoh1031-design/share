@@ -1,0 +1,3785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NixOS 运维指南（26.05）</title>
+<style>
+  :root{
+    --bg:#0e1014; --bg2:#141821; --bg3:#1a1f29; --bg4:#20262f;
+    --fg:#e7eaf0; --fg2:#a9b1be; --fg3:#79828f;
+    --line:#252b36; --accent:#6ba4ff; --accent2:#4ade80;
+    --code-bg:#11151c;
+    --warn:#fbbf24; --danger:#f87171; --tip:#4ade80; --note:#60a5fa;
+    --mono:ui-monospace,SFMono-Regular,"Cascadia Code","JetBrains Mono",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.78;-webkit-font-smoothing:antialiased}
+  .layout{display:flex;max-width:1560px;margin:0 auto}
+
+  /* ── 侧栏 ── */
+  aside{width:330px;flex:0 0 330px;position:sticky;top:0;height:100vh;overflow-y:auto;
+        border-right:1px solid var(--line);padding:24px 14px 80px;background:var(--bg2);scrollbar-width:thin}
+  aside .brand{font-size:12px;letter-spacing:.16em;color:var(--fg3);text-transform:uppercase;margin-bottom:3px}
+  aside .ver{font-size:11.5px;color:var(--fg3);margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .toc-group{margin-bottom:2px}
+  .toc-item{display:flex;gap:9px;align-items:baseline;padding:7px 9px;border-radius:7px;
+            color:var(--fg2);text-decoration:none;font-size:13.5px;line-height:1.42;transition:background .15s,color .15s}
+  .toc-item:hover{background:var(--bg3);color:var(--fg)}
+  .toc-num{color:var(--accent);font-family:var(--mono);font-size:10.5px;flex:0 0 20px;opacity:.8;padding-top:1px}
+  .toc-kids{display:none;margin:2px 0 6px 0}
+  .toc-group:hover .toc-kids,.toc-group:focus-within .toc-kids{display:block}
+  .toc-sub{display:block;padding:4px 9px 4px 38px;border-radius:6px;color:var(--fg3);
+           text-decoration:none;font-size:12.3px;line-height:1.4}
+  .toc-sub:hover{background:var(--bg3);color:var(--fg2)}
+
+  /* ── 正文 ── */
+  main{flex:1;min-width:0;padding:46px 60px 140px;max-width:1120px}
+  h1{font-size:2rem;line-height:1.28;margin:0 0 8px;letter-spacing:-.022em}
+  h1 + h3{color:var(--fg2);font-weight:500;margin:0 0 24px;font-size:1rem}
+  h2{font-size:1.42rem;margin:58px 0 18px;padding-bottom:11px;border-bottom:1px solid var(--line);
+     letter-spacing:-.012em;scroll-margin-top:20px}
+  h2.toc-heading{color:var(--fg3);font-size:1.1rem}
+  h3{font-size:1.1rem;margin:36px 0 12px;color:#f1f4f9;scroll-margin-top:20px}
+  h4{font-size:.98rem;margin:24px 0 10px;color:var(--fg2)}
+  p{margin:12px 0;color:#d9dee7}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(107,164,255,.28);word-break:break-word}
+  a:hover{border-bottom-color:var(--accent)}
+  strong{color:#fff;font-weight:600}
+  hr{border:0;border-top:1px solid var(--line);margin:46px 0}
+  ul,ol{padding-left:23px;color:#d9dee7}
+  li{margin:6px 0}
+  li>ul,li>ol{margin:4px 0}
+
+  /* ── 代码 ── */
+  code{font-family:var(--mono);font-size:.855em;background:var(--code-bg);border:1px solid var(--line);
+       border-radius:5px;padding:1.5px 6px;color:#8fd6ff}
+  pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+      overflow-x:auto;margin:16px 0;line-height:1.64}
+  pre code{background:none;border:0;padding:0;font-size:13.1px;color:#c9d4e3}
+
+  /* ── 表格 ── */
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:13.8px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:9px 13px;text-align:left;vertical-align:top}
+  th{background:var(--bg3);color:#fff;font-weight:600;white-space:nowrap}
+  td{color:#d0d6e0}
+  tr:nth-child(even) td{background:rgba(255,255,255,.017)}
+
+  /* ── 引用 ── */
+  blockquote{margin:16px 0;padding:12px 18px;border-left:3px solid var(--accent);
+             background:rgba(107,164,255,.06);border-radius:0 8px 8px 0;color:var(--fg2)}
+  blockquote p{margin:5px 0;font-size:14.4px}
+  em{color:#e9d5a1;font-style:normal;font-weight:500}
+
+  /* ── Callout ── */
+  .callout{margin:18px 0;border-radius:10px;border:1px solid var(--line);
+           background:var(--bg2);overflow:hidden}
+  .callout-h{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:13px;
+             font-weight:600;letter-spacing:.02em;border-bottom:1px solid var(--line)}
+  .callout-i{font-size:14px;line-height:1}
+  .callout-b{padding:12px 16px}
+  .callout-b>*:first-child{margin-top:0}
+  .callout-b>*:last-child{margin-bottom:0}
+  .callout-b p{font-size:14.4px;margin:8px 0}
+  .callout.note{border-color:rgba(96,165,250,.34)}
+  .callout.note .callout-h{background:rgba(96,165,250,.10);color:#93c5fd}
+  .callout.tip{border-color:rgba(74,222,128,.34)}
+  .callout.tip .callout-h{background:rgba(74,222,128,.10);color:#86efac}
+  .callout.warn{border-color:rgba(251,191,36,.36)}
+  .callout.warn .callout-h{background:rgba(251,191,36,.11);color:#fcd34d}
+  .callout.danger{border-color:rgba(248,113,113,.38)}
+  .callout.danger .callout-h{background:rgba(248,113,113,.12);color:#fca5a5}
+  .callout.important{border-color:rgba(167,139,250,.36)}
+  .callout.important .callout-h{background:rgba(167,139,250,.11);color:#c4b5fd}
+
+  @media (max-width:980px){
+    aside{display:none}
+    main{padding:28px 20px 100px}
+    h1{font-size:1.55rem}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand">NixOS Teaching Guide</div>
+    <div class="ver">v1.4 · 2026-10-12</div>
+    <div class="toc-group"><a class="toc-item" href="#sec-0"><span class="toc-num">01</span><span>一、NixOS 的心智模型：三个概念解释一切</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-0-0">1.1 derivation（构建配方）</a>
+<a class="toc-sub" href="#sub-0-1">1.2 不可变性与「没有 /usr/lib」——解释后面所有报错</a>
+<a class="toc-sub" href="#sub-0-2">1.3 generation（代）——回滚能力的来源</a>
+<a class="toc-sub" href="#sub-0-3">1.4 nixos-rebuild 的七个子命令（语义差异，必须分清）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-1"><span class="toc-num">02</span><span>二、三条配置路线：configuration.nix / flakes / home-manager</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-1-0">2.1 路线 A：configuration.nix 单体（默认，新手起点）</a>
+<a class="toc-sub" href="#sub-1-1">2.2 路线 B：Flakes（进阶，多机 / 想要锁版本）</a>
+<a class="toc-sub" href="#sub-1-2">2.3 路线 C：Home Manager（管用户环境与 dotfiles）</a>
+<a class="toc-sub" href="#sub-1-3">2.4 三条路线对比与推荐</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-2"><span class="toc-num">03</span><span>三、从零装机：默认配置逐段解释</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-2-0">3.1 安装流程（图形安装器）</a>
+<a class="toc-sub" href="#sub-2-1">3.2 逐段解释安装器生成的配置</a>
+<a class="toc-sub" href="#sub-2-2">3.3 必备基础设置</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-3"><span class="toc-num">04</span><span>四、游戏玩家专章</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-3-0">4.1 显卡驱动</a>
+<a class="toc-sub" href="#sub-3-1">4.2 Steam / Proton</a>
+<a class="toc-sub" href="#sub-3-2">4.3 性能与监控工具</a>
+<a class="toc-sub" href="#sub-3-3">4.4 其它启动器（包名均在 26.05）</a>
+<a class="toc-sub" href="#sub-3-4">4.5 nix-gaming（第三方 flake，可选进阶）</a>
+<a class="toc-sub" href="#sub-3-5">4.6 系统调优</a>
+<a class="toc-sub" href="#sub-3-6">4.7 完整可复制片段（NVIDIA 独显 + Steam 全家桶）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-4"><span class="toc-num">05</span><span>五、NixOS 没有的软件怎么跑</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-4-0">5.1 决策树</a>
+<a class="toc-sub" href="#sub-4-1">5.2 方案 A：buildFHSEnv（FHS 沙箱）</a>
+<a class="toc-sub" href="#sub-4-2">5.3 方案 B：AppImage</a>
+<a class="toc-sub" href="#sub-4-3">5.4 方案 C：nix-ld（★ 最推荐的兜底方案）</a>
+<a class="toc-sub" href="#sub-4-4">5.5 方案 D：steam-run</a>
+<a class="toc-sub" href="#sub-4-5">5.6 决策表</a>
+<a class="toc-sub" href="#sub-4-6">5.7 node / npm 生态</a>
+<a class="toc-sub" href="#sub-4-7">5.8 Python 生态</a>
+<a class="toc-sub" href="#sub-4-8">5.9 案例：Hermes Agent</a>
+<a class="toc-sub" href="#sub-4-9">5.10 案例：OpenAI Codex CLI</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-5"><span class="toc-num">06</span><span>六、稳定基座 + 滚动组件（混合版本策略）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-5-0">6.0 先做一件事：量出「跨源到底能拿到什么」</a>
+<a class="toc-sub" href="#sub-5-1">6.1 分清：哪些组件能滚，哪些不能</a>
+<a class="toc-sub" href="#sub-5-2">6.2 只用 configuration.nix 做到吗？——能，有三条路</a>
+<a class="toc-sub" href="#sub-5-3">6.3 路 D：flake（推荐）</a>
+<a class="toc-sub" href="#sub-5-4">6.4 逐个组件的正确做法</a>
+<a class="toc-sub" href="#sub-5-5">6.5 flake 会锁版本吗？能自动换锁吗？</a>
+<a class="toc-sub" href="#sub-5-6">6.6 有多少步骤？—— 四种口径的步骤清单</a>
+<a class="toc-sub" href="#sub-5-7">6.7 让 agent 接管整个闭环</a>
+<a class="toc-sub" href="#sub-5-8">6.8 社区案例汇总</a>
+<a class="toc-sub" href="#sub-5-9">6.9 一句话决策</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-6"><span class="toc-num">07</span><span>七、长期运维与跨版本升级</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-6-0">7.1 generation 管理与回滚</a>
+<a class="toc-sub" href="#sub-6-1">7.2 磁盘占用与清理</a>
+<a class="toc-sub" href="#sub-6-2">7.3 跨版本升级：26.05 → 26.11</a>
+<a class="toc-sub" href="#sub-6-3">7.4 stateVersion 在升级时怎么处理</a>
+<a class="toc-sub" href="#sub-6-4">7.5 升级前检查清单（照做即可）</a>
+<a class="toc-sub" href="#sub-6-5">7.6 稳定性策略</a>
+<a class="toc-sub" href="#sub-6-6">7.7 备份策略</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-7"><span class="toc-num">08</span><span>八、Nix 生态查询工具链</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-7-0">8.1 五个工具的分工</a>
+<a class="toc-sub" href="#sub-7-1">8.2 search.nixos.org —— 官方搜索（选项搜索是它的核心价值）</a>
+<a class="toc-sub" href="#sub-7-2">8.3 NixHub.io —— 查历史版本（本节最有实用价值）</a>
+<a class="toc-sub" href="#sub-7-3">8.4 FlakeHub —— flake 的语义化版本与分发</a>
+<a class="toc-sub" href="#sub-7-4">8.5 Noogle —— Nix 函数搜索引擎</a>
+<a class="toc-sub" href="#sub-7-5">8.6 Jetify / Devbox —— 不写 Nix 语言用 Nix</a>
+<a class="toc-sub" href="#sub-7-6">8.7 串起来：一个真实工作流</a>
+<a class="toc-sub" href="#sub-7-7">8.8 这些工具和 LLM 的关系</a>
+<a class="toc-sub" href="#sub-7-8">8.9 坑与反直觉</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-8"><span class="toc-num">09</span><span>九、LLM 辅助管理 NixOS</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-8-0">9.1 为什么 NixOS 特别适合 LLM 辅助</a>
+<a class="toc-sub" href="#sub-8-1">9.2 MCP 生态（2026-10-12 核实）</a>
+<a class="toc-sub" href="#sub-8-2">9.3 给 LLM 喂上下文的标准姿势</a>
+<a class="toc-sub" href="#sub-8-3">9.4 安全护栏流程（必须遵守）</a>
+<a class="toc-sub" href="#sub-8-4">9.5 可复用的 Prompt 模板</a>
+<a class="toc-sub" href="#sub-8-5">9.6 把 NixOS 运维封装成 skill</a>
+<a class="toc-sub" href="#sub-8-6">9.7 风险清单</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-9"><span class="toc-num">10</span><span>十、附录</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-9-0">10.1 命令速查表</a>
+<a class="toc-sub" href="#sub-9-1">10.2 出处汇总</a>
+<a class="toc-sub" href="#sub-9-2">10.3 未核实 / 存疑项</a></div></div>
+  </aside>
+  <main><h1>NixOS 运维指南（26.05 版）</h1>
+<h3>面向初学者与游戏玩家 · 每个设置都解释「为什么」· 全部结论附出处</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>适用版本</td>
+<td>NixOS 26.05「Yarara」</td>
+</tr>
+<tr>
+<td>26.05 发布日期</td>
+<td>2026-05-30</td>
+</tr>
+<tr>
+<td>26.05 安全支持截止</td>
+<td>2026-12-31</td>
+</tr>
+<tr>
+<td>下一版本</td>
+<td>NixOS 26.11「Zokor」（2026 年 11 月底）</td>
+</tr>
+<tr>
+<td>文档核实日期</td>
+<td>2026-10-12（含第二轮源码级复核 + 第四轮 <code>nixos-26.05</code>/<code>nixos-unstable</code> 双分支逐包实测）</td>
+</tr>
+<tr>
+<td>文档版本</td>
+<td>1.4</td>
+</tr>
+<tr>
+<td>出处基准</td>
+<td>官方手册 / nixpkgs <code>nixos-26.05</code> 分支源码 / 官方 Wiki / 官方 Discourse / 生态站 API 实测</td>
+</tr>
+</tbody></table>
+<p><strong>证据分级说明</strong>（全文遵守）：</p>
+<ul>
+<li><code>[官方]</code> = nixos.org 手册、nix.dev、nix-community 官方文档、官方 API 文档</li>
+<li><code>[官方选项]</code> = 官方手册/选项数据库中的选项定义页</li>
+<li><code>[官方论坛]</code> = 官方 Discourse 论坛帖（一手社区讨论，非官方结论）</li>
+<li><code>[Wiki]</code> = wiki.nixos.org / nixos.wiki 社区 Wiki</li>
+<li><code>[仓库]</code> = 项目自身 GitHub README / issue / 源码</li>
+<li><code>[社区]</code> / <code>[社区实证]</code> = 第三方社区讨论、博客、实测报告</li>
+<li><code>[媒体]</code> = 新闻报道（如 LWN）</li>
+<li><code>[核实]</code> / <code>[核实·源码]</code> / <code>[核实·Wiki]</code> = 本文撰写时 <strong>curl 实测</strong> 或<strong>逐条比对源码/Wiki</strong> 确认</li>
+<li><code>[未核实]</code> / <code>[未找到]</code> = 无法从一手来源确认，已明确标注</li>
+</ul>
+<hr>
+<h2 class="toc-heading">目录</h2>
+<ol>
+<li><a href="#%E4%B8%80">NixOS 的心智模型：三个概念解释一切</a></li>
+<li><a href="#%E4%BA%8C">三条配置路线：configuration.nix / flakes / home-manager</a></li>
+<li><a href="#%E4%B8%89">从零装机：默认配置逐段解释</a></li>
+<li><a href="#%E5%9B%9B">游戏玩家专章</a></li>
+<li><a href="#%E4%BA%94">NixOS 没有的软件怎么跑（AppImage / 官方二进制 / node / npm）</a></li>
+<li><a href="#%E5%85%AD">稳定基座 + 滚动组件（混合版本策略）</a></li>
+<li><a href="#%E4%B8%83">长期运维与跨版本升级</a></li>
+<li><a href="#%E5%85%AB">Nix 生态查询工具链（search.nixos.org / NixHub / FlakeHub / Noogle / Devbox）</a></li>
+<li><a href="#%E4%B9%9D">LLM 辅助管理 NixOS</a></li>
+<li><a href="#%E5%8D%81">附录：命令速查 + 出处汇总</a></li>
+</ol>
+<hr>
+<p><a id="一"></a></p>
+<h2 id="sec-0">一、NixOS 的心智模型：三个概念解释一切</h2>
+<p>初学者 90% 的困惑来自没搞清这三个概念。搞清之后，后面所有「为什么跑不起来」「为什么能回滚」都是自然推论。</p>
+<h3 id="sub-0-0">1.1 derivation（构建配方）</h3>
+<p><strong>是什么</strong>：derivation 是一份「构建配方」，描述「用什么输入、跑什么命令、产出什么路径」。执行后产物被放进 <code>/nix/store</code>。</p>
+<p><strong>为什么重要</strong>：产物路径由输入（名字、构建脚本、全部依赖）的哈希决定，所以<strong>同样的输入必然得到同样的路径</strong>。这就是「可复现」的物理基础。</p>
+<p>store path 格式为 <code>/nix/store/&lt;32 字符哈希&gt;-&lt;名字&gt;</code>，例如 <code>/nix/store/1a2b...-firefox-142.0</code>。官方明确说这个哈希「应当被当作不透明标识符」，不要试图解读它。</p>
+<blockquote>
+<p>出处：<a href="https://nix.dev/manual/nix/stable/store/store-path.html">nix.dev · Store Path</a> <code>[官方]</code></p>
+</blockquote>
+<h3 id="sub-0-1">1.2 不可变性与「没有 /usr/lib」——解释后面所有报错</h3>
+<p><strong>关键事实</strong>：NixOS <strong>不遵循 FHS（Filesystem Hierarchy Standard）</strong>。</p>
+<ul>
+<li>没有 <code>/usr/lib</code></li>
+<li>没有 <code>/lib64/ld-linux-x86-64.so.2</code></li>
+<li>没有 <code>/bin/bash</code> 之外的常规动态链接器路径</li>
+</ul>
+<p><strong>为什么</strong>：Linux 的 ELF 可执行文件把「动态链接器（interpreter）的路径」<strong>硬编码在文件头里</strong>。普通发行版的二进制写着 <code>/lib64/ld-linux-x86-64.so.2</code>，NixOS 没这个文件 → 运行时报一个极具误导性的错误：</p>
+<pre><code>bash: ./some-binary: No such file or directory
+</code></pre>
+<p>文件明明存在，却报「找不到文件」。这不是文件缺失，是<strong>它依赖的链接器缺失</strong>。</p>
+<p><strong>Nix 的解法</strong>：打包时用 <code>patchelf</code> 改写 ELF 的 interpreter 和 RPATH，指向 <code>/nix/store</code> 里的 glibc。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Packaging/Binaries">NixOS Wiki · Packaging/Binaries</a> <code>[Wiki]</code>；<a href="https://github.com/NixOS/patchelf">github.com/NixOS/patchelf</a> <code>[仓库]</code></p>
+</blockquote>
+<p><strong>这个事实直接决定了第五章的全部内容</strong>：任何「官方下载的二进制」都需要某种方式补上 FHS 环境。</p>
+<h3 id="sub-0-2">1.3 generation（代）——回滚能力的来源</h3>
+<p>每次 <code>nixos-rebuild switch</code> 都会：</p>
+<ol>
+<li>构建新的系统 closure（一整棵依赖树）</li>
+<li>在 <code>/nix/var/nix/profiles/system</code> 下追加一个新 generation</li>
+<li>往 bootloader 菜单里加一条启动项</li>
+</ol>
+<p><strong>为什么回滚可靠</strong>：<code>/nix/store</code> 里的内容不可变且内容寻址，旧 generation 指向的路径在被 GC 之前<strong>始终存在且内容不变</strong>。所以回滚是「原子切换一个符号链接」，不是「重新安装旧版本」。</p>
+<p>传统发行版升级会<strong>就地覆盖</strong> <code>/usr</code> 下的文件，覆盖后旧版本就没了 → 回滚不可靠。这是 NixOS 最核心的运维红利。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Nixos-rebuild">NixOS Wiki · nixos-rebuild</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>实践</strong>：</p>
+<pre><code class="language-bash"># 列出系统所有 generation
+sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
+# 新命令等价写法（26.05 可用）
+sudo nixos-rebuild list-generations
+
+# 回滚到上一个 generation 并立即生效
+sudo nixos-rebuild switch --rollback
+</code></pre>
+<h3 id="sub-0-3">1.4 nixos-rebuild 的七个子命令（语义差异，必须分清）</h3>
+<table>
+<thead>
+<tr>
+<th>子命令</th>
+<th>构建</th>
+<th>立即激活</th>
+<th>进 bootloader 菜单</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>switch</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>日常改配置</td>
+</tr>
+<tr>
+<td><code>boot</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>改内核/驱动，重启才生效</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td><strong>临时试，重启即失效</strong></td>
+</tr>
+<tr>
+<td><code>build</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>只验证能否构建成功</td>
+</tr>
+<tr>
+<td><code>dry-build</code></td>
+<td>✅(仅求值+计划)</td>
+<td>❌</td>
+<td>❌</td>
+<td><strong>LLM 改配置后的验证闸门</strong></td>
+</tr>
+<tr>
+<td><code>dry-activate</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>预览「激活会做哪些动作」</td>
+</tr>
+<tr>
+<td><code>build-vm</code></td>
+<td>✅</td>
+<td>—</td>
+<td>—</td>
+<td>生成 QEMU 虚拟机，真跑一遍</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Nixos-rebuild">NixOS Wiki · nixos-rebuild</a> <code>[Wiki]</code>；<a href="https://nixos.org/manual/nixos/stable/#sec-changing-config">NixOS Manual · Changing the Configuration</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>为什么 <code>test</code> 很重要</strong>：它激活新配置但不写进 bootloader。如果你把显示驱动配错了导致进不去图形界面，<strong>重启就能回来</strong>。这是新手上路阶段最安全的子命令。</p>
+<hr>
+<p><a id="二"></a></p>
+<h2 id="sec-1">二、三条配置路线：configuration.nix / flakes / home-manager</h2>
+<h3 id="sub-1-0">2.1 路线 A：configuration.nix 单体（默认，新手起点）</h3>
+<p><strong>文件位置</strong>：<code>/etc/nixos/configuration.nix</code>，与自动生成的 <code>/etc/nixos/hardware-configuration.nix</code> 并列。</p>
+<p><strong>它是什么</strong>：一个 Nix 函数，接收 <code>config</code>/<code>pkgs</code>/<code>lib</code> 等参数，返回一个<strong>属性集（attribute set）</strong>，描述整台机器的期望状态。</p>
+<pre><code class="language-nix">{ config, pkgs, lib, ... }:
+{
+  imports = [ ./hardware-configuration.nix ];   # 把机器相关配置合并进来
+
+  boot.loader.systemd-boot.enable = true;       # 用 systemd-boot 引导
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.hostName = &quot;mypc&quot;;
+  networking.networkmanager.enable = true;      # 用 NetworkManager 管网络
+
+  users.users.me = {
+    isNormalUser = true;
+    extraGroups = [ &quot;wheel&quot; &quot;networkmanager&quot; &quot;video&quot; ];  # wheel=sudo 权限
+  };
+
+  environment.systemPackages = with pkgs; [ vim git firefox ];
+
+  system.stateVersion = &quot;26.05&quot;;                # 见下方解释
+}
+</code></pre>
+<p><strong><code>system.stateVersion</code> 到底是什么</strong>（最常见的误解）：</p>
+<p>它<strong>不是</strong>当前系统版本，<strong>不是</strong>升级时要改的字段。它记录的是「<strong>你首次安装时</strong>的版本」，作用是让某些有状态数据（数据库格式、目录布局）<strong>保持当时的默认行为</strong>，不被新版本的默认值悄悄改掉。</p>
+<p>官方原文：<em>&quot;Most users should never change this value after the initial install, for any reason, even if you&#39;ve upgraded your system.&quot;</em></p>
+<p><strong>为什么绝对不能随手改</strong>：改它相当于告诉系统「请按新版本的默认值来初始化这些有状态数据」→ 可能触发数据格式迁移 → 可能损坏你的数据库、邮件目录等。</p>
+<p><strong>什么时候才该改</strong>：① 全新安装；② 某次 release notes 明确要求你改，并且你已手动完成迁移。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion">NixOS Wiki · When do I update stateVersion</a> <code>[Wiki]</code>；<a href="https://mynixos.com/nixpkgs/option/system.stateVersion">MyNixOS · system.stateVersion</a> <code>[官方选项]</code></p>
+</blockquote>
+<p><strong>两个文件的分工</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>谁生成</th>
+<th>管什么</th>
+<th>能不能手改</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hardware-configuration.nix</code></td>
+<td><code>nixos-generate-config</code> 自动生成</td>
+<td><code>fileSystems</code>、<code>swapDevices</code>、<code>boot.initrd.*</code>、内核模块</td>
+<td>可以，但改动后建议重跑生成器对比</td>
+</tr>
+<tr>
+<td><code>configuration.nix</code></td>
+<td>安装器生成，你手写</td>
+<td>其它全部系统策略</td>
+<td>是主战场</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/stable/#sec-installation">NixOS Manual · Installation</a> <code>[官方]</code>；<a href="https://wiki.nixos.org/wiki/Nixos-generate-config">NixOS Wiki · nixos-generate-config</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>命令式 vs 声明式的边界</strong>（这是「为什么我的包不生效」的根源）：</p>
+<pre><code class="language-bash">nix-shell -p ffmpeg        # 临时环境，退出即消失
+nix run nixpkgs#hello      # 直接跑，不安装
+nix profile install nixpkgs#ripgrep   # 装进用户 profile（命令式！）
+nix-env -iA nixpkgs.htop   # 老式命令式安装（不推荐）
+</code></pre>
+<p><strong>为什么这些不该用</strong>：它们<strong>不写进 configuration.nix</strong>，因此：</p>
+<ul>
+<li>不参与系统 generation → <strong>不会随系统回滚</strong></li>
+<li>不体现在配置里 → 换机器/重装后消失</li>
+<li>与声明式安装的同名包可能冲突 → 出现「我明明在配置里删了它，怎么还能用」</li>
+</ul>
+<blockquote>
+<p>出处：<a href="https://nix.dev/manual/nix/stable/command-ref/nix-shell.html">nix.dev · nix-shell</a> <code>[官方]</code>；<a href="https://nix.dev/manual/nix/stable/command-ref/nix-env.html">nix.dev · nix-env</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>适用人群</strong>：完全新手、单机、先跑起来再说。<strong>理由</strong>：零额外概念，官方安装器直接给你这套，出错一句 <code>nixos-rebuild switch --rollback</code> 就回来。</p>
+<hr>
+<h3 id="sub-1-1">2.2 路线 B：Flakes（进阶，多机 / 想要锁版本）</h3>
+<p><strong>flake.nix 的 schema</strong>：</p>
+<pre><code class="language-nix">{
+  description = &quot;My NixOS config&quot;;
+
+  inputs = {
+    nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+    home-manager = {
+      url = &quot;github:nix-community/home-manager/release-26.05&quot;;
+      inputs.nixpkgs.follows = &quot;nixpkgs&quot;;   # 关键：让 HM 复用同一份 nixpkgs
+    };
+  };
+
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+    nixosConfigurations.mypc = nixpkgs.lib.nixosSystem {
+      system = &quot;x86_64-linux&quot;;
+      specialArgs = { inherit inputs; };    # 把 inputs 传给所有模块
+      modules = [
+        ./configuration.nix
+        ./hardware-configuration.nix
+        home-manager.nixosModules.home-manager
+      ];
+    };
+  };
+}
+</code></pre>
+<p><strong><code>flake.lock</code> 的作用</strong>：首次运行任何 <code>nix</code> 命令时自动生成，<strong>把每个 input 锁定到确切的 commit</strong>。这保证「今天能构建的配置，半年后还能构建出完全一样的系统」。</p>
+<p><strong><code>nixos-26.05</code> vs <code>nixos-unstable</code></strong>：</p>
+<table>
+<thead>
+<tr>
+<th>分支</th>
+<th>更新节奏</th>
+<th>风险</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nixos-26.05</code></td>
+<td>只回移 bug/安全修复</td>
+<td>低</td>
+<td>生产、日常主力机</td>
+</tr>
+<tr>
+<td><code>nixos-unstable</code></td>
+<td>滚动，每天变</td>
+<td>高（可能破坏）</td>
+<td>想要新内核/新驱动、愿意承担风险</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Flakes">NixOS Wiki · Flakes</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>使用</strong>：</p>
+<pre><code class="language-bash"># flakes 目前仍是实验特性，必须先开
+# /etc/nixos/configuration.nix 里加：
+#   nix.settings.experimental-features = [ &quot;nix-command&quot; &quot;flakes&quot; ];
+
+sudo nixos-rebuild switch --flake .#mypc     # 注意 # 后面是 hostname
+nix flake update                             # 更新全部 input
+nix flake update nixpkgs                     # 只更新 nixpkgs
+</code></pre>
+<p><strong>flakes 转正了吗？</strong> 没有。截至 Nix 2.34.x 仍标注为 experimental。nix.dev 原文称其为 <em>&quot;experimental extension format with outstanding issues&quot;</em>，RFC 49 已关闭且<strong>没有给出转正时间表</strong>。</p>
+<blockquote>
+<p>出处：<a href="https://nix.dev/concepts/flakes.html">nix.dev · Flakes</a> <code>[官方]</code>；<a href="https://discourse.nixos.org/t/why-are-flakes-still-experimental/29317">Discourse · Why are flakes still experimental</a> <code>[官方论坛]</code></p>
+</blockquote>
+<p><strong>优点</strong>：lock 锁死版本、pure 求值、对 CI 二进制缓存友好、多机复现简单。
+<strong>代价</strong>：学习曲线；<strong>文件必须 <code>git add</code> 后才对 flake 可见</strong>（未跟踪文件会被忽略，这是新手最常踩的坑）；传递依赖可能被锁旧。</p>
+<hr>
+<h3 id="sub-1-2">2.3 路线 C：Home Manager（管用户环境与 dotfiles）</h3>
+<p><strong>它解决什么问题</strong>：<code>configuration.nix</code> 管的是<strong>系统</strong>（root 视角）。但你的 <code>.bashrc</code>、<code>.gitconfig</code>、neovim 配置、用户级服务属于<strong>用户</strong>。Home Manager 把这些也变成声明式的。</p>
+<p><strong>两种集成方式</strong>：</p>
+<p><strong>方式一：NixOS module（推荐给 NixOS 用户）</strong></p>
+<pre><code class="language-nix">{
+  imports = [ home-manager.nixosModules.home-manager ];
+
+  home-manager.useGlobalPkgs = true;      # 复用系统 nixpkgs，避免两份 nixpkgs 求值
+  home-manager.useUserPackages = true;    # 用 users.users.&lt;name&gt;.packages 装包
+
+  home-manager.users.me = { pkgs, ... }: {
+    home.stateVersion = &quot;26.05&quot;;          # 必需字段
+    home.packages = [ pkgs.ripgrep pkgs.fd ];
+
+    programs.git = {
+      enable = true;
+      userName = &quot;me&quot;;
+      userEmail = &quot;me@example.com&quot;;
+    };
+    programs.bash.enable = true;
+    programs.mangohud = {                 # 注意：MangoHud 只有 HM 模块，见第四章
+      enable = true;
+      enableSessionWide = true;
+    };
+  };
+}
+</code></pre>
+<p><strong>方式二：standalone（独立，可跨发行版）</strong></p>
+<pre><code class="language-bash">nix run home-manager/release-26.05 -- init --switch
+home-manager switch --flake .#me@mypc
+</code></pre>
+<blockquote>
+<p>出处：<a href="https://nix-community.github.io/home-manager/installation/nixos.html">Home Manager · NixOS module</a> <code>[官方]</code>；<a href="https://nix-community.github.io/home-manager/nix-flakes/standalone.html">Home Manager · Standalone + Flakes</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong><code>home.stateVersion</code></strong>：与 <code>system.stateVersion</code> <strong>完全独立</strong>，各管各的。同样是「首次生成时的版本，不要随便改」。</p>
+<p><strong>典型管理对象</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>程序模块</td>
+<td><code>programs.git</code>、<code>programs.firefox</code>、<code>programs.mangohud</code>、<code>programs.starship</code></td>
+</tr>
+<tr>
+<td>dotfiles</td>
+<td><code>home.file.&quot;/home/me/.foo&quot;.text = &quot;...&quot;</code></td>
+</tr>
+<tr>
+<td>用户级包</td>
+<td><code>home.packages = [ ... ]</code></td>
+</tr>
+<tr>
+<td>用户级服务</td>
+<td><code>systemd.user.services.*</code>、<code>services.syncthing</code></td>
+</tr>
+</tbody></table>
+<p><strong>三个「装包位置」的选择准则</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>作用域</th>
+<th>何时用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>environment.systemPackages</code></td>
+<td>全系统所有用户</td>
+<td>系统服务、驱动工具、登录前就需要的程序</td>
+</tr>
+<tr>
+<td><code>users.users.&lt;name&gt;.packages</code></td>
+<td>单用户，走系统 nixpkgs</td>
+<td>简单场景，不想引入 HM</td>
+</tr>
+<tr>
+<td><code>home.packages</code>（HM）</td>
+<td>单用户，可跨发行版、能管 dotfiles</td>
+<td>用户应用与用户配置</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/stable/#sec-user-management">NixOS Manual · User Management</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>版本对齐</strong>：HM 用 <code>release-26.05</code> 分支跟随 NixOS 26.05。<strong>务必保持同版本</strong>，否则会出现两份 nixpkgs 导致库版本冲突。</p>
+<hr>
+<h3 id="sub-1-3">2.4 三条路线对比与推荐</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>configuration.nix 单体</th>
+<th>+ Flakes</th>
+<th>+ Home Manager</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>适用人群</td>
+<td>新手、单机</td>
+<td>进阶、多机、CI</td>
+<td>想精细管用户环境</td>
+</tr>
+<tr>
+<td>可复现性</td>
+<td>中（跟随 channel 漂移）</td>
+<td>高（lock 锁死）</td>
+<td>高（可复用系统 pkgs）</td>
+</tr>
+<tr>
+<td>上手难度</td>
+<td>★☆☆</td>
+<td>★★★</td>
+<td>★★☆</td>
+</tr>
+<tr>
+<td>回滚粒度</td>
+<td>整机 generation</td>
+<td>整机 generation</td>
+<td>整机 + 用户级 generation</td>
+</tr>
+<tr>
+<td>多机复用</td>
+<td>弱（靠手动拷文件）</td>
+<td>强</td>
+<td>强</td>
+</tr>
+<tr>
+<td>管 dotfiles</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓ 核心能力</td>
+</tr>
+<tr>
+<td>额外概念负担</td>
+<td>无</td>
+<td>flake/lock/pure eval</td>
+<td>HM 选项体系</td>
+</tr>
+</tbody></table>
+<p><strong>推荐路径（分阶段，别一步到位）</strong>：</p>
+<ol>
+<li><strong>第 1 周</strong>：只用默认 <code>configuration.nix</code>。目标：能装机、能改包、能回滚。用 <code>nixos-rebuild test</code> 做实验。</li>
+<li><strong>第 2–4 周</strong>：把 <code>/etc/nixos</code> 变成 git 仓库（先不上 flake）。目标：每次改动有 commit，出问题能 <code>git diff</code>。</li>
+<li><strong>熟练后</strong>：迁移到 flakes。<strong>理由</strong>：lock 文件让「半年后还能复现」成立，且 <code>inputs</code> 机制让引入 nix-gaming 等第三方源变得干净。</li>
+<li><strong>最后</strong>：叠加 Home Manager 管 dotfiles。<strong>理由</strong>：dotfiles 是用户级关注点，放系统配置里语义错位；HM 的 <code>programs.*</code> 模块已替你写好大量最佳实践配置。</li>
+</ol>
+<p><strong>游戏玩家推荐路径</strong>：<strong>必须走声明式（configuration.nix 或 flake），且固定单一 nixpkgs</strong>。</p>
+<p><strong>理由（这条很硬）</strong>：NVIDIA 闭源驱动 = 内核模块 + 用户态库的<strong>配对</strong>。内核模块由 <code>boot.kernelPackages</code> 决定，用户态库由 nixpkgs 决定。如果这两者来自不同的 nixpkgs 实例，就会出现「驱动版本与内核模块对不上」→ 开机黑屏或 <code>nvidia: module not found</code>。命令式装包（<code>nix-env -i</code>）最容易造成这种分裂。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Nvidia">NixOS Wiki · Nvidia</a> <code>[Wiki]</code>；<a href="https://github.com/NixOS/nixpkgs/issues/445092">nixpkgs issue #445092</a> <code>[仓库]</code></p>
+</blockquote>
+<hr>
+<p><a id="三"></a></p>
+<h2 id="sec-2">三、从零装机：默认配置逐段解释</h2>
+<h3 id="sub-2-0">3.1 安装流程（图形安装器）</h3>
+<ol>
+<li>下载 ISO：<code>https://nixos.org/download</code> → 选 <strong>Graphical ISO</strong>（带图形安装器，对新手最友好）</li>
+<li>写入 U 盘（<code>dd</code> 或 Rufus / balenaEtcher），UEFI 启动</li>
+<li>安装器里选语言、键盘、分区、用户、桌面环境（GNOME / KDE Plasma 任选）</li>
+<li>重启后，配置文件已在 <code>/etc/nixos/</code></li>
+</ol>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/stable/#sec-installation">NixOS Manual · Installation</a> <code>[官方]</code></p>
+</blockquote>
+<h3 id="sub-2-1">3.2 逐段解释安装器生成的配置</h3>
+<pre><code class="language-nix"># /etc/nixos/configuration.nix
+{ config, pkgs, ... }:
+{
+  imports = [ ./hardware-configuration.nix ];
+  # ↑ 把自动探测到的分区/内核模块合并进来。删了它机器可能起不来。
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # ↑ UEFI 机器用 systemd-boot。canTouchEfiVariables 允许安装器写 EFI 变量，
+  #   没有它新内核不会出现在启动菜单里。
+
+  networking.hostName = &quot;nixos&quot;;
+  networking.networkmanager.enable = true;
+  # ↑ 用 NetworkManager 而非 systemd-networkd：桌面场景下 Wi-Fi/图形管理更方便。
+
+  time.timeZone = &quot;Asia/Shanghai&quot;;
+  i18n.defaultLocale = &quot;en_US.UTF-8&quot;;
+  i18n.extraLocaleSettings = {
+    LC_TIME = &quot;zh_CN.UTF-8&quot;;
+    LC_MONETARY = &quot;zh_CN.UTF-8&quot;;
+  };
+  # ↑ 保留英文 locale 作为默认：避免某些程序把中文 locale 用出乱码；
+  #   只覆盖时间/货币格式，得到中文显示但英文排序。
+
+  services.xserver.enable = true;
+  services.xserver.xkb.layout = &quot;us&quot;;
+  # ↑ 键盘布局。中文用户常改 &quot;us&quot; + 输入法，比 &quot;cn&quot; 布局更顺手。
+
+  users.users.nixos = {
+    isNormalUser = true;
+    extraGroups = [ &quot;wheel&quot; ];     # wheel 组 = 可用 sudo
+    initialPassword = &quot;changeme&quot;;  # 首次登录后立刻 passwd 改掉
+  };
+
+  system.stateVersion = &quot;26.05&quot;;
+  # ↑ 首次安装版本。此后无论升级到哪个版本都不要改。
+}
+</code></pre>
+<p><strong>中文环境与输入法</strong>（新手最常问）：</p>
+<pre><code class="language-nix"># 中文字体：不装会看到方块
+fonts.packages = with pkgs; [
+  noto-fonts
+  noto-fonts-cjk-sans
+  noto-fonts-cjk-serif
+  noto-fonts-color-emoji
+  wqy_zenhei
+];
+fonts.fontconfig.defaultFonts = {
+  serif = [ &quot;Noto Serif CJK SC&quot; ];
+  sansSerif = [ &quot;Noto Sans CJK SC&quot; ];
+  monospace = [ &quot;Noto Sans Mono CJK SC&quot; ];
+};
+
+# 输入法：Fcitx5 + 中文引擎
+i18n.inputMethod = {
+  enable = true;
+  type = &quot;fcitx5&quot;;
+  fcitx5.addons = with pkgs; [ fcitx5-chinese-addons fcitx5-rime ];
+};
+# 环境变量让 GTK/Qt 程序认输入法
+environment.sessionVariables = {
+  GTK_IM_MODULE = &quot;fcitx&quot;;
+  QT_IM_MODULE  = &quot;fcitx&quot;;
+  XMODIFIERS    = &quot;@im=fcitx&quot;;
+};
+</code></pre>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Fcitx5">NixOS Wiki · Fcitx5</a> <code>[Wiki]</code>；<a href="https://wiki.nixos.org/wiki/Fonts">NixOS Wiki · Fonts</a> <code>[Wiki]</code></p>
+</blockquote>
+<h3 id="sub-2-2">3.3 必备基础设置</h3>
+<pre><code class="language-nix"># 允许非自由软件（NVIDIA 驱动、Steam、部分字体等必须开）
+nixpkgs.config.allowUnfree = true;
+
+# 开启 flakes（第三章起会用到）
+nix.settings.experimental-features = [ &quot;nix-command&quot; &quot;flakes&quot; ];
+
+# 自动 GC：防止 /nix/store 无限膨胀
+nix.gc = {
+  automatic = true;
+  dates = &quot;weekly&quot;;
+  options = &quot;--delete-older-than 30d&quot;;   # 保留 30 天内的回滚点
+  persistent = true;                      # 错过时间点就补跑
+  randomizedDelaySec = &quot;30m&quot;;             # 避免所有机器同时跑
+};
+nix.settings.auto-optimise-store = true;  # 增量硬链接去重，省磁盘
+
+# 限制启动菜单里的 generation 数量
+boot.loader.systemd-boot.configurationLimit = 10;
+
+# 命令找不到时提示「哪个包提供它」
+programs.command-not-found.enable = true;
+
+# 自动升级（可选，新手建议先关，手动升级更有掌控感）
+# system.autoUpgrade.enable = false;
+</code></pre>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/stable/#sec-nix-gc">NixOS Manual · Cleaning the Nix Store</a> <code>[官方]</code>；<a href="https://mynixos.com/nixpkgs/option/nix.gc.automatic">MyNixOS · nix.gc.*</a> <code>[官方选项]</code></p>
+</blockquote>
+<p><strong>为什么 <code>--delete-older-than 30d</code> 而不是 <code>-d</code></strong>：<code>-d</code> 会删掉<strong>全部</strong>旧 generation，等于摧毁你的回滚点。保留 30 天是「磁盘 vs 保险」的合理折中。</p>
+<hr>
+<p><a id="四"></a></p>
+<h2 id="sec-3">四、游戏玩家专章</h2>
+<blockquote>
+<p>本章所有选项均在 nixpkgs <code>nixos-26.05</code> 分支源码中逐条比对确认。</p>
+</blockquote>
+<h3 id="sub-3-0">4.1 显卡驱动</h3>
+<h4>NVIDIA 专有驱动</h4>
+<pre><code class="language-nix">nixpkgs.config.allowUnfree = true;   # 必须：NVIDIA 驱动是 unfree
+
+hardware.graphics = {
+  enable = true;        # 图形栈总开关（26.05 中 hardware.opengl 只是它的别名）
+  enable32Bit = true;   # 32 位驱动：Steam/Wine 跑 32 位游戏必需
+};
+
+hardware.nvidia = {
+  modesetting.enable = true;      # 生成 nvidia-drm.modeset=1，Wayland 与防撕裂必需
+  open = true;                    # Turing(20系)+ 使用开源内核模块；驱动 ≥560 必须显式设
+  powerManagement.enable = true;  # 笔记本：休眠时保存显存
+  nvidiaSettings = true;          # 安装 nvidia-settings 图形工具
+};
+
+services.xserver.videoDrivers = [ &quot;nvidia&quot; ];  # 声明使用 NVIDIA 驱动
+</code></pre>
+<p><strong>每个选项的理由</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>为什么这么设</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>allowUnfree = true</code></td>
+<td>NVIDIA 驱动 license 是 unfree，不开会直接构建失败</td>
+</tr>
+<tr>
+<td><code>hardware.graphics.enable</code></td>
+<td>26.05 里 <code>hardware.opengl</code> 已重命名为 <code>hardware.graphics</code>（重命名发生在 <strong>24.11</strong>），旧名保留为别名</td>
+</tr>
+<tr>
+<td><code>enable32Bit</code></td>
+<td>Steam 里大量游戏和 Wine 前缀是 32 位的，缺 32 位驱动会启动失败</td>
+</tr>
+<tr>
+<td><code>modesetting.enable</code></td>
+<td>等价于内核参数 <code>nvidia-drm.modeset=1</code>。≥535 驱动默认 true。缺它 Wayland 无法启动、X11 有撕裂</td>
+</tr>
+<tr>
+<td><code>open = true</code></td>
+<td>驱动 ≥560 时有 assertion <strong>强制</strong>你显式设置此项，不设会报错</td>
+</tr>
+<tr>
+<td><code>powerManagement.enable</code></td>
+<td>笔记本挂起/恢复时保存显存到磁盘，避免恢复后花屏</td>
+</tr>
+<tr>
+<td><code>services.xserver.videoDrivers</code></td>
+<td>决定 X server 加载哪个驱动模块</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<code>nixos/modules/hardware/video/nvidia.nix</code> <code>[核实·源码]</code>；<code>nixos/modules/hardware/graphics.nix</code>（含 <code>hardware.opengl</code> → <code>hardware.graphics</code> 的 <code>mkRenamedOptionModule</code>）<code>[核实·源码]</code>；<a href="https://wiki.nixos.org/wiki/Nvidia">NixOS Wiki · Nvidia</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>⚠️ 为什么换驱动/内核必须重启，不能只 <code>switch</code></strong>：</p>
+<p>内核模块由<strong>当前正在运行的内核</strong>加载。<code>nixos-rebuild switch</code> 只切换用户态 generation，运行中的内核不会变。所以：</p>
+<pre><code class="language-bash">sudo nixos-rebuild boot    # 而不是 switch
+sudo reboot
+</code></pre>
+<p><strong>AMD / Intel（开源驱动，省心得多）</strong>：</p>
+<pre><code class="language-nix">hardware.graphics = {
+  enable = true;
+  enable32Bit = true;
+  extraPackages = with pkgs; [
+    # AMD 可选：amdvlk（Vulkan 备选实现）
+    # Intel 可选：intel-media-driver / vpl-gpu-rt
+  ];
+};
+</code></pre>
+<p>AMD 用内核自带的 <code>amdgpu</code> + Mesa，无需 <code>allowUnfree</code>，无版本配对问题。<strong>新装机若可选，AMD 显卡在 Linux 上的运维成本显著低于 NVIDIA。</strong></p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Graphics">NixOS Wiki · Graphics</a> <code>[Wiki]</code></p>
+</blockquote>
+<h3 id="sub-3-1">4.2 Steam / Proton</h3>
+<pre><code class="language-nix">programs.steam = {
+  enable = true;                        # 隐式启用 hardware.steam-hardware
+  remotePlay.openFirewall = true;       # 打开 Remote Play 所需端口
+  gamescopeSession.enable = true;       # 提供 gamescope 会话（掌机/全屏体验）
+  extraCompatPackages = with pkgs; [ proton-ge-bin ];  # 声明式安装 GE-Proton
+};
+</code></pre>
+<p><strong>Proton 为什么能在 NixOS 上跑非 Nix 游戏</strong>：Steam 的 <strong>Steam Runtime</strong> 本身就是一个 <strong>FHS 容器</strong>。它提供游戏所需的 <code>/usr</code>、<code>/lib</code> 层级，游戏在里面看到的是「正常 Linux」。所以 Steam 游戏基本不受 NixOS 无 FHS 的影响。</p>
+<p><code>pkgs.steam-run</code> 就是这个 FHS 环境的独立入口，可以拿来跑别的二进制（见第五章）。</p>
+<blockquote>
+<p>出处：<code>nixos/modules/programs/steam.nix</code> <code>[核实·源码]</code>；<a href="https://wiki.nixos.org/wiki/Steam">NixOS Wiki · Steam</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>反作弊</strong>：EAC / BattlEye 是否可用<strong>逐游戏而定</strong>，取决于开发者是否开启 Proton 支持。查 <a href="https://areweanticheatyet.com/">https://areweanticheatyet.com/</a> <code>[仓库]</code></p>
+<h3 id="sub-3-2">4.3 性能与监控工具</h3>
+<pre><code class="language-nix">programs.gamemode.enable = true;     # 游戏启动时自动提频/调 nice
+
+programs.gamescope = {
+  enable = true;
+  capSysNice = true;                 # 允许 gamescope 自行 renice
+};
+
+# ⚠️ MangoHud：NixOS 没有 programs.mangohud 模块！
+#    那是 Home Manager 的选项。NixOS 层面这样用：
+environment.systemPackages = with pkgs; [ mangohud ];
+# 然后 Steam 启动项填：mangohud %command%
+# 或者全局：environment.sessionVariables.MANGOHUD = &quot;1&quot;;
+</code></pre>
+<p><strong>⚠️ 这是本节最容易踩的坑</strong>：网上大量教程写 <code>programs.mangohud.enable = true;</code> 放在 <code>configuration.nix</code> 里 —— <strong>在 NixOS 里这会导致 eval 失败</strong>，因为该选项只存在于 Home Manager。</p>
+<blockquote>
+<p>出处：<a href="https://mynixos.com/options/programs.mangohud">MyNixOS · programs.mangohud</a>（链接全部指向 home-manager）<code>[核实]</code>；<a href="https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html">Home Manager · programs.mangohud</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>AMD 用户</strong>：<code>programs.corectrl.enable = true;</code>（模块只有 <code>enable</code> + <code>package</code> 两个选项）<code>[核实·源码: nixos/modules/hardware/corectrl.nix]</code></p>
+<blockquote>
+<p>⚠️ <strong>超频选项已迁移</strong>：<code>programs.corectrl.gpuOverclock.enable</code> / <code>.ppfeaturemask</code> 在 26.05 <strong>已重命名为 <code>hardware.amdgpu.overdrive.enable</code> / <code>.ppfeaturemask</code></strong>（<code>corectrl.nix:18-25</code> 的两条 <code>mkRenamedOptionModule</code>）。老教程里的旧名会报错。
+开 <code>programs.corectrl.enable</code> 会同时建 <code>corectrl</code> 用户组 + 写一条 polkit 规则，<strong>你还需要把自己加进该组</strong>（<code>users.users.&lt;name&gt;.extraGroups = [ &quot;corectrl&quot; ]</code>）才能免密启动。</p>
+</blockquote>
+<p><strong>sched-ext 调度器</strong>（26.05 已内置）：</p>
+<pre><code class="language-nix">services.scx = {
+  enable = true;
+  scheduler = &quot;scx_rustland&quot;;   # 默认值
+  # package = pkgs.scx.full;    # 默认
+};
+</code></pre>
+<blockquote>
+<p>出处：<code>nixos/modules/services/scheduling/scx.nix</code> <code>[核实·源码]</code></p>
+</blockquote>
+<h3 id="sub-3-3">4.4 其它启动器（包名均在 26.05）</h3>
+<table>
+<thead>
+<tr>
+<th>启动器</th>
+<th>包名</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lutris</td>
+<td><code>lutris</code></td>
+<td>通用 Wine/模拟器游戏管理</td>
+</tr>
+<tr>
+<td>Heroic</td>
+<td><code>heroic</code></td>
+<td>Epic / GOG / Amazon 游戏</td>
+</tr>
+<tr>
+<td>Bottles</td>
+<td><code>bottles</code></td>
+<td>可视化 Wine 前缀管理</td>
+</tr>
+<tr>
+<td>Prism Launcher</td>
+<td><code>prismlauncher</code></td>
+<td>Minecraft 多实例</td>
+</tr>
+<tr>
+<td>RetroArch</td>
+<td><code>retroarch</code></td>
+<td>模拟器前端</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：nixpkgs <code>pkgs/by-name/*</code>、<code>all-packages.nix</code> <code>[核实·源码]</code></p>
+</blockquote>
+<h3 id="sub-3-4">4.5 nix-gaming（第三方 flake，可选进阶）</h3>
+<p>提供 nixpkgs 里没有的游戏/工具：<code>wine-tkg</code>、<code>wine-cachyos</code>、<code>osu-stable</code>、<code>rocket-league</code>、<code>star-citizen</code>、<code>northstar-proton</code> 等，以及两个实用模块：</p>
+<ul>
+<li><code>pipewireLowLatency</code> — 低延迟音频（<code>services.pipewire.lowLatency.*</code>）</li>
+<li><code>platformOptimizations</code> — <code>programs.steam.platformOptimizations.enable</code></li>
+</ul>
+<pre><code class="language-nix">inputs.nix-gaming.url = &quot;github:fufexan/nix-gaming&quot;;
+# 缓存（不配会从源码编译，极慢）
+nix.settings.substituters = [ &quot;https://nix-gaming.cachix.org&quot; ];
+nix.settings.trusted-public-keys = [
+  &quot;nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svRfzI17kGPMBzKAc=&quot;
+];
+</code></pre>
+<p><strong>风险</strong>：需要信任第三方 binary cache（理论上可注入内容）；部分包是 unfree；与 nixpkgs 版本可能漂移。<strong>只在你明确需要某个包时引入。</strong></p>
+<blockquote>
+<p>出处：<a href="https://github.com/fufexan/nix-gaming">github.com/fufexan/nix-gaming</a> <code>[仓库]</code></p>
+</blockquote>
+<h3 id="sub-3-5">4.6 系统调优</h3>
+<pre><code class="language-nix"># vm.max_map_count：26.05 默认已是 1048576，一般无需手动设置
+# （老教程里的 262144 是过时值）
+boot.kernel.sysctl.&quot;vm.max_map_count&quot; = 1048576;
+
+powerManagement.cpuFreqGovernor = &quot;performance&quot;;   # 台式机可设；笔记本会耗电
+
+services.thermald.enable = true;    # Intel 散热守护
+
+# 内核选择
+boot.kernelPackages = pkgs.linuxPackages_latest;   # 新硬件/新驱动
+# boot.kernelPackages = pkgs.linuxPackages_zen;    # 低延迟优化
+</code></pre>
+<blockquote>
+<p>出处：<code>nixos/modules/config/sysctl.nix</code>（<code>&quot;vm.max_map_count&quot; = lib.mkDefault 1048576;</code>）<code>[核实·源码]</code>；<code>nixos/modules/tasks/cpu-freq.nix</code> <code>[核实·源码]</code></p>
+</blockquote>
+<p><strong>⚠️ <code>cpuFreqGovernor</code> 与 <code>services.tlp</code> / <code>power-profiles-daemon</code> 可能冲突</strong>，三者别同时开。</p>
+<p><strong>关于把 Steam 库放在 NTFS 分区</strong>：社区普遍报告权限与符号链接问题，建议用 ext4/btrfs。<strong><code>[未核实]</code></strong> —— 未找到权威一手出处，仅作提示。</p>
+<h3 id="sub-3-6">4.7 完整可复制片段（NVIDIA 独显 + Steam 全家桶）</h3>
+<pre><code class="language-nix">{ config, pkgs, ... }:
+{
+  nixpkgs.config.allowUnfree = true;   # NVIDIA + Steam 都需要
+
+  hardware.graphics = {
+    enable = true;                     # 图形栈（26.05 用 graphics，opengl 已弃用为别名）
+    enable32Bit = true;                # 32 位：Steam/Wine 必需
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;         # = nvidia-drm.modeset=1
+    open = true;                       # Turing+ 开源内核模块，驱动 ≥560 强制显式设
+    powerManagement.enable = true;     # 笔记本休眠存显存
+    nvidiaSettings = true;
+  };
+  services.xserver.videoDrivers = [ &quot;nvidia&quot; ];
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    gamescopeSession.enable = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
+  };
+
+  programs.gamemode.enable = true;
+  programs.gamescope = { enable = true; capSysNice = true; };
+
+  environment.systemPackages = with pkgs; [
+    mangohud          # NixOS 无 programs.mangohud，用包 + Steam 启动项 `mangohud %command%`
+    protonup-qt       # 手动管理多版本 Proton
+    gamescope
+  ];
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+}
+</code></pre>
+<p><strong>首次应用</strong>：<code>sudo nixos-rebuild boot &amp;&amp; sudo reboot</code>（驱动变更必须重启）。</p>
+<hr>
+<p><a id="五"></a></p>
+<h2 id="sec-4">五、NixOS 没有的软件怎么跑</h2>
+<h3 id="sub-4-0">5.1 决策树</h3>
+<pre><code>要运行的程序在 nixpkgs 里吗？
+├─ 有 → nix shell nixpkgs#xxx  或写进 environment.systemPackages
+└─ 没有
+   ├─ 是 .AppImage？
+   │   ├─ 偶尔用 → nix-shell -p appimage-run → appimage-run foo.AppImage
+   │   └─ 常用   → programs.appimage = { enable = true; binfmt = true; };
+   ├─ 是官方 tar.gz / 专有二进制，依赖复杂（图形、CUDA、一堆 .so）？
+   │   └─ buildFHSEnv 建沙箱（或直接用 pkgs.steam-run）
+   ├─ 是 CLI 工具，只缺 libc 和几个 .so（node/npm/python 官方二进制）？
+   │   └─ programs.nix-ld.enable = true;  ← 一劳永逸的兜底
+   └─ 长期使用、有源码？
+       └─ 写 derivation（buildNpmPackage / python3.withPackages / mkDerivation）
+</code></pre>
+<h3 id="sub-4-1">5.2 方案 A：buildFHSEnv（FHS 沙箱）</h3>
+<p><strong>现状</strong>：函数现名 <code>pkgs.buildFHSEnv</code>（内部是 <code>buildFHSEnvBubblewrap</code>）。<strong>旧名 <code>buildFHSUserEnv</code> 在当前 nixpkgs 中已不存在</strong>（<code>all-packages.nix</code> 与 <code>aliases.nix</code> 中均无）。看到老教程用旧名，直接换成新名。</p>
+<pre><code class="language-nix"># shell.nix —— 给官方 tar.gz 二进制建沙箱，nix-shell 进入
+{ pkgs ? import &lt;nixpkgs&gt; {} }:
+let
+  base = pkgs.appimageTools.defaultFhsEnvArgs;   # 复用 AppImage 的默认库集合
+in
+(pkgs.buildFHSEnv (base // {
+  name = &quot;my-fhs-env&quot;;
+  targetPkgs = pkgs: (base.targetPkgs pkgs) ++ (with pkgs; [
+    pkg-config
+    ncurses
+    zlib
+    # 你的程序需要什么就加什么
+  ]);
+  multiPkgs = pkgs: (with pkgs; [ glibc ]);   # 32 位库放这里
+  runScript = &quot;bash&quot;;
+  profile = &#39;&#39;
+    export MY_ENV=1
+  &#39;&#39;;
+})).env
+</code></pre>
+<pre><code class="language-bash">nix-shell ./shell.nix
+# 进入后可以直接跑 ./your-binary
+</code></pre>
+<p><strong><code>targetPkgs</code> vs <code>multiPkgs</code></strong>：前者是主架构（64 位）的包，后者是 32 位库。</p>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixpkgs/stable/#sec-fhs-environments">Nixpkgs Manual · FHS Environments</a> <code>[官方]</code></p>
+</blockquote>
+<h3 id="sub-4-2">5.3 方案 B：AppImage</h3>
+<p><strong>临时用法</strong>：</p>
+<pre><code class="language-bash">nix-shell -p appimage-run
+appimage-run ~/Downloads/SomeApp.AppImage
+</code></pre>
+<p><strong>让 AppImage 能直接双击运行</strong>（注册到内核 binfmt_misc）：</p>
+<pre><code class="language-nix">programs.appimage = {
+  enable = true;    # 提供 appimage-run 包装脚本
+  binfmt = true;    # 让内核用 appimage-run 作为 .AppImage 的解释器
+};
+</code></pre>
+<p><strong>缺库时覆盖</strong>：</p>
+<pre><code class="language-nix">programs.appimage.package = pkgs.appimage-run.override {
+  extraPkgs = pkgs: [ pkgs.icu pkgs.libxcrypt-legacy pkgs.python312 ];
+};
+</code></pre>
+<p><strong>AppImage 常见失败原因</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>原因</th>
+<th>修法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>挂载失败</td>
+<td>缺 FUSE</td>
+<td><code>programs.appimage.enable</code> 已带 fuse；或手动解包</td>
+</tr>
+<tr>
+<td>缺 .so</td>
+<td>依赖不在默认库集合</td>
+<td><code>extraPkgs</code> 补</td>
+</tr>
+<tr>
+<td>沙箱受限</td>
+<td>bubblewrap 在容器/受限内核下失败</td>
+<td><code>./foo.AppImage --appimage-extract</code> 解包后跑 <code>squashfs-root/AppRun</code></td>
+</tr>
+<tr>
+<td>找不到字体/图标</td>
+<td>非 Nix 程序看不到系统字体</td>
+<td>见 NixOS Wiki「Fixes for non-Nix applications」</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Appimage">NixOS Wiki · Appimage</a> <code>[核实·Wiki]</code>；<a href="https://mynixos.com/options/programs.appimage">MyNixOS · programs.appimage</a> <code>[核实]</code></p>
+</blockquote>
+<h3 id="sub-4-3">5.4 方案 C：nix-ld（★ 最推荐的兜底方案）</h3>
+<p><strong>它做什么</strong>：<code>programs.nix-ld</code> 把系统的动态链接器设为 <code>nix-ld</code>，并导出 <code>NIX_LD</code> / <code>NIX_LD_LIBRARY_PATH</code> 环境变量。这样<strong>任何写着标准 FHS 链接器路径的 ELF 二进制</strong>都能被正确加载。</p>
+<pre><code class="language-nix">programs.nix-ld = {
+  enable = true;
+  libraries = with pkgs; [
+    # 默认只有 zlib/zstd/curl/openssl/systemd 等少数几个，缺什么补什么
+    stdenv.cc.cc.lib   # 提供 libstdc++
+    zlib
+    zlib-ng
+    openssl
+    curl
+    libxkbcommon
+    libglvnd
+    # 报 &quot;cannot open shared object file: libXXX.so&quot; 时，把提供它的包加进来
+  ];
+};
+</code></pre>
+<p><strong>为什么它能解决 node/npm/python 官方二进制</strong>：这些官方二进制只依赖 libc + 少量通用 .so。nix-ld 把链接器和库路径都补上了，它们就能直接跑。</p>
+<p><strong>关键注意</strong>：nix-ld <strong>不提供</strong> FHS 目录结构，只提供链接器。所以它对「依赖大量图形库的复杂程序」不够用 —— 那种场景要用 buildFHSEnv。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Nix-ld">NixOS Wiki · Nix-ld</a> <code>[Wiki]</code>；<a href="https://github.com/nix-community/nix-ld">github.com/nix-community/nix-ld</a> <code>[仓库]</code>；<code>nixos/modules/programs/nix-ld.nix</code> <code>[核实·源码]</code></p>
+</blockquote>
+<h3 id="sub-4-4">5.5 方案 D：steam-run</h3>
+<p><code>pkgs.steam-run</code> 是 <code>steam.run</code>，一个预置了大量图形/音频/游戏库的 buildFHSEnv。适合依赖复杂的现成二进制：</p>
+<pre><code class="language-bash">steam-run ./some-complex-binary
+steam-run npx cypress open      # 例如带预编译二进制的 npm 工具
+</code></pre>
+<blockquote>
+<p>出处：<code>pkgs/top-level/all-packages.nix</code>（<code>steam-run = steam.run;</code>）<code>[核实·源码]</code></p>
+</blockquote>
+<h3 id="sub-4-5">5.6 决策表</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>选择</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>长期用、有源码</td>
+<td>写 derivation</td>
+<td>完全融入 Nix 生态，可缓存可回滚</td>
+</tr>
+<tr>
+<td>现成 tar.gz、专有二进制、依赖复杂</td>
+<td><code>buildFHSEnv</code> / <code>steam-run</code></td>
+<td>提供完整 FHS 目录与库</td>
+</tr>
+<tr>
+<td>CLI 工具、只缺 libc 和几个 .so</td>
+<td><code>nix-ld</code></td>
+<td>一劳永逸，无需为每个程序建环境</td>
+</tr>
+<tr>
+<td><code>.AppImage</code></td>
+<td><code>appimage-run</code> / <code>programs.appimage</code></td>
+<td>专为该格式设计</td>
+</tr>
+<tr>
+<td>临时试跑</td>
+<td><code>nix-shell -p</code> + <code>steam-run</code></td>
+<td>用完即弃，不污染系统</td>
+</tr>
+</tbody></table>
+<h3 id="sub-4-6">5.7 node / npm 生态</h3>
+<p><strong>现状（重要变更）</strong>：</p>
+<ul>
+<li><code>nixpkgs.nodePackages</code> <strong>已整体移除</strong>（报错原文：<em>&quot;nodePackages has been removed because it was unmaintainable&quot;</em>）</li>
+<li><code>pkgs.nodejs_22</code> 等版本化包可用；<code>pkgs.nodejs</code> 当前指向 LTS 别名</li>
+<li><code>pkgs.pnpm</code>、<code>pkgs.bun</code>、<code>pkgs.corepack</code> 均可用</li>
+</ul>
+<p><strong>为什么 <code>npm install -g</code> 在 NixOS 上必然失败</strong>：</p>
+<pre><code>npm ERR! code EACCES
+npm ERR! errno -13
+npm ERR! syscall mkdir
+npm ERR! path /nix/store/xxxxx-nodejs-22.x/lib/node_modules/xxx
+</code></pre>
+<p>因为 <code>/nix/store</code> 是<strong>只读的</strong>（这正是不可变性的代价与保障）。npm 试图往 store 里写 → 权限拒绝。</p>
+<p><strong>正确做法一：改 npm 全局前缀到用户目录（推荐）</strong></p>
+<pre><code class="language-bash">npm config set prefix ~/.npm-global
+echo &#39;export PATH=&quot;$HOME/.npm-global/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+npm install -g @openai/codex
+</code></pre>
+<p><strong>正确做法二：nix-ld 兜底</strong>（官方二进制形式的 CLI 用这个）</p>
+<p><strong>正确做法三：FHS 沙箱</strong>（依赖复杂的用这个）</p>
+<pre><code class="language-bash">steam-run npm install -g some-package
+</code></pre>
+<p><strong>npx 的坑</strong>：部分包（如 Cypress）会在 npx 时下载预编译二进制 → 仍然受无 FHS 影响 → 用 <code>steam-run npx ...</code> 兜底。</p>
+<blockquote>
+<p>出处：<a href="https://nixos.wiki/wiki/Node">nixos.wiki · Node</a> <code>[Wiki]</code>；<a href="https://discourse.nixos.org/t/76753">Discourse #76753</a> <code>[官方论坛]</code></p>
+</blockquote>
+<h3 id="sub-4-7">5.8 Python 生态</h3>
+<pre><code class="language-nix"># 方式一：把依赖固化进解释器（推荐用于脚本/服务）
+python3.withPackages (ps: [ ps.requests ps.numpy ps.pillow ])
+
+# 方式二：用 uv / poetry（推荐用于开发）
+environment.systemPackages = with pkgs; [ uv poetry ];
+</code></pre>
+<p><strong>为什么 venv 在 NixOS 上常出问题</strong>：<code>python3 -m venv</code> 生成的解释器仍指向 <code>/nix/store</code> 里那个只读解释器，<code>pip install</code> 会尝试写入 → 失败或污染。</p>
+<p><strong>边界</strong>：<code>nix-shell -p python3</code> 里只能 <code>pip install --user</code> 或建 venv，<strong>不能改 store</strong>。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Python">NixOS Wiki · Python</a> <code>[Wiki]</code></p>
+</blockquote>
+<h3 id="sub-4-8">5.9 案例：Hermes Agent</h3>
+<p><strong>核实结果</strong>：Hermes Agent 是 <strong>Nous Research</strong> 出品的开源 AI Agent 框架（MIT），<strong>主要走 Python 分发</strong>，不是 npm 包。官方给出的安装方式包括一键脚本、pip、Docker、SSH、Daytona、Modal。</p>
+<p><strong>一键脚本做了什么</strong>：用 <code>uv</code> 获取 Python 环境，装 <code>hermes-agent</code>，然后 <code>hermes pm install</code> 拉取运行依赖（<strong>包括 Node 运行时和 Chromium 等浏览器二进制</strong>）。这一步是 NixOS 上的关键难点 —— 它会下载官方预编译二进制。</p>
+<p><strong>NixOS 上的推荐方案</strong>：</p>
+<pre><code class="language-nix"># configuration.nix
+programs.nix-ld = {
+  enable = true;
+  libraries = with pkgs; [
+    stdenv.cc.cc.lib zlib openssl curl
+    libxkbcommon libglvnd
+    # Chromium 运行还需要一批图形库，缺啥补啥（看报错里的 .so 名字）
+    nss nspr atk at-spi2-atk cups dbus expat libdrm
+    mesa libgbm alsa-lib pango cairo
+  ];
+};
+
+environment.systemPackages = with pkgs; [
+  uv          # 官方脚本依赖 uv 取 Python
+  python3
+  nodejs_22   # 让 hermes 优先用 Nix 的 node，而非自己下载
+];
+</code></pre>
+<pre><code class="language-bash"># 推荐：不用官方一键脚本（它会往系统里下二进制），改用 uv 建独立环境
+uv tool install hermes-agent
+hermes --version
+
+# 如果 hermes pm install 仍然要下 Node/Chromium：
+#   优先让它复用系统 node（设 PATH 或 HERMES_NODE_PATH 之类的变量）
+#   实在不行，用 steam-run 包一层：
+#   steam-run hermes pm install
+</code></pre>
+<p><strong>为什么这样做</strong>：</p>
+<ol>
+<li>用 <code>uv tool install</code> 而非一键脚本 → 装进用户目录，不污染系统，且版本可回滚</li>
+<li>开 nix-ld → 让 hermes 下载的预编译二进制能跑起来</li>
+<li>先装 <code>nodejs_22</code> → 尽量让 hermes 复用 Nix 的 node，避免它自己下载一份（自己下的那份没有 Nix 的补丁，更容易出问题）</li>
+</ol>
+<blockquote>
+<p>出处：<a href="https://hermes-ai.net/zh/docs/installation/">Hermes Agent 安装文档</a> <code>[仓库]</code>；<a href="https://github.com/NousResearch/hermes-agent">github.com/NousResearch/hermes-agent</a> <code>[仓库]</code>
+⚠️ <code>[未核实]</code>：<code>hermes pm install</code> 是否支持指定外部 node 路径，未在公开文档中找到明确说明。上面第 3 点建议属<strong>推断</strong>，请以实测为准。</p>
+</blockquote>
+<h3 id="sub-4-9">5.10 案例：OpenAI Codex CLI</h3>
+<p><strong>核实结果</strong>：npm 分发为主，包名 <code>@openai/codex</code>。官方另提供 <code>curl -fsSL https://chatgpt.com/codex/install.sh | sh</code>（Rust 原生二进制）与 Homebrew。</p>
+<p><strong>NixOS 上两条路线</strong>：</p>
+<p><strong>路线一：npm（推荐）</strong></p>
+<pre><code class="language-nix"># configuration.nix —— 让 npm 全局安装落在用户目录
+environment.systemPackages = with pkgs; [ nodejs_22 ];
+</code></pre>
+<pre><code class="language-bash">npm config set prefix ~/.npm-global
+echo &#39;export PATH=&quot;$HOME/.npm-global/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+npm install -g @openai/codex
+codex --version
+</code></pre>
+<p><strong>为什么可行</strong>：npm 全局前缀改到 <code>~/.npm-global</code> 后，不再尝试写 <code>/nix/store</code>，权限问题消失。</p>
+<p><strong>路线二：官方 install.sh（Rust 二进制）</strong></p>
+<pre><code class="language-nix">programs.nix-ld = {
+  enable = true;
+  libraries = with pkgs; [ stdenv.cc.cc.lib zlib openssl curl libxkbcommon ];
+};
+</code></pre>
+<pre><code class="language-bash">curl -fsSL https://chatgpt.com/codex/install.sh | sh
+# 二进制装到 ~/.codex 或类似路径，靠 nix-ld 提供链接器
+</code></pre>
+<p><strong>为什么不推荐把 install.sh 装的东西再打包成 derivation</strong>：它是个会自我更新的安装器，打包成 derivation 会与自动更新冲突。用 nix-ld 兜底更务实。</p>
+<blockquote>
+<p>出处：<a href="https://github.com/openai/codex">github.com/openai/codex</a>（README 安装段）<code>[仓库]</code></p>
+</blockquote>
+<hr>
+<p><a id="六"></a></p>
+<h2 id="sec-5">六、稳定基座 + 滚动组件（混合版本策略）</h2>
+<blockquote>
+<p>本章回答一个具体问题：<strong>系统底座留在 26.05 稳定版，但浏览器、Mesa、内核、游戏组件想跟着滚动更新，怎么做？</strong></p>
+</blockquote>
+<h3 id="sub-5-0">6.0 先做一件事：量出「跨源到底能拿到什么」</h3>
+<p><strong>不要凭「unstable 一定更新」这个直觉动手。先量。</strong> 我在 <code>nixos-26.05</code> 与 <code>nixos-unstable</code> 两个分支上逐包比对了版本（2026-10-12 实测）：<code>[核实·源码]</code></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>26.05（stable）</th>
+<th>nixos-unstable</th>
+<th>跨源值不值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>内核 <code>linuxPackages_latest</code></strong></td>
+<td><strong>7.2.9</strong></td>
+<td><strong>7.2.9</strong></td>
+<td>❌ <strong>完全一致，跨源毫无意义</strong></td>
+</tr>
+<tr>
+<td>内核 <code>linuxPackages</code>（默认）</td>
+<td>6.18.55（LTS）</td>
+<td>6.18.55（LTS）</td>
+<td>❌ 完全一致</td>
+</tr>
+<tr>
+<td><strong>Mesa</strong></td>
+<td><strong>26.1.8</strong></td>
+<td><strong>26.2.4</strong></td>
+<td>✅ <strong>值得</strong>（小版本差一个代际）</td>
+</tr>
+<tr>
+<td><strong>proton-ge-bin</strong></td>
+<td><strong>GE-Proton11-1</strong></td>
+<td><strong>GE-Proton11-7</strong></td>
+<td>✅ <strong>值得</strong></td>
+</tr>
+<tr>
+<td><strong>gamescope</strong></td>
+<td><strong>3.16.23</strong></td>
+<td><strong>3.16.31</strong></td>
+<td>✅ 值得</td>
+</tr>
+<tr>
+<td><strong>mangohud</strong></td>
+<td><strong>1.91.6</strong></td>
+<td><strong>1.91.6</strong></td>
+<td>❌ 完全一致</td>
+</tr>
+</tbody></table>
+<p><strong>出处（可自行复验）</strong>：<code>pkgs/os-specific/linux/kernel/kernels-org.json</code>（内核版本表）、<code>pkgs/development/libraries/mesa/common.nix</code>（Mesa 版本）、<code>pkgs/by-name/{pr/proton-ge-bin,ma/mangohud,ga/gamescope}/package.nix</code>。两个分支的 raw 路径只差分支名。</p>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>这张表推翻了本章原稿的一条结论。</strong> 原稿把「内核」列为「❌ 不要跨 nixpkgs 滚」，理由是「NVIDIA / ZFS / VirtualBox 的模块必须与内核同源」。<strong>那个理由只对「有树外内核模块」的人成立</strong>，而且它掩盖了一个更简单的事实：</p>
+<p><strong>在 26.05 上你根本不需要跨源拿内核 —— stable 的 <code>linuxPackages_latest</code> 已经是 7.2.9，和 unstable 逐字相同。</strong></p>
+<p>两个分支的 <code>packageAliases</code> 都是 <code>linux_default = packages.linux_6_18; linux_latest = packages.linux_7_2;</code>（<code>pkgs/top-level/linux-kernels.nix:739-743</code> vs unstable 同文件 <code>:667-671</code>），而 <code>kernels-org.json</code> 里 <code>7.2</code> 的 <code>version</code> 两边都是 <code>7.2.9</code>。<strong>stable 分支会定期把内核 rebase 到最新补丁。</strong></p>
+</div></div>
+<h3 id="sub-5-1">6.1 分清：哪些组件能滚，哪些不能</h3>
+<p><strong>核心判据不是「新不新」，而是「它跟谁配对」。</strong></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>类型</th>
+<th>能否跨 nixpkgs 滚</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>浏览器（Firefox / Chromium）</td>
+<td>纯用户态叶子包</td>
+<td>✅ 可以</td>
+<td>只依赖用户态库；且 stable 分支本身也在收浏览器安全更新</td>
+</tr>
+<tr>
+<td>Mesa</td>
+<td>用户态图形库</td>
+<td>⚠️ 官方支持，但有实测翻车</td>
+<td>有官方选项 <code>hardware.graphics.package</code>（25.05 起），社区实测出现版本错配。<strong>且实测确实有版本差（26.1.8 → 26.2.4）</strong></td>
+</tr>
+<tr>
+<td>游戏组件（proton-ge-bin / mangohud / gamescope）</td>
+<td>纯用户态</td>
+<td>✅ 可以（<strong>先看 §6.0 表决定值不值</strong>）</td>
+<td>不进内核，不参与引导。实测 proton-ge-bin 与 gamescope 有差，mangohud 无差</td>
+</tr>
+<tr>
+<td><strong>内核（linux）</strong></td>
+<td>与内核模块配对</td>
+<td>⚠️ <strong>看平台，而且通常没必要</strong></td>
+<td><strong>有树外模块</strong>（NVIDIA / ZFS / VirtualBox）→ ❌ <strong>绝对不要</strong>跨源；<strong>纯 AMD/Intel</strong>（无树外模块）→ 技术上可行，<strong>但 26.05 已经是最新内核，跨源拿不到任何东西</strong>（§6.0 表 + §6.4 ③）</td>
+</tr>
+<tr>
+<td>NVIDIA 闭源驱动</td>
+<td>内核模块 + 用户态库配对</td>
+<td>❌ 不要</td>
+<td>驱动与内核模块版本强绑定</td>
+</tr>
+<tr>
+<td>系统模块（systemd / glibc / 引导）</td>
+<td>系统基座</td>
+<td>❌ 不要</td>
+<td>由 <code>nixosSystem</code> 决定，跨版本会破坏激活流程</td>
+</tr>
+</tbody></table>
+<p><strong>一句话原则</strong>：<strong>可以滚「叶子」，不能滚「根」。</strong> 叶子包出问题最多是那个程序跑不起来；根出问题是最小系统起不来。</p>
+<p><strong>关键洞察（最反直觉的一条）</strong>：混合版本真正的风险不是「版本太新」，而是「<strong>同一个包同时被两个 nixpkgs 定义</strong>」。</p>
+<p>社区实测案例：有人在 NixOS stable 上用 <code>hardware.graphics.package = unstable.mesa;</code> 换成滚动 Mesa（2026-05），结果是：</p>
+<blockquote>
+<p>Firefox 报告的是<strong>新的</strong> Mesa 版本号，但报告<strong>没有硬件加速</strong>；Steam 报告的还是<strong>旧的</strong>稳定版 Mesa 版本号；GNOME 桌面环境的风扇一直转。</p>
+</blockquote>
+<p>出处：<a href="https://discourse.nixos.org/t/mesa-unstable-on-nixos-stable-in-2026/77618">Discourse · Mesa unstable on nixos-stable in 2026?</a> <code>[官方论坛]</code></p>
+<p>同一个系统里两个程序看到两个不同的 Mesa —— 这正是「同一个包被两份定义」的典型症状。</p>
+<h3 id="sub-5-2">6.2 只用 <code>configuration.nix</code> 做到吗？——能，有三条路</h3>
+<p><strong>先直接回答：能。<code>configuration.nix</code> 里就能拿到 unstable 的包，不需要 flake。</strong> 三条路，锁定程度递增。</p>
+<h4>路 A：加一条 unstable channel（最简单，但完全不锁）</h4>
+<pre><code class="language-bash">sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
+sudo nix-channel --update
+</code></pre>
+<pre><code class="language-nix"># configuration.nix
+let
+  unstable = import &lt;nixos-unstable&gt; { config.allowUnfree = true; };
+in
+{
+  environment.systemPackages = [
+    unstable.proton-ge-bin    # 游戏组件跟着 unstable 滚
+  ];
+
+  hardware.graphics.package   = unstable.mesa;                  # Mesa（有风险，见 §6.4）
+  hardware.graphics.package32 = unstable.pkgsi686Linux.mesa;    # 32 位必须一起换
+}
+</code></pre>
+<p><strong>上面那两行 Mesa 就是 §6.1 翻车案例的原始配置。</strong></p>
+<h4>路 B：<code>builtins.fetchTarball</code>（不用 channel、不用 flake，仍然只改 <code>configuration.nix</code>）</h4>
+<p><strong>这是原稿漏掉的一条路</strong> —— 不需要 <code>nix-channel</code>，也不需要 flake，纯 <code>configuration.nix</code>：</p>
+<pre><code class="language-nix"># configuration.nix —— 一个文件搞定，不碰 channel，不建 flake
+{ config, pkgs, lib, ... }:
+let
+  # ① 拉一份 unstable 的 nixpkgs 源码树
+  unstableSrc = builtins.fetchTarball {
+    url = &quot;https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz&quot;;
+    # sha256 = &quot;...&quot;;   # ← 建议加：不加的话每次求值都可能重新下载，且不可复现
+  };
+
+  # ② 导入它，并继承你的 allowUnfree 等设置
+  unstable = import unstableSrc {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (config.nixpkgs) config;
+  };
+in
+{
+  # ③ Mesa
+  hardware.graphics.package   = unstable.mesa;
+  hardware.graphics.package32 = unstable.pkgsi686Linux.mesa;
+
+  # ④ 游戏组件
+  environment.systemPackages = [
+    unstable.proton-ge-bin
+    unstable.gamescope
+  ];
+}
+</code></pre>
+<p><strong>取 hash 的办法</strong>（不加 hash 会有一个警告，且不可复现）：</p>
+<pre><code class="language-bash">nix-prefetch-url --unpack https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz
+</code></pre>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong><code>nixos-unstable.tar.gz</code> 是一个「移动目标」。</strong> 它指向 unstable 分支的<strong>当前</strong> HEAD，所以不加 <code>sha256</code> 时每次求值都可能拉到不同内容 —— 这等于「用 fetchTarball 实现了 channel 的不锁行为」。<strong>要可复现就必须钉死</strong>：</p>
+<pre><code class="language-nix">url = &quot;https://github.com/NixOS/nixpkgs/archive/&lt;完整 commit&gt;.tar.gz&quot;;
+sha256 = &quot;...&quot;;
+</code></pre>
+<p><strong>这条路的价值</strong>：它是「不想引入 flake、又想要比 channel 更可控」的折中。<strong>代价是你要自己管理那个 commit 字符串</strong> —— 这其实就是手工版的 <code>flake.lock</code>。</p>
+</div></div>
+<h4>路 C：<code>builtins.fetchGit</code> + 钉死 <code>rev</code>（纯 <code>configuration.nix</code> 的「准锁定」写法）</h4>
+<pre><code class="language-nix"># configuration.nix
+{ config, pkgs, ... }:
+let
+  unstable = import (builtins.fetchGit {
+    url = &quot;https://github.com/NixOS/nixpkgs&quot;;
+    ref = &quot;refs/heads/nixos-unstable&quot;;
+    rev = &quot;0000000000000000000000000000000000000000&quot;;   # ← 钉死一个 commit
+  }) {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (config.nixpkgs) config;
+  };
+in
+{
+  hardware.graphics.package   = unstable.mesa;
+  hardware.graphics.package32 = unstable.pkgsi686Linux.mesa;
+}
+</code></pre>
+<p><code>fetchGit</code> 带 <code>rev</code> 时 Nix 会校验取到的 commit 与 <code>rev</code> 一致，<strong>这就是「手工锁」</strong>。升级 = 手动改 <code>rev</code> 那一行。</p>
+<h4>三条路的对照</h4>
+<table>
+<thead>
+<tr>
+<th>路</th>
+<th>需要 channel？</th>
+<th>需要 flake？</th>
+<th>锁版本？</th>
+<th>能单独回滚包？</th>
+<th>适合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A</strong> channel + <code>import &lt;nixos-unstable&gt;</code></td>
+<td>✅ 要</td>
+<td>❌ 不要</td>
+<td>❌ <strong>完全不锁</strong></td>
+<td>❌</td>
+<td>临时救急装一个包</td>
+</tr>
+<tr>
+<td><strong>B</strong> <code>fetchTarball</code></td>
+<td>❌ 不要</td>
+<td>❌ 不要</td>
+<td>⚠️ 加 <code>sha256</code> 才锁</td>
+<td>❌</td>
+<td>不想碰 channel / flake，能接受手工管 hash</td>
+</tr>
+<tr>
+<td><strong>C</strong> <code>fetchGit</code> + <code>rev</code></td>
+<td>❌ 不要</td>
+<td>❌ 不要</td>
+<td>✅ <strong>锁</strong>（手工钉 rev）</td>
+<td>❌</td>
+<td>想要锁定但坚决不引入 flake</td>
+</tr>
+<tr>
+<td><strong>D</strong> flake（§6.3）</td>
+<td>❌ 不要</td>
+<td>✅ 要</td>
+<td>✅ <strong>锁</strong>（<code>flake.lock</code>）</td>
+<td>❌</td>
+<td><strong>长期做滚动组件（推荐）</strong></td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>「能单独回滚某个包」这一列全是 ❌ —— 这是混合版本策略的固有局限。</strong> 无论哪条路，回滚的粒度都是<strong>整次 rebuild</strong>（<code>nixos-rebuild --rollback</code> 或 <code>home-manager</code> 的 generation），不是「只把 mesa 退回去」。想要单包回滚，只能手工改回那一行引用。</p>
+<p>唯一例外是<strong>把滚动包放在 Home Manager 层</strong>（§6.4 ⑥）—— 那时回滚粒度是 HM 的 generation，虽然仍不是单包，但至少不影响系统能启动。</p>
+</div></div>
+<p><strong>结论</strong>：A 能用但只适合救急；B/C 是「不想用 flake」时的正解；<strong>要长期做滚动组件，走 D（flake）</strong>。</p>
+<h3 id="sub-5-3">6.3 路 D：flake（推荐）</h3>
+<p>flake 让你<strong>同时持有两份 nixpkgs</strong>，并显式声明哪份负责什么。</p>
+<pre><code class="language-nix"># flake.nix
+{
+  description = &quot;NixOS 稳定基座 + 滚动组件&quot;;
+
+  inputs = {
+    # ① 基座：稳定版。整个系统由它构建
+    nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+
+    # ② 滚动源：只用来取叶子包
+    nixpkgs-unstable.url = &quot;github:NixOS/nixpkgs/nixos-unstable&quot;;
+
+    home-manager = {
+      url = &quot;github:nix-community/home-manager/release-26.05&quot;;
+      inputs.nixpkgs.follows = &quot;nixpkgs&quot;;   # HM 跟稳定基座，不跟滚动源
+    };
+  };
+
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+  {
+    nixosConfigurations.mypc = nixpkgs.lib.nixosSystem {
+      system = &quot;x86_64-linux&quot;;
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./configuration.nix
+        ./hardware-configuration.nix
+        home-manager.nixosModules.home-manager
+      ];
+    };
+  };
+}
+</code></pre>
+<p><strong>接线方式：两种，只用第一种。</strong></p>
+<p><strong>✅ 方式 A：<code>_module.args</code>（推荐）</strong></p>
+<pre><code class="language-nix"># configuration.nix
+{ config, pkgs, inputs, lib, ... }:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+  unstable = import inputs.nixpkgs-unstable {
+    inherit system;
+    inherit (config.nixpkgs) config;   # 继承 allowUnfree 等设置
+  };
+in
+{
+  _module.args.pkgsUnstable = unstable;   # 之后任何模块都能用 pkgsUnstable
+
+  environment.systemPackages = [
+    unstable.firefox
+  ];
+}
+</code></pre>
+<p><strong>为什么推荐</strong>：只为需要的包求值 unstable，eval 开销小。</p>
+<p><strong>❌ 方式 B：overlay 把 unstable 塞进 <code>pkgs</code></strong></p>
+<pre><code class="language-nix"># 不推荐
+nixpkgs.overlays = [
+  (final: _: {
+    unstable = import inputs.nixpkgs-unstable {
+      inherit (final.stdenv.hostPlatform) system;
+      inherit (final) config;
+    };
+  })
+];
+</code></pre>
+<p><strong>为什么不推荐</strong>：官方论坛原话 —— 「我个人反对这个 overlay 方案，因为为此用 overlay 完全没必要，而且很可能拖慢 eval。」</p>
+<p>出处：<a href="https://discourse.nixos.org/t/mixing-stable-and-unstable-packages-on-flake-based-nixos-system/50351">Discourse · Mixing stable and unstable packages on flake-based NixOS system</a> <code>[官方论坛]</code></p>
+<p><strong>三条硬限制（必须知道）</strong></p>
+<ol>
+<li><strong>同一个包不能装两个版本。</strong> <code>environment.systemPackages</code> 里同时出现 <code>pkgs.vim</code> 和 <code>unstable.vim</code> 不成立。</li>
+<li><strong>系统只能由一份 nixpkgs 构建。</strong> 上面的 <code>nixosSystem</code> 用的是稳定版；unstable 只是「额外的包来源」，不能用来构建系统。</li>
+<li><strong>unstable 的 unfree 包需要单独放行。</strong> flake 的 pure 求值会挡住 <code>allowUnfree</code>，需要 <code>inherit (config.nixpkgs) config</code>，或改用 <code>nixpkgs-unfree</code>。</li>
+</ol>
+<p>出处：同上；<a href="https://librephoenix.com/2024-02-10-using-both-stable-and-unstable-packages-on-nixos-at-the-same-time">LibrePhoenix · Using Both Stable and Unstable Packages on NixOS</a> <code>[社区实证]</code>（原文自我定位：「这是个 hacky 方案，应作为最后手段」）</p>
+<h3 id="sub-5-4">6.4 逐个组件的正确做法</h3>
+<p><strong>① 浏览器</strong></p>
+<p>先问一句：<strong>真的需要吗？</strong> nixpkgs 的 Chromium 包维护文档明确写着 —— 所有更新「全部被视为安全关键，应尽快移植到 stable 通道」。</p>
+<p>出处：<a href="https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/browsers/chromium">nixpkgs · chromium README</a> <code>[仓库]</code></p>
+<p><strong>所以</strong>：stable 分支的 Firefox / Chromium 本身就在持续收版本更新。先跑 <code>nix search nixpkgs firefox</code> 看版本，再决定要不要滚。</p>
+<p>真要滚，用 <code>programs.firefox.package</code> 指向 unstable：</p>
+<pre><code class="language-nix">programs.firefox.package = unstable.firefox;
+</code></pre>
+<p><strong>为什么用这个选项而不是 overlay 整个 <code>firefox</code></strong>：<code>programs.firefox.*</code> 模块会把 <code>package</code> 包进它自己生成的 wrapper（配置、扩展、策略），换 <code>package</code> 是最小侵入。</p>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Firefox">NixOS Wiki · Firefox</a> <code>[Wiki]</code></p>
+<p><strong>② Mesa</strong></p>
+<p><strong>官方支持这条路径</strong>（25.05 起）：</p>
+<pre><code class="language-nix">hardware.graphics.package   = unstable.mesa;
+hardware.graphics.package32 = unstable.pkgsi686Linux.mesa;   # 32 位必须一起换
+</code></pre>
+<p><strong>两个选项在 26.05 中确实存在</strong>：<code>hardware.graphics.package</code>（「提供默认驱动集的包」）与 <code>hardware.graphics.package32</code>（「提供 32 位驱动集的包」）。</p>
+<p>出处：<a href="https://mynixos.com/options/hardware.graphics">MyNixOS · hardware.graphics</a> <code>[官方选项]</code>；<a href="https://wiki.nixos.org/wiki/Mesa">NixOS Wiki · Mesa</a> <code>[Wiki]</code>；NixOS 25.05 release notes <code>[官方]</code></p>
+<p><strong>但注意</strong>：§6.1 的翻车案例用的就是这个官方选项，仍然出问题。<strong>「官方支持」≠「一定不炸」。</strong></p>
+<p><strong>NVIDIA 用户补充</strong>：NVIDIA 走自己的 <code>nvidia</code> 驱动，不用 Mesa 的 <code>nouveau</code>，所以换 Mesa 一般不影响 NVIDIA 渲染；但会影响 Vulkan 层和 XWayland。<strong>换完必须重启，不要只 <code>switch</code>。</strong></p>
+<p><strong>③ 内核</strong></p>
+<p><strong>先说结论：在 26.05 上，换内核完全不需要 unstable。</strong> 正确做法是在<strong>同一个 nixpkgs 内</strong>选更新的内核分支：</p>
+<pre><code class="language-nix"># ✅ 推荐：同一个 stable nixpkgs 里的更新内核
+boot.kernelPackages = pkgs.linuxPackages_latest;   # 26.05 上 = 7.2.9（与 unstable 逐字相同）
+# 或
+boot.kernelPackages = pkgs.linuxPackages_zen;      # 低延迟，仍在 stable 内
+</code></pre>
+<p><strong>为什么「不需要」</strong>（§6.0 表的展开）：两个分支的内核别名指向同一个内核分支，且补丁版本号相同。</p>
+<pre><code class="language-nix"># nixos-26.05  pkgs/top-level/linux-kernels.nix:739-743
+packageAliases = {
+  linux_default = packages.linux_6_18;
+  linux_latest  = packages.linux_7_2;      # ← 26.05 与 unstable 都是这一行
+};
+
+# 两边的 pkgs/os-specific/linux/kernel/kernels-org.json 里：
+#   &quot;7.2&quot;  -&gt; { version = &quot;7.2.9&quot;;  lts = false; }
+#   &quot;6.18&quot; -&gt; { version = &quot;6.18.55&quot;; lts = true;  }
+</code></pre>
+<p><code>pkgs/top-level/all-packages.nix:8224,8227</code> 把这两个别名暴露为 <code>pkgs.linuxPackages</code> / <code>pkgs.linuxPackages_latest</code>。<strong>所以 <code>pkgs.linuxPackages_latest</code> 在 26.05 上就是 7.2.9。</strong></p>
+<p><strong>那什么时候才真的不能跨源？—— 看你的机器有没有「树外内核模块」。</strong></p>
+<table>
+<thead>
+<tr>
+<th>你的情况</th>
+<th>能否 <code>boot.kernelPackages = unstable.linuxPackages</code></th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>纯 AMD / Intel</strong>（amdgpu / i915 在主线内核里）</td>
+<td>⚠️ 技术可行，<strong>但拿不到任何东西</strong></td>
+<td>没有树外模块 → 不存在版本配对问题；<strong>但 26.05 已经是 7.2.9，跨源等于白做</strong></td>
+</tr>
+<tr>
+<td><strong>NVIDIA 闭源驱动</strong></td>
+<td>❌ <strong>绝对不要</strong></td>
+<td><code>hardware.nvidia</code> 从<strong>同一个 nixpkgs</strong> 取 <code>nvidia.ko</code>。跨源 → 模块与内核不匹配 → 开机加载失败 → 可能进不去图形界面</td>
+</tr>
+<tr>
+<td><strong>ZFS</strong>（<code>boot.zfs.enable</code>）</td>
+<td>❌ <strong>绝对不要</strong></td>
+<td><code>zfs.ko</code> 必须与内核<strong>精确</strong>配对，跨源必炸</td>
+</tr>
+<tr>
+<td><strong>VirtualBox</strong>（<code>virtualisation.virtualbox.host.enable</code>）</td>
+<td>❌ <strong>绝对不要</strong></td>
+<td><code>vboxdrv</code> 同上</td>
+</tr>
+</tbody></table>
+<p><strong>技术上的风险点在哪</strong>（即使你没有 NVIDIA/ZFS/VBox 也该知道）：</p>
+<p><code>boot.extraModulePackages</code> 的类型是 <code>listOf types.package</code>，而 NixOS 会把它拼进模块树（<code>nixos/modules/system/boot/kernel.nix:197-202</code>、<code>:394</code>）：</p>
+<pre><code class="language-nix">system.modulesTree = [ (lib.getOutput &quot;modules&quot; kernel) ] ++ config.boot.extraModulePackages;
+</code></pre>
+<p><strong>所以只要有任何模块往 <code>boot.extraModulePackages</code> 里塞一个「来自稳定 nixpkgs」的包，而内核来自 unstable，模块树里就会出现「为 6.18 编译的 .ko」和「7.2 的内核」并存。</strong> 这是跨源换内核真正的失败模式 —— 不是内核本身，而是模块树。</p>
+<p><strong>对 AMD 用户的实务建议</strong>：</p>
+<pre><code class="language-nix"># 不要写这个 —— 它只会多拉一整份 nixpkgs，换来的内核版本一模一样
+# boot.kernelPackages = unstable.linuxPackages_latest;   # ❌ 无意义
+
+# 要更新的内核，这样写就够了：
+boot.kernelPackages = pkgs.linuxPackages_latest;         # ✅ 7.2.9，来自你已有的 stable
+</code></pre>
+<p><strong>如果你确实需要比 7.2 更新的内核</strong>（例如 7.3 出来了而 26.05 还没 rebase）：那才轮到跨源，且必须<strong>先用 <code>nixos-rebuild build-vm</code> 验证、再 <code>nixos-rebuild boot</code> + 重启</strong>，不要用 <code>switch</code>。</p>
+<p><strong>④ NVIDIA 驱动</strong></p>
+<pre><code class="language-nix">hardware.nvidia.package = unstable.linuxPackages.nvidiaPackages.stable;
+</code></pre>
+<p><strong>同样必须连同 <code>boot.kernelPackages</code> 一起换</strong>，否则模块与内核不匹配。<strong>新手建议不动。</strong></p>
+<p><strong>⑤ 游戏组件</strong></p>
+<p>这三个是纯用户态，可以安全滚：</p>
+<pre><code class="language-nix">environment.systemPackages = [
+  unstable.mangohud
+  unstable.gamescope
+  unstable.proton-ge-bin
+];
+</code></pre>
+<p><strong>注意 <code>gamescope</code> 依赖 Mesa/Vulkan</strong>：滚了 gamescope 但没滚 Mesa，可能出现 Vulkan 层版本不匹配。<strong>要么一起滚，要么都不滚。</strong></p>
+<p><strong>⑥ 把滚动包放在 Home Manager 层（风险最低的落地方式）</strong></p>
+<pre><code class="language-nix"># home-manager 里
+home.packages = [
+  inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.firefox
+];
+</code></pre>
+<p><strong>为什么这样更好</strong>：滚动包只影响你的用户环境，<strong>不进系统 generation 的构建路径</strong>。系统基座完全不受影响；出问题最多是那个程序打不开。</p>
+<p><strong>这是「稳定基座 + 滚动组件」推荐的默认做法。</strong></p>
+<h3 id="sub-5-5">6.5 flake 会锁版本吗？能自动换锁吗？</h3>
+<p><strong>先纠正一个前提</strong>：</p>
+<blockquote>
+<p><strong>flake 做不到「不锁」。锁（<code>flake.lock</code>）是它的设计目的，是「可复现」的物理基础。</strong></p>
+</blockquote>
+<p>但可以做到：<strong>让锁自动刷新，全程无需人工介入</strong>。你要的不是「不锁」，而是「自动换锁」。</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>是否锁版本</th>
+<th>能否全自动</th>
+<th>可复现性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>channel + <code>nixos-rebuild switch --upgrade</code></td>
+<td><strong>不锁</strong></td>
+<td>✅ 全自动</td>
+<td>低（无法复现历史状态）</td>
+</tr>
+<tr>
+<td>flake（手动 <code>nix flake update</code>）</td>
+<td>锁</td>
+<td>❌</td>
+<td>高</td>
+</tr>
+<tr>
+<td>flake + 自动换锁</td>
+<td>锁（但自动刷新）</td>
+<td>✅ 全自动</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<p><strong>所以：如果你真的想「不锁」，channel 路线才是你要的。代价是不可复现 —— 你无法回答「我三个月前那台机器是什么状态」。</strong></p>
+<p><strong>四个自动化层次（按复杂度递增）</strong></p>
+<p><strong>层次 1：官方 Wiki 的单配置方案</strong></p>
+<pre><code class="language-nix">system.autoUpgrade = {
+  enable = true;
+  flake = &quot;/path/to/flake&quot;;
+  flags = [
+    &quot;--print-build-logs&quot;
+    &quot;--commit-lock-file&quot;    # 自动提交更新后的 flake.lock
+  ];
+  dates = &quot;02:00&quot;;
+  randomizedDelaySec = &quot;45min&quot;;
+};
+</code></pre>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Automatic_system_upgrades">NixOS Wiki · Automatic system upgrades</a> <code>[Wiki]</code></p>
+<p><strong>⚠️ 历史陷阱</strong>：该页面以前推荐 <code>flags = [ &quot;--update-input&quot; &quot;nixpkgs&quot; ]</code>，但 <code>--update-input</code> <strong>已被废弃</strong>（Nix 会警告 <code>&#39;--update-input&#39; is a deprecated alias for &#39;flake update&#39; and will be removed in a future version</code>）。相关讨论见 <a href="https://github.com/NixOS/nixpkgs/issues/349734">nixpkgs issue #349734</a> <code>[仓库]</code>，其中提议新增 <code>--update-all-inputs</code> 与模块选项 <code>updateFlakeInputs</code>。<strong>按老教程配置会导致自动升级静默失败。</strong></p>
+<p><strong>层次 2：两段式（社区实测，更可靠）</strong></p>
+<p>社区实测结论：<strong>必须先更新 lock 文件，再升级系统 —— 这就是 flake 的工作方式</strong>，是两个独立操作。</p>
+<pre><code class="language-nix">{ pkgs, ... }:
+{
+  # ① 每天先刷新 flake.lock
+  systemd.services.flake-update = {
+    description = &quot;Update flake inputs&quot;;
+    unitConfig = {
+      StartLimitIntervalSec = 300;
+      StartLimitBurst = 5;
+    };
+    serviceConfig = {
+      ExecStartPre = &quot;${pkgs.networkmanager}/bin/nm-online&quot;;   # 等网络就绪
+      ExecStart = &quot;${pkgs.nix}/bin/nix flake update --flake /path/to/flake&quot;;
+      Restart = &quot;on-failure&quot;;
+      RestartSec = &quot;30&quot;;
+      Type = &quot;oneshot&quot;;
+      User = &quot;youruser&quot;;        # 用拥有该仓库的用户跑，避开 git 所有权问题
+    };
+    path = [ pkgs.nix pkgs.git pkgs.host pkgs.networkmanager ];
+  };
+
+  systemd.timers.flake-update = {
+    wantedBy = [ &quot;timers.target&quot; ];
+    timerConfig = {
+      OnCalendar = &quot;daily&quot;;
+      Persistent = true;         # 错过时间点（关机）就补跑
+    };
+  };
+
+  # ② 系统升级必须等 lock 刷新完
+  systemd.services.nixos-upgrade = {
+    after    = [ &quot;flake-update.service&quot; ];
+    requires = [ &quot;flake-update.service&quot; ];
+  };
+
+  # ③ 系统自动升级
+  system.autoUpgrade = {
+    enable = true;
+    flake = &quot;path:///path/to/flake&quot;;
+    flags = [ &quot;--print-build-logs&quot; ];
+    dates = &quot;02:00&quot;;
+    randomizedDelaySec = &quot;45min&quot;;
+    allowReboot = false;         # 建议先关自动重启，留人工确认
+  };
+}
+</code></pre>
+<p>出处：<a href="https://discourse.nixos.org/t/how-to-automatically-update-flakes/72426">Discourse · How to automatically update flakes</a> <code>[官方论坛]</code>（原帖作者实测多日确认该配置有效）</p>
+<p><strong>关键点</strong>：<code>nixos-upgrade.service</code> 用 <code>after</code> + <code>requires</code> 依赖 <code>flake-update.service</code>。<strong>顺序错了就会出现「刷新了锁但没生效」或「升级用了旧锁」。</strong></p>
+<p><strong>层次 3：CI 侧自动化（GitHub Actions）</strong></p>
+<p>如果配置在 GitHub 仓库里，用 <code>DeterminateSystems/update-flake-lock</code> 定时提 PR：</p>
+<pre><code class="language-yaml">name: update-flake-lock
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: &#39;0 0 * * 0&#39;    # 每周日
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: &quot;Update flake.lock&quot;
+          pr-labels: [ dependencies, automated ]
+</code></pre>
+<p><strong>为什么这条最有价值</strong>：<strong>它在「应用」之前插入了一道审查</strong>。lock 更新变成 PR → CI 跑 <code>nixos-rebuild dry-build</code> → 通过才合并 → 机器再拉取。</p>
+<p>出处：<a href="https://github.com/DeterminateSystems/update-flake-lock">github.com/DeterminateSystems/update-flake-lock</a> <code>[仓库]</code></p>
+<p><strong>层次 4：让 agent 接管（见 §6.7）</strong></p>
+<p><strong>自动化必须配的三个护栏</strong></p>
+<table>
+<thead>
+<tr>
+<th>护栏</th>
+<th>配置</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GC</td>
+<td><code>nix.gc.automatic = true;</code> + <code>--delete-older-than 30d</code></td>
+<td>自动升级会快速堆积 generation，不清理会撑爆 <code>/boot</code> 和 <code>/</code></td>
+</tr>
+<tr>
+<td>启动项上限</td>
+<td><code>boot.loader.systemd-boot.configurationLimit = 10;</code></td>
+<td><code>/boot</code> 分区很小，启动项太多会写不进去</td>
+</tr>
+<tr>
+<td>不自动重启</td>
+<td><code>system.autoUpgrade.allowReboot = false;</code></td>
+<td>自动重启可能在你正在用电脑时发生</td>
+</tr>
+</tbody></table>
+<p><strong>另外两个必须处理的坑</strong>（官方 Wiki 明确列出）：</p>
+<pre><code class="language-nix"># 坑 1：flake 仓库目录不属于 root，而 nixos-upgrade 以 root 运行
+#   /root/.gitconfig 里加：
+#   [safe]
+#     directory = /path/to/flake
+
+# 坑 2：root 没配 git 身份，提交 lock 文件时报 &quot;unable to auto-detect email address&quot;
+systemd.services.nixos-upgrade.environment = {
+  GIT_AUTHOR_NAME     = &quot;NixOS Auto-upgrade&quot;;
+  GIT_AUTHOR_EMAIL    = &quot;root@mypc&quot;;
+  GIT_COMMITTER_NAME  = &quot;NixOS Auto-upgrade&quot;;
+  GIT_COMMITTER_EMAIL = &quot;root@mypc&quot;;
+};
+</code></pre>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Automatic_system_upgrades">NixOS Wiki · Automatic system upgrades（Troubleshooting）</a> <code>[Wiki]</code></p>
+<h3 id="sub-5-6">6.6 有多少步骤？—— 四种口径的步骤清单</h3>
+<p><strong>先给结论，再拆解</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>口径</th>
+<th>用什么</th>
+<th>首次搭建</th>
+<th>日常升级</th>
+<th>每次要手工查版本？</th>
+<th>可复现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A</strong> channel</td>
+<td>只改 <code>configuration.nix</code></td>
+<td><strong>3 步</strong></td>
+<td><strong>2 步</strong></td>
+<td>❌ channel 自动</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>B</strong> <code>fetchTarball</code></td>
+<td>只改 <code>configuration.nix</code></td>
+<td><strong>3 步</strong></td>
+<td><strong>2 步</strong></td>
+<td>✅ 每次手工查 hash</td>
+<td>⚠️ 钉了 hash 才可复现</td>
+</tr>
+<tr>
+<td><strong>C</strong> <code>fetchGit</code> + <code>rev</code></td>
+<td>只改 <code>configuration.nix</code></td>
+<td><strong>3 步</strong></td>
+<td><strong>2 步</strong></td>
+<td>✅ 每次手工查 rev</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>D</strong> flake + 手动换锁</td>
+<td><code>flake.nix</code> + <code>configuration.nix</code></td>
+<td><strong>6 步</strong></td>
+<td><strong>2 步</strong></td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>E</strong> flake + 自动换锁</td>
+<td>同上 + systemd timer</td>
+<td><strong>8 步</strong></td>
+<td><strong>0 步</strong></td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>「首次搭建」和「日常升级」必须分开算 —— 这是最容易被误解的一点。</strong></p>
+<p>flake 的「6 步」是<strong>一次性</strong>成本（写 <code>flake.nix</code>、<code>git init</code>、第一次 rebuild 生成 <code>flake.lock</code>）。搭完之后，每天升级只有 2 步；配了自动换锁就是 0 步。</p>
+<p><strong>所以「flake 是不是比 channel 麻烦」的正确答案是：一次性多花 3 步，换回「日常可复现 + 只滚一个组件」。</strong></p>
+</div></div>
+<h4>口径 A：channel（只用 <code>configuration.nix</code>）—— 首次 3 步</h4>
+<pre><code class="language-bash"># ① 加 unstable channel 并拉取
+sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
+sudo nix-channel --update
+</code></pre>
+<p>② 改 <code>configuration.nix</code>：加 <code>let</code> 块 + 引用（见 §6.2 路 A）</p>
+<pre><code class="language-bash"># ③ 应用
+sudo nixos-rebuild switch
+</code></pre>
+<p><strong>日常升级 = 2 步</strong>：</p>
+<pre><code class="language-bash">sudo nix-channel --update     # ① 刷新 channel
+sudo nixos-rebuild switch     # ② 重建
+</code></pre>
+<p><strong>⚠️ 这条路没有「只滚一个组件」的能力</strong> —— <code>nix-channel --update</code> 把整个 unstable 拉新，凡是写了 <code>unstable.*</code> 的地方全动。这就是 §6.2 表里「锁版本 ❌」的实际含义。</p>
+<h4>口径 B / C：<code>fetchTarball</code> / <code>fetchGit</code>（只用 <code>configuration.nix</code>）—— 首次 3 步</h4>
+<pre><code class="language-bash"># ① 取 hash（B 路）或 rev（C 路）
+nix-prefetch-url --unpack https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz
+# 或
+git ls-remote https://github.com/NixOS/nixpkgs refs/heads/nixos-unstable
+</code></pre>
+<p>② 改 <code>configuration.nix</code>：写 <code>let</code> 块 + 引用（见 §6.2 路 B / 路 C）</p>
+<pre><code class="language-bash"># ③ 应用
+sudo nixos-rebuild switch
+</code></pre>
+<p><strong>日常升级 = 2 步</strong>：</p>
+<pre><code class="language-bash"># ① 手工改 configuration.nix 里那一行 hash / rev
+# ② 重建
+sudo nixos-rebuild switch
+</code></pre>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>这条路线的隐藏成本就在第 ① 步：手工去查新的 hash/rev 并改文件。</strong></p>
+<p>flake 并没有让「升级」这件事本身变简单 —— 它只是把这一步<strong>自动化</strong>了（<code>nix flake update</code> 替你改 <code>flake.lock</code>）。<strong>理解了这一点，你就理解了 flake 的真实价值：它是「自动化的手工锁」。</strong></p>
+</div></div>
+<h4>口径 D：flake + 手动换锁 —— 首次 6 步</h4>
+<pre><code class="language-bash"># ① 进入 flake 目录（惯例 /etc/nixos）
+cd /etc/nixos
+</code></pre>
+<p>② 写 <code>flake.nix</code>（双 input：<code>nixpkgs</code> = <code>nixos-26.05</code>，<code>nixpkgs-unstable</code> = <code>nixos-unstable</code>）—— 见 §6.3</p>
+<p>③ 写 <code>configuration.nix</code> 的 <code>let</code> 块 + 4 行引用 —— 见 §6.3</p>
+<p>④ （可选）加 <code>_module.args.pkgsUnstable = unstable;</code>，方便 Home Manager 层复用同一个 unstable —— 见 §6.3</p>
+<pre><code class="language-bash"># ⑤ 纳入 git（flake 要求文件在 git 仓库里，否则会警告「Git tree is dirty」）
+sudo git init &amp;&amp; sudo git add flake.nix configuration.nix
+</code></pre>
+<pre><code class="language-bash"># ⑥ 第一次 rebuild —— 这一步才会生成 flake.lock
+sudo nixos-rebuild switch --flake /etc/nixos#mypc
+</code></pre>
+<p><strong>日常升级 = 2 步</strong>：</p>
+<pre><code class="language-bash">nix flake update nixpkgs-unstable                      # ① 只换 unstable 这一个 input 的锁
+sudo nixos-rebuild switch --flake /etc/nixos#mypc      # ② 重建
+</code></pre>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong><code>nix flake update nixpkgs-unstable</code> 只动一个 input 的锁，基座 <code>nixpkgs</code> 的锁完全不变。</strong></p>
+<p>这就是「稳定基座」在 flake 里的<strong>物理保证</strong> —— 不是靠你记得别改，而是靠 <code>flake.lock</code> 里那个 input 的 hash 没动。<strong>channel 路线做不到这一点。</strong></p>
+</div></div>
+<h4>口径 E：flake + 自动换锁 —— 首次 8 步，日常 0 步</h4>
+<p>在口径 D 的 6 步之后加：</p>
+<p>⑦ 加 <code>systemd.services.flake-update</code> + <code>systemd.timers.flake-update</code>（§6.5 层次 2 的完整配置）</p>
+<p>⑧ 加三个护栏：<code>system.autoUpgrade</code>、<code>nix.gc.automatic</code>、<code>boot.loader.systemd-boot.configurationLimit</code>（§6.5）</p>
+<p>之后日常升级 = <strong>0 步</strong>（定时器自动跑）。<strong>但建议保留最后一步人工确认</strong>（见 §6.7 的风险分级）—— 自动换锁 ≠ 自动应用，把 <code>switch</code> 那一步留给人。</p>
+<h4>三种口径共用的一件事：内核不要跨源</h4>
+<p><strong>呼应 §6.0 与 §6.4 ③</strong>：无论你走哪条路，<strong>都不要写 <code>unstable.linuxPackages_latest</code></strong>。纯 AMD/Intel 用户直接：</p>
+<pre><code class="language-nix">boot.kernelPackages = pkgs.linuxPackages_latest;   # 26.05 上 = 7.2.9，与 unstable 逐字相同
+</code></pre>
+<p>这一行属于<strong>基座 nixpkgs</strong>（<code>pkgs</code> 不是 <code>unstable</code>），跟着基座走。NVIDIA / ZFS / VirtualBox 用户同理，而且<strong>必须</strong>用基座的 —— 因为树外内核模块只能与同源内核配对。</p>
+<h3 id="sub-5-7">6.7 让 agent 接管整个闭环</h3>
+<p><strong>可以，而且这是 NixOS 相对其他发行版最有优势的场景。</strong> 因为「验证」这一步在 NixOS 上是<strong>零成本的</strong>：</p>
+<pre><code class="language-bash">nixos-rebuild dry-build    # 不产生副作用，只验证配置是否成立
+</code></pre>
+<p>传统发行版里让 LLM 改系统配置是危险的，因为你无法在不承担风险的情况下验证。NixOS 有 <code>dry-build</code> 和 <code>build-vm</code>，等于给了 LLM 一个<strong>沙盒试衣间</strong>。</p>
+<p><strong>推荐的 agent 闭环架构</strong></p>
+<pre><code>① 触发：systemd timer（每日/每周）
+        ↓
+② 采集状态（喂给 agent 的「地面真值」）
+   nixos-rebuild list-generations
+   nix eval --json .#nixosConfigurations.mypc.config
+   nix flake metadata
+   df -h /nix ; 当前 firefox / mesa / 内核版本
+        ↓
+③ agent 决策：是否需要动？动什么？
+   · 只是刷新 lock   → nix flake update
+   · 需要加包/改配置 → 生成 diff
+   · 无变化          → 直接退出，不产生任何改动
+        ↓
+④ 硬闸门（不可跳过）
+   nixos-rebuild dry-build --flake .#mypc
+   失败 → 丢弃改动 + git checkout . + 退出码 1
+        ↓
+⑤ 风险分级
+   只动叶子包        → 直接 switch
+   动了内核/驱动/boot → 必须 build-vm 或人工确认
+        ↓
+⑥ 应用 + 记录
+   git commit（留痕，可 bisect）
+   nixos-rebuild switch --flake .#mypc
+        ↓
+⑦ 健康检查
+   systemctl is-system-running
+   systemctl --failed
+   失败 → nixos-rebuild switch --rollback
+</code></pre>
+<p><strong>给 agent 的 prompt 模板（每日巡检）</strong></p>
+<pre><code class="language-text">你是 NixOS 26.05 运维 agent。当前系统是「稳定基座 + 滚动叶子包」策略。
+
+目标：
+- 基座 nixpkgs 固定在 nixos-26.05，不要改
+- 只允许更新 nixpkgs-unstable 这个 input
+- 只允许改动 environment.systemPackages 里来自 unstable 的叶子包
+
+严格禁止（无论任何理由）：
+- 修改 system.stateVersion / home.stateVersion
+- 修改 boot.loader.* / boot.kernelParams / fileSystems
+- 修改 boot.kernelPackages 或 hardware.nvidia.*
+- 执行 nix-collect-garbage -d
+- 引入任何新的第三方 flake
+
+工作流程（必须按顺序，任一步失败立即停止并报告）：
+1. 运行 nix flake metadata 与 nixos-rebuild list-generations，报告当前状态
+2. 运行 nix flake update nixpkgs-unstable
+3. 运行 nixos-rebuild dry-build --flake .#mypc
+4. dry-build 失败 → git checkout . &amp;&amp; 报告失败原因，结束
+5. dry-build 成功 → 报告将要发生的版本变化（哪些包从什么版本到什么版本）
+6. 输出建议，等待人工确认后再执行 switch
+
+不要自行执行 switch。不要自行执行 reboot。
+</code></pre>
+<p><strong>为什么第 6 步要停下来等人工确认</strong>：自动升级 + 无验证 = 无人值守炸机。<strong>「能自动」不等于「应该全自动」。</strong> 合理的分工是：agent 负责「发现、验证、准备」，人负责「最后按一下」。</p>
+<p><strong>进阶：只把低风险部分全自动</strong></p>
+<pre><code class="language-text">风险分级：
+· 全自动（无需确认）：nix flake update nixpkgs-unstable + dry-build + switch
+  —— 仅当 diff 只涉及 environment.systemPackages 里的叶子包时
+· 需要确认：任何涉及 hardware.* / programs.steam / boot.* 的改动
+· 禁止自动：stateVersion / bootloader / 分区 / 跨大版本（26.05 → 26.11）
+</code></pre>
+<p><strong>封装成 skill 的目录结构</strong></p>
+<pre><code class="language-text">nixos-rolling-ops/
+├── SKILL.md                      # 策略声明 + 硬约束 + 风险分级表
+├── scripts/
+│   ├── collect-state.sh          # 采集当前状态，输出 JSON 喂给 LLM
+│   ├── gate.sh                   # dry-build 闸门，失败即退出码 1
+│   ├── risk-classify.sh          # 解析 git diff，判断风险等级
+│   ├── apply.sh                  # git commit + switch
+│   └── healthcheck.sh            # 检查 failed units，失败则 rollback
+├── prompts/
+│   ├── daily-check.md            # 每日巡检模板
+│   ├── component-bump.md         # 单组件升级模板
+│   └── explain-diff.md           # 解释版本变化
+└── checklists/
+    └── rolling-safety.md         # 「能滚 / 不能滚」判据表
+</code></pre>
+<h3 id="sub-5-8">6.8 社区案例汇总</h3>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>做法</th>
+<th>结果</th>
+<th>教训</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://discourse.nixos.org/t/mesa-unstable-on-nixos-stable-in-2026/77618">Discourse 2026-05</a></td>
+<td>stable 上用 <code>hardware.graphics.package = unstable.mesa</code></td>
+<td>❌ Firefox 无硬件加速、Steam 仍用旧 Mesa、GNOME 风扇狂转</td>
+<td>官方选项 ≠ 不炸；Mesa 要 32/64 位一起换</td>
+</tr>
+<tr>
+<td><a href="https://discourse.nixos.org/t/mixing-stable-and-unstable-packages-on-flake-based-nixos-system/50351">Discourse 2024-08</a></td>
+<td>双 nixpkgs input + <code>_module.args.pkgsUnstable</code></td>
+<td>✅ 可行</td>
+<td>原帖编者按：「<strong>我强烈建议不要在同一系统上混用 stable 与 unstable。这是不受支持的</strong>」</td>
+</tr>
+<tr>
+<td><a href="https://discourse.nixos.org/t/installing-both-stable-and-unstable-packages-in-a-flake/77652">Discourse 2026-05</a></td>
+<td>双 input 装包</td>
+<td>⚠️ 有限制</td>
+<td>unstable 的 unfree 包需单独处理（<code>nixpkgs-unfree</code>）</td>
+</tr>
+<tr>
+<td><a href="https://librephoenix.com/2024-02-10-using-both-stable-and-unstable-packages-on-nixos-at-the-same-time">LibrePhoenix 2024-02</a></td>
+<td><code>specialArgs</code> 传 <code>pkgs-unstable</code></td>
+<td>✅ 可行</td>
+<td>作者自述：「这是个 hacky 方案，应作为最后手段」；<strong>同一包不能装两个版本</strong></td>
+</tr>
+<tr>
+<td><a href="https://discourse.nixos.org/t/how-to-automatically-update-flakes/72426">Discourse 2025-11</a></td>
+<td><code>flake-update.service</code> + <code>nixos-upgrade.service</code> 依赖</td>
+<td>✅ 实测有效</td>
+<td>「必须先更新 lock，再升级 —— 这就是 flake 的工作方式」</td>
+</tr>
+<tr>
+<td><a href="https://github.com/NixOS/nixpkgs/issues/349734">nixpkgs #349734</a></td>
+<td>老方案用 <code>--update-input nixpkgs</code></td>
+<td>⚠️ 已废弃</td>
+<td>社区 Wiki 旧写法会导致自动升级静默失败</td>
+</tr>
+<tr>
+<td><a href="https://github.com/DeterminateSystems/update-flake-lock">update-flake-lock</a></td>
+<td>GitHub Action 定时提 PR</td>
+<td>✅</td>
+<td>CI 侧自动化，<strong>在应用前插入审查环节</strong></td>
+</tr>
+<tr>
+<td><a href="https://wiki.nixos.org/wiki/Automatic_system_upgrades">NixOS Wiki · Automatic upgrades</a></td>
+<td><code>system.autoUpgrade</code> + <code>flake</code> + <code>--commit-lock-file</code></td>
+<td>✅ 官方推荐</td>
+<td>需处理 git 所有权与身份两个坑</td>
+</tr>
+</tbody></table>
+<p><strong>综合这些案例，最稳的落点是</strong>：</p>
+<ol>
+<li><strong>系统基座</strong>：<code>nixos-26.05</code>，不滚</li>
+<li><strong>内核 / NVIDIA 驱动</strong>：不滚（用同一 nixpkgs 的 <code>linuxPackages_latest</code>）</li>
+<li><strong>Mesa</strong>：谨慎滚，32/64 位一起；NVIDIA 用户影响小</li>
+<li><strong>浏览器 / 游戏组件</strong>：放 Home Manager 层滚，缩小爆炸半径</li>
+<li><strong>自动化</strong>：<code>flake-update.service</code> + <code>system.autoUpgrade</code>，或 GitHub Action 提 PR</li>
+<li><strong>agent</strong>：负责「采集 → 验证 → 准备」，人负责「按下开关」</li>
+</ol>
+<h3 id="sub-5-9">6.9 一句话决策</h3>
+<blockquote>
+<p><strong>基座不动、叶子放 Home Manager、内核驱动永不跨源、锁自动换但最后一步留给人。</strong></p>
+</blockquote>
+<hr>
+<p><a id="七"></a></p>
+<h2 id="sec-6">七、长期运维与跨版本升级</h2>
+<h3 id="sub-6-0">7.1 generation 管理与回滚</h3>
+<pre><code class="language-bash"># 查看系统 generation 列表
+sudo nixos-rebuild list-generations
+sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
+
+# 回滚
+sudo nixos-rebuild switch --rollback
+
+# 在 bootloader 菜单里选旧 generation 启动（图形界面挂掉时的救命手段）
+</code></pre>
+<p><strong>为什么比传统发行版可靠</strong>：见 §1.3。旧 generation 的 closure 在被 GC 前完整存在。</p>
+<h3 id="sub-6-1">7.2 磁盘占用与清理</h3>
+<p><strong><code>/nix/store</code> 膨胀的常见原因</strong>：</p>
+<ol>
+<li>每次 rebuild 产生一棵新的完整 closure</li>
+<li>旧 generation 从未清理</li>
+<li>同时订阅多个 channel / 多个 nixpkgs 版本</li>
+<li>dev shell 与临时 <code>nix-shell</code> 缓存</li>
+</ol>
+<p><strong>工具</strong>：</p>
+<pre><code class="language-bash"># 查看 store 占用
+du -sh /nix/store
+
+# 硬链接去重（相同文件只存一份，节省大量空间）
+sudo nix-store --optimise
+# 或新命令
+sudo nix store optimise
+
+# 交互式查看依赖树，定位占用大户
+nix-tree /run/current-system      # 需先 nix shell nixpkgs#nix-tree
+
+# 校验 store 完整性
+sudo nix-store --verify --check-contents
+
+# GC：保留最近 30 天
+sudo nix-collect-garbage --delete-older-than 30d
+# ⚠️ -d 会删掉全部旧 generation，等于摧毁回滚点，谨慎使用
+sudo nix-collect-garbage -d
+</code></pre>
+<p><strong>为什么 <code>auto-optimise-store</code> 值得开</strong>：它在新路径加入 store 时增量地做硬链接去重，避免事后全量 <code>optimise</code> 的巨大开销。</p>
+<blockquote>
+<p>出处：<a href="https://nix.dev/manual/nix/stable/command-ref/nix-store/optimise">nix.dev · nix-store optimise</a> <code>[官方]</code>；<a href="https://github.com/utdemir/nix-tree">github.com/utdemir/nix-tree</a> <code>[仓库]</code></p>
+</blockquote>
+<h3 id="sub-6-2">7.3 跨版本升级：26.05 → 26.11</h3>
+<p><strong>路线一：channel（非 flake 配置）</strong></p>
+<pre><code class="language-bash"># 查看当前订阅
+nix-channel --list | grep nixos
+
+# 切到 26.11（末尾的 nixos 是 channel 名，不能省）
+sudo nix-channel --add https://nixos.org/channels/nixos-26.11 nixos
+sudo nixos-rebuild switch --upgrade
+</code></pre>
+<p><strong>⚠️ 官方警告</strong>：新版 NixOS 可能附带新版本 Nix，会<strong>升级 Nix 数据库 schema</strong>，此操作<strong>不可轻易回退</strong>。</p>
+<p><strong>路线二：flake</strong></p>
+<pre><code class="language-nix"># flake.nix
+inputs.nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.11&quot;;
+</code></pre>
+<pre><code class="language-bash">nix flake update nixpkgs
+sudo nixos-rebuild switch --flake .#mypc
+</code></pre>
+<p><strong>自动升级</strong>（可选）：<code>system.autoUpgrade.enable = true;</code> + <code>system.autoUpgrade.allowReboot</code>。</p>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/stable/#sec-upgrading">NixOS Manual · Upgrading</a> <code>[官方]</code></p>
+</blockquote>
+<h3 id="sub-6-3">7.4 stateVersion 在升级时怎么处理</h3>
+<p><strong>结论：什么都不做。</strong></p>
+<p>跨版本升级<strong>不需要</strong>改 <code>system.stateVersion</code>，也不需要改 <code>home.stateVersion</code>。它们只记录「首次生成的版本」，作用是让有状态数据的默认值保持稳定。</p>
+<p><strong>唯一该改的情况</strong>：某次 release notes 明确要求，且你已手动完成数据迁移。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion">NixOS Wiki · FAQ/When do I update stateVersion</a> <code>[Wiki]</code></p>
+</blockquote>
+<h3 id="sub-6-4">7.5 升级前检查清单（照做即可）</h3>
+<pre><code class="language-bash"># 1. 先看 breaking changes
+#    https://nixos.org/manual/nixos/stable/release-notes  → 找 &quot;Backward Incompatibilities&quot;
+#    或 GitHub: nixos/doc/manual/release-notes/rl-2611.section.md
+
+# 2. 磁盘空间够不够（升级需要额外几十 GB 临时空间）
+df -h /nix
+
+# 3. 确认旧 generation 还在（回滚点）
+sudo nixos-rebuild list-generations
+
+# 4. 求值 + 构建闸门（不激活）
+sudo nixos-rebuild dry-build --flake .#mypc
+
+# 5. 在虚拟机里真跑一遍（最有价值的验证）
+sudo nixos-rebuild build-vm --flake .#mypc
+./result/bin/run-mypc-vm
+
+# 6. 校验 store 完整性
+sudo nix-store --verify --check-contents
+
+# 7. 正式升级
+sudo nixos-rebuild switch --flake .#mypc
+</code></pre>
+<p><strong>为什么第 5 步最有价值</strong>：<code>build-vm</code> 生成一个可以直接启动的 QEMU 虚拟机，用的是你即将部署的<strong>完全相同</strong>的系统 closure。它能在不冒风险的前提下暴露「驱动不兼容」「服务起不来」这类问题。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Nixos-rebuild">NixOS Wiki · nixos-rebuild</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>26.11 值得注意的变化</strong>（升级前必读）：</p>
+<ul>
+<li>新安装的默认 PostgreSQL 版本为 v18（<code>system.stateVersion &gt;= 26.11</code> 时生效）</li>
+<li>引入了 <code>system.rebuild.enableNg</code> —— 新的 <code>nixos-rebuild</code> 实现，可用它替代旧版</li>
+</ul>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/unstable/release-notes">NixOS Manual · unstable release notes</a> <code>[官方]</code>；<a href="https://github.com/NixOS/nixpkgs/blob/master/nixos/doc/manual/release-notes/rl-2611.section.md">nixpkgs rl-2611.section.md</a> <code>[仓库]</code></p>
+</blockquote>
+<h3 id="sub-6-5">7.6 稳定性策略</h3>
+<p><strong>stable + unstable 混用的风险</strong>：两个 nixpkgs 意味着依赖图跨两个世界，容易出现 ABI 不匹配、库版本冲突，且构建量翻倍。</p>
+<p><strong>正确做法：用 overlay 只把单个包固定到 unstable</strong></p>
+<pre><code class="language-nix">{ inputs, pkgs, ... }:
+{
+  nixpkgs.overlays = [
+    (final: prev: {
+      # 只把 neovim 换成 unstable 版本，其余全部保持 stable
+      neovim = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system}.neovim;
+    })
+  ];
+}
+</code></pre>
+<p><strong>为什么这比「整个系统切 unstable」安全</strong>：影响面被限制在一个包内，其余几百个包的版本配对关系不变。</p>
+<p><strong>stateVersion 相互独立</strong>：<code>system.stateVersion</code>（NixOS）与 <code>home.stateVersion</code>（Home Manager）各管各的，改一个不影响另一个。</p>
+<blockquote>
+<p>出处：<a href="https://mynixos.com/home-manager/option/home.stateVersion">MyNixOS · home.stateVersion</a> <code>[官方选项]</code></p>
+</blockquote>
+<h3 id="sub-6-6">7.7 备份策略</h3>
+<p><strong>该备份什么</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/etc/nixos/</code> 或你的 flake 仓库</td>
+<td>配置即代码。有它就能在任何机器上重建整个系统</td>
+</tr>
+<tr>
+<td><code>/home</code> 里的<strong>数据</strong>（文档、存档、照片）</td>
+<td>配置可重建，数据不可重建</td>
+</tr>
+<tr>
+<td>密钥（<code>/etc/ssh/ssh_host_*</code>、GPG、密码管理器数据库）</td>
+<td>不可重新生成</td>
+</tr>
+</tbody></table>
+<p><strong>不该依赖备份的</strong>：<code>/nix/store</code> 本身。它可以从配置完全重建。</p>
+<pre><code class="language-nix"># 把 configuration.nix 拷进 store 供系统引用（便于事后追溯）
+system.copySystemConfiguration = true;
+</code></pre>
+<p><strong>为什么配置必须进 git</strong>：</p>
+<ol>
+<li>每次改动有 commit → 出问题能 <code>git diff</code> 找出改了什么</li>
+<li>可以多机共享同一份配置</li>
+<li><code>git bisect</code> 可以定位「哪次改动引入了问题」</li>
+<li>换机器时 <code>git clone</code> + <code>nixos-rebuild</code> 就恢复了</li>
+</ol>
+<blockquote>
+<p>出处：<a href="https://nixos.org/manual/nixos/stable/">NixOS Manual · Configuration</a> <code>[官方]</code>；<a href="https://wiki.nixos.org/wiki/Nixos-generate-config">NixOS Wiki · nixos-generate-config</a> <code>[Wiki]</code></p>
+</blockquote>
+<hr>
+<hr>
+<p><a id="八"></a></p>
+<h2 id="sec-7">八、Nix 生态查询工具链</h2>
+<blockquote>
+<p>NixOS 的痛点从来不是「装不上」，而是<strong>找不到</strong>：包在不在、选项叫什么、这个版本对应哪个 commit、这个 lib 函数怎么用。
+下面这五个站点各解决一块。<strong>它们同时也是喂给 LLM 的「地面真值」来源。</strong></p>
+</blockquote>
+<h3 id="sub-7-0">8.1 五个工具的分工</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>回答什么问题</th>
+<th>运营方</th>
+<th>有公开 API</th>
+<th>免费</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>search.nixos.org</strong></td>
+<td>包 / <strong>选项</strong> / 三方 flake 的<strong>当前</strong>状态</td>
+<td>NixOS 官方</td>
+<td>⚠️ 后端是 ES，凭据非官方公开</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>NixHub.io</strong></td>
+<td><strong>历史版本</strong>：某包某版本对应哪个 nixpkgs commit</td>
+<td>Jetify</td>
+<td>✅ v2 REST</td>
+<td>✅（限流）</td>
+</tr>
+<tr>
+<td><strong>FlakeHub</strong></td>
+<td>flake 的 semver 发布与分发</td>
+<td>Determinate Systems</td>
+<td>✅ 部分</td>
+<td>⚠️ Cache 需付费</td>
+</tr>
+<tr>
+<td><strong>Noogle</strong></td>
+<td><code>lib</code> / <code>builtins</code> / <code>pkgs</code> 里的<strong>函数</strong>文档</td>
+<td>nix-community</td>
+<td>✅ 全量 JSON</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Jetify / Devbox</strong></td>
+<td>用 Nix 做开发环境，<strong>不写 Nix 语言</strong></td>
+<td>Jetify</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<p><strong>一句话记法</strong>：</p>
+<ul>
+<li>要查<strong>选项</strong> → search.nixos.org（唯一权威）</li>
+<li>要查<strong>旧版本</strong> → NixHub</li>
+<li>要<strong>分发 flake</strong> → FlakeHub</li>
+<li>要写<strong>函数</strong> → Noogle</li>
+<li>要<strong>避开 Nix 语言</strong> → Devbox</li>
+</ul>
+<hr>
+<h3 id="sub-7-1">8.2 search.nixos.org —— 官方搜索（选项搜索是它的核心价值）</h3>
+<p><strong>地址</strong>：<a href="https://search.nixos.org">https://search.nixos.org</a></p>
+<p><strong>三个标签页</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>搜什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Packages</td>
+<td>nixpkgs 里的包</td>
+</tr>
+<tr>
+<td><strong>Options</strong></td>
+<td><strong>NixOS 模块选项</strong>（还有子分类：Official / Community(Home Manager) / External(Darwin) / Experimental）</td>
+</tr>
+<tr>
+<td>Flakes</td>
+<td>三方 flake 及其提供的包/选项</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://search.nixos.org/">https://search.nixos.org/</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>Packages 的筛选器</strong>：Channel、Package sets、Licenses、Maintainers、Teams、Platforms，外加排序（Best Match / 字母升序 / 降序）。</p>
+<p><strong>⚠️ 没有 broken / insecure 筛选器</strong> —— 社区有专门抱怨帖：
+<a href="https://discourse.nixos.org/t/nixos-package-search-does-not-show-when-a-package-is-broken/78488">https://discourse.nixos.org/t/nixos-package-search-does-not-show-when-a-package-is-broken/78488</a> <code>[社区]</code></p>
+<p><strong>数据来源与更新频率</strong>：</p>
+<ul>
+<li>后端是 <strong>Elasticsearch</strong>（由 bonsai.io 赞助），前端 Elm</li>
+<li>导入由 GitHub Actions 定时任务驱动，cron 为 <code>0 */2 * * *</code> —— <strong>每 2 小时</strong>重建一次索引</li>
+<li>索引别名形如 <code>latest-{gen}-nixos-{channel}</code>，包/选项索引名为 <code>nixos-{gen}-{channel}-{commit}</code></li>
+<li>覆盖 unstable、26.05、25.11 及历史若干代（旧代保留一段时间后裁剪）</li>
+</ul>
+<blockquote>
+<p>出处：<a href="https://github.com/NixOS/nixos-search">https://github.com/NixOS/nixos-search</a> <code>[官方]</code>（README 与 <code>.github/workflows/import-to-elasticsearch.yml</code>）</p>
+</blockquote>
+<p><strong>深链接有效</strong>（可直接分享/写进文档）：</p>
+<pre><code>https://search.nixos.org/packages?channel=unstable&amp;show=firefox
+https://search.nixos.org/options?channel=unstable&amp;show=programs.steam.enable
+</code></pre>
+<p><strong>⚠️ 关于后端 API</strong>：<code>search.nixos.org/backend/&lt;索引别名&gt;/_search</code> 确实是可用的 Elasticsearch 端点，但<strong>需要 HTTP Basic 认证</strong>，而凭据<strong>从未由 NixOS 官方公开</strong>（第三方项目 <code>mcp-nixos</code> 源码中有硬编码值）。</p>
+<blockquote>
+<p><strong>建议：不要自己抓这个端点。</strong> 用 <code>mcp-nixos</code>（它已封装好）或直接用网页。把它当<strong>非官方契约</strong>，随时可能变。</p>
+</blockquote>
+<p><strong>为什么选项搜索比包搜索重要</strong>：</p>
+<p>NixOS 是声明式配置，<strong>用户实际写的是 option，不是 package</strong>。而选项文档分散在成百上千个模块里，<code>man configuration.nix</code> 浏览效率极低。选项搜索能按名称/描述直达某个模块的<strong>默认值、类型、示例和源码位置</strong> —— 这是包搜索无法替代的。</p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/NixOS_search">https://wiki.nixos.org/wiki/NixOS_search</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>和 <code>nix search</code> 的区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>nix search nixpkgs &lt;name&gt;</code></th>
+<th>search.nixos.org</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>搜什么</td>
+<td>可求值的 installable</td>
+<td>预建索引（包 + 选项 + 三方 flake）</td>
+</tr>
+<tr>
+<td>搜选项</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>需要本地有 nixpkgs</td>
+<td>✅（flake input 已锁）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>依赖网络</td>
+<td>首次要拉</td>
+<td>要</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>属性路径 + 版本 + description</td>
+<td>可筛选、可深链接</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search">https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search</a> <code>[官方]</code></p>
+</blockquote>
+<hr>
+<h3 id="sub-7-2">8.3 NixHub.io —— 查历史版本（本节最有实用价值）</h3>
+<p><strong>它解决什么问题</strong>：nixpkgs 是滚动的，<strong>查不到「某包在某个月是什么版本」</strong>。NixHub 把每个包的历次版本映射到包含它的 nixpkgs commit。</p>
+<ul>
+<li>主页：<a href="https://www.nixhub.io">https://www.nixhub.io</a></li>
+<li>运营方：<strong>Jetify</strong>（Devbox 的同一家）</li>
+<li>规模：官方 API 文档称「<strong>1 million package versions for over 100,000 Nix packages</strong>」；主页称 40 万+ 版本</li>
+<li>免费：个人使用免费，有速率限制</li>
+</ul>
+<blockquote>
+<p>出处：<a href="https://www.jetify.com/docs/nixhub">https://www.jetify.com/docs/nixhub</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>网页用法</strong>：<code>https://www.nixhub.io/packages/&lt;包名&gt;</code>，例如 <code>https://www.nixhub.io/packages/firefox</code></p>
+<h4>公开 API（实测可用）</h4>
+<p>官方文档只给相对路径（<code>/v2/search</code>、<code>/v2/pkg</code>、<code>/v2/resolve</code>），<strong>实际主机是 <code>https://search.devbox.sh</code></strong>。</p>
+<blockquote>
+<p>出处：<a href="https://www.jetify.com/docs/nixhub">https://www.jetify.com/docs/nixhub</a> <code>[官方]</code>；主机名为本文实测得出</p>
+</blockquote>
+<pre><code class="language-bash"># 按名字搜包
+curl &quot;https://search.devbox.sh/v2/search?q=firefox&quot;
+
+# 取某包的全部历史版本（含每版对应的 nixpkgs commit）
+curl &quot;https://search.devbox.sh/v2/pkg?name=firefox&quot;
+
+# 名字 + 版本 → 解析出 commit 与属性路径（这就是「固定版本」的关键）
+curl &quot;https://search.devbox.sh/v2/resolve?name=firefox&amp;version=latest&quot;
+</code></pre>
+<p><strong>实测返回（2026-10-12 真实抓取）</strong>：</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;firefox&quot;,
+  &quot;version&quot;: &quot;154.0.1&quot;,
+  &quot;summary&quot;: &quot;Web browser built from Firefox source tree&quot;,
+  &quot;systems&quot;: {
+    &quot;x86_64-linux&quot;: {
+      &quot;flake_installable&quot;: {
+        &quot;ref&quot;: { &quot;type&quot;: &quot;github&quot;, &quot;owner&quot;: &quot;NixOS&quot;, &quot;repo&quot;: &quot;nixpkgs&quot;,
+                 &quot;rev&quot;: &quot;c27cdad491a991b11ed731760aa2ef8db0cb0410&quot; },
+        &quot;attr_path&quot;: &quot;firefox&quot;
+      },
+      &quot;outputs&quot;: [{ &quot;name&quot;: &quot;out&quot;,
+        &quot;path&quot;: &quot;/nix/store/...-firefox-154.0.1&quot; }]
+    }
+  }
+}
+</code></pre>
+<p><strong>版本匹配规则</strong>：<code>latest</code> / 前缀（<code>1.21</code> → <code>1.21.13</code>）/ 精确版本。</p>
+<p><strong>限流</strong>：每个 IP 初始 1000 次配额，每请求 −1，每分钟回补 5 次；配额耗尽返回 <code>429</code>。</p>
+<h4>固定某个包到指定版本（工作流）</h4>
+<p><strong>第 1 步</strong>：用 API 拿到目标版本的 commit</p>
+<pre><code class="language-bash">curl -s &quot;https://search.devbox.sh/v2/resolve?name=firefox&amp;version=154&quot; \
+  | grep -o &#39;&quot;rev&quot;:&quot;[a-f0-9]*&quot;&#39;
+</code></pre>
+<p><strong>第 2 步</strong>：用这个 commit 引用 nixpkgs</p>
+<pre><code class="language-bash"># 命令行临时验证
+nix shell github:NixOS/nixpkgs/&lt;commit&gt;#firefox
+</code></pre>
+<pre><code class="language-nix"># configuration.nix —— 只把这一个包固定到旧版 nixpkgs
+{ config, pkgs, lib, ... }:
+let
+  pinned = builtins.fetchTarball {
+    url = &quot;https://github.com/NixOS/nixpkgs/archive/&lt;commit&gt;.tar.gz&quot;;
+    # sha256 = &quot;...&quot;;   # 生产环境必须加 hash，否则每次 eval 都可能重新下载
+  };
+  pkgsPinned = import pinned {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (config.nixpkgs) config;
+  };
+in
+{
+  programs.firefox.package = pkgsPinned.firefox;
+}
+</code></pre>
+<p><strong>⚠️ 为什么用 <code>programs.firefox.package</code> 而不是覆盖 <code>pkgs.firefox</code></strong>：前者是模块化替换，只影响 Firefox；后者会牵动依赖树。</p>
+<p><strong>⚠️ 实测观察（重要）</strong>：本文核实（2026-10-12）时，<code>hello</code> 和 <code>firefox</code> 的 <code>latest</code> 都解析到<strong>同一个 commit <code>c27cdad…</code></strong>，其 <code>date</code> 字段为 <strong>2026-08-27</strong>。</p>
+<p><strong>这提示 NixHub 的索引可能并非实时同步</strong>（滞后数周）。<strong>用它做版本决策前，务必核对返回的 <code>date</code> / <code>last_updated</code> 字段，并与 search.nixos.org 交叉验证。</strong></p>
+<p><strong>另一种「固定版本」的思路（推荐给长期使用）</strong>：不用 NixHub，而是把整个 nixpkgs 固定到某个 commit —— 这就是 flake 的 <code>flake.lock</code> 在做的事。NixHub 适合**「只回退一个包」**的场景。</p>
+<hr>
+<h3 id="sub-7-3">8.4 FlakeHub —— flake 的语义化版本与分发</h3>
+<p><strong>它解决什么问题</strong>：Nix 本身<strong>没有 SemVer 概念</strong>，flake 难以发现、难以复用、更新粒度粗。</p>
+<p>官方一句话原文：</p>
+<blockquote>
+<p><em>&quot;FlakeHub is a platform for publishing and discovering Nix flakes built by Determinate Systems.&quot;</em></p>
+</blockquote>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/flakehub/">https://docs.determinate.systems/flakehub/</a> <code>[官方]</code></p>
+</blockquote>
+<h4>核心创新：给 flake 加 SemVer</h4>
+<blockquote>
+<p><em>&quot;Nix by itself has no built-in concept of semantic versioning (SemVer). FlakeHub enables you to use a subset of SemVer with your Nix flakes.&quot;</em></p>
+</blockquote>
+<p>URL 结构：<code>https://flakehub.com/f/:org/:project/:version-req</code></p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*</code></td>
+<td>最高已发布版本</td>
+</tr>
+<tr>
+<td><code>1.*</code></td>
+<td>主版本为 1 的任意版本</td>
+</tr>
+<tr>
+<td><code>1.2.*</code></td>
+<td>主次版本为 1.2</td>
+</tr>
+<tr>
+<td><code>=3.2.1</code></td>
+<td>精确锁定</td>
+</tr>
+<tr>
+<td><code>0.1.1</code></td>
+<td>至少 0.1.1，但不会升到 0.2.0</td>
+</tr>
+</tbody></table>
+<p>官方称其求解器行为「像 Cargo 的版本求解器」。</p>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/flakehub/concepts/urls/">https://docs.determinate.systems/flakehub/concepts/urls/</a> 与 <code>/concepts/semver/</code> <code>[官方]</code></p>
+</blockquote>
+<p><strong>nixpkgs 在 FlakeHub 上的版本映射</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>FlakeHub 版本</th>
+<th>对应 nixpkgs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code> / <code>*</code></td>
+<td>最新稳定</td>
+</tr>
+<tr>
+<td><code>0.2605</code></td>
+<td><code>nixos-26.05</code> 分支最新</td>
+</tr>
+<tr>
+<td><code>0.1</code></td>
+<td>unstable</td>
+</tr>
+</tbody></table>
+<pre><code class="language-nix"># 等价写法对照
+inputs.nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+inputs.nixpkgs.url = &quot;https://flakehub.com/f/NixOS/nixpkgs/0.2605&quot;;   # 同一个东西
+</code></pre>
+<p><strong>完整可用示例</strong>：</p>
+<pre><code class="language-nix">{
+  inputs = {
+    # 通配：始终取最高已发布版本
+    fh.url = &quot;https://flakehub.com/f/DeterminateSystems/fh/*&quot;;
+    # 精确版本
+    agenix.url = &quot;https://flakehub.com/f/ryantm/agenix/=0.13.0&quot;;
+    # 主版本范围
+    nixpkgs.url = &quot;https://flakehub.com/f/NixOS/nixpkgs/0.2605&quot;;
+  };
+  outputs = { nixpkgs, fh, ... } @ inputs: { };
+}
+</code></pre>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/flakehub/">https://docs.determinate.systems/flakehub/</a> <code>[官方]</code></p>
+</blockquote>
+<h4><code>fh</code> CLI</h4>
+<pre><code class="language-bash"># 安装（官方方式：从 FlakeHub 拉取，本地构建）
+nix shell &quot;https://flakehub.com/f/DeterminateSystems/fh/*&quot;
+</code></pre>
+<p><strong>常用子命令</strong>：<code>fh add</code>（加 input）、<code>fh init</code>（生成 flake.nix）、<code>fh search</code>、<code>fh list flakes|orgs|releases|versions</code>、<code>fh apply</code>（从 Cache 部署 NixOS/Home Manager/nix-darwin）、<code>fh resolve</code>、<code>fh fetch</code>、<code>fh convert</code>、<code>fh eject</code>、<code>fh login</code>。</p>
+<p><strong>⚠️ 发布不是 <code>fh publish</code></strong> —— 是 GitHub Action <code>DeterminateSystems/flakehub-push</code>。</p>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/flakehub/cli/">https://docs.determinate.systems/flakehub/cli/</a> <code>[官方]</code></p>
+</blockquote>
+<h4>FlakeHub Cache（付费）</h4>
+<p>官方原文：<strong>&quot;FlakeHub Cache is available only on paid plans.&quot;</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>cache.nixos.org</code></th>
+<th>FlakeHub Cache</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>覆盖</td>
+<td>整个 store</td>
+<td>per-flake / per-repo 细粒度</td>
+</tr>
+<tr>
+<td>认证</td>
+<td>无</td>
+<td>JWT</td>
+</tr>
+<tr>
+<td>谁可推送</td>
+<td>任何人</td>
+<td>仅 trusted builders（GitHub Actions / GitLab CI / Semaphore / Buildkite）</td>
+</tr>
+<tr>
+<td>价格</td>
+<td>免费</td>
+<td>Individual $7/月；Team $20/用户/月</td>
+</tr>
+</tbody></table>
+<p><strong>Free 层只含公开 flake，不含 Cache。</strong></p>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/flakehub/cache/">https://docs.determinate.systems/flakehub/cache/</a> 与 <a href="https://flakehub.com/pricing">https://flakehub.com/pricing</a> <code>[官方]</code></p>
+</blockquote>
+<h4>Determinate Nix</h4>
+<p>官方原文：</p>
+<blockquote>
+<p><em>&quot;Determinate Nix is Determinate Systems&#39; validated and secure downstream distribution of NixOS/nix designed for enterprise use cases.&quot;</em></p>
+</blockquote>
+<p>即<strong>上游 Nix 的下游发行版</strong>。<strong>它默认启用 flakes</strong>，不需要写 <code>experimental-features</code>：</p>
+<blockquote>
+<p><em>&quot;By default, it installs Determinate Nix, which enables flakes&quot;</em></p>
+</blockquote>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/determinate-nix/">https://docs.determinate.systems/determinate-nix/</a> 与 <a href="https://github.com/DeterminateSystems/nix-installer">https://github.com/DeterminateSystems/nix-installer</a> <code>[官方]</code></p>
+</blockquote>
+<h4>API（部分有官方文档）</h4>
+<pre><code class="language-bash"># 某 flake 的全部发布（官方文档记载）
+curl -H &quot;Accept: application/json&quot; &quot;https://api.flakehub.com/f/NixOS/nixpkgs/releases&quot;
+
+# 匹配版本约束的最新版本（官方文档记载）
+curl -H &quot;Accept: application/json&quot; &quot;https://api.flakehub.com/version/NixOS/nixpkgs/0.1&quot;
+
+# 按名字搜索（官方文档未记载，实测可用；建议带 User-Agent）
+curl -H &quot;Accept: application/json&quot; -H &quot;User-Agent: my-client/1.0&quot; \
+  &quot;https://api.flakehub.com/search?q=home-manager&quot;
+</code></pre>
+<blockquote>
+<p>出处：<a href="https://docs.determinate.systems/flakehub/discovery/">https://docs.determinate.systems/flakehub/discovery/</a> <code>[官方]</code>（前两个端点）</p>
+</blockquote>
+<h4>⚠️ 争议（用之前必须知道）</h4>
+<p>FlakeHub 发布时（2023-08-22）在 NixOS Discourse 上有明确批评，有成员认为 DetSys「不推动 flakes 稳定化，反而在其上做产品」，并批评其版本方案是「第三方的、中心化的、专有的，且似乎无意上游化」。</p>
+<blockquote>
+<p>出处：<a href="https://discourse.nixos.org/t/introducing-flakehub/32044">https://discourse.nixos.org/t/introducing-flakehub/32044</a> <code>[社区]</code></p>
+</blockquote>
+<p><strong>更广的治理背景</strong>：2024-04 的 Nix 社区公开信与 NixOS Foundation 领导层危机，Nix 作者兼 DetSys 联合创始人 Eelco Dolstra 涉其中（后辞去基金会董事）。</p>
+<blockquote>
+<p>出处：<a href="https://lwn.net/Articles/970824/">https://lwn.net/Articles/970824/</a> <code>[媒体]</code></p>
+</blockquote>
+<p><strong>技术上的具体权衡</strong>：FlakeHub 上的 nixpkgs 实际由 <strong>DetSys 的镜像仓库</strong>提供（实测 API 返回的 <code>repo_url</code> 指向 <code>DeterminateSystems/flakehub-mirror</code>）。这意味着你多了一个中间层。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>用 <code>github:NixOS/nixpkgs/nixos-26.05</code></th>
+<th>用 <code>flakehub.com/f/NixOS/nixpkgs/0.2605</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>权威性</td>
+<td>上游官方</td>
+<td>经 DetSys 镜像</td>
+</tr>
+<tr>
+<td>免费缓存</td>
+<td><code>cache.nixos.org</code></td>
+<td>Cache 需付费</td>
+</tr>
+<tr>
+<td>版本表达</td>
+<td>分支名（无 semver）</td>
+<td><strong>SemVer 约束</strong></td>
+</tr>
+<tr>
+<td><code>nix flake update</code> 行为</td>
+<td>拉到分支最新</td>
+<td><strong>只在允许范围内升级</strong></td>
+</tr>
+<tr>
+<td>停服风险</td>
+<td>无</td>
+<td>有（官方另设 &quot;Service availability&quot; 页）</td>
+</tr>
+</tbody></table>
+<p><strong>建议</strong>：<strong>日常用上游 GitHub 源</strong>。只有当你确实需要「SemVer 约束 + 团队分发 + 细粒度缓存权限」时才引入 FlakeHub。</p>
+<hr>
+<h3 id="sub-7-4">8.5 Noogle —— Nix 函数搜索引擎</h3>
+<p><strong>它解决什么问题</strong>：写配置时想「有没有一个把 list 转成 attrs 的函数」，但你不知道它叫什么。</p>
+<ul>
+<li>地址：<a href="https://noogle.dev">https://noogle.dev</a></li>
+<li>仓库：<a href="https://github.com/nix-community/noogle%EF%BC%88MIT%EF%BC%8Cmaintainer">https://github.com/nix-community/noogle（MIT，maintainer</a> <code>@hsjobeki</code>）</li>
+<li><strong>索引范围</strong>：<code>builtins</code>、<code>lib</code>、<strong>以及 <code>pkgs</code></strong> 里的函数</li>
+</ul>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Noogle">https://wiki.nixos.org/wiki/Noogle</a> <code>[Wiki]</code></p>
+</blockquote>
+<p><strong>返回什么</strong>（以 <code>lib.mkIf</code> 为例）：<strong>类型签名、文档注释、源码位置（文件/行/列）、别名、示例</strong>。</p>
+<p><strong>最有用的两个功能</strong>：</p>
+<ol>
+<li><strong>按类型签名过滤</strong> —— 搜「从 list 到 attrset 的函数」：
+<code>https://noogle.dev/q?term=map&amp;from=list&amp;to=list&amp;limit=20</code></li>
+<li><strong>别名检测</strong> —— 自动告诉你 <code>lib.mkIf</code> 同时也是 <code>lib.modules.mkIf</code></li>
+</ol>
+<p><strong>单函数页</strong>：<code>https://noogle.dev/f/lib/mkIf/</code></p>
+<h4>API</h4>
+<p><strong>⚠️ 你记忆中的 <code>noogle.dev/api/v1/search?query=...</code> 不存在</strong> —— 实测返回 <strong>404</strong>。</p>
+<p><strong>真实存在的公开端点</strong>是全量数据下载：</p>
+<pre><code class="language-bash"># 全量数据集（约 4.4 MB JSON，实测 2145 条记录）
+curl -s https://noogle.dev/api/v1/data -o noogle-data.json
+</code></pre>
+<p>返回结构：</p>
+<pre><code class="language-json">{ &quot;data&quot;: [ { &quot;meta&quot;: { &quot;title&quot;: &quot;lib.mkIf&quot;, &quot;path&quot;: [&quot;lib&quot;,&quot;mkIf&quot;], &quot;aliases&quot;: [...] },
+              &quot;content&quot;: { ... } }, ... ] }
+</code></pre>
+<p><strong>这意味着你可以把 Noogle 的全量索引下载到本地，喂给 LLM 或做本地检索 —— 无需联网、无需认证。</strong></p>
+<blockquote>
+<p>出处：<a href="https://wiki.nixos.org/wiki/Noogle">https://wiki.nixos.org/wiki/Noogle</a> <code>[Wiki]</code>；端点由本文实测确认</p>
+</blockquote>
+<p><strong>更新频率</strong>：每天针对 nix master（builtins）与 nixpkgs（lib/pkgs）更新，变更次日生效。</p>
+<p><strong>相比直接读 nixpkgs 源码的优势</strong>：① 模糊搜索 + 类型签名过滤；② 自动检测别名；③ 直接给源码位置；④ 渲染好的文档注释；⑤ 全量 JSON 可离线使用。</p>
+<hr>
+<h3 id="sub-7-5">8.6 Jetify / Devbox —— 不写 Nix 语言用 Nix</h3>
+<p><strong>先澄清归属</strong>：<strong>NixHub 是 Jetify 做的</strong>。Jetify 是一家公司，旗下产品：</p>
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>是什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Testpilot</strong></td>
+<td><strong>AI QA / 端到端测试 agent —— 现在是 Jetify 的旗舰</strong></td>
+</tr>
+<tr>
+<td><strong>Devbox</strong></td>
+<td>隔离开发环境 CLI（Apache-2.0）</td>
+</tr>
+<tr>
+<td><strong>NixHub</strong></td>
+<td>包版本注册表 + API</td>
+</tr>
+<tr>
+<td><strong>Jetify Cloud</strong></td>
+<td>Jetify Cache（私有 Nix 缓存）、Jetify Secrets</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://www.jetify.com/docs">https://www.jetify.com/docs</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>Devbox 的定位</strong>（官方原文）：</p>
+<blockquote>
+<p><em>&quot;an approachable, intuitive interface for creating development environments with the Nix Package Manager, <strong>without the Nix language</strong>&quot;</em></p>
+</blockquote>
+<p>即<strong>在 Nix 之上的封装</strong>。它内部就是 Nix（README 原文 <em>&quot;internally powered by nix&quot;</em>）。</p>
+<p><strong>在 NixOS 上安装</strong>（官方文档专门列了 NixOS 选项）：</p>
+<pre><code class="language-bash">nix profile install nixpkgs#devbox
+# 或要最新版
+nix profile install github:jetify-com/devbox/latest
+</code></pre>
+<p><strong>⚠️ 已知限制（官方明示）</strong>：走 nixpkgs 安装时「新版本 Devbox 需要先在 nixpkgs 里更新才可用」—— <strong>版本会滞后</strong>。要最新/预发布需用 flake 源。</p>
+<blockquote>
+<p>出处：<a href="https://www.jetify.com/docs/devbox/installing-devbox/">https://www.jetify.com/docs/devbox/installing-devbox/</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>固定版本的用法</strong>（Devbox 的杀手功能）：</p>
+<pre><code class="language-bash">devbox add python@3.10          # 自动解析并写入 devbox.lock
+</code></pre>
+<p>对应 <code>devbox.json</code>：<code>&quot;packages&quot;: [&quot;python@3.10&quot;]</code></p>
+<h4>⚠️ 两个必须澄清的误解</h4>
+<ol>
+<li><strong><code>devbox generate</code> 不是 AI 功能。</strong> 它生成 devcontainer / Dockerfile / direnv / readme 脚手架。<blockquote>
+<p>出处：<a href="https://www.jetify.com/docs/devbox/cli-reference/devbox-generate">https://www.jetify.com/docs/devbox/cli-reference/devbox-generate</a> <code>[官方]</code></p>
+</blockquote>
+</li>
+<li><strong>Jetify 没有官方的 Devbox MCP server。</strong> 搜到的 <code>devbox-mcp-server</code> 是 <strong>Microsoft Dev Box</strong>（Azure 产品），<strong>与 Jetify Devbox 完全无关</strong>。<blockquote>
+<p>出处：<a href="https://github.com/microsoft/devbox-mcp-server">https://github.com/microsoft/devbox-mcp-server</a> <code>[仓库]</code></p>
+</blockquote>
+</li>
+</ol>
+<p><strong>Jetify 的 AI 集中在 Testpilot，不在 Devbox。</strong> 网上「Devbox 有 AI/MCP 集成」的说法未获官方证实。</p>
+<hr>
+<h3 id="sub-7-6">8.7 串起来：一个真实工作流</h3>
+<p><strong>场景</strong>：我要在 NixOS 上把 Firefox 固定到某个旧版本，并且<strong>绝不编造选项名</strong>。</p>
+<pre><code class="language-bash"># ① 查选项的准确名字、类型、默认值 —— search.nixos.org（唯一权威）
+#    https://search.nixos.org/options?channel=unstable&amp;show=programs.firefox.package
+
+# ② 查历史版本 → 拿到 commit —— NixHub
+curl -s &quot;https://search.devbox.sh/v2/resolve?name=firefox&amp;version=154&quot; | grep -o &#39;&quot;rev&quot;:&quot;[a-f0-9]*&quot;&#39;
+
+# ③ 查 lib 函数（如果你要写条件判断）—— Noogle
+#    https://noogle.dev/q?term=mkIf
+
+# ④ 写进 configuration.nix（见 §8.3 的代码块）
+
+# ⑤ 验证闸门 —— 这一步不可跳过
+sudo nixos-rebuild dry-build
+</code></pre>
+<p><strong>第 ⑤ 步是关键</strong>：前四步都在「查」，只有这一步在「验」。<strong>Nix 的强类型选项系统会让错误的选项名在 eval 阶段立刻失败</strong> —— 这就是为什么「查准」比「猜对」重要得多。</p>
+<hr>
+<h3 id="sub-7-7">8.8 这些工具和 LLM 的关系</h3>
+<p><strong><code>mcp-nixos</code> 已经把这五个数据源里的四个聚合了。</strong> 它的数据源覆盖：</p>
+<p>nixpkgs 包 · <strong>NixOS 选项</strong> · <strong>Home Manager 选项</strong> · nix-darwin · Nixvim · NVF · <strong>FlakeHub</strong> · <strong>Noogle</strong> · NixOS Wiki · nix.dev · <strong>NixHub</strong></p>
+<blockquote>
+<p>出处：<a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a> <code>[仓库]</code></p>
+</blockquote>
+<p><strong>这意味着两条路径</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>适合</th>
+<th>代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>人工查这五个站点</td>
+<td>你在写配置、需要理解</td>
+<td>慢，但你能学到东西</td>
+</tr>
+<tr>
+<td>让 agent 通过 <code>mcp-nixos</code> 查</td>
+<td>批量、重复、你不关心细节</td>
+<td>需要装 MCP server</td>
+</tr>
+</tbody></table>
+<p><strong>给 LLM 加这些工具的价值（一句话）</strong>：<strong>LLM 幻觉在 NixOS 上的代价是「系统起不来」，而这些工具提供的是可验证的地面真值。</strong> 两者是互补的，不是替代的。</p>
+<p><strong>Noogle 的特殊价值</strong>：它的<strong>全量 JSON 可下载</strong>（<code>/api/v1/data</code>，约 4.4 MB，2145 条）。你可以把它塞进本地向量库或直接放进 context，<strong>让 LLM 离线查 Nix 函数</strong> —— 这是五个工具里唯一能做到「完全离线」的。</p>
+<hr>
+<h3 id="sub-7-8">8.9 坑与反直觉</h3>
+<table>
+<thead>
+<tr>
+<th>坑</th>
+<th>事实</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>noogle.dev/api/v1/search</code></td>
+<td><strong>不存在</strong>（实测 404）。真实端点是 <code>/api/v1/data</code>（全量）</td>
+</tr>
+<tr>
+<td>NixHub API 主机名</td>
+<td>官方文档<strong>只给相对路径</strong>，实际主机是 <code>https://search.devbox.sh</code>（本文实测）</td>
+</tr>
+<tr>
+<td>NixHub 索引实时性</td>
+<td>实测 <code>latest</code> 解析到 2026-08-27 的 commit，<strong>可能滞后数周</strong>，用前核对 <code>date</code> 字段</td>
+</tr>
+<tr>
+<td>search.nixos.org 后端 API</td>
+<td>存在但<strong>需要 Basic Auth，凭据从未官方公开</strong>。别自己抓，用 <code>mcp-nixos</code></td>
+</tr>
+<tr>
+<td>search.nixos.org 筛 broken</td>
+<td><strong>没有这个筛选器</strong>（社区有抱怨帖）</td>
+</tr>
+<tr>
+<td>FlakeHub 上的 nixpkgs</td>
+<td>实际由 <strong>DetSys 镜像</strong>提供（<code>DeterminateSystems/flakehub-mirror</code>），不是直连上游</td>
+</tr>
+<tr>
+<td>FlakeHub 发布 flake</td>
+<td><strong>不是 <code>fh publish</code></strong>，是 GitHub Action <code>flakehub-push</code></td>
+</tr>
+<tr>
+<td><code>devbox generate</code></td>
+<td><strong>不是 AI 功能</strong>，是脚手架生成器</td>
+</tr>
+<tr>
+<td>Devbox 的 MCP</td>
+<td><strong>Jetify 没有官方 Devbox MCP</strong>；<code>devbox-mcp-server</code> 是 Microsoft Azure 的东西</td>
+</tr>
+<tr>
+<td>Jetify 的旗舰</td>
+<td>现在是 <strong>Testpilot</strong>（AI 测试 agent），不是 Devbox</td>
+</tr>
+<tr>
+<td><code>nix search</code> 能不能搜选项</td>
+<td><strong>不能</strong>。要搜选项只能用 search.nixos.org</td>
+</tr>
+<tr>
+<td>FlakeHub Cache 免费吗</td>
+<td><strong>不免费</strong>。Free 层只含公开 flake，不含 Cache</td>
+</tr>
+</tbody></table>
+<p><a id="九"></a></p>
+<h2 id="sec-8">九、LLM 辅助管理 NixOS</h2>
+<h3 id="sub-8-0">9.1 为什么 NixOS 特别适合 LLM 辅助</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>对 LLM 的意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>配置是<strong>声明式文本</strong></td>
+<td>LLM 可以生成、阅读、diff，而不是教你在 GUI 里点哪里</td>
+</tr>
+<tr>
+<td>有<strong>单一事实来源</strong></td>
+<td>LLM 读一个文件就能了解整机状态</td>
+</tr>
+<tr>
+<td>有<strong>强类型选项系统</strong></td>
+<td>错误选项名会被 eval 立刻拒绝 —— 幻觉有明确边界</td>
+</tr>
+<tr>
+<td>有<strong>dry-build 闸门</strong></td>
+<td>可以在不产生任何副作用的前提下验证 LLM 的输出</td>
+</tr>
+<tr>
+<td>有<strong>generation 回滚</strong></td>
+<td>即使闸门漏了，也能一键回到上一个可用状态</td>
+</tr>
+</tbody></table>
+<p><strong>这四点组合起来，让 NixOS 成为「LLM 辅助运维」最理想的发行版之一</strong> —— 因为 LLM 最怕的「悄悄改坏系统、无法验证、无法回滚」在 NixOS 上全部不成立。</p>
+<h3 id="sub-8-1">9.2 MCP 生态（2026-10-12 核实）</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>仓库</th>
+<th>状态</th>
+<th>能做什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mcp-nixos</strong></td>
+<td><a href="https://github.com/utensils/mcp-nixos">github.com/utensils/mcp-nixos</a></td>
+<td><strong>活跃</strong>（约 853★，最后 push 2026-09-05，MIT）</td>
+<td>只暴露 2 个工具：<code>nix</code>（search / info / stats / browse / cache / flake-inputs / store）与 <code>nix_versions</code>。数据源覆盖 nixpkgs 包、<strong>NixOS 选项</strong>、<strong>Home Manager 选项</strong>、nix-darwin、Nixvim、NVF、FlakeHub、Noogle、NixOS Wiki、nix.dev、NixHub。<strong>无需本机装 Nix</strong>，且已进 nixpkgs（<code>pkgs.mcp-nixos</code>）</td>
+</tr>
+<tr>
+<td>TheCowboyAI/nixmcp</td>
+<td>github.com/TheCowboyAI/nixmcp</td>
+<td><code>[未核实]</code></td>
+<td>GitHub 页面多次取回为空，描述与 mcp-nixos 逐字一致，疑似镜像/复制，<strong>无法证实为独立维护项目，不建议使用</strong></td>
+</tr>
+<tr>
+<td>mynixos.com 官方 API/MCP</td>
+<td>—</td>
+<td><code>[未找到]</code></td>
+<td>仅有网站与选项页，未见公开 API 或 MCP server</td>
+</tr>
+<tr>
+<td>通用 filesystem / shell MCP</td>
+<td>—</td>
+<td>存在</td>
+<td>非 NixOS 专用，但可让 LLM 读写 <code>/etc/nixos</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>出处：<a href="https://github.com/utensils/mcp-nixos">github.com/utensils/mcp-nixos</a> <code>[仓库]</code>；<a href="https://mcp-nixos.io/">mcp-nixos.io</a> <code>[仓库]</code></p>
+</blockquote>
+<p><strong>mcp-nixos 对 NixOS 运维的价值</strong>：它把「这个选项叫什么、在哪个模块、默认值是什么」这件事变成可查询的事实，<strong>直接压制 LLM 编造选项名这个最大风险源</strong>。</p>
+<h3 id="sub-8-2">9.3 给 LLM 喂上下文的标准姿势</h3>
+<p><strong>核心工具</strong>：</p>
+<pre><code class="language-bash"># 1. 查询某个选项的定义、类型、默认值
+nixos-option services.xserver.videoDrivers
+#    25.05 起重写为「bash 脚本调用的 Nix 表达式」，26.05 仍可用
+
+# 2. 查阅完整选项手册
+man configuration.nix
+nixos-help
+
+# 3. 查询包
+nix search nixpkgs &lt;name&gt;
+#    或网页版 https://search.nixos.org
+
+# 4. 导出当前系统的完整生效配置（给 LLM 的「地面真值」）
+nix eval --json .#nixosConfigurations.mypc.config &gt; current-config.json
+
+# 5. 命令找不到时定位提供者
+#    programs.command-not-found.enable = true;  ← NixOS 默认开启
+nix-locate --top-level bin/htop      # 需 nix-index
+</code></pre>
+<p><strong><code>nix-index</code> 是 command-not-found 的加强版</strong>：预先索引整个 nixpkgs，能按文件路径反查包。</p>
+<pre><code class="language-nix">programs.command-not-found.enable = true;   # 基础版，NixOS 默认已开
+# 加强版：nix-index + 预生成数据库
+# https://github.com/nix-community/nix-index
+# https://github.com/nix-community/nix-index-database （每日更新）
+</code></pre>
+<blockquote>
+<p>出处：<a href="https://github.com/nix-community/nix-index">github.com/nix-community/nix-index</a> <code>[仓库]</code>；<a href="https://nixos.org/manual/nixos/unstable/release-notes">NixOS Manual · unstable release notes（nixos-option 重写）</a> <code>[官方]</code></p>
+</blockquote>
+<p><strong>⚠️ 上面这些是「本机侧」的查询手段；「外部数据源」见 <a href="#%E5%85%AB">第八章</a>。</strong></p>
+<p>第八章讲的五个站点（search.nixos.org / NixHub / FlakeHub / Noogle / Devbox）是<strong>喂给 LLM 的地面真值</strong>的主要来源。其中：</p>
+<ul>
+<li><strong>要查选项</strong> → 用 search.nixos.org（<code>nixos-option</code> 只能查<strong>已安装</strong>系统里的选项，查不到「还没启用的模块」）</li>
+<li><strong>要查历史版本</strong> → NixHub（<code>nix search</code> 只能查当前锁定的 nixpkgs）</li>
+<li><strong>要查 lib 函数</strong> → Noogle（本地 <code>man</code> 完全没有）</li>
+<li><strong><code>mcp-nixos</code> 把其中四个聚合成了 MCP tool</strong> —— 这是给 agent 用的最短路径（见 §9.2 与 §8.8）</li>
+</ul>
+<h3 id="sub-8-3">9.4 安全护栏流程（必须遵守）</h3>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│  LLM 生成配置改动                                        │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  ① 人工审阅 diff（不接受「直接改完就 switch」）           │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  ② nixos-rebuild dry-build --flake .#host               │
+│     ← 求值 + 构建闸门。选项名错/类型错，这里就会失败      │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  ③ 涉及内核/驱动/bootloader/分区？                       │
+│     是 → build-vm 里真跑一遍，或先 nixos-rebuild boot    │
+│     否 → 继续                                            │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  ④ nixos-rebuild switch                                  │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│  ⑤ 出问题 → nixos-rebuild switch --rollback（秒级回退）  │
+└─────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>为什么 dry-build 是关键的验证闸门</strong>：Nix 的选项系统是强类型的。LLM 编造一个不存在的选项（例如把 <code>programs.mangohud</code> 写进 NixOS 配置），<strong>eval 阶段就会报错并指出具体路径</strong>。这意味着幻觉不会「悄悄生效」，而是被立刻拦下。</p>
+<p><strong>为什么必须人工确认</strong>：LLM 幻觉在 NixOS 上的代价不是「程序报错」而是「系统起不来」。以下四类改动必须人工确认：</p>
+<ol>
+<li><code>boot.kernelParams</code> — 写错可能无法引导</li>
+<li><code>boot.loader.*</code> — 写错可能丢失启动项</li>
+<li><code>fileSystems</code> — 写错可能挂载失败、无法进入系统</li>
+<li><code>system.stateVersion</code> — 写错可能损坏有状态数据</li>
+</ol>
+<blockquote>
+<p><code>[核实]</code> 上述四类均为 NixOS 引导链路关键项，出错代价高于普通包配置</p>
+</blockquote>
+<h3 id="sub-8-4">9.5 可复用的 Prompt 模板</h3>
+<p><strong>模板 1：读配置给 diff</strong></p>
+<pre><code class="language-text">你是 NixOS 26.05 专家。下面是我的 configuration.nix。
+
+要求：
+1. 只输出 unified diff，不要输出完整文件。
+2. 禁止使用任何你无法确认在 NixOS 26.05 中存在的选项名。
+3. 每个新增选项后加一行注释，说明它的作用和来源（模块路径或官方手册章节）。
+4. 如果需要引用第三方 flake，单独列一节说明引入方式和风险。
+
+我的配置：
+&lt;粘贴 configuration.nix&gt;
+</code></pre>
+<p><strong>模板 2：生成 flake + home-manager 骨架</strong></p>
+<pre><code class="language-text">生成一份最小可用的 NixOS flake 骨架，要求：
+- inputs: nixpkgs 固定到 nixos-26.05；home-manager 固定到 release-26.05，且 follows nixpkgs
+- outputs 含 nixosConfigurations.&lt;hostname&gt;
+- 内含 home-manager.nixosModules.home-manager，并设 useGlobalPkgs = true
+- 机器为 x86_64-linux，主机名 mypc，用户名 me
+- 每个 input 后注释说明为什么锁定这个分支
+</code></pre>
+<p><strong>模板 3：解释报错</strong></p>
+<pre><code class="language-text">这是 nixos-rebuild 的报错。请按以下结构回答：
+1. 报错涉及的选项路径 / derivation
+2. 错误类型（eval 错误 / 构建错误 / 激活错误）
+3. 根因（一句话）
+4. 最小修复方案（给出可直接粘贴的 diff）
+5. 明确标注你不确定的部分
+
+报错：
+&lt;粘贴报错&gt;
+</code></pre>
+<p><strong>模板 4：升级前审查</strong></p>
+<pre><code class="language-text">我要从 NixOS 26.05 升级到 26.11。请：
+1. 列出 26.11 release notes 中与本配置相关的 breaking changes
+2. 指出我的配置里哪些选项可能被重命名或移除
+3. 给出升级前的检查清单
+4. 如果某个选项被移除，给出对应的新写法
+注意：只引用你能给出出处的信息，不确定的标「需人工核实」。
+
+我的配置：
+&lt;粘贴 configuration.nix&gt;
+</code></pre>
+<h3 id="sub-8-5">9.6 把 NixOS 运维封装成 skill</h3>
+<p>如果把上面这套流程封装成一个 agent skill，建议的目录结构：</p>
+<pre><code class="language-text">nixos-ops-skill/
+├── SKILL.md                    # 触发条件、边界、护栏说明
+├── scripts/
+│   ├── preflight.sh            # dry-build + build-vm + store 校验 + 磁盘检查
+│   ├── upgrade.sh              # channel / flake 升级封装（含备份）
+│   ├── gc.sh                   # 保留 N 天的 GC，绝不使用 -d
+│   ├── rollback.sh             # 回滚 + 确认 generation 存在
+│   └── export-options.sh       # nix eval --json 导出当前配置给 LLM
+├── checklists/
+│   ├── upgrade.md              # 升级前 / 中 / 后清单
+│   ├── rollback.md             # 回滚步骤（含图形界面挂掉时用 bootloader 的情况）
+│   └── new-hardware.md         # 换显卡 / 换硬盘时的检查项
+├── prompts/
+│   ├── diff-config.md          # 模板 1
+│   ├── gen-skeleton.md         # 模板 2
+│   ├── explain-error.md        # 模板 3
+│   └── upgrade-review.md       # 模板 4
+└── references/
+    └── options-index.md        # 常用选项速查（来自 mcp-nixos 查询结果）
+</code></pre>
+<p><strong>SKILL.md 里应该写明的硬约束</strong>：</p>
+<ul>
+<li>任何配置改动必须先 <code>dry-build</code></li>
+<li>涉及 <code>boot.*</code> / <code>fileSystems</code> / <code>stateVersion</code> 必须停下来要求人工确认</li>
+<li>绝不执行 <code>nix-collect-garbage -d</code></li>
+<li>所有生成的选项名必须能给出出处</li>
+</ul>
+<h3 id="sub-8-6">9.7 风险清单</h3>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>后果</th>
+<th>缓解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LLM 编造不存在的选项名</td>
+<td>eval 失败，rebuild 中断</td>
+<td><code>dry-build</code> 闸门 + mcp-nixos 查询</td>
+</tr>
+<tr>
+<td>LLM 直接改 <code>/etc/nixos</code> 并 switch</td>
+<td>可能激活失败、系统起不来</td>
+<td>人工审 diff，用 <code>nixos-rebuild test</code> 先试</td>
+</tr>
+<tr>
+<td>LLM 建议改 <code>stateVersion</code></td>
+<td>可能损坏有状态数据</td>
+<td>硬规则：<strong>永不</strong>由 LLM 决定改这个</td>
+</tr>
+<tr>
+<td>LLM 建议改 <code>boot.kernelParams</code></td>
+<td>可能无法引导</td>
+<td>必须 <code>build-vm</code> 验证</td>
+</tr>
+<tr>
+<td>LLM 建议引入不明第三方 flake</td>
+<td>供应链风险</td>
+<td>人工审查仓库维护状态与 cachix key</td>
+</tr>
+<tr>
+<td>LLM 建议 <code>nix-collect-garbage -d</code></td>
+<td>摧毁全部回滚点</td>
+<td>硬规则：只允许 <code>--delete-older-than Nd</code></td>
+</tr>
+</tbody></table>
+<hr>
+<p><a id="十"></a></p>
+<h2 id="sec-9">十、附录</h2>
+<h3 id="sub-9-0">10.1 命令速查表</h3>
+<pre><code class="language-bash"># ── 配置与重建 ─────────────────────────────────────────
+sudo nixos-rebuild switch              # 构建 + 激活 + 设为默认启动项
+sudo nixos-rebuild test                # 构建 + 激活，不进启动菜单（可重启撤销）
+sudo nixos-rebuild boot                # 构建 + 设为默认启动项，重启生效
+sudo nixos-rebuild dry-build           # 只验证能否构建
+sudo nixos-rebuild build-vm            # 生成可启动的测试虚拟机
+sudo nixos-rebuild switch --rollback   # 回滚到上一个 generation
+sudo nixos-rebuild list-generations    # 列出所有 generation
+
+# flake 路线在后面加 --flake .#&lt;hostname&gt;
+
+# ── 查询 ───────────────────────────────────────────────
+nixos-option &lt;选项路径&gt;                 # 查选项定义
+man configuration.nix                  # 选项手册
+nix search nixpkgs &lt;名字&gt;               # 搜包
+nix-locate --top-level bin/&lt;程序&gt;       # 按文件反查包
+
+# ── 临时使用（不污染系统）───────────────────────────────
+nix shell nixpkgs#&lt;包&gt;                  # 进入带该包的临时 shell
+nix run nixpkgs#&lt;程序&gt;                  # 直接运行
+nix-shell -p &lt;包&gt;                       # 老式临时环境
+
+# ── 清理 ───────────────────────────────────────────────
+sudo nix-collect-garbage --delete-older-than 30d   # 推荐
+sudo nix-collect-garbage -d                        # ⚠️ 删除全部旧 generation
+sudo nix store optimise                            # 硬链接去重
+sudo nix-store --verify --check-contents           # 校验完整性
+df -h /nix                                         # 看磁盘
+
+# ── flake ─────────────────────────────────────────────
+nix flake update                       # 更新全部 input
+nix flake update nixpkgs               # 只更新指定 input
+nix flake metadata                     # 查看当前锁定的版本
+
+# ── 稳定基座 + 滚动组件（第六章）───────────────────────
+nix flake update nixpkgs-unstable          # 只滚滚动源，基座不动
+nixos-rebuild dry-build --flake .#mypc     # 闸门：验证配置成立再应用
+nixos-rebuild boot --flake .#mypc          # 动内核/驱动时用 boot，不用 switch
+sudo systemctl start nixos-upgrade         # 手动触发一次自动升级
+systemctl status nixos-upgrade.timer       # 看自动升级定时器
+journalctl -u nixos-upgrade.service        # 看自动升级日志
+sudo systemctl start flake-update          # 手动刷新 flake.lock
+
+# ── 升级 ───────────────────────────────────────────────
+sudo nix-channel --add https://nixos.org/channels/nixos-26.11 nixos
+sudo nixos-rebuild switch --upgrade
+
+# ── 非 Nix 程序 ────────────────────────────────────────
+appimage-run ./foo.AppImage            # 跑 AppImage
+steam-run ./some-binary                # FHS 沙箱跑二进制
+nix-shell ./shell.nix                  # 进入自定义 FHS 环境
+npm config set prefix ~/.npm-global    # npm 全局安装改到用户目录
+</code></pre>
+<h3 id="sub-9-1">10.2 出处汇总</h3>
+<p><strong>官方文档</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NixOS 手册（总）</td>
+<td><a href="https://nixos.org/manual/nixos/stable/">https://nixos.org/manual/nixos/stable/</a></td>
+</tr>
+<tr>
+<td>安装</td>
+<td><a href="https://nixos.org/manual/nixos/stable/#sec-installation">https://nixos.org/manual/nixos/stable/#sec-installation</a></td>
+</tr>
+<tr>
+<td>改配置</td>
+<td><a href="https://nixos.org/manual/nixos/stable/#sec-changing-config">https://nixos.org/manual/nixos/stable/#sec-changing-config</a></td>
+</tr>
+<tr>
+<td>升级</td>
+<td><a href="https://nixos.org/manual/nixos/stable/#sec-upgrading">https://nixos.org/manual/nixos/stable/#sec-upgrading</a></td>
+</tr>
+<tr>
+<td>GC</td>
+<td><a href="https://nixos.org/manual/nixos/stable/#sec-nix-gc">https://nixos.org/manual/nixos/stable/#sec-nix-gc</a></td>
+</tr>
+<tr>
+<td>用户管理</td>
+<td><a href="https://nixos.org/manual/nixos/stable/#sec-user-management">https://nixos.org/manual/nixos/stable/#sec-user-management</a></td>
+</tr>
+<tr>
+<td>Release notes</td>
+<td><a href="https://nixos.org/manual/nixos/stable/release-notes.html">https://nixos.org/manual/nixos/stable/release-notes.html</a></td>
+</tr>
+<tr>
+<td>Unstable release notes</td>
+<td><a href="https://nixos.org/manual/nixos/unstable/release-notes">https://nixos.org/manual/nixos/unstable/release-notes</a></td>
+</tr>
+<tr>
+<td>FHS 环境（nixpkgs 手册）</td>
+<td><a href="https://nixos.org/manual/nixpkgs/stable/#sec-fhs-environments">https://nixos.org/manual/nixpkgs/stable/#sec-fhs-environments</a></td>
+</tr>
+<tr>
+<td>AppImage 打包</td>
+<td><a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-appimageTools">https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-appimageTools</a></td>
+</tr>
+<tr>
+<td>Nix store path</td>
+<td><a href="https://nix.dev/manual/nix/stable/store/store-path.html">https://nix.dev/manual/nix/stable/store/store-path.html</a></td>
+</tr>
+<tr>
+<td>Flakes 概念</td>
+<td><a href="https://nix.dev/concepts/flakes.html">https://nix.dev/concepts/flakes.html</a></td>
+</tr>
+<tr>
+<td>nix-shell</td>
+<td><a href="https://nix.dev/manual/nix/stable/command-ref/nix-shell.html">https://nix.dev/manual/nix/stable/command-ref/nix-shell.html</a></td>
+</tr>
+<tr>
+<td>nix-store optimise</td>
+<td><a href="https://nix.dev/manual/nix/stable/command-ref/nix-store/optimise">https://nix.dev/manual/nix/stable/command-ref/nix-store/optimise</a></td>
+</tr>
+<tr>
+<td>Home Manager（NixOS module）</td>
+<td><a href="https://nix-community.github.io/home-manager/installation/nixos.html">https://nix-community.github.io/home-manager/installation/nixos.html</a></td>
+</tr>
+<tr>
+<td>Home Manager（standalone + flakes）</td>
+<td><a href="https://nix-community.github.io/home-manager/nix-flakes/standalone.html">https://nix-community.github.io/home-manager/nix-flakes/standalone.html</a></td>
+</tr>
+<tr>
+<td>Home Manager · programs.mangohud</td>
+<td><a href="https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html">https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html</a></td>
+</tr>
+</tbody></table>
+<p><strong>Wiki</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nixos-rebuild</td>
+<td><a href="https://wiki.nixos.org/wiki/Nixos-rebuild">https://wiki.nixos.org/wiki/Nixos-rebuild</a></td>
+</tr>
+<tr>
+<td>stateVersion FAQ</td>
+<td><a href="https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion">https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion</a></td>
+</tr>
+<tr>
+<td>Flakes</td>
+<td><a href="https://wiki.nixos.org/wiki/Flakes">https://wiki.nixos.org/wiki/Flakes</a></td>
+</tr>
+<tr>
+<td>Nvidia</td>
+<td><a href="https://wiki.nixos.org/wiki/Nvidia">https://wiki.nixos.org/wiki/Nvidia</a></td>
+</tr>
+<tr>
+<td>Steam</td>
+<td><a href="https://wiki.nixos.org/wiki/Steam">https://wiki.nixos.org/wiki/Steam</a></td>
+</tr>
+<tr>
+<td>Appimage</td>
+<td><a href="https://wiki.nixos.org/wiki/Appimage">https://wiki.nixos.org/wiki/Appimage</a></td>
+</tr>
+<tr>
+<td>Nix-ld</td>
+<td><a href="https://wiki.nixos.org/wiki/Nix-ld">https://wiki.nixos.org/wiki/Nix-ld</a></td>
+</tr>
+<tr>
+<td>Packaging/Binaries</td>
+<td><a href="https://wiki.nixos.org/wiki/Packaging/Binaries">https://wiki.nixos.org/wiki/Packaging/Binaries</a></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><a href="https://wiki.nixos.org/wiki/Python">https://wiki.nixos.org/wiki/Python</a></td>
+</tr>
+<tr>
+<td>Node（旧 wiki）</td>
+<td><a href="https://nixos.wiki/wiki/Node">https://nixos.wiki/wiki/Node</a></td>
+</tr>
+<tr>
+<td>Graphics</td>
+<td><a href="https://wiki.nixos.org/wiki/Graphics">https://wiki.nixos.org/wiki/Graphics</a></td>
+</tr>
+<tr>
+<td>nixos-generate-config</td>
+<td><a href="https://wiki.nixos.org/wiki/Nixos-generate-config">https://wiki.nixos.org/wiki/Nixos-generate-config</a></td>
+</tr>
+<tr>
+<td>Fcitx5</td>
+<td><a href="https://wiki.nixos.org/wiki/Fcitx5">https://wiki.nixos.org/wiki/Fcitx5</a></td>
+</tr>
+<tr>
+<td>Fonts</td>
+<td><a href="https://wiki.nixos.org/wiki/Fonts">https://wiki.nixos.org/wiki/Fonts</a></td>
+</tr>
+<tr>
+<td>自动系统升级（含 flake 路线）</td>
+<td><a href="https://wiki.nixos.org/wiki/Automatic_system_upgrades">https://wiki.nixos.org/wiki/Automatic_system_upgrades</a></td>
+</tr>
+<tr>
+<td>更新 NixOS（channel / flake 对照）</td>
+<td><a href="https://wiki.nixos.org/wiki/Updating_NixOS">https://wiki.nixos.org/wiki/Updating_NixOS</a></td>
+</tr>
+<tr>
+<td>Mesa（<code>hardware.graphics.package</code>）</td>
+<td><a href="https://wiki.nixos.org/wiki/Mesa">https://wiki.nixos.org/wiki/Mesa</a></td>
+</tr>
+<tr>
+<td>Firefox（<code>programs.firefox.package</code>）</td>
+<td><a href="https://wiki.nixos.org/wiki/Firefox">https://wiki.nixos.org/wiki/Firefox</a></td>
+</tr>
+<tr>
+<td>Overlays</td>
+<td><a href="https://wiki.nixos.org/wiki/Overlays">https://wiki.nixos.org/wiki/Overlays</a></td>
+</tr>
+</tbody></table>
+<p><strong>源码（nixpkgs <code>nixos-26.05</code> 分支）</strong></p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>路径</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NVIDIA 驱动</td>
+<td><code>nixos/modules/hardware/video/nvidia.nix</code></td>
+</tr>
+<tr>
+<td>图形栈（opengl→graphics 重命名）</td>
+<td><code>nixos/modules/hardware/graphics.nix</code></td>
+</tr>
+<tr>
+<td>Steam</td>
+<td><code>nixos/modules/programs/steam.nix</code></td>
+</tr>
+<tr>
+<td>gamemode</td>
+<td><code>nixos/modules/programs/gamemode.nix</code></td>
+</tr>
+<tr>
+<td>gamescope</td>
+<td><code>nixos/modules/programs/gamescope.nix</code></td>
+</tr>
+<tr>
+<td>corectrl</td>
+<td><code>nixos/modules/hardware/corectrl.nix</code></td>
+</tr>
+<tr>
+<td>scx 调度器</td>
+<td><code>nixos/modules/services/scheduling/scx.nix</code></td>
+</tr>
+<tr>
+<td>sysctl 默认值</td>
+<td><code>nixos/modules/config/sysctl.nix</code></td>
+</tr>
+<tr>
+<td>nix-ld</td>
+<td><code>nixos/modules/programs/nix-ld.nix</code></td>
+</tr>
+<tr>
+<td>CPU 调频</td>
+<td><code>nixos/modules/tasks/cpu-freq.nix</code></td>
+</tr>
+<tr>
+<td>26.11 release notes</td>
+<td><code>nixos/doc/manual/release-notes/rl-2611.section.md</code></td>
+</tr>
+</tbody></table>
+<p>前缀：<code>https://github.com/NixOS/nixpkgs/blob/nixos-26.05/</code></p>
+<p><strong>第三方仓库与工具</strong></p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nix-gaming</td>
+<td><a href="https://github.com/fufexan/nix-gaming">https://github.com/fufexan/nix-gaming</a></td>
+</tr>
+<tr>
+<td>mcp-nixos</td>
+<td><a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a></td>
+</tr>
+<tr>
+<td>nix-index</td>
+<td><a href="https://github.com/nix-community/nix-index">https://github.com/nix-community/nix-index</a></td>
+</tr>
+<tr>
+<td>nix-index-database</td>
+<td><a href="https://github.com/nix-community/nix-index-database">https://github.com/nix-community/nix-index-database</a></td>
+</tr>
+<tr>
+<td>nix-tree</td>
+<td><a href="https://github.com/utdemir/nix-tree">https://github.com/utdemir/nix-tree</a></td>
+</tr>
+<tr>
+<td>nix-ld</td>
+<td><a href="https://github.com/nix-community/nix-ld">https://github.com/nix-community/nix-ld</a></td>
+</tr>
+<tr>
+<td>patchelf</td>
+<td><a href="https://github.com/NixOS/patchelf">https://github.com/NixOS/patchelf</a></td>
+</tr>
+<tr>
+<td>Hermes Agent</td>
+<td><a href="https://github.com/NousResearch/hermes-agent">https://github.com/NousResearch/hermes-agent</a></td>
+</tr>
+<tr>
+<td>OpenAI Codex CLI</td>
+<td><a href="https://github.com/openai/codex">https://github.com/openai/codex</a></td>
+</tr>
+<tr>
+<td>Are We Anti-Cheat Yet</td>
+<td><a href="https://areweanticheatyet.com/">https://areweanticheatyet.com/</a></td>
+</tr>
+<tr>
+<td>MyNixOS（选项查询）</td>
+<td><a href="https://mynixos.com/">https://mynixos.com/</a></td>
+</tr>
+</tbody></table>
+<p><strong>Nix 生态查询工具（第八章出处）</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>search.nixos.org</td>
+<td><a href="https://search.nixos.org/">https://search.nixos.org/</a></td>
+</tr>
+<tr>
+<td>nixos-search 源码（ES 导入工作流、cron）</td>
+<td><a href="https://github.com/NixOS/nixos-search">https://github.com/NixOS/nixos-search</a></td>
+</tr>
+<tr>
+<td>无 broken/insecure 筛选（社区抱怨）</td>
+<td><a href="https://discourse.nixos.org/t/nixos-package-search-does-not-show-when-a-package-is-broken/78488">https://discourse.nixos.org/t/nixos-package-search-does-not-show-when-a-package-is-broken/78488</a></td>
+</tr>
+<tr>
+<td>NixOS search（Wiki）</td>
+<td><a href="https://wiki.nixos.org/wiki/NixOS_search">https://wiki.nixos.org/wiki/NixOS_search</a></td>
+</tr>
+<tr>
+<td><code>nix search</code> 手册</td>
+<td><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search">https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search</a></td>
+</tr>
+<tr>
+<td>NixHub.io</td>
+<td><a href="https://www.nixhub.io">https://www.nixhub.io</a></td>
+</tr>
+<tr>
+<td>NixHub API 文档（相对路径）</td>
+<td><a href="https://www.jetify.com/docs/nixhub">https://www.jetify.com/docs/nixhub</a></td>
+</tr>
+<tr>
+<td>NixHub API 实测主机</td>
+<td><a href="https://search.devbox.sh">https://search.devbox.sh</a></td>
+</tr>
+<tr>
+<td>FlakeHub 文档</td>
+<td><a href="https://docs.determinate.systems/flakehub/">https://docs.determinate.systems/flakehub/</a></td>
+</tr>
+<tr>
+<td>FlakeHub URL 语义</td>
+<td><a href="https://docs.determinate.systems/flakehub/concepts/urls/">https://docs.determinate.systems/flakehub/concepts/urls/</a></td>
+</tr>
+<tr>
+<td>FlakeHub SemVer</td>
+<td><a href="https://docs.determinate.systems/flakehub/concepts/semver/">https://docs.determinate.systems/flakehub/concepts/semver/</a></td>
+</tr>
+<tr>
+<td>FlakeHub CLI</td>
+<td><a href="https://docs.determinate.systems/flakehub/cli/">https://docs.determinate.systems/flakehub/cli/</a></td>
+</tr>
+<tr>
+<td>FlakeHub Cache（付费）</td>
+<td><a href="https://docs.determinate.systems/flakehub/cache/">https://docs.determinate.systems/flakehub/cache/</a></td>
+</tr>
+<tr>
+<td>FlakeHub 定价</td>
+<td><a href="https://flakehub.com/pricing">https://flakehub.com/pricing</a></td>
+</tr>
+<tr>
+<td>FlakeHub discovery API</td>
+<td><a href="https://docs.determinate.systems/flakehub/discovery/">https://docs.determinate.systems/flakehub/discovery/</a></td>
+</tr>
+<tr>
+<td>Determinate Nix</td>
+<td><a href="https://docs.determinate.systems/determinate-nix/">https://docs.determinate.systems/determinate-nix/</a></td>
+</tr>
+<tr>
+<td>nix-installer（默认启用 flakes）</td>
+<td><a href="https://github.com/DeterminateSystems/nix-installer">https://github.com/DeterminateSystems/nix-installer</a></td>
+</tr>
+<tr>
+<td>FlakeHub 发布时的社区批评</td>
+<td><a href="https://discourse.nixos.org/t/introducing-flakehub/32044">https://discourse.nixos.org/t/introducing-flakehub/32044</a></td>
+</tr>
+<tr>
+<td>Nix 治理危机（LWN）</td>
+<td><a href="https://lwn.net/Articles/970824/">https://lwn.net/Articles/970824/</a></td>
+</tr>
+<tr>
+<td>Noogle</td>
+<td><a href="https://noogle.dev">https://noogle.dev</a></td>
+</tr>
+<tr>
+<td>Noogle 仓库</td>
+<td><a href="https://github.com/nix-community/noogle">https://github.com/nix-community/noogle</a></td>
+</tr>
+<tr>
+<td>Noogle（Wiki）</td>
+<td><a href="https://wiki.nixos.org/wiki/Noogle">https://wiki.nixos.org/wiki/Noogle</a></td>
+</tr>
+<tr>
+<td>Noogle 全量数据端点（实测）</td>
+<td><a href="https://noogle.dev/api/v1/data">https://noogle.dev/api/v1/data</a></td>
+</tr>
+<tr>
+<td>Jetify 产品文档</td>
+<td><a href="https://www.jetify.com/docs">https://www.jetify.com/docs</a></td>
+</tr>
+<tr>
+<td>Devbox 安装（含 NixOS）</td>
+<td><a href="https://www.jetify.com/docs/devbox/installing-devbox/">https://www.jetify.com/docs/devbox/installing-devbox/</a></td>
+</tr>
+<tr>
+<td><code>devbox generate</code>（非 AI）</td>
+<td><a href="https://www.jetify.com/docs/devbox/cli-reference/devbox-generate">https://www.jetify.com/docs/devbox/cli-reference/devbox-generate</a></td>
+</tr>
+<tr>
+<td>Microsoft Dev Box MCP（易混淆）</td>
+<td><a href="https://github.com/microsoft/devbox-mcp-server">https://github.com/microsoft/devbox-mcp-server</a></td>
+</tr>
+</tbody></table>
+<p><strong>社区案例与讨论（第六章论据）</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mesa unstable on nixos-stable（2026-05，实测翻车）</td>
+<td><a href="https://discourse.nixos.org/t/mesa-unstable-on-nixos-stable-in-2026/77618">https://discourse.nixos.org/t/mesa-unstable-on-nixos-stable-in-2026/77618</a></td>
+</tr>
+<tr>
+<td>Mixing stable and unstable packages（2024-08）</td>
+<td><a href="https://discourse.nixos.org/t/mixing-stable-and-unstable-packages-on-flake-based-nixos-system/50351">https://discourse.nixos.org/t/mixing-stable-and-unstable-packages-on-flake-based-nixos-system/50351</a></td>
+</tr>
+<tr>
+<td>Installing both stable and unstable packages（2026-05）</td>
+<td><a href="https://discourse.nixos.org/t/installing-both-stable-and-unstable-packages-in-a-flake/77652">https://discourse.nixos.org/t/installing-both-stable-and-unstable-packages-in-a-flake/77652</a></td>
+</tr>
+<tr>
+<td>How to automatically update flakes（2025-11，实测有效）</td>
+<td><a href="https://discourse.nixos.org/t/how-to-automatically-update-flakes/72426">https://discourse.nixos.org/t/how-to-automatically-update-flakes/72426</a></td>
+</tr>
+<tr>
+<td>nixpkgs #349734（<code>--update-input</code> 废弃）</td>
+<td><a href="https://github.com/NixOS/nixpkgs/issues/349734">https://github.com/NixOS/nixpkgs/issues/349734</a></td>
+</tr>
+<tr>
+<td>LibrePhoenix · 同时用 stable + unstable 教程</td>
+<td><a href="https://librephoenix.com/2024-02-10-using-both-stable-and-unstable-packages-on-nixos-at-the-same-time">https://librephoenix.com/2024-02-10-using-both-stable-and-unstable-packages-on-nixos-at-the-same-time</a></td>
+</tr>
+<tr>
+<td>update-flake-lock（GitHub Action）</td>
+<td><a href="https://github.com/DeterminateSystems/update-flake-lock">https://github.com/DeterminateSystems/update-flake-lock</a></td>
+</tr>
+<tr>
+<td>chromium 维护说明（浏览器更新移植到 stable）</td>
+<td><a href="https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/browsers/chromium">https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/browsers/chromium</a></td>
+</tr>
+<tr>
+<td>nixos-rebuild-ng（Python 重写版）</td>
+<td><a href="https://github.com/NixOS/nixos-rebuild-ng">https://github.com/NixOS/nixos-rebuild-ng</a></td>
+</tr>
+</tbody></table>
+<p><strong>版本与日程</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NixOS 26.05 发布公告</td>
+<td><a href="https://discourse.nixos.org/t/nixos-26-05-released/77930">https://discourse.nixos.org/t/nixos-26-05-released/77930</a></td>
+</tr>
+<tr>
+<td>26.11 发布日程</td>
+<td><a href="https://github.com/NixOS/nixpkgs/issues/567567">https://github.com/NixOS/nixpkgs/issues/567567</a></td>
+</tr>
+<tr>
+<td>26.11 发布周期讨论</td>
+<td><a href="https://discourse.nixos.org/t/let-s-have-a-great-26-11-release-cycle/80323">https://discourse.nixos.org/t/let-s-have-a-great-26-11-release-cycle/80323</a></td>
+</tr>
+</tbody></table>
+<h3 id="sub-9-2">10.3 未核实 / 存疑项</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hermes pm install</code> 是否支持指定外部 node 路径</td>
+<td>公开文档未说明，§5.9 第 3 点为<strong>推断</strong></td>
+</tr>
+<tr>
+<td>Steam 库放 NTFS 分区的具体风险</td>
+<td>社区经验一致，但<strong>未找到权威一手出处</strong></td>
+</tr>
+<tr>
+<td>TheCowboyAI/nixmcp 是否为独立维护项目</td>
+<td>GitHub 页面无法取回，描述与 mcp-nixos 逐字相同，<strong>不建议使用</strong></td>
+</tr>
+<tr>
+<td>mynixos.com 是否有官方 API / MCP</td>
+<td><strong>未找到</strong>公开接口</td>
+</tr>
+<tr>
+<td><code>programs.mangohud</code> 在 NixOS 系统层是否存在</td>
+<td><strong>不存在</strong>（已核实为 Home Manager 专属选项）</td>
+</tr>
+<tr>
+<td><code>buildFHSUserEnv</code> 旧名</td>
+<td><strong>已在当前 nixpkgs 中移除</strong>（已核实）</td>
+</tr>
+<tr>
+<td><code>nixpkgs.nodePackages</code></td>
+<td><strong>已整体移除</strong>（已核实）</td>
+</tr>
+<tr>
+<td>各启动器包的 license 是否为 unfree</td>
+<td>未逐包核实；取决于运行时组件</td>
+</tr>
+<tr>
+<td><code>nixos-rebuild-ng</code> 在 26.05 中是否为默认实现</td>
+<td><strong>来源冲突</strong>：NixOS Wiki 称「25.11 起为默认」，但 nixpkgs unstable release notes 称「可通过 <code>system.rebuild.enableNg</code> 启用」。<strong>以 <code>man nixos-rebuild</code> 实测为准</strong>；<code>system.rebuild.enableNg</code> 选项在 MyNixOS 上未能检索到</td>
+</tr>
+<tr>
+<td><code>nixos-rebuild --commit-lock-file</code> 的确切语义</td>
+<td>官方 Wiki 的自动升级配置使用了它，但<strong>是否同时隐含刷新 lock</strong> 未能从一手源码确认。社区普遍采用「先 <code>nix flake update</code> 再 rebuild」的两段式（§6.5 层次 2），更可靠</td>
+</tr>
+<tr>
+<td>Mesa 从 unstable 换到 stable 后<strong>是否必然</strong>出问题</td>
+<td>单个社区案例（§6.1）报告了失败；无法推断普遍性。<strong>属个案，非结论</strong></td>
+</tr>
+<tr>
+<td><code>hardware.nvidia.package</code> 跨 nixpkgs 取 unstable 的可行性</td>
+<td>原理上需要与 <code>boot.kernelPackages</code> 同步更换，<strong>未找到成功案例佐证</strong>，仅作原理说明</td>
+</tr>
+<tr>
+<td><code>noogle.dev/api/v1/search</code> 端点</td>
+<td><strong>不存在</strong>（实测 404）。真实公开端点是 <code>/api/v1/data</code>（全量 JSON）。文档/教程中出现的 search 端点均为误传</td>
+</tr>
+<tr>
+<td>NixHub API 主机名</td>
+<td>官方文档<strong>只给相对路径</strong>，未记载主机名。<code>https://search.devbox.sh</code> 为<strong>本文 curl 实测</strong>所得，非文档明示</td>
+</tr>
+<tr>
+<td>NixHub 索引实时性</td>
+<td>实测（2026-10-12）<code>hello</code> / <code>firefox</code> 的 <code>latest</code> 均解析到 commit <code>c27cdad…</code>（<code>date</code> = 2026-08-27），<strong>疑似滞后数周</strong>。用它做版本决策前务必核对 <code>date</code> 字段并交叉验证</td>
+</tr>
+<tr>
+<td>search.nixos.org 后端 ES 凭据</td>
+<td>端点可用但<strong>需 HTTP Basic 认证</strong>，凭据<strong>从未由官方公开</strong>（仅见于第三方源码）。视为<strong>非官方契约</strong>，随时可能失效</td>
+</tr>
+<tr>
+<td>FlakeHub 上的 nixpkgs 来源</td>
+<td>实测 API 返回的 <code>repo_url</code> 指向 <code>DeterminateSystems/flakehub-mirror</code>，即<strong>经 DetSys 镜像</strong>而非直连上游。镜像可用性未获官方 SLA 承诺</td>
+</tr>
+<tr>
+<td>Jetify 是否有官方 Devbox MCP server</td>
+<td><strong>未找到官方证据</strong>。网上出现的 <code>devbox-mcp-server</code> 实为 <strong>Microsoft Dev Box</strong>（Azure），与 Jetify 无关</td>
+</tr>
+<tr>
+<td><code>api.flakehub.com/search</code> 端点</td>
+<td>官方 discovery 文档未记载，<strong>本文实测可用</strong>（需带 <code>User-Agent</code>）。属非文档化接口</td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>文档版本 1.4 · 生成于 2026-10-12 · 基准 NixOS 26.05「Yarara」</em>
+<em>NixOS 迭代较快，使用前请对照官方 release notes 核对选项名。</em></p>
+</main>
+</div>
+</body>
+</html>

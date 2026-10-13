@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>发行版 AI 协同管理实践全景</title>
+<style>
+  :root{
+    --bg:#0f1115; --bg2:#151922; --bg3:#1b2029;
+    --fg:#e6e9ef; --fg2:#a8b0bd; --fg3:#7c8695;
+    --line:#262c38; --accent:#6ba4ff;
+    --code-bg:#12161e;
+    --mono:ui-monospace,SFMono-Regular,"Cascadia Code","JetBrains Mono",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .layout{display:flex;max-width:1520px;margin:0 auto}
+  aside{width:310px;flex:0 0 310px;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--line);padding:26px 16px 60px;background:var(--bg2)}
+  aside .brand{font-size:13px;letter-spacing:.12em;color:var(--fg3);text-transform:uppercase;margin-bottom:4px}
+  aside .ver{font-size:12px;color:var(--fg3);margin-bottom:20px}
+  .toc-item{display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:7px;color:var(--fg2);text-decoration:none;font-size:13.5px;line-height:1.45;transition:background .15s,color .15s}
+  .toc-item:hover{background:var(--bg3);color:var(--fg)}
+  .toc-num{color:var(--accent);font-family:var(--mono);font-size:11.5px;flex:0 0 18px;opacity:.85}
+  main{flex:1;min-width:0;padding:44px 56px 120px;max-width:1080px}
+  h1{font-size:2rem;line-height:1.3;margin:0 0 6px;letter-spacing:-.02em}
+  h1 + h3{color:var(--fg2);font-weight:500;margin:0 0 26px;font-size:1.02rem}
+  h2{font-size:1.4rem;margin:56px 0 18px;padding-bottom:11px;border-bottom:1px solid var(--line);letter-spacing:-.01em;scroll-margin-top:20px}
+  h3{font-size:1.1rem;margin:34px 0 12px;color:#f0f3f8}
+  h4{font-size:1rem;margin:24px 0 10px;color:var(--fg2)}
+  p{margin:12px 0;color:#d8dde6}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(107,164,255,.3);word-break:break-word}
+  a:hover{border-bottom-color:var(--accent)}
+  strong{color:#fff;font-weight:600}
+  hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+  ul,ol{padding-left:24px;color:#d8dde6}
+  li{margin:6px 0}
+  code{font-family:var(--mono);font-size:.855em;background:var(--code-bg);border:1px solid var(--line);border-radius:5px;padding:1.5px 6px;color:#8fd6ff}
+  pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;margin:16px 0;line-height:1.62}
+  pre code{background:none;border:0;padding:0;font-size:13.2px;color:#c9d4e3}
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:9px 13px;text-align:left;vertical-align:top}
+  th{background:var(--bg3);color:#fff;font-weight:600;white-space:nowrap}
+  td{color:#d0d6e0}
+  tr:nth-child(even) td{background:rgba(255,255,255,.017)}
+  blockquote{margin:16px 0;padding:12px 18px;border-left:3px solid var(--accent);background:rgba(107,164,255,.06);border-radius:0 8px 8px 0;color:var(--fg2)}
+  blockquote p{margin:5px 0;font-size:14.5px}
+  em{color:#e9d5a1;font-style:normal;font-weight:500}
+  @media (max-width:980px){aside{display:none}main{padding:28px 20px 90px}h1{font-size:1.6rem}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand">Index</div>
+    <div class="ver">发行版 AI 协同管理实践全景</div>
+    <a class="toc-item" href="#sec-0"><span class="toc-num">1</span>TL;DR — 结论先行</a>
+<a class="toc-item" href="#sec-1"><span class="toc-num">2</span>一、先定义：什么叫「AI 协同管理」</a>
+<a class="toc-item" href="#sec-2"><span class="toc-num">3</span>二、总览对比表</a>
+<a class="toc-item" href="#sec-3"><span class="toc-num">4</span>三、案例详解</a>
+<a class="toc-item" href="#sec-4"><span class="toc-num">5</span>四、Skills / MCP 目录站盘点</a>
+<a class="toc-item" href="#sec-5"><span class="toc-num">6</span>五、OS 管理类 MCP 全清单</a>
+<a class="toc-item" href="#sec-6"><span class="toc-num">7</span>六、社区态度与反对意见</a>
+<a class="toc-item" href="#sec-7"><span class="toc-num">8</span>七、结论与建议</a>
+<a class="toc-item" href="#sec-8"><span class="toc-num">9</span>八、出处汇总</a>
+<a class="toc-item" href="#sec-9"><span class="toc-num">10</span>九、未核实 / 存疑项</a>
+  </aside>
+  <main><h1>发行版「AI 协同管理」实践全景</h1>
+<h3>哪些 Linux 发行版真的有 MCP / Skills / AI 运维方案</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>调研日期</td>
+<td>2026-10-12</td>
+</tr>
+<tr>
+<td>调研范围</td>
+<td>GitHub、官方文档与博客、NixOS Discourse、Arch BBS、Hacker News、skills.sh、clawhub.ai、MCP 目录站</td>
+</tr>
+<tr>
+<td>结论性质</td>
+<td>只收录可核实到的一手来源；核实不到的明确标注</td>
+</tr>
+</tbody></table>
+<p><strong>证据标注</strong>：<code>[官方]</code> 厂商一手 · <code>[仓库]</code> GitHub 仓库 · <code>[社区]</code> 论坛/博客 · <code>[二手]</code> 媒体报道（已交叉核对）· <code>[未核实]</code> 无法确认</p>
+<hr>
+<h2 id="sec-0">TL;DR — 结论先行</h2>
+<p><strong>有，而且已经分出三个梯队。但「发行版自带 AI 协同管理」这件事，目前没有任何一家做到「系统级、可写、有护栏」的完整闭环。</strong></p>
+<table>
+<thead>
+<tr>
+<th>梯队</th>
+<th>发行版</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>第一梯队</strong></td>
+<td><strong>Red Hat / RHEL</strong></td>
+<td>唯一有完整产品线的厂商：只读诊断 MCP + Lightspeed + Satellite MCP + Ansible MCP</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>NixOS（社区）</strong></td>
+<td>MCP 生态最丰富（4 个项目），且<strong>治理最严</strong>；声明式模型天然适合 agent</td>
+</tr>
+<tr>
+<td><strong>第二梯队</strong></td>
+<td><strong>Omarchy</strong></td>
+<td>唯一「agent 原生」发行版：预置 13 种 agent CLI，系统崩溃自动交给 agent 诊断</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Project Bluefin</strong></td>
+<td>社区发行版里 AI 战略最激进：直接复用 RHEL Lightspeed 组件</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>openSUSE</strong></td>
+<td>官方 <code>systemd-mcp</code>：唯一能<strong>写</strong>的官方系统 MCP，带 polkit/OAuth 授权</td>
+</tr>
+<tr>
+<td><strong>第三梯队</strong></td>
+<td>Deepin / UOS / openKylin</td>
+<td>中国发行版把 AI 助手做进系统，UOS AI 3.0 已有 MCP 生态</td>
+</tr>
+<tr>
+<td><strong>明确没有</strong></td>
+<td>Canonical/Ubuntu、Debian、Fedora（官方）、CachyOS、Garuda、EndeavourOS、Nobara、Guix、Alpine、Void</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>反向案例</strong></td>
+<td>Pop!_OS / COSMIC</td>
+<td>2026-10 <strong>明令禁止</strong> AI 生成代码进 PR</td>
+</tr>
+</tbody></table>
+<p><strong>最重要的一条发现</strong>：<code>skills.sh</code> 与 <code>clawhub.ai</code> 这两个技能目录站上，<strong>面向发行版运维的 skill 极度贫瘠</strong> —— clawhub 搜 <code>nixos</code> 零结果，skills.sh 只有一个人（<code>iuliandita</code>）在系统性做发行版运维 skill。<strong>这是一个巨大的空白。</strong></p>
+<hr>
+<h2 id="sec-1">一、先定义：什么叫「AI 协同管理」</h2>
+<p>不定义清楚就会把「装了个 AI 聊天应用」也算进来。按<strong>耦合深度</strong>分五层：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>名称</th>
+<th>含义</th>
+<th>典型代表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>L0</strong></td>
+<td>内置 AI 应用</td>
+<td>只是把 AI 应用预装/推荐</td>
+<td>Bluefin 的 Alpaca、LM Studio</td>
+</tr>
+<tr>
+<td><strong>L1</strong></td>
+<td>知识 MCP</td>
+<td>把发行版文档/选项/包信息喂给 agent，防幻觉</td>
+<td><code>mcp-nixos</code>、<code>bluefin-mcp</code></td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td>只读诊断 MCP</td>
+<td>agent 能读日志、单元、配置，做故障定位</td>
+<td>Red Hat <code>linux-mcp-server</code></td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td>可写操作 + 授权</td>
+<td>agent 能启停服务、改配置，但经 polkit/OAuth/审批</td>
+<td>openSUSE <code>systemd-mcp</code>、Agentix</td>
+</tr>
+<tr>
+<td><strong>L4</strong></td>
+<td>agent 原生</td>
+<td>系统围绕 agent 设计：预置 agent、ship skill、系统事件自动派给 agent</td>
+<td><strong>Omarchy</strong></td>
+</tr>
+</tbody></table>
+<p><strong>目前没有任何发行版到达 L5（agent 全权管理且无需人工）。</strong> 最激进的 Omarchy 也只到 L4，且官方文档明确提醒「准备好回滚」。</p>
+<hr>
+<h2 id="sec-2">二、总览对比表</h2>
+<table>
+<thead>
+<tr>
+<th>发行版 / 厂商</th>
+<th>最高层级</th>
+<th>官方 MCP</th>
+<th>官方 Skill</th>
+<th>核心实现</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Red Hat / RHEL</strong></td>
+<td>L2（+L3 生态）</td>
+<td>✅ 多个</td>
+<td>❌</td>
+<td><code>linux-mcp-server</code>（只读诊断）、RHEL Lightspeed、Satellite MCP、Ansible MCP</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>NixOS</strong></td>
+<td>L3（社区）</td>
+<td>✅ 社区 4 个</td>
+<td>✅ 第三方</td>
+<td><code>mcp-nixos</code>、<code>nix-agent</code>、<code>Agentix</code>、devenv MCP</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Omarchy</strong></td>
+<td><strong>L4</strong></td>
+<td>❌ 无自研</td>
+<td>✅ <strong>官方 ship</strong></td>
+<td>13 种 agent CLI + <code>diagnose-crash</code> skill + agents panel</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Project Bluefin</strong></td>
+<td>L1–L2</td>
+<td>✅（托管端点）</td>
+<td>❌</td>
+<td>Bluespeed 计划、goose、llmman、复用 RHEL Lightspeed</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>openSUSE / SUSE</strong></td>
+<td><strong>L3（官方）</strong></td>
+<td>✅ 官方</td>
+<td>❌</td>
+<td><code>openSUSE/systemd-mcp</code>（可写，polkit/OAuth）</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Deepin / UOS / openKylin</strong></td>
+<td>L0–L3</td>
+<td>⚠️ 部分</td>
+<td>❌</td>
+<td>UOS AI 3.0「小U同学」、KylinBot</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>L2（借 Red Hat）</td>
+<td>❌ 官方无</td>
+<td>❌</td>
+<td>官方推广 Red Hat 的 linux-mcp-server</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Arch Linux</strong></td>
+<td>L2（社区）</td>
+<td>❌ 官方无</td>
+<td>⚠️ 社区</td>
+<td><code>arch-mcp</code>（社区）、archinstall AI 政策</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Canonical / Ubuntu</strong></td>
+<td>—</td>
+<td>❌</td>
+<td>❌</td>
+<td><strong>未找到任何官方 MCP</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>—</td>
+<td>❌</td>
+<td>❌</td>
+<td>仅社区 <code>apt-mcp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Pop!_OS / COSMIC</strong></td>
+<td>—</td>
+<td>❌</td>
+<td>❌</td>
+<td><strong>反向：明令禁止 AI 生成代码</strong></td>
+<td>2026-10 政策生效</td>
+</tr>
+<tr>
+<td><strong>CachyOS / Garuda / EndeavourOS / Nobara</strong></td>
+<td>—</td>
+<td>❌</td>
+<td>❌</td>
+<td>未找到</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Guix / Alpine / Void / Chimera</strong></td>
+<td>—</td>
+<td>❌</td>
+<td>❌</td>
+<td>未找到官方</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Talos / Kairos</strong></td>
+<td>L3（云原生）</td>
+<td>⚠️ 部分</td>
+<td>❌</td>
+<td>Kairos 文档称内置 MCP server；Talos 有社区 <code>talos-mcp-server</code></td>
+<td>活跃</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="sec-3">三、案例详解</h2>
+<h3>3.1 Red Hat / RHEL —— 唯一的产品线级实践（L2）</h3>
+<p><strong>这是目前最成熟的案例，没有之一。</strong></p>
+<p><code>linux-mcp-server</code> 由 Red Hat 的 RHEL Lightspeed 团队开发，定位是<strong>只读的 Linux 系统管理、诊断与排障</strong>。它明确是「MCP Server for RHEL」的基础。</p>
+<ul>
+<li>仓库：<a href="https://github.com/rhel-lightspeed/linux-mcp-server">https://github.com/rhel-lightspeed/linux-mcp-server</a> <code>[仓库]</code></li>
+<li>文档站：<a href="https://rhel-lightspeed.github.io/linux-mcp-server/">https://rhel-lightspeed.github.io/linux-mcp-server/</a> <code>[官方]</code></li>
+<li>PyPI：<code>linux-mcp-server</code> <code>[官方]</code></li>
+<li>状态：约 317★，最后推送 2026-10-10，Apache-2.0，未归档</li>
+</ul>
+<p><strong>完整产品线</strong>（这是它区别于所有其他案例的地方）：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>linux-mcp-server</code></td>
+<td>只读诊断：日志分析、性能剖析、根因定位</td>
+</tr>
+<tr>
+<td>RHEL Lightspeed</td>
+<td>命令行 AI 助手，内置于 RHEL</td>
+</tr>
+<tr>
+<td>Satellite MCP</td>
+<td>面向 Satellite 管理平台</td>
+</tr>
+<tr>
+<td>Ansible Automation Platform MCP</td>
+<td>AAP 2.6+ 内建，作业/清单操作</td>
+</tr>
+</tbody></table>
+<p>官方博客（2026-10-08，4 天前）：<em>Manage RHEL with MCP servers and Red Hat Lightspeed</em> —— <a href="https://developers.redhat.com/articles/2026/10/08/manage-rhel-mcp-servers-and-red-hat-lightspeed">https://developers.redhat.com/articles/2026/10/08/manage-rhel-mcp-servers-and-red-hat-lightspeed</a> <code>[官方]</code></p>
+<p><strong>关键设计选择：只读。</strong> 官方教程中明确要求样例输出须经人工复核后再使用。这个保守选择正是它能被企业接受的原因。</p>
+<p>Fedora Magazine 也在官方推广它（面向 Fedora 用户，尽管 Red Hat 没为 Fedora 单独出 MCP）：
+<a href="https://fedoramagazine.org/find-out-how-your-fedora-system-really-feels-with-the-linux-mcp-server/">https://fedoramagazine.org/find-out-how-your-fedora-system-really-feels-with-the-linux-mcp-server/</a> <code>[官方]</code></p>
+<blockquote>
+<p><strong>为什么它算「AI 协同管理」</strong>：不是「装了个 AI 应用」，而是把<strong>系统的可观测面</strong>（日志、性能、配置）通过标准协议暴露给任意 agent，让 AI 做它最擅长的事（关联分析、根因推断），同时用<strong>只读</strong>这个硬边界把风险降到零。</p>
+</blockquote>
+<hr>
+<h3>3.2 NixOS —— 生态最丰富，治理最严（L3，社区驱动）</h3>
+<p>NixOS 没有官方 MCP，但<strong>社区生态是除 Red Hat 外最完整的</strong>，而且有一个别人没有的优势：<strong>声明式模型天然适配 agent</strong>。</p>
+<p><strong>四个 MCP 项目</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>定位</th>
+<th>仓库</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mcp-nixos</strong></td>
+<td>查询 NixOS 包/选项/Home Manager/nix-darwin/flake</td>
+<td><a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a></td>
+<td>853★，已进 nixpkgs（<code>pkgs.mcp-nixos</code>）</td>
+</tr>
+<tr>
+<td><strong>nix-agent</strong></td>
+<td><strong>可写</strong>：build / diff / switch 等可组合操作，与 mcp-nixos 配合</td>
+<td><a href="https://github.com/JEFF7712/nix-agent">https://github.com/JEFF7712/nix-agent</a></td>
+<td>活跃</td>
+</tr>
+<tr>
+<td><strong>Agentix</strong></td>
+<td>安全优先的控制层：只提 patch，人工批准后才 apply</td>
+<td><a href="https://github.com/Beach-Bum/Agentix">https://github.com/Beach-Bum/Agentix</a></td>
+<td>v0.3，实验性</td>
+</tr>
+<tr>
+<td><strong>devenv MCP</strong></td>
+<td>devenv 1.7 官方加入 MCP 支持</td>
+<td><a href="https://discourse.nixos.org/t/66376">https://discourse.nixos.org/t/66376</a></td>
+<td>官方</td>
+</tr>
+</tbody></table>
+<p><strong>Agentix 值得单独说</strong> —— 它提出了目前最完整的 agent 安全闭环：</p>
+<pre><code>Observe → Plan → Patch → Test → Explain → Approve → Apply → Audit
+</code></pre>
+<p>自述原文：<em>&quot;The agent never mutates directly. It generates patches against your Nix config, explains what it wants to do and why, then waits. Every action gets a JSON audit log entry.&quot;</em></p>
+<blockquote>
+<p><em>&quot;Less &#39;AI manages my server,&#39; more a cautious junior infra engineer submitting reviewed PRs against your flake.&quot;</em></p>
+</blockquote>
+<p>命令：<code>agentix propose</code> / <code>verify</code> / <code>apply</code> / <code>doctor</code> / <code>status</code> / <code>run</code>。Git 安全：拒绝在 dirty tree 上操作。</p>
+<p>出处：<a href="https://discourse.nixos.org/t/77419">https://discourse.nixos.org/t/77419</a> <code>[社区]</code></p>
+<p><strong>⚠️ 但这个案例最有价值的部分是它的社区反应</strong>：有用户直接批评它「README 格式是坏的、没有提供任何 Nix 安装方式、看起来像是又一个 slop-coded AI 程序」——</p>
+<blockquote>
+<p><em>&quot;it seems strange that you&#39;d be building this for NixOS but not provide any nix way to install this.&quot;</em></p>
+</blockquote>
+<p><strong>这条批评本身就是结论</strong>：在一个以「可复现」为信仰的发行版里，<strong>用非 Nix 方式交付的 AI 工具会被立刻质疑</strong>。想在这类社区立足，工具本身必须符合该社区的工程标准。</p>
+<p><strong>NixOS 社区的治理态度（同样重要）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>帖子</th>
+<th>内容</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MCP-NixOS 自荐</td>
+<td>作者明说工具目的是「阻止 AI 幻觉出不存在或已改名的包与选项」</td>
+<td><a href="https://discourse.nixos.org/t/62640">https://discourse.nixos.org/t/62640</a></td>
+</tr>
+<tr>
+<td>Discourse LLM Policy</td>
+<td>官方版主定规：「本论坛供人类互相交流」，LLM 内容须披露</td>
+<td><a href="https://discourse.nixos.org/t/78302">https://discourse.nixos.org/t/78302</a></td>
+</tr>
+<tr>
+<td>是否禁止 LLM 生成的 PR 描述</td>
+<td>62 帖争论，审阅者称无法信任「文字墙」</td>
+<td><a href="https://discourse.nixos.org/t/79736">https://discourse.nixos.org/t/79736</a></td>
+</tr>
+<tr>
+<td>Documentation needs to be created towards agents</td>
+<td>主张为 agent 写 <code>llms.txt</code> 式文档，「引导而非抵制 AI」，59 帖</td>
+<td><a href="https://discourse.nixos.org/t/80179">https://discourse.nixos.org/t/80179</a></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>结论</strong>：NixOS 是<strong>唯一同时存在「成熟 agent 工具」和「严格 LLM 治理规范」的发行版</strong>。前者靠技术，后者靠社区自律。</p>
+</blockquote>
+<hr>
+<h3>3.3 Omarchy —— 唯一真正的「agent 原生发行版」（L4）</h3>
+<p><strong>这是耦合最深、也最值得关注的案例。</strong> Omarchy 是 DHH 做的 Arch 衍生发行版，它把 AI agent 当作<strong>一等公民</strong>来设计。</p>
+<p>出处：<a href="https://omarchy.org/manual/ai/">https://omarchy.org/manual/ai/</a> <code>[官方]</code></p>
+<p><strong>它做了什么</strong>：</p>
+<ol>
+<li><p><strong>预置 13 种 agent CLI</strong>，全部以 mise 懒加载 stub 的形式放在 <code>~/.local/bin/</code>，首次运行时才下载：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>Agent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>claude</code></td>
+<td>Claude Code</td>
+</tr>
+<tr>
+<td><code>codex</code></td>
+<td>OpenAI Codex</td>
+</tr>
+<tr>
+<td><code>opencode</code></td>
+<td>OpenCode</td>
+</tr>
+<tr>
+<td><code>agy</code></td>
+<td>Google Antigravity CLI</td>
+</tr>
+<tr>
+<td><code>copilot</code></td>
+<td>GitHub Copilot CLI</td>
+</tr>
+<tr>
+<td><code>crush</code></td>
+<td>Charmbracelet Crush</td>
+</tr>
+<tr>
+<td><code>grok</code></td>
+<td>xAI Grok Build</td>
+</tr>
+<tr>
+<td><code>pi</code></td>
+<td>Mario Zechner&#39;s Pi</td>
+</tr>
+<tr>
+<td><code>omp</code></td>
+<td>Oh My Pi</td>
+</tr>
+<tr>
+<td><code>ori</code></td>
+<td>OpenRouter Ori</td>
+</tr>
+<tr>
+<td><code>hermes</code></td>
+<td>Nous Research Hermes</td>
+</tr>
+<tr>
+<td><code>muse</code></td>
+<td>Meta Muse Code</td>
+</tr>
+<tr>
+<td><code>cursor-agent</code></td>
+<td>Cursor CLI</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>「默认 agent」概念</strong>：<code>omarchy default agent &lt;name&gt;</code>，未安装则先装。<code>Super + Shift + Ctrl + A</code> 一键启动。</p>
+</li>
+<li><p><strong>系统事件自动派给 agent（最关键的一条）</strong>：</p>
+<blockquote>
+<p>Omarchy 监听 <code>systemd-coredump</code>。进程段错误时弹出「Process crashed」通知 —— <strong>点击后崩溃被交给你的默认 agent，附带 Omarchy 的 <code>diagnose-crash</code> skill</strong>，该 skill 引导 agent 从 core dump 建立事实、判断是否值得上报上游。</p>
+</blockquote>
+<p>也可手动：<code>omarchy agent crash &lt;pid&gt;</code>。</p>
+</li>
+<li><p><strong>官方 ship 一个 skill</strong>：<code>omarchy</code> skill 用于定制系统（改 Hyprland 配置、调状态栏、创建主题），并<strong>软链接进多个 harness 的 skill 目录</strong>：
+<code>~/.claude/skills</code>、<code>~/.codex/skills</code>、<code>~/.pi/agent/skills</code>、<code>~/.gemini/config/skills</code>、<code>~/.hermes/skills</code>、<code>~/.agents/skills</code></p>
+</li>
+<li><p><strong>Agents panel</strong>：顶栏图标，把每个订阅的用量（5 小时会话 / 周限额百分比）汇总在一页；支持多账号切换、自动切换（<code>omarchy agent account mode auto 90</code>）。</p>
+</li>
+<li><p><strong>官方明确的风险提示</strong>（原文）：</p>
+<blockquote>
+<p><em>&quot;But you should treat this skill as experimental... It&#39;s best to run in plan mode first... And then be ready to rollback changes or even invoking <code>omarchy reinstall configs</code>, if the agent makes a mess of everything.&quot;</em></p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p><strong>为什么它是最强的「协同管理」案例</strong>：不是把 AI 装进去，而是<strong>把系统的失败信号（崩溃）直接路由给 agent，并 ship 处理该信号所需的 skill</strong>。这是「操作系统把自己设计成 agent 的宿主」的第一个完整实现。</p>
+</blockquote>
+<hr>
+<h3>3.4 Project Bluefin（Universal Blue）—— 社区发行版里最激进（L1–L2）</h3>
+<p>Bluefin 是 Universal Blue 的云原生桌面发行版（<code>bootc</code> + <code>podman</code>）。它的 AI 战略写在官方文档里，措辞很明确。</p>
+<p>出处：<a href="https://docs.projectbluefin.io/ai/">https://docs.projectbluefin.io/ai/</a> <code>[官方]</code></p>
+<p><strong>官方定位原话</strong>：</p>
+<blockquote>
+<p><em>&quot;AI is an extension of cloud native&quot;</em> —— Bluefin 的 AI 重点是「为操作系统提供一个<strong>由用户控制的通用 API 端点</strong>」。</p>
+</blockquote>
+<p><strong>具体组成</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Goose</strong></td>
+<td>主接口（来自 Agentic AI Foundation），接本地或托管模型</td>
+</tr>
+<tr>
+<td><strong>llmman</strong></td>
+<td>本地模型管理，支持从 HuggingFace / Ollama / 任意容器仓库拉模型</td>
+</tr>
+<tr>
+<td><strong>Docker Model Runner</strong></td>
+<td>Docker 内置本地 LLM 服务，OpenAI 兼容端点 <code>localhost:12434</code></td>
+</tr>
+<tr>
+<td><strong>Alpaca</strong></td>
+<td>图形聊天客户端，绑定 <code>Ctrl+Alt+Backspace</code> 快启</td>
+</tr>
+<tr>
+<td><strong>RHEL Lightspeed 组件</strong></td>
+<td>官方称「与 RHEL Lightspeed 团队紧密合作，ship 他们的代码并反馈」</td>
+</tr>
+<tr>
+<td><strong>Bluespeed</strong></td>
+<td>同构实验场：多节点 AI/可观测基础设施（KubeStellar + Flatcar + Knuckle）</td>
+</tr>
+</tbody></table>
+<p><strong>MCP 端点</strong>：<code>mcp.projectbluefin.io</code>（托管，提供 <code>search_knowledge</code>、<code>get_factory_status</code> 等）</p>
+<ul>
+<li><code>bluefin-mcp</code> 仓库：<a href="https://github.com/projectbluefin/bluefin-mcp">https://github.com/projectbluefin/bluefin-mcp</a> <code>[仓库]</code> —— <strong>已归档</strong>，但托管端点在运营</li>
+</ul>
+<p><strong>官方哲学（原文）</strong>：</p>
+<blockquote>
+<p><em>&quot;Bluefin&#39;s AI integration will always be user controlled, with a focus on open source models and tools.&quot;</em></p>
+</blockquote>
+<blockquote>
+<p><strong>看点</strong>：Bluefin 是唯一<strong>直接复用 RHEL Lightspeed 代码</strong>的社区发行版。这形成了一个有趣的模式 —— 上游厂商做基础设施，社区发行版做集成与体验。</p>
+</blockquote>
+<hr>
+<h3>3.5 openSUSE / SUSE —— 唯一「可写」的官方系统 MCP（L3）</h3>
+<p><strong>这是本节技术含量最高的一个。</strong> <code>systemd-mcp</code> 由 openSUSE 官方维护。</p>
+<ul>
+<li>仓库：<a href="https://github.com/openSUSE/systemd-mcp">https://github.com/openSUSE/systemd-mcp</a> <code>[仓库]</code></li>
+<li>版本 0.3.5（2026-09-24），Go 编写，MIT</li>
+<li>已进 SUSE Package Hub</li>
+</ul>
+<p><strong>为什么它特别</strong>：<strong>直接连 systemd 的 C API，不需要 systemctl</strong>。</p>
+<p><strong>暴露的工具</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>list_units</code></td>
+<td>列单元，可按状态/模式过滤，<code>mode=&#39;files&#39;</code> 列所有已安装单元文件</td>
+</tr>
+<tr>
+<td><code>change_unit_state</code></td>
+<td><strong>启停/重启/reload/enable/disable</strong> ← 唯一的写操作</td>
+</tr>
+<tr>
+<td><code>check_restart_reload</code></td>
+<td>检查 restart/reload 任务状态</td>
+</tr>
+<tr>
+<td><code>list_log</code></td>
+<td>读服务日志</td>
+</tr>
+<tr>
+<td><code>get_file</code></td>
+<td>读系统文件（支持分页）</td>
+</tr>
+<tr>
+<td><code>get_man_page</code></td>
+<td>取 man page（支持按章节过滤、分页）</td>
+</tr>
+</tbody></table>
+<p><strong>授权设计（值得学习）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>传输方式</th>
+<th>授权机制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Stdio</strong>（默认）</td>
+<td>polkit。读操作总是放行（调用者自己跑这个 server）；<strong>只有写操作触发 polkit 请求</strong> <code>org.freedesktop.systemd1.manage-units</code></td>
+</tr>
+<tr>
+<td><strong>HTTP</strong></td>
+<td>OAuth2。Scope 分 <code>mcp:read</code> / <code>mcp:write</code>，audience <code>systemd-mcp-server</code></td>
+</tr>
+</tbody></table>
+<p><strong>日志访问的三级降级</strong>：root 或同 journal 组 → 直读；否则连 <code>gatekeeper</code>（触发 polkit <code>com.suse.gatekeeper.readlog</code>）；gatekeeper 不可用 → 只读当前用户自己的 journal。</p>
+<p><strong>默认只读</strong>：<code>--allow-write</code> 必须显式开启。</p>
+<blockquote>
+<p><strong>为什么这是 L3 的样板</strong>：它证明了「让 agent 写系统」可以做得既强大又安全 —— 靠的不是祈祷，而是 <strong>polkit + OAuth2 + 默认关闭写权限 + 权限分级降级</strong>。</p>
+</blockquote>
+<hr>
+<h3>3.6 中国发行版：Deepin / 统信 UOS / openKylin（L0–L3）</h3>
+<p>把 AI 助手<strong>做进桌面系统本身</strong>，这是中国发行版的共同路线。</p>
+<table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>实现</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>统信 UOS</strong></td>
+<td>UOS AI 3.0「小U同学」，<strong>含 MCP 生态</strong></td>
+<td><a href="https://uniontech.com/news-info/2689.html">https://uniontech.com/news-info/2689.html</a> <code>[官方]</code></td>
+</tr>
+<tr>
+<td><strong>deepin</strong></td>
+<td>deepin 25 内置 UOS AI</td>
+<td><a href="https://deepin.org.cn/en/deepin-25">https://deepin.org.cn/en/deepin-25</a> <code>[官方]</code></td>
+</tr>
+<tr>
+<td><strong>openKylin</strong></td>
+<td>3.0 内置<strong>系统级 MCP 智能体 KylinBot</strong></td>
+<td><a href="https://openkylin.top/news/4073-cn.html">https://openkylin.top/news/4073-cn.html</a> <code>[官方]</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>看点</strong>：openKylin 明确用了「<strong>系统级 MCP 智能体</strong>」这个措辞，说明 MCP 在中国发行版里已被当作系统架构的一部分，而非外挂工具。这一块英文社区报道极少，是被低估的方向。</p>
+</blockquote>
+<hr>
+<h3>3.7 明确「没有」的发行版</h3>
+<table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>核实结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Canonical / Ubuntu</strong></td>
+<td><strong>未找到任何官方 MCP</strong>。Snap 上的 <code>mcp-juju</code> 发布者是个人（非官方）。Ubuntu 26.04 的 AI 工作是「原生 CUDA/ROCm 支持」，属工具链而非运维协同</td>
+</tr>
+<tr>
+<td><strong>Debian</strong></td>
+<td>未找到官方；仅社区 <code>apt-mcp</code>（6★）</td>
+</tr>
+<tr>
+<td><strong>Fedora</strong></td>
+<td>官方无 MCP，有 AI/ML SIG；但<strong>官方杂志在推广 Red Hat 的 linux-mcp-server</strong></td>
+</tr>
+<tr>
+<td><strong>Arch Linux</strong></td>
+<td>官方无 MCP；社区有 <code>nihalxkumar/arch-mcp</code>（59★，查 Wiki/仓库/AUR）</td>
+</tr>
+<tr>
+<td><strong>CachyOS / Garuda / EndeavourOS / Nobara</strong></td>
+<td>未找到任何 AI/MCP 实践</td>
+</tr>
+<tr>
+<td><strong>Guix / Alpine / Void / Chimera</strong></td>
+<td>未找到官方</td>
+</tr>
+<tr>
+<td><strong>Talos / Kairos</strong></td>
+<td>Kairos 文档称内置 MCP server；Talos 有社区 <code>Nosmoht/talos-mcp-server</code>（4★）</td>
+</tr>
+</tbody></table>
+<p><strong>值得注意的反差</strong>：Ubuntu 和 Debian —— 全球用户量最大的两个发行版 —— <strong>在这个方向上完全缺席</strong>。而 Red Hat 和 openSUSE 这两个企业级发行版反而是最积极的。这说明推动力来自<strong>企业运维成本</strong>，而非桌面用户体验。</p>
+<hr>
+<h3>3.8 反向案例：Pop!_OS / COSMIC 明令禁止 AI 生成代码</h3>
+<p><strong>2026-10-04</strong>，System76 更新了 COSMIC 桌面项目的 PR 模板，新增强制清单，<strong>明确禁止提交任何由 AI 生成的代码、注释或描述</strong>。贡献者必须在 PR 里自证「本贡献包含零 AI 生成内容」。</p>
+<p>出处（多家媒体一致）：<a href="https://www.explainx.ai/blog/cosmic-desktop-bans-ai-generated-code-system76-pop-os-2026">https://www.explainx.ai/blog/cosmic-desktop-bans-ai-generated-code-system76-pop-os-2026</a> <code>[二手]</code></p>
+<p><strong>这与 Arch 的做法形成有趣的对比</strong> —— Arch 的 <code>archinstall</code> 没有禁止，而是<strong>要求披露 + 要求理解</strong>。原文（已逐字核实）：</p>
+<blockquote>
+<p><em>&quot;The archinstall project is not anti-AI, but a growing number of low-effort, AI-generated contributions waste maintainers&#39; time.&quot;</em></p>
+<ul>
+<li><strong>Disclose all AI usage.</strong>（PR、issue、评论都要声明用了什么工具、用在哪些部分）</li>
+<li><strong>Understand your changes.</strong>（必须完全理解每一处改动，能在 review 中解释）</li>
+<li><strong>Review and edit before posting.</strong></li>
+<li><strong>Low-effort AI submissions will be rejected.</strong>（未审阅、作者不理解、AI 灌水的会被直接关闭，相关账号可能被封禁）</li>
+<li><strong>Human attention requires human effort.</strong></li>
+</ul>
+</blockquote>
+<p>出处：<a href="https://github.com/archlinux/archinstall/blob/master/AI_POLICY.md">https://github.com/archlinux/archinstall/blob/master/AI_POLICY.md</a> <code>[仓库]</code>（已逐字核实）</p>
+<blockquote>
+<p><strong>这两个案例说明</strong>：发行版社区对 AI 的分歧不在「用不用」，而在「<strong>谁为结果负责</strong>」。Arch 的答案是「用可以，但你必须懂」；COSMIC 的答案是「我们不想审」。<strong>任何想在这类社区落地的 AI 运维工具，都必须先回答这个问题。</strong></p>
+</blockquote>
+<hr>
+<h2 id="sec-4">四、Skills / MCP 目录站盘点</h2>
+<h3>4.1 skills.sh —— Vercel Labs 运营的开放 Agent Skills 目录</h3>
+<ul>
+<li>定位：<em>&quot;The Agent Skills Directory&quot;</em>，开放 Agent Skills 生态</li>
+<li>规模：<strong>1,283,962</strong> skills（All Time）</li>
+<li>安装：<code>npx skills add &lt;owner/repo&gt;</code></li>
+<li>运营方：<strong>Vercel Labs</strong>（<code>vercel-labs/skills</code> 的 <code>find-skills</code> 居榜首，380 万安装）</li>
+<li>Anthropic 官方 <code>anthropics/skills</code>（21 个）也在其中</li>
+</ul>
+<p><strong>与发行版运维相关的 skill —— 全部来自同一个仓库</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>owner</th>
+<th>功能</th>
+<th>安装量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nixos</code></td>
+<td>iuliandita/skills</td>
+<td>NixOS/Nix/Flakes 声明式管理、home-manager、overlays、GC、Lix/Determinate 分支</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>debian-ubuntu</code></td>
+<td>iuliandita/skills</td>
+<td>Debian/Ubuntu/Mint/Pop!_OS/Devuan、PPA、snap、HWE</td>
+<td><strong>138</strong></td>
+</tr>
+<tr>
+<td><code>rhel-fedora</code></td>
+<td>iuliandita/skills</td>
+<td>Fedora/RHEL/Rocky/Alma/SELinux/firewalld</td>
+<td>40</td>
+</tr>
+<tr>
+<td><code>arch-linux</code></td>
+<td>iuliandita/skills</td>
+<td>Arch/CachyOS、paru、boot 恢复</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>kali-linux</code></td>
+<td>iuliandita/skills</td>
+<td>Kali 运维</td>
+<td>51</td>
+</tr>
+<tr>
+<td><code>ansible</code></td>
+<td>iuliandita/skills</td>
+<td>生产级配置管理、CIS/PCI 合规</td>
+<td>45</td>
+</tr>
+<tr>
+<td><code>opnsense-pfsense</code></td>
+<td>iuliandita/skills</td>
+<td>FreeBSD/pf 防火墙发行版</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>shell-scripting</code></td>
+<td>iuliandita/skills</td>
+<td>按目标 shell 写脚本/dotfiles</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p><strong>结论</strong>：skills.sh 上<strong>发行版运维 skill 只有一个人在系统性做</strong>（<code>iuliandita/skills</code>），而且安装量极低（最高的 <code>debian-ubuntu</code> 只有 138）。整个站点 128 万个 skill 里，发行版运维是绝对的边缘。</p>
+<p><strong>⚠️ 核实限制</strong>：skills.sh 的搜索页为纯 JS 渲染，本次通过搜索引擎交叉定位后逐页核实，<strong>不能保证已穷尽</strong>。</p>
+<hr>
+<h3>4.2 clawhub.ai —— OpenClaw 的技能与插件中心</h3>
+<ul>
+<li>定位：OpenClaw（开源、可自托管的 AI Agent 框架，原 Clawdbot→Moltbot→OpenClaw，MIT）的官方公共注册表</li>
+<li>口号：<em>&quot;Claws for your Claws&quot;</em></li>
+<li>规模：<strong>13,000+ 技能</strong></li>
+<li>发布：<code>npm i -g clawhub</code> → <code>clawhub skill publish ./my-skill</code></li>
+<li>与 Anthropic 无隶属关系</li>
+</ul>
+<p><strong>与系统运维相关的条目（比 skills.sh 丰富得多）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>owner</th>
+<th>功能</th>
+<th>热度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cron-scheduling</code></td>
+<td>gitgoodordietrying</td>
+<td>cron 与 systemd timer</td>
+<td>10.9k</td>
+</tr>
+<tr>
+<td><code>linux</code></td>
+<td>ivangdavila</td>
+<td>权限加固、磁盘满、OOM、卡死排查</td>
+<td>6.6k</td>
+</tr>
+<tr>
+<td><code>linux-service-triage</code></td>
+<td>kowl64</td>
+<td>日志 + systemd/PM2 服务排障</td>
+<td>6.5k</td>
+</tr>
+<tr>
+<td><code>proxmox</code></td>
+<td>weird-aftertaste</td>
+<td>Proxmox VE 集群 REST 管理</td>
+<td>4.9k</td>
+</tr>
+<tr>
+<td><code>sysadmin</code></td>
+<td>ivangdavila</td>
+<td>用户/进程/存储/服务管理</td>
+<td>4.3k</td>
+</tr>
+<tr>
+<td><code>ansible</code></td>
+<td>ivangdavila</td>
+<td>Ansible 常见坑</td>
+<td>3.4k</td>
+</tr>
+<tr>
+<td><code>nix-mode</code></td>
+<td>chronicuser21</td>
+<td>Clawdbot 的 Nix 模式配置</td>
+<td>2.6k</td>
+</tr>
+<tr>
+<td><code>systemd</code></td>
+<td>ckchzh</td>
+<td>systemd 参考工具</td>
+<td>2.3k</td>
+</tr>
+<tr>
+<td><code>linux-kernel-crash-debug</code></td>
+<td>crazyss</td>
+<td>vmcore/crash 分析内核崩溃</td>
+<td>2.2k</td>
+</tr>
+<tr>
+<td><code>vps</code></td>
+<td>ivangdavila</td>
+<td>VPS 选型到运维</td>
+<td>2.1k</td>
+</tr>
+<tr>
+<td><code>kernel</code></td>
+<td>ivangdavila</td>
+<td>内核常见错误规避</td>
+<td>1.5k</td>
+</tr>
+<tr>
+<td><code>linux-firewall-hardening</code></td>
+<td>discovery219</td>
+<td>幂等防火墙加固</td>
+<td>1.3k</td>
+</tr>
+<tr>
+<td><code>linux-sysadmin</code></td>
+<td>husttsq</td>
+<td>用户/SSH/存储/网络/systemd/防火墙/Ansible/IaC</td>
+<td>1.2k</td>
+</tr>
+<tr>
+<td><code>systemd-unit-generator</code></td>
+<td>charlie-morrison</td>
+<td>生成/校验/lint unit 文件</td>
+<td>1.1k</td>
+</tr>
+<tr>
+<td><code>ubuntu-encyclopedia</code></td>
+<td>kklouzal</td>
+<td>Ubuntu 文档优先工作流</td>
+<td>951</td>
+</tr>
+<tr>
+<td><code>container-gaming</code></td>
+<td>silverod</td>
+<td>Podman/Distrobox/Flatpak 容器化游戏环境</td>
+<td>796</td>
+</tr>
+<tr>
+<td><code>nix-run</code></td>
+<td>msdimos</td>
+<td>借 Nix 执行任意命令</td>
+<td>773</td>
+</tr>
+<tr>
+<td><code>nixomatic</code></td>
+<td>ereslibre</td>
+<td>不改系统临时运行软件</td>
+<td>405</td>
+</tr>
+</tbody></table>
+<p><strong>⚠️ 关键发现</strong>：<strong>clawhub 上搜 <code>nixos</code> 返回「No skills found」</strong>。仅有的 Nix 类 skill（<code>nix-mode</code> / <code>nix-run</code> / <code>nixomatic</code>）都不是发行版运维，而是「借 Nix 跑命令」或 OpenClaw 自身的配置。</p>
+<hr>
+<h3>4.3 两站对比与缺口</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>skills.sh</th>
+<th>clawhub.ai</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>运营方</td>
+<td>Vercel Labs</td>
+<td>OpenClaw（Peter Steinberger）</td>
+</tr>
+<tr>
+<td>规模</td>
+<td>128 万</td>
+<td>1.3 万</td>
+</tr>
+<tr>
+<td>安装方式</td>
+<td><code>npx skills add &lt;owner/repo&gt;</code></td>
+<td><code>npm i -g clawhub</code></td>
+</tr>
+<tr>
+<td>系统运维内容</td>
+<td><strong>极贫瘠</strong>（1 个 owner）</td>
+<td><strong>丰富但碎片化</strong></td>
+</tr>
+<tr>
+<td>NixOS 内容</td>
+<td>1 个 skill（2 安装）</td>
+<td><strong>零结果</strong></td>
+</tr>
+<tr>
+<td>内容关系</td>
+<td>—</td>
+<td>clawhub 会镜像 skills.sh 条目（标注 External source）</td>
+</tr>
+</tbody></table>
+<p><strong>三个缺口（这是本节最重要的结论）</strong>：</p>
+<ol>
+<li><strong>NixOS 在 clawhub 上完全空白</strong> —— 而 NixOS 恰恰是最适合 agent 的发行版。这个错配说明<strong>能力存在，但没被封装成可分发的 skill</strong>。</li>
+<li><strong>两站的运维 skill 都偏「agent 主机自身」</strong>（OpenClaw 加固、VPS 安全），而非<strong>通用发行版日常运维</strong>。</li>
+<li><strong>没有「发行版文档检索」类 skill</strong>（把 man / wiki / 官方文档做成 RAG），这恰好是 Red Hat 和 Bluefin 用 MCP 在做的事 —— <strong>说明 MCP 更适合这个场景，skill 不适合</strong>。</li>
+</ol>
+<hr>
+<h2 id="sec-5">五、OS 管理类 MCP 全清单</h2>
+<h3>厂商官方</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>仓库</th>
+<th>归属</th>
+<th>功能</th>
+<th>状态</th>
+<th>读写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Linux MCP Server</strong></td>
+<td><a href="https://github.com/rhel-lightspeed/linux-mcp-server">https://github.com/rhel-lightspeed/linux-mcp-server</a></td>
+<td><strong>Red Hat 官方</strong></td>
+<td>只读系统管理、诊断、排障</td>
+<td>317★，2026-10-10</td>
+<td><strong>只读</strong></td>
+</tr>
+<tr>
+<td><strong>systemd-mcp</strong></td>
+<td><a href="https://github.com/openSUSE/systemd-mcp">https://github.com/openSUSE/systemd-mcp</a></td>
+<td><strong>openSUSE 官方</strong></td>
+<td>直连 systemd C API：单元管理、日志、man page</td>
+<td>0.3.5，2026-09-24，MIT</td>
+<td><strong>可写</strong>（polkit/OAuth）</td>
+</tr>
+<tr>
+<td>kubernetes-mcp-server</td>
+<td><a href="https://github.com/containers/kubernetes-mcp-server">https://github.com/containers/kubernetes-mcp-server</a></td>
+<td>containers 组织</td>
+<td>K8s/OpenShift 读写</td>
+<td>2153★，2026-10-08</td>
+<td>可写</td>
+</tr>
+<tr>
+<td>Terraform MCP Server</td>
+<td><a href="https://github.com/hashicorp/terraform-mcp-server">https://github.com/hashicorp/terraform-mcp-server</a></td>
+<td>HashiCorp 官方</td>
+<td>查 Registry / HCP</td>
+<td>1547★，2026-10-08</td>
+<td>以只读为主</td>
+</tr>
+<tr>
+<td>Docker MCP Gateway</td>
+<td><a href="https://github.com/docker/mcp-gateway">https://github.com/docker/mcp-gateway</a></td>
+<td>Docker 官方</td>
+<td>容器化安全运行 MCP server</td>
+<td>1593★，2026-09-16</td>
+<td>管理类</td>
+</tr>
+<tr>
+<td>Ansible MCP Server</td>
+<td>AAP 2.6+ 内建</td>
+<td><strong>Red Hat 官方</strong></td>
+<td>作业/清单操作</td>
+<td>随 AAP 发布</td>
+<td>只读，可选开写</td>
+</tr>
+</tbody></table>
+<h3>社区活跃</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>仓库</th>
+<th>功能</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mcp-nixos</strong></td>
+<td><a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a></td>
+<td>NixOS 包/选项/Home Manager/flake</td>
+<td>853★，已进 nixpkgs</td>
+</tr>
+<tr>
+<td><strong>nix-agent</strong></td>
+<td><a href="https://github.com/JEFF7712/nix-agent">https://github.com/JEFF7712/nix-agent</a></td>
+<td>NixOS/Home Manager <strong>build / diff / switch</strong></td>
+<td>活跃</td>
+</tr>
+<tr>
+<td>Podman MCP Server</td>
+<td><a href="https://github.com/manusa/podman-mcp-server">https://github.com/manusa/podman-mcp-server</a></td>
+<td>Podman/Docker 容器管理</td>
+<td>84★</td>
+</tr>
+<tr>
+<td>arch-mcp</td>
+<td><a href="https://github.com/nihalxkumar/arch-mcp">https://github.com/nihalxkumar/arch-mcp</a></td>
+<td>Arch Wiki / 仓库 / AUR</td>
+<td>59★</td>
+</tr>
+<tr>
+<td>apt-mcp-server</td>
+<td><a href="https://github.com/GdMacmillan/apt-mcp-server">https://github.com/GdMacmillan/apt-mcp-server</a></td>
+<td>Debian/Ubuntu apt</td>
+<td>6★</td>
+</tr>
+<tr>
+<td>cockpit-mcp</td>
+<td><a href="https://github.com/mslacken/cockpit-mcp">https://github.com/mslacken/cockpit-mcp</a></td>
+<td>驱动 Cockpit</td>
+<td>0★，2026-10-09</td>
+</tr>
+<tr>
+<td>talos-mcp-server</td>
+<td><a href="https://github.com/Nosmoht/talos-mcp-server">https://github.com/Nosmoht/talos-mcp-server</a></td>
+<td>Talos Linux</td>
+<td>4★</td>
+</tr>
+<tr>
+<td>mcp-nix</td>
+<td><a href="https://github.com/felixdorn/mcp-nix">https://github.com/felixdorn/mcp-nix</a></td>
+<td>聚合 Noogle/NixHub</td>
+<td>7★</td>
+</tr>
+</tbody></table>
+<h3>实验性</h3>
+<p><code>journald-mcp-server</code>、<code>mcp-journal</code>、<code>hwprobe-mcp</code>、<code>sysprobe-mcp</code>、<code>apt-mcp</code>、<code>suse-mcp</code>、<code>mcp-nixos-den</code> —— 均 0–1★，视作实验性。</p>
+<p><strong>⚠️ 注意</strong>：名为 <code>ansible/ansible-mcp-server</code> 的仓库<strong>不存在</strong>（GitHub 返回 404）。官方 Ansible MCP 走 AAP 与 Ansible Dev Tools。</p>
+<hr>
+<h2 id="sec-6">六、社区态度与反对意见</h2>
+<h3>6.1 平台覆盖情况</h3>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>覆盖</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NixOS Discourse</td>
+<td>✅ 充分</td>
+<td>生态最活跃，且有官方治理讨论</td>
+</tr>
+<tr>
+<td>Arch BBS</td>
+<td>✅</td>
+<td>官方政策 + 长帖争论</td>
+</tr>
+<tr>
+<td>Hacker News</td>
+<td>✅</td>
+<td>帖子存在但<strong>热度极低</strong>（多为 1–8 分）</td>
+</tr>
+<tr>
+<td>厂商博客</td>
+<td>✅</td>
+<td>Red Hat 一家独大</td>
+</tr>
+<tr>
+<td><strong>Reddit</strong></td>
+<td>❌ <strong>未能核实</strong></td>
+<td>本次调研中 Reddit 被网络策略拦截（<code>old.reddit.com</code> 返回 &quot;Blocked&quot;）。<strong>不编造帖子标题</strong></td>
+</tr>
+</tbody></table>
+<h3>6.2 反对意见（均有据）</h3>
+<table>
+<thead>
+<tr>
+<th>意见</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>安全</strong>：<em>&quot;反对的理由不是纯粹性而是安全：当 slop coder 拿到 LLM 输出『能跑』就发布，而自己不懂代码在干什么，潜在危害不可估量&quot;</em></td>
+<td>Arch BBS，Trilby，<a href="https://bbs.archlinux.org/viewtopic.php?id=314112">https://bbs.archlinux.org/viewtopic.php?id=314112</a> <code>[社区]</code></td>
+</tr>
+<tr>
+<td><strong>许可证</strong>：真正的问题是「若模型在版权或非兼容许可代码上训练，其输出可能不合法」</td>
+<td>同帖，papajoke <code>[社区]</code></td>
+</tr>
+<tr>
+<td><strong>可复现性与信任</strong>：审阅者称无法信任 LLM 生成的 PR 描述（「文字墙」消耗维护者时间）</td>
+<td><a href="https://discourse.nixos.org/t/79736">https://discourse.nixos.org/t/79736</a> <code>[社区]</code></td>
+</tr>
+<tr>
+<td><strong>幻觉风险</strong>：<code>mcp-nixos</code> 的存在本身就是证据 —— 它的目的就是「阻止 AI 幻觉出包与选项」</td>
+<td><a href="https://discourse.nixos.org/t/62640">https://discourse.nixos.org/t/62640</a> <code>[社区]</code></td>
+</tr>
+<tr>
+<td><strong>社区文化</strong>：NixOS 官方版主定调「本论坛供人类交流」；Arch BBS 原帖作者结论是「该社区对反 AI 目标甚至相当敌视」</td>
+<td>见上 <code>[社区]</code></td>
+</tr>
+</tbody></table>
+<h3>6.3 事故记录</h3>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI agent 事故库（删生产库、清文件系统、编造数据）</td>
+<td><a href="https://github.com/LaureanoPacheco/ai-agent-incidents">https://github.com/LaureanoPacheco/ai-agent-incidents</a> <code>[仓库]</code></td>
+</tr>
+<tr>
+<td>Claude Code 在 103 秒内误删 48,218 个文件</td>
+<td><a href="https://www.androidheadlines.com/2026/09/claude-code-ai-agent-deletes-48000-files-in-103-seconds.html">https://www.androidheadlines.com/2026/09/claude-code-ai-agent-deletes-48000-files-in-103-seconds.html</a> <code>[二手]</code></td>
+</tr>
+</tbody></table>
+<p><strong>⚠️ 重要限定</strong>：这些是<strong>通用编码/运维 agent 的事故</strong>，本次调研<strong>未找到</strong>任何「AI 协同管理某个发行版配置」导致的官方事故报告。</p>
+<p><strong>而这恰好解释了整个行业的设计选择</strong>：</p>
+<ul>
+<li>Red Hat 坚持<strong>只读</strong></li>
+<li>NixOS 社区坚持「<strong>提 patch 不直改</strong>」（Agentix 的核心设计）</li>
+<li>openSUSE 坚持<strong>默认关闭写权限</strong> + polkit/OAuth 授权</li>
+<li>Omarchy 虽然最激进，但官方文档明确要求「准备好回滚」</li>
+</ul>
+<p><strong>没有人敢做「agent 全权管理」。所有人都在同一个位置设了刹车。</strong></p>
+<hr>
+<h2 id="sec-7">七、结论与建议</h2>
+<h3>7.1 谁最强？</h3>
+<table>
+<thead>
+<tr>
+<th>问的是什么</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>最成熟的<strong>厂商级</strong>实践</td>
+<td><strong>Red Hat / RHEL</strong></td>
+</tr>
+<tr>
+<td>最丰富的<strong>社区生态</strong></td>
+<td><strong>NixOS</strong></td>
+</tr>
+<tr>
+<td>耦合最深的<strong>发行版设计</strong></td>
+<td><strong>Omarchy</strong></td>
+</tr>
+<tr>
+<td>最完整的<strong>可写 + 授权</strong>方案</td>
+<td><strong>openSUSE <code>systemd-mcp</code></strong></td>
+</tr>
+<tr>
+<td>最激进的<strong>社区发行版</strong></td>
+<td><strong>Project Bluefin</strong></td>
+</tr>
+<tr>
+<td>最被低估的</td>
+<td><strong>中国发行版（UOS / openKylin）</strong></td>
+</tr>
+<tr>
+<td>最意外的缺席</td>
+<td><strong>Canonical/Ubuntu、Debian</strong></td>
+</tr>
+</tbody></table>
+<h3>7.2 分场景建议</h3>
+<p><strong>如果你要管理服务器（RHEL 系）</strong>
+→ <code>rhel-lightspeed/linux-mcp-server</code>（只读诊断）+ AAP MCP（自动化）。这是唯一有官方文档与安全边界的组合。</p>
+<p><strong>如果你要管理任何 Linux 的服务层</strong>
+→ <code>openSUSE/systemd-mcp</code>。它不绑发行版，直连 systemd C API，默认只读，需要写时用 <code>--allow-write</code> + polkit。</p>
+<p><strong>如果你管 NixOS</strong>
+→ <code>mcp-nixos</code>（防幻觉，查选项）+ <code>nix-agent</code>（build/diff/switch）+ 自建「dry-build 闸门」。<strong>别用 Agentix 那种外挂式工具</strong> —— 社区已经用脚投票了，不符合 Nix 工程标准的会被质疑。</p>
+<p><strong>如果你在做发行版或想贡献</strong>
+→ <strong>最大的空白在这里</strong>：<code>clawhub.ai</code> 搜 <code>nixos</code> 零结果；<code>skills.sh</code> 上发行版运维 skill 只有一个人在做。<strong>把发行版文档 + 选项 + 故障模式封装成 skill 或 MCP，是明显未被占据的位置。</strong></p>
+<h3>7.3 三条可迁移的规律</h3>
+<ol>
+<li><strong>只读先行。</strong> 所有能活下来的项目都从只读开始。可写是后来加的，而且要过 polkit/OAuth/审批。</li>
+<li><strong>防幻觉优先于自动化。</strong> <code>mcp-nixos</code> 的定位就是「别让 AI 编选项名」。在发行版场景里，<strong>准确性比能力更重要</strong> —— 因为配置写错的代价是系统起不来。</li>
+<li><strong>交付方式必须符合社区标准。</strong> Agentix 被批评「做 NixOS 工具却不给 Nix 安装方式」，这条批评比技术问题更致命。<strong>在 NixOS 上就要用 Nix 交付，在 Arch 上就要走 AUR。</strong></li>
+</ol>
+<hr>
+<h2 id="sec-8">八、出处汇总</h2>
+<p><strong>厂商官方</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Red Hat Linux MCP Server</td>
+<td><a href="https://github.com/rhel-lightspeed/linux-mcp-server">https://github.com/rhel-lightspeed/linux-mcp-server</a></td>
+</tr>
+<tr>
+<td>Red Hat Linux MCP Server 文档站</td>
+<td><a href="https://rhel-lightspeed.github.io/linux-mcp-server/">https://rhel-lightspeed.github.io/linux-mcp-server/</a></td>
+</tr>
+<tr>
+<td>Red Hat 官方博客（2026-10-08）</td>
+<td><a href="https://developers.redhat.com/articles/2026/10/08/manage-rhel-mcp-servers-and-red-hat-lightspeed">https://developers.redhat.com/articles/2026/10/08/manage-rhel-mcp-servers-and-red-hat-lightspeed</a></td>
+</tr>
+<tr>
+<td>RHEL MCP 开发者预览公告</td>
+<td><a href="https://www.redhat.com/en/blog/smarter-troubleshooting-new-mcp-server-red-hat-enterprise-linux-now-developer-preview">https://www.redhat.com/en/blog/smarter-troubleshooting-new-mcp-server-red-hat-enterprise-linux-now-developer-preview</a></td>
+</tr>
+<tr>
+<td>openSUSE systemd-mcp</td>
+<td><a href="https://github.com/openSUSE/systemd-mcp">https://github.com/openSUSE/systemd-mcp</a></td>
+</tr>
+<tr>
+<td>Bluefin AI 文档</td>
+<td><a href="https://docs.projectbluefin.io/ai/">https://docs.projectbluefin.io/ai/</a></td>
+</tr>
+<tr>
+<td>Bluefin MCP（已归档）</td>
+<td><a href="https://github.com/projectbluefin/bluefin-mcp">https://github.com/projectbluefin/bluefin-mcp</a></td>
+</tr>
+<tr>
+<td>Bluespeed</td>
+<td><a href="https://github.com/projectbluefin/bluespeed">https://github.com/projectbluefin/bluespeed</a></td>
+</tr>
+<tr>
+<td>Omarchy AI 手册</td>
+<td><a href="https://omarchy.org/manual/ai/">https://omarchy.org/manual/ai/</a></td>
+</tr>
+<tr>
+<td>统信 UOS AI 3.0</td>
+<td><a href="https://uniontech.com/news-info/2689.html">https://uniontech.com/news-info/2689.html</a></td>
+</tr>
+<tr>
+<td>deepin 25</td>
+<td><a href="https://deepin.org.cn/en/deepin-25">https://deepin.org.cn/en/deepin-25</a></td>
+</tr>
+<tr>
+<td>openKylin KylinBot</td>
+<td><a href="https://openkylin.top/news/4073-cn.html">https://openkylin.top/news/4073-cn.html</a></td>
+</tr>
+<tr>
+<td>archinstall AI 政策</td>
+<td><a href="https://github.com/archlinux/archinstall/blob/master/AI_POLICY.md">https://github.com/archlinux/archinstall/blob/master/AI_POLICY.md</a></td>
+</tr>
+</tbody></table>
+<p><strong>社区与生态</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MCP-NixOS 自荐帖</td>
+<td><a href="https://discourse.nixos.org/t/62640">https://discourse.nixos.org/t/62640</a></td>
+</tr>
+<tr>
+<td>Agentix 控制层</td>
+<td><a href="https://discourse.nixos.org/t/77419">https://discourse.nixos.org/t/77419</a></td>
+</tr>
+<tr>
+<td>Agentix 仓库</td>
+<td><a href="https://github.com/Beach-Bum/Agentix">https://github.com/Beach-Bum/Agentix</a></td>
+</tr>
+<tr>
+<td>NixOS Discourse LLM 政策</td>
+<td><a href="https://discourse.nixos.org/t/78302">https://discourse.nixos.org/t/78302</a></td>
+</tr>
+<tr>
+<td>NixOS 是否禁止 LLM PR 描述</td>
+<td><a href="https://discourse.nixos.org/t/79736">https://discourse.nixos.org/t/79736</a></td>
+</tr>
+<tr>
+<td>为 agent 写文档的提议</td>
+<td><a href="https://discourse.nixos.org/t/80179">https://discourse.nixos.org/t/80179</a></td>
+</tr>
+<tr>
+<td>Arch BBS AI 政策讨论</td>
+<td><a href="https://bbs.archlinux.org/viewtopic.php?id=314112">https://bbs.archlinux.org/viewtopic.php?id=314112</a></td>
+</tr>
+<tr>
+<td>nix-agent</td>
+<td><a href="https://github.com/JEFF7712/nix-agent">https://github.com/JEFF7712/nix-agent</a></td>
+</tr>
+<tr>
+<td>mcp-nixos</td>
+<td><a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a></td>
+</tr>
+<tr>
+<td>AI agent 事故库</td>
+<td><a href="https://github.com/LaureanoPacheco/ai-agent-incidents">https://github.com/LaureanoPacheco/ai-agent-incidents</a></td>
+</tr>
+</tbody></table>
+<p><strong>目录站</strong></p>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>skills.sh</td>
+<td><a href="https://www.skills.sh/">https://www.skills.sh/</a></td>
+</tr>
+<tr>
+<td>skills.sh · iuliandita nixos skill</td>
+<td><a href="https://www.skills.sh/iuliandita/skills/nixos">https://www.skills.sh/iuliandita/skills/nixos</a></td>
+</tr>
+<tr>
+<td>clawhub.ai</td>
+<td><a href="https://clawhub.ai/">https://clawhub.ai/</a></td>
+</tr>
+<tr>
+<td>clawhub · mcp-registry skill</td>
+<td><a href="https://clawhub.ai/mcpcentral-io/skills/mcp-registry">https://clawhub.ai/mcpcentral-io/skills/mcp-registry</a></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="sec-9">九、未核实 / 存疑项</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Reddit 讨论</strong></td>
+<td><strong>本次未能核实</strong> —— Reddit 被网络策略拦截（<code>old.reddit.com</code> 返回 Blocked）。本节相关结论改用 NixOS Discourse / Arch BBS / HN 替代，均为等效或更强的一手来源</td>
+</tr>
+<tr>
+<td>Hacker News 帖子热度</td>
+<td>相关帖子存在但分数极低（1–8 分），<strong>不足以代表社区共识</strong></td>
+</tr>
+<tr>
+<td>skills.sh 检索完整性</td>
+<td>该站搜索页为纯 JS 渲染，本次靠搜索引擎交叉定位后逐页核实，<strong>不能保证穷尽</strong></td>
+</tr>
+<tr>
+<td>clawhub.ai 技能总数「13,000+」</td>
+<td>来自第三方文章，未从站点本身核实</td>
+</tr>
+<tr>
+<td>COSMIC 禁止 AI 代码</td>
+<td>多家媒体一致（2026-10-04），但<strong>未找到 System76 官方公告原文</strong>，属 <code>[二手]</code></td>
+</tr>
+<tr>
+<td>Bluefin MCP 端点 <code>mcp.projectbluefin.io</code> 的具体工具集</td>
+<td>来自第三方 MCP 目录描述，<strong>未从 Bluefin 官方文档核实</strong></td>
+</tr>
+<tr>
+<td><code>bluefin-mcp</code> 归档原因</td>
+<td>未核实（仓库已归档，托管端点仍在运营）</td>
+</tr>
+<tr>
+<td>Fedora 是否计划推出自己的 MCP</td>
+<td>未找到任何官方计划</td>
+</tr>
+<tr>
+<td>Canonical 是否有未公开的 MCP 计划</td>
+<td>未找到公开信息；<strong>「未找到」不等于「不存在」</strong></td>
+</tr>
+<tr>
+<td>Kairos 内置 MCP server</td>
+<td>来自调研转述，<strong>未从 Kairos 官方文档逐字核实</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>报告版本 1.0 · 2026-10-12 · 所有结论均附可追溯来源；标注 <code>[未核实]</code> 者请勿直接采信</em></p>
+</main>
+</div>
+</body>
+</html>
