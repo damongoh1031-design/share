@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全球豪华火车旅行行程 — 深度调研报告</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#30363d;
+    --txt:#e6edf3; --dim:#9da7b3; --accent:#d4af37; --accent2:#e8c874;
+    --top:#c94f4f; --lux:#d4af37; --entry:#4a9d6e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:0 0 60px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  header{background:linear-gradient(135deg,#1a1f2e 0%,#2a2418 100%);border-bottom:2px solid var(--accent);padding:44px 0 32px;margin-bottom:32px}
+  h1{font-size:2.1em;font-weight:800;letter-spacing:.5px;margin-bottom:8px}
+  h1 .gold{color:var(--accent)}
+  .sub{color:var(--dim);font-size:.95em}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);color:var(--accent2);padding:4px 12px;border-radius:20px;font-size:.82em}
+  h2{font-size:1.35em;margin:40px 0 16px;padding-left:12px;border-left:4px solid var(--accent);color:var(--accent2)}
+  h3{font-size:1.08em;margin:24px 0 10px;color:var(--txt)}
+  .tldr{background:linear-gradient(135deg,#1b2130,#241f16);border:1px solid rgba(212,175,55,.3);border-radius:12px;padding:20px 24px;margin-bottom:8px}
+  .tldr .label{color:var(--accent);font-weight:700;font-size:.85em;letter-spacing:1px;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin:14px 0 26px;font-size:.86em;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:var(--accent2);text-align:left;padding:11px 10px;font-weight:600;border-bottom:2px solid var(--line);white-space:nowrap}
+  td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(212,175,55,.05)}
+  td:first-child{font-weight:600;color:#fff}
+  .t-top{color:var(--top);font-weight:700}
+  .t-lux{color:var(--lux);font-weight:700}
+  .t-entry{color:var(--entry);font-weight:700}
+  .badge{display:inline-block;padding:1px 8px;border-radius:4px;font-size:.85em;font-weight:600}
+  .b-top{background:rgba(201,79,79,.18);color:#ff8f8f}
+  .b-lux{background:rgba(212,175,55,.18);color:var(--accent2)}
+  .b-entry{background:rgba(74,157,110,.18);color:#7fd7a3}
+  .warn{background:rgba(201,79,79,.1);border-left:4px solid var(--top);border-radius:8px;padding:16px 20px;margin:20px 0}
+  .warn h3{color:#ff8f8f;margin-top:0}
+  .warn ol{padding-left:20px}
+  .warn li{margin:7px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:16px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:16px 18px}
+  .card h4{color:var(--accent2);font-size:.98em;margin-bottom:8px}
+  .card p{font-size:.86em;color:var(--dim)}
+  .card .picks{color:var(--txt);font-size:.88em;margin-top:6px}
+  code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-size:.88em;color:var(--accent2)}
+  .refs li{margin:6px 0;font-size:.88em}
+  .refs a{color:#6cb6ff;text-decoration:none}
+  .refs a:hover{text-decoration:underline}
+  .foot{color:var(--dim);font-size:.85em;margin-top:30px;padding-top:18px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>全球豪华火车旅行行程 <span class="gold">深度调研报告</span></h1>
+    <div class="sub">38 列旗舰豪华列车 · 覆盖七大洲 · 2026 年 4–10 月最新动态</div>
+    <div class="meta">
+      <span class="chip">调研日期 2026-10-13</span>
+      <span class="chip">38 列列车</span>
+      <span class="chip">28 字段 / 列</span>
+      <span class="chip">价格仅标档位</span>
+      <span class="chip">近 6 个月时效</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tldr">
+    <div class="label">一句话结论</div>
+    <p>全球豪华列车正处于 <strong>2024–2026 年的集中爆发期</strong>：Belmond、Accor、Arsenale 三大集团在欧美亚同时扩张；中国（金鹰丝路快车、新东方快车）、中东（沙漠之梦）、东南亚（SJourney）、北欧（Norient Express）首次拥有本土旗舰。入门门槛从日间观光（瑞士景观线）到顶级定制（SJourney 帝国套房、金鹰汉朝套房）跨度极大，<strong>顶级线路需提前 6–18 个月预订</strong>，日本三列（四季岛、七星、瑞风）仍为抽签制。</p>
+  </div>
+
+  <h2>一、欧洲（15 列）</h2>
+  <table>
+    <tr><th>列车</th><th>国家/地区</th><th>运营方</th><th>时长</th><th>档位</th><th>客量</th><th>2026 关键动态</th></tr>
+    <tr><td>Venice Simplon-Orient-Express</td><td>欧洲跨国</td><td>Belmond</td><td>1–5 晚</td><td><span class="badge b-top">顶级</span></td><td>100–130</td><td>2026年5月首航巴黎-阿马尔菲 3 晚新线（经庞贝，住 Caruso）；新增巴黎-摩纳哥线</td></tr>
+    <tr><td>Britannic Explorer</td><td>英国</td><td>Belmond</td><td>3/6 晚</td><td><span class="badge b-lux">豪华</span></td><td>36–40</td><td>2025年7月首航，英格兰/威尔士首列豪华卧铺；Simon Rogan 餐饮、Wildsmith Wellbeing Suite</td></tr>
+    <tr><td>Belmond British Pullman</td><td>英国</td><td>Belmond</td><td>一日游</td><td><span class="badge b-entry">入门</span></td><td>200+</td><td>2026年5月15日上线 Celia 私人餐车（Baz Luhrmann 设计，12 座，£15,000 起）</td></tr>
+    <tr><td>Belmond Royal Scotsman</td><td>苏格兰</td><td>Belmond</td><td>2–7 晚</td><td><span class="badge b-top">顶级</span></td><td>~40</td><td>2026年4–10月五条线；Taste of Highlands 2晚约£4,000起 → Grand Tour 7晚约£14,000起</td></tr>
+    <tr><td>Belmond Grand Hibernian</td><td>爱尔兰</td><td>Belmond</td><td>—</td><td>—</td><td>—</td><td><strong>已停运</strong>（2021年永久撤出爱尔兰），车底转用于 Britannic Explorer</td></tr>
+    <tr><td>La Dolce Vita Orient Express</td><td>意大利</td><td>Accor/Orient Express</td><td>1–5 晚</td><td><span class="badge b-lux">豪华</span></td><td>~62</td><td><strong>2026年10月22日首航伊斯坦布尔-罗马 5天4晚</strong>；Heinz Beck 三星餐饮、Dimorestudio 设计</td></tr>
+    <tr><td>Norient Express</td><td>挪威</td><td>Norient</td><td>6 天</td><td><span class="badge b-lux">豪华</span></td><td>小型</td><td>首航推迟至 <strong>2026 年秋</strong>；卑尔根-特隆赫姆 965km；纯电动</td></tr>
+    <tr><td>Golden Eagle Danube Express</td><td>中东欧</td><td>Golden Eagle</td><td>5–13 晚</td><td><span class="badge b-lux">豪华</span></td><td>50–60</td><td>12 条跨国线；新增西西里奥德赛（火车渡轮跨墨西拿海峡）；配英国注册医生随行</td></tr>
+    <tr><td>Transcantábrico Gran Lujo</td><td>西班牙</td><td>Renfe</td><td>4/8 天</td><td><span class="badge b-lux">豪华</span></td><td>28</td><td>12.82㎡ 套房（西班牙最大）；<strong>2026年€9,900起 → 2027年涨至€11,100起</strong></td></tr>
+    <tr><td>El Transcantábrico（经典版）</td><td>西班牙</td><td>Renfe</td><td>4/8 天</td><td><span class="badge b-lux">豪华</span></td><td>~54</td><td>1983年首航（西班牙首列豪华列车）</td></tr>
+    <tr><td>Al Andalus</td><td>西班牙</td><td>Renfe</td><td>7/11 天</td><td><span class="badge b-lux">豪华</span></td><td>~64</td><td>2027 季班次已公布；Gran Clase + Deluxe Suite 两档</td></tr>
+    <tr><td>Glacier Express（卓越舱）</td><td>瑞士</td><td>MGB</td><td>一日 ~8h</td><td><span class="badge b-entry">入门</span></td><td>20</td><td>卓越舱仅 20 座，强制订座费 CHF 590；2026年3月9–27日停运</td></tr>
+    <tr><td>Bernina Express</td><td>瑞士/意大利</td><td>RhB</td><td>一日</td><td><span class="badge b-entry">入门</span></td><td>32</td><td><strong>2026 季新增 Pullman Class 复古豪华档</strong>（含酒庄午餐，双人往返 CHF 249 起）</td></tr>
+    <tr><td>GoldenPass Express Prestige</td><td>瑞士</td><td>MOB</td><td>一日 3h15</td><td><span class="badge b-entry">入门</span></td><td>有限</td><td>世界首创可变轨距（无需换车）；含鱼子酱香槟加点</td></tr>
+    <tr><td>Golden Eagle Trans-Siberian</td><td>俄罗斯</td><td>Golden Eagle</td><td>15–21 天</td><td><span class="badge b-top">顶级</span></td><td>~120</td><td><strong>⚠️所有跨西伯利亚/蒙古班次无限期停运</strong>；2025年9月被 Arsenale 收购</td></tr>
+    <tr><td>TGV INOUI（TGV M）</td><td>法国</td><td>SNCF</td><td>数小时</td><td><span class="badge b-entry">入门</span></td><td>740 座</td><td>2026下半年投运；<strong>第五代单层</strong>（非双层），Le Bistro 双层餐吧</td></tr>
+  </table>
+
+  <h2>二、亚洲（11 列）</h2>
+  <table>
+    <tr><th>列车</th><th>国家/地区</th><th>运营方</th><th>时长</th><th>档位</th><th>客量</th><th>2026 关键动态</th></tr>
+    <tr><td>TRAIN SUITE 四季島</td><td>日本</td><td>JR 东日本</td><td>1–3 泊</td><td><span class="badge b-top">顶级</span></td><td>~34</td><td>桧木风吕套房；<strong>抽签制（倍率约 7 倍）</strong>；3泊4日约94万–195万日元/人</td></tr>
+    <tr><td>九州七星号</td><td>日本</td><td>JR 九州</td><td>1/3 泊</td><td><span class="badge b-top">顶级</span></td><td>~20</td><td><strong>2026年3月全线换新</strong>；新增由布院线、わいた温泉线；抽签制</td></tr>
+    <tr><td>TWILIGHT EXPRESS 瑞風</td><td>日本</td><td>JR 西日本</td><td>1–2 天</td><td><span class="badge b-top">顶级</span></td><td>~30</td><td>2026 年 4 班次；濑户内海 + 山阴主题；参考价 JPY 295,000–1,200,000/人</td></tr>
+    <tr><td>金鹰丝路快车</td><td>中国</td><td>Golden Eagle</td><td>12–25 天</td><td><span class="badge b-top">顶级</span></td><td>待公布</td><td><strong>2026年9月12日首航（乌鲁木齐）</strong>；汉朝套房 22.2㎡带浴缸 US$49,900/人</td></tr>
+    <tr><td>新东方快车/丝路梦享号</td><td>中国</td><td>铁路局合作旅行社</td><td>5–17 天</td><td><span class="badge b-lux">豪华</span></td><td>116</td><td>2026年5月6日首班；第三代 25G 车底、独立卫浴；丝路梦享号 17天16晚约 ¥204,000/人起</td></tr>
+    <tr><td>SJourney</td><td>越南</td><td>SJourney</td><td>2 天–8 晚</td><td><span class="badge b-lux">豪华</span></td><td>40</td><td><strong>2026年9月30日新增帝国套房</strong>（~51㎡）；8天旗舰线帝国套房单人约 US$63,580</td></tr>
+    <tr><td>Eastern & Oriental Express</td><td>东南亚（新马泰）</td><td>Belmond</td><td>3–4 天</td><td><span class="badge b-lux">豪华</span></td><td>~82</td><td>纯马来西亚环线；André Chiang 策展餐饮；新增「Tastes of Tomorrow」</td></tr>
+    <tr><td>Rail Cruise Haerang</td><td>韩国</td><td>KORAIL</td><td>1–3 天</td><td><span class="badge b-lux">豪华</span></td><td>未公开</td><td>韩国唯一酒店式豪华旅游列车；KRW 1,950,000 起（2天）– KRW 3,600,000（3天套房）/人</td></tr>
+    <tr><td>Maharajas' Express</td><td>印度</td><td>IRCTC</td><td>3/6–7 晚</td><td><span class="badge b-top">顶级</span></td><td>88</td><td>八度获「世界领先豪华列车」；IRCTC 2026年3月仅人事调整；10月–次年4月运营</td></tr>
+    <tr><td>Palace on Wheels</td><td>印度</td><td>第三方联合承接</td><td>7 晚 8 天</td><td><span class="badge b-lux">豪华</span></td><td>~88</td><td><strong>2026 年起由 The Cube Construction + Evident Travel 承接</strong>；每周三出发</td></tr>
+    <tr><td>Deccan Odyssey</td><td>印度</td><td>MTDC</td><td>7 晚 8 天</td><td><span class="badge b-lux">豪华</span></td><td>88</td><td>2026年9月26日启程；全车换新涂装 + 遗产主题车厢名 + 二维码信息；10月–次年5月</td></tr>
+  </table>
+
+  <h2>三、中东 + 非洲（5 列）</h2>
+  <table>
+    <tr><th>列车</th><th>国家/地区</th><th>运营方</th><th>时长</th><th>档位</th><th>客量</th><th>2026 关键动态</th></tr>
+    <tr><td>Dream of the Desert</td><td>沙特</td><td>Arsenale + 沙特铁路</td><td>1–5 晚</td><td><span class="badge b-top">顶级</span></td><td>66–72</td><td>沙特首列超豪华卧铺；利雅得-Al Qurayyat 1300km；<strong>首航时间有出入（2026下半年 / 2026Q3 / 或延至 2027Q3）</strong></td></tr>
+    <tr><td>Guardian of the Nile（埃及）</td><td>埃及</td><td>埃及国铁 × Arsenale</td><td>3 天 2 晚</td><td><span class="badge b-top">顶级</span></td><td>≤80</td><td>2026年1月官宣；开罗-阿斯旺；ENR 主席称约 2027 年投运；15 节车厢、40 间舱</td></tr>
+    <tr><td>Rovos Rail（非洲之傲）</td><td>南非/南部非洲</td><td>Rovos Rail</td><td>3–15 晚</td><td><span class="badge b-lux">豪华</span></td><td>~72</td><td>比勒陀利亚-维多利亚瀑布 3/4 晚（1400km，含 Hwange、Matobo 游猎）；Pullman 约 US$3,150 起</td></tr>
+    <tr><td>The Blue Train</td><td>南非</td><td>Transnet</td><td>1–2 天</td><td><span class="badge b-lux">豪华</span></td><td>54–82</td><td>2026–27 票价公布；De Luxe Suite 2027 淡季约 R45,565/人起；<strong>⚠️近期有报道称暂停运营，需核实</strong></td></tr>
+  </table>
+
+  <h2>四、北美 + 南美 + 大洋洲（7 列）</h2>
+  <table>
+    <tr><th>列车</th><th>国家/地区</th><th>运营方</th><th>时长</th><th>档位</th><th>客量</th><th>2026 关键动态</th></tr>
+    <tr><td>Belmond Andean Explorer</td><td>秘鲁</td><td>Belmond（PeruRail）</td><td>1–3 晚</td><td><span class="badge b-lux">豪华</span></td><td>≤70</td><td>南美唯一豪华卧铺；35 舱 + Picaflor Spa 水疗车；三起点</td></tr>
+    <tr><td>Rocky Mountaineer</td><td>加拿大</td><td>Rocky Mountaineer</td><td>2–3 天</td><td><span class="badge b-lux">豪华</span></td><td>千级</td><td><strong>⚠️2026 年起美国线改由新品牌 Canyon Spirit 运营</strong>（延伸为盐湖城-丹佛 3 日）；加拿大境内维持</td></tr>
+    <tr><td>The Canadian</td><td>加拿大</td><td>VIA Rail</td><td>4 天 3 夜</td><td><span class="badge b-lux">豪华</span></td><td>Prestige 6–12</td><td>Prestige Class 加拿大最顶级卧铺（4466km 横贯）；含独立卫浴 + Park Car</td></tr>
+    <tr><td>Denali Star</td><td>美国阿拉斯加</td><td>Alaska Railroad</td><td>一日 ~12h</td><td><span class="badge b-entry">入门</span></td><td>~700</td><td>2027 季 5月12日–9月16日；Adventure/GoldStar Dome/Wilderness Express 三档</td></tr>
+    <tr><td>The Ghan</td><td>澳大利亚</td><td>Journey Beyond</td><td>3–4 天</td><td><span class="badge b-top">顶级</span></td><td>数百</td><td><strong>2026年4月起新增 Aurora Suite（白金2倍）与 Australis Suite（3倍，澳最豪华）</strong>，Woods Bagot 设计</td></tr>
+    <tr><td>Indian Pacific</td><td>澳大利亚</td><td>Journey Beyond</td><td>4 天 3 晚</td><td><span class="badge b-top">顶级</span></td><td>数百</td><td>2026年4月起同增 Aurora/Australis 套房；悉尼-珀斯 4352km；Rawlinna 星空晚宴</td></tr>
+    <tr><td>Great Southern</td><td>澳大利亚</td><td>Journey Beyond</td><td>2–3 天</td><td><span class="badge b-top">顶级</span></td><td>数百</td><td>2026–27 季「Fly & Stay Free」促销；阿德莱德-布里斯班，南半球夏季运营</td></tr>
+  </table>
+
+  <h2>五、按需求分组选型</h2>
+  <div class="grid">
+    <div class="card">
+      <h4>最顶级 / 一生一次</h4>
+      <p class="picks">Maharajas' Express · TRAIN SUITE 四季島 · VSOE Grand Suite · SJourney 帝国套房 · 金鹰丝路快车汉朝套房 · The Ghan Australis Suite</p>
+      <p style="margin-top:8px">共同特征：单人套房制、独占车厢级私密、定制行程、需提前 6–18 个月</p>
+    </div>
+    <div class="card">
+      <h4>入门体验（预算可控）</h4>
+      <p class="picks">Bernina Express Pullman Class（CHF 249 双人往返含午餐） · Belmond British Pullman 一日游 · Glacier Express 卓越舱（订座费 CHF 590） · GoldenPass Prestige</p>
+      <p style="margin-top:8px">日间观光形式，门槛最低，适合首次体验</p>
+    </div>
+    <div class="card">
+      <h4>多国慢游 / 陆上游轮</h4>
+      <p class="picks">VSOE 巴黎-伊斯坦布尔（5 晚） · La Dolce Vita 罗马-伊斯坦布尔（5天4晚） · Golden Eagle Danube Express（12 条跨国线） · E&O Express（新马泰）</p>
+      <p style="margin-top:8px">白天游览 + 夜间行车，打包行李一次穿越多国</p>
+    </div>
+    <div class="card">
+      <h4>抽签制 / 稀缺体验</h4>
+      <p class="picks">四季島（倍率约 7 倍） · 九州七星号（10 间套房，约 20 人） · TWILIGHT EXPRESS 瑞風（约 30 人）</p>
+      <p style="margin-top:8px">日本三列全为抽签/申请制，需在受理期内报名</p>
+    </div>
+    <div class="card">
+      <h4>中国出发最方便</h4>
+      <p class="picks">金鹰丝路快车（北京/乌鲁木齐，2026年9月首航） · 新东方快车（乌鲁木齐，2026年5月6日首班） · 丝路梦享号（南北疆 17天16晚）</p>
+      <p style="margin-top:8px">免签证手续，可直接国内出发</p>
+    </div>
+  </div>
+
+  <h2>六、2026 年重大变化警示（必读）</h2>
+  <div class="warn">
+    <h3>预订前务必核实</h3>
+    <ol>
+      <li><strong>Golden Eagle Trans-Siberian 已停运</strong> — 官方确认「不再在俄罗斯运营」，所有跨西伯利亚/蒙古班次无限期停运，无重启时间表。</li>
+      <li><strong>Belmond Grand Hibernian 已停运</strong> — 2021 年永久退出爱尔兰，车底转用 Britannic Explorer。</li>
+      <li><strong>Rocky Mountaineer 美国线改品牌</strong> — 2026 年起 Rockies to the Red Rocks 由 <strong>Canyon Spirit</strong> 运营。</li>
+      <li><strong>印度两列运营方变化</strong> — Palace on Wheels 改由第三方联合承接；Maharajas' Express 仍为 IRCTC。</li>
+      <li><strong>Dream of the Desert 首航不确定</strong> — 官方口径 2026 下半年，最新报道称可能延至 2027Q3。</li>
+      <li><strong>Blue Train 状态存疑</strong> — 有报道称 Transnet 暂停运营，<strong>预订前务必电话核实</strong>。</li>
+      <li><strong>Transcantábrico Gran Lujo 2027 涨价</strong> — 从 €9,900 起涨至 €11,100 起。</li>
+      <li><strong>TGV M 非双层</strong> — 官方资料为第五代<strong>单层</strong>列车（9 节、740 座），首航时间口径不一。</li>
+    </ol>
+  </div>
+
+  <h2>七、预订机制速查</h2>
+  <table>
+    <tr><th>机制</th><th>适用列车</th></tr>
+    <tr><td><strong>抽签制</strong></td><td>四季島、九州七星号、TWILIGHT EXPRESS 瑞風（JR 三列）</td></tr>
+    <tr><td><strong>申请 / 优先名单制</strong></td><td>Dream of the Desert（可退预留金 SAR 2,500 加入优先名单）</td></tr>
+    <tr><td><strong>直接售卖（需提前 6–18 个月）</strong></td><td>VSOE、Royal Scotsman、Maharajas' Express、The Ghan、Indian Pacific、金鹰丝路快车</td></tr>
+    <tr><td><strong>直接售卖（提前 1–3 个月）</strong></td><td>瑞士各景观线、TGV、Alaska Denali Star、Rail Cruise Haerang</td></tr>
+    <tr><td><strong>中国特例</strong></td><td>新东方快车/丝路梦享号经铁路局授权旅行社整车包房买断，无零散车票零售</td></tr>
+  </table>
+
+  <h2>八、未核实 / 存疑事项</h2>
+  <ul class="refs" style="list-style:none">
+    <li>• <strong>Dream of the Desert</strong>：首航日期、车厢数（14/12 节）、套房数（34/31+2）、乘客数（66/72）多来源不一致</li>
+    <li>• <strong>埃及列车</strong>：首航约 2027 年，多数运营细节未公布</li>
+    <li>• <strong>Blue Train</strong>：当前是否暂停运营需核实</li>
+    <li>• <strong>Golden Eagle Trans-Siberian</strong>：经典线路车型/套房参数为历史数据，停运后无更新</li>
+    <li>• <strong>多数列车</strong>：精确套房㎡、服务人员配比、随车医护配置官方普遍未公开；价格档位为相对判定，非官方分级</li>
+    <li>• <strong>Norient Express</strong>：首航日期多次推迟，母公司信息不明确</li>
+  </ul>
+
+  <h2>参考来源</h2>
+  <ul class="refs">
+    <li><a href="https://www.afar.com/magazine/new-design-forward-trains-launching-in-2026">AFAR — New Design-Forward Trains Launching in 2026</a></li>
+    <li><a href="https://www.businesstraveller.com/news/luxury-sleeper-trains-are-back-the-best-new-routes-and-debuts-for-2026/">Business Traveller — Luxury Sleeper Trains: Best New Routes and Debuts for 2026</a></li>
+    <li><a href="https://ftnnews.com/travel-news/rail/fancy-a-us64000-train-journey-across-vietnam/">FTN News — US$64,000 Train Journey Across Vietnam (SJourney)</a></li>
+    <li><a href="https://news.cgtn.com/news/2026-04-27/All-aboard-Xinjiang-s-starry-night-luxury-train-1MGsJEhmDrW/p.html">CGTN — Xinjiang's Starry-Night Luxury Train</a></li>
+    <li><a href="https://www.travelandtourworld.com/news/article/egypt-launches-new-luxury-sleeper-train-and-extends-visa-benefits-to-boost-its-high-end-tourism-and-promote-sustainable-travel-growth/">Travel And Tour World — Egypt Launches New Luxury Sleeper Train</a></li>
+    <li><a href="https://www.spa.gov.sa/en/N2428744">SPA — 'Dream of the Desert' Train</a></li>
+    <li><a href="https://www.dreamofthedesert.com/the-train/">Dream of the Desert 官网</a></li>
+    <li><a href="https://www.originaltravel.co.uk/travel-blog/the-norient-express-norway-s-luxurious-rail-route">Original Travel — The Norient Express</a></li>
+    <li><a href="https://www.travelbook.de/reisen/zugreisen/luxuszug-norient-express">Travelbook — Norient Express</a></li>
+    <li><a href="https://www.korail.com/global/eng/ticket/siteseeing/railcruise">KORAIL — Rail Cruise Haerang</a></li>
+    <li><a href="https://www.thetraveler.org/venice-simplon-orient-express-links-paris-and-amalfi-in-2026/">The Traveler — VSOE Links Paris and Amalfi in 2026</a></li>
+    <li><a href="https://luxedetour.com/luxury-train-journeys-2026/">Luxe Detour — Most Luxurious Train Journeys for 2026</a></li>
+    <li><a href="https://latteluxurynews.com/2026/10/09/la-dolce-vita-orient-express-adds-journeys-to-the-soul-of-italy/">Latte Luxury News — La Dolce Vita Orient Express</a></li>
+    <li><a href="https://uncompromised.travel/rocky-mountaineer-2026-routes-guide">Uncompromised Travel — Rocky Mountaineer 2026–2027 Routes</a></li>
+    <li><a href="https://www.luxurytrainclub.com/trains/dream-of-the-desert/">Luxury Train Club — Dream of the Desert</a></li>
+    <li>各列车官方网站（Belmond、Golden Eagle、Journey Beyond、Renfe、JR 各社、SNCF、Rovos Rail 等）</li>
+  </ul>
+
+  <div class="foot">
+    本报告基于 2026 年 4–10 月公开资料，共调研 <strong>38 列</strong>旗舰豪华列车。所有列车详细信息（含 28 个字段）存于 <code>results/</code> 目录下 38 个 JSON 文件。调研执行时间：2026-10-13。
+  </div>
+
+</div>
+</body>
+</html>
