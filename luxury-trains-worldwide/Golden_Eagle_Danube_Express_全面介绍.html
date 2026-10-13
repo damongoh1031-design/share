@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Eagle Danube Express — 全面介绍</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#30363d;
+    --txt:#e6edf3; --dim:#9da7b3; --gold:#d4af37; --gold2:#e8c874;
+    --red:#c94f4f; --green:#4a9d6e; --blue:#6cb6ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75;padding-bottom:60px}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  header{background:linear-gradient(135deg,#1a1f2e 0%,#2d2616 100%);border-bottom:2px solid var(--gold);padding:48px 0 36px;margin-bottom:34px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-40px;top:-40px;width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,.14),transparent 70%)}
+  h1{font-size:2.15em;font-weight:800;letter-spacing:.5px;margin-bottom:10px}
+  h1 .g{color:var(--gold)}
+  .lede{color:var(--dim);font-size:1.02em;max-width:780px}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);color:var(--gold2);padding:4px 13px;border-radius:20px;font-size:.82em}
+  h2{font-size:1.32em;margin:42px 0 16px;padding-left:13px;border-left:4px solid var(--gold);color:var(--gold2)}
+  h3{font-size:1.08em;margin:26px 0 10px;color:#fff}
+  h4{font-size:.98em;margin:18px 0 8px;color:var(--gold2)}
+  .tldr{background:linear-gradient(135deg,#1b2130,#241f16);border:1px solid rgba(212,175,55,.3);border-radius:12px;padding:20px 24px;margin-bottom:10px}
+  .tldr .label{color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:1px;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin:14px 0 24px;font-size:.88em;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:var(--gold2);text-align:left;padding:11px;font-weight:600;border-bottom:2px solid var(--line)}
+  td{padding:10px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(212,175,55,.05)}
+  td:first-child{font-weight:600;color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:16px 18px}
+  .card h4{margin-top:0}
+  .card p{font-size:.88em;color:var(--dim)}
+  .card .big{color:var(--gold2);font-size:1.5em;font-weight:800;display:block;margin:4px 0}
+  .yes{color:#7fd7a3}.no{color:#ff8f8f}
+  .warn{background:rgba(201,79,79,.1);border-left:4px solid var(--red);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .warn h3{color:#ff8f8f;margin-top:0}
+  .tip{background:rgba(74,157,110,.09);border-left:4px solid var(--green);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .tip h3{color:#7fd7a3;margin-top:0}
+  code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-size:.88em;color:var(--gold2)}
+  .itin{border-left:2px solid var(--line);margin-left:6px;padding-left:18px}
+  .day{margin:12px 0;position:relative}
+  .day::before{content:"";position:absolute;left:-24px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+  .day .d{color:var(--gold2);font-weight:700;font-size:.88em}
+  .day .c{font-size:.9em}
+  .refs li{margin:6px 0;font-size:.88em}
+  .refs a{color:var(--blue);text-decoration:none}
+  .refs a:hover{text-decoration:underline}
+  .foot{color:var(--dim);font-size:.85em;margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+  .unc{background:rgba(108,182,255,.08);border-left:4px solid var(--blue);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .unc h3{color:var(--blue);margin-top:0}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Golden Eagle Danube Express <span class="g">金鹰多瑙河快车</span></h1>
+    <div class="lede">中东欧的「移动五星酒店」。全车仅 <strong>50 名乘客</strong>，夜间行车、白天下车深度游览的豪华铁路邮轮模式，把巴尔干、特兰西瓦尼亚、意大利、东欧与土耳其串成 5–14 天的移动旅程。</div>
+    <div class="meta">
+      <span class="chip">Golden Eagle Luxury Trains</span>
+      <span class="chip">豪华至顶级</span>
+      <span class="chip">仅 50 客</span>
+      <span class="chip">10–12 条线路</span>
+      <span class="chip">5–14 天</span>
+      <span class="chip">€9,900 起</span>
+      <span class="chip">随车英国医生</span>
+      <span class="chip">着装休闲</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tldr">
+    <div class="label">一句话概览</div>
+    <p>Danube Express 是 Golden Eagle 旗下<strong>唯一一条欧洲本土豪华列车</strong>——跑欧洲而非中亚。50 人小规模、两种独立卫浴舱型（8.6㎡ / 7.74㎡）、单一坐席社交餐、全含酒水与小费、随车英国注册医生、车上驻店钢琴师。2027 年官方计划 <strong>10 条线路 / 16 个班期</strong>，长度 6–12 天，从 €9,900 到 €28,000/人。着装<strong>休闲</strong>，无强制正装。</p>
+  </div>
+
+  <h2>一、先弄清三个坐标</h2>
+  <table>
+    <tr><th>维度</th><th>结论</th></tr>
+    <tr><td>运营方</td><td>Golden Eagle Luxury Trains（英国私营豪华列车公司，<strong>独立品牌</strong>，非 Belmond 系）</td></tr>
+    <tr><td>与金鹰丝路快车的区别</td><td>丝路快车跑<strong>中亚/中国/俄罗斯</strong>；Danube Express 跑<strong>欧洲本土</strong>——同一品牌、完全不同的两条车/两条产品线</td></tr>
+    <tr><td>产品形态</td><td>Hotel-on-wheels（移动酒店）+ 陆上游轮：白天到站深度游、夜间行车转移、首尾及部分中途点住五星酒店</td></tr>
+    <tr><td>规模</td><td><strong>仅 50 名乘客</strong>，餐车一次坐席即可容纳全员</td></tr>
+    <tr><td>品牌沿革</td><td>2015 年前简称 <code>Danube Express</code>，之后冠以母品牌 <code>Golden Eagle</code></td></tr>
+  </table>
+
+  <h2>二、核心参数一览</h2>
+  <div class="grid">
+    <div class="card"><h4>载客量</h4><span class="big">50 人</span><p>餐车一次坐席全员同时用餐</p></div>
+    <div class="card"><h4>线路数</h4><span class="big">10–12 条</span><p>2027 年官方计划 10 条 / 16 班期</p></div>
+    <div class="card"><h4>行程长度</h4><span class="big">5–14 天</span><p>短线 6–8 天，长线 11–14 天</p></div>
+    <div class="card"><h4>起价</h4><span class="big">€9,900</span><p>圣诞市集线起；长线可达 €28,000+</p></div>
+    <div class="card"><h4>着装</h4><span class="big">休闲</span><p>informal / smart casual，无强制正装</p></div>
+    <div class="card"><h4>医疗</h4><span class="big">随车医生</span><p>英国注册医生 + 车上医疗设施</p></div>
+  </div>
+
+  <h2>三、车型与舱房</h2>
+
+  <h3>3.1 两种舱型（全部独立卫浴）</h3>
+  <table>
+    <tr><th></th><th>Superior Deluxe Class 高级豪华舱</th><th>Deluxe Class 豪华舱</th></tr>
+    <tr><td>面积</td><td><strong>8.6 ㎡</strong>（93 sq ft）</td><td><strong>7.74 ㎡</strong>（83 sq ft）</td></tr>
+    <tr><td>日间布局</td><td>全长沙发 + 两张扶手椅</td><td>两张扶手椅 + 一张独立座椅</td></tr>
+    <tr><td>夜间床型</td><td><strong>大床（king-size）1.90m × 1.52m</strong></td><td><strong>两张单人床，各 1.85m × 0.80m</strong></td></tr>
+    <tr><td>窗户</td><td><strong>两扇大观景窗</strong>（其中一扇可开启）</td><td>一扇半开式大观景窗</td></tr>
+    <tr><td>储物</td><td>大衣柜 + 全身镜</td><td>衣柜 + 全身镜</td></tr>
+    <tr><td>卫浴</td><td colspan="2">淋浴 + 洗手台 + 坐便器 + <strong>加热毛巾架</strong> + 230v/110v 剃须插座 + 吹风机 + 洗浴用品（两舱型规格一致）</td></tr>
+    <tr><td>设施</td><td colspan="2">独立空调、调光灯、阅读灯、Wi-Fi、USB 口、电源插座、保险箱</td></tr>
+  </table>
+
+  <div class="tip">
+    <h3>选舱建议</h3>
+    <p>情侣/夫妻优先 <strong>Superior Deluxe</strong>（真正的大床 + 更宽坐区）；朋友/同伴同行可选 <strong>Deluxe</strong>（两张床分睡）。<strong>单人出行最贵</strong>：单人价普遍是双人价的 1.5–1.7 倍。</p>
+  </div>
+
+  <h3>3.2 功能车厢</h3>
+  <table>
+    <tr><th>车厢</th><th>配置</th></tr>
+    <tr><td>餐车 Restaurant Car</td><td>优雅而无矫饰的空间，<strong>全部餐食单一坐席（single sitting）</strong>供应，全员同时用餐；可提前告知特殊饮食需求</td></tr>
+    <tr><td>酒吧休息车 Bar Lounge Car</td><td>木饰面板墙面、柔和色调、舒适沙发；<strong>上午中段至凌晨</strong>有服务人员；晚间<strong>驻店钢琴师</strong>演奏、行程简报</td></tr>
+  </table>
+
+  <h3>3.3 服务配置</h3>
+  <table>
+    <tr><th>项</th><th>内容</th></tr>
+    <tr><td>乘务员</td><td><strong>每间客舱配专属乘务员</strong>（含晚间开床 turn-down service）</td></tr>
+    <tr><td>行程管理</td><td>Tour Manager / 管理团队全程随行</td></tr>
+    <tr><td>医疗</td><td><strong>随车英国注册医生 + 车上医疗设施</strong></td></tr>
+    <tr><td>车上设备</td><td>Wi-Fi、USB、电源插座</td></tr>
+    <tr><td>行李</td><td>车站/机场 ↔ 酒店 ↔ 列车，全程行李搬运</td></tr>
+  </table>
+
+  <h2>四、线路与行程（2026–2027）</h2>
+
+  <h3>4.1 全部命名线路总表</h3>
+  <table>
+    <tr><th>线路</th><th>长度</th><th>起止与主要站点</th><th>Deluxe 起价（€/人，双人）</th></tr>
+    <tr><td>圣诞市集（中东欧）</td><td>7晚/8天</td><td>布达佩斯-维也纳-萨尔茨堡-慕尼黑</td><td><strong>9,900</strong></td></tr>
+    <tr><td>特兰西瓦尼亚城堡线</td><td>6晚/7天</td><td>伊斯坦布尔-大特尔诺沃-锡纳亚-布拉索夫-锡吉什瓦拉-锡比乌-凯奇凯梅特-布达佩斯</td><td><strong>11,800</strong></td></tr>
+    <tr><td>土耳其珍宝</td><td>8晚/9天</td><td>伊斯坦布尔-伊兹密尔-以弗所-代尼兹利-安卡拉-卡帕多奇亚</td><td><strong>12,600</strong></td></tr>
+    <tr><td>意大利之味</td><td>5晚/6天</td><td>陶尔米纳-拉古萨-巴勒莫-马拉泰亚-维罗纳-威尼斯</td><td><strong>14,000</strong></td></tr>
+    <tr><td>伊斯坦布尔→巴黎</td><td>7晚/8天</td><td>伊斯坦布尔-索菲亚-贝尔格莱德-波斯托伊纳-维也纳-香槟-巴黎</td><td><strong>16,900</strong></td></tr>
+    <tr><td>维也纳跨年环线</td><td>8晚/9天</td><td>布达佩斯-凯斯特海伊-格拉茨-维也纳-捷克克鲁姆洛夫-布拉格-科希策-布达佩斯</td><td><strong>16,600</strong></td></tr>
+    <tr><td>巴黎→伊斯坦布尔</td><td>7晚/8天</td><td>巴黎-香槟-维也纳-波斯托伊纳-贝尔格莱德-索菲亚-伊斯坦布尔</td><td><strong>19,900</strong></td></tr>
+    <tr><td>巴尔干探险家</td><td>11晚/12天</td><td>威尼斯-的里雅斯特-波斯托伊纳-普拉-里耶卡-萨拉热窝-莫斯塔尔-贝尔格莱德-索菲亚-普罗夫迪夫-伊斯坦布尔</td><td><strong>21,100</strong></td></tr>
+    <tr><td>大阿尔卑斯线</td><td>10晚/11天</td><td>布达佩斯-维也纳-塞默林山口-阿亨湖-因斯布鲁克-苏黎世-圣哥达山口-科莫湖-维罗纳-布莱德湖-卢布尔雅那-威尼斯</td><td><strong>21,600</strong></td></tr>
+    <tr><td>东欧发现</td><td>11晚/12天</td><td>布达佩斯-克拉科夫-华沙-马尔堡-格但斯克-柏林-德累斯顿-布拉格-萨尔茨堡-维也纳</td><td><strong>22,500</strong></td></tr>
+    <tr><td>西西里奥德赛</td><td>11晚/12天</td><td>威尼斯-克雷莫纳-博洛尼亚-里米尼-圣马力诺-庞贝-阿尔贝罗贝洛-莱切-巴勒莫-阿格里真托-拉古萨-锡拉库萨-卡塔尼亚-陶尔米纳</td><td><strong>27,900</strong></td></tr>
+    <tr><td>奥雷利安奥德赛</td><td>13晚/14天</td><td>巴黎-香槟-维也纳-波斯托伊纳-贝尔格莱德-索菲亚-伊斯坦布尔-以兹密尔-以弗所-安卡拉-卡帕多奇亚</td><td><strong>28,000</strong></td></tr>
+  </table>
+  <p style="font-size:.84em;color:var(--dim)">价格来源：Palace Trains（Golden Eagle 授权代理）2026–2027 价目，Deluxe 双人价。Superior Deluxe 约为 Deluxe 的 1.26–1.31 倍。</p>
+
+  <h3>4.2 三条代表性线路精选</h3>
+
+  <h4>① 特兰西瓦尼亚城堡线（6晚/7天 · 伊斯坦布尔→布达佩斯）— 最短、最「德古拉」</h4>
+  <p style="font-size:.9em;color:var(--dim)">布兰城堡<strong>城堡内私人晚宴</strong> · 佩莱斯城堡 160 间房 · 锡吉什瓦拉（UNESCO）· 拉约什米泽草原马术</p>
+  <div class="itin">
+    <div class="day"><span class="d">D1 · 伊斯坦布尔</span><div class="c">入住 Four Seasons Sultanahmet（19 世纪奥斯曼监狱改建），欢迎晚宴</div></div>
+    <div class="day"><span class="d">D2 · 伊斯坦布尔 → 登车</span><div class="c">上午选蓝清真寺或圣索菲亚；下午登车穿越色雷斯北行</div></div>
+    <div class="day"><span class="d">D3 · 大特尔诺沃（保加利亚）</span><div class="c">查雷维茨要塞、工匠街区；夜行过希普卡山口入罗马尼亚</div></div>
+    <div class="day"><span class="d">D4 · 锡纳亚 + 布拉索夫</span><div class="c">佩莱斯城堡（1873–1883，160 间房）→ 布兰城堡（4 塔楼、密道）→ <strong>城堡内私人晚宴</strong>（全程压轴）</div></div>
+    <div class="day"><span class="d">D5 · 锡吉什瓦拉 + 锡比乌</span><div class="c">14 世纪钟楼、弗拉德出生地；锡比乌萨克森建筑、「锡比乌之眼」；告别晚宴</div></div>
+    <div class="day"><span class="d">D6 · 凯奇凯梅特 + 拉约什米泽 → 布达佩斯</span><div class="c">新艺术风格市政厅；Puszta 草原 csikós 骑手花式骑术 → Four Seasons Gresham Palace</div></div>
+    <div class="day"><span class="d">D7 · 布达佩斯</span><div class="c">早餐后散团</div></div>
+  </div>
+
+  <h4>② 巴尔干探险家（11晚/12天 · 威尼斯→伊斯坦布尔）— 最「史诗」</h4>
+  <p style="font-size:.9em;color:var(--dim)">波斯托伊纳溶洞<strong>闭馆后专属地下小火车</strong> · 普拉罗马竞技场<strong>角斗士表演</strong> · 萨拉热窝希望隧道 · 莫斯塔尔古桥 · 博斯普鲁斯游船 + 地下水宫</p>
+  <div class="itin">
+    <div class="day"><span class="d">D1–2 · 威尼斯</span><div class="c">入住五星酒店 2 晚；欢迎酒会；可选圣马可大教堂私人夜访、穆拉诺/布拉诺潟湖岛</div></div>
+    <div class="day"><span class="d">D3 · 的里雅斯特 → 波斯托伊纳</span><div class="c">私人船送至车站登车；意大利统一广场；<strong>波斯托伊纳溶洞夜间专属</strong>（2km 地下小火车 + 看盲螈 olm）</div></div>
+    <div class="day"><span class="d">D4 · 普拉 + 里耶卡（克罗地亚）</span><div class="c">普拉罗马竞技场内<strong>角斗士表演</strong>；Kumparička 庄园松露/橄榄油午宴；里耶卡科尔佐滨海道</div></div>
+    <div class="day"><span class="d">D5 · 萨拉热窝（波黑）</span><div class="c">拉丁桥（1914 遇刺地）、巴什查尔希亚巴扎；下午选特雷贝维奇山缆车或<strong>希望隧道</strong></div></div>
+    <div class="day"><span class="d">D6 · 莫斯塔尔 + 波奇泰利</span><div class="c">16 世纪古桥 Stari Most（UNESCO）、土耳其老宅；波奇泰利奥斯曼要塞村</div></div>
+    <div class="day"><span class="d">D7 · 贝尔格莱德</span><div class="c">入住 Hotel Bristol；卡莱梅格丹城堡、圣萨瓦大教堂；塞尔维亚葡萄酒品鉴</div></div>
+    <div class="day"><span class="d">D8 · 贝尔格莱德 → 保加利亚</span><div class="c">铁托纪念馆 + 白宫；传统面包盐欢迎仪式 + 民族舞蹈 → 登车南行</div></div>
+    <div class="day"><span class="d">D9 · 索菲亚 + 普罗夫迪夫</span><div class="c">罗马圆形剧场、东正教大教堂、奥斯曼清真寺、葡萄酒乡</div></div>
+    <div class="day"><span class="d">D10–11 · 普罗夫迪夫 → 伊斯坦布尔</span><div class="c">博斯普鲁斯游船、<strong>地下水宫 Basilica Cistern 夜访</strong></div></div>
+    <div class="day"><span class="d">D12 · 伊斯坦布尔</span><div class="c">散团</div></div>
+  </div>
+
+  <h4>③ 东欧发现（11晚/12天 · 布达佩斯→维也纳）— 最「重历史」</h4>
+  <p style="font-size:.9em;color:var(--dim)"><strong>奥斯维辛-比克瑙</strong> · 华沙宫廷<strong>私人肖邦钢琴演奏会</strong> · 东柏林驾驶 <strong>VEB Trabant 老爷车</strong> · 马尔堡城堡（世界最大砖砌城堡）· 塞默林山口（UNESCO）· Major Gordon Corrigan MBE 随行主讲</p>
+  <div class="itin">
+    <div class="day"><span class="d">D1–2 · 布达佩斯</span><div class="c">Four Seasons Gresham Palace 2 晚；城堡区、马加什教堂、渔人堡、国会大厦</div></div>
+    <div class="day"><span class="d">D3 · 布达佩斯 → 登车</span><div class="c">Nyugati 车站铜管乐队欢送 → 登车首发晚餐</div></div>
+    <div class="day"><span class="d">D4 · 奥斯维辛-比克瑙 → 克拉科夫</span><div class="c">2 小时导览 → 老城广场午餐 → 瓦维尔皇家城堡 + 卡齐米日犹太区</div></div>
+    <div class="day"><span class="d">D5 · 华沙</span><div class="c">皇家之路、POLIN 博物馆；<strong>华沙宫廷私人肖邦钢琴演奏会</strong>（全程文化高点）</div></div>
+    <div class="day"><span class="d">D6 · 马尔堡 → 格但斯克</span><div class="c">世界最大砖砌城堡 → 欧洲团结中心、长市场、奥利瓦大教堂 7876 管风琴音乐会</div></div>
+    <div class="day"><span class="d">D7 · 柏林</span><div class="c">勃兰登堡门、柏林墙、查理检查站；可选<strong>驾驶 VEB Trabant 穿越东柏林</strong>，或博物馆岛</div></div>
+    <div class="day"><span class="d">D8 · 德累斯顿 → 布拉格</span><div class="c">圣母教堂、绿穹珍宝馆 → Elbe 河谷 Schloss Wackerbarth 酒庄品鉴 → 布拉格</div></div>
+    <div class="day"><span class="d">D9 · 布拉格</span><div class="c">天文钟、查理大桥、约瑟夫犹太区、复古电车登布拉格城堡</div></div>
+    <div class="day"><span class="d">D10 · 萨尔茨堡</span><div class="c">米拉贝尔宫、海布伦宫戏水喷泉</div></div>
+    <div class="day"><span class="d">D11 · 塞默林山口 → 维也纳</span><div class="c">UNESCO 铁路 → Palais Auersperg <strong>Vienna Supreme Orchestra 私人音乐会</strong></div></div>
+    <div class="day"><span class="d">D12 · 维也纳</span><div class="c">散团</div></div>
+  </div>
+
+  <h2>五、2026–2027 具体班期与价格</h2>
+
+  <h3>5.1 已公布班期</h3>
+  <table>
+    <tr><th>出发日</th><th>方向</th><th>Deluxe 双人起价</th></tr>
+    <tr><td>2026-10-23</td><td>伊斯坦布尔 → 布达佩斯（特兰西瓦尼亚城堡线）</td><td>€11,800</td></tr>
+    <tr><td>2026-12-03</td><td>布达佩斯 → 慕尼黑（圣诞市集）</td><td>€9,900</td></tr>
+    <tr><td>2027-04-30</td><td>布达佩斯 → 威尼斯（大阿尔卑斯线）</td><td>€21,600</td></tr>
+    <tr><td>2027-05-07</td><td>威尼斯 → 伊斯坦布尔（巴尔干探险家）</td><td>€23,600</td></tr>
+    <tr><td>2027-05-16</td><td>伊斯坦布尔 → 巴黎</td><td>€19,900</td></tr>
+    <tr><td>2027-05-22</td><td>巴黎 → 伊斯坦布尔</td><td>€19,900</td></tr>
+    <tr><td>2027-05-28</td><td>伊斯坦布尔 → 布达佩斯</td><td>€13,300</td></tr>
+    <tr><td>2027-06-07</td><td>布达佩斯 → 维也纳（东欧发现）</td><td>€22,500</td></tr>
+    <tr><td>2027-08-22</td><td>布达佩斯 → 威尼斯</td><td>€21,600</td></tr>
+    <tr><td>2027-08-29</td><td>威尼斯 → 陶尔米纳（西西里奥德赛）</td><td>€27,900</td></tr>
+    <tr><td>2027-09-07</td><td>陶尔米纳 → 威尼斯（意大利之味）</td><td>€14,000</td></tr>
+    <tr><td>2027-09-10</td><td>威尼斯 → 伊斯坦布尔</td><td>€23,600</td></tr>
+    <tr><td>2027-10-06</td><td>巴黎 → 伊斯坦布尔</td><td>€19,900</td></tr>
+    <tr><td>2027-10-12</td><td>伊斯坦布尔 → 布达佩斯</td><td>€13,300</td></tr>
+    <tr><td>2027-10-19</td><td>威尼斯 → 伊斯坦布尔</td><td>€23,600</td></tr>
+    <tr><td>2027-10-28</td><td>伊斯坦布尔 → 布达佩斯</td><td>€13,300</td></tr>
+    <tr><td>2027-12-03</td><td>布达佩斯 → 慕尼黑（圣诞市集）</td><td>€11,200</td></tr>
+    <tr><td>2027-12-28</td><td>布达佩斯 → 布达佩斯（维也纳跨年）</td><td>€16,600</td></tr>
+  </table>
+
+  <h3>5.2 价格结构（以维也纳跨年线为例）</h3>
+  <table>
+    <tr><th>舱型</th><th>双人价（€/人）</th><th>单住价（€/人）</th><th>溢价倍数</th></tr>
+    <tr><td>Deluxe</td><td>16,600</td><td>24,700</td><td>×1.49</td></tr>
+    <tr><td>Superior Deluxe</td><td>21,100</td><td>35,600</td><td>×1.69</td></tr>
+  </table>
+  <p style="font-size:.84em;color:var(--dim)">规律：Superior Deluxe ≈ Deluxe × 1.26–1.31（双人）；单住价普遍是双人价的 1.5–1.7 倍。<strong>单人出行是最贵的选择。</strong></p>
+
+  <h2>六、注意事项</h2>
+
+  <div class="warn">
+    <h3>⚠️ 预订与付款</h3>
+    <ul style="margin-left:18px;font-size:.92em">
+      <li><strong>定金 30%（不退）</strong>，余款须于出发前 <strong>125 天</strong>付清</li>
+      <li>只通过官方或<strong>授权代理</strong>（Palace Trains、Luxury Train Club 等）预订，避免非官方转售</li>
+      <li>热门班期（<strong>维也纳跨年、圣诞市集</strong>）最早售罄，建议提前 6–12 个月</li>
+      <li>全车可<strong>包车（private charter）</strong>定制线路</li>
+    </ul>
+  </div>
+
+  <h3>6.1 包含 vs 不含</h3>
+  <table>
+    <tr><th>包含 ✅</th><th>不含 ❌</th></tr>
+    <tr>
+      <td>
+        <span class="yes">酒店 + 车上住宿（含开床）</span><br>
+        <span class="yes">每日三餐（车上 + 当地餐厅）</span><br>
+        <span class="yes">车上全部酒水（高级葡萄酒除外）</span><br>
+        <span class="yes">全部导览 + 门票 + 讲解耳机</span><br>
+        <span class="yes">起止接送 + 行李搬运</span><br>
+        <span class="yes">全部小费</span><br>
+        <span class="yes">随车英国注册医生与医疗设施</span><br>
+        <span class="yes">车上 Wi-Fi</span>
+      </td>
+      <td>
+        <span class="no">国际及境内航班</span><br>
+        <span class="no">签证费用</span><br>
+        <span class="no">旅行保险</span><br>
+        <span class="no">洗衣</span><br>
+        <span class="no">个人消费、可选升级</span>
+      </td>
+    </tr>
+  </table>
+
+  <h3>6.2 着装与打包</h3>
+  <table>
+    <tr><th>项</th><th>建议</th></tr>
+    <tr><td>整体着装</td><td><strong>休闲（informal / smart casual）</strong>为主，晚餐 smart casual 即可，<strong>无需礼服/正装</strong></td></tr>
+    <tr><td>特殊场次</td><td>私人音乐会、欢迎/告别晚宴建议 smart / semi-formal</td></tr>
+    <tr><td>奥斯维辛</td><td><strong>需着装庄重保守</strong></td></tr>
+    <tr><td>鞋</td><td><strong>必须带舒适步行鞋</strong>（萨拉热窝、普罗夫迪夫老城、伊斯坦布尔石板路）</td></tr>
+    <tr><td>波斯托伊纳溶洞</td><td><strong>常年 8–10°C</strong>，无论外界天气，需带保暖层</td></tr>
+    <tr><td>跨区线路</td><td>阿尔卑斯/巴尔干线建议分层穿衣（波罗的海岸 ↔ 奥地利阿尔卑斯温差大）</td></tr>
+  </table>
+
+  <h3>6.3 行程变动风险</h3>
+  <ul style="margin-left:18px;font-size:.92em">
+    <li>列车运行时刻、停靠站、游览内容<strong>可能因铁路运行、天气与运营条件变动</strong></li>
+    <li>预订前<strong>不要先买不可退改的机票/接驳</strong>，等最终确认为准</li>
+    <li>部分线路代理页面无逐日行程（如特兰西瓦尼亚线官方不公开逐日），预订前确认具体顺序</li>
+  </ul>
+
+  <h2>七、餐厅与餐饮</h2>
+  <table>
+    <tr><th>项</th><th>内容</th></tr>
+    <tr><td>形式</td><td><strong>单一坐席（single sitting）+ 开放式座位</strong>，全员同时用餐，社交属性强</td></tr>
+    <tr><td>菜单</td><td>厨师团队使用<strong>当地与应季食材</strong>，菜单灵感来自所经国家地区</td></tr>
+    <tr><td>酒水</td><td>午晚餐配<strong>全球精选葡萄酒、啤酒、软饮、瓶装水</strong>；车上酒水全含（高级葡萄酒除外）</td></tr>
+    <tr><td>特殊需求</td><td>可提前告知，随车厨师 accommodated with advance notice</td></tr>
+    <tr><td>招牌体验</td><td>特兰西瓦尼亚线<strong>布兰城堡私人晚宴</strong>；东欧发现线 Belvedere 餐厅、Wackerbarth 酒庄品鉴；巴尔干线 Kumparička 庄园松露午宴</td></tr>
+    <tr><td>服务时刻</td><td>酒吧休息车<strong>上午中段至凌晨</strong>有服务人员；晚间驻店钢琴师演奏</td></tr>
+  </table>
+
+  <h2>八、适合谁 / 不适合谁</h2>
+  <table>
+    <tr><th>✅ 适合</th><th>❌ 不适合</th></tr>
+    <tr>
+      <td>想在一次行程里深度理解中东欧多国历史的人</td>
+      <td>追求极短 2–3 天打卡的人（最短也要 5–6 晚）</td>
+    </tr>
+    <tr>
+      <td>55 岁以上偏好舒适、全含、有医疗保障的旅客</td>
+      <td>需要夜店/赌场/大型娱乐设施的人（车上无健身房/SPA）</td>
+    </tr>
+    <tr>
+      <td>夫妻/情侣（大床 + 双观景窗）或结伴友（双床分睡）</td>
+      <td>不愿与陌生人同桌用餐者（单一坐席开放座位）</td>
+    </tr>
+    <tr>
+      <td>回头豪华列车客（找西欧名线之外的选择）</td>
+      <td>预算敏感者（€10,000–28,000/人量级）</td>
+    </tr>
+    <tr>
+      <td>历史/音乐/建筑爱好者（肖邦、维也纳、奥斯维辛、城堡）</td>
+      <td>只想「坐火车」而非深度下车游览者</td>
+    </tr>
+  </table>
+
+  <h2>九、与其他豪华列车的关系</h2>
+  <table>
+    <tr><th></th><th>Golden Eagle Danube Express</th><th>金鹰丝路快车</th><th>Venice Simplon-Orient-Express</th><th>Rovos Rail</th></tr>
+    <tr><td>区域</td><td>中东欧/巴尔干/意大利/土耳其</td><td>中亚/中国/俄罗斯</td><td>西欧</td><td>南部非洲</td></tr>
+    <tr><td>载客</td><td><strong>50</strong></td><td>较小规模</td><td>~180</td><td>72</td></tr>
+    <tr><td>着装</td><td><strong>休闲</strong></td><td>休闲</td><td>正装/礼服传统</td><td>正装/礼服传统</td></tr>
+    <tr><td>医生</td><td><strong>有（英国注册）</strong></td><td>有</td><td>—</td><td>—</td></tr>
+    <tr><td>起价</td><td>€9,900 起</td><td>高档</td><td>高档</td><td>较高</td></tr>
+  </table>
+
+  <div class="unc">
+    <h3>十、未核实 / 存疑</h3>
+    <ul style="margin-left:18px;font-size:.92em">
+      <li>车厢设计师/设计事务所未公开绑定 [不确定]</li>
+      <li>2027 年新增线路（奥雷利安奥德赛）具体逐日安排未公开 [不确定]</li>
+      <li>2026 年是否涨价及幅度 [不确定]</li>
+      <li>价格档位为相对判定，非官方分级</li>
+      <li>班期数量口径：官方「2027 年 16 个班期」vs 代理「18 个 departures」，需以官方为准</li>
+    </ul>
+  </div>
+
+  <h2>参考资料</h2>
+  <ul class="refs">
+    <li><a href="https://www.goldeneagleluxurytrains.com/trains/golden-eagle-danube-express/">goldeneagleluxurytrains.com</a> — 官方：列车/线路/2026 时间表</li>
+    <li><a href="https://www.palacetrains.com/trains/danube-express-golden-eagle/">palacetrains.com</a> — 授权代理：12 条线路逐日行程 + 完整价目表 + 班期</li>
+    <li><a href="https://besttraintour.com/tours/danube-express-golden-eagle">besttraintour.com</a> — 独立评测：行程结构、包含项、价格史</li>
+    <li><a href="https://deluxetrains.com/itineraries/balkan-explorer/">deluxetrains.com</a> — 代理：巴尔干线逐站说明、舱型对比</li>
+    <li><a href="https://voyage-en-train-de-luxe.fr/golden-eagle-danube-express/">voyage-en-train-de-luxe.fr</a> / traindeprestige.com — 法语代理：2027 十条线路/十六班期</li>
+  </ul>
+
+  <div class="foot">
+    调研更新：2026-10-13 · 价格均标注来源与货币，班期与价格随时变动，下单前须以官方最终确认为准。<br>
+    本文件由 WorkBuddy AI 生成，仅供研究参考，不构成预订依据。
+  </div>
+
+</div>
+</body>
+</html>
