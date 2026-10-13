@@ -1,0 +1,115 @@
+fontTools is required to fully parse the encoding of a CFF Type1 font in font dictionary {'/BaseFont': '/ULAZMO+ProximaNova-Extrabld', '/Encoding': '/WinAnsiEncoding', '/FirstChar': 32, '/FontDescriptor': IndirectObject(226, 0, 1369815103680), '/LastChar': 87, '/Subtype': '/Type1', '/Type': '/Font', '/Widths': [256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 697, 0, 692, 727, 589, 582, 723, 0, 292, 0, 0, 529, 0, 740, 766, 643, 0, 661, 606, 0, 739, 0, 936]}, but is not installed. Consider installing fontTools if you encounter encoding problems.
+fontTools is required to fully parse the encoding of a CFF Type1 font in font dictionary {'/BaseFont': '/ULAZMO+ProximaNova-Extrabld', '/Encoding': '/WinAnsiEncoding', '/FirstChar': 32, '/FontDescriptor': IndirectObject(226, 0, 1369815103680), '/LastChar': 82, '/Subtype': '/Type1', '/Type': '/Font', '/Widths': [256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 697, 0, 692, 727, 589, 582, 723, 0, 292, 0, 0, 529, 0, 740, 0, 643, 0, 661]}, but is not installed. Consider installing fontTools if you encounter encoding problems.
+fontTools is required to fully parse the encoding of a CFF Type1 font in font dictionary {'/BaseFont': '/ULAZMO+ProximaNova-Extrabld', '/Encoding': IndirectObject(50, 0, 1369815103680), '/FirstChar': 10, '/FontDescriptor': IndirectObject(51, 0, 1369815103680), '/LastChar': 31, '/Subtype': '/Type1', '/Type': '/Font', '/Widths': [311, 936, 300, 617, 447, 596, 723, 727, 877, 766, 697, 740, 529, 292, 739, 661, 692, 256, 589, 606, 589, 680]}, but is not installed. Consider installing fontTools if you encounter encoding problems.
+pages: 2
+==== PAGE 1 ====
+· ·  
+· 
+·  
+ ·  
+·  ·  
+·  
+WORLD CRUISE
+GRAND
+CIRCLE 
+PACIFIC 
+Adventure beyond 
+the horizon
+Exclusive booking benefits for the 2027 
+World Cruise Grand Circle Pacific voyage
+Book an epic 110-, 114-, or 129-day  
+Grand Circle P
+acific voyage by Oct 31, 2025  
+and enjoy:
+•  Princess Premier® package — 
+INCLUDED 
+Includes drinks, Wi-Fi, specialty 
+dining and more
+•  FREE airfare 
+First-class for mini-suites and suites
+Economy for balcony staterooms
+•  FREE transfers 
+Airport to ship and back again
+•  Up to $3,000 USD onboard credit 
+(first two guests only) 
+$1,500 USD for balcony and above
+$1,000 USD for inside and oceanview
+• Captain’s Circle savings 
+Book by October 31, 2025 and save 
+up to $3,000 USD per stateroom (first 
+two guests) 
+$1,500 USD per person balcony and 
+above
+$1,000 USD per person inside and 
+oceanview
+For details and terms of these offers, please refer to the back of this flyer.
+==== PAGE 2 ====
+GRAND
+CIRCLE 
+PACIFIC 
+ | 
+19-TIME WINNER
+BEST
+CRUISE LINE
+ITINERARIES /one.numr
+RECOMMEND MAGAZINE
+Early booking offer details Offer expires October 31, 2025 
+GENERAL TERMS APPLICABLE TO ALL OFFERS IN THIS ADVERTISEMENT(“Offer(s)”): Offers only available to legal 
+r
+esidents of North America. Offers only available for new bookings, on select cruises, on a limited availability, are 
+capacity controlled (regardless of stateroom availability), and may not be combined with other offers or promotions 
+(aside from those listed herein). Other exclusions may apply; void where prohibited. Changes or refunds may not 
+be permitted. Offers and their parts (if any) are not transferable, not substitutable, and not redeemable for cash. 
+Princess Cruise Lines, Ltd. (“PCL ”) is not responsible or liable for any errors, including printing or other errors. PCL 
+may change or revoke Offers at any time. A deposit is required for all stateroom guests. All values quoted in USD. 
+Offers valid on bookings made 4/23/25 through 10/31/25. Please refer to princess.com for terms, conditions, and 
+details that apply to all bookings.
+General Princess Premier® Terms: Qualifying guests that book a 129-, 114-, or 110-day 2027 Grand Circle Pacific 
+will r
+eceive the Princess Premier package (and its parts) at no additional charge beyond the base cruise fare 
+(applicable taxes & fees not included). In the event of an eligible cancellation, guest would only be refunded for 
+the amount paid for the base cruise fare. Princess Premier fare of MedallionNet ® Max Wi-Fi, Crew Appreciation, 
+Drinks, Specialty Dining, Photo Package, Princess Prizes, Medallion shipping, Premium Desserts, Juice Bar, Fitness 
+Classes and Reserved Theater seating included is contingent on ship’s capacity and is subject to its full terms 
+and conditions, available at princess.com/princesspremierterms. Exclusions and limitations apply to package and 
+its parts. Princess Cruise Lines, Ltd. (“PCL ”) is not responsible or liable for any errors. PCL may revise or revoke 
+packages (and any of its parts) at any time.
+EZair®: Up to $2,000 USD airfare credit applies to guests 1 & 2 who book a mini-suite or suite. $1,000 USD one 
+wa
+y and a total of $2,000 USD roundtrip for flights. First Class airfare offer applies to first class, round-trip flights 
+within the United States, Canada, Mexico, Puerto Rico and Bermuda for the first- and second-berth guests booked 
+in a mini-suite or suite. Up to $1,000 USD airfare credit  applies to guests 1 & 2 who book a balcony cabin. $500 
+USD one way and a total of $1,000 USD roundtrip for flights. Economy airfare offer applies to economy, round-trip 
+flights within the United States, Canada, Mexico, Puerto Rico and Bermuda for the first- and second-berth guests 
+booked in a Balcony cabin. Airfare must be booked through EZair® at least 120 days prior to sailing to qualify. Also 
+includes complimentary transfers to/from LAX, FLL or MIA when booking our company air offer. Airline-imposed 
+personal charges such as baggage fees may apply. Note that airfare is available for booking 330 days from voyage 
+disembarkation.
+Up to $3,000 USD Onboard Credit per stateroom (up to $1,500 USD per guest) is applicable to the first two guests in 
+a 
+stateroom and varies based on stateroom type on the 129-day Grand Circle Pacific (Ft. Lauderdale to Los Angeles), 
+114-day Grand Circle Pacific (Roundtrip Los Angeles) or the 110-day Grand Circle Pacific (Los Angeles to Vancouver, 
+B.C.). Onboard Credit is awarded as a credit (“Credit”) that is applied to the guest’s folio and is awarded in the 
+currency corresponding to the ship’s onboard currency. Balcony and above staterooms receive $1,500 USD Credit 
+per guest; inside and oceanview stater
+ooms receive $1,000 USD Credit per guest. Offer does not apply to additional 
+guests than guests indicated above. Guests with single occupancy will receive single, per guest Credit amount 
+($1,500 USD or $1,000 USD). Credit must be used on the single voyage that it was awarded in connection with, is 
+not redeemable for cash, cannot be used in the casino, is not applicable during the land portion of cruisetours, and 
+expires at the end of that voyage.
+Princess Cruises’ Captain’ s Circle Launch Savings: $1,500 USD per person discount is applicable to guests 1 & 
+2 in the same stater
+oom for guests who book a balcony & above or $1,000 USD per person for inside & overview 
+on the 129- day Grand Circle Pacific (Ft. Lauderdale to Los Angeles), 114- day Grand Circle Pacific (Roundtrip Los 
+Angeles) or the 110- day Grand Circle Pacific (Los Angeles to Vancouver, B.C.). Categories are combinable only 
+with Launch Fares and Group Fares. Specific discount amounts vary by itinerary and cruise length. Savings may 
+not be combinable with other discounts or reduced fare offerings or promotions. Specific discount amounts may 
+vary by itinerary and cruise length. Regional and other past guest promotions or “new booking only” promotions are 
+not combinable with the discount. Princess Cruises Captain’s Circle Launch Savings is not applicable to third- and 
+fourth-berth guests. Refer to princess.com for additional terms, inclusions and restrictions that apply.
+Promo Codes: NNW | ZSW
+Captain’ s Circle: PA1
+Offer Expiration: Friday, October 31, 2025 (11:59 p.m. PT)
+For details and terms of these offers, please refer to the back of this flyer. 1Winner of the 2019 Bronze Reader Choice Awards by 
+Recommend Magazine ©2025, Princess Cruise Lines, Ltd. Princess®, MedallionClass®, ?and the Princess logo are trademarks of Princess 
+Cruise Lines, Ltd. or its affiliates. All rights reserved. Ships of Bermudan and British registry

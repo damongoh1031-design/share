@@ -1,0 +1,3408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全球邮轮的主要航线 — 深度调研报告</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #161a21; --panel-2: #1c2230; --line: #2a3140;
+    --fg: #e6eaf2; --fg-dim: #a3adc2; --accent: #5aa9ff; --accent-2: #7ee0c0;
+    --warn: #ffb454;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", Roboto, sans-serif;
+    font-size: 15px; line-height: 1.75;
+  }
+  .wrap { display: flex; align-items: flex-start; max-width: 1500px; margin: 0 auto; }
+  aside {
+    position: sticky; top: 0; flex: 0 0 290px; height: 100vh; overflow-y: auto;
+    padding: 22px 14px 40px 22px; border-right: 1px solid var(--line);
+    background: var(--panel);
+  }
+  aside h4 { margin: 0 0 12px; font-size: 13px; letter-spacing: .12em; color: var(--fg-dim); text-transform: uppercase; }
+  aside a { display: block; padding: 5px 10px; border-radius: 6px; color: var(--fg-dim);
+    text-decoration: none; font-size: 13px; line-height: 1.5; }
+  aside a:hover { background: var(--panel-2); color: var(--fg); }
+  aside a.nav-h2 { color: var(--accent); font-weight: 600; margin-top: 10px; }
+  aside a.nav-h3 { padding-left: 18px; }
+  aside a.nav-h4 { padding-left: 30px; font-size: 12.5px; opacity: .88; }
+  main { flex: 1 1 auto; min-width: 0; padding: 34px 44px 90px; }
+  h1 { font-size: 30px; margin: 0 0 10px; letter-spacing: .01em; }
+  h2 { font-size: 22px; margin: 46px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 30px 0 12px; padding: 9px 14px; border-radius: 8px;
+        background: linear-gradient(90deg, var(--panel-2), transparent); border-left: 3px solid var(--accent); }
+  blockquote { margin: 14px 0; padding: 10px 16px; border-left: 3px solid var(--accent-2);
+    background: var(--panel); color: var(--fg-dim); border-radius: 0 8px 8px 0; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 20px; font-size: 13.5px; }
+  th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--panel-2); color: var(--fg); font-weight: 600; }
+  tr:nth-child(even) td { background: rgba(255,255,255,.017); }
+  a { color: var(--accent); }
+  ul { margin: 10px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li strong { color: var(--accent-2); font-weight: 600; }
+  hr { border: none; border-top: 1px dashed var(--line); margin: 34px 0; }
+  code { background: var(--panel-2); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  @media (max-width: 900px) { aside { display: none; } main { padding: 22px 16px 60px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <h4>目录导航</h4>
+    <a class="nav-h2" href="#开篇必读8-处关键修正">开篇必读：8 处关键修正</a>
+<a class="nav-h2" href="#一报告速览">一、报告速览</a>
+<a class="nav-h2" href="#二船的基本规格">二、船的基本规格</a>
+<a class="nav-h3" href="#与同公司同价位船的位置">与同公司/同价位船的位置</a>
+<a class="nav-h2" href="#三-独特卖点三类拆分">三、⭐ 独特卖点三类拆分</a>
+<a class="nav-h3" href="#31-真首创有独立来源证实行业首个-船队首艘">3.1 ✅ 真首创（有独立来源证实「行业首个 / 船队首艘」）</a>
+<a class="nav-h3" href="#32-真差异化非首创但确实与同级同公司不同">3.2 ✅ 真差异化（非首创，但确实与同级/同公司不同）</a>
+<a class="nav-h3" href="#33-营销话术-被误传重点">3.3 ❌ 营销话术 / 被误传（重点）</a>
+<a class="nav-h3" href="#34-两条circle-pacific的区分最易混淆处">3.4 🚨 两条「Circle Pacific」的区分（最易混淆处）</a>
+<a class="nav-h2" href="#四价位核心章节">四、价位（核心章节）</a>
+<a class="nav-h3" href="#41-2027-grand-circle-pacificcoral-princess-执行">4.1 2027 Grand Circle Pacific（Coral Princess 执行）</a>
+<a class="nav-h3" href="#42-2028-world-cruise115-晚真环球">4.2 2028 World Cruise（115 晚真环球）</a>
+<a class="nav-h3" href="#43-分段segment价格-2027-gcp">4.3 分段（Segment）价格 —— 2027 GCP</a>
+<a class="nav-h3" href="#44-价位横向对比每人每晚2026-10-基线">4.4 价位横向对比（每人每晚，2026-10 基线）</a>
+<a class="nav-h2" href="#五隐性成本与套餐换算最容易算错的一章">五、隐性成本与套餐换算（最容易算错的一章）</a>
+<a class="nav-h3" href="#51-裸票价之外必付-可选项目">5.1 裸票价之外必付 / 可选项目</a>
+<a class="nav-h3" href="#52-princess-plus-premier-套餐-2026-10-13-起新价">5.2 Princess Plus / Premier 套餐（🚨 2026-10-13 起新价）</a>
+<a class="nav-h3" href="#53-premier-在长航程的净值换算">5.3 ⭐ Premier 在长航程的「净值换算」</a>
+<a class="nav-h3" href="#54-世界航程专属礼包2027-gcp-已过期">5.4 世界航程专属礼包（2027 GCP）—— 已过期</a>
+<a class="nav-h2" href="#六设施">六、设施</a>
+<a class="nav-h2" href="#七舱房面积口径-定价陷阱">七、舱房（面积口径 + 定价陷阱）</a>
+<a class="nav-h3" href="#71-三个必须知道的舱房陷阱">7.1 🚨 三个必须知道的舱房陷阱</a>
+<a class="nav-h3" href="#72-舱房横向对比入门阳台含阳台口径">7.2 舱房横向对比（入门阳台，含阳台口径）</a>
+<a class="nav-h2" href="#八基本福利专章wifi-酒水-小费-洗衣-座次-正装夜">八、基本福利专章（WiFi / 酒水 / 小费 / 洗衣 / 座次 / 正装夜）</a>
+<a class="nav-h3" href="#81-wifimedallionnet-2026-10-13-改版">8.1 WiFi（MedallionNet）—— 🚨 2026-10-13 改版</a>
+<a class="nav-h3" href="#82-酒水">8.2 酒水</a>
+<a class="nav-h3" href="#83-小费crew-appreciation">8.3 小费（Crew Appreciation）</a>
+<a class="nav-h3" href="#84-自助洗衣长航程关键">8.4 ⭐ 自助洗衣（长航程关键）</a>
+<a class="nav-h3" href="#85-座次与主餐厅">8.5 座次与主餐厅</a>
+<a class="nav-h3" href="#86-正装夜dress-to-impress">8.6 正装夜（Dress to Impress）</a>
+<a class="nav-h2" href="#九餐厅与食物内容">九、餐厅与食物内容</a>
+<a class="nav-h3" href="#91-完整餐厅清单">9.1 完整餐厅清单</a>
+<a class="nav-h3" href="#92-免费次数配额关键扣分项">9.2 🚨 免费次数配额（关键扣分项）</a>
+<a class="nav-h3" href="#93-长航程餐饮安排">9.3 长航程餐饮安排</a>
+<a class="nav-h2" href="#十船上节目">十、船上节目</a>
+<a class="nav-h3" href="#101-硬件">10.1 硬件</a>
+<a class="nav-h3" href="#102-驻船制作秀最大未决项">10.2 🚨 驻船制作秀（最大未决项）</a>
+<a class="nav-h3" href="#103-讲座-富集项目">10.3 讲座 / 富集项目</a>
+<a class="nav-h3" href="#104-其他">10.4 其他</a>
+<a class="nav-h3" href="#105-口碑中的节目评价">10.5 口碑中的节目评价</a>
+<a class="nav-h2" href="#十一干坞翻新史">十一、干坞翻新史</a>
+<a class="nav-h3" href="#111-最近一次干坞2024">11.1 最近一次干坞（2024）✅</a>
+<a class="nav-h3" href="#112-历史翻新年表">11.2 历史翻新年表</a>
+<a class="nav-h3" href="#113-关键判断">11.3 🚨 关键判断</a>
+<a class="nav-h2" href="#十二航线经过哪里2027-grand-circle-pacific">十二、航线经过哪里（2027 Grand Circle Pacific）</a>
+<a class="nav-h3" href="#121-129-晚-114-晚-前段-15-晚巴拿马运河段">12.1 129 晚 = 114 晚 + 前段 15 晚（巴拿马运河段）</a>
+<a class="nav-h3" href="#122-114-晚逐日洛杉矶往返2027-01-21-出发">12.2 114 晚逐日（洛杉矶往返，2027-01-21 出发）</a>
+<a class="nav-h3" href="#123-三洲覆盖与关键国家客户重点">12.3 三洲覆盖与关键国家（客户重点）</a>
+<a class="nav-h2" href="#十三2028-世界航程真环球不含亚洲">十三、2028 世界航程（真环球，不含亚洲）</a>
+<a class="nav-h2" href="#十四在海上多少天">十四、在海上多少天</a>
+<a class="nav-h2" href="#十五下船景点-航线景点">十五、下船景点 / 航线景点</a>
+<a class="nav-h2" href="#十六天气">十六、天气</a>
+<a class="nav-h2" href="#十七停靠港与母国停靠前置过滤">十七、停靠港与「母国停靠」前置过滤</a>
+<a class="nav-h2" href="#十八运河与改线风险">十八、运河与改线风险</a>
+<a class="nav-h3" href="#181-巴拿马运河闸室-">18.1 巴拿马运河闸室 ✅</a>
+<a class="nav-h3" href="#182-干旱限闸风险">18.2 🚨 干旱限闸风险</a>
+<a class="nav-h3" href="#183-苏伊士-红海-中东-">18.3 苏伊士 / 红海 / 中东 ✅</a>
+<a class="nav-h2" href="#十九签证-保险-医疗客户国专章">十九、签证 / 保险 / 医疗（客户国专章）</a>
+<a class="nav-h3" href="#191-签证要求按主要护照">19.1 签证要求（按主要护照）</a>
+<a class="nav-h3" href="#192-疫苗建议-">19.2 疫苗建议 ⚠️</a>
+<a class="nav-h3" href="#193-船上医疗与保险">19.3 🚨 船上医疗与保险</a>
+<a class="nav-h2" href="#二十整体体验口碑">二十、整体体验（口碑）</a>
+<a class="nav-h3" href="#201-评分汇总coral-专属非船队平均">20.1 评分汇总（Coral 专属，非船队平均）</a>
+<a class="nav-h3" href="#202-20242026-品质下滑讨论逐条">20.2 2024–2026 品质下滑讨论（逐条）</a>
+<a class="nav-h2" href="#二十一公司稳定性专章">二十一、公司稳定性专章</a>
+<a class="nav-h3" href="#211-carnival-corporation母公司财务-">21.1 Carnival Corporation（母公司）财务 ✅</a>
+<a class="nav-h3" href="#212-信用评级-">21.2 信用评级 ✅</a>
+<a class="nav-h3" href="#213-princess-品牌健康度">21.3 Princess 品牌健康度</a>
+<a class="nav-h3" href="#214-coral-princess-未来部署">21.4 🚨 Coral Princess 未来部署</a>
+<a class="nav-h3" href="#215-公司风险vs品牌风险关键">21.5 ⚠️ 「公司风险」vs「品牌风险」（关键）</a>
+<a class="nav-h3" href="#216-争议与事故">21.6 争议与事故</a>
+<a class="nav-h2" href="#二十二六维加权评分">二十二、六维加权评分</a>
+<a class="nav-h3" href="#221-评分权重-15-20-20-20-15-10">22.1 评分（权重 15 / 20 / 20 / 20 / 15 / 10）</a>
+<a class="nav-h3" href="#222-与预判分-350-的差异说明">22.2 🚨 与预判分 3.50 的差异说明</a>
+<a class="nav-h3" href="#223-在-16-艘基线中的位置">22.3 在 16 艘基线中的位置</a>
+<a class="nav-h3" href="#224-权重调整后冠军会变必须给客户">22.4 权重调整后冠军会变（必须给客户）</a>
+<a class="nav-h2" href="#二十三数据冲突与未核实清单">二十三、数据冲突与未核实清单</a>
+<a class="nav-h3" href="#231-主要数据冲突双方并列不擅自取舍">23.1 🚨 主要数据冲突（双方并列，不擅自取舍）</a>
+<a class="nav-h3" href="#232-查不到-未核实清单">23.2 🚨 查不到 / 未核实清单</a>
+<a class="nav-h2" href="#二十四给你的三条行动建议">二十四、给你的三条行动建议</a>
+<a class="nav-h3" href="#建议-1先确认你的国籍-护照这决定她是不是你的答案">建议 1：先确认你的「国籍 / 护照」，这决定她是不是你的答案</a>
+<a class="nav-h3" href="#建议-2如果你决定买只考虑阳台及以上-premier-套餐">建议 2：如果你决定买，只考虑「阳台及以上 + Premier 套餐」</a>
+<a class="nav-h3" href="#建议-3接受买航线不买船">建议 3：接受「买航线，不买船」</a>
+<a class="nav-h2" href="#附订舱前必须书面确认的-5-件事">附：订舱前必须书面确认的 5 件事</a>
+  </aside>
+  <main>
+<h1>Coral Princess（珊瑚公主号）单船深度研究报告</h1>
+<blockquote>
+<p><strong>调研对象</strong>：Princess Cruises · <strong>Coral Princess（珊瑚公主号）</strong> — Coral 级 Panamax，2002 年 12 月交付 / 2003 年 1 月首航<br />
+<strong>调研日期</strong>：2026-10-07　｜　<strong>数据时效</strong>：价格与政策为 2026-09/10 抓取值，<strong>2026-10-13 有一次重大涨价与 WiFi 改版（见「开篇必读」）</strong><br />
+<strong>客户画像</strong>：<strong>通用国际旅客</strong>（国籍未指定）｜关注 <strong>船上生活（WiFi / 美食 / 节目）+ 舱房与设施 + 航线与停靠港</strong>｜价格敏感度中等<br />
+<strong>汇率假设</strong>：<strong>1 USD ≈ 7.15 CNY</strong>（⚠️ 估算值，非实时牌价，仅供量级参考）；Princess 澳新航线常以 <strong>AUD</strong> 计价<br />
+<strong>报价口径</strong>：除注明外均为<strong>每人价、双人入住、含港务费与税费</strong>；「每人每晚」= 起价 ÷ 晚数（本报告自算，非官方公布值）<br />
+<strong>可信度标注</strong>：✅ 官方/多源已核实　｜　⚠️ 单一来源或存疑　｜　❌ 已证实为错误　｜　🚨 高风险提示/重大冲突</p>
+</blockquote>
+<hr />
+<h2 id="开篇必读8-处关键修正">开篇必读：8 处关键修正</h2>
+<p><strong>这一章放在最前面，因为它推翻的是关于 Coral Princess 最流行、也最容易被二手资料带偏的说法。</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>常见说法</th>
+<th>核查结论</th>
+<th>标记</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>「2028 年 Coral Princess 走环太平洋」</td>
+<td>❌ <strong>错</strong>。2028 是<strong>一次真正的环球航程（RTW）</strong>，115 晚、49 目的地、24 国、<strong>5 大洲</strong>，向西经巴拿马→南太→澳新→印度洋→南非→西非→地中海→大西洋返回。<strong>完全不进亚洲</strong>——没有日本、中国香港、新加坡，也没有韩国</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>2</td>
+<td>「环太平洋 Circle Pacific 覆盖中日韩」</td>
+<td>❌ <strong>错</strong>。<strong>2027 Grand Circle Pacific 没有韩国港口、没有中国大陆港口</strong>。亚洲段只有：中国香港（过夜）+ 中国台湾（基隆）+ <strong>日本 7 港</strong> + 越南/泰国/马来西亚/新加坡/印尼。2028 连中国香港都没有</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>3</td>
+<td>「2026 年是 Coral 的 Circle Pacific 115 晚」</td>
+<td>❌ <strong>错</strong>。2026 是 Coral 的 <strong>114 晚 World Cruise（世界航程）</strong>，经苏伊士/地中海/欧洲，<strong>不是环太平洋</strong></td>
+<td>❌</td>
+</tr>
+<tr>
+<td>4</td>
+<td>「Princess Plus 是 $65/天、Premier 是 $100/天」</td>
+<td>🚨 <strong>已过时</strong>。<strong>2026-10-13 起涨价 $5/天</strong>：Plus <strong>$70 预购 / $75 船上</strong>；Premier <strong>$105 预购 / $110 船上</strong>。Sun/Star 级再 +$5</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>5</td>
+<td>「WiFi 可以买单买 4 设备套餐」</td>
+<td>🚨 <strong>已取消</strong>。2026-10-13 起<strong>单买 4 设备套餐停售</strong>，4 设备改为仅随 Premier 提供；新推 2 设备套餐</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>6</td>
+<td>「Coral 的特色牛排馆是 Bayou Café」</td>
+<td>⚠️ <strong>已更名</strong>。官方 Coral Princess 船页现列 <strong>Crown Grill</strong>（+ Sabatini's + Crab Shack），<strong>不再提 Bayou Café</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>7</td>
+<td>「Princess 2027 只有一条 Circle Pacific」</td>
+<td>⚠️ <strong>有两条，极易混淆</strong>：<strong>Coral Princess 美国出发 110/114/129 晚（1 月）</strong> vs <strong>Grand Princess 澳洲出发 79 晚（6 月）</strong>。两者不是同一条航线</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>8</td>
+<td>「Coral Princess 是较新的船」</td>
+<td>❌ <strong>错</strong>。2003 年入役，是 <strong>Princess 17 艘船队中第二老的船</strong>（仅比 Grand Princess 1998 新）。2026 年船龄 23 年</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>一句话总纲</strong>：Coral Princess 的价值<strong>不在硬件</strong>（她是船队里最老、最小的船之一），<strong>而在于她是 Princess 仅有的两艘能过巴拿马运河旧闸的船</strong>，因此拿下了 2027 环太平洋与 2028 真环球这两个「目的地最密集」的世界航程。<strong>买她，买的是航线，不是船。</strong></p>
+</blockquote>
+<hr />
+<h2 id="一报告速览">一、报告速览</h2>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>她是谁</strong></td>
+<td>Coral 级（Panamax）邮轮，91,627 GT，2,000 客（下铺），2003 年入役，法国 Chantiers de l'Atlantique 建造，百慕大籍</td>
+</tr>
+<tr>
+<td><strong>她的核心差异化</strong></td>
+<td><strong>Princess 船队仅有的两艘可过巴拿马运河「历史旧闸」的船之一</strong>（另一艘是 Island Princess）</td>
+</tr>
+<tr>
+<td><strong>执行什么航次</strong></td>
+<td><strong>2027 Grand Circle Pacific</strong>（129/114/110 晚，环太平洋，3 洲 20 国 61 目的地）+ <strong>2028 World Cruise</strong>（115 晚，真环球，5 洲 24 国 49 目的地）</td>
+</tr>
+<tr>
+<td><strong>价格水平</strong></td>
+<td>2027 GCP 114 晚内舱 <strong>US$19,704/人（≈$173/晚）</strong>；阳台 $26,454（≈$233/晚）。<strong>在长航程市场属中低档价位</strong></td>
+</tr>
+<tr>
+<td><strong>最大优点</strong></td>
+<td>① 航线极强（巴拿马旧闸 + 新西兰峡湾 + 金伯利 + 阿拉斯加双冰川 + 内湾航道）② 每层设自助洗衣房、单价低 ③ 双层双剧场结构（Princess Theater + Universe Lounge）</td>
+</tr>
+<tr>
+<td><strong>最大缺点</strong></td>
+<td>① <strong>船老、设施磨损</strong>（2024–2026 最高频投诉）② 特色餐厅仅 2 家且要收费 ③ 船上活动偏少、付费项多 ④ 客舱面积偏小</td>
+</tr>
+<tr>
+<td><strong>六维加权总分</strong></td>
+<td><strong>3.65 / 5</strong>（深研后由预判 3.50 <strong>上调</strong>，修正原因见第二十二章）</td>
+</tr>
+<tr>
+<td><strong>前置过滤（停靠母国）</strong></td>
+<td>国籍未指定，无法判定；但<strong>已列出各主要护照的签证门槛与停靠港对照</strong>（第十九章）</td>
+</tr>
+<tr>
+<td><strong>一句话建议</strong></td>
+<td><strong>如果你要的是「一条航程把太平洋两侧都跑完」且不介意硬件代差 → 值得买；如果你要的是「新船 + 奢华硬件」→ 请直接排除她。</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二船的基本规格">二、船的基本规格</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>船级</td>
+<td><strong>Coral 级（Panamax）</strong>，同级船 Island Princess</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>总吨 GT</td>
+<td><strong>91,627 GT</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>长度</td>
+<td>965 ft / <strong>294 m</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>宽度 Beam</td>
+<td><strong>106 ft / 32 m（水线）</strong>；122 ft / 37 m（含驾驶台翼）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>吃水</td>
+<td>26 ft / 8.2 m</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>甲板</td>
+<td>16 层编号甲板；<strong>12 层乘客甲板</strong>；7 层有客舱（无 13 层）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>载客量（下铺）</td>
+<td><strong>2,000</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>载客量（最大）</td>
+<td>约 <strong>2,390–2,400</strong></td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td>船员</td>
+<td><strong>895</strong>（维基信息框 900）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>客员比</strong></td>
+<td><strong>2.23:1</strong>（按 2,000 客）｜2.67:1（按最大载客）</td>
+<td>✅ 计算值</td>
+</tr>
+<tr>
+<td>空间比</td>
+<td>45.8 GT/客（按 2,000）｜38（按 2,400）</td>
+<td>🚨 口径冲突</td>
+</tr>
+<tr>
+<td>船旗</td>
+<td><strong>百慕大（Bermuda）</strong>，注册港 Hamilton</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>船厂</td>
+<td><strong>Chantiers de l'Atlantique，法国 Saint-Nazaire</strong>，船厂编号 C32</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>IMO</td>
+<td><strong>9229659</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>交付 / 首航</strong></td>
+<td><strong>2002 年 12 月交付；2003 年 1 月首航</strong>（命名人：巴拿马时任总统 Mireya Moscoso，2003-01-18）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>造价</td>
+<td>约 <strong>US$3.3–3.6 亿</strong></td>
+<td>⚠️ 源冲突</td>
+</tr>
+<tr>
+<td>动力</td>
+<td><strong>CODAG 柴电 + 燃气轮机</strong>；2×Wärtsilä 16V46C + 1×GE LM2500（62.7 MW）；22 节</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>客舱数</td>
+<td><strong>约 1,000 间</strong>（官方 Fact Sheet 的 1,545 与载客量数学矛盾，判定为可疑数据）</td>
+<td>🚨</td>
+</tr>
+<tr>
+<td>带阳台客舱</td>
+<td><strong>约 700+</strong>（占外舱约 80%）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>无障碍舱</td>
+<td><strong>20 间</strong>（16 外舱 + 4 内舱）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>连通房</td>
+<td>9 间</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「交付年 2002 / 首航年 2003」两个说法都对</strong>——只是口径不同。官方 Fleet 页写「Entered Service 2003」。</p>
+<h3 id="与同公司同价位船的位置">与同公司/同价位船的位置</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Coral Princess</th>
+<th>Grand Princess</th>
+<th>Royal 级</th>
+<th>Sphere 级（Sun/Star）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GT</td>
+<td><strong>91,627</strong></td>
+<td>107,517</td>
+<td>142,229–145,000</td>
+<td>175,500</td>
+</tr>
+<tr>
+<td>载客（下铺）</td>
+<td><strong>2,000</strong></td>
+<td>2,610</td>
+<td>3,560–3,660</td>
+<td>4,310</td>
+</tr>
+<tr>
+<td>入役</td>
+<td><strong>2003</strong></td>
+<td>1998</td>
+<td>2013–2022</td>
+<td>2024–2025</td>
+</tr>
+<tr>
+<td>过巴拿马旧闸</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>她是 Princess 船队里第二老的船，也是最小的船之一</strong>——但正因为「小」，她才能过巴拿马运河旧闸，这是大型新船永远做不到的。</p>
+</blockquote>
+<hr />
+<h2 id="三-独特卖点三类拆分">三、⭐ 独特卖点三类拆分</h2>
+<blockquote>
+<p>方法论要求：把卖点严格分成「真首创 / 真差异化 / 营销话术」三类。<strong>这一章的价值恰恰在第三类。</strong></p>
+</blockquote>
+<h3 id="31-真首创有独立来源证实行业首个-船队首艘">3.1 ✅ 真首创（有独立来源证实「行业首个 / 船队首艘」）</h3>
+<table>
+<thead>
+<tr>
+<th>卖点</th>
+<th>证据</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EnviroEngine（CODAG 燃-柴联合）推进系统 —— 邮轮业首个完全采用该系统的船</strong></td>
+<td>维基引 Wärtsilä 百科 + <em>Maritime Reporter</em> 2003-02《Coral Princess Debuts With Unique Propulsion System》原文：「<strong>is the first in the cruise industry to fully utilize this new system</strong>」</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Princess 船队首艘使用燃气轮机发电的船</strong></td>
+<td>同上：「<strong>the first in the Princess fleet to use a gas-turbine power generator</strong>」</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>首个采用「漏斗装饰性涡轮柱」设计的船</strong></td>
+<td>维基引 MHI 技术评论（后复制于 Diamond / Sapphire）</td>
+<td>⚠️ 单源</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>不要误列为首创</strong>：常有人说「Coral 级是全球首批专为巴拿马运河旧闸设计的 Panamax 邮轮」——<strong>未找到任何官方或权威定性支持「首批/首艘」</strong>。官方只写「specially built to sail through the Panama Canal」，属<strong>差异化表述，不是首创</strong>。</p>
+</blockquote>
+<h3 id="32-真差异化非首创但确实与同级同公司不同">3.2 ✅ 真差异化（非首创，但确实与同级/同公司不同）</h3>
+<table>
+<thead>
+<tr>
+<th>卖点</th>
+<th>说明</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Princess 船队仅有的两艘可过巴拿马运河旧闸的船</strong></td>
+<td>官方原文：「Coral Princess is <strong>one of only two ships in the Princess fleet specially built to sail through the Panama Canal</strong>」。硬差异：旧闸限宽 32.31 m，Coral 水线宽 32 m 恰好通过；Royal 级/Sphere 级（36–45 m）<strong>永远无法通过</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>体量远小于新船</strong></td>
+<td>2,000 客 vs Sphere 级 4,310 客；91,627 GT vs 175,500 GT。官方定位「intimate ship」</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>双层双剧场结构</strong></td>
+<td><strong>Princess Theater（两层）+ Universe Lounge（两层、3 个液压旋转舞台）</strong> —— 2,000 客的小船上有两个双层演艺场，业内罕见</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Universe Lounge</strong></td>
+<td>⚠️ <strong>疑似 Coral 独有</strong>——Island Princess 在 <strong>2015 年改装</strong>中拆除 Universe Lounge 与尾部酒廊以加建舱房（载客由 ~1,970 增至 2,210）。<strong>待二次确认</strong></td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>Coral 级与 Island 级 2015 后已非同型</strong></td>
+<td>Island 2015 干船坞加建舱房，两姊妹船「no longer twins」；Coral 保持原布局</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>巴拿马运河主题讲解</strong></td>
+<td>Princess 自 1967 年经营巴拿马运河航线，船上配运河专家全程讲解</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>The Conservatory（温室玻璃顶泳池区）</strong></td>
+<td>封闭气候可控顶层区：2 个热水池 + 1 个淡水泳池 + 池畔淋浴 + 酒吧 + 2 张乒乓球桌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-营销话术-被误传重点">3.3 ❌ 营销话术 / 被误传（<strong>重点</strong>）</h3>
+<table>
+<thead>
+<tr>
+<th>被误传说法</th>
+<th>核查</th>
+<th>标记</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>「MedallionClass 是海上首创」</strong></td>
+<td>⚠️ <strong>半真</strong>。OceanMedallion 2017 年发布、CES 获奖、2022 年初覆盖全船队，属<strong>行业先行</strong>；但权威第三方（Cruise Critic）仅称其为「a new-wave of ocean-cruise technology」，<strong>从未以「world's first」定性</strong>。「海上首创」多为营销与二手渲染</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>「Princess 世界航程最长 / 最多港」</strong></td>
+<td>❌ <strong>夸大</strong>。2028 为 115 晚 / 49 目的地；业界有更长者（RCI Ultimate World Cruise 274 晚、Oceania 180 天、Regent 154 晚等）。「最长」不成立</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>「Coral Princess 是最新的 Princess 船」</strong></td>
+<td>❌ <strong>错</strong>。2003 年入役，为船队第二老；最新为 Star Princess（2025-09-26）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>「环太平洋覆盖中日韩」</strong></td>
+<td>❌ <strong>错</strong>。2027 无韩国、无中国大陆港；2028 完全不含亚洲</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>「2026 是 Circle Pacific 115 晚」</strong></td>
+<td>❌ <strong>错</strong>。2026 为 114 晚 World Cruise（经苏伊士/地中海）</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>「Bayou Café 已更名为 Crown Grill」</strong></td>
+<td>⚠️ <strong>部分准确</strong>。官方 Coral 船页现列 <strong>Crown Grill</strong>（无 Bayou）；但 2026 世界航程宣传册（2024 年印制）仍写 Bayou。<strong>判定：现行官方口径为 Crown Grill，Bayou 已退场</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>「Coral 上有 Royal/Sphere 级的设施」</strong></td>
+<td>⚠️ <strong>张冠李戴高发</strong>。<strong>The Dome、Park19、Ocean Terrace、Alfredo's、Salty Dog</strong> 均<strong>不在</strong> Coral 上；Coral 的 <strong>Universe Lounge、The Conservatory</strong> 又不在新船上。二手资料常互串</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>「被宣传但从未交付的设施」</strong></td>
+<td>✅ <strong>有行业先例，但不在 Coral</strong>：<strong>Sun Princess 的 Park19 三大核心设施（RollGlider 滑轨 / Coastal Climb 攀爬 / Ropes Course 绳索场）2024-07 官方宣布「无法接收交付」，从未开放</strong>，Star Princess 亦不含这三项。<strong>Coral 本身未查到「宣传未交付」设施</strong></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-两条circle-pacific的区分最易混淆处">3.4 🚨 两条「Circle Pacific」的区分（最易混淆处）</h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th><strong>Coral Princess</strong> 的</th>
+<th><strong>Grand Princess</strong> 的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>年份</td>
+<td>2027</td>
+<td>2027</td>
+</tr>
+<tr>
+<td>产品名</td>
+<td><strong>Grand Circle Pacific</strong></td>
+<td><strong>Circle Pacific</strong></td>
+</tr>
+<tr>
+<td>晚数</td>
+<td><strong>110 / 114 / 129 晚</strong></td>
+<td><strong>79 晚</strong></td>
+</tr>
+<tr>
+<td>出发地</td>
+<td><strong>美国</strong>（劳德代尔堡 1/6；洛杉矶 1/21）</td>
+<td><strong>澳洲</strong>（布里斯班 6/15；悉尼 6/17；奥克兰 6/21）</td>
+</tr>
+<tr>
+<td>定位</td>
+<td>世界航程级（World Cruise）</td>
+<td>澳洲本地长航程</td>
+</tr>
+<tr>
+<td>起价</td>
+<td>内舱 US$19,704（114 晚）</td>
+<td>内舱 A$19,999</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>两者<strong>完全不是同一条航线</strong>。二手资料常把「79 晚」与「129 晚」混为一谈。</p>
+</blockquote>
+<hr />
+<h2 id="四价位核心章节">四、价位（核心章节）</h2>
+<h3 id="41-2027-grand-circle-pacificcoral-princess-执行">4.1 2027 Grand Circle Pacific（Coral Princess 执行）</h3>
+<p><strong>三个长度选项（官方确认仅 3 种，无第四种 ✅）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>晚数</th>
+<th>出发 → 抵达</th>
+<th>出发日期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><strong>129</strong></td>
+<td>劳德代尔堡 → 洛杉矶</td>
+<td>2027-01-06</td>
+</tr>
+<tr>
+<td>B</td>
+<td><strong>114</strong></td>
+<td>洛杉矶往返</td>
+<td>2027-01-21</td>
+</tr>
+<tr>
+<td>C</td>
+<td><strong>110</strong></td>
+<td>洛杉矶 → 温哥华</td>
+<td>2027-01-21</td>
+</tr>
+</tbody>
+</table>
+<p><strong>114 晚（洛杉矶往返）房型阶梯</strong> ✅ 多源一致</p>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>起价（USD/人）</th>
+<th>每人每晚</th>
+<th>2 人合计（USD）</th>
+<th>2 人合计（≈CNY）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>内舱 Inside</strong></td>
+<td><strong>$19,704</strong></td>
+<td><strong>$173</strong></td>
+<td>$39,408</td>
+<td>≈¥28.2 万</td>
+</tr>
+<tr>
+<td>海景 Oceanview</td>
+<td>$22,054</td>
+<td>$194</td>
+<td>$44,108</td>
+<td>≈¥31.5 万</td>
+</tr>
+<tr>
+<td><strong>阳台 Balcony</strong></td>
+<td><strong>$26,454</strong></td>
+<td><strong>$233</strong></td>
+<td>$52,908</td>
+<td>≈¥37.8 万</td>
+</tr>
+<tr>
+<td>套房 Suite</td>
+<td>$39,674</td>
+<td>$349</td>
+<td>$79,348</td>
+<td>≈¥56.7 万</td>
+</tr>
+<tr>
+<td>迷你套房 Mini-Suite</td>
+<td><strong>未查到公开起价</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>澳元对照</strong>（CleanCruising，AUD/人，含税）✅</p>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>每人起价（AUD）</th>
+<th>每人每晚（AUD）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内舱</td>
+<td>A$27,549</td>
+<td>A$241</td>
+</tr>
+<tr>
+<td>外舱</td>
+<td>A$30,831</td>
+<td>A$270</td>
+</tr>
+<tr>
+<td>阳台</td>
+<td>A$36,999</td>
+<td>A$324</td>
+</tr>
+<tr>
+<td>套房</td>
+<td>A$55,499</td>
+<td>A$486</td>
+</tr>
+</tbody>
+</table>
+<p><strong>129 晚（劳德代尔堡→洛杉矶）</strong> ⚠️ 数据存疑</p>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>起价（USD/人）</th>
+<th>每人每晚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内舱</td>
+<td>$21,707 ⚠️</td>
+<td>$169</td>
+</tr>
+<tr>
+<td>海景</td>
+<td>$25,651 ⚠️</td>
+<td>$199</td>
+</tr>
+<tr>
+<td>阳台</td>
+<td>$29,507 ⚠️</td>
+<td>$229</td>
+</tr>
+<tr>
+<td>套房</td>
+<td>$44,577 ⚠️</td>
+<td>$346</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🚨 <strong>129 晚价格存疑</strong>：单一来源（TrackCruisePrices）对 114 晚内舱报 $39,376，而 Gangwaze / iCruise / Costco / CleanCruising <strong>四源一致</strong>落在 $19,704–27,549 区间——前者约为后者 <strong>2 倍</strong>，疑为双人总计或抓取错误。<strong>129 晚数据仅作相对量级参考，勿作绝对值使用。</strong> Costco Travel 报「自 $21,706 起」✅ 与上表内舱价吻合。</p>
+</blockquote>
+<p><strong>110 晚（洛杉矶→温哥华）</strong> ⚠️</p>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>起价（USD/人，含税/费）</th>
+<th>每人每晚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内舱</td>
+<td>需询价（"call"）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>海景</td>
+<td>$22,634</td>
+<td>$206</td>
+</tr>
+<tr>
+<td>阳台</td>
+<td>$27,800</td>
+<td>$253</td>
+</tr>
+<tr>
+<td>套房</td>
+<td>$38,474</td>
+<td>$350</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-2028-world-cruise115-晚真环球">4.2 2028 World Cruise（115 晚真环球）</h3>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>起价（USD/人）</th>
+<th>每人每晚</th>
+<th>2 人合计（USD）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>内舱 Inside</strong></td>
+<td><strong>$18,796</strong></td>
+<td><strong>$164</strong></td>
+<td>$37,592</td>
+</tr>
+<tr>
+<td>海景 Oceanview</td>
+<td>$19,926</td>
+<td>$174</td>
+<td>$39,852</td>
+</tr>
+<tr>
+<td>阳台 Balcony</td>
+<td>$23,846</td>
+<td>$208</td>
+<td>$47,692</td>
+</tr>
+<tr>
+<td>套房 Suite</td>
+<td>$39,246</td>
+<td>$342</td>
+<td>$78,492</td>
+</tr>
+<tr>
+<td>迷你套房</td>
+<td>未查到</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Seatrade 报道「票价自 $29,430 起」——疑为阳台及以上档，<strong>非最低内舱价，勿混用</strong>。AffordableTours 另报内舱 $18,421 / 阳台 $24,500（口径略异）。</p>
+</blockquote>
+<h3 id="43-分段segment价格-2027-gcp">4.3 分段（Segment）价格 —— 2027 GCP</h3>
+<blockquote>
+<p>官方 flyer <strong>未列分段价格</strong>，需询价。下表为第三方（Gangwaze / iCruise，⚠️）公开的部分数据。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>分段</th>
+<th>晚数</th>
+<th>起价（USD/人）</th>
+<th>每人每晚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>巴拿马运河（Panama Canal）</td>
+<td>15</td>
+<td>$2,171</td>
+<td>$145</td>
+</tr>
+<tr>
+<td>阿拉斯加与北太横渡</td>
+<td>19</td>
+<td>$2,933</td>
+<td>$155</td>
+</tr>
+<tr>
+<td>夏威夷与南太横渡</td>
+<td>28</td>
+<td>海景 $6,925 / 阳台 $9,094</td>
+<td>≈$247–325</td>
+</tr>
+<tr>
+<td>澳洲与东南亚</td>
+<td>32</td>
+<td>内舱 $5,350 / 阳台 $6,353</td>
+<td>$168–199</td>
+</tr>
+<tr>
+<td>日台（Japan &amp; Taiwan）</td>
+<td>10</td>
+<td>未查到</td>
+<td>—</td>
+</tr>
+<tr>
+<td>泰马越</td>
+<td>13</td>
+<td>未查到</td>
+<td>—</td>
+</tr>
+<tr>
+<td>东南亚与日本</td>
+<td>23</td>
+<td>未查到</td>
+<td>—</td>
+</tr>
+<tr>
+<td>新加坡→洛杉矶</td>
+<td>46</td>
+<td>未查到</td>
+<td>—</td>
+</tr>
+<tr>
+<td>洛杉矶→新加坡</td>
+<td>68</td>
+<td>未查到</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2027 GCP 官方完整分段清单</strong>（14 条）✅：Pacific Coastal 4 晚｜Japan &amp; Taiwan 10 晚｜Thailand, Malaysia &amp; Vietnam 13 晚｜Panama Canal Ocean-to-Ocean 15 / 23 晚｜Alaska &amp; North Pacific Crossing 19 / 23 晚｜Southeast Asia &amp; Japan 23 晚｜Hawaii &amp; South Pacific Crossing 28 / 36 / 40 晚｜Australia, NZ &amp; Indonesia 28 晚｜Australia &amp; Southeast Asia 32 晚｜North Pacific Singapore→LA 46 晚｜South Pacific LA→Singapore 68 晚。</p>
+<blockquote>
+<p><strong>2028 世界航程分段</strong>：官方称提供 <strong>20–100 晚</strong>分段，已知可单买 <strong>100 晚（洛杉矶→劳德代尔堡）</strong>，其余需询价。</p>
+</blockquote>
+<h3 id="44-价位横向对比每人每晚2026-10-基线">4.4 价位横向对比（每人每晚，2026-10 基线）</h3>
+<table>
+<thead>
+<tr>
+<th>船</th>
+<th>每人每晚</th>
+<th>定位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cunard（最低舱）</td>
+<td>$141</td>
+<td>主流</td>
+</tr>
+<tr>
+<td><strong>Coral Princess（内舱）</strong></td>
+<td><strong>$173</strong></td>
+<td><strong>主流</strong></td>
+</tr>
+<tr>
+<td><strong>Coral Princess（阳台）</strong></td>
+<td><strong>$233</strong></td>
+<td><strong>主流</strong></td>
+</tr>
+<tr>
+<td>Cunard Queen Elizabeth</td>
+<td>$263</td>
+<td>主流</td>
+</tr>
+<tr>
+<td>Princess Star Princess</td>
+<td>$361</td>
+<td>主流</td>
+</tr>
+<tr>
+<td>Oceania Vista</td>
+<td>$423</td>
+<td>高端</td>
+</tr>
+<tr>
+<td>Viking Vesta</td>
+<td>$447</td>
+<td>高端</td>
+</tr>
+<tr>
+<td>Crystal Serenity</td>
+<td>$493</td>
+<td>奢华</td>
+</tr>
+<tr>
+<td>Silver Muse</td>
+<td>$507</td>
+<td>奢华</td>
+</tr>
+<tr>
+<td>Seabourn Quest</td>
+<td>$621</td>
+<td>奢华</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>结论</strong>：Coral Princess 的价位在「长航程」市场里属<strong>主流偏低档</strong>——阳台房 $233/晚，只有奢华线的一半。<strong>这是她最实在的优势。</strong></p>
+</blockquote>
+<hr />
+<h2 id="五隐性成本与套餐换算最容易算错的一章">五、隐性成本与套餐换算（<strong>最容易算错的一章</strong>）</h2>
+<h3 id="51-裸票价之外必付-可选项目">5.1 裸票价之外必付 / 可选项目</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>标准</th>
+<th>129 晚双人估算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>船员小费 Crew Appreciation</strong></td>
+<td><strong>2026-03 起</strong>：标准舱 <strong>$18/人/晚</strong>；迷你套房/Reserve <strong>$19</strong>；套房 <strong>$20</strong></td>
+<td><strong>$4,644</strong>（强制）</td>
+</tr>
+<tr>
+<td><strong>服务费 Service Charge</strong></td>
+<td><strong>2026 起由 18% 上调至 20%</strong>（付费餐饮、酒水、Spa）</td>
+<td>按消费</td>
+</tr>
+<tr>
+<td><strong>WiFi 单买（2026-10-13 新价）</strong></td>
+<td>1 设备 <strong>$27.99/天</strong>（预购）/ $33.99（船上）/ $39.99（单日）；2 设备 $39.99 / $47.99 / $55.99</td>
+<td>≈$3,611（1 设备全程）</td>
+</tr>
+<tr>
+<td><strong>酒水</strong></td>
+<td>单点 + 20% 服务费</td>
+<td>弹性极大</td>
+</tr>
+<tr>
+<td><strong>特色餐厅</strong></td>
+<td><strong>$55 + 20%</strong> 服务费</td>
+<td>弹性</td>
+</tr>
+<tr>
+<td><strong>岸上观光</strong></td>
+<td>按项目</td>
+<td>弹性</td>
+</tr>
+<tr>
+<td><strong>The Sanctuary（成人静区）</strong></td>
+<td>按时段收费（约 $20/半天、$40/全天 ⚠️）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>机票 / 酒店 / 接送</strong></td>
+<td>按需（EZair 可打包）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>「裸票 + 隐性成本」双人总成本模型（129 晚内舱）</strong></p>
+<table>
+<thead>
+<tr>
+<th>构成</th>
+<th>双人金额（USD）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>裸票价（内舱）</td>
+<td>$43,414 ⚠️</td>
+</tr>
+<tr>
+<td>船员小费（强制）</td>
+<td>$4,644</td>
+</tr>
+<tr>
+<td><strong>小计（裸票 + 强制小费）</strong></td>
+<td><strong>≈$48,058</strong></td>
+</tr>
+<tr>
+<td>WiFi（1 设备全程）</td>
+<td>≈$3,611</td>
+</tr>
+<tr>
+<td>岸上观光（保守 $80/人 × 约 25 停靠 × 2）</td>
+<td>≈$4,000</td>
+</tr>
+<tr>
+<td>酒水（保守 $30/人/天 × 2 × 129）</td>
+<td>≈$7,740</td>
+</tr>
+<tr>
+<td><strong>全口径粗估</strong></td>
+<td><strong>≈$63,409</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>实际支出常比裸票高 30–45%</strong>——这是长航程决策最容易被低估的一块。</p>
+</blockquote>
+<h3 id="52-princess-plus-premier-套餐-2026-10-13-起新价">5.2 Princess Plus / Premier 套餐（🚨 2026-10-13 起新价）</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>Princess Standard</th>
+<th>Princess Plus</th>
+<th>Princess Premier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>价格（预购）</strong></td>
+<td>仅船票</td>
+<td><strong>$70/人/天</strong>（≈¥501）</td>
+<td><strong>$105/人/天</strong>（≈¥751）</td>
+</tr>
+<tr>
+<td><strong>价格（船上购）</strong></td>
+<td>—</td>
+<td><strong>$75/人/天</strong></td>
+<td><strong>$110/人/天</strong></td>
+</tr>
+<tr>
+<td>Sun / Star 级</td>
+<td>—</td>
+<td>$75 / $80</td>
+<td>$110 / $115</td>
+</tr>
+<tr>
+<td>主餐厅/自助/剧场/健身房</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>WiFi</strong></td>
+<td>❌（单买 $27.99/天起）</td>
+<td><strong>1 台/人</strong>（MedallionNet <strong>Max</strong>，支持流媒体）</td>
+<td><strong>4 台/人</strong>（Max）</td>
+</tr>
+<tr>
+<td><strong>酒水</strong></td>
+<td>❌</td>
+<td><strong>15 杯/天，每杯 ≤$15</strong></td>
+<td><strong>不限量，每杯 ≤$20</strong></td>
+</tr>
+<tr>
+<td><strong>小费</strong></td>
+<td>❌（$18–20/人/晚）</td>
+<td>✅ 含</td>
+<td>✅ 含</td>
+</tr>
+<tr>
+<td><strong>特色餐厅</strong></td>
+<td>按店付费</td>
+<td><strong>❌ 0 次（完全不含）</strong></td>
+<td><strong>✅ 无限次</strong>（2026-01-14 起）</td>
+</tr>
+<tr>
+<td><strong>休闲餐厅</strong></td>
+<td>按店付费</td>
+<td><strong>4 次/人/航次</strong></td>
+<td><strong>无限次</strong></td>
+</tr>
+<tr>
+<td>OceanNow 送餐</td>
+<td>$14.99 激活费</td>
+<td>✅ 免</td>
+<td>✅ 免</td>
+</tr>
+<tr>
+<td>Room Service</td>
+<td>$5/单</td>
+<td>✅ 免</td>
+<td>✅ 免</td>
+</tr>
+<tr>
+<td>岸上观光抵用金</td>
+<td>❌</td>
+<td>❌</td>
+<td><strong>$100–300/人</strong></td>
+</tr>
+<tr>
+<td>专业照片</td>
+<td>❌</td>
+<td>❌</td>
+<td><strong>无限数字 + 3 张打印</strong></td>
+</tr>
+<tr>
+<td>剧院预留座位</td>
+<td>❌</td>
+<td>❌</td>
+<td><strong>✅</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>历史价（并列，勿混用）</strong>：2024-08 发布时 Plus $60 / Premier $80（升级版 $90）；2025-07-22 起 Plus $65 / Premier $100；<strong>2026-10-13 起 Plus $70 / Premier $105（预购）</strong>。</p>
+</blockquote>
+<h3 id="53-premier-在长航程的净值换算">5.3 ⭐ Premier 在长航程的「净值换算」</h3>
+<p>以 129 晚内舱为例：<br />
+- 裸票价：$21,707/人 ⚠️<br />
+- 加购 Premier：+$105/人/天 × 129 = <strong>+$13,545/人</strong><br />
+- Premier 打包价值：WiFi 4 设备（≈$47.99/天 × 129 ≈ <strong>$6,191</strong>）+ 小费（$18 × 129 = <strong>$2,322</strong>）+ 无限特色餐厅 + 无限酒水 + 岸上观光 $300 + 照片<br />
+- <strong>结论：长航程下 Premier 极易回本</strong>——<strong>单 WiFi + 小费就已达 $8,513/人</strong>，套餐 $13,545 还含酒水与无限餐饮。✅ 逻辑推算</p>
+<blockquote>
+<p>⚠️ <strong>Plus 的坑</strong>：Plus <strong>一次特色餐厅都不含</strong>。若你重视「美食」，Plus 是错的选择——要么上 Premier，要么按次付费。</p>
+</blockquote>
+<h3 id="54-世界航程专属礼包2027-gcp-已过期">5.4 世界航程专属礼包（2027 GCP）—— <strong>已过期</strong></h3>
+<table>
+<thead>
+<tr>
+<th>权益</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Princess Premier 套餐</td>
+<td>免费赠送</td>
+</tr>
+<tr>
+<td><strong>免费机票</strong></td>
+<td>迷你套房/套房 = <strong>头等舱</strong>；阳台舱 = 经济舱（须经 EZair，出发前 ≥120 天）</td>
+</tr>
+<tr>
+<td>免费接送</td>
+<td>机场↔船（LAX / FLL / MIA）</td>
+</tr>
+<tr>
+<td>船上消费金 OBC</td>
+<td><strong>最高 $3,000/舱</strong></td>
+</tr>
+<tr>
+<td>Captain's Circle 早订折扣</td>
+<td>最高 $3,000/舱</td>
+</tr>
+<tr>
+<td>限制</td>
+<td>🚨 <strong>仅限北美居民</strong>；仅限新预订</td>
+</tr>
+<tr>
+<td><strong>截止</strong></td>
+<td><strong>2025-10-31（已过期）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🚨 <strong>当前状态</strong>：2027 世界航程促销页显示「This offer has expired」。<strong>未查到现行替代促销</strong>。⚠️ <strong>分段（segment）购买权益显著缩水</strong>（参照 2026 先例：分段仅 $200 OBC/人，全程 $500/人 + Premier + 免费机票）。</p>
+</blockquote>
+<hr />
+<h2 id="六设施">六、设施</h2>
+<table>
+<thead>
+<tr>
+<th>设施</th>
+<th>详情</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>泳池</strong></td>
+<td><strong>4 个</strong>（官方）：<strong>Lido Pool / Calypso Reef</strong>（露天主泳池，Deck 14）、<strong>Lotus Pool / The Conservatory</strong>（<strong>室内恒温、可开合玻璃顶淡水泳池</strong>）、<strong>Sanctuary Pool</strong>（成人区，船尾）</td>
+<td>✅/⚠️</td>
+</tr>
+<tr>
+<td><strong>按摩池</strong></td>
+<td><strong>5 个</strong>（全在 Lido Deck）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>The Sanctuary（成人专属）</strong></td>
+<td>有；约 <strong>$20/半天、$40/全天</strong>（⚠️ 另有旧价 $10/$20）；另加服务费</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>The Conservatory</strong></td>
+<td>玻璃顶温室区：2 热水池 + 1 淡水泳池 + 酒吧 + 乒乓球</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Lotus Spa</strong></td>
+<td>芳香疗法热疗套房、美发沙龙、面部/按摩/裹敷；曾获 Spafinder「Best Spa on a Cruise Ship」</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>健身中心</strong></td>
+<td>动感单车、TRX、瑜伽、普拉提、Boot Camp</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>赌场</strong></td>
+<td><strong>Princess Casino（官方标注 Vegas Style）</strong>，Deck 7，21+</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>图书馆</strong></td>
+<td><strong>Library &amp; Card Room，Deck 7</strong>（含写作室、牌室）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Promenade Deck（环绕甲板）</strong></td>
+<td>Deck 7 名为「Promenade」；据乘客问答 <strong>「goes all the way around the ship」（可绕船一周）</strong></td>
+<td>⚠️ 二手</td>
+</tr>
+<tr>
+<td><strong>Princess Theater</strong></td>
+<td>两层主秀场（Deck 6–7，船前部）；<strong>座位数未查到官方数字</strong></td>
+<td>🚨</td>
+</tr>
+<tr>
+<td><strong>Universe Lounge</strong></td>
+<td><strong>Coral 级特色</strong>，两层，<strong>3 个液压旋转舞台</strong>（官方确认）；⚠️ 容量约 600（单源）</td>
+<td>✅/⚠️</td>
+</tr>
+<tr>
+<td><strong>酒廊</strong></td>
+<td>Explorers Lounge（Deck 6）、Wheelhouse Bar（Deck 7）、Crooners（Deck 7）、Churchill Lounge（Deck 7）、Good Spirits at Sea（Deck 5）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>The Piazza 中庭</strong></td>
+<td>Deck 5 起多层挑高意式广场，含现场娱乐与 International Café</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>运动</strong></td>
+<td>Center Court（排/篮/足）、<strong>Princess Links 9 洞推杆场</strong>、沙狐球、Deck Chess、虚拟高尔夫</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>儿童/青少年</strong></td>
+<td>Princess Pelicans（3–7）、Shockwaves（8–12）、Remix（13–17）；晚间 22:00–01:00 托管 $5/小时</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>其它</strong></td>
+<td>婚礼教堂（Hearts &amp; Minds）、美术画廊、照片廊、免税商店、医疗中心（Deck 4）</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🚨 <strong>无障碍提示</strong>：Deck 6 剧院下层<strong>不可轮椅进入</strong>；Sports Deck 无电梯。</p>
+</blockquote>
+<hr />
+<h2 id="七舱房面积口径-定价陷阱">七、舱房（面积口径 + 定价陷阱）</h2>
+<blockquote>
+<p>🚨 <strong>面积口径严重不统一</strong>：官方不同页面之间、官方 vs 第三方之间数字互相打架，「是否含阳台」标注也不一致。<strong>下表逐一列出双方数字，请勿取单一数字当定论。</strong>（1 ft² ≈ 0.0929 m²）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>官方船页</th>
+<th>官方 meta 页</th>
+<th>CruiseMapper</th>
+<th>CruiseDeckPlans</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>内舱</strong>（IA–IF）</td>
+<td>约 158–162 ft²</td>
+<td>—</td>
+<td>155–165 ft²</td>
+<td>156–166 ft²</td>
+</tr>
+<tr>
+<td><strong>海景</strong>（OB–OD；OV/OW/OY/OZ 遮挡）</td>
+<td>约 146–206 ft²</td>
+<td>—</td>
+<td>160 ft²；O5/O6 Deluxe 215 ft²</td>
+<td>162–212 ft²</td>
+</tr>
+<tr>
+<td><strong>阳台</strong>（BA–BF；BY/BZ 遮挡）</td>
+<td>约 214–222 ft²</td>
+<td>—</td>
+<td>舱 170 + 阳台 45–75</td>
+<td>舱 210–234 + 阳台 35–72</td>
+</tr>
+<tr>
+<td><strong>迷你套房</strong>（M1, MB, MD, ME）</td>
+<td>约 323 ft²（含阳台）</td>
+<td>舱 280–302 + 阳台 35–58</td>
+<td>舱 240 + 阳台 45</td>
+<td>舱 280–302 + 阳台 35–58</td>
+</tr>
+<tr>
+<td><strong>海景迷你套房（MY，大窗无阳台）</strong></td>
+<td>约 300 ft²</td>
+<td>约 300 ft²</td>
+<td>280–300 ft²</td>
+<td>约 300 ft²</td>
+</tr>
+<tr>
+<td><strong>套房（总范围）</strong></td>
+<td>约 460–932 ft²（含阳台）</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Premium Suite（S5）</strong></td>
+<td>—</td>
+<td>—</td>
+<td>300–470 ft²（含阳台）</td>
+<td>302–470 ft²</td>
+</tr>
+<tr>
+<td><strong>Vista Suite（S6）</strong></td>
+<td>—</td>
+<td>舱 319–730 + 阳台 114–181</td>
+<td>470 ft²（含阳台）</td>
+<td>470 ft²</td>
+</tr>
+</tbody>
+</table>
+<h3 id="71-三个必须知道的舱房陷阱">7.1 🚨 三个必须知道的舱房陷阱</h3>
+<p><strong>陷阱 1：同一房型出现 5 套不同数字。</strong><br />
+官方船页、官方 SS 页、官方 S6 页、Sovereign、CruiseDeckPlans 对「套房面积」给出<strong>五套互不相同的数字</strong>——判定为<strong>官方页面使用了船队通用模板文本</strong>。<strong>下单前必须向 Princess 或旅行社核对具体舱位面积。</strong></p>
+<p><strong>陷阱 2：面积「含不含阳台」口径不一。</strong><br />
+阳台房第三方给「舱 170 + 阳台 45–75」，官方给「214–222 含阳台」——<strong>两者差距可达 30% 以上</strong>。比价前必须先统一口径。</p>
+<p><strong>陷阱 3：遮挡房型（Obstructed View）价格陷阱。</strong><br />
+阳台舱 <strong>BY / BZ</strong>、海景舱 <strong>OV / OW / OY / OZ</strong> 均为部分或完全遮挡，价格更低——<strong>但二手资料常不标注遮挡</strong>。</p>
+<p><strong>没有 Window Suite。</strong> Coral Princess 官方套房仅 <strong>S5 Premium Suite / S6 Vista Suite</strong>（均带阳台）；常被误称「Window Suite」的其实是 <strong>MY 海景迷你套房（约 300 ft²，大窗无阳台）</strong>。</p>
+<h3 id="72-舱房横向对比入门阳台含阳台口径">7.2 舱房横向对比（入门阳台，含阳台口径）</h3>
+<table>
+<thead>
+<tr>
+<th>船</th>
+<th>入门阳台面积</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Silver Dawn</td>
+<td>387 ft²</td>
+</tr>
+<tr>
+<td>Silver Muse</td>
+<td>387 ft²</td>
+</tr>
+<tr>
+<td>Seabourn Quest</td>
+<td>约 300 ft²</td>
+</tr>
+<tr>
+<td>Oceania Vista</td>
+<td>291 ft²</td>
+</tr>
+<tr>
+<td>Viking Vesta</td>
+<td>288 ft²</td>
+</tr>
+<tr>
+<td>Cunard Queen Elizabeth</td>
+<td>244 ft²</td>
+</tr>
+<tr>
+<td><strong>Coral Princess</strong></td>
+<td><strong>约 214–222 ft²</strong></td>
+</tr>
+<tr>
+<td>Regent Splendor</td>
+<td>219 ft²</td>
+</tr>
+<tr>
+<td>Cunard Queen Anne</td>
+<td>180 ft²</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Coral 的客舱偏小</strong>——入门阳台约 214–222 ft²，在长航程船里属<strong>偏下水平</strong>。但她的价格也只有奢华线的 1/3–1/4。<strong>这是「性价比 vs 舒适度」的取舍点。</strong></p>
+</blockquote>
+<hr />
+<h2 id="八基本福利专章wifi-酒水-小费-洗衣-座次-正装夜">八、基本福利专章（WiFi / 酒水 / 小费 / 洗衣 / 座次 / 正装夜）</h2>
+<blockquote>
+<p>客户第一优先项，且<strong>最容易被二手资料写错</strong>。</p>
+</blockquote>
+<h3 id="81-wifimedallionnet-2026-10-13-改版">8.1 WiFi（MedallionNet）—— 🚨 2026-10-13 改版</h3>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>价格</th>
+<th>设备</th>
+<th>流媒体</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MedallionNet Classic</strong>（单买）</td>
+<td><strong>$27.99/天</strong>（预购）/ $33.99（船上整程）/ $39.99（单日）</td>
+<td>1 台</td>
+<td>基础浏览、社交</td>
+</tr>
+<tr>
+<td><strong>2 设备套餐</strong>（新增）</td>
+<td><strong>$39.99/天</strong>（预购）/ $47.99（船上）/ $55.99（单日）</td>
+<td>2 台</td>
+<td>—</td>
+</tr>
+<tr>
+<td>~~4 设备单买套餐~~</td>
+<td><strong>❌ 2026-10-13 停售</strong></td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>MedallionNet Max</strong></td>
+<td><strong>不单卖</strong>，仅含于 Plus / Premier</td>
+<td>Plus = 1 台/人；Premier = <strong>4 台/人</strong></td>
+<td><strong>✅ 支持流媒体与视频通话</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Starlink 状态</strong>：✅ <strong>Carnival 集团 2024 年 5 月完成全船队（90 艘）Starlink 安装</strong>；Princess 自 <strong>2024-08-31</strong> 起全船队上线 MedallionNet Max（Starlink 驱动）；<strong>Princess 官方 2024-08-26 新闻稿点名「the 1,970-guest Coral Princess」</strong>。🚨 <strong>但 Coral 的 Starlink 具体安装日期官方未逐船披露</strong>。</li>
+<li>⚠️ 单买 WiFi <strong>按人计</strong>（每人一份），非按舱。</li>
+<li><strong>CNY 参考</strong>：$27.99/天 ≈ ¥200/天。</li>
+</ul>
+<h3 id="82-酒水">8.2 酒水</h3>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>含酒水</th>
+<th>单价上限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standard（裸票）</strong></td>
+<td><strong>❌ 不含</strong>（按杯付费 + 20% 服务费）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Princess Plus</strong></td>
+<td><strong>15 杯/天</strong>（鸡尾酒/葡萄酒/啤酒/烈酒/软饮/无酒精鸡尾酒）；特色咖啡茶不限；瓶装水 ≤12 瓶/天</td>
+<td><strong>$15/杯</strong></td>
+</tr>
+<tr>
+<td><strong>Princess Premier</strong></td>
+<td><strong>不限量</strong></td>
+<td><strong>$20/杯</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="83-小费crew-appreciation">8.3 小费（Crew Appreciation）</h3>
+<table>
+<thead>
+<tr>
+<th>房型</th>
+<th>金额</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>套房</td>
+<td><strong>$20/人/晚</strong></td>
+</tr>
+<tr>
+<td>迷你套房 / Cabana / Reserve Collection</td>
+<td><strong>$19/人/晚</strong></td>
+</tr>
+<tr>
+<td>其它所有房型</td>
+<td><strong>$18/人/晚</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>是否强制</strong>：自动计入船上账户；<strong>可在下船前于宾客服务台调整</strong>。✅</li>
+<li><strong>2026-03 涨价</strong>：各类别各 +$1（此前 $17/$18/$19）。⚠️</li>
+<li><strong>酒水/餐饮服务费：20%</strong>（2026 年由 18% 上调）。✅</li>
+<li><strong>Plus / Premier 均已含小费</strong>。✅</li>
+<li><strong>豁免</strong>：澳洲/新西兰居民在澳新出发航次免收。✅</li>
+</ul>
+<h3 id="84-自助洗衣长航程关键">8.4 ⭐ 自助洗衣（长航程关键）</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>收费</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>洗衣机（每缸）</td>
+<td><strong>$3</strong></td>
+</tr>
+<tr>
+<td>烘干机（每缸）</td>
+<td><strong>$3</strong></td>
+</tr>
+<tr>
+<td>洗衣粉</td>
+<td>≈<strong>$1.50</strong></td>
+</tr>
+<tr>
+<td>熨斗/烫衣板</td>
+<td><strong>免费</strong>（洗衣房内）</td>
+</tr>
+<tr>
+<td><strong>单次全套（用船上洗衣粉）</strong></td>
+<td><strong>≈$7.50</strong></td>
+</tr>
+<tr>
+<td><strong>单次全套（自备洗衣粉）</strong></td>
+<td><strong>≈$6.00</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>位置</strong>：<strong>5、8、9、10、11、12 层</strong> ✅（长航程关键设施，Coral <strong>每层设</strong>）</li>
+<li><strong>支付</strong>：OceanMedallion 感应 / 代币</li>
+<li><strong>⭐ 免费例外</strong>：<strong>Captain's Circle Elite 会员享免费送洗（含擦鞋）</strong>，不含干洗与加急。</li>
+<li><strong>129 晚成本对比</strong>：普通旅客若每周洗 1 次 ≈ <strong>$130</strong>；<strong>Elite 会员 $0</strong>。</li>
+</ul>
+<blockquote>
+<p><strong>对「生活便利」维度是加分项</strong>——长航程能否自己洗衣服，直接决定行李量与体验。</p>
+</blockquote>
+<h3 id="85-座次与主餐厅">8.5 座次与主餐厅</h3>
+<table>
+<thead>
+<tr>
+<th>主餐厅</th>
+<th>甲板</th>
+<th>座次（官方 features 页）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Provence Dining Room</strong></td>
+<td>Deck 6（Fiesta）</td>
+<td><strong>Traditional 固定座次</strong></td>
+</tr>
+<tr>
+<td><strong>Bordeaux Dining Room</strong></td>
+<td>Deck 5（Plaza）</td>
+<td><strong>Anytime 自由座次</strong></td>
+</tr>
+<tr>
+<td>Reserve Collection Dining</td>
+<td>—</td>
+<td>仅 Reserve Collection 迷你套房/套房客人</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🚨 <strong>座次归属冲突</strong>：官方 features 页（Provence=传统、Bordeaux=自由）<strong>vs</strong> Cruise Critic 编辑评测（Bordeaux=传统、Provence=自由）——<strong>两者完全相反</strong>。<strong>以官方为准，但该页较旧，且 Princess 现已推行 Dine My Way（App 自选时段），界限已淡化。</strong></p>
+</blockquote>
+<h3 id="86-正装夜dress-to-impress">8.6 正装夜（Dress to Impress）</h3>
+<ul>
+<li><strong>有无</strong>：<strong>有</strong>（品牌名 "Dress to Impress"）。✅</li>
+<li><strong>次数</strong>：典型 10 晚约 2 次；长航程递增。🚨 <strong>2027 GCP（110/114/129 晚）具体次数官方未公布</strong>——建议按「每月约 1–2 次」粗估并核实。</li>
+<li><strong>是否强制</strong>：<strong>非强制</strong>，但多数客人会穿。正装夜：女士晚礼服/鸡尾酒裙，男士西装+领带；其余晚 Smart Casual。</li>
+</ul>
+<hr />
+<h2 id="九餐厅与食物内容">九、餐厅与食物内容</h2>
+<h3 id="91-完整餐厅清单">9.1 完整餐厅清单</h3>
+<p><strong>主餐厅（免费）</strong>：Provence（Deck 6）、Bordeaux（Deck 5）、Reserve Collection Dining（套房专属）</p>
+<p><strong>特色餐厅（收费）</strong> ✅</p>
+<table>
+<thead>
+<tr>
+<th>餐厅</th>
+<th>甲板</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Crown Grill</strong>（牛排馆，前 Bayou Café 位置）</td>
+<td>Deck 7</td>
+<td><strong>$55/成人</strong>；$27.50（3–11 岁）；0–2 岁免费；<strong>+20% 服务费</strong></td>
+</tr>
+<tr>
+<td><strong>Sabatini's Italian Trattoria</strong></td>
+<td>Deck 5</td>
+<td><strong>$55</strong>；$27.50（3–11 岁）；+20%</td>
+</tr>
+<tr>
+<td><strong>Crab Shack</strong>（海鲜，<strong>仅阿拉斯加航线</strong> pop-up）</td>
+<td>Deck 14</td>
+<td><strong>$60/成人</strong>（⚠️ 非阿拉斯加 $55）</td>
+</tr>
+<tr>
+<td><strong>Chef's Table</strong></td>
+<td>主餐厅内私密席</td>
+<td><strong>$105/人</strong>（⚠️ 旧资料 $95）</td>
+</tr>
+<tr>
+<td><strong>Ultimate Balcony Dining</strong></td>
+<td>客舱阳台</td>
+<td>早餐 <strong>$27.50</strong> / 晚餐 <strong>$57.50</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>休闲/免费餐饮</strong> ✅</p>
+<table>
+<thead>
+<tr>
+<th>场所</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>World Fresh Marketplace</strong>（原 Horizon Court）</td>
+<td>自助，菜单每日/主题轮换</td>
+</tr>
+<tr>
+<td><strong>International Café</strong></td>
+<td><strong>24 小时</strong>；糕点、帕尼尼、沙拉、汤、甜点（食物免费）</td>
+</tr>
+<tr>
+<td><strong>Princess Pizzeria</strong></td>
+<td>现做那不勒斯披萨（免费）</td>
+</tr>
+<tr>
+<td><strong>The Bar &amp; Grill / Trident Grill</strong></td>
+<td>汉堡、热狗、薯条（免费）</td>
+</tr>
+<tr>
+<td><strong>Swirls Ice Cream Bar</strong></td>
+<td>免费软冰淇淋</td>
+</tr>
+<tr>
+<td><strong>Afternoon Tea</strong></td>
+<td>白手套服务（每日 15:30–16:30，免费）</td>
+</tr>
+<tr>
+<td><strong>24h Room Service</strong></td>
+<td>⚠️ <strong>$5/单</strong>（Plus/Premier 免）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-免费次数配额关键扣分项">9.2 🚨 免费次数配额（<strong>关键扣分项</strong>）</h3>
+<table>
+<thead>
+<tr>
+<th>套餐</th>
+<th>特色餐厅</th>
+<th>休闲餐厅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standard（裸票）</strong></td>
+<td>按店付费</td>
+<td>按店付费</td>
+</tr>
+<tr>
+<td><strong>Princess Plus</strong></td>
+<td><strong>❌ 0 次（完全不含）</strong></td>
+<td><strong>4 次/人/航次</strong></td>
+</tr>
+<tr>
+<td><strong>Princess Premier</strong></td>
+<td><strong>✅ 无限次</strong>（2026-01-14 起）</td>
+<td><strong>无限次</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>这是 Coral Princess 美食维度最关键的一条</strong>：<strong>只有 Premier 才不限次吃特色餐厅；Plus 一次都不含。</strong> 而 Coral 全船<strong>只有 2 家常态特色餐厅</strong>（Crown Grill + Sabatini's，Crab Shack 仅阿拉斯加）——<strong>114 晚里只有 2 家付费特色餐厅可选</strong>，是明显短板。</p>
+</blockquote>
+<h3 id="93-长航程餐饮安排">9.3 长航程餐饮安排</h3>
+<ul>
+<li><strong>世界美食主题夜</strong>：<strong>Festivals of the World</strong>（世界节庆主题派对/民乐/主题电影/特色购物）+ 目的地主题晚宴与本地菜 ✅</li>
+<li><strong>烹饪演示</strong>：主厨演示 + <strong>Galley Tour（厨房参观）</strong>；Universe Lounge 承办烹饪课 ✅</li>
+<li><strong>葡萄酒品鉴</strong>：多次（另收费）✅</li>
+<li>🚨 <strong>菜单循环周期官方未公布</strong>；制作秀重演频率亦未公布。</li>
+</ul>
+<hr />
+<h2 id="十船上节目">十、船上节目</h2>
+<h3 id="101-硬件">10.1 硬件</h3>
+<table>
+<thead>
+<tr>
+<th>场馆</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Princess Theater</strong></td>
+<td><strong>两层</strong>（Deck 6–7 船前部）；原创音乐剧、喜剧、魔术、嘉宾艺人；Premier/套房有 VIP 预留区。<strong>座位数未查到官方数字</strong></td>
+</tr>
+<tr>
+<td><strong>Universe Lounge</strong></td>
+<td><strong>Coral 级特色</strong>，<strong>两层 + 3 个液压旋转舞台</strong>（官方确认）；承办喜剧、游戏秀、<strong>专家讲座</strong>、手工艺、烹饪课、卡巴莱、Bingo。⚠️ 容量约 600（单源）</td>
+</tr>
+<tr>
+<td><strong>Movies Under the Stars</strong></td>
+<td>池畔 LED 巨幕（约 300 平方英尺 / 69,000 瓦音响）；<strong>2009-11 安装</strong>；<strong>免费爆米花 + 毛毯</strong></td>
+</tr>
+<tr>
+<td><strong>Explorers Lounge</strong></td>
+<td>Deck 6；白天讲座，夜间夜店</td>
+</tr>
+<tr>
+<td><strong>Princess Casino</strong></td>
+<td>Deck 7；老虎机、视频扑克、21 点、轮盘、掷骰</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-驻船制作秀最大未决项">10.2 🚨 驻船制作秀（<strong>最大未决项</strong>）</h3>
+<ul>
+<li><strong>官方现状</strong>：Princess 官网列 <strong>10 部原创制作秀</strong>（Rock Opera、Spotlight Bar、Fiera、5-SKIES、The Secret Silk、Viva La Música、Bravo、Encore、Fantastic Journey、Magic to Do），但<strong>不给逐船映射</strong>。官方 Coral 物料仅笼统称「Broadway-style production shows」。</li>
+<li><strong>各源对 Coral 实际剧目的说法（冲突）</strong>：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>年份</th>
+<th>称 Coral 演出</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cruiselifestyle.co.uk</td>
+<td>2022</td>
+<td><strong>"On the Bayou"、"Encore"</strong></td>
+<td>⚠️ 单源/较旧</td>
+</tr>
+<tr>
+<td>TheTravel</td>
+<td>2026</td>
+<td>"Rock Opera"、"5-SKIES"</td>
+<td>⚠️ <strong>疑模板串号</strong></td>
+</tr>
+<tr>
+<td>Cruise Critic 论坛</td>
+<td>2022/2024</td>
+<td>反复讨论 <strong>"On the Bayou"</strong></td>
+<td>⚠️ 论坛</td>
+</tr>
+<tr>
+<td><strong>官方</strong></td>
+<td>2026</td>
+<td>仅称 "Broadway-style production shows"</td>
+<td>✅ 但不具体</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🚨 <strong>判定：Coral 当前实际演出的具体秀名，未能获得权威确认。</strong> 较可信的线索是 <strong>"On the Bayou"</strong>（Coral 的巴拿马运河主题秀）与 <strong>"Encore"</strong>，但前者是否仍在上演存疑。<strong>建议以登船后 Princess Patter / App 节目表为准，本报告不下定论。</strong></p>
+</blockquote>
+<ul>
+<li><strong>The Voice of the Ocean</strong>：✅ <strong>有</strong>。官方 2026 世界航程宣传单明确列 Coral Princess。流程：卡拉OK海选 → 导师排练 → 带「I Want You」转椅的现场决赛（观众投票器选冠军）。</li>
+<li><strong>上演频率</strong>：制作秀<strong>几乎每晚</strong>在 Princess Theater 演出，<strong>每晚 2 场</strong>（约 45 分钟）；长航程中会循环重演，但<strong>官方未公布循环周期</strong>。🚨</li>
+</ul>
+<h3 id="103-讲座-富集项目">10.3 讲座 / 富集项目</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Princess 讲座品牌</td>
+<td>历史名 <strong>ScholarShip@Sea</strong>；现行 <strong>Discovery at Sea / Encounters with Discovery at SEA</strong> ✅</td>
+</tr>
+<tr>
+<td>内容</td>
+<td>目的地专家（Destination Expert）、自然学家、<strong>国家公园管理局护林员</strong>（阿拉斯加/冰川湾登船解说）、艺术史、桥牌、计算机、舞蹈课、手工艺 ✅</td>
+</tr>
+<tr>
+<td><strong>世界航程讲者规格</strong></td>
+<td>2026 世界航程（Coral）列：地中海艺术与历史、海事与二战历史学家、桥牌讲师、夏威夷与毛利目的地大使；文化富集含语言课、舞蹈课、乐器课（尤克里里/曼陀林）、目的地手工艺 ✅</td>
+</tr>
+<tr>
+<td><strong>vs Cunard Insights（800+ 讲者）</strong></td>
+<td>🚨 <strong>Princess 世界航程「讲者总人数」未查到官方数字</strong>，<strong>无法直接对标</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="104-其他">10.4 其他</h3>
+<p>Deck Party / Top Deck Parties ✅｜赌场 21 点与老虎机锦标赛 ✅｜舞蹈课（国标/萨尔萨/探戈/华尔兹/Zumba）✅｜星空影院每日多场 ✅｜儿童托管（22:00–01:00，$5/小时）✅</p>
+<h3 id="105-口碑中的节目评价">10.5 口碑中的节目评价</h3>
+<blockquote>
+<p><strong>Cruise Critic 编辑评测原文</strong>：优点「intimate atmosphere with attentive service」；缺点「<strong>limited onboard activities, outnumbered by upcharges</strong>」（<strong>船上活动有限，付费项目过多</strong>）。</p>
+</blockquote>
+<hr />
+<h2 id="十一干坞翻新史">十一、干坞翻新史</h2>
+<h3 id="111-最近一次干坞2024">11.1 最近一次干坞（2024）✅</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时间</td>
+<td><strong>2024-09-26 进坞 ~ 2024-10-17 出坞</strong>（约 <strong>3 周</strong>）</td>
+</tr>
+<tr>
+<td>地点</td>
+<td><strong>新加坡</strong>（CruiseMapper 具体记为 Sembawang 船厂）</td>
+</tr>
+<tr>
+<td>内容</td>
+<td>例行维护 + 技术大修 + 船级检验 + <strong>公共区域与客舱更新（refreshing interiors and public spaces）</strong> + 船体清洁与重新喷漆</td>
+</tr>
+<tr>
+<td>性质</td>
+<td><strong>中度（维护性质）</strong>——<strong>非大改，无新增大场馆</strong></td>
+</tr>
+<tr>
+<td>出坞后首航</td>
+<td>2024-10-17 新加坡 → 洛杉矶 32 晚 repositioning</td>
+</tr>
+</tbody>
+</table>
+<h3 id="112-历史翻新年表">11.2 历史翻新年表</h3>
+<table>
+<thead>
+<tr>
+<th>年份</th>
+<th>内容</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2009</td>
+<td>有一次干坞（Seatrade 报道）</td>
+<td>⚠️ 单源</td>
+</tr>
+<tr>
+<td>2016（1 月）</td>
+<td>称新增舱房、翻新客舱、空调与导航升级</td>
+<td>⚠️ 单源，与其他源冲突</td>
+</tr>
+<tr>
+<td>2019（1 月）</td>
+<td>全部客舱升级为 <strong>Princess Luxury Bed</strong>；⚠️ 另称新增 The Sanctuary / Movies Under the Stars（<strong>存疑</strong>，这两项 2003 年即存在）</td>
+<td>⚠️ 部分</td>
+</tr>
+<tr>
+<td>2022</td>
+<td><strong>MedallionClass 改装</strong>（加装 OceanMedallion、OceanNow）</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><strong>2024</strong></td>
+<td><strong>见 11.1（最近一次）</strong></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="113-关键判断">11.3 🚨 关键判断</h3>
+<ul>
+<li><strong>「最近一次翻新年份」各源不一致</strong>：官方 Fact Sheet 未给年份；CruiseMapper / CruiseDeckPlans = <strong>2024</strong>；Princess 国际站 = 2022；specialneedsatsea = 2016。<strong>以 2024 为准</strong>（有 Cruise Industry News 新闻佐证）。</li>
+<li><strong>2024 干坞是维护性质，不是升级</strong>——翻新后（2025–2026）<strong>仍持续出现「老旧/磨损」投诉</strong>。</li>
+<li>⚠️ <strong>未查到 2026/2027 有已排期的后续干坞</strong>。</li>
+</ul>
+<hr />
+<h2 id="十二航线经过哪里2027-grand-circle-pacific">十二、航线经过哪里（2027 Grand Circle Pacific）</h2>
+<blockquote>
+<p>数据源：Princess 官方 flyer（本地 <code>gcp2027.pdf</code> / <code>princess2027.pdf</code>）✅</p>
+</blockquote>
+<p><strong>官方口径</strong>：<strong>61 目的地 / 20 国 / 3 大洲（澳洲、亚洲、北美）/ 35,400 海里 / 23 处 UNESCO / 2 次过赤道 / 2 次过国际日期变更线 / 9 次 More Ashore（含中国香港过夜）</strong>。</p>
+<h3 id="121-129-晚-114-晚-前段-15-晚巴拿马运河段">12.1 129 晚 = 114 晚 + 前段 15 晚（巴拿马运河段）</h3>
+<p><strong>129 晚独有段（劳德代尔堡→洛杉矶）</strong>：劳德代尔堡 → Cartagena（哥伦比亚）→ <strong>巴拿马运河全段过闸（Historic Locks）</strong> → Fuerte Amador（巴拿马）→ Puntarenas（哥斯达黎加）→ Puerto Chiapas（墨西哥）→ Huatulco → Puerto Vallarta → 洛杉矶</p>
+<h3 id="122-114-晚逐日洛杉矶往返2027-01-21-出发">12.2 114 晚逐日（洛杉矶往返，2027-01-21 出发）</h3>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>港口 / 航行</th>
+<th>标记</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1/21</td>
+<td>洛杉矶 登船</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1/22–26</td>
+<td>太平洋巡航（<strong>5 天</strong>）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1/27</td>
+<td>Hilo（夏威夷）</td>
+<td></td>
+</tr>
+<tr>
+<td>1/28</td>
+<td>Maui (Kahului)</td>
+<td></td>
+</tr>
+<tr>
+<td>1/29</td>
+<td>Honolulu</td>
+<td>• Late Night</td>
+</tr>
+<tr>
+<td>1/30</td>
+<td>Kauai (Nawiliwili)</td>
+<td></td>
+</tr>
+<tr>
+<td>1/31–2/2</td>
+<td>南太平洋巡航（3 天）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/3</td>
+<td><strong>跨国际日期变更线（lose a day）</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>2/4–6</td>
+<td>南太平洋巡航（3 天）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/7</td>
+<td>Apia（萨摩亚）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/9</td>
+<td>Suva（斐济）</td>
+<td>• Late Night</td>
+</tr>
+<tr>
+<td>2/10</td>
+<td>Dravuni Island（斐济）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/12–13</td>
+<td>Port Vila / Luganville（瓦努阿图）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/16</td>
+<td>Rabaul（巴布亚新几内亚）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/18–19</td>
+<td>Alotau / Conflict Islands（PNG）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/21</td>
+<td>Cairns（澳洲）</td>
+<td>• Late Night</td>
+</tr>
+<tr>
+<td>2/23</td>
+<td>Airlie Beach（大堡礁）</td>
+<td></td>
+</tr>
+<tr>
+<td>2/25</td>
+<td>Brisbane</td>
+<td></td>
+</tr>
+<tr>
+<td>2/27</td>
+<td><strong>Sydney</strong></td>
+<td>• Late Night</td>
+</tr>
+<tr>
+<td>2/28–3/2</td>
+<td>塔斯曼海巡航（3 天）</td>
+<td></td>
+</tr>
+<tr>
+<td>3/3–3/4</td>
+<td>Auckland / Tauranga（新西兰）</td>
+<td></td>
+</tr>
+<tr>
+<td>3/6–3/7</td>
+<td>Christchurch / Dunedin</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>3/8</strong></td>
+<td><strong>Fiordland National Park（风景巡航）</strong></td>
+<td>风景</td>
+</tr>
+<tr>
+<td>3/11</td>
+<td>Hobart（塔斯马尼亚）</td>
+<td></td>
+</tr>
+<tr>
+<td>3/14</td>
+<td>Adelaide</td>
+<td></td>
+</tr>
+<tr>
+<td>3/18</td>
+<td>Perth (Fremantle)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>3/22</strong></td>
+<td><strong>Kimberley Coast（风景巡航）</strong></td>
+<td>风景</td>
+</tr>
+<tr>
+<td>3/24</td>
+<td>Darwin</td>
+<td></td>
+</tr>
+<tr>
+<td>3/27–3/28</td>
+<td>Bali / Lombok（印尼）</td>
+<td></td>
+</tr>
+<tr>
+<td>3/31</td>
+<td><strong>Singapore</strong></td>
+<td>• Late Night</td>
+</tr>
+<tr>
+<td>4/2</td>
+<td>Phuket（泰国）</td>
+<td></td>
+</tr>
+<tr>
+<td>4/3–4/5</td>
+<td><strong>Langkawi / Penang / Kuala Lumpur (Port Kelang)（马来西亚）</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>4/8–4/11</td>
+<td>Ho Chi Minh City / Nha Trang / <strong>Halong Bay</strong>（越南）</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>4/13–4/14</strong></td>
+<td><strong>Hong Kong 中国香港</strong></td>
+<td>• <strong>过夜</strong></td>
+</tr>
+<tr>
+<td>4/16</td>
+<td><strong>Taipei (Keelung) 中国台湾</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>4/17–4/26</td>
+<td><strong>日本 7 港</strong>：Ishigaki、Kagoshima、Kochi、Osaka、Tokyo、Miyako、Kushiro</td>
+<td>大阪/东京 • Late Night</td>
+</tr>
+<tr>
+<td>4/29</td>
+<td><strong>跨国际日期变更线（gain a day）</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>4/30–5/3</td>
+<td>阿拉斯加湾巡航（<strong>4 天</strong>）</td>
+<td></td>
+</tr>
+<tr>
+<td>5/4</td>
+<td>Anchorage (Whittier)</td>
+<td>• Late Night</td>
+</tr>
+<tr>
+<td><strong>5/5</strong></td>
+<td><strong>College Fjord（风景巡航）</strong></td>
+<td>风景</td>
+</tr>
+<tr>
+<td><strong>5/6</strong></td>
+<td><strong>Hubbard Glacier（风景巡航）</strong></td>
+<td>风景</td>
+</tr>
+<tr>
+<td>5/7–5/9</td>
+<td>Juneau / Sitka / Ketchikan</td>
+<td></td>
+</tr>
+<tr>
+<td>5/10</td>
+<td><strong>Inside Passage（内湾航道）</strong></td>
+<td>风景/海上</td>
+</tr>
+<tr>
+<td>5/11</td>
+<td>Vancouver, B.C.（110 晚终点）</td>
+<td></td>
+</tr>
+<tr>
+<td>5/15</td>
+<td>Los Angeles（114 晚终点）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="123-三洲覆盖与关键国家客户重点">12.3 三洲覆盖与关键国家（客户重点）</h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>有中国大陆港口（上海）吗？</strong></td>
+<td>❌ <strong>无</strong>。仅 <strong>中国香港（过夜）</strong></td>
+</tr>
+<tr>
+<td><strong>中国香港过夜吗？</strong></td>
+<td><strong>✅ 是（4/13–4/14）</strong></td>
+</tr>
+<tr>
+<td><strong>有韩国港口吗？</strong></td>
+<td>❌ <strong>2027 无、2028 无</strong>。<strong>仅 2026 那班有济州（西归浦）</strong></td>
+</tr>
+<tr>
+<td><strong>日本停哪些港？</strong></td>
+<td><strong>石垣、鹿儿岛、高知、大阪、东京、宫古、钏路（7 港）</strong></td>
+</tr>
+<tr>
+<td><strong>中国台湾</strong></td>
+<td>✅ 基隆（台北）</td>
+</tr>
+<tr>
+<td><strong>新加坡 / 东南亚</strong></td>
+<td>✅ 新加坡（深夜）、普吉、兰卡威、槟城、巴生港、富美、芽庄、下龙湾、巴厘、龙目</td>
+</tr>
+<tr>
+<td><strong>大洋洲</strong></td>
+<td>✅ 澳洲 8 港 + 新西兰 4 港 + 斐济/瓦努阿图/萨摩亚/PNG</td>
+</tr>
+<tr>
+<td><strong>美洲</strong></td>
+<td>✅ 夏威夷 4 岛 + 阿拉斯加 + 温哥华 + 洛杉矶</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>一句话</strong>：若你关注<strong>中日韩 / 东南亚</strong>，<strong>只有 2027 Grand Circle Pacific 满足</strong>（日本 7 港 + 中国香港过夜，<strong>但仍无韩国、无中国大陆港</strong>）；<strong>2028 环球航程完全不含亚洲</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="十三2028-世界航程真环球不含亚洲">十三、2028 世界航程（真环球，<strong>不含亚洲</strong>）</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>晚数</td>
+<td><strong>115 晚</strong>（另有 100 晚 洛杉矶→劳德代尔堡）</td>
+</tr>
+<tr>
+<td>出发</td>
+<td><strong>2028-01-03 劳德代尔堡往返</strong>；或 2028-01-18 洛杉矶往返</td>
+</tr>
+<tr>
+<td>规模</td>
+<td><strong>49 目的地 / 24 国 / 5 大洲 / 36,000 海里 / 39 处 UNESCO</strong></td>
+</tr>
+<tr>
+<td>路线</td>
+<td>巴拿马运河 → 夏威夷 → 南太平洋 → 澳新 → <strong>印度洋（毛里求斯/留尼汪）→ 南非（开普敦过夜、莫塞尔湾首航）→ 非洲西岸 → 地中海 → 大西洋 → 北美</strong></td>
+</tr>
+<tr>
+<td><strong>亚洲港口</strong></td>
+<td><strong>❌ 完全没有</strong>（无日本、无中国香港、无新加坡、无韩国）</td>
+</tr>
+<tr>
+<td>过夜港</td>
+<td><strong>奥克兰（2/6–2/7）、开普敦（3/9–3/10）</strong></td>
+</tr>
+<tr>
+<td>More Ashore</td>
+<td><strong>12 个</strong>（官方点名 6 个：巴塞罗那、卡萨布兰卡、杜布罗夫尼克、檀香山、墨尔本、悉尼）</td>
+</tr>
+<tr>
+<td>起价</td>
+<td>内舱 <strong>US$18,796/人（$164/晚）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>2027 vs 2028 是两条完全不同的产品</strong>：2027 是「环太平洋」（3 洲，含亚洲），2028 是「真环球」（5 洲，<strong>不含亚洲</strong>）。<strong>想跑亚洲只能选 2027。</strong></p>
+</blockquote>
+<hr />
+<h2 id="十四在海上多少天">十四、在海上多少天</h2>
+<p><strong>口径</strong>：纯海上日 = 官方逐日表标注 <code>Cruising</code> 的日子（含 IDL 穿越日、内湾航道日）。</p>
+<table>
+<thead>
+<tr>
+<th>长度</th>
+<th>纯海上日</th>
+<th>占比</th>
+<th>靠港日</th>
+<th>风景巡航日</th>
+<th><strong>最长连续海上日</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>110 晚</strong></td>
+<td>≈<strong>57 天</strong></td>
+<td>≈52%</td>
+<td>≈49</td>
+<td>4</td>
+<td><strong>7 天</strong></td>
+</tr>
+<tr>
+<td><strong>114 晚</strong></td>
+<td>≈<strong>60 天</strong></td>
+<td><strong>≈53%</strong></td>
+<td>≈51</td>
+<td>4</td>
+<td><strong>7 天</strong></td>
+</tr>
+<tr>
+<td><strong>129 晚</strong></td>
+<td>≈<strong>67 天</strong></td>
+<td>≈52%</td>
+<td>≈59</td>
+<td>4</td>
+<td><strong>7 天</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>最长连续海上日（114 晚）</strong>：<br />
+- <strong>① 4/27–5/3：7 天</strong>（北太平洋 → 阿拉斯加湾，4/29 跨 IDL）<br />
+- <strong>② 1/31–2/6：约 6–7 天</strong>（南太平洋 + 跨 IDL）<br />
+- ③ 1/22–1/26：<strong>5 天</strong>（洛杉矶→夏威夷）</p>
+<blockquote>
+<p>⚠️ <strong>海日占比约 52–53%</strong>——即<strong>有一半以上时间在海上</strong>。这是环太平洋长航程的固有特征（跨大洋段很长）。<strong>晕船敏感者务必注意</strong>：最长连续 7 天海上。<br />
+交叉核对：第三方 gangwaze 对 129 晚标称 <strong>68 天 at sea</strong>，与本文估算 ≈67 天吻合 ⚠️。</p>
+</blockquote>
+<hr />
+<h2 id="十五下船景点-航线景点">十五、下船景点 / 航线景点</h2>
+<p><strong>官方列的 23 处 UNESCO 世界遗产亮点</strong>（部分）：</p>
+<table>
+<thead>
+<tr>
+<th>亮点</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>下龙湾（Halong Bay）</strong></td>
+<td>越南（4/11 靠港）</td>
+</tr>
+<tr>
+<td><strong>大堡礁（Great Barrier Reef）</strong></td>
+<td>澳洲凯恩斯（2/21）</td>
+</tr>
+<tr>
+<td><strong>Fiordland National Park</strong></td>
+<td>新西兰（3/8 风景巡航）</td>
+</tr>
+<tr>
+<td><strong>罗托鲁瓦地热区（Rotorua）</strong></td>
+<td>新西兰（陶朗加）</td>
+</tr>
+<tr>
+<td><strong>夏威夷火山国家公园</strong></td>
+<td>美国（希洛）</td>
+</tr>
+<tr>
+<td><strong>巴拿马运河历史旧闸</strong></td>
+<td>129 晚（1/10）</td>
+</tr>
+<tr>
+<td>京都（大阪靠港）、富士山（清水）等</td>
+<td>日本</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心观景亮点</strong>：<br />
+1. <strong>巴拿马运河旧闸全段过闸</strong>（129 晚）——船体贴闸壁，观景平台距岸仅数米，<strong>观景体验优于新闸</strong><br />
+2. <strong>新西兰 Fiordland 峡湾</strong>（Milford Sound 等）—— 风景巡航 9 小时<br />
+3. <strong>澳洲金伯利海岸（Kimberley Coast）</strong>—— 风景巡航 4 小时<br />
+4. <strong>阿拉斯加双冰川</strong>：College Fjord + Hubbard Glacier —— 各 4–5 小时<br />
+5. <strong>内湾航道（Inside Passage）</strong>—— 凯奇坎→温哥华<br />
+6. <strong>中国香港过夜</strong>—— 唯一过夜港</p>
+<hr />
+<h2 id="十六天气">十六、天气</h2>
+<table>
+<thead>
+<tr>
+<th>时段 / 航段</th>
+<th>天气</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1/21–1/26 洛杉矶→夏威夷</td>
+<td>冬季北太，海况偏大，15–22℃</td>
+<td>🚨 前 5 天海上，晕船敏感者注意</td>
+</tr>
+<tr>
+<td>1/27–1/30 夏威夷</td>
+<td>24–28℃，信风</td>
+<td>舒适</td>
+</tr>
+<tr>
+<td>1/31–2/7 南太平洋</td>
+<td>26–31℃，湿热</td>
+<td>🚨 <strong>正撞南太平洋气旋季（11–4 月）</strong></td>
+</tr>
+<tr>
+<td>2/9–2/19 瓦努阿图 / 所罗门海 / PNG</td>
+<td>热带湿热多雨</td>
+<td>🚨 <strong>同处气旋季，改港风险最高</strong></td>
+</tr>
+<tr>
+<td>2/21–2/27 澳洲东岸</td>
+<td>25–32℃</td>
+<td>凯恩斯 2 月为雨季尾</td>
+</tr>
+<tr>
+<td>2/28–3/8 塔斯曼海 / 新西兰</td>
+<td>15–24℃</td>
+<td>🚨 <strong>塔斯曼海以风浪著称</strong>；峡湾多雨</td>
+</tr>
+<tr>
+<td>3/11–3/24 塔斯马尼亚 / 大澳洲湾 / 印度洋</td>
+<td>秋，15–33℃</td>
+<td>大澳洲湾海况较大</td>
+</tr>
+<tr>
+<td>3/27–4/5 印尼 / 新加坡 / 马六甲 / 泰马</td>
+<td>28–34℃，午后雷阵雨</td>
+<td>旱季尾，总体良好</td>
+</tr>
+<tr>
+<td>4/8–4/14 越南 + 中国香港</td>
+<td>20–30℃</td>
+<td>中国香港 4 月回暖多雾</td>
+</tr>
+<tr>
+<td>4/16–4/26 中国台湾 / 日本</td>
+<td>12–24℃；<strong>樱花季</strong></td>
+<td>⚠️ 注意 <strong>4 月底日本黄金周（4/29 起）</strong>；北海道（钏路）仍偏冷</td>
+</tr>
+<tr>
+<td>4/27–5/3 北太 → 阿拉斯加湾</td>
+<td>5–10℃，海况大</td>
+<td>🚨 <strong>最长连续海上段之一</strong></td>
+</tr>
+<tr>
+<td>5/4–5/9 阿拉斯加</td>
+<td><strong>5 月初为早春</strong>，5–12℃，多雨/雾，山区残雪</td>
+<td>5 月游客少、动物活跃，但天气多变 🚨</td>
+</tr>
+<tr>
+<td>5/10–5/15 内湾航道 → 温哥华</td>
+<td>12–18℃</td>
+<td>观景佳</td>
+</tr>
+</tbody>
+</table>
+<p><strong>赤道</strong>：两航次各 <strong>2 次过赤道</strong>，赤道附近 30–33℃、湿度 80%+，需防晒补水。</p>
+<hr />
+<h2 id="十七停靠港与母国停靠前置过滤">十七、停靠港与「母国停靠」前置过滤</h2>
+<blockquote>
+<p><strong>方法论第 ⑦ 条：这是前置过滤条件，不是加分项。</strong> 它同时决定三件事——<strong>家人能否上船探访</strong>、<strong>能否中途上下船（分段）</strong>、<strong>能否顺路回国</strong>。</p>
+</blockquote>
+<p><strong>客户国籍未指定</strong>，故无法直接判定。<strong>但可给出明确结论</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>若你的关注点是</th>
+<th>2027 GCP 能否满足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>中国大陆港口（上海/天津/厦门）</strong></td>
+<td>❌ <strong>不能</strong>（仅中国香港）</td>
+</tr>
+<tr>
+<td><strong>韩国港口</strong></td>
+<td>❌ <strong>不能</strong>（2027/2028 均已删除）</td>
+</tr>
+<tr>
+<td><strong>日本港口</strong></td>
+<td>✅ <strong>能（7 港，含东京/大阪/京都）</strong></td>
+</tr>
+<tr>
+<td><strong>中国香港</strong></td>
+<td>✅ <strong>能（且过夜）</strong></td>
+</tr>
+<tr>
+<td><strong>中国台湾</strong></td>
+<td>✅ <strong>能（基隆/台北）</strong></td>
+</tr>
+<tr>
+<td><strong>马来西亚</strong></td>
+<td>✅ <strong>能（兰卡威 + 槟城 + 巴生港，3 港）</strong></td>
+</tr>
+<tr>
+<td><strong>新加坡</strong></td>
+<td>✅ <strong>能（深夜停靠）</strong></td>
+</tr>
+<tr>
+<td><strong>澳洲 / 新西兰</strong></td>
+<td>✅ <strong>能（澳 8 港 + 新西兰 4 港）</strong></td>
+</tr>
+<tr>
+<td><strong>美国 / 加拿大</strong></td>
+<td>✅ <strong>能（夏威夷 + 阿拉斯加 + 温哥华 + 洛杉矶）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>分段上下船可行</strong>：2027 GCP 提供 <strong>14 条分段</strong>（4–68 晚），可在奥克兰、中国香港、檀香山、新加坡、悉尼、东京、温哥华等登船——<strong>这为「中途上下船」提供了实操空间</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="十八运河与改线风险">十八、运河与改线风险</h2>
+<h3 id="181-巴拿马运河闸室-">18.1 巴拿马运河闸室 ✅</h3>
+<ul>
+<li><strong>Coral Princess 是 Panamax 设计船</strong>（船宽约 <strong>106 ft / 32.3 m</strong>，为旧闸极限），<strong>走旧闸（Historic Locks）</strong>：<strong>Miraflores、Pedro Miguel、Gatun</strong> 三组闸室。</li>
+<li><strong>2027 官方 flyer 明确写</strong>：<code>Panama Canal Full Transit Historic Locks (including the Miraflores, Pedro Miguel and Gatun Locks)</code> —— <strong>官方直接确认旧闸</strong> ✅</li>
+<li><strong>2028</strong>：官方仅写 <code>Panama Canal, Full Transit</code>（未标闸室）；同船 Panamax 尺寸 → <strong>仍为旧闸</strong>（⚠️ 合理推断）。</li>
+</ul>
+<h3 id="182-干旱限闸风险">18.2 🚨 干旱限闸风险</h3>
+<ul>
+<li>2023–2024 巴拿马运河遭遇<strong>历史级干旱</strong>，日通行量由约 38 艘降至最低 22–24 艘，吃水受限。</li>
+<li>2025 逐步恢复，但 <strong>2026 年再度出现限闸苗头</strong>。🚨 <strong>2027/2028 过闸存在「限闸 / 改期 / 吃水限制」的尾部风险</strong>（邮轮通常优先获配闸位，但仍需留意官方通知）。</li>
+<li><strong>是否历史改线？</strong> 未查到 Coral 因干旱被取消过闸的记录 → <strong>未查到</strong>。</li>
+</ul>
+<h3 id="183-苏伊士-红海-中东-">18.3 苏伊士 / 红海 / 中东 ✅</h3>
+<ul>
+<li><strong>2027 GCP：完全不经过苏伊士、红海、中东</strong> ✅</li>
+<li><strong>2028：不经过苏伊士、红海</strong>——官方明确「沿非洲西岸北上 + 地中海」，<strong>主动绕开红海</strong>。🚨 在红海胡塞风险背景下，<strong>这是显著优势</strong>。</li>
+</ul>
+<hr />
+<h2 id="十九签证-保险-医疗客户国专章">十九、签证 / 保险 / 医疗（客户国专章）</h2>
+<h3 id="191-签证要求按主要护照">19.1 签证要求（按主要护照）</h3>
+<table>
+<thead>
+<tr>
+<th>目的地</th>
+<th>美国</th>
+<th>英国</th>
+<th>澳洲</th>
+<th><strong>中国</strong></th>
+<th>马来西亚</th>
+<th>新加坡</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>美国（登船）</strong></td>
+<td>无需</td>
+<td>ESTA</td>
+<td>ESTA</td>
+<td>❌ <strong>需 B1/B2</strong></td>
+<td>❌ <strong>需 B1/B2</strong></td>
+<td>ESTA</td>
+</tr>
+<tr>
+<td><strong>澳洲</strong></td>
+<td>ETA 601</td>
+<td>ETA 601</td>
+<td>无需</td>
+<td>❌ 需访客签</td>
+<td>ETA 601</td>
+<td>ETA 601</td>
+</tr>
+<tr>
+<td><strong>新西兰</strong></td>
+<td>NZeTA</td>
+<td>NZeTA</td>
+<td>无需</td>
+<td>❌ 需访客签（<strong>不在豁免名单</strong>）</td>
+<td>NZeTA</td>
+<td>NZeTA</td>
+</tr>
+<tr>
+<td><strong>加拿大</strong></td>
+<td>无需（陆/海）</td>
+<td>eTA（空路）</td>
+<td>eTA（空路）</td>
+<td>❌ 需签证</td>
+<td>eTA（条件性）</td>
+<td>eTA</td>
+</tr>
+<tr>
+<td><strong>越南</strong></td>
+<td>e-visa</td>
+<td>45 天免签</td>
+<td>e-visa</td>
+<td>e-visa</td>
+<td>30 天免签</td>
+<td>30 天免签</td>
+</tr>
+<tr>
+<td><strong>印尼</strong></td>
+<td>VOA / e-visa</td>
+<td>VOA / e-visa</td>
+<td>VOA / e-visa</td>
+<td>VOA / e-visa</td>
+<td>VOA / e-visa</td>
+<td>VOA / e-visa</td>
+</tr>
+<tr>
+<td><strong>泰国</strong></td>
+<td>30–60 天免签</td>
+<td>免签</td>
+<td>免签</td>
+<td>免签</td>
+<td>免签</td>
+<td>免签</td>
+</tr>
+<tr>
+<td><strong>日本</strong></td>
+<td>90 天免签</td>
+<td>90 天免签</td>
+<td>90 天免签</td>
+<td>❌ 需签证</td>
+<td>90 天免签</td>
+<td>90 天免签</td>
+</tr>
+<tr>
+<td><strong>巴布亚新几内亚</strong></td>
+<td>需<strong>有效 PNG 签证（登船前）</strong></td>
+<td>需签证</td>
+<td>需签证</td>
+<td>需签证</td>
+<td>需签证</td>
+<td>需签证</td>
+</tr>
+</tbody>
+</table>
+<p><strong>要点</strong>：<br />
+- 🚨 <strong>美国 B1/B2</strong>：<strong>中国与马来西亚护照不在 VWP</strong>，需提前办 B1/B2（审理可达数月）。<strong>这是本航次最大签证门槛</strong>（洛杉矶/劳德代尔堡登船、夏威夷/阿拉斯加停靠均为美国口岸）。<br />
+- 🚨 <strong>巴布亚新几内亚（PNG）</strong>：<strong>非公民旅客须登船前持有有效 PNG 签证</strong>（2/16–2/19 停靠）——<strong>最易被忽略的一项</strong>。<br />
+- ⚠️ <strong>越南</strong>：2026-04 起 e-Arrival Card 强制。<br />
+- ✅ <strong>中国香港 / 中国台湾 / 新加坡 / 泰国 / 马来西亚 / 日本</strong>：多数主流护照免签或落地签。</p>
+<h3 id="192-疫苗建议-">19.2 疫苗建议 ⚠️</h3>
+<p>黄热病（PNG / 南太平洋部分港口可能要求证明）、伤寒、甲肝、常规更新（破伤风/流感/COVID）。<strong>建议咨询旅行医学门诊。</strong></p>
+<h3 id="193-船上医疗与保险">19.3 🚨 船上医疗与保险</h3>
+<ul>
+<li>船医/护士为<strong>独立承包人</strong>，<strong>自定价格</strong>；Princess 常见问诊费 <strong>$50–500/次</strong> ⚠️</li>
+<li><strong>保险通常不被船上接受</strong>——需下船前自付，凭收据向保险公司索赔</li>
+<li>🚨 <strong>医疗后送风险</strong>：<strong>南太平洋偏远段（PNG、南太平洋岛国）后送可超 $100,000</strong></li>
+<li><strong>Princess 自家保险（Platinum）</strong>：意外/疾病医疗各 $20,000；<strong>医疗后送仅 $100,000</strong>；CFAR <strong>仅赔未来航程积分</strong>；<strong>不保既有病症</strong></li>
+<li><strong>建议</strong>：<strong>第三方高额医疗（≥$100,000）+ 后送险</strong>，并投保长航程取消险（129/115 晚票价高，取消损失巨大）</li>
+</ul>
+<hr />
+<h2 id="二十整体体验口碑">二十、整体体验（口碑）</h2>
+<h3 id="201-评分汇总coral-专属非船队平均">20.1 评分汇总（<strong>Coral 专属，非船队平均</strong>）</h3>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>评分</th>
+<th>样本</th>
+<th>可信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>cruiseline.com</strong></td>
+<td><strong>4.1–4.2 / 5</strong></td>
+<td>875 条</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>United Cruises</td>
+<td>4.1 / 5</td>
+<td>876 条</td>
+<td>⚠️ 代理站</td>
+</tr>
+<tr>
+<td><strong>TripAdvisor</strong></td>
+<td><strong>3.5 / 5</strong></td>
+<td>90 条</td>
+<td>⚠️ 样本少</td>
+</tr>
+<tr>
+<td>iCruise</td>
+<td>4.5 星</td>
+<td>—</td>
+<td>⚠️ 代理站</td>
+</tr>
+<tr>
+<td><strong>Cruise Critic 会员评分</strong></td>
+<td>❌ <strong>未取到</strong>（JS 反爬）</td>
+<td>—</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>Cruise Critic 编辑评测</strong></td>
+<td>正面为主</td>
+<td>—</td>
+<td>✅（但较旧）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🚨 <strong>Cruise Critic 会员逐条评分与 TripAdvisor 正文因反爬未取到——本报告未以第三方转述替代。</strong></p>
+</blockquote>
+<h3 id="202-20242026-品质下滑讨论逐条">20.2 2024–2026 品质下滑讨论（<strong>逐条</strong>）</h3>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>内容</th>
+<th>评分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-03</td>
+<td>「Dirty and old furniture and rooms」（家具与房间又脏又旧）</td>
+<td>2.6/5</td>
+</tr>
+<tr>
+<td>—</td>
+<td>「lackluster food, rude staff」（食物平淡、员工无礼）</td>
+<td>3.0/5</td>
+</tr>
+<tr>
+<td>2025-12</td>
+<td>投诉「sewer smell」（下水道异味）</td>
+<td>3.7/5</td>
+</tr>
+<tr>
+<td>—</td>
+<td>「outdated」（设施过时）</td>
+<td>4.4/5</td>
+</tr>
+<tr>
+<td>2025-09</td>
+<td>独立博主：装饰陈旧、物理磨损，但<strong>干净且功能正常</strong>；「homey not high-end」；<strong>性价比好、愿再乘</strong>；泳池无加热</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2024-10/11</td>
+<td>论坛：32 天航程后「beginning to show her age」，但「thoroughly enjoyed」</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>正面共性</strong>：服务好、餐饮（多数认可）、停靠港精彩、<strong>洗衣房可用性高</strong><br />
+<strong>负面共性</strong>：<strong>设施老旧/磨损（最高频）</strong>、<strong>餐饮不一致</strong>、偶发异味、<strong>活动少 + 付费项目多</strong></p>
+<blockquote>
+<p><strong>结论：2024 干坞为维护性质，未根本改变「老船」印象。</strong> Coral 级 2002 年建造，硬件代差客观存在。<strong>适合「看重航线与性价比、不介意硬件代差」的旅客。</strong></p>
+</blockquote>
+<hr />
+<h2 id="二十一公司稳定性专章">二十一、公司稳定性专章</h2>
+<h3 id="211-carnival-corporation母公司财务-">21.1 Carnival Corporation（母公司）财务 ✅</h3>
+<p><strong>最新：Q3 FY2026（2026-09-29 发布）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>净利润</td>
+<td><strong>$1.9B</strong>（历史新高，Q3 单季）</td>
+</tr>
+<tr>
+<td><strong>Adjusted EBITDA</strong></td>
+<td><strong>$3.0B</strong>（Q3 单季）</td>
+</tr>
+<tr>
+<td><strong>全年 2026 指引 Adjusted EBITDA</strong></td>
+<td><strong>≈$7.14B</strong></td>
+</tr>
+<tr>
+<td>净收益率（不变汇率）</td>
+<td>+2.3%</td>
+</tr>
+<tr>
+<td>现金及等价物</td>
+<td>$1,220M</td>
+</tr>
+<tr>
+<td><strong>长期债务</strong></td>
+<td><strong>$21,876M</strong></td>
+</tr>
+<tr>
+<td>客户预存款</td>
+<td>$7,129M</td>
+</tr>
+<tr>
+<td><strong>净杠杆</strong></td>
+<td><strong>≈3.3x</strong></td>
+</tr>
+<tr>
+<td>资本回报</td>
+<td>年内约 <strong>$1.2B 回购</strong>；派息累计 <strong>$618M</strong> → <strong>股息已恢复</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="212-信用评级-">21.2 信用评级 ✅</h3>
+<table>
+<thead>
+<tr>
+<th>机构</th>
+<th>评级</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S&amp;P</strong></td>
+<td><strong>BBB−（投资级）</strong></td>
+<td>2026-06-25（由 BB+ 上调）</td>
+</tr>
+<tr>
+<td><strong>Fitch</strong></td>
+<td>投资级</td>
+<td>约 2026</td>
+</tr>
+<tr>
+<td>Moody's</td>
+<td>Ba3（投机级）</td>
+<td>2025</td>
+</tr>
+</tbody>
+</table>
+<p>✅ <strong>无剩余担保债务</strong>。</p>
+<h3 id="213-princess-品牌健康度">21.3 Princess 品牌健康度</h3>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sun Princess 下水（Sphere 级首船）</td>
+<td>2024-02</td>
+</tr>
+<tr>
+<td>Star Princess 下水</td>
+<td>2025-09-26</td>
+</tr>
+<tr>
+<td><strong>Voyager 级 ×3 订购</strong>（183,000 GT / 4,700 客，LNG，Fincantieri Monfalcone）</td>
+<td>2026-04-15（交付 2035 / 2038 / 2039）</td>
+</tr>
+<tr>
+<td>Sphere 级第三艘</td>
+<td><strong>❌ 无</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Princess 在扩张，不是收缩</strong>（与 Cunard 收缩方向相反）。</p>
+</blockquote>
+<h3 id="214-coral-princess-未来部署">21.4 🚨 Coral Princess 未来部署</h3>
+<ul>
+<li><strong>未查到任何出售/转让传闻</strong>。2025-05 论坛「被出售」传闻<strong>已证伪</strong>（实为 11–12 月重新部署）。</li>
+<li><strong>2028 世界航程（4/28/2028 结束）之后部署未公布</strong> ⚠️</li>
+<li>客观风险：Coral 2002 年建造，至 Voyager 级交付（2035）时船龄 33 年，<strong>存在品牌内重新调配（redeploy）可能</strong></li>
+</ul>
+<h3 id="215-公司风险vs品牌风险关键">21.5 ⚠️ 「公司风险」vs「品牌风险」（关键）</h3>
+<blockquote>
+<p><strong>参照事件（2026-10-06）</strong>：Cunard 的 <strong>Queen Anne → 2029 移交 P&amp;O</strong>；P&amp;O 的 <strong>Arcadia → 移交 HAL</strong>。<strong>两船在同一集团内跨品牌转移。</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>风险类型</th>
+<th>对 Coral Princess 的适用性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>公司风险</strong>（Carnival 整体偿付/破产）</td>
+<td><strong>低</strong>。营收创纪录、EBITDA $7.14B、两家机构投资级、杠杆 3.3x、恢复分红回购</td>
+</tr>
+<tr>
+<td><strong>品牌风险</strong>（Princess 层面缩减/整合/船队调配）</td>
+<td><strong>中</strong>。Voyager 级新船入列 → <strong>老船（Coral 级）被调配或降级部署的概率上升</strong>；Queen Anne 事件证明<strong>集团内跨品牌转移是真实操作</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>结论</strong>：<strong>「船舶长期可用性」风险 &gt; 「公司破产」风险。</strong></p>
+</blockquote>
+<h3 id="216-争议与事故">21.6 争议与事故</h3>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>时间</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Coral 诺如病毒</strong></td>
+<td><strong>2025-01</strong></td>
+<td><strong>CDC：128 客 + 20 员</strong></td>
+</tr>
+<tr>
+<td><strong>Coral 诺如病毒</strong></td>
+<td><strong>2025-02</strong></td>
+<td><strong>CDC：69 客 + 13 员</strong></td>
+</tr>
+<tr>
+<td>Star Princess 诺如</td>
+<td>2026-03</td>
+<td>&gt;150 人</td>
+</tr>
+<tr>
+<td>推进/机械故障</td>
+<td>2009-03 / 2011-08</td>
+<td>涡轮机/燃机润滑油系统故障，降速抛锚，切柴电后继续</td>
+</tr>
+<tr>
+<td>机舱火灾</td>
+<td>2013-05 / 2020-01</td>
+<td>迅速扑灭，无伤亡</td>
+</tr>
+<tr>
+<td>COVID</td>
+<td>2020-03/04</td>
+<td>12 例阳性；<strong>3 人死亡</strong>；全船 1,898 人</td>
+</tr>
+<tr>
+<td>船体生物污损</td>
+<td>2022-12</td>
+<td>蜗牛，新西兰外海清理改线</td>
+</tr>
+<tr>
+<td>搁浅</td>
+<td>—</td>
+<td><strong>无记录</strong> ✅</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>评价</strong>：Princess 无重大系统性丑闻。<strong>主要争议集中在诺如病毒频发</strong>——Coral 在 <strong>2025 年 1 月、2 月连续两次</strong>爆发，是本船专属关注点（老船 + 长航程 + 客群年龄偏高为共性因素）。</p>
+</blockquote>
+<hr />
+<h2 id="二十二六维加权评分">二十二、六维加权评分</h2>
+<h3 id="221-评分权重-15-20-20-20-15-10">22.1 评分（权重 15 / 20 / 20 / 20 / 15 / 10）</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>分数</th>
+<th>扣分/加分依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① WiFi / 流媒体</strong></td>
+<td><strong>3.5</strong></td>
+<td>✅ Starlink + MedallionNet Max 支持流媒体；❌ 不免费（单买 $27.99/天起）、Plus 仅 1 台、<strong>4 设备单买套餐已取消</strong></td>
+</tr>
+<tr>
+<td><strong>② 舱房大小与性价比</strong></td>
+<td><strong>3.0</strong></td>
+<td>✅ 价格极低（内舱 $173/晚、阳台 $233/晚）；❌ <strong>客舱偏小</strong>（入门阳台约 214–222 ft²）、面积口径混乱、无标准 Window Suite</td>
+</tr>
+<tr>
+<td><strong>③ 美食丰富度</strong></td>
+<td><strong>3.5</strong></td>
+<td>✅ 2 家 MDR + 24h International Café + 免费披萨/下午茶；❌ <strong>常态特色餐厅仅 2 家</strong>、<strong>Plus 完全不含特色餐厅</strong>、要付费才有</td>
+</tr>
+<tr>
+<td><strong>④ 船上节目</strong></td>
+<td><strong>4.0</strong></td>
+<td>✅ <strong>双层双剧场结构</strong>（Princess Theater + Universe Lounge 3 旋转舞台）、Voice of the Ocean、Movies Under the Stars、Discovery at Sea 讲座；❌ 编辑评测称「活动有限、付费项多」、<strong>制作秀剧名未确证</strong></td>
+</tr>
+<tr>
+<td><strong>⑤ 船上观景</strong></td>
+<td><strong>4.5</strong></td>
+<td>✅✅ <strong>航线风景内容顶级</strong>（巴拿马旧闸 + Fiordland + Kimberley + 阿拉斯加双冰川 + 内湾航道 = 5–6 个命名风景巡航日）+ The Conservatory 玻璃顶泳池；⚠️ 环绕甲板「可绕船一周」为二手说法</td>
+</tr>
+<tr>
+<td><strong>⑥ 生活便利</strong></td>
+<td><strong>3.5</strong></td>
+<td>✅ <strong>每层设自助洗衣房、单价低（$6–7.50/次）</strong>、Anytime Dining 可选；❌ 酒水/小费均需套餐、正装夜仍存在</td>
+</tr>
+<tr>
+<td><strong>加权总分</strong></td>
+<td><strong>3.65</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>计算</strong>：3.5×0.15 + 3.0×0.20 + 3.5×0.20 + 4.0×0.20 + 4.5×0.15 + 3.5×0.10 = <strong>3.65</strong></p>
+<h3 id="222-与预判分-350-的差异说明">22.2 🚨 与预判分 3.50 的差异说明</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>预判</th>
+<th>深研后</th>
+<th>修正原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① WiFi</td>
+<td>3.5</td>
+<td><strong>3.5</strong></td>
+<td>持平（Starlink 已确认，但价格与设备限制抵消）</td>
+</tr>
+<tr>
+<td>② 舱房</td>
+<td>2.5</td>
+<td><strong>3.0</strong></td>
+<td>⬆️ 上调——<strong>价格优势比预判更强</strong>（$173/晚内舱），但面积小抵消部分</td>
+</tr>
+<tr>
+<td>③ 美食</td>
+<td>3.5</td>
+<td><strong>3.5</strong></td>
+<td>持平（Premier 无限特色餐厅是加分，但 Plus 0 次 + 仅 2 家特色餐厅是扣分）</td>
+</tr>
+<tr>
+<td>④ 节目</td>
+<td>4.0</td>
+<td><strong>4.0</strong></td>
+<td>持平（双层双剧场是硬优势，但活动量偏少）</td>
+</tr>
+<tr>
+<td>⑤ 观景</td>
+<td>4.5</td>
+<td><strong>4.5</strong></td>
+<td>持平（航线风景内容确认为顶级）</td>
+</tr>
+<tr>
+<td>⑥ 便利</td>
+<td>3.0</td>
+<td><strong>3.5</strong></td>
+<td>⬆️ 上调——<strong>每层自助洗衣房 + 低单价</strong>确认为实在优势</td>
+</tr>
+<tr>
+<td><strong>总分</strong></td>
+<td><strong>3.50</strong></td>
+<td><strong>3.65</strong></td>
+<td><strong>⬆️ +0.15</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="223-在-16-艘基线中的位置">22.3 在 16 艘基线中的位置</h3>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>船 / 航线</th>
+<th>总分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Silversea Silver Dawn 2027</td>
+<td>4.15</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Crystal Serenity 2027</td>
+<td>4.13</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Oceania Vista 2027</td>
+<td>4.13</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Silversea Silver Ray 2028</td>
+<td>4.10</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Regent Seven Seas Splendor 2027</td>
+<td>4.05</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Silversea Silver Muse 2027/28</td>
+<td>4.03</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Seabourn Quest 2027</td>
+<td>3.98</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Princess Star Princess 2027</td>
+<td>3.78</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Viking Vesta 2027-28</td>
+<td>3.78</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td><strong>🆕 Coral Princess 2027（本次深研）</strong></td>
+<td><strong>3.65</strong></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Cunard Queen Elizabeth 2028</td>
+<td>3.53</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Cunard Queen Anne 2028</td>
+<td>3.40</td>
+</tr>
+<tr>
+<td>13</td>
+<td>HAL Volendam 2027</td>
+<td>3.38</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Silversea Silver Shadow 2028</td>
+<td>3.20</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Coral Princess 落在第 10 位</strong>——位于主流线之上、奢华线之下。<strong>她的分数被「船老 + 客舱小 + 特色餐厅少」拖累，但被「航线极强 + 价格极低 + 洗衣便利」托起。</strong></p>
+</blockquote>
+<h3 id="224-权重调整后冠军会变必须给客户">22.4 权重调整后冠军会变（必须给客户）</h3>
+<table>
+<thead>
+<tr>
+<th>若你把这项排第一</th>
+<th>在 Coral Princess 上的结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① WiFi</strong></td>
+<td>❌ 不是首选（要付费，Plus 仅 1 台）</td>
+</tr>
+<tr>
+<td><strong>② 舱房与性价比</strong></td>
+<td>⚠️ <strong>「性价比」极强、「面积」极弱</strong>——纯比价格她赢，纯比面积她输</td>
+</tr>
+<tr>
+<td><strong>③ 美食</strong></td>
+<td>❌ 不是首选（仅 2 家特色餐厅，Plus 0 次）</td>
+</tr>
+<tr>
+<td><strong>④ 节目</strong></td>
+<td>✅ 较强（双层双剧场），但不及 Cunard</td>
+</tr>
+<tr>
+<td><strong>⑤ 观景</strong></td>
+<td>✅✅ <strong>最强项之一</strong>——若观景排第一，Coral 是 2027 年最值得考虑的船</td>
+</tr>
+<tr>
+<td><strong>⑥ 便利</strong></td>
+<td>✅ 洗衣便利是长航程硬优势</td>
+</tr>
+<tr>
+<td><strong>⑦ 停靠母国</strong></td>
+<td>⚠️ <strong>取决国籍</strong>（见第十七章）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二十三数据冲突与未核实清单">二十三、数据冲突与未核实清单</h2>
+<h3 id="231-主要数据冲突双方并列不擅自取舍">23.1 🚨 主要数据冲突（<strong>双方并列，不擅自取舍</strong>）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>项目</th>
+<th>冲突内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>客舱总数</strong></td>
+<td>官方 Fact Sheet <strong>1,545</strong> vs 第三方一致 <strong>约 1,000</strong>（官方数字与载客量数学矛盾）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>空间比</strong></td>
+<td>CruiseProdigy 45.81 vs CruiseDeckPlans 38（分母不同）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>最大载客量</strong></td>
+<td>2,390 / 2,400 / 2,590（三源不同）</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>首航日期</strong></td>
+<td>维基信息框 1/3/2003 vs 官方 Fact Sheet 1/17/2003</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>最近翻新年份</strong></td>
+<td>2024（CruiseMapper/CruiseDeckPlans）vs 2022（Princess 国际站）vs 2016（specialneedsatsea）</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>主餐厅座次归属</strong></td>
+<td>官方 features 页（Provence=传统）vs Cruise Critic（Bordeaux=传统）——<strong>完全相反</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>泳池数</strong></td>
+<td>官方 4 vs CruiseProdigy 3</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>套房面积</strong></td>
+<td>官方内部 5 套不同数字</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>自助洗衣单价</strong></td>
+<td>$3+$3 vs $3–5/桶</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>The Sanctuary 价格</strong></td>
+<td>$20/半天+$40/全天 vs $10/$20（旧）vs $20–80</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>赌场主题</strong></td>
+<td>官方 features 页「London-themed」vs 其他源「Vegas style」</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Coral 制作秀剧目</strong></td>
+<td>cruiselifestyle（On the Bayou + Encore）vs TheTravel（Rock Opera + 5-SKIES）vs 官方（不点名）</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>2027 GCP 权益口径</strong></td>
+<td>新闻稿（OBC ≤$1,500/人）vs 权益 flyer（OBC ≤$3,000/舱 + Premier + 头等舱机票）</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>Bayou vs Crown Grill</strong></td>
+<td>官方船页（Crown Grill）vs 2026 世界航程宣传册（Bayou，2024 年印制）</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>129 晚价格</strong></td>
+<td>TrackCruisePrices（约 2 倍）vs 四源一致区间</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>2025-01 诺如人数</strong></td>
+<td>CDC 128 客/20 员 vs CruiseMapper 126 客/19 员</td>
+</tr>
+</tbody>
+</table>
+<h3 id="232-查不到-未核实清单">23.2 🚨 查不到 / 未核实清单</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>项目</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Coral Princess 当前实际演出的驻船制作秀名称</strong></td>
+<td>🚨 <strong>最大未决项</strong>（官方不逐船映射，各源冲突）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Princess Theater 官方座位数</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Universe Lounge 官方座位数</strong></td>
+<td>仅 TheTravel ~600（⚠️）</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Coral 的 Starlink 具体安装/上线日期</strong></td>
+<td>仅集团级口径，官方未逐船披露</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>长航程（110–129 晚）主餐厅菜单循环周期</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>制作秀在长航程中的重演频率</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>2027 GCP 正装夜具体次数</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Princess 世界航程「讲者总人数」</strong></td>
+<td>官方只给类别</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>迷你套房（Mini-Suite）各航次起价</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>多数分段价</strong>（4n/10n/13n/23n/36n/40n/28n/46n/68n）</td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>2024 干坞逐项工程清单</strong></td>
+<td>官方仅笼统表述</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>2024 之后（2026/2027）是否有排期干坞</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Coral Princess 医疗中心具体规格</strong></td>
+<td>未查到</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>Coral 出售/转让传闻</strong></td>
+<td>未查到（2025-05 传闻已证伪）</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>2028 年后 Coral 部署计划</strong></td>
+<td>官方未公布</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>2029 Princess 世界航程执行船</strong></td>
+<td>官方未公布</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>2027/2028 赤道穿越精确日期</strong></td>
+<td>官方仅称「2 次」</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>2028 是否明文旧闸</strong></td>
+<td>官方仅写 Full Transit</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>Cruise Critic 会员逐条评分 / TripAdvisor 正文</strong></td>
+<td>❌ 未取到（JS 反爬，未以第三方替代）</td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>The Sanctuary 全程确切收费</strong></td>
+<td>未查到</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二十四给你的三条行动建议">二十四、给你的三条行动建议</h2>
+<h3 id="建议-1先确认你的国籍-护照这决定她是不是你的答案">建议 1：先确认你的「国籍 / 护照」，这决定她是不是你的答案</h3>
+<ul>
+<li><strong>中国 / 马来西亚护照</strong> → 🚨 <strong>必须提前办美国 B1/B2</strong>（洛杉矶/劳德代尔堡登船、夏威夷/阿拉斯加停靠均为美国口岸），审理可达数月。<strong>这是本航次最大门槛。</strong></li>
+<li><strong>另外别忘 PNG 签证</strong>（2/16–2/19 停靠巴布亚新几内亚，非公民须登船前持有效签证）——<strong>这是最容易被忽略的一项</strong>。</li>
+<li><strong>若你要的是「中日韩」</strong>：<strong>2027 GCP 只有日本 7 港 + 中国香港，没有韩国、没有中国大陆港</strong>。若韩国是硬指标，<strong>Coral Princess 不是答案</strong>（应看 Crystal Serenity 2027）。</li>
+</ul>
+<h3 id="建议-2如果你决定买只考虑阳台及以上-premier-套餐">建议 2：如果你决定买，<strong>只考虑「阳台及以上 + Premier 套餐」</strong></h3>
+<ul>
+<li><strong>阳台房 $233/晚</strong>（vs 奢华线 $450–900/晚）是本航次最大价值点；<strong>内舱在 114 晚里会很难受</strong>。</li>
+<li><strong>必须买 Premier（$105/人/天）</strong>：因为 <strong>Plus 完全不含特色餐厅</strong>，而 Coral 全船只有 2 家常态特色餐厅——<strong>Premier 的「无限特色餐厅 + 无限酒水 + 4 设备 WiFi + 小费」在 100+ 晚里极易回本</strong>（单 WiFi + 小费就 ≈$8,500/人）。</li>
+<li>⚠️ <strong>2026-10-13 后价格已上涨 $5/天</strong>，且<strong>早鸟权益（免费机票 + $3,000 OBC）已于 2025-10-31 过期</strong>——<strong>现在订没有这些福利了</strong>，议价前先问清是否还有替代促销。</li>
+</ul>
+<h3 id="建议-3接受买航线不买船">建议 3：接受「买航线，不买船」</h3>
+<ul>
+<li>Coral Princess 是 <strong>2003 年的船</strong>，<strong>2024 年干坞只是维护性质</strong>，<strong>2024–2026 最高频投诉就是「设施老旧」</strong>。<strong>若你不能接受硬件代差，请直接排除她。</strong></li>
+<li>但如果你要的是 <strong>「一条航程把太平洋两侧跑完 + 巴拿马旧闸 + 新西兰峡湾 + 金伯利 + 阿拉斯加双冰川」</strong>，<strong>2027 年几乎没有比她更合适的选项</strong>——她 3.65 分里，<strong>观景维度 4.5 分是全场顶尖</strong>。</li>
+<li>🚨 <strong>同时留意品牌风险</strong>：Princess 正订 3 艘 Voyager 级新船（2035 起交付），<strong>老船被重新调配是真实存在的操作</strong>（参照 Cunard Queen Anne 移交 P&amp;O）。<strong>「船舶长期可用性」风险 &gt; 「公司破产」风险。</strong></li>
+</ul>
+<hr />
+<h2 id="附订舱前必须书面确认的-5-件事">附：订舱前必须书面确认的 5 件事</h2>
+<ol>
+<li><strong>实际舱位面积（含不含阳台）</strong> —— 同一房型官方有 5 套不同数字，<strong>必须让旅行社书面给出你这一间的具体面积与是否遮挡（BY/BZ、OV–OZ 为遮挡房型）</strong>。</li>
+<li><strong>主餐厅座次归属</strong> —— 官方与 Cruise Critic 说法完全相反（Provence 还是 Bordeaux 是传统座次），<strong>确认你要的座次模式（Traditional / Anytime / Dine My Way）</strong>。</li>
+<li><strong>套餐价格与生效版本</strong> —— <strong>2026-10-13 起 Plus $70 / Premier $105（预购）</strong>，确认你适用的价格、是否已被涨价覆盖、以及<strong>特色餐厅的免费次数</strong>（Premier 无限次 vs Plus 0 次）。</li>
+<li><strong>巴拿马运河闸室与改线条款</strong> —— 确认走<strong>旧闸（Historic Locks）</strong>，并<strong>书面确认若因干旱限闸导致改线/改期的补偿或退改政策</strong>。</li>
+<li><strong>分段购买的权益差异</strong> —— 若你打算买分段而非全程，<strong>确认分段是否享有世界航程专属权益</strong>（参照 2026 先例：分段权益显著缩水，仅 $200 OBC/人）。</li>
+</ol>
+<hr />
+<p><em>报告完成：2026-10-07　｜　基于 5 路并行调研（规格/舱房/设施/福利、餐饮/节目/票价、航线/海日/停靠、价格/口碑/公司、船队时效/卖点）+ 官方 PDF 一手资料 + 交叉核实</em><br />
+<em>全部数据逐项标注可信度；冲突原样并列；未核实项已单列，未凭空填充。</em></p>
+  </main>
+</div>
+</body>
+</html>
