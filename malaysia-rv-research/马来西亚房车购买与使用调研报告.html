@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>马来西亚房车（RV）购买与使用深度调研报告</title>
+<style>
+  :root{
+    --bg:#f7f7f5; --card:#ffffff; --ink:#1a1a1a; --ink2:#4a4a4a; --ink3:#767676;
+    --line:#e2e0db; --accent:#0b6b5f; --accent2:#b4531a; --warn:#8a5a00;
+    --warnbg:#fdf6e3; --bad:#8f2424; --badbg:#fdeeee; --okbg:#eef6f2;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:48px 28px 96px}
+  header{border-bottom:3px solid var(--ink); padding-bottom:22px; margin-bottom:34px}
+  .kicker{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink3); font-weight:600}
+  h1{font-size:33px; line-height:1.25; margin:12px 0 10px; letter-spacing:-.02em}
+  .sub{color:var(--ink2); font-size:15px; margin:0}
+  .meta{margin-top:16px; font-size:13px; color:var(--ink3); display:flex; gap:22px; flex-wrap:wrap}
+  h2{font-size:23px; margin:56px 0 6px; letter-spacing:-.01em; padding-top:16px; border-top:1px solid var(--line)}
+  h2 .n{color:var(--accent); font-variant-numeric:tabular-nums; margin-right:10px}
+  h3{font-size:17px; margin:30px 0 8px}
+  h4{font-size:15px; margin:22px 0 6px; color:var(--ink2)}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0; padding-left:22px}
+  li{margin:5px 0}
+  table{width:100%; border-collapse:collapse; margin:16px 0; font-size:13.5px; background:var(--card)}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:#f0efec; font-weight:600; font-size:13px; white-space:nowrap}
+  td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+  tr.hl td{background:var(--okbg)}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:18px 20px; margin:18px 0}
+  .callout{border-left:4px solid var(--accent); background:var(--okbg); padding:14px 18px; margin:18px 0; border-radius:0 6px 6px 0}
+  .warn{border-left:4px solid var(--warn); background:var(--warnbg); padding:14px 18px; margin:18px 0; border-radius:0 6px 6px 0}
+  .bad{border-left:4px solid var(--bad); background:var(--badbg); padding:14px 18px; margin:18px 0; border-radius:0 6px 6px 0}
+  .callout strong,.warn strong,.bad strong{display:block; margin-bottom:4px; font-size:13.5px; letter-spacing:.02em}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:18px 0}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:15px 17px}
+  .stat .lab{font-size:12px; color:var(--ink3); letter-spacing:.04em}
+  .stat .val{font-size:22px; font-weight:700; margin:5px 0 2px; letter-spacing:-.02em}
+  .stat .note{font-size:12.5px; color:var(--ink3)}
+  .tag{display:inline-block; font-size:11.5px; padding:2px 8px; border-radius:20px; border:1px solid var(--line); background:#faf9f7; color:var(--ink2); margin:0 4px 4px 0}
+  .tag.ok{background:var(--okbg); border-color:#bcd9cf; color:#0b5a4f}
+  .tag.no{background:var(--badbg); border-color:#e8c6c6; color:var(--bad)}
+  .tag.mid{background:var(--warnbg); border-color:#e6d5a8; color:var(--warn)}
+  .toc{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px 22px; margin:26px 0 0; columns:2; column-gap:34px; font-size:13.5px}
+  .toc a{color:var(--ink2); text-decoration:none; display:block; padding:3px 0; break-inside:avoid}
+  .toc a:hover{color:var(--accent)}
+  .src{font-size:12.5px; color:var(--ink3); word-break:break-all}
+  .src a{color:var(--ink3)}
+  footer{margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink3)}
+  code{background:#f0efec; padding:1px 5px; border-radius:4px; font-size:12.5px}
+  .lead{font-size:16.5px; color:var(--ink2)}
+  @media print{body{background:#fff} .toc{columns:1} h2{page-break-after:avoid} table{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Deep Research · Malaysia RV Market</div>
+  <h1>马来西亚房车（RV）购买与使用深度调研</h1>
+  <p class="sub">硬性条件：<strong>车内必须有厕所</strong> + <strong>可供 2 人睡觉的空间</strong></p>
+  <div class="meta">
+    <span>数据截止：2026-09-24（2026-10-13 增量更新）</span>
+    <span>市场：马来西亚（半岛 + 沙巴/砂拉越）</span>
+    <span>口径：私人购买 / 私人注册</span>
+  </div>
+</header>
+
+<div class="toc">
+  <a href="#s1">一、结论先行</a>
+  <a href="#s2">二、三条可行路径与价格对照</a>
+  <a href="#s3">三、满足"厕所 + 2 人睡"的具体车型</a>
+  <a href="#s4">四、法规：JPJ 2026 版 RV 官方框架</a>
+  <a href="#s5">五、驾照与重量门槛（最大的坑）</a>
+  <a href="#s6">六、钱：路税 / 保险 / 检验 / 持有成本</a>
+  <a href="#s7">七、进口：AP 资格、税制与日本线实操</a>
+  <a href="#s8">八、使用：营地、过夜、水电、跨境</a>
+  <a href="#s9">九、气候与日常现实</a>
+  <a href="#s10">十、风险与坑清单</a>
+  <a href="#s11">十一、行动清单与联系名单</a>
+  <a href="#s12">十二、数据来源</a>
+</div>
+
+<h2 id="s1"><span class="n">01</span>结论先行</h2>
+
+<p class="lead">在马来西亚买一台"带厕所 + 能睡 2 人"的房车并合法上路，<strong>完全可行，且已有官方注册框架</strong>。JPJ 已于 2026 年发布《房车注册与发牌指南》，把 RV 正式纳入 <code>MTH / KVN / TKV / CPT</code> 四个车身码；截至 2026 年 7 月，交通部确认全国已有 <strong>1,450+ 台</strong>私人 RV 完成注册。</p>
+
+<div class="grid">
+  <div class="stat"><div class="lab">最省心方案</div><div class="val">RM 86,500 起</div><div class="note">已过 JPJ VTA 的德国拖挂房车（含厕所+空调）</div></div>
+  <div class="stat"><div class="lab">最灵活方案</div><div class="val">RM 79,000 起</div><div class="note">本地二手 Maxus V80 改装 campervan</div></div>
+  <div class="stat"><div class="lab">最低成本方案</div><div class="val">RM 35,000 起</div><div class="note">裸车 + 本地改装（厕所可选装）</div></div>
+  <div class="stat"><div class="lab">最大法规障碍</div><div class="val">驾照 / 拖挂</div><div class="note">拖挂 &gt;750kg 的新 DT/DAT 等级尚未落地</div></div>
+  <div class="stat"><div class="lab">最大使用障碍</div><div class="val">没有全接口营地</div><div class="note">电+水+排污三通的营地，全国基本没有</div></div>
+  <div class="stat"><div class="lab">本地新车系</div><div class="val">Rafflesia 系列</div><div class="note">槟城 SunshineRV，4 款全带 cassette 厕所+淋浴，睡 2–3 人，询价</div></div>
+</div>
+
+<p><strong>市场成熟度</strong>：全国注册 RV 数量从 2022 年的 742 台，增长到 2025 年 8 月的 1,405 台（私人注册），再到 2026 年 7 月交通部确认的 <strong>1,450+ 台</strong>。行业在起步期，车能买到、能上牌，但<strong>配套（营地、排污、贷款）落后于车辆供给</strong>。</p>
+
+<div class="callout">
+<strong>2026-10-13 增量更新（本轮复核新增）</strong>
+① 新增本地制造商 <strong>SunshineRV（槟城，JPJ 制造牌照 A025085）</strong>的 Rafflesia 四大系列（N / C / F / X）——官网规格逐款确认<strong>全部自带 Shower + Cassette Toilet</strong>，且全部标注 <strong>"1 Queen + 1 Double" 睡铺</strong>，与本次硬性条件完全吻合；价格未公开，需询价（详见 3.2 节）。<br>
+② 复核 AsiaRV 清库车：<strong>Knaus Boxdrive 600 XL 已从 RM 699,000 降至 RM 620,000</strong>；Hobby Beachy 420（RM 86,500）与 Ontour 390 SF（RM 120,000）、Knaus Sport 500 QDK（RM 127,200）仍在库但均标注 "Last unit available"；Südwind 500 EU (LIMITED) 与 540 FEU 已 SOLD OUT。<br>
+③ 驾照预警：SunshineRV <strong>N 系列 GVM 3,800kg、C 系列 GVM 3,620kg</strong>，均已超过 3,500kg 线，按 LAMPIRAN D 可能需 <strong>E 级驾照</strong>；F 系列（GVM 2,870kg）与 X 系列（GVM 3,400kg）落在 D 照范围 —— 看车时必须向卖家核对 BTM / BDM 口径（见 3.2 节）。
+</div>
+
+<div class="callout">
+<strong>一条决定选型的隐藏规则：底盘类型决定进口税负，差近 4 倍</strong>
+马来西亚 CBU 进口税是"关税 30% → 消费税（按排量 60–105%）→ 销售税 10%"层层叠加。但<strong>货车（HS 8704）与客车（HS 8702）底盘完全豁免消费税</strong>，有效税负约 40%；而 van / MPV 底盘（HS 8703）要交 60–105% 消费税，有效税负 150%+。<br><br>
+结果：同样 FOB 价 RM 50,000 的日本二手车，<strong>货车底盘改的 camper lorry 税费约 RM 21,500，van 底盘改的 campervan 税费约 RM 85,850</strong>。这正是马来西亚市场上 Toyota Camroad、Isuzu Elf、Toyota Coaster 这类货车/客车底盘房车占绝对主流的原因。<br><br>
+<strong>选型含义：走进口路线就优先选货车/客车底盘。</strong>详见第 7 节。
+</div>
+
+<h3>三条路径，一句话推荐</h3>
+<table>
+<thead><tr><th>你的情况</th><th>推荐路径</th><th>预算</th><th>为什么</th></tr></thead>
+<tbody>
+<tr class="hl"><td>不想拖车，要一台能自己开的</td><td><strong>买本地二手 Maxus V80 / Toyota Camroad 改装 campervan</strong></td><td class="num">RM 79,000 – 168,000</td><td>D 级驾照即可开；车上有厕所；本地有维修生态；无拖挂法规风险</td></tr>
+<tr><td>要新车、要认证齐全、要最省事</td><td><strong>买 AsiaRV 清库德国拖挂（Hobby Beachy 420 / Ontour 390 SF）</strong></td><td class="num">RM 86,500 – 120,000</td><td>已通过 JPJ VTA，可直接上牌；出厂带厕所；车况近乎全新；有分期</td></tr>
+<tr><td>愿意自己跑流程、追求性价比</td><td><strong>从日本进口原厂 camping car</strong></td><td class="num">RM 70,000 – 150,000 落地</td><td>日系原厂 RV 大多自带厕所+淋浴；目前免 AP；但需自办 VTA + Puspakom</td></tr>
+<tr><td>要马来西亚本地全新车、要厂保与售后</td><td><strong>SunshineRV Rafflesia 系列（槟城制造）</strong></td><td class="num">询价</td><td>四款全部自带淋浴 + cassette 厕所、睡 2–3 人；F/X 系列 GVM ≤3,500kg，D 照可开；本地厂维修配件</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>如果只能给一个建议</strong>
+优先选<strong>自行式</strong>（campervan / camper lorry），不要选拖挂。原因：马来西亚拖挂房车在法规上有一个尚未补齐的缺口——拖挂 BDM &gt;750kg 且牵引车 ≤3,500kg 时需要全新的 <code>DT / DAT</code> 驾照等级，而该等级在 2026 年 JPJ 指南里写明"<em>将开发</em>"，目前尚未开放考取。自行式房车只要 BTM ≤3,500kg，普通 D 级驾照即可，没有任何灰色地带。
+</div>
+
+<h2 id="s2"><span class="n">02</span>三条可行路径与价格对照</h2>
+
+<table>
+<thead>
+<tr><th>路线</th><th>代表车源</th><th>价格区间 (RM)</th><th>厕所</th><th>2 人睡</th><th>驾照</th><th>手续难度</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>A. 进口拖挂房车</strong><br>（已过 VTA）</td><td>AsiaRV：Hobby / Knaus 系列</td><td class="num">86,500 – 276,800</td><td><span class="tag ok">有</span></td><td><span class="tag ok">有</span></td><td>D（≤750kg）<br>DT/DAT（&gt;750kg，未开放）</td><td>低（卖家代办）</td></tr>
+<tr><td><strong>B. 本地二手自行式</strong></td><td>Maxus V80 / Toyota Camroad / Hiace 改装</td><td class="num">48,500 – 218,000</td><td><span class="tag mid">多数有</span></td><td><span class="tag ok">有</span></td><td>D</td><td>低（已注册）</td></tr>
+<tr><td><strong>C. 日本进口 camping car</strong></td><td>Camroad / Coaster / Grand Hiace / Isuzu Como</td><td class="num">70,000 – 450,000</td><td><span class="tag ok">原厂多有</span></td><td><span class="tag ok">有</span></td><td>D 或 E（看吨位）</td><td>高（自办 VTA + PPKM）</td></tr>
+<tr><td><strong>D. 买裸车 + 本地改装</strong></td><td>Hiace / Vanette / Ford Transit / Iveco 救护车</td><td class="num">35,000 – 130,000</td><td><span class="tag mid">选装</span></td><td><span class="tag ok">有</span></td><td>D</td><td>中（需 JPJ 改装审批）</td></tr>
+<tr><td><strong>E. 全新 / 高端</strong></td><td>CAM Caravan（本地制造）、Knaus Boxdrive 600 XL 4WD</td><td class="num">207,000 – 699,000</td><td><span class="tag ok">有</span></td><td><span class="tag ok">有</span></td><td>D（3,160kg）</td><td>低</td></tr>
+</tbody>
+</table>
+
+<h3>2.1 本地卖家 / 进口商名单</h3>
+<table>
+<thead><tr><th>公司</th><th>地点</th><th>联系方式</th><th>业务</th><th>主推车型 / 价格 (RM)</th></tr></thead>
+<tbody>
+<tr><td><strong>Karysma Motorhome</strong><br><span class="src">motorhomes.my</span></td><td>Shah Alam, Selangor<br><span class="src">C-9-G Jalan Serai Wangi L16/L, Alam Avenue 2</span></td><td>012-3416010（Ahmad）<br>FB karysmarv / TG karysmarv</td><td>卖现货 + 日本代拍进口 + 改装 + 配件 + 维修</td><td>CAM Caravan 207k 起；Camperbus 120k–180k；Camperlorry 70k–450k；日本原厂 camper 约 65k</td></tr>
+<tr><td><strong>AsiaRV Malaysia</strong><br><span class="src">asiarv.my / mobilehome.my</span></td><td>Kuala Lumpur</td><td>+60 3 4043 6090<br>WhatsApp +60 12 400 1019</td><td>卖（德系拖挂 + 自行式），提供 JPJ 注册支持与分期</td><td>Hobby Beachy 420 <strong>86,500</strong>；Ontour 390 SF <strong>120,000</strong>；Knaus Südwind 141k–230k；Boxdrive 600 XL 4WD <strong>699,000</strong></td></tr>
+<tr><td><strong>RW Motors (M) Sdn Bhd</strong><br><span class="src">rwmotorhome.com</span></td><td>Alor Setar, Kedah</td><td>017-5447913</td><td>卖（日本进口 specialist）</td><td>Camroad / Serena / Como / Delica / Scrum / VW Westfalia，48.5k–125k</td></tr>
+<tr><td><strong>VR Motorhome &amp; Caravan</strong><br><span class="src">vrmotorhome.com</span></td><td>Selangor / Klang</td><td>官网表单询价</td><td>改装为主 + 租 + 预售 + 配件</td><td>需询价（改装可含厕所）</td></tr>
+<tr><td><strong>RV Maxus</strong><br><span class="src">rvmaxus.com</span></td><td>未公开</td><td>官网询价</td><td>卖全新 Maxus V80 房车</td><td>需询价</td></tr>
+<tr><td><strong>MRC Motorhome</strong></td><td>Klang</td><td>FB 主页</td><td>卖</td><td>cab-over 布局 motorhome <strong>RM 360,000 起</strong></td></tr>
+<tr><td><strong>CAM Malaysia</strong><br><span class="src">cammalaysia.com.my</span></td><td>未公开</td><td>官网询价</td><td>本地制造（皮卡底盘 camper）</td><td>CAM Caravan 新车 <strong>207,000</strong></td></tr>
+<tr><td><strong>VanMY</strong><br><span class="src">van-my.com</span></td><td>线上平台</td><td>平台下单</td><td>P2P 出租（车主可挂租，宣传年收入可达 RM 40,000）</td><td>按天计</td></tr>
+<tr><td><strong>Sunshine RV</strong><br><span class="src">sunshinerv.net</span></td><td>Simpang Empat, Penang<br><span class="src">No 8, Solok Perindustrian Bukit Minyak 2, Taman Perindustrian Bukit Minyak, 14100</span></td><td>04-5840906 / 012-9883974<br>info@sunshinerv.net<br>营业：周一至五 8:30–16:30，周六预约</td><td>本地制造（JPJ 制造牌照 <strong>A025085</strong>）+ 定制改装</td><td>Rafflesia N/C/F/X 系列（全带淋浴+cassette 厕所，<strong>询价</strong>）；Teardrop / Squaredrop 拖挂；High Wall / Jasmine Slide-On</td></tr>
+</tbody>
+</table>
+
+<h2 id="s3"><span class="n">03</span>满足"厕所 + 2 人睡"的具体车型</h2>
+
+<h3>3.1 拖挂房车（已通过 JPJ VTA，可直接上牌）</h3>
+<p>全部来自 AsiaRV Malaysia 的 "Showroom Collection"——这些车是为办型式认证（VTA）和展厅展示而进口的，<strong>从未用于露营</strong>，车况接近全新，清库价约为原价的 5–6 折。</p>
+
+<table>
+<thead><tr><th>型号</th><th>年份</th><th>原价</th><th>清库价</th><th>铺位</th><th>厕所</th><th>尺寸 / 自重</th></tr></thead>
+<tbody>
+<tr class="hl"><td>Hobby Beachy 420</td><td>2022</td><td class="num">158,889</td><td class="num"><strong>86,500</strong></td><td>3</td><td><span class="tag ok">有</span>（厂方描述"车载厕所 + 内置空调"）</td><td>5.69 × 2.20 × 2.66 m / 808 kg</td></tr>
+<tr class="hl"><td>Hobby Ontour 390 SF</td><td>2022</td><td class="num">198,889</td><td class="num"><strong>120,000</strong></td><td>4</td><td><span class="tag ok">有</span>（官网明确标注 onboard toilet）</td><td>5.79 m / 1,063 kg</td></tr>
+<tr><td>Knaus Sport 500 QDK</td><td>2022</td><td class="num">198,889</td><td class="num">127,200</td><td>6–7</td><td><span class="tag mid">需确认</span></td><td>7.32 m / 1,166 kg</td></tr>
+<tr><td>Knaus Südwind 450 FU 60 周年</td><td>2022</td><td class="num">198,889</td><td class="num">141,300</td><td>4</td><td><span class="tag ok">有</span></td><td>6.71 m / 1,201 kg</td></tr>
+<tr><td>Knaus Südwind 450 FU</td><td>2024</td><td class="num">269,000</td><td class="num">215,200</td><td>4</td><td><span class="tag ok">有</span></td><td>6.71 m / 1,193 kg</td></tr>
+<tr><td>Knaus Südwind 500 EU</td><td>2024</td><td class="num">285,000</td><td class="num">224,000</td><td>4</td><td><span class="tag ok">有</span></td><td>7.31 m / 1,311 kg</td></tr>
+<tr><td>Knaus Südwind 540 FDK</td><td>2024</td><td class="num">299,000</td><td class="num">230,000</td><td>6–7</td><td><span class="tag ok">有</span></td><td>7.55 m / 1,341 kg</td></tr>
+<tr><td>Hobby Excellent 560 WFU</td><td>2021</td><td class="num">299,889</td><td class="num">276,800（已售）</td><td>4</td><td><span class="tag ok">有</span>（尾部大卫生间）</td><td>7.56 m / 1,612 kg</td></tr>
+</tbody>
+</table>
+
+<p class="src">2026-10-13 复核在库状态：Beachy 420 / Ontour 390 SF / Sport 500 QDK 均标注 "Last unit available"；Knaus Südwind 500 EU (LIMITED)、540 FEU 已 SOLD OUT；Hobby Excellent 560 WFU 重新在架 RM 276,800。价格与车型清单以 AsiaRV 新站 recreationalvehicle.my 为准（asiarv.my/demo-caravans 仍有旧版页面）。</p>
+
+<h4>Knaus Südwind 450 FU 官方配置（已逐条核对规格页）</h4>
+<div class="card">
+<p style="margin-top:0"><strong>厕所 / 卫浴</strong>：Thetford 坐便马桶（附备用马桶盒）+ 淋浴花洒 / 花洒杆 / 浴帘 + KNAUS 洗手盆 + 手持妇洗器。</p>
+<p><strong>睡觉</strong>：前床 200 × 138 cm，后床 198 × 127/129 cm —— 两人绰绰有余。</p>
+<p><strong>水电</strong>：净水箱 45 L 固定安装 + 25 L 可推式灰水箱 + 外接进水口 + 热水供应（单把手混水龙头）。</p>
+<p><strong>舒适</strong>：Truma Aventa Comfort 空调、98 L 压缩机车载冰箱、双头电磁炉 + 不锈钢水槽、6 个 230V 马来西亚/英国插座、LED 全车照明、蓝牙音响、KNAUS 舒适床垫。</p>
+<p><strong>底盘</strong>：AL-KO 半拖曳臂车轴 + AL-KO AAA 高级刹车 + 单轴 + 17 吋合金轮圈 + 稳定器安全挂钩 + 自动倒车 + 液压减震。</p>
+<div class="warn" style="margin-bottom:0">
+<strong>两个必须注意的点</strong>
+① 该车是 <strong>"Gas-free"（无燃气）设计</strong>——炉灶是电的，空调是电的。这意味着<strong>必须有 230V 市电接入</strong>才能做饭和制冷，离网露营会非常难受（除非自备发电机）。<br>
+② 450 FU 的 <strong>最大载重仅 73 kg</strong>（2024 款规格页数据），装水、装行李、装人之后非常紧张，必须逐项核算。
+</div>
+</div>
+
+<h3>3.2 自行式（campervan / camper lorry / camper truck）</h3>
+<table>
+<thead><tr><th>车型</th><th>年份</th><th>价格 (RM)</th><th>厕所</th><th>铺位</th><th>底盘</th><th>备注</th></tr></thead>
+<tbody>
+<tr class="hl"><td>Knaus Boxdrive 600 XL 4WD</td><td>2024</td><td class="num">620,000<br><span class="src">原价 890,000；2026-10-13 复核已降价（9 月为 699,000）</span></td><td><span class="tag ok">有</span> 旋转浴室 + Thetford 坐便 + 户外淋浴</td><td>4</td><td>MAN TGE 2.0 TDI 177hp 4WD</td><td>3,160 kg 自重 → D 照可开；Truma Combi 4D 柴油暖风 + Aventa 空调；69 L 冰箱；双头电磁炉；75 L 油箱</td></tr>
+<tr><td>CAM Caravan（Huanghai Plutus）</td><td>2014–2018 / 新</td><td class="num">138,000 – 207,000</td><td><span class="tag ok">有</span> 卫浴 + 便携马桶 + 冷水淋浴</td><td>2–4</td><td>Plutus 皮卡 2.8L 柴油 4WD/2WD</td><td>吊顶双人床 + 折叠沙发床；70 L 水箱 + 40 L 污水箱；空调；电磁炉；Fiamma F45S 遮阳篷；100AH 电池；<strong>车龄 ≤10 年可办银行贷款</strong></td></tr>
+<tr><td>2020 Maxus V80 2.5 Turbo Diesel Campervan</td><td>2020</td><td class="num">168,000</td><td><span class="tag mid">需确认</span></td><td>2–4</td><td>Maxus V80</td><td>Selangor；二手在售</td></tr>
+<tr><td>New Build Campervan Maxus V80</td><td>2017</td><td class="num">198,000</td><td><span class="tag mid">需确认</span></td><td>2–4</td><td>Maxus V80</td><td>Selangor；整车新改装</td></tr>
+<tr><td>Maxus V80 Campervan New Design</td><td>2017</td><td class="num">208,000 – 218,000</td><td><span class="tag mid">需确认</span></td><td>2–4</td><td>Maxus V80</td><td>Cheras / Kajang / Semenyih</td></tr>
+<tr><td>2015 Maxus V80 全改 campervan</td><td>2015</td><td class="num">78,800</td><td><span class="tag mid">需确认</span></td><td>2–4</td><td>Maxus V80</td><td>KL；性价比样本</td></tr>
+<tr><td>Toyota Camroad King Bunks Bed Motorhome</td><td>—</td><td class="num">119,000</td><td><span class="tag ok">日系原厂多有</span></td><td>4+</td><td>Toyota Dyna / Camroad</td><td>上下铺布局</td></tr>
+<tr><td>Toyota Camroad Motorhome（2.8 柴油）</td><td>1999–2005</td><td class="num">68,888 – 140,000</td><td><span class="tag ok">日系原厂多有</span></td><td>2–5</td><td>Toyota Dyna</td><td>马来西亚最主流的入门 motorhome；3.0L 柴油 → 路税约 RM 1,640/年</td></tr>
+<tr><td>ISUZU COMO 2.5 / High Roof</td><td>2002</td><td class="num">68,000 – 68,500</td><td><span class="tag ok">原厂多有</span></td><td>2–4</td><td>Isuzu Como</td><td>Alor Setar</td></tr>
+<tr><td>Mitsubishi Delica JB470</td><td>1997</td><td class="num">68,500</td><td><span class="tag ok">原厂多有</span></td><td>2–4</td><td>Delica 4WD</td><td>Alor Setar</td></tr>
+<tr><td>Nissan Serena Pop-up Roof</td><td>2001</td><td class="num">48,500</td><td><span class="tag no">大概率无</span></td><td>2</td><td>Serena</td><td>Kedah；最便宜样本，但 pop-top 车型通常没有独立厕所</td></tr>
+<tr><td>1996 Nissan Caravan 2.5 CBU</td><td>1996</td><td class="num">160,000</td><td><span class="tag mid">需确认</span></td><td>2–4</td><td>Nissan Caravan</td><td>车龄超 15 年 → 只能私人注册，不能商用出租</td></tr>
+<tr class="hl"><td><strong>SunshineRV Rafflesia N Series</strong></td><td>2026（新订）</td><td class="num">询价</td><td><span class="tag ok">有</span> Shower + Cassette Toilet</td><td>2–3<br><span class="src">1 Queen + 1 Double</span></td><td>Nissan 1.789L 2WD</td><td>4,650×2,005×2,665mm；GVM 3,800 / Tare 2,060kg<strong>（GVM&gt;3.5t，需确认驾照）</strong>；100L 12V 冰箱；86L 净水 / 43L 污水；锂电 100Ah；倒车影像；无发电机</td></tr>
+<tr class="hl"><td><strong>SunshineRV Rafflesia C Series</strong></td><td>2026（新订）</td><td class="num">询价</td><td><span class="tag ok">有</span> Shower + Cassette Toilet</td><td>2–3<br><span class="src">1 Queen + 1 Double</span></td><td>Toyota 2.4L TD 4WD</td><td>5,850×2,100×3,000mm；GVM 3,620 / Tare 3,140kg<strong>（GVM&gt;3.5t，需确认驾照）</strong>；270W 太阳能；Honda EV22i 发电机；电动遮阳篷；brush bar + 探照灯</td></tr>
+<tr class="hl"><td><strong>SunshineRV Rafflesia F Series</strong></td><td>2026（新订）</td><td class="num">询价</td><td><span class="tag ok">有</span> Shower + Cassette Toilet</td><td>2–3<br><span class="src">1 Queen + 1 Double</span></td><td>Toyota 2.4L TD 4WD</td><td>5,850×2,100×3,000mm；GVM 2,870 / Tare 2,490kg<strong>（D 照可开）</strong>；90L 12V 冰箱；86L/43L 水箱；锂电 100Ah；Honda EV22i 发电机；双倒车影像</td></tr>
+<tr class="hl"><td><strong>SunshineRV Rafflesia X Series</strong><br><span class="src">Maxus Twin Cab</span></td><td>2026（新订）</td><td class="num">询价</td><td><span class="tag ok">有</span> Shower + Cassette Toilet</td><td>2–3<br><span class="src">1 Queen + 1 Double</span></td><td>Maxus 2.8L TD 4WD</td><td>5,674×2,204×3,000mm；GVM 3,400 / Tare 2,450kg<strong>（D 照可开）</strong>；85L 12V 冰箱；86L/43L 水箱；锂电 100Ah；发电机标配；电动遮阳篷；电动双步</td></tr>
+</tbody>
+</table>
+
+<div class="warn">
+<strong>买二手自行式房车的必查项</strong>
+马来西亚二手 campervan 挂牌信息普遍<strong>不写厕所配置</strong>。看车时必须实地确认三件事：① 厕所是 <strong>cassette（盒式）</strong> 还是 <strong>portable potty（便携桶）</strong>；② 有没有独立淋浴间还是只能"厕所内拉花洒"；③ 马桶盒的<strong>备件和化学剂</strong>在马来西亚能否买到。pop-top 车型（如 Serena）几乎肯定没有厕所。
+</div>
+
+<h3>3.3 买裸车 + 本地改装（成本最低）</h3>
+<table>
+<thead><tr><th>裸车</th><th>价格 (RM)</th><th>改装费 (RM)</th><th>合计 (RM)</th></tr></thead>
+<tbody>
+<tr><td>Nissan Vanette</td><td class="num">8,000 – 12,000</td><td rowspan="6" style="vertical-align:middle; text-align:center">10,000 – 50,000<br><span class="src">（含隔音隔热、木工、沙发床、通风、水路、电路、锂电池）</span></td><td class="num">18,000 – 62,000</td></tr>
+<tr><td>Toyota Hiace</td><td class="num">20,000 – 80,000</td><td class="num">30,000 – 130,000</td></tr>
+<tr><td>Ford Transit</td><td class="num">20,000 – 45,000</td><td class="num">30,000 – 95,000</td></tr>
+<tr><td>Iveco / Maxus 救护车</td><td class="num">35,000 – 45,000</td><td class="num">45,000 – 95,000</td></tr>
+<tr><td>Mercedes Sprinter</td><td class="num">80,000 – 290,000</td><td class="num">90,000 – 340,000</td></tr>
+<tr><td>（参考）二手市场裸车样本</td><td class="num">13,000 – 40,000</td><td class="num">23,000 – 90,000</td></tr>
+</tbody>
+</table>
+<p class="src">改装工坊：Karysma（Shah Alam，012-3416010）、VR Motorhome（Selangor）、Abang Jun / Zulkarnain（Perlis，017-4979960，全 DIY 路线曾做到含购车总成本 RM 25,000）。Carsome 估算"旧车改房车含全部手续约 RM 100,000"。</p>
+
+<div class="bad">
+<strong>改装路线有一个硬门槛</strong>
+按 JPJ 2026 指南第 11.2 / 11.3 条：任何自行建造的 RV 必须持有 <strong>称重证书（Sijil Timbang Berat）</strong> 与 <strong>由 JPJ 注册专业工程师（Ir.）背书的技术图纸</strong>，且车身建造/改装只能在 <strong>JPJ 注册的工程车间</strong> 完成。第 6.4 条更明确：<strong>任何"重建车"（rebuild）不得改装为房车</strong>。所以"自己找个木工师傅改"这条路在法规上是不成立的——必须找 JPJ 注册车间。
+</div>
+
+<h2 id="s4"><span class="n">04</span>法规：JPJ 2026 版 RV 官方框架</h2>
+
+<p>权威依据：JPJ 2026 年发布《<em>Garis Panduan Pendaftaran dan Pelesenan Kenderaan Rekreasi (RV)</em>》（房车注册与发牌指南，共 23 页）。以下是与你直接相关的条款。</p>
+
+<h3>4.1 RV 的官方定义与分类</h3>
+<p>RV 被定义为 <strong>Special Purpose Vehicle（SPV）</strong> 下的一个类别，用于住宿/休闲出行，必须<strong>永久刚性固定</strong>在车厢内的四件套：① 座椅与桌子；② 床铺；③ 烹饪设备；④ 储物柜/橱柜。</p>
+
+<table>
+<thead><tr><th>JPJ 子类别</th><th>车身码</th><th>说明</th><th>对应车型举例</th></tr></thead>
+<tbody>
+<tr><td>Motorhome / Camper Bus</td><td><code>MTH</code></td><td>M2 / M3 类客车底盘改装</td><td>Toyota Coaster、Nissan Civilian</td></tr>
+<tr class="hl"><td>Karavan / Camper Van</td><td><code>KVN</code></td><td>Van 车身改装（含侧滑门特征）</td><td>Maxus V80、Hiace、Sprinter、Boxdrive 600 XL</td></tr>
+<tr><td>Treler Karavan</td><td><code>TKV</code></td><td>O1–O4 类中轴拖挂</td><td>Hobby、Knaus 拖挂房车</td></tr>
+<tr><td>Camper Pick-up / Camper Truck</td><td><code>CPT</code></td><td>N1 / N2 / N3 类货车底盘改装</td><td>CAM Caravan（Plutus 皮卡）、Toyota Camroad</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>关键：厕所不是强制配置，但"被允许加装"</strong>
+指南 10.1(b) 明确：<em>厕所、洗手盆、冰箱、风扇、空调、热水器、水箱等额外设备均允许安装</em>，前提是不影响车辆安全、不干扰主系统。也就是说——<strong>带厕所的房车是完全合规的，但 JPJ 不会因为"没有厕所"而拒绝注册</strong>。所以你要的"厕所 + 2 人睡"这个组合，在法规上没有任何障碍。
+</div>
+
+<h3>4.2 尺寸与结构上限（Kaedah 1959）</h3>
+<table>
+<thead><tr><th>项目</th><th>上限</th></tr></thead>
+<tbody>
+<tr><td>整车长度</td><td>刚性车身 RV（MTH / KVN / CPT）<strong>13 m</strong>；拖挂房车（TKV）<strong>9 m</strong></td></tr>
+<tr><td>整车宽度</td><td><strong>2.6 m</strong>，且车身任一侧不得超出最后轮外侧 152 mm</td></tr>
+<tr><td>整车高度</td><td>后轮轮距 × 1.75，或 <strong>4.2 m</strong>（取适用者）</td></tr>
+<tr><td>后悬（rear overhang）</td><td>不超过轴距的 <strong>50%</strong></td></tr>
+</tbody>
+</table>
+
+<h3>4.3 座位数上限（按 BDM 整车总重）</h3>
+<table>
+<thead><tr><th>BDM</th><th>最多座位（含司机）</th></tr></thead>
+<tbody>
+<tr><td>≤ 3,500 kg</td><td>5 座</td></tr>
+<tr><td>3,501 – 5,000 kg</td><td>8 座</td></tr>
+<tr><td>&gt; 5,000 kg</td><td>12 座</td></tr>
+</tbody>
+</table>
+<p class="src">拖挂房车行驶过程中，<strong>任何人不得待在车内</strong>（10.3b）。</p>
+
+<h3>4.4 强制安全要求（逐条摘录）</h3>
+<table>
+<thead><tr><th>领域</th><th>要求</th></tr></thead>
+<tbody>
+<tr><td>安全带</td><td>BDM ≤5,000kg 的 RV，休闲区乘客座椅须配 <strong>三点式</strong> 安全带；&gt;5,000kg 用两点式。侧向/后向座椅允许，但须符合 UN 法规或 MS 标准</td></tr>
+<tr><td>电气</td><td>加装逆变器须由 <strong>JPJ 注册、且持有能源委员会（ST）至少 PW2 资格</strong> 的电工检验；须符合 JPJ《车内额外电气布线 IWSe 指南》。<strong>已取得 VTA 证书的车型可豁免</strong></td></tr>
+<tr><td>LPG 燃气灶</td><td>须配：≥4kg 干粉灭火器（易取位置）、足够通风、<strong>燃气泄漏探测器</strong>、紧急出口/可开启逃生窗（大型 motorhome / camper van）、内部材料至少阻燃级</td></tr>
+<tr><td>玻璃 / 贴膜</td><td>须符合 MS 595 或 UN R43；贴膜后透光率 <strong>≥70%</strong>；除司机左右侧窗外，允许用窗帘/百叶遮光</td></tr>
+<tr><td>水箱 / 排污</td><td>净水箱与污水箱须防锈防腐蚀，具备安全通风与排放设计；安装不得干扰悬挂/车轴/离地间隙；<strong>行驶中不得有任何内容物直接排到路面</strong></td></tr>
+</tbody>
+</table>
+
+<h3>4.5 拖挂房车专项要求（第 10.10 条）</h3>
+<ul>
+<li>牵引车必须是<strong>私人注册或商用注册、且具有 5 个座位的机动车</strong>。</li>
+<li><strong>拖挂 BDM 不得超过牵引车整备质量（kerb weight）的 85%</strong>。</li>
+<li>连接装置须符合 <strong>UNR55</strong> 或 JPJ 认可标准。</li>
+<li>拖挂比牵引车宽时，牵引车须配对应后视镜。</li>
+<li>拖挂刹车须与牵引车刹车<strong>自动或同步</strong>动作。</li>
+<li>刹车灯 / 转向灯 / 车牌灯的电气连接须正常工作。</li>
+</ul>
+
+<h3>4.6 型式认证（VTA）与检验</h3>
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>谁需要 VTA</td><td>每一款<strong>新</strong> RV 车型（本地 CKD 或进口 CBU）在上市与发牌前必须取得 JPJ 的 VTA</td></tr>
+<tr><td>VTA 费用</td><td>申请费 <strong>RM 1,000</strong> + 服务费（新申请 RM 500 / 续期 RM 500）</td></tr>
+<tr><td>VTA 时限</td><td>通过 MySIKAP 的 eVTA 模块线上提交，一般 <strong>14 个工作日</strong> 内出结果</td></tr>
+<tr><td>称重证书 + 技术图纸</td><td>每台建造的 RV 必须有称重证书，技术图纸须由 <strong>JPJ 注册专业工程师</strong> 背书（名单在 jpj.gov.my 可查）</td></tr>
+<tr><td>建造车间</td><td>必须是 JPJ 注册工程车间</td></tr>
+<tr><td>初次检验</td><td>商用 RV 须在 PPKM（Puspakom）做初次检验；检验内容含结构安全、刹车、内部安装、电气、安全设备功能</td></tr>
+<tr><td>定期检验</td><td>商用 RV <strong>每 6 个月</strong> 一次；<strong>私人 RV 无强制年检</strong>（按普通私家车规则）</td></tr>
+</tbody>
+</table>
+
+<h3>4.7 私人 vs 商用（2026 年 1 月 1 日起）</h3>
+<table>
+<thead><tr><th>用途</th><th>条件</th></tr></thead>
+<tbody>
+<tr><td>私人（个人/公司）</td><td>任何 RV 都可以私人注册发牌，<strong>无车龄上限</strong></td></tr>
+<tr><td>商用（KSPP 旅游自驾车 / KSP 租车）</td><td>仅限<strong>全新</strong>车辆（CKD 或 CBU）；<strong>二手进口 RV 不得商用</strong>，只能私人注册</td></tr>
+<tr><td>2026-01-01 前已私人注册的 RV 转商用</td><td>发牌车龄 ≤14 年、车辆车龄 ≤15 年、须通过 PPKM 初检、须在车龄满 14 年前至少 6 个月向 APAD 申请</td></tr>
+</tbody>
+</table>
+
+<h2 id="s5"><span class="n">05</span>驾照与重量门槛（最大的坑）</h2>
+
+<p>JPJ 指南 <strong>LAMPIRAN D</strong> 给出了 RV 驾照对照表。这是整份调研里最需要你注意的部分。</p>
+
+<table>
+<thead><tr><th>RV 类别</th><th>整备质量 BTM</th><th>所需驾照</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>Motorhome / Camper Bus（MTH）</td><td>&gt; 3,500 kg</td><td><strong>E 级</strong></td><td>即马来西亚现有"驾驶 BTM &gt;7,500kg 重型机动车"的等级</td></tr>
+<tr class="hl"><td>Karavan / Camper Van（KVN）</td><td>≤ 3,500 kg</td><td><strong>D / DA 级</strong></td><td>普通轿车驾照即可 → <strong>大多数 campervan 走这条</strong></td></tr>
+<tr><td>Karavan / Camper Van（KVN）</td><td>&gt; 3,500 kg</td><td>E 级</td><td>大型高顶 van 改装要注意吨位</td></tr>
+<tr class="hl"><td>Camper Pick-up / Camper Truck（CPT）</td><td>≤ 3,500 kg</td><td><strong>D / DA 级</strong></td><td>CAM Caravan 等皮卡底盘房车</td></tr>
+<tr><td>Camper Pick-up / Camper Truck（CPT）</td><td>&gt; 3,500 kg</td><td>E 级</td><td>Camroad、Isuzu Elf 等货车底盘常见超 3.5t</td></tr>
+<tr><td>拖挂房车：牵引车 ≤3,500kg + 拖挂 ≤750kg</td><td>—</td><td>D / DA 级</td><td>可以正常开</td></tr>
+<tr class="bad"><td>拖挂房车：牵引车 ≤3,500kg + 拖挂 &gt;750kg</td><td>—</td><td><strong>DT / DAT 级</strong></td><td><strong>新等级，"将开发"（akan dibangunkan）—— 2026 年尚未开放考取</strong></td></tr>
+<tr><td>拖挂房车：牵引车 &gt;3,500kg + 拖挂 &gt;750kg</td><td>—</td><td>E 级</td><td>用重型牵引车走 E 级路线</td></tr>
+</tbody>
+</table>
+
+<div class="bad">
+<strong>已核实：DT / DAT 等级目前根本考不到</strong>
+我逐一核对了 JPJ 公布的全部马来西亚驾照等级（A、A1、B、B1、B2、C、D、DA、E、E1、E2、F、G、H、I）—— <strong>列表里没有 DT，也没有 DAT</strong>。这与指南中"akan dibangunkan（将开发）"的措辞完全一致。<br><br>
+实际含义：<br>
+• 你想用一台普通轿车/SUV 拖一台 Hobby Beachy 420（自重 808kg，BDM 约 1,000kg+）——<strong>按新规需要 DT/DAT，而该等级尚不存在</strong>。<br>
+• 若按"牵引车与拖挂总重 ≤3,500kg"字面执行，牵引车 kerb 最多约 2,200–2,400kg（Hilux / Ranger / Fortuner 级别），普通 1.5L SUV 拖不动。<br>
+• 同时还要满足 <strong>拖挂 BDM ≤ 牵引车 kerb 的 85%</strong>：以 Hobby Beachy 420（BDM 约 1,050kg）计，牵引车 kerb 须 ≥1,235kg。<br>
+• 理论上的合规替代：用 <strong>&gt;3,500kg 的重型牵引车 + E 级驾照</strong>，但那样就失去拖挂"用普通车就能拖"的全部意义。<br><br>
+<strong>行动建议：在掏钱买拖挂房车之前，先向 JPJ（03-8000 8000）书面确认 DT/DAT 的预计开放时间。这一句话能帮你省掉一台车钱。</strong>
+</div>
+
+<div class="callout">
+<strong>自行式没有这个问题</strong>
+只要整备质量 ≤3,500kg，普通 D / DA 驾照直接开。<strong>Knaus Boxdrive 600 XL 自重 3,160kg、Maxus V80 改装车、Hiace 改装车、CAM Caravan 都落在 D 照范围内</strong>。这是我在本次调研中把自行式排在拖挂之前的核心原因。
+</div>
+
+<h2 id="s6"><span class="n">06</span>钱：路税 / 保险 / 检验 / 持有成本</h2>
+
+<h3>6.1 路税（LKM）</h3>
+<p>私人 RV 按 <strong>私家车（Motokar）</strong> 口径、以发动机排量计税。按 JPJ 私家车费率公式推算：</p>
+<table>
+<thead><tr><th>排量</th><th>年路税（半岛，估算）</th><th>计算方式</th></tr></thead>
+<tbody>
+<tr><td>2,500 cc</td><td class="num">≈ RM 840</td><td>RM 440 + RM 0.80/cc（超过 2,000cc 部分）</td></tr>
+<tr class="hl"><td>2,800 cc</td><td class="num">≈ RM 1,320</td><td>RM 840 + RM 1.60/cc（超过 2,500cc 部分）</td></tr>
+<tr class="hl"><td>3,000 cc</td><td class="num">≈ RM 1,640</td><td>同上</td></tr>
+<tr><td>3,400 cc</td><td class="num">≈ RM 2,280</td><td>RM 1,640 + RM 1.60/cc（超过 3,000cc 部分）</td></tr>
+</tbody>
+</table>
+<p class="src">交叉验证：Karysma 店主实测口径为 2.8L ≈ RM 1,300、3.0L ≈ RM 1,800、3.4L ≈ RM 2,200 —— 与上述推算同一量级。若车辆被登记为"非轿车（SUV/MPV/van）"类别，部分费率表会再上浮约 20%，最终以 MyJPJ 实算为准。沙巴/砂拉越约打 7 折，兰卡威/邦咯岛约 5 折。</p>
+
+<div class="callout">
+<strong>拖挂房车路税极低：RM 50 / 年</strong>
+JPJ 车辆发牌费率表中，私人拖车（Kenderaan Persendirian Trailer，代码 AF）为固定费率 <strong>RM 50/年</strong>，与尺寸无关。拖挂房车的保险通常挂在牵引车的保单下。这是拖挂路线唯一的成本优势。
+</div>
+
+<h3>6.2 保险</h3>
+<p>马来西亚 motorhome / campervan 的综合险保费，按车主实测口径约 <strong>RM 600 – 2,000 / 年</strong>（视投保金额而定）。高价值进口车（如 Boxdrive 600 XL 近 RM 700k）保费会显著更高。注意：<strong>部分保险公司对"改装车"或"房车"类别会拒保或加费</strong>，购买前先让卖家提供可承保的保险公司名称。</p>
+
+<h3>6.3 年度持有成本示例</h3>
+<table>
+<thead><tr><th>项目</th><th>Maxus V80 改装 campervan（2.5L）</th><th>Knaus Südwind 450 FU 拖挂</th></tr></thead>
+<tbody>
+<tr><td>路税</td><td class="num">≈ 840</td><td class="num">50（拖挂）</td></tr>
+<tr><td>保险</td><td class="num">600 – 2,000</td><td class="num">挂牵引车保单</td></tr>
+<tr><td>强制检验</td><td class="num">私人注册免年检</td><td class="num">私人注册免年检</td></tr>
+<tr><td>牵引车路税/保险（额外）</td><td class="num">—</td><td class="num">皮卡约 2,000 – 3,000</td></tr>
+<tr><td>停放</td><td class="num">需 6m × 2.5m 车位</td><td class="num">需 7m 长拖挂停放位（多数住宅不允许）</td></tr>
+<tr><td><strong>合计（不含折旧与停放）</strong></td><td class="num"><strong>≈ 1,440 – 2,840</strong></td><td class="num"><strong>≈ 2,050 – 3,050</strong></td></tr>
+</tbody>
+</table>
+
+<h2 id="s7"><span class="n">07</span>进口流程实操（日本线）</h2>
+
+<p>这是性价比最高但也最费事的路线。以下是马来西亚进口商 Karysma 公开的完整流程与费用。</p>
+
+<table>
+<thead><tr><th>步骤</th><th>内容</th><th>成本 / 时间</th></tr></thead>
+<tbody>
+<tr><td>1. 选车</td><td>通过日本拍卖平台或二手车商选车：<span class="src">jpauc.com、ts-export.com、fujicars.jp、goo-net-exchange.com</span>；英国线可用 autotrader.co.uk</td><td>—</td></tr>
+<tr><td>2. 付款</td><td><strong>必须现金 TT（电汇）</strong> 到日本供应商账户，无法分期</td><td>—</td></tr>
+<tr><td>3. 海运 + 提货</td><td>日本车行 → yard → 日本港口 → Port Klang</td><td class="num">RM 12,000 – 15,000</td></tr>
+<tr><td>4. 清关</td><td>通过持牌税务代理申报海关 K1 表，缴进口关税 + 销售税</td><td class="num">清关费约 1,500<br>关税约 8,000 – 12,000</td></tr>
+<tr><td>5. VTA 认证</td><td>须聘请 JPJ 注册顾问工程师，准备车辆工程图纸，向 JPJ 布城总部申请 <code>CARAVAN</code> 或 <code>MOTORHOME</code> 的 Vehicle Type Approval。JPJ 注册工程顾问举例：Optimus Services（019-8671793）</td><td class="num">图纸 + 称重证书约 5,000<br>JPJ VTA 官方费 1,000 + 500</td></tr>
+<tr><td>6. Puspakom B2 检验</td><td>首次在马来西亚注册的进口车须做 B2 检验（核对发动机号、车架号、尺寸规格）</td><td>—</td></tr>
+<tr><td>7. 上牌 + 保险</td><td>取得车牌与 VOC 后购买保险</td><td class="num">保险 600 – 2,000</td></tr>
+</tbody>
+</table>
+
+<p><strong>附加成本合计：约 RM 26,500 – 33,500 / 台</strong>；全程约 <strong>8 周</strong>（4 周运输 + 4 周手续）。</p>
+
+<h3>7.1 关于 AP：个人买不了，必须走公司渠道</h3>
+<p>这是本次调研中最重要的一条发现，直接推翻了"个人可以自己进口房车"的假设。按 MITI 官方 AP 分类：</p>
+<table>
+<thead><tr><th>AP 类别</th><th>用途</th><th>谁能申请</th></tr></thead>
+<tbody>
+<tr><td>Open AP</td><td>进口 1–5 年车龄的二手整车</td><td>公司（需预先批准）</td></tr>
+<tr><td>Franchise AP</td><td>进口全新整车</td><td>公司（需预先批准）</td></tr>
+<tr class="hl"><td><strong>Other Vehicle AP</strong></td><td>含 <strong>特殊用途车辆（SPV）</strong>、<strong>越野与休闲车</strong>、<strong>旅游车辆</strong>、重建车、经典老爷车、R&amp;D 等 18 个子项</td><td><strong>公司（需预先批准）</strong></td></tr>
+<tr><td>Individual AP</td><td>个人进口自用车辆</td><td><strong>仅限</strong>：海外工作/留学的马来西亚公民、归国专家计划（REP）、国会议员与州议员、使馆人员、外籍人士、MM2H 参与者</td></tr>
+</tbody>
+</table>
+
+<div class="bad">
+<strong>结论：普通马来西亚居民不符合 Individual AP 资格</strong>
+RV 在 JPJ 定义下属于 SPV，进口走的是 <strong>Other Vehicle AP</strong>，而该类 AP 只发给<strong>公司</strong>且需预先批准。<br><br>
+所以 Karysma 说"目前不需要 AP、谁都能做"—— 这个说法只有在<strong>通过持牌公司代进</strong>的语境下才成立。你作为个人直接下单从日本买车，会卡在 AP 这一关。<br><br>
+<strong>实务含义</strong>：这条路必须走 Karysma / RW Motors / AsiaRV 这类持牌进口商。所谓"省钱"的空间，主要在于选车和议价，不在于"绕过 AP"。
+</div>
+<p class="src">附：MITI《2026 年 AP Francais 政策》（2026-01-01 生效）把 CBU 新车门槛提高为 OTR &gt; RM250,000、燃油车排量 &gt;1,800cc，但明确<strong>不适用于已有品牌，也不适用于 Recon 复新进口车</strong> —— 所以二手车龄的房车进口不受此门槛影响。来源：<a href="https://www.miti.gov.my/ap">miti.gov.my/ap</a> · <a href="https://keyauto.my/zh/news/2026-ap-francais-miti">keyauto.my</a></p>
+
+<h3>7.2 税：底盘类型决定落地价，差距可达 4 倍</h3>
+<p>马来西亚 CBU 整车进口税<strong>层层叠加</strong>计算（2025 年 1 月起计税基数从 docket pricing 改为实际 FOB 价，实际税负上升 10–20%）：</p>
+<table>
+<thead><tr><th>顺序</th><th>税种</th><th>计税基数</th><th>税率</th></tr></thead>
+<tbody>
+<tr><td>①</td><td>进口关税 Import Duty</td><td>FOB 价</td><td>MFN <strong>30%</strong>；东盟原产 0%；CKD 0%</td></tr>
+<tr><td>②</td><td>消费税 Excise Duty</td><td>FOB + 进口关税</td><td><strong>按排量分级</strong>（见下）</td></tr>
+<tr><td>③</td><td>销售税 SST</td><td>FOB + 关税 + 消费税</td><td><strong>10%</strong></td></tr>
+</tbody>
+</table>
+
+<p><strong>关键差异：房车改的是什么底盘，决定要不要交消费税</strong></p>
+<table>
+<thead><tr><th>底盘类别</th><th>HS 编码</th><th>消费税</th><th>有效总税负（非东盟 CBU）</th><th>对应房车类型</th></tr></thead>
+<tbody>
+<tr class="hl"><td><strong>货车</strong>（卡车）</td><td>8704</td><td><span class="tag ok">完全豁免</span></td><td class="num"><strong>约 40%</strong></td><td>Camper Truck / Camper Lorry（Toyota Camroad、Isuzu Elf）</td></tr>
+<tr class="hl"><td><strong>客车</strong>（巴士）</td><td>8702</td><td><span class="tag ok">完全豁免</span></td><td class="num"><strong>约 40%</strong></td><td>Camper Bus（Toyota Coaster、Nissan Civilian）</td></tr>
+<tr><td>厢式车 / MPV</td><td>8703</td><td>按排量 60% – 105%</td><td class="num">约 150%+</td><td>Van 底盘 campervan（Hiace、Maxus V80、Sprinter）</td></tr>
+<tr><td>乘用车</td><td>8703</td><td>按排量 60% – 105%</td><td class="num">大排量常 &gt;200%</td><td>—</td></tr>
+</tbody>
+</table>
+<p class="src">消费税按排量：&lt;1,500cc = 60%；1,500–1,799cc = 65%；1,800–1,999cc = 75%；2,000–2,499cc = 90%；&gt;2,500cc = 105%。来源：<a href="https://grokipedia.com/page/Malaysian_motor_vehicle_import_duties">Malaysian motor vehicle import duties</a></p>
+
+<div class="callout">
+<strong>这一条直接解释了马来西亚房车市场的车型结构</strong>
+用 FOB RM 50,000 的日本二手车举例：<br><br>
+• <strong>货车底盘（Camper Lorry）</strong>：关税 30% = 15,000 → 消费税<strong>豁免</strong> → SST 10% = 6,500 → 税费合计 <strong>RM 21,500（43%）</strong><br>
+• <strong>Van 底盘（Campervan，2.5L）</strong>：关税 30% = 15,000 → 消费税 90% = 58,500 → SST 10% = 12,350 → 税费合计 <strong>RM 85,850（172%）</strong><br><br>
+<strong>同样的 FOB 价，落地成本差近 4 倍。</strong>这就是为什么 Karysma 的价格表里 Camper Lorry（Camroad / Isuzu Elf）和 Camper Bus（Coaster）占据绝对主流，而 van 底盘的 campervan 新车价格普遍被推到 RM 200,000 以上。<br><br>
+<strong>选型建议：若走进口路线，优先选货车/客车底盘的 Camper Truck / Camper Bus —— 税制直接给你省下 100%+ 的成本。</strong>代价是体积大、吨位常超 3,500kg（需 E 级驾照）。
+</div>
+
+<h3>7.3 拖挂房车的税负（已核实）</h3>
+<p>拖挂房车走 HS <code>8716.10.0000</code>（供居住或野营用厢式挂车及半挂车）。它<strong>不属于机动车辆</strong>，因此完全不适用 60–105% 的消费税，税负结构简单得多：</p>
+<table>
+<thead><tr><th>税种</th><th>税率</th><th>说明</th></tr></thead>
+<tbody>
+<tr class="hl"><td>进口关税（MFN）</td><td><strong>25%</strong></td><td>两个独立税则库一致（treayo、hsciq）</td></tr>
+<tr><td>消费税（Excise）</td><td><span class="tag ok">不适用</span></td><td>非机动车辆，不在消费税范围</td></tr>
+<tr><td>销售税（SST）</td><td><strong>10%</strong></td><td>叠加在累计价值之上</td></tr>
+<tr class="hl"><td><strong>有效税负</strong></td><td><strong>≈ 37.5%</strong>（对 FOB 价）</td><td>对比 van 底盘 campervan 的 172%，差距接近 4.6 倍</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>落地成本反推验证 —— 模型与真实售价对得上</strong>
+以 Hobby Beachy 420 为例（欧洲市场价约 €20,000，按 €1 ≈ RM 4.68）：<br><br>
+FOB RM 93,600 → 关税 25% = RM 23,400 → 累计 RM 117,000 → SST 10% = RM 11,700 → <strong>税费后 RM 128,700</strong><br>
+＋欧洲→巴生港海运（6m 拖挂，估 RM 15,000–25,000）＋ VTA 费 RM 1,500 ＋ 工程师图纸/称重证书约 RM 5,000 ＋ 清关约 RM 1,500<br>
+＝ <strong>落地成本约 RM 152,000–162,000</strong><br><br>
+AsiaRV 标注的"原价"是 <strong>RM 158,888.88</strong> —— 几乎完全吻合。这说明两件事：① 上述税制模型是对的；② 现在 RM 86,500 的清库价是<strong>真实的亏本清货</strong>（比落地成本还低约 45%），属于为办型式认证而进口的展示车在清库存，不是常态价格。想买就尽快，这批卖完不会再有。
+</div>
+
+<div class="callout">
+<strong>一条可能省 25% 的路径：用中国产地证走 FTA</strong>
+8716.10.0000 在 ACFTA / RCEP / CPTPP 项下的协定税率可降至 <strong>0%</strong>，条件是提供有效原产地证书（C/O）。<br><br>
+德国产的 Knaus / Hobby 用不上（欧盟与马来西亚无 FTA）。但若从中国进口拖挂房车（中国是全球最大的拖挂房车生产国之一），凭 ACFTA 原产地证有可能把 25% 关税降到 0 —— 这是本次调研中发现的<strong>唯一一条结构性降本路径</strong>，值得让报关代理专项核实。
+</div>
+<p class="src">来源：<a href="https://treayo.cn/en/hs/malaysia/h/8716">TREAYO 马来西亚税则 8716</a> · <a href="https://www.hsciq.com/HSMY/Code/8716100000">HSCIQ 8716100000</a>（均标注 MFN 25%、SST 10%）</p>
+
+<h2 id="s8"><span class="n">08</span>使用：营地、过夜、水电、跨境</h2>
+
+<h3>8.1 官方营地标准：KPKT 2024 规划指南</h3>
+<p>房屋及地方政府部（KPKT）已发布《RV 营地规划指南》，把 RV 营地分两级，并规定了过渡期：</p>
+<table>
+<thead><tr><th>类型</th><th>规模</th><th>配置要求</th><th>登记宽限</th></tr></thead>
+<tbody>
+<tr class="hl"><td><strong>Taman KR</strong>（RV 公园）</td><td>&gt;10 个车位</td><td><strong>每个车位独立配 水 + 电 + 排污管 + WIFI</strong>；另需办公室、厕所淋浴、祈祷室、洗衣、餐饮</td><td>至 <strong>2027 年底</strong></td></tr>
+<tr><td><strong>Tapak KR</strong>（RV 场地）</td><td>≤10 个车位</td><td>水/电/排污/通信<strong>集中共享</strong>；仅需办公室 + 厕所淋浴</td><td>至 <strong>2026 年底</strong></td></tr>
+</tbody>
+</table>
+<p class="src">车位最小尺寸 <strong>6m × 8m</strong>。来源：<a href="https://www.kpkt.gov.my/kpkt/resources/user_1/MENGENAI%20KPKT/PEKELILING/2024/PK_KSU_KPKT_Bil_6_Tahun_2024_Taman_Kenderaan_Rekreasi.pdf">KPKT 2024 年第 6 号通令（PDF）</a></p>
+
+<p>同时在 4 个州启动试点营地：彭亨 Rompin（Pantai Hiburan）、雪兰莪 Sepang（Pantai Bagan Lalang）、森美兰 Pantai Cahaya（波德申）+ Taman Tasik Seremban、登嘉楼 Kemaman（Pantai Teluk Marina）。马六甲另有 5 个 RV 场地在规划中：Bukit Serindit、Tasik Ayer Keroh、Pantai Padang Kemunting、Pantai Tanjung Bidara、Taman Ekstrem Tasik Chinchin。</p>
+
+<h3>8.2 具名营地清单与真实收费</h3>
+<table>
+<thead><tr><th>营地</th><th>地点</th><th>设施</th><th>过夜费 (RM)</th></tr></thead>
+<tbody>
+<tr><td><strong>RV Park @ Pantai Hiburan</strong><br><span class="src">马来西亚首个官方 RV 公园</span></td><td>Rompin, 彭亨</td><td>10 个 RV 车位，<strong>水 + 电 + 进出车道</strong>；KPKT / ECERDC / 德国 Knaus 共建；<strong>未见排污站</strong></td><td>未公布</td></tr>
+<tr><td>Tapak Campervan Port Dickson</td><td>Pantai Batu 5, 森美兰</td><td>12 个 RV 位，厕所 / 淋浴 / 祈祷室（州政府建，预算 RM 50 万）</td><td>未公布</td></tr>
+<tr><td>Tapak Campervan Taman Eko-Rimba Lenggeng</td><td>Seremban, 森美兰</td><td>州政府 RV 场地</td><td>未公布</td></tr>
+<tr class="hl"><td><strong>Payung Getaway Campsite &amp; RV Park</strong></td><td>Cherating / 关丹, 彭亨</td><td>RV 位、插电、厕所淋浴、泳池、门禁密码、咖啡厅</td><td>营位 RM 80（2人）/ RM 100（4人）<br><strong>RV 插电 RM 50 / 天</strong></td></tr>
+<tr><td>Natasya Riverside Caravan Park</td><td>Gopeng, 霹雳</td><td>房车营地、厕所淋浴、BBQ、厨房</td><td>RM 15 / 人<br><strong>RM 300 / 房车</strong></td></tr>
+<tr><td>Pine Valley Villa &amp; Camper Site</td><td>Tanah Rata, 金马仑</td><td>露营车场地</td><td>约 RM 35</td></tr>
+<tr><td>Station2 Car Campsite</td><td>Batang Kali, 雪兰莪</td><td>车露营</td><td>RM 60 – 120 / 晚</td></tr>
+<tr><td>Campsite, Campervan Park Perlis</td><td>玻璃市</td><td>房车营地</td><td>RM 5 / 人 / 晚</td></tr>
+<tr><td>ATV Janda Baik Rimba Valley Motor Campsite</td><td>Bentong, 彭亨</td><td>汽车营地</td><td>RM 40 – 300</td></tr>
+<tr><td>Hammocks By The River</td><td>Hulu Langat, 雪兰莪</td><td>河畔营地</td><td>RM 30 – 370</td></tr>
+<tr><td>Tému Campground</td><td>吉隆坡</td><td>营地</td><td>RM 50 – 300</td></tr>
+<tr><td>Zen Forest Malaysia</td><td>彭亨</td><td>可开车进入的营地</td><td>RM 5 – 100</td></tr>
+</tbody>
+</table>
+<p class="src">其他可开车进入的营地：GG Retreat（Serendah）、SUFES Campsite（Tapah）、Logok Campsite（柔佛）、Uda Sedim Camp / AJARR Campsite（吉打）、OrangOrang Art Camp（Sungai Besar）、Kem Sri Pilah（森美兰）、Radak Adventure（Gopeng）、Hujan-Hujan Campsite（玻璃市）。<br>
+<strong>东马（沙巴/砂拉越）：未找到具名 RV 专用营地</strong>，只有普通露营点（如沙巴十大露营地）与房车出租（沙巴约 RM 1,500/天）。<strong>东马房车营地基本空白。</strong></p>
+
+<div class="warn">
+<strong>核心结论：马来西亚目前基本没有"全接口营地"（电 + 水 + 排污三通）</strong>
+Rompin 官方 RV Park 仅确认提供水与电，<strong>无排污站</strong>；现网绝大多数营地只有集中共享水电 + 插电。<br><br>
+<strong>现实做法</strong>：车主实际把 <strong>盒式马桶（cassette）拿到营地/公共厕所倾倒</strong>，灰水排到营地水沟或排水口。<strong>马来西亚没有普遍的 cassette 倾倒文化，也没有专用 dump station</strong>。车顶水箱容量有限，长途需每 2–3 天补水一次。JPJ 指南 10.8(c) 只禁止"行驶中把内容物排到路面"，并未要求必须使用专用排污站。<br><br>
+<strong>所以"车上厕所能不能用"的现实答案是：能用，但要自己找地方倒。这是选车时最该考虑的一点。</strong>
+</div>
+
+<h3>8.3 城市与路边的过夜现实</h3>
+<table>
+<thead><tr><th>场景</th><th>可行性</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>法律层面</td><td><span class="tag mid">灰色</span></td><td>没有明文禁止车内过夜，但也没有"合法权利"。私地、海滩路、清真寺/庙宇停车场过夜<strong>必须先问许可</strong>；森林保留地需州林业局/公园许可</td></tr>
+<tr><td>PLUS 高速 R&amp;R</td><td><span class="tag ok">可用</span></td><td>2025 年 10 月起有 20 个 R&amp;R 被列为 "Patuh" 安全休息区。但 R&amp;R 定位是<strong>短时休息，无水电补给</strong>，长时间露营不受鼓励</td></tr>
+<tr><td>油站 / 商场 / 酒店停车场</td><td><span class="tag mid">看情况</span></td><td>吉隆坡、乔治市、马六甲、新山等城市建议用<strong>边缘停车位或付费/寄宿式停留</strong>，除非已确认可停空间。无官方 RV 过夜政策</td></tr>
+<tr><td>海滩 / 景点</td><td><span class="tag mid">车主常用</span></td><td>《The Star》受访车主会停在槟城 Teluk Bahang 海滩过夜。以往车主多聚集在渔村海滩，<strong>因为无专用场地</strong></td></tr>
+<tr><td>被驱赶 / 警察查车</td><td><span class="tag ok">未找到可靠案例</span></td><td>本次调研未检索到具体冲突案例</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>加入 PCMM 是解决"哪里能停"的最有效办法</strong>
+马来西亚房车协会（Persatuan Campervan dan Motorhome Malaysia，2019 年注册于 Seremban）会员费 <strong>RM 50 + 年费 RM 10</strong>，提供 Roro 渡轮、配件、保险、寄宿折扣，并<strong>每周组织车队聚会</strong>（曾组织 200 台房车、1,000+ 人在兰卡威集会，获 RM 30,000 补助）。协会是找合法停留点的关键渠道。<br>
+FB 群：<code>persatuancampermalaysia</code> · <code>karysmarv</code> · 网站 malaysiacamperclub.com
+</div>
+
+<h3>8.4 跨境使用（含真实费用）</h3>
+<table>
+<thead><tr><th>目的地</th><th>所需手续</th><th>费用 / 备注</th></tr></thead>
+<tbody>
+<tr class="hl"><td><strong>泰国</strong></td><td>护照、车辆登记证、<strong>泰国强制车险（边境购买）</strong>、海关临时进口单、<strong>FVP 外国车辆许可（泰国陆路运输厅 DLT）</strong></td><td>经 Sadao / Bukit Kayu Hitam 口岸；<strong>不需要 Carnet de Passage</strong>；D 驾照 + 车重 &lt;3,500kg 即可</td></tr>
+<tr><td><strong>新加坡</strong></td><td><strong>LTA VEP + Autopass 卡</strong>（须入境前领取并激活，关卡无充值机）、有效路税 + 保险、车辆登记证；SGAC 抵达前 3 天提交</td><td>VEP 费 <strong>S$35 / 天</strong>；<strong>2027-01-01 起涨至 S$50 / 天并取消免费天数</strong>。房车无专门规定，高度/车型限制未列，须向 LTA 确认</td></tr>
+<tr><td><strong>沙巴 / 砂拉越</strong></td><td>半岛与婆罗洲<strong>无陆路连接</strong>，须船运/渡轮（如 Labuan–Menumbok）；岛内走泛婆罗洲大道（沙巴段 706 km，Sindumin–Tawau，仍在建）；可经文莱或渡轮，州际与文莱有移民关卡</td><td>—</td></tr>
+<tr><td>Carnet de Passage (CPD)</td><td>泰国/新加坡都不需要</td><td>RM 650 / 本 + 按车值押金。<strong>注意：AAM 已停运，不再签发 carnet</strong>，2026 年状态不确定</td></tr>
+</tbody>
+</table>
+
+<h3>8.5 维修、零件与耗材供应</h3>
+<table>
+<thead><tr><th>项目</th><th>供应情况</th></tr></thead>
+<tbody>
+<tr><td>底盘保养</td><td><span class="tag ok">方便</span> Toyota Hiace / Hilux、Isuzu、Maxus V80、Ford Transit 均可在原厂服务中心做发动机与底盘保养</td></tr>
+<tr><td>房车专用改装/维修</td><td>Karysma（Shah Alam）、RW Motorhome（Alor Setar）、VR Motorhome（Selangor）、Mr Caravan Empire、RV Maxus</td></tr>
+<tr><td>LPG 煤气</td><td><span class="tag ok">方便</span> 全国 Petronas / PetrosNiaga 换桶普及，14kg 管制价约 <strong>RM 22.80</strong>（非房车专用但通用）</td></tr>
+<tr><td>马桶药剂（Thetford Aqua Kem 等）</td><td><span class="tag mid">需网购</span> Thetford 有全球经销商定位，但马来西亚本地零售不确定，多需网购或专业露营店</td></tr>
+<tr><td>太阳能 / 12V 系统</td><td>JomSolar 提供房车离网太阳能套餐</td></tr>
+</tbody>
+</table>
+
+<h2 id="s9"><span class="n">09</span>气候与日常现实</h2>
+<table>
+<thead><tr><th>现实问题</th><th>影响</th><th>应对</th></tr></thead>
+<tbody>
+<tr><td>常年 30–34°C 高湿</td><td>车内白天可达 45°C+，没有空调基本无法午休</td><td>必须装空调（顶置或分体）+ 发电机或大容量锂电池 + 市电接入</td></tr>
+<tr><td>空调耗电</td><td>顶置空调运行约 1,000–1,500W，纯靠电池只能撑 2–4 小时</td><td>Karysma 提供分体空调 + 内置/便携发电机改装方案；或只在有市电的营地过夜</td></tr>
+<tr><td>雨季（11–2 月东海岸）</td><td>连续降雨，车内外湿度高，发霉风险</td><td>需通风扇 + 除湿；木工材料要选防潮型</td></tr>
+<tr><td>德国拖挂房车的"无燃气"设计</td><td>Knaus Südwind 系列为 gas-free，炉灶与空调全靠 230V</td><td>必须依赖营地市电；这是欧系车在马来西亚的适配短板</td></tr>
+<tr><td>服务网络</td><td>Maxus / Toyota / Isuzu 底盘可在原厂服务中心保养</td><td>选主流底盘；Karysma 等店提供房车专用件（空调、发电机、马桶、遮阳篷、锂电）</td></tr>
+<tr><td>营地供电能力</td><td>多数营地只提供普通 13A 插座，带不动顶置空调</td><td>看车时确认发电机功率与电池容量；或只在少数带大功率供电的营地使用空调</td></tr>
+<tr><td>高原营地（金马仑 Tanah Rata 约 RM 35）</td><td>气温 15–22°C，天然避暑，空调需求低</td><td>高原是最适合房车的马来西亚目的地；但山路弯多，拖挂房车通行需谨慎</td></tr>
+</tbody>
+</table>
+
+<h2 id="s10"><span class="n">10</span>风险与坑清单</h2>
+<table>
+<thead><tr><th>#</th><th>风险</th><th>严重度</th><th>对策</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>拖挂 &gt;750kg 所需 DT/DAT 驾照等级尚未开放</td><td><span class="tag no">高</span></td><td>改买自行式；或先取得 JPJ 书面确认</td></tr>
+<tr><td>2</td><td>个人不具备 AP 资格，进口房车必须走持牌公司渠道</td><td><span class="tag mid">中</span></td><td>找 Karysma / RW Motors / AsiaRV 代进；议价空间在选车，不在"绕过 AP"</td></tr>
+<tr><td>2b</td><td>底盘类型决定税负：van 底盘 campervan 要交 60–105% 消费税，货车/客车底盘豁免</td><td><span class="tag no">高</span></td><td>进口路线优先选 Camper Truck / Camper Bus 底盘，落地成本可差近 4 倍</td></tr>
+<tr><td>3</td><td>银行普遍不为房车提供贷款；日本进口车必须全款</td><td><span class="tag no">高</span></td><td>仅 CAM Caravan（车龄 ≤10 年）与 AsiaRV 德系车可办分期</td></tr>
+<tr><td>4</td><td>二手车"照片看车"，到港后车况与预期不符</td><td><span class="tag no">高</span></td><td>要求日本拍卖表（auction sheet）核对里程与评级；避免盲拍</td></tr>
+<tr><td>5</td><td>拖挂房车停放场地难找（多数住宅区不允许）</td><td><span class="tag mid">中</span></td><td>购买前先确认停放方案</td></tr>
+<tr><td>6</td><td>全国没有"全接口营地"（电+水+排污三通）；连官方 Rompin RV Park 也无排污站</td><td><span class="tag no">高</span></td><td>优先选带盒式马桶（cassette）的车型；提前规划倾倒点；加入 PCMM 获取停留点信息</td></tr>
+<tr><td>7</td><td>改装必须由 JPJ 注册工程车间 + 注册工程师背书</td><td><span class="tag mid">中</span></td><td>找有 VTA 经验的改装商（Karysma / VR）</td></tr>
+<tr><td>8</td><td>车龄满 15 年后只能私人注册，无法商用出租</td><td><span class="tag mid">中</span></td><td>若打算靠出租回本，需在车龄 14 年前启动商用申请</td></tr>
+<tr><td>9</td><td>房车保险可能被拒保或加费</td><td><span class="tag mid">中</span></td><td>购买前先确认可承保的保险公司</td></tr>
+<tr><td>10</td><td>德国拖挂"无燃气"设计在离网场景不可用</td><td><span class="tag mid">中</span></td><td>确认用车场景以市电营地为主，否则选带燃气系统的日系车</td></tr>
+<tr><td>11</td><td>东马（沙巴/砂拉越）房车营地基本空白，且与半岛无陆路连接</td><td><span class="tag mid">中</span></td><td>若计划环东马，须先解决船运与当地停留点</td></tr>
+<tr><td>12</td><td>高速 R&amp;R 定位是短时休息区，不能当营地长住</td><td><span class="tag mid">中</span></td><td>把它当作途中休息点，而非过夜方案</td></tr>
+</tbody>
+</table>
+
+<h2 id="s11"><span class="n">11</span>行动清单与联系名单</h2>
+
+<h3>第一步：先打电话（不花钱，能省几万块）</h3>
+<ol>
+<li><strong>打给 AsiaRV（+60 12 400 1019）</strong>：确认 Hobby Beachy 420 与 Ontour 390 SF 是否仍在库、厕所与淋浴的实拍图、以及<strong>他们如何处理拖挂注册与驾照问题</strong>。</li>
+<li><strong>打给 Karysma（012-3416010，Ahmad）</strong>：看现车（Shah Alam，每天 9:00–21:00，无休）。现场确认 3 台带厕所的 campervan，并问清"这台车的整备质量是多少、D 照够不够"。</li>
+<li><strong>打给 JPJ（03-8000 8000）或咨询 JPJ 注册工程顾问</strong>：问清 DT/DAT 等级现状。</li>
+</ol>
+
+<h3>第二步：实地看车清单</h3>
+<ul>
+<li>厕所类型：<strong>cassette（盒式，可抽出倾倒）</strong> vs portable potty（便携桶）—— 前者好用得多。</li>
+<li>是否独立淋浴间，还是厕所内拉花洒。</li>
+<li>净水箱 / 灰水箱 / 黑水箱容量（两人使用建议净水 ≥60L）。</li>
+<li>电力系统：锂电池容量（Ah）、逆变器功率、太阳能板瓦数、发电机有无。</li>
+<li>空调类型与耗电（决定能否离网）。</li>
+<li><strong>称重证书（Sijil Timbang Berat）</strong> 与 VOC 是否齐全、整备质量是否 ≤3,500kg。</li>
+<li>路税单与保险单是否可续。</li>
+</ul>
+
+<h3>联系名单</h3>
+<table>
+<thead><tr><th>机构 / 商家</th><th>联系方式</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>Karysma Motorhome</td><td>012-3416010（Ahmad）<br>Shah Alam, Alam Avenue 2</td><td>现车、日本代拍进口、改装、配件、维修</td></tr>
+<tr><td>AsiaRV Malaysia</td><td>+60 3 4043 6090 / WhatsApp +60 12 400 1019<br>asiarv.my · mobilehome.my</td><td>已过 VTA 的 Hobby / Knaus 拖挂与自行式</td></tr>
+<tr><td>RW Motors (M) Sdn Bhd</td><td>017-5447913，Alor Setar, Kedah</td><td>日本进口 campervan / caravan</td></tr>
+<tr><td>VR Motorhome &amp; Caravan</td><td>vrmotorhome.com</td><td>改装、租赁、预售</td></tr>
+<tr><td>JPJ 总部</td><td>03-8000 8000</td><td>VTA、驾照等级、注册问题</td></tr>
+<tr><td>PCMM（马来西亚房车协会）</td><td>malaysiacamperclub.com<br>FB: persatuancampermalaysia</td><td>车主社群、每周聚会、二手信息（2021 年成立，曾组织 200 台房车、1,000+ 人规模的兰卡威集会）</td></tr>
+</tbody>
+</table>
+
+<h3>话术模板：直接复制去问（马来语 + 中文对照）</h3>
+
+<div class="card">
+<h4 style="margin-top:0">① 问卖家：确认厕所与吨位（决定能不能买、你能不能开）</h4>
+<p class="src" style="line-height:1.9">
+Assalamualaikum, saya berminat dengan unit yang diiklankan.<br>
+1. Unit ini ada <strong>tandas dalam kenderaan</strong> tak? Jenis <strong>cassette</strong> atau <strong>portable</strong>? Ada bilik mandi berasingan atau shower dalam tandas sahaja?<br>
+2. <strong>Berat Tanpa Muatan (BTM)</strong> dan <strong>Berat Dengan Muatan (BDM)</strong> berapa kg? Ada Sijil Timbang Berat?<br>
+3. Kapasiti tangki air bersih dan tangki air kotor berapa liter?<br>
+4. Ada <strong>VOC</strong> dan roadtax yang masih boleh diperbaharui?<br>
+5. Sistem elektrik: berapa Ah bateri, berapa W inverter, ada solar atau generator?<br>
+6. Boleh saya datang tengok unit dan ambil gambar tandas?
+</p>
+<p><strong>中文要点</strong>：① 车内有没有厕所？是盒式还是便携桶？有没有独立淋浴间？② 整备质量（BTM）和总重（BDM）多少公斤？有称重证书吗？③ 净水箱与污水箱各多少升？④ VOC 和路税还能续吗？⑤ 电池多少 Ah、逆变器多少 W、有太阳能或发电机吗？⑥ 能上门看车并拍厕所照片吗？</p>
+<p class="src">为什么问第 2 条：BTM 决定你要 D 照还是 E 照（3,500kg 是分界线）。卖家含糊其辞就是红旗。</p>
+</div>
+
+<div class="card">
+<h4 style="margin-top:0">② 问 JPJ：确认拖挂驾照（这一问决定买不买拖挂）</h4>
+<p class="src" style="line-height:1.9">
+Saya ingin bertanya mengenai <strong>kelas lesen memandu DT / DAT</strong> yang dinyatakan dalam Garis Panduan Pendaftaran dan Pelesenan Kenderaan Rekreasi (RV).<br>
+1. Adakah kelas <strong>DT / DAT</strong> sudah tersedia untuk dimohon sekarang? Jika belum, bila dijangka tersedia?<br>
+2. Untuk <strong>treler karavan melebihi 750kg</strong> yang ditarik oleh kenderaan penunda BTM tidak melebihi 3,500kg, apakah kelas lesen yang sah buat masa ini?<br>
+3. Adakah ketetapan LAMPIRAN D terpakai untuk <strong>pendaftaran persendirian</strong>, atau hanya untuk kegunaan perdagangan (KSPP / KSP)?<br>
+4. Boleh saya dapatkan pengesahan secara bertulis?
+</p>
+<p><strong>中文要点</strong>：① DT/DAT 现在可以申请了吗？若不能，预计何时开放？② 牵引车 ≤3,500kg 拖 >750kg 拖挂，目前合法用哪个等级？③ LAMPIRAN D 适用于私人注册还是只适用于商用？④ 能否给书面确认？</p>
+<p class="src">建议同时向 JPJ 总部（03-8000 8000）和 APAD 各问一次，两边答复不一致时以书面答复为准。</p>
+</div>
+
+<h3>看车验车清单（打印带去现场）</h3>
+<table>
+<thead><tr><th>类别</th><th>检查项</th><th>判据</th></tr></thead>
+<tbody>
+<tr><td rowspan="4"><strong>厕所</strong></td><td>类型</td><td>cassette（盒式，可抽出倾倒）＞ portable（便携桶）。pop-top 车型基本没有</td></tr>
+<tr><td>淋浴</td><td>独立淋浴间 ＞ 厕所内拉花洒 ＞ 无</td></tr>
+<tr><td>马桶盒备件</td><td>确认马来西亚买得到备用盒与化学剂</td></tr>
+<tr><td>黑水箱 / 灰水箱</td><td>两人使用建议净水 ≥60L</td></tr>
+<tr><td rowspan="3"><strong>合规</strong></td><td>称重证书</td><td>Sijil Timbang Berat 必须在，且 BTM ≤3,500kg</td></tr>
+<tr><td>VOC + 路税</td><td>车卡与路税单齐全、可续期</td></tr>
+<tr><td>VTA 证书</td><td>进口车必须有，否则可能无法续牌</td></tr>
+<tr><td rowspan="3"><strong>电力</strong></td><td>电池</td><td>锂电池容量（Ah）；铅酸电池寿命短</td></tr>
+<tr><td>逆变器 + 太阳能</td><td>逆变器功率；太阳能板瓦数</td></tr>
+<tr><td>空调</td><td>顶置空调约 1,000–1,500W，纯电池只能撑 2–4 小时</td></tr>
+<tr><td rowspan="3"><strong>车况</strong></td><td>车龄</td><td>≥15 年只能私人注册，不能商用出租</td></tr>
+<tr><td>日本拍卖表</td><td>进口车必须索要 auction sheet，核对里程与评级</td></tr>
+<tr><td>底盘保养记录</td><td>Toyota / Isuzu / Maxus 原厂记录优先</td></tr>
+</tbody>
+</table>
+
+<h2 id="s12"><span class="n">12</span>数据来源</h2>
+<h4>官方文件</h4>
+<ul class="src">
+<li>JPJ《GARIS PANDUAN PENDAFTARAN DAN PELESENAN KENDERAAN REKREASI (RV)》，2026 年 —— <a href="https://www.jpj.gov.my/wp-content/uploads/2026/04/GARIS-PANDUAN-PENDAFTARAN-DAN-PELESENAN-KENDERAAN-REKREASI-RV.pdf">jpj.gov.my（PDF 全文 23 页）</a></li>
+<li>JPJ 车辆发牌费率表 —— <a href="https://www.jpj.gov.my/pusat-media-3/informasi-perkhidmatan-jpj/kenderaan/kadar-bayaran-pelesenan-kenderaan-2/">jpj.gov.my</a></li>
+<li>JPJ 驾照等级定义 —— <a href="https://www.jpj.my/misc/driving_license_classes.htm">jpj.my</a></li>
+<li>马来西亚政府门户 · 驾照按车辆分类 —— <a href="https://www.malaysia.gov.my/my/categories/transportation/driving-license/licenses-according-to-vehicle-class">malaysia.gov.my</a></li>
+<li>交通部路税页 —— <a href="https://www.mot.gov.my/en/land/operators/road-taxes">mot.gov.my</a></li>
+</ul>
+<h4>政策与新闻</h4>
+<ul class="src">
+<li>交通部：全国 1,450+ 台 RV 已合法注册（2026-07）—— <a href="https://nazznco.my/2026/07/15/kenderaan-rv-sah-di-sisi-undang-undang/">nazznco.my（引 Astro Awani 国会书面答复）</a></li>
+<li>2026-01-01 起商用 RV 发牌 —— <a href="https://paultan.org/2025/09/23/mot-to-license-commercial-rvs-from-january-2026/">paultan.org</a></li>
+<li>Knaus Tabbert 取得马来西亚首个 RV VTA + ECERDC 计划 —— <a href="https://paultan.org/2022/11/30/knaus-tabbert-gets-vta-certification-for-its-caravans-ecerdc-aiming-to-develop-rv-industry-in-malaysia/">paultan.org</a></li>
+<li>ECERDC RV 市场规划 —— <a href="https://carlist.com/rv-market-expected-to-blossom-in-malaysia-thanks-to-ecerdc/">carlist.com</a></li>
+<li>《Motorhomes are becoming the new way to tour the country》—— <a href="https://www.thestar.com.my/lifestyle/travel/2025/02/01/motorhomes-are-becoming-the-new-way-to-tour-the-country">The Star, 2025-02-01</a></li>
+</ul>
+<h4>商家与价格</h4>
+<ul class="src">
+<li>AsiaRV 清库车型与价格（2026-10-13 复核在库）—— <a href="https://recreationalvehicle.my/">recreationalvehicle.my（新站）</a> · <a href="https://asiarv.my/demo-caravans/">asiarv.my/demo-caravans</a> · <a href="https://mobilehome.my/">mobilehome.my</a></li>
+<li>SunshineRV 槟城 Rafflesia 系列规格（2026-10-13 逐款核实官网规格页）—— <a href="https://sunshinerv.net/rafflesia-n-series">N 系列</a> · <a href="https://sunshinerv.net/rafflesia-c-series">C 系列</a> · <a href="https://sunshinerv.net/rafflesia-f-series">F 系列</a> · <a href="https://sunshinerv.net/rafflesia-x-series">X 系列</a></li>
+<li>Knaus Südwind 450 FU 规格 —— <a href="https://asiarv.my/knaus-sudwind-450-fu-malaysia/">asiarv.my</a></li>
+<li>Knaus Boxdrive 600 XL 规格 —— <a href="https://asiarv.my/knaus-boxdrive-600-xl/">asiarv.my</a></li>
+<li>Karysma 价格指南 —— <a href="https://motorhomes.my/harga-motorhome-dan-campervan/">motorhomes.my</a></li>
+<li>Karysma 日本进口教程 —— <a href="https://motorhomes.my/cara-import-motorhome-dan-campervan-japan/">motorhomes.my</a></li>
+<li>CAM Caravan 规格与价格 —— <a href="https://motorhomes.my/cam-caravan-motorhome/">motorhomes.my</a></li>
+<li>Karysma 租赁价 —— <a href="https://motorhomes.my/sewa-campervan-dan-motorhome/">motorhomes.my</a></li>
+<li>VR Motorhome —— <a href="https://www.vrmotorhome.com/">vrmotorhome.com</a></li>
+<li>RW Motors —— <a href="https://rwmotorhome.com/">rwmotorhome.com</a></li>
+<li>二手挂牌 —— <a href="https://www.mudah.my/malaysia/all?q=campervan">Mudah.my</a> · <a href="https://cars.cari.la/cars/campervan">cari.la</a> · <a href="https://cars.waa2.my/used-cars/motorhome-caravan-campervan">waa2.my</a></li>
+<li>VanMY 共享出租 —— <a href="https://van-my.com/">van-my.com</a></li>
+</ul>
+
+<h4>进口 / 税制 / AP</h4>
+<ul class="src">
+<li>MITI 车辆 AP 分类与申请资格（含 Other Vehicle AP 的 SPV / 越野休闲车 / 旅游车辆子项、Individual AP 适用人群）—— <a href="https://www.miti.gov.my/ap">miti.gov.my/ap</a>（页面更新至 2026-05-22）</li>
+<li>MITI《2026 年 AP Francais 政策》要点 —— <a href="https://keyauto.my/zh/news/2026-ap-francais-miti">keyauto.my</a></li>
+<li>马来西亚整车进口税制结构（关税 / 消费税 / 销售税叠加、按排量分级、2025 年起改用 FOB 计税）—— <a href="https://grokipedia.com/page/Malaysian_motor_vehicle_import_duties">Malaysian motor vehicle import duties</a></li>
+<li>马来西亚海关 HS 编码查询（JKDM HS Explorer，需交互查询）—— <a href="https://ezhs.customs.gov.my/">ezhs.customs.gov.my</a></li>
+<li>马来西亚 8716.10.0000 关税税率（MFN 25% + SST 10%）—— <a href="https://treayo.cn/en/hs/malaysia/h/8716">TREAYO 马来西亚税则 8716</a> · <a href="https://www.hsciq.com/HSMY/Code/8716100000">HSCIQ 8716100000</a></li>
+<li>关税豁免令 —— <a href="https://www.customs.gov.my/en/?view=article&amp;id=42:customs-duties-exemption-order-2017&amp;catid=11">Customs Duties (Exemption) Order 2017</a></li>
+</ul>
+
+<h4>营地 / 政策 / 使用</h4>
+<ul class="src">
+<li>KPKT《RV 营地规划指南》2024 年第 6 号通令 —— <a href="https://www.kpkt.gov.my/kpkt/resources/user_1/MENGENAI%20KPKT/PEKELILING/2024/PK_KSU_KPKT_Bil_6_Tahun_2024_Taman_Kenderaan_Rekreasi.pdf">kpkt.gov.my（PDF）</a></li>
+<li>PLANMalaysia《Garis Panduan Perancangan Taman Kenderaan Rekreasi》（2025-11）</li>
+<li>森美兰 3 个 RV 营地试点 —— <a href="https://www.buletinns.gov.my/ms/3-tapak-campervan-rv-di-negeri-sembilan-termasuk-port-dickson-bakal-jadi-kenyataan/">Negeri Sembilan 州政府公报</a></li>
+<li>彭亨 / 马六甲 RV 营地规划 —— <a href="https://www.buletinns.gov.my/ms/3-tapak-campervan-rv-di-negeri-sembilan-termasuk-port-dickson-bakal-jadi-kenyataan/">buletinns.gov.my</a></li>
+<li>马来西亚露营点目录（含 RV Camping 分类）—— <a href="https://malaysiacamping.com/listing-category/rv-camping/">malaysiacamping.com</a> · <a href="https://campthering.com/explore/">campthering.com</a></li>
+<li>PCMM 马来西亚房车协会 —— <a href="https://motorhomes.my/persatuan-campervan-dan-motorhome-malaysia-pcmm/">motorhomes.my</a> · <a href="https://www.facebook.com/persatuancampermalaysia/">Facebook</a></li>
+<li>新加坡 VEP 与收费 —— <a href="https://onemotoring.lta.gov.sg/content/onemotoring/home/driving/vehicle-entry-and-exit/vehicle-entry-permit.html">LTA OneMotoring</a></li>
+<li>泰国外国车辆许可（FVP）—— 泰国陆路运输厅 DLT</li>
+</ul>
+
+<footer>
+<p><strong>口径与免责说明</strong></p>
+<p>1. 所有价格为 2026 年 9 月公开挂牌价或商家报价，未含保险、上牌、改装与运输等额外费用；清库价可能随时售罄。</p>
+<p>2. 路税数字为按 JPJ 私家用车费率公式的推算值，实际以 MyJPJ 系统计算为准。</p>
+<p>3. 厕所配置已逐款核实 8 款：Hobby Beachy 420、Hobby Ontour 390 SF、Knaus Sport 500 QDK、Knaus Südwind 450 FU（德系 4 款），以及 SunshineRV Rafflesia N/C/F/X 系列（2026-10-13 从官网规格页核实 "Shower + Cassette Toilet" 与 "Sleeps: 1 Queen + 1 Double"）；Südwind 500 EU / 540 FDK / 450 FU 60 周年版沿用同一 KNAUS 卫浴模块，但未取得单独实拍确认。</p>
+<p>4. 中国进口路线的落地价为估算，基于 FOB 报价 + 日本线公开进口成本框架推算，非供应商正式到岸报价。</p>
+<p>5. 已闭环的待核实项：8716.10 进口关税（25% + SST 10%，两源一致）；AP 资格（个人不符合 Individual AP）；DT/DAT 驾照状态（已确认不在 JPJ 公布的等级列表中）。</p>
+<p>6. 仍需向 JPJ 书面确认：DT/DAT 的预计开放时间、私人注册是否同样适用 LAMPIRAN D 的驾照要求。</p>
+</footer>
+
+</div>
+</body>
+</html>
