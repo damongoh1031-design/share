@@ -9,3 +9,4 @@
 | [china-luxury-trains-xdf-silkroaddream](china-luxury-trains-xdf-silkroaddream.md) | 中国豪华旅游专列：新东方快车 vs 丝路梦享号 | 豪华列车 / 新东方快车 / 丝路梦享号 / 新疆专列 | 1 | 2026-10-13 | stable |
 | [golden-eagle-danube-express](golden-eagle-danube-express.md) | Golden Eagle Danube Express 全档案 | 豪华列车 / 金鹰 / Danube Express / 中东欧 / 巴尔干 | 1 | 2026-10-13 | stable |
 | [rovos-rail-pride-of-africa](rovos-rail-pride-of-africa.md) | Rovos Rail 非洲之傲 全档案 | 豪华列车 / Rovos Rail / 非洲之傲 / 南部非洲 / 游猎列车 | 1 | 2026-10-13 | stable |
+| [the-ghan-indian-pacific](the-ghan-indian-pacific.md) | The Ghan 与 Indian Pacific — Journey Beyond 澳洲双雄全面档案 | 豪华列车 / 澳大利亚 / The Ghan / Indian Pacific / Journey Beyond | 1 | 2026-10-13 | stable |
