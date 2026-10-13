@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金鹰丝路快车 — 全面介绍</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#30363d;
+    --txt:#e6edf3; --dim:#9da7b3; --gold:#d4af37; --gold2:#e8c874;
+    --red:#c94f4f; --green:#4a9d6e; --blue:#6cb6ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75;padding-bottom:60px}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  header{background:linear-gradient(135deg,#1a1f2e 0%,#2d2616 100%);border-bottom:2px solid var(--gold);padding:48px 0 36px;margin-bottom:34px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-40px;top:-40px;width:280px;height:280px;background:radial-gradient(circle,rgba(212,175,55,.14),transparent 70%)}
+  h1{font-size:2.15em;font-weight:800;letter-spacing:.5px;margin-bottom:10px}
+  h1 .g{color:var(--gold)}
+  .lede{color:var(--dim);font-size:1.02em;max-width:760px}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);color:var(--gold2);padding:4px 13px;border-radius:20px;font-size:.82em}
+  h2{font-size:1.32em;margin:42px 0 16px;padding-left:13px;border-left:4px solid var(--gold);color:var(--gold2)}
+  h3{font-size:1.08em;margin:26px 0 10px;color:#fff}
+  h4{font-size:.98em;margin:18px 0 8px;color:var(--gold2)}
+  .tldr{background:linear-gradient(135deg,#1b2130,#241f16);border:1px solid rgba(212,175,55,.3);border-radius:12px;padding:20px 24px;margin-bottom:10px}
+  .tldr .label{color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:1px;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin:14px 0 24px;font-size:.88em;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:var(--gold2);text-align:left;padding:11px 11px;font-weight:600;border-bottom:2px solid var(--line)}
+  td{padding:10px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(212,175,55,.05)}
+  td:first-child{font-weight:600;color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:16px 18px}
+  .card h4{margin-top:0}
+  .card p{font-size:.88em;color:var(--dim)}
+  .card .big{color:var(--gold2);font-size:1.5em;font-weight:800;display:block;margin:4px 0}
+  .yes{color:#7fd7a3}.no{color:#ff8f8f}
+  .warn{background:rgba(201,79,79,.1);border-left:4px solid var(--red);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .warn h3{color:#ff8f8f;margin-top:0}
+  .tip{background:rgba(74,157,110,.09);border-left:4px solid var(--green);border-radius:8px;padding:16px 20px;margin:18px 0}
+  .tip h3{color:#7fd7a3;margin-top:0}
+  code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-size:.88em;color:var(--gold2)}
+  .itin{border-left:2px solid var(--line);margin-left:6px;padding-left:18px}
+  .day{margin:12px 0;position:relative}
+  .day::before{content:"";position:absolute;left:-24px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+  .day .d{color:var(--gold2);font-weight:700;font-size:.88em}
+  .day .c{font-size:.9em}
+  .refs li{margin:6px 0;font-size:.88em}
+  .refs a{color:var(--blue);text-decoration:none}
+  .refs a:hover{text-decoration:underline}
+  .foot{color:var(--dim);font-size:.85em;margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>金鹰丝路快车 <span class="g">Golden Eagle Silk Road Express</span></h1>
+    <div class="lede">Golden Eagle 时隔 7 年重返中国，投入全新定制列车。两节餐车、酒吧车、全中国最大车窗的观景车、随车医生；顶级「汉朝套房」22.2㎡ 带浴缸。</div>
+    <div class="meta">
+      <span class="chip">首航 2026-09-12</span>
+      <span class="chip">顶级 / Ultra-Luxury</span>
+      <span class="chip">5 条线路</span>
+      <span class="chip">12–25 天</span>
+      <span class="chip">2026 已售罄</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tldr">
+    <div class="label">一句话概览</div>
+    <p>Golden Eagle 自 2019 年停运中国线路后，<strong>2026 年 9 月以全新「金鹰丝路快车」重启</strong>。全车 en-suite、大理石浴室、独立控温；顶级汉朝套房 22.2㎡ 含浴缸与独立客厅。全程一价全含（含酒水、小费、门票、随车医生）。<strong>2026 全年班次已售罄，2027 年接近满员。</strong></p>
+  </div>
+
+  <h2>一、基本信息</h2>
+  <table>
+    <tr><th>项</th><th>内容</th></tr>
+    <tr><td>正式名称</td><td>Golden Eagle Silk Road Express（金鹰丝路快车）</td></tr>
+    <tr><td>运营商</td><td>Golden Eagle Luxury Trains</td></tr>
+    <tr><td>母公司</td><td>意大利 <strong>Arsenale Group</strong>（2025 年收购）[需核实]</td></tr>
+    <tr><td>首航</td><td><strong>2026 年 9 月 12 日</strong>（乌鲁木齐出发）</td></tr>
+    <tr><td>中断历史</td><td>2019 年 4 月停运；此前使用 Shangri-La Express（香格里拉快车）</td></tr>
+    <tr><td>覆盖区域</td><td>中国（新疆/西藏/甘肃/陕西/北京/华东/华南）+ 中亚五国</td></tr>
+    <tr><td>模式</td><td>陆上游轮（白天游览、夜间行车），一价全含</td></tr>
+    <tr><td>产品总监</td><td>James Masterson</td></tr>
+  </table>
+
+  <h2>二、设施</h2>
+
+  <h3>车厢配置</h3>
+  <table>
+    <tr><th>车厢</th><th>说明</th></tr>
+    <tr><td>中式餐车</td><td>一节，专业厨房现制中餐</td></tr>
+    <tr><td>西式餐车</td><td>一节，专业厨房现制西餐</td></tr>
+    <tr><td>酒吧休闲车</td><td>Bar Lounge Car，社交放松，含<strong>现场钢琴师</strong>；酒水含票价内</td></tr>
+    <tr><td>观景车</td><td><strong>全中国车窗最大的车厢</strong>，约 <strong>270° 视野</strong></td></tr>
+    <tr><td>卧铺车厢</td><td>全车 en-suite（每间独立卫浴）+ 大理石饰面</td></tr>
+    <tr><td>医疗设施</td><td><strong>每趟配随车医生与医疗设施</strong> + 全程行程管理团队</td></tr>
+  </table>
+
+  <h3>房型（两个等级）</h3>
+  <table>
+    <tr><th>房型</th><th>面积</th><th>白天</th><th>夜间</th><th>卫浴</th></tr>
+    <tr>
+      <td>汉朝套房<br>Han Dynasty Suite</td>
+      <td><strong>22.2㎡</strong></td>
+      <td>大双人床 + 双人沙发 + <strong>独立客厅</strong> + 梳妆台 + 房内用餐桌</td>
+      <td>大双人床</td>
+      <td><strong>5.2㎡</strong>：浴缸 + 淋浴 + <strong>双洗手台</strong></td>
+    </tr>
+    <tr>
+      <td>高级舱<br>Superior Cabin</td>
+      <td><strong>11㎡</strong></td>
+      <td>两张单人沙发 + 沙发椅</td>
+      <td>可转<strong>双床</strong>或 <strong>190×170cm 大双人床</strong></td>
+      <td><strong>2.5㎡</strong>：强力淋浴 + 地暖</td>
+    </tr>
+  </table>
+
+  <div class="tip">
+    <h3>两档共同配置</h3>
+    <p>全长衣橱 · 保险箱 · 迷你吧 · 独立控温空调 · 戴森吹风机 · TOTO 智能马桶 · 浴袍拖鞋。<br>
+    <strong>汉朝套房额外</strong>：独立衣帽间 · <strong>洗衣服务</strong> · 爱马仕/Aesop/Bvlgari 备品 · <strong>登车赠唐培里侬香槟</strong> · 行程内可选<strong>私人专车与导游</strong>。</p>
+    <p style="margin-top:8px;color:var(--dim)">套房面积为高级舱的 <strong>2 倍</strong>，数量极少，需尽早预订。</p>
+  </div>
+
+  <h2>三、餐厅与餐饮</h2>
+  <table>
+    <tr><th>项</th><th>内容</th></tr>
+    <tr><td>餐车数量</td><td><strong>2 节</strong>（一节中式、一节西式）</td></tr>
+    <tr><td>正餐</td><td>全部车上正餐在两节餐车供应，专业厨房现制</td></tr>
+    <tr><td>当地餐厅晚餐</td><td>西安<strong>唐代宫廷宴</strong>（配唐代音乐舞蹈）· 北京<strong>烤鸭</strong> · 洛阳水席水饺 · 长江鱼鲜川菜 · 西藏餐配民乐</td></tr>
+    <tr><td>酒水</td><td><strong>葡萄酒、烈酒、软饮含在票价内</strong>（含餐时及酒吧车）</td></tr>
+    <tr><td>顶级酒单</td><td>需额外付费（不含在票价内）</td></tr>
+  </table>
+
+  <h2>四、航线（5 条，2026–2027）</h2>
+  <table>
+    <tr><th>#</th><th>线路</th><th>起 → 终</th><th>天数</th><th>价格（高级舱起/双人）</th></tr>
+    <tr><td>①</td><td>中国秘境之旅</td><td>乌鲁木齐 → 拉萨</td><td><strong>13 天</strong></td><td>约 US$19,900/人（2026 首航季）</td></tr>
+    <tr><td>②</td><td><strong>大丝路</strong></td><td>北京 ↔ 塔什干</td><td><strong>22–25 天</strong></td><td>约 <strong>US$53,200 起/人</strong></td></tr>
+    <tr><td>③</td><td>古中国</td><td>乌鲁木齐 → 北京</td><td><strong>12 天</strong></td><td>US$25,000 起/人（2027）</td></tr>
+    <tr><td>④</td><td>世界屋脊之旅</td><td>北京 → 拉萨</td><td><strong>13 天</strong></td><td>US$25,900 起/人（2027）</td></tr>
+    <tr><td>⑤</td><td>帝国中国</td><td>西安 → 香港</td><td><strong>12 天</strong></td><td>US$27,500 起/人（2027）</td></tr>
+  </table>
+
+  <div class="grid">
+    <div class="card">
+      <h4>汉朝套房参考价</h4>
+      <span class="big">US$49,900<span style="font-size:.5em;color:var(--dim)">/人</span></span>
+      <p>双人共享（2026 年 9 月西藏线）<br>单人包舱约 <strong>US$99,800</strong></p>
+    </div>
+    <div class="card">
+      <h4>大丝路 = 唯一跨国线</h4>
+      <p>跨 <strong>5 国</strong>（中国 + 哈萨克斯坦 + 吉尔吉斯斯坦 + 塔吉克斯坦 + 乌兹别克斯坦），2,400 英里，<strong>同时使用两列 Golden Eagle 列车</strong>。中亚目前无五星奢华酒店，此线正好填补。</p>
+    </div>
+  </div>
+
+  <h2>五、逐日行程</h2>
+
+  <h3>③ 古中国（乌鲁木齐 → 北京，12 天 / 11 晚）</h3>
+  <p style="color:var(--dim);font-size:.9em">乌鲁木齐 - 吐鲁番 - 喀什 - 和田 - 格尔木 - 敦煌 - 西安 - 北京</p>
+  <div class="itin">
+    <div class="day"><span class="d">D1</span> <span class="c">抵乌鲁木齐，Conrad Urumqi（1 晚），欢迎晚宴</span></div>
+    <div class="day"><span class="d">D2</span> <span class="c">登车（连住 8 晚）</span></div>
+    <div class="day"><span class="d">D3</span> <span class="c"><strong>吐鲁番</strong>：高昌故城、坎儿井、交河故城（低于海平面 150m+）</span></div>
+    <div class="day"><span class="d">D4</span> <span class="c"><strong>喀什</strong>：阿帕霍加麻扎（香妃墓）、老城、高台民居、维吾尔午餐</span></div>
+    <div class="day"><span class="d">D5</span> <span class="c"><strong>和田</strong>：约特干古城、艾德莱斯丝绸与地毯工坊</span></div>
+    <div class="day"><span class="d">D6</span> <span class="c"><strong>格尔木</strong>：丝路讲座 + 察尔汗盐湖（或市区导览）二选一</span></div>
+    <div class="day"><span class="d">D7</span> <span class="c"><strong>敦煌</strong>：莫高窟（含当地乐师演奏）+ 骆驼骑行至月牙泉</span></div>
+    <div class="day"><span class="d">D8</span> <span class="c">车上休息日 → 夜抵西安，唐代宫廷宴</span></div>
+    <div class="day"><span class="d">D9</span> <span class="c"><strong>西安</strong>：明城墙、大清真寺、兵马俑；车上告别晚宴</span></div>
+    <div class="day"><span class="d">D10</span> <span class="c"><strong>北京</strong>：故宫/天安门/颐和园 或 现代城市线；Four Seasons（2 晚）</span></div>
+    <div class="day"><span class="d">D11</span> <span class="c">八达岭长城 + 自由下午 + 烤鸭晚宴</span></div>
+    <div class="day"><span class="d">D12</span> <span class="c">送机</span></div>
+  </div>
+
+  <h3>④ 世界屋脊之旅（北京 → 拉萨，13 天 / 12 晚）</h3>
+  <p style="color:var(--dim);font-size:.9em">北京 - 洛阳 - 西安 - 成都 - 西宁 - 敦煌 - 唐古拉山口 - 拉萨</p>
+  <div class="itin">
+    <div class="day"><span class="d">D1–2</span> <span class="c">北京：Four Seasons；八达岭长城、烤鸭晚宴</span></div>
+    <div class="day"><span class="d">D3</span> <span class="c">天安门/故宫/颐和园（或现代线）→ 登车欢迎晚宴</span></div>
+    <div class="day"><span class="d">D4</span> <span class="c"><strong>洛阳</strong>：龙门石窟（10 万+ 佛像）、少林寺 → 西安唐代宫廷宴</span></div>
+    <div class="day"><span class="d">D5</span> <span class="c"><strong>西安</strong>：城墙、兵马俑（6000+ 真人大小陶俑）</span></div>
+    <div class="day"><span class="d">D6</span> <span class="c"><strong>成都</strong>：宽窄巷子 + 包场<strong>川剧变脸</strong>；宿 Waldorf Astoria</span></div>
+    <div class="day"><span class="d">D7</span> <span class="c">成都大熊猫繁育研究基地 → 返车</span></div>
+    <div class="day"><span class="d">D8</span> <span class="c"><strong>西宁</strong>：塔尔寺（酥油茶）+ 青海省博或水井巷市场</span></div>
+    <div class="day"><span class="d">D9</span> <span class="c"><strong>敦煌</strong>：莫高窟 + 骆驼骑行至月牙泉</span></div>
+    <div class="day"><span class="d">D10</span> <span class="c"><strong>转乘青藏铁路</strong>（世界最高铁路）西宁→拉萨（或直飞拉萨）</span></div>
+    <div class="day"><span class="d">D11</span> <span class="c"><strong>唐古拉山口 16,640 英尺（5,072m）</strong> → 抵拉萨，St. Regis；可选大昭寺 + 八廓街</span></div>
+    <div class="day"><span class="d">D12</span> <span class="c">罗布林卡（达赖夏宫）+ 西藏午餐 → <strong>布达拉宫</strong>（高出河谷 300m）告别晚宴</span></div>
+    <div class="day"><span class="d">D13</span> <span class="c">送机</span></div>
+  </div>
+
+  <h3>⑤ 帝国中国（西安 → 香港，12 天 / 11 晚）</h3>
+  <p style="color:var(--dim);font-size:.9em">西安 - 洛阳 - 北京 - 上海 - 景德镇 - 宜昌 - 成都 - 桂林 - 阳朔 - 香港（11 晚中 9 晚在车上）</p>
+  <div class="itin">
+    <div class="day"><span class="d">D1–2</span> <span class="c"><strong>西安</strong>：Ritz-Carlton；城墙、大清真寺、兵马俑 → 登车</span></div>
+    <div class="day"><span class="d">D3</span> <span class="c"><strong>洛阳</strong>：龙门石窟、少林寺</span></div>
+    <div class="day"><span class="d">D4</span> <span class="c"><strong>北京</strong>：八达岭长城、烤鸭；故宫线或现代城市线</span></div>
+    <div class="day"><span class="d">D5</span> <span class="c"><strong>上海</strong>：上海中心 <strong>120 层下午茶</strong>（632m）+ 黄浦江私人游艇晚宴</span></div>
+    <div class="day"><span class="d">D6</span> <span class="c"><strong>景德镇</strong>：陶瓷博物馆 + 古窑博览区<strong>亲手制瓷</strong>（龙窑），成品带走</span></div>
+    <div class="day"><span class="d">D7</span> <span class="c"><strong>宜昌</strong>：包船游三峡（三峡大坝→葛洲坝），船上长江鱼鲜午餐</span></div>
+    <div class="day"><span class="d">D8</span> <span class="c"><strong>成都</strong>：大熊猫基地 + 包场川剧变脸</span></div>
+    <div class="day"><span class="d">D9</span> <span class="c">整天车上（无安排日）：观景车 + 酒吧 + 驻车钢琴师</span></div>
+    <div class="day"><span class="d">D10</span> <span class="c"><strong>桂林/阳朔</strong>：漓江私人游船 + 日落<strong>鸬鹚捕鱼</strong> → 赴香港</span></div>
+    <div class="day"><span class="d">D11</span> <span class="c">经深圳入<strong>香港</strong>，宿半岛酒店；自由下午 + 告别晚宴</span></div>
+    <div class="day"><span class="d">D12</span> <span class="c">送机</span></div>
+  </div>
+
+  <h3>② 大丝路（北京 ↔ 塔什干，22–25 天）</h3>
+  <p style="color:var(--dim);font-size:.9em">跨 5 国，2,400 英里，双列车编组</p>
+  <p style="font-size:.92em">核心站点：<strong>撒马尔罕、布哈拉、希瓦</strong>（乌兹别克三大 UNESCO 古城）· <strong>伊塞克湖</strong>（吉尔吉斯）· <strong>杜尚别 Kohi Navruz 宫</strong>（塔吉克）· 沙赫里萨布兹 Ak-Saray 宫 · 西安兵马俑 · 敦煌莫高窟 · 戈壁驼行</p>
+
+  <h2>六、注意事项</h2>
+
+  <div class="warn">
+    <h3>高原反应（拉萨线路）</h3>
+    <ul style="padding-left:20px">
+      <li>青藏铁路最高点<strong>唐古拉山口 16,640 英尺（约 5,072 米）</strong>；<strong>拉萨海拔约 11,975 英尺（约 3,650 米）</strong></li>
+      <li>抵拉萨首日下午<strong>刻意留空休息</strong>（应对海拔最佳方式是休息）</li>
+      <li><strong>有心脏或呼吸系统疾病者，预订前务必咨询医生</strong></li>
+      <li>可<strong>直飞拉萨替代青藏铁路</strong>，获得更多适应时间</li>
+    </ul>
+  </div>
+
+  <table>
+    <tr><th>项</th><th>说明</th></tr>
+    <tr><td>签证</td><td><strong>中国签证</strong>多数国籍需要，不含票价内；<strong>中亚四国</strong>签证（大丝路线）可由代理协助</td></tr>
+    <tr><td>医疗</td><td><strong>每趟配随车医生与医疗设施</strong>；<strong>旅行保险强制要求，不含在票价内</strong></td></tr>
+    <tr><td>着装</td><td>优雅正装 / 半正式（船上晚宴）</td></tr>
+    <tr><td>行李</td><td>全程行李搬运服务（porterage）含在内</td></tr>
+    <tr><td>儿童</td><td>可预订，分 <strong>5 岁以下</strong>与 <strong>5–11 岁</strong>两档儿童价；高原线建议先咨询医生</td></tr>
+    <tr><td>单人出行</td><td>可单独入住，视班期余位而定</td></tr>
+    <tr><td>最佳季节</td><td><strong>春季（3–4 月）与初秋（9–10 月）</strong>，避开沙漠地区盛夏</td></tr>
+  </table>
+
+  <h2>七、价格与费用明细</h2>
+  <div class="grid">
+    <div class="card" style="border-left-color:var(--green)">
+      <h4 class="yes">✅ 票价包含</h4>
+      <p>全部住宿（车上 + 岸上酒店）· 全部餐食 · <strong>葡萄酒/烈酒/软饮</strong>（餐时及酒吧车，顶级酒单除外）· 抵离接送 · 客房管家与夜床服务 · 行李搬运 · 每站导览游览 + 门票 · <strong>Freedom of Choice 二选一日程</strong> · 行程管理团队 · <strong>随车医生</strong> · <strong>所有小费</strong>（车上车下）</p>
+    </div>
+    <div class="card" style="border-left-color:var(--red)">
+      <h4 class="no">❌ 票价不含</h4>
+      <p><strong>国际机票</strong> · <strong>中国/中亚签证</strong> · <strong>旅行保险</strong> · 个人消费 · 顶级酒单</p>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>房型</th><th>2026 参考</th><th>2027 参考</th></tr>
+    <tr><td>高级舱（双人共享）</td><td>约 US$19,900/人（13 天西藏线）</td><td>US$25,000–27,500/人起（12–13 天）</td></tr>
+    <tr><td>汉朝套房（双人共享）</td><td>约 US$49,900/人</td><td>—</td></tr>
+    <tr><td>汉朝套房（单人包舱）</td><td>约 US$99,800</td><td>—</td></tr>
+    <tr><td>大丝路 22 天</td><td>—</td><td>约 US$53,200 起/人（双人）</td></tr>
+  </table>
+
+  <h2>八、预订方式</h2>
+  <table>
+    <tr><th>渠道</th><th>说明</th></tr>
+    <tr><td>官网</td><td>goldeneagleluxurytrains.com</td></tr>
+    <tr><td>授权代理</td><td>Palace Trains / Palace Tours（美国）、GeoEx、IRTS 等</td></tr>
+    <tr><td>中国大陆</td><td>建议经官方或国际授权代理预订；<strong>暂无公开官方中文直订页面</strong></td></tr>
+    <tr><td>咨询电话</td><td>Palace Trains：1-800-724-5120（国际 +1-786-408-0610）；WhatsApp +1-786-454-3555</td></tr>
+    <tr><td>建议提前</td><td><strong>6–12 个月</strong>（2026 全年已售罄，2027 接近满员）</td></tr>
+  </table>
+  <div class="warn" style="border-left-color:var(--gold);background:rgba(212,175,55,.08)">
+    <p style="font-size:.9em">⚠️ 注意区分：<strong>金鹰丝路快车（Golden Eagle）</strong> 与国内 <strong>新东方快车 / 丝路梦享号</strong> 是<strong>完全不同的产品</strong>，不要混淆。</p>
+  </div>
+
+  <h2>九、与其他产品的差异</h2>
+  <table>
+    <tr><th>对比</th><th>金鹰丝路快车</th><th>中国新东方快车</th><th>Golden Eagle Trans-Siberian</th></tr>
+    <tr><td>定位</td><td>超高端国际客群</td><td>国内高端客群</td><td>原全球最贵线路之一</td></tr>
+    <tr><td>状态</td><td class="yes"><strong>2026 首航，运营中</strong></td><td>运营中（2026/5 首班）</td><td class="no"><strong>已无限期停运</strong></td></tr>
+    <tr><td>客群</td><td>国际旅客（英文服务）</td><td>国内旅客</td><td>—</td></tr>
+    <tr><td>起价</td><td>约 US$19,900/人</td><td>约 ¥28,999/人起</td><td>历史数据</td></tr>
+    <tr><td>车厢</td><td>22.2㎡ 汉朝套房带浴缸</td><td>25G 车底，独立卫浴</td><td>—</td></tr>
+  </table>
+  <p style="font-size:.9em;color:var(--dim)">Silk Road Express 是 Golden Eagle 车队<strong>最新</strong>的列车。大丝路行程会同时使用 Silk Road Express 与 Golden Eagle Express 两列车。</p>
+
+  <h2>十、未核实 / 存疑</h2>
+  <ul style="font-size:.9em;color:var(--dim);padding-left:20px">
+    <li>Arsenale 收购 Golden Eagle 的完成状态与时间</li>
+    <li>列车具体编组、车厢数量、最大乘客数（官方未公布）</li>
+    <li>设计事务所 / 名厨合作方未公开</li>
+    <li>2027 部分定价与班期为初步公布，可能调整</li>
+    <li>大丝路 22 天完整逐日行程需向代理商索取</li>
+  </ul>
+
+  <h2>参考来源</h2>
+  <ul class="refs">
+    <li><a href="https://www.goldeneagleluxurytrains.com/trains/golden-eagle-silk-road-express/">Golden Eagle Silk Road Express 官方列车页</a></li>
+    <li><a href="https://www.goldeneagleluxurytrains.com/luxury-travel-blog/golden-eagle-china-luxury-rail-journeys-2026-2027/">Golden Eagle Returns to China（官方博客）</a></li>
+    <li><a href="https://latteluxurynews.com/2026/09/18/golden-eagle-silk-road-express-starts-operation/">Latte Luxury News — 房型细节（2026-09-18）</a></li>
+    <li><a href="https://www.railwaygazette.com/luxury-and-tourist-trains/2026/08/10/golden-eagle-luxury-trains-returns-to-china/">Railway Gazette（2026-08-10）</a></li>
+    <li><a href="https://www.palacetrains.com/trains/golden-eagle-silk-road-express/journal">The Golden Eagle Silk Road Express Journal（21 问答）</a></li>
+    <li><a href="https://www.palacetrains.com/trains/golden-eagle-silk-road-express/itinerary/ancient-china-by-private-train">Ancient China 逐日行程</a></li>
+    <li><a href="https://www.palacetrains.com/trains/golden-eagle-silk-road-express/itinerary/voyage-to-the-roof-of-the-world">Voyage to the Roof of the World 逐日行程</a></li>
+    <li><a href="https://www.palacetrains.com/trains/golden-eagle-silk-road-express/itinerary/imperial-china-xian-to-hong-kong">Imperial China 逐日行程</a></li>
+    <li><a href="https://www.geoex.com/trips/grand-silk-road-by-train">GeoEx — The Grand Silk Road by Train</a></li>
+    <li><a href="https://www.goldeneagleluxurytrains.com/journeys/the-grand-silk-road/">The Grand Silk Road 官方行程页</a></li>
+  </ul>
+
+  <div class="foot">
+    调研更新日期：2026-10-13 · 详细数据存于 <code>results/golden_eagle_silk_road_express.json</code>
+  </div>
+
+</div>
+</body>
+</html>
