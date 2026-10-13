@@ -1,0 +1,115 @@
+topic: 全球邮轮的主要航线
+version: 1.1
+output_structure: flat
+note: >
+  JSON 采用扁平结构：25 个字段名直接位于顶层，另加 uncertain 数组。
+  detail_level 分层：极简 / 简要 / 详细。所有字段值须用中文；无法确认者填 "[不确定]" 并列入 uncertain。
+  required: true 的字段为核心字段，必须给出实质内容（可为 [不确定]，但不可缺字段）。
+
+field_categories:
+  - category: 基本信息
+    key: basic_info
+    fields:
+      - name: 航线中文名
+        description: 该航线在国内最常见的中文称呼
+        detail_level: 简要
+        required: true
+      - name: 航线英文名
+        description: 国际通用英文名称（保留英文原名）
+        detail_level: 简要
+        required: true
+      - name: 所属区域
+        description: 地理大区归类，如加勒比 / 地中海 / 极地 / 内河
+        detail_level: 极简
+        required: true
+      - name: 典型航程天数
+        description: 市面上最常见的产品天数区间，如 7 晚 / 10-14 晚
+        detail_level: 简要
+      - name: 主要母港
+        description: 出发与返回的主要港口城市
+        detail_level: 简要
+      - name: 航线类型
+        description: 往返 / 单程 / 换船 repositioning
+        detail_level: 简要
+
+  - category: 地理与季节
+    key: geography_season
+    fields:
+      - name: 最佳出行月份
+        description: 气候与体验最优的月份区间
+        detail_level: 简要
+      - name: 气候特征
+        description: 气温、风浪、雨季、飓风季等
+        detail_level: 简要
+      - name: 航行水域
+        description: 具体海域 / 洋面 / 河道
+        detail_level: 极简
+      - name: 淡旺季价差
+        description: 淡季价格相对旺季的倍数或百分比
+        detail_level: 详细
+
+  - category: 目的地亮点
+    key: destination_highlights
+    fields:
+      - name: 核心停靠港
+        description: 3-6 个最具代表性的停靠港
+        detail_level: 详细
+        required: true
+      - name: 标志性景观
+        description: 冰川、峡湾、古城、遗址、海岛等
+        detail_level: 简要
+      - name: 文化卖点
+        description: 该航线在文化 / 美食 / 历史方面的独特体验
+        detail_level: 简要
+
+  - category: 运营方
+    key: operators
+    fields:
+      - name: 主流邮轮公司
+        description: 在该航线投入运力的主要邮轮公司
+        detail_level: 详细
+        required: true
+      - name: 代表船型与船队
+        description: 典型船型与吨位档位
+        detail_level: 简要
+      - name: 公司阵营
+        description: 大众 / 高端 / 奢华 / 探险
+        detail_level: 简要
+
+  - category: 价格与客群
+    key: price_audience
+    fields:
+      - name: 人均价格区间
+        description: 按每人每晚 USD 给出大众 / 高端 / 奢华三档
+        detail_level: 详细
+        required: true
+      - name: 目标客群
+        description: 主要客群画像
+        detail_level: 简要
+      - name: 适合人群
+        description: 亲子 / 蜜月 / 银发 / 探险等
+        detail_level: 简要
+      - name: 是否适合亲子
+        description: 亲子友好程度及原因
+        detail_level: 简要
+
+  - category: 差异化与注意
+    key: differentiation_cautions
+    fields:
+      - name: 与邻近航线差异
+        description: 与相似航线的核心区别
+        detail_level: 简要
+      - name: 独特卖点
+        description: 不可替代的体验
+        detail_level: 简要
+      - name: 签证与证件要求
+        description: 途经国家签证、申根 / 美签等
+        detail_level: 详细
+      - name: 注意事项
+        description: 晕船、风浪、季节风险、拥挤度等
+        detail_level: 简要
+      - name: 运力规模
+        description: 区域年客运量或在营邮轮数量
+        detail_level: 简要
+
+uncertain: []

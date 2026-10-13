@@ -1,0 +1,121 @@
+topic: 全球邮轮的主要航线
+topic_slug: cruise-routes
+time_range: 最近12个月
+purpose: 综合了解
+created: 2026-10-06
+
+items:
+  # ---- 加勒比 ----
+  - name: 东加勒比
+    category: 加勒比
+    description: 佛州/圣胡安出发，停靠圣托马斯、圣马丁、圣基茨等，海日适中、风浪小，首次坐邮轮的首选
+  - name: 西加勒比
+    category: 加勒比
+    description: 开曼、科苏梅尔、罗阿坦、伯利兹，主打潜水与玛雅遗址，海日偏少
+  - name: 南加勒比
+    category: 加勒比
+    description: ABC 群岛（阿鲁巴/博奈尔/库拉索）+ 巴巴多斯，从圣胡安或佛州长航线出发，游客最少
+  - name: 百慕大
+    category: 加勒比
+    description: 纽约/波士顿/佛州出发的短线，独家海上过夜停靠，旺季 4-10 月
+
+  # ---- 地中海 ----
+  - name: 西地中海
+    category: 地中海
+    description: 西班牙/法国/意大利/马耳他，美食与酒庄为主，母港巴塞罗那、罗马、马赛
+  - name: 东地中海
+    category: 地中海
+    description: 希腊群岛、土耳其、以色列、埃及，古迹与宗教文化密集
+  - name: 亚得里亚海
+    category: 地中海
+    description: 威尼斯/拉文纳—克罗地亚—黑山—希腊，中小型船为主，古城+峡湾感强
+
+  # ---- 北欧与北大西洋 ----
+  - name: 挪威峡湾
+    category: 北欧
+    description: 卑尔根、盖朗厄尔、松恩峡湾，峡湾景观为核心，全年运营
+  - name: 波罗的海与北欧
+    category: 北欧
+    description: 哥本哈根、斯德哥尔摩、赫尔辛基、塔林、圣彼得堡，夏季度假首选
+  - name: 跨大西洋
+    category: 跨洋
+    description: 欧洲—北美 repositioning 航线，海日多、价格低，代表为 QM2 定期班轮
+
+  # ---- 北美 ----
+  - name: 阿拉斯加
+    category: 北美
+    description: 内湾航道，冰川、鲸鱼、淘金小镇，5-9 月运营，西雅图/温哥华母港
+  - name: 加拿大与新英格兰
+    category: 北美
+    description: 秋季枫叶航线，波士顿/纽约/蒙特利尔，9-10 月最佳
+  - name: 墨西哥蔚蓝海岸
+    category: 北美
+    description: 洛杉矶/圣地亚哥母港，卡波圣卢卡斯、巴亚尔塔港，北美西岸主力替代航线
+
+  # ---- 跨洋与运河 ----
+  - name: 巴拿马运河
+    category: 跨洋
+    description: 佛罗里达—加州换船航线，穿越运河船闸，旺季 9 月-次年 5 月
+  - name: 环球航线
+    category: 跨洋
+    description: 100+ 晚环球航程，跨三大洋多洲，代表为 Cunard、Regent、Oceania
+
+  # ---- 太平洋 ----
+  - name: 夏威夷
+    category: 太平洋
+    description: 檀香山往返各岛，NCL 美国之傲号全年运营，海日多
+  - name: 南太平洋与法属波利尼西亚
+    category: 太平洋
+    description: 大溪地、波拉波拉、斐济、库克群岛，奢华与探险船专属
+  - name: 澳大利亚与新西兰
+    category: 大洋洲
+    description: 悉尼/奥克兰母港，含峡湾国家公园，10 月-次年 3 月旺季
+
+  # ---- 亚洲 ----
+  - name: 日本与东北亚
+    category: 亚洲
+    description: 环日本、日韩连线，樱花季与红叶季为高峰，上海/天津/横滨母港
+  - name: 东南亚
+    category: 亚洲
+    description: 新加坡/曼谷/越南/马来西亚，全年运营，短途+文化线路
+  - name: 中国母港航线
+    category: 亚洲
+    description: 上海/天津/香港母港，日韩/东南亚短线，MSC 荣耀号 2026-01-27 重返上海
+
+  # ---- 中东与非洲 ----
+  - name: 阿拉伯湾与中东
+    category: 中东
+    description: 迪拜/阿布扎比/多哈，冬季旺季，新兴市场
+  - name: 西非与加那利群岛
+    category: 非洲
+    description: 加那利群岛全年短线 + 西非换船航线，因红海绕行显著升温
+  - name: 印度洋与马尔代夫
+    category: 非洲
+    description: 塞舌尔、毛里求斯、留尼汪、马尔代夫，奢侈品与探险船专属
+
+  # ---- 南美与极地 ----
+  - name: 南美与合恩角
+    category: 南美
+    description: 巴西/阿根廷/智利/火地岛，绕合恩角，南极前段行程常并入
+  - name: 南极
+    category: 极地
+    description: 乌斯怀亚/蓬塔阿雷纳斯出发，德雷克海峡，11 月-次年 3 月
+  - name: 北极与斯瓦尔巴
+    category: 极地
+    description: 朗伊尔城出发，6-8 月，破冰船与探险船
+
+  # ---- 内河 ----
+  - name: 欧洲内河（多瑙河/莱茵河）
+    category: 内河
+    description: 布达佩斯—维也纳—纽伦堡—阿姆斯特丹，维京/Uniworld 为主，4-10 月
+  - name: 尼罗河
+    category: 内河
+    description: 卢克索—阿斯旺，古迹密集，与红海邮轮互补，10 月-次年 4 月
+  - name: 亚马逊与探险内河
+    category: 内河
+    description: 玛瑙斯出发，需小型浅吃水船，内河+探险双属性
+
+execution:
+  batch_size: 5
+  items_per_agent: 2
+  output_dir: ./results
