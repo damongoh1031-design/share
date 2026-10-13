@@ -57,6 +57,7 @@
 | 9 | **linux-distro-deep-research-2026-10.md / .html** | **综合报告（主交付物）** |
 | 10 | distro-operations-analysis-2026-10.md | 运营五维（社区规模 / 现状 / 套件源 / 包管理 / 漏洞修复） |
 | 11 | arch-anti-breakage-guide-2026-10.md | **Arch 防滚挂**：预警 / 提醒 / 检查 / Agent 一站式 |
+| 12 | other-rolling-distros-2026-10.md | **其他滚动发行版全景**：CachyOS / Omarchy / KDE Linux / AerynOS / Void / Gentoo 等 40+ |
 
 ## 知识库（kb/）
 

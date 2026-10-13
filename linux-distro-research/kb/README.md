@@ -17,3 +17,4 @@
 | [distro-community-seven-dimensions.md](./distro-community-seven-dimensions.md) | 发行版社区七维对比：打包质量 / 规范 / 治理 / 规模 / 包维护 / 漏洞速度 / 前景 | stable | 1.0.0 | 2026-10-12 |
 | [distro-operations-analysis.md](./distro-operations-analysis.md) | 运营分析：社区规模 / 运行现状 / 套件源 / 包管理 / 漏洞修复（含 OSV 覆盖实测） | stable | 1.0.0 | 2026-10-13 |
 | [arch-anti-breakage-guide.md](./arch-anti-breakage-guide.md) | Arch 防滚挂：预警 / 提醒 / 检查 / Agent 一站式（含 informant 下架修正） | stable | 1.0.0 | 2026-10-13 |
+| [other-rolling-distros-landscape.md](./other-rolling-distros-landscape.md) | 其他滚动发行版全景：Arch 系 / 独立 / 企业 / 不可变（含 DistroWatch 实测排名） | stable | 1.0.0 | 2026-10-13 |
