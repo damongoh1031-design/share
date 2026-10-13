@@ -56,6 +56,7 @@
 | 8 | distro-community-comprehensive-2026-10.md | 社区七维（打包 / 规范 / 治理 / 规模 / 维护 / 漏洞 / 前景） |
 | 9 | **linux-distro-deep-research-2026-10.md / .html** | **综合报告（主交付物）** |
 | 10 | distro-operations-analysis-2026-10.md | 运营五维（社区规模 / 现状 / 套件源 / 包管理 / 漏洞修复） |
+| 11 | arch-anti-breakage-guide-2026-10.md | **Arch 防滚挂**：预警 / 提醒 / 检查 / Agent 一站式 |
 
 ## 知识库（kb/）
 
@@ -87,6 +88,16 @@
   ```bash
   python tools/md2report.py   # 改脚本内 SRC 路径
   ```
+
+## Skill
+
+- [`skills/arch-update-guard/`](./skills/arch-update-guard/) — **Arch 更新前检查闸门**（零第三方依赖）
+  ```bash
+  python3 skills/arch-update-guard/scripts/arch_update_guard.py check    # 全套检查
+  python3 skills/arch-update-guard/scripts/arch_update_guard.py news     # 只看需人工介入的公告
+  python3 skills/arch-update-guard/scripts/arch_update_guard.py selftest # 自检（不需 Arch 环境）
+  ```
+  10 项检查 · 退出码语义化（0 正常 / 1 注意 / 2 阻塞）· 只读 + 快照需 `--yes`
 
 ---
 
