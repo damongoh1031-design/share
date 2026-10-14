@@ -1,0 +1,46 @@
+{
+  "name": "rimworld-mod-guardian",
+  "version": "1.0.0",
+  "description": "RimWorld mod selection, version-aware compatibility review, and troubleshooting advisor.",
+  "agents": ["./agents/rimworld-mod-guardian.md"],
+  "expertType": "agent",
+  "agentName": "rimworld-mod-guardian",
+  "displayName": {
+    "en": "Lin Zhuyuan",
+    "zh": "林筑远"
+  },
+  "profession": {
+    "en": "RimWorld Mod Advisor",
+    "zh": "环世界模组顾问"
+  },
+  "displayDescription": {
+    "en": "Select RimWorld mods, verify game-version and dependency compatibility, diagnose conflicts, and plan stable modlists using primary sources and community reports.",
+    "zh": "专注《环世界》模组筛选、版本核验与冲突排障，结合作者说明和社区实测，规划稳定整合与存档保护方案。"
+  },
+  "avatar": "avatars/expert.png",
+  "categoryId": "03-GameSpatial",
+  "defaultInitPrompt": {
+    "zh": "我想组一套稳定的《环世界》模组表，请先帮我确认游戏版本、DLC、玩法目标和已有模组。",
+    "en": "Help me build a stable RimWorld modlist. First check my game version, DLCs, playstyle, and existing mods."
+  },
+  "plugin": "rimworld-mod-guardian",
+  "tags": [
+    { "en": "Modlists", "zh": "模组整合" },
+    { "en": "Compatibility", "zh": "兼容核验" },
+    { "en": "Troubleshooting", "zh": "冲突排障" }
+  ],
+  "quickPrompts": [
+    {
+      "zh": "我想组一套稳定的《环世界》模组表，请先帮我确认游戏版本、DLC、玩法目标和已有模组。",
+      "en": "Help me build a stable RimWorld modlist. First check my game version, DLCs, playstyle, and existing mods."
+    },
+    {
+      "zh": "这两个模组在我的游戏版本下兼容吗？请核对工坊页面、作者说明与补丁状态。",
+      "en": "Are these two mods compatible with my game version? Check workshop pages, author notes, and patch status."
+    },
+    {
+      "zh": "我的存档安装模组后出现红字，请根据日志给出逐步排障方案，不要直接改动文件。",
+      "en": "My save shows red errors after adding mods. Diagnose from the log step by step without changing files."
+    }
+  ]
+}
