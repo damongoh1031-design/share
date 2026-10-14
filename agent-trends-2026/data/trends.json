@@ -1,0 +1,254 @@
+{
+  "meta": {
+    "question": "在现在的 agent，有什么新趋势？",
+    "fetched_at": "2026-10-14",
+    "one_line": "2026 年最重要的事不是「模型又能干更多了」，而是「工程界终于承认：模型能力不是瓶颈」。",
+    "anchor_numbers": [
+      {"value": "60% vs 0-20%", "meaning": "开发者 60% 时间已在用 AI 辅助，但能完全委托给 Agent 的任务只占 0-20%", "source": "Anthropic《2026 Agentic Coding Trends Report》（二手引述）"},
+      {"value": "24.86% → 90.54%", "meaning": "同一存量 Java 应用加上 Harness 体系后 AI 代码采纳率", "source": "阿里云开发者实战复盘"},
+      {"value": "7 个月", "meaning": "Agent 能完成的任务时长翻倍周期", "source": "METR"}
+    ]
+  },
+  "trends": [
+    {
+      "n": 1,
+      "name": "第三次范式跃迁：Prompt → Context → Harness",
+      "grade": "B",
+      "stages": [
+        {"stage": "Prompt Engineering", "period": "2022-2024", "question": "怎么把这一次问好？", "metaphor": "写好一封邮件"},
+        {"stage": "Context Engineering", "period": "2025", "question": "给 Agent 看什么？", "metaphor": "给邮件附上所有正确的附件（Tobi Lutke, Shopify CEO）"},
+        {"stage": "Harness Engineering", "period": "2026", "question": "怎么设计跨会话、跨 Agent 角色、跨执行阶段的完整系统？", "metaphor": "设计整条流水线"}
+      ],
+      "key_quotes": [
+        {"by": "Ryan Lopopolo（OpenAI 工程师）", "quote": "Agents aren't hard; the Harness is hard."},
+        {"by": "Mitchell Hashimoto（HashiCorp 创始人）", "quote": "Every time you discover an agent has made a mistake, you take the time to engineer a solution so that it can never make that mistake again."}
+      ],
+      "definition": "围绕 AI Coding Agent 设计和构建约束机制（Constraints）、反馈回路（Feedback Loops）、工作流控制（Workflow Orchestration）与持续改进循环（Continuous Improvement）的系统工程实践。",
+      "critical_note": "Hashimoto 定义的落点不是「修代码」，而是「修 Harness」——从根源上消除同类问题再次发生的可能。"
+    },
+    {
+      "n": 2,
+      "name": "「Agent 无法评估自己的产出」被确认为核心工程问题",
+      "grade": "B",
+      "core_finding": {
+        "by": "Anthropic",
+        "quote": "Agents are incapable of accurately evaluating their own work.",
+        "implication": "不能依赖 Agent 自我审查，必须构建外部化的、自动化的质量验证体系"
+      },
+      "failure_modes": [
+        {"id": 1, "name": "One-shot Syndrome", "desc": "拿到复杂需求后试图在单个上下文窗口内完成全部", "data": "上下文窗口 Sweet Spot 在 40% 以下填充率；超过则幻觉/循环/格式错误快速增加"},
+        {"id": 2, "name": "Premature Victory Declaration", "desc": "完成部分工作就宣布结束，输出「编码完成」但编译都不过"},
+        {"id": 3, "name": "Premature Feature Completion", "desc": "认为功能已实现但未做端到端验证，部署后才发现关键路径不通", "mitigation": "Browser Automation（Puppeteer MCP）做自动化端到端验证截图"},
+        {"id": 4, "name": "Cold Start Problem", "desc": "多会话间缺乏持久化记忆，每次新会话花大量 token 重新理解项目"}
+      ],
+      "common_root": "Agent 缺乏外部的结构化约束（Structured Constraints）和反馈机制（Feedback Mechanisms）",
+      "mitigation": {"roles": ["Planner", "Generator", "Evaluator"], "quote": "将做事的 Agent 和评判的 Agent 分开，是一个强有力的杠杆（Powerful Lever）"}
+    },
+    {
+      "n": 3,
+      "name": "Harness 四支柱成为事实标准",
+      "grade": "C",
+      "reference_case": "OpenAI 用 Codex 构建百万行代码产品：3→7 人团队，约 1M LOC，1,500 PRs，人均 3.5 PRs/天，效率提升约 10 倍（二手引述，未找到官方出处）",
+      "pillars": [
+        {
+          "n": 1, "name": "上下文架构（Context Architecture）",
+          "lesson": "OpenAI 早期把 AGENTS.md 写成百科全书，结果「所有内容都重要 = 没有内容重要」",
+          "fix": "AGENTS.md 控制在 ~100 行，作为索引和地图（Index & Map），指向更深层的 Design Docs / Architecture Specs / Quality Criteria",
+          "three_layer_loading": [
+            {"layer": "L1 会话常驻", "timing": "每轮都在", "content": "Agent 定义文件（约 420 行，Index & Map）+ 3 份 Rules"},
+            {"layer": "L2 阶段触发", "timing": "进入某阶段时", "content": "当前阶段的 Skill + 该阶段需要的规范"},
+            {"layer": "L3 按需查询", "timing": "Agent 自主决定", "content": "Wiki 业务文档"}
+          ],
+          "goal": "让 Agent 在任何时刻都拥有「刚好够用的上下文（Just-enough Context）」"
+        },
+        {
+          "n": 2, "name": "Agent 专业化（Agent Specialization）",
+          "principle": "拥有受限工具集（Constrained Toolset）的专业 Agent，优于拥有全部权限的通用 Agent"
+        },
+        {
+          "n": 3, "name": "持久化记忆（Persistent Memory）",
+          "principle": "进度持久化在文件系统上，而非上下文窗口中",
+          "anthropic_startup_sequence": ["检查当前工作目录", "读取 Git Log 和进度文件（如 progress.md）", "定位优先级最高的未完成任务", "开始工作"],
+          "enables": "跨越数十个会话的长时间任务"
+        },
+        {
+          "n": 4, "name": "结构化执行（Structured Execution）",
+          "iron_rule": "永远不让 Agent 在未经审查和批准书面计划之前写代码",
+          "flow": "理解 → 规划 → 执行 → 验证",
+          "pipeline_10_stages": ["需求分析", "需求评审", "编码实现", "编码评审", "单元测试编写", "单元测试评审", "代码推送", "CI 验证", "部署验证", "用户确认"],
+          "stage_elements": ["触发条件（Entry Criteria）", "Skill 加载（Skill Injection）", "质量门禁（Quality Gate）"],
+          "rollback_routes": [
+            {"failure": "CI 失败且测试为 0/0", "rollback_to": "阶段 5（测试编写）"},
+            {"failure": "编译错误", "rollback_to": "阶段 3（编码实现）"},
+            {"failure": "需求不符", "rollback_to": "阶段 1（需求分析）"}
+          ],
+          "iteration_caps": {"需求评审": 3, "编码/测试评审": 2, "over_limit_action": "升级人工决策", "purpose": "防止 Agent 陷入无限自我修改循环"},
+          "human_in_the_loop_points": ["需求待决议确认", "计划评审后确认", "编码评审后确认", "部署环境参数确认", "最终交付确认"]
+        }
+      ],
+      "principles": [
+        "Waiting is expensive, fixing is cheap.",
+        "The agent's knowledge boundary equals the repository's file boundary.（如果某条架构约定不在代码库中以机器可读的形式存在，对 Agent 来说它就不存在）"
+      ]
+    },
+    {
+      "n": 4,
+      "name": "Agent 身份与支付：从 KYC 到 KYA",
+      "grade": "C",
+      "trigger_events": [
+        {
+          "date": "2026-09-10", "actor": "印度国家支付公司（NPCI）",
+          "event": "为筹划中的 Unified Agentic Protocol 建设 AI Agent Registry，用于审核、验证并持续监控代表用户在 UPI 网络中发起支付的 AI Agent",
+          "scale": "UPI 仅 2026 年 8 月处理约 245.1 亿笔交易，金额约 29.82 万亿卢比",
+          "roadmap": "从低金额高频消费（日用品）起步 → 价格达阈值自动买入 → 可能执行投资行为；Registry 可能从 UPI 延伸到银行卡、账单支付",
+          "caveat": "路透社引述知情人士，NPCI 官方未确认"
+        },
+        {
+          "date": "2026-09-10", "actor": "Ant International + Mastercard + Visa",
+          "event": "共同推进 Know-Your-Agent Interoperability Framework",
+          "built_on": {"Visa": "Trusted Agent Protocol", "Mastercard": "Verifiable Intent", "Ant International": "Agentic Mobile Protocol"},
+          "design_focus": ["跨网络 Operator Traceability（追溯到经过验证的运营者/持卡人/组织）", "共享的 Certification Requirements（标准化验证安全与行为能力）", "Continuous Transaction Monitoring（依身份/行为/风险信号持续重新评估）"],
+          "caveat": "公告自述为「正在形成中的框架」，无公开技术规范、无治理机构、无时间表"
+        }
+      ],
+      "why_kyc_leads_to_kya": {
+        "old_premise": "Identity 和 Action 属于同一个主体——提出意图的人、拥有权限的人和按下按钮的人是同一个人",
+        "broken_by": "Human → Agent → Tool → Payment Network → Merchant",
+        "new_questions": ["这个 Agent 是谁", "谁在运行它", "谁把权限委托给了它", "它此刻执行的是哪个任务", "这次调用是否仍在那个任务被允许的范围内"]
+      },
+      "trust_chain_evolution": [
+        {"stage": "传统", "chain": "Identity → Permission → Action"},
+        {"stage": "Agent 时代（中间状态）", "chain": "Identity → Delegation → Mission → Intent → Boundary → Action"},
+        {"stage": "完整因果链", "chain": "Human → Agent Identity → Delegation → Intent → Boundary → Execution → Evidence"}
+      ],
+      "philosophical_shift": {
+        "from": "Can I trust this Agent",
+        "to": "Can I trust this execution",
+        "key_quote": "真正的成熟，不是从不可信的人走向可信的人，而是从可信的人走向可信的结构。",
+        "slogan_evolution": [
+          {"old": "Money can only move through authenticated identities", "protects": "账户"},
+          {"new": "Money can only move through authorized executions", "protects": "现实结果"}
+        ]
+      },
+      "unresolved": "对于错误支付或未经授权支付究竟由谁承担责任，监管层面仍未有定论"
+    },
+    {
+      "n": 5,
+      "name": "智能体商业协议标准化竞赛",
+      "grade": "C",
+      "protocols": [
+        {"name": "Agentic Commerce Protocol (ACP)", "by": "OpenAI", "time": null},
+        {"name": "Universal Commerce Protocol (UCP)", "by": "Google", "time": "2026-01", "note": "开源；定义 AI 电商系统如何在商品发现、评估、结账与下单全流程中与商家交互"},
+        {"name": "Agent Pay", "by": "Mastercard", "time": "2025-11", "note": "对全美持卡人开放"},
+        {"name": "Stripe + Tempo", "by": "Stripe", "time": "2026-03"},
+        {"name": "Agent Wallet（智付底座）", "by": "连连数字", "time": "2026-04", "note": "机器对机器价值交换"}
+      ],
+      "signal": "2025 年被认为是「智能体阶段的第一年」。支付与电商是第一批出现跨厂商协议竞争的领域——通常是基础设施成熟的前兆。"
+    },
+    {
+      "n": 6,
+      "name": "RSI 递归自进化成为研究前沿",
+      "grade": "C",
+      "headline": "虎嗅（2026-03-24）：「2026 Agent 最大突破是『递归自进化』，三年后有望实现『神经计算机』」",
+      "three_levels": [
+        {"level": "自修改", "meaning": "系统能改自己的代码"},
+        {"level": "自改进", "meaning": "改完确实变强"},
+        {"level": "递归自改进（RSI）", "meaning": "多次迭代，且新版本在「改进自身的能力」上超越前代"}
+      ],
+      "enabler": {"name": "Agent-as-a-Judge", "quote": "Agent-as-a-Judge 之所以重要，不只是因为它能评估，更因为它为 recursive self-improvement 提供了（闭环）", "links_to": "趋势二——「Agent 无法评估自己的产出」，所以要用另一个 Agent 来评估"},
+      "works": [
+        {"name": "MASS（多 Agent 自监督）", "by": "UC Berkeley + Sakana AI", "content": "联合学习编排 + 有界子 Agent 执行", "data": "对照实验：单 Agent 学生模型用多约 1.4 倍的已处理监督 token 训练，胜率 64.0%"},
+        {"name": "RSI-Anything", "by": "PhAI Labs", "content": "从代码/数学等数字任务，走向需要连续交互的计算机环境乃至物理世界"}
+      ],
+      "risk": "RSI 把「Agent 无法自评」从工程问题升级为对齐问题：如果改进者与被改进者是同一类系统，评估偏差会被递归放大。这也是 Agent-as-a-Judge 必须独立的根本原因。"
+    },
+    {
+      "n": 7,
+      "name": "长任务能力指数增长，失败模式同步放大",
+      "grade": "B",
+      "metr": {
+        "metric": "50% 任务完成时间跨度（50%-task-completion time horizon），2025-03 提出",
+        "trend_quote": "the length of tasks models can complete is well predicted by an exponential trend, with a doubling time of around 7 months",
+        "caveat": "不同基准的 time horizon 边界相差超过 100 倍，单条曲线不能代表所有任务类型"
+      },
+      "case": {"name": "Claude Mythos Preview", "date": "2026-05", "data": ["17 小时长任务", "一个月修掉 423 个 Firefox bug"], "caveat": "单一来源，未从 METR 或 Anthropic 官方确认"},
+      "benchmark": {"name": "AgencyBench", "time": "2026 年初", "spec": "138 个真实场景任务，平均约 90 次工具调用", "focus": "数小时长程任务中的稳定性，而非单步决策"},
+      "counterpoint": {
+        "asymmetry": "任务时长翻倍 → 失败的影响面也翻倍",
+        "examples": ["1 小时任务出错 → 浪费 1 小时", "17 小时任务出错 → 浪费 17 小时 + 可能已产生副作用（改了代码、发了 PR、动了钱）"],
+        "implication": "Harness 的「质量门禁 + 精确回退 + 循环上限」成为刚需，不是因为模型变差，而是因为试错成本随任务长度线性上升"
+      }
+    },
+    {
+      "n": 8,
+      "name": "Agent 安全焦点从「注入」转向「过度自主」",
+      "grade": "B",
+      "owasp_shift": {"from": "Prompt Injection", "to": "Excessive Agency（过度自主权）"},
+      "asi_categories": [
+        {"id": "ASI02", "name": "Tool Misuse & Exploitation", "cn": "工具滥用"},
+        {"id": "ASI03", "name": "Identity & Privilege Abuse", "cn": "身份与权限滥用"},
+        {"id": "ASI04", "name": "Agentic Supply Chain Vulnerabilities", "cn": "Agent 供应链漏洞"},
+        {"id": "ASI05", "name": "Unexpected Code Execution", "cn": "意外代码执行"},
+        {"id": "ASI06", "name": "Memory & Context Poisoning", "cn": "记忆与上下文投毒"},
+        {"id": "ASI07", "name": "Insecure Inter-Agent Communication", "cn": "不安全的 Agent 间通信"}
+      ],
+      "sharpest_critique": {
+        "by": "Docker 博客（2026-05-18）",
+        "quote": "The agent's context window is a flat namespace. The credential file looks the same as the source file looks the same as the README looks the same as the prompt injection. There's no architectural distinction between \"data the agent should treat as authoritative\" and（不可信数据）.",
+        "implication": "凭证文件、源码文件、README、prompt injection 长得一模一样，架构上没有任何区分"
+      },
+      "industry_action": {"name": "Open Agent Safety Platform（核心组件 OpenShell 开源沙箱）", "by": "英伟达联合逾 100 家厂商", "caveat": "仅见行业日报转述，未见官方公告核实"},
+      "corroborating_evidence": "本会话一手核验：skills.sh 上已有 bitwarden/ai-plugins（65 skill，密钥管理）、auth0/agent-skills（34）、clerk/skills（31）、coinbase/agentic-wallet-skills（29）、microsoft/azure-skills 含 entra-agent-id——认证、密钥、Agent 身份已成官方 skill 生态里成规模的品类"
+    },
+    {
+      "n": 9,
+      "name": "多 Agent 从「预定义团队」走向「运行时动态派生」",
+      "grade": "C",
+      "shift": {"traditional": "预定义团队结构", "new": "运行时动态派生子 Agent，任务完成后自动解散"},
+      "architectures": ["Orchestrator（主控）", "Peer-to-peer（对等）", "Hierarchical（层级）"],
+      "link": "「动态派生子 Agent」是「Agent 专业化」的自然延伸：不再预先定义所有角色，而是在需要时按任务派生一个受限工具集的专家",
+      "one_hand_evidence": "skills.sh 上 obra/superpowers 的 subagent-driven-development（两阶段审查：先查 spec 合规再查代码质量）、dispatching-parallel-agents（并发 subagent 工作流）、stablyai/orca 的 orchestration（289.3K 安装）——多 Agent 编排已是成熟品类"
+    },
+    {
+      "n": 10,
+      "name": "记忆从「会话内」升级为「跨会话基础设施」，并成为新攻击面",
+      "grade": "B",
+      "evolution": ["会话记忆（有窗口就丢）", "跨会话持久记忆", "文件系统 / 图记忆 / 向量记忆 混合架构"],
+      "anthropic_standard": "进度写 progress.md + 读 Git Log，而不是塞进上下文窗口",
+      "one_hand_evidence": ["mem0ai/mem0（67,153★）", "MemTensor/MemOS（11,854★，hybrid-retrieval，省 35.24% token）", "basicmachines-co/basic-memory（4,167★，Markdown 本地记忆）", "microsoft/kernel-memory", "memodb-io/memobase", "doobidoo/mcp-memory-service", "Anthropic 官方 Knowledge Graph Memory"],
+      "risk": {
+        "owasp_item": "ASI06 Memory & Context Poisoning",
+        "logic": "记忆是跨会话持久的，一旦被投毒，污染会持续影响后续所有会话——比一次性 prompt injection 危害大得多。而且记忆通常由 Agent 自动写入，人不会逐条审查",
+        "status": "尚未被充分重视的新风险"
+      }
+    }
+  ],
+  "counter_trends": [
+    {"n": 1, "name": "上下文文件可能不划算", "evidence": "ETH Zurich + LogicStar.ai（300 SWE-bench Lite + 138 CTXbench）：自动生成文件成功率无显著提升但成本 +20%；人手写 +2.4% 统计不显著；且成本与文件长度无关，来自每条指令触发的行为"},
+    {"n": 2, "name": "旧提示词会主动伤害", "evidence": "Claude Code 创造者 Boris Cherny：为适配 Opus 5 删掉 >80% 系统提示词；消融测试发现删掉后模型有时显得更聪明"},
+    {"n": 3, "name": "窗口变大不等于变好", "evidence": "context windows are constrained not by raw token capacity but by attention mechanics——随长度增加出现 lost-in-the-middle、U 型注意力曲线、注意力稀缺"}
+  ],
+  "summary": {
+    "one_sentence": "2026 年的 Agent 工程，正在从「让模型能做」转向「让系统的产出可被信任」。",
+    "thread": "贯穿所有趋势的一条主线：把隐性知识显性化、把主观判断结构化、把一次性经验固化为可复用约束。",
+    "link_to_prior_rounds": "这解释了本会话前九轮观察到的现象：skills 生态（102 家官方厂商、数千个官方 skill）和 MCP 生态的爆发，本质上都是这条主线的产物。"
+  },
+  "evidence_grades": {
+    "A": "本会话前九轮一手核验数据（skills.sh 176 榜单 / 102 官方厂商 / 50 条审计 / 143 个 MCP 仓库）；Anthropic 官方工程博客原文；agentskills.io 规范原文",
+    "B": "Anthropic《2026 Agentic Coding Trends Report》（二手引述）；METR time horizon 系列（二手引述）；OWASP GenAI LLM Top 10 2026（二手解读）",
+    "C": "阿里云开发者 Harness Engineering 实战（作者具名、含完整方法论与实测数字）；路透社 NPCI 报道引述；虎嗅 KYA 分析",
+    "D": "Open Agent Safety Platform / OpenShell 沙箱（仅见行业日报转述）；Claude Mythos Preview 的 17 小时 / 423 bug（单一来源）"
+  },
+  "unverified": [
+    "「Anthropic 2026 Agentic Coding Trends Report」原始报告未找到，只拿到二手引述的「60% vs 0-20%」",
+    "Open Agent Safety Platform / OpenShell 仅见二手行业日报转述，未见英伟达官方公告",
+    "Claude Mythos Preview 的 17 小时长任务与 423 个 Firefox bug 为单一来源（知乎）",
+    "METR「7 个月翻倍」为经验外推线，不同基准 time horizon 边界相差超过 100 倍",
+    "NPCI 的 AI Agent Registry 计划为路透社引述知情人士，NPCI 官方未确认",
+    "Visa/Mastercard/Ant International 的 KYA 框架无公开技术规范、无治理机构、无时间表",
+    "OpenAI 百万行代码案例（3→7 人 / 1M LOC / 1,500 PRs / 10 倍效率）来自二手引述，未找到官方出处",
+    "Harness 实战的 24.86% → 90.54% 为单一项目自述数据，非受控实验",
+    "RSI 的能力边界：MASS / RSI-Anything 均为近期论文，未见独立复现"
+  ],
+  "method_note": "中文科技媒体的深度文章大量托管在知乎（拒绝抓取）和微信公众号（需鉴权），本轮多篇文章只能通过 WebFetch 摘要或转载站（uml.org.cn、CSDN、百家号）获取，导致部分引述存在二次转述风险。相对可靠的做法：优先抓取带具名作者、含完整方法论和原始数字的实战复盘，以及能拿到原文的规范类文档（agentskills.io 的 .md 端点）。"
+}

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 年 AI Agent 的十个新趋势</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.78;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+aside{width:274px;flex:0 0 274px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:7px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1080px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box.pp{border-left-color:var(--pp);background:rgba(188,140,255,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)} .box.pp .t{color:var(--pp)}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+blockquote{border-left:3px solid var(--tx3);padding:2px 0 2px 16px;margin:14px 0;color:var(--tx2);font-style:italic}
+blockquote strong{color:var(--tx);font-style:normal}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:24px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+.trend{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin:16px 0}
+.trend .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.trend .hd .no{font-size:13px;font-weight:700;color:var(--bg);background:var(--ac);border-radius:5px;padding:2px 9px;font-variant-numeric:tabular-nums}
+.trend .hd h3{margin:0;font-size:17px}
+.trend .hd h3::before{display:none}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+.step{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:13px;flex:1 1 130px;text-align:center}
+.step .n{font-size:11px;color:var(--tx3);display:block;margin-bottom:3px}
+.arrow{color:var(--tx3);font-size:15px}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 18px 60px}
+  h2{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>2026 年 AI Agent 的十个新趋势</h1>
+  <div class="sub">核验 2026-10-14</div>
+  <nav>
+    <div class="grp">总览</div>
+    <a href="#s0" class="on">〇 一句话总览</a>
+    <div class="grp">范式</div>
+    <a href="#t1">一 Prompt→Context→Harness</a>
+    <a href="#t2">二 无法自评的核心问题</a>
+    <a href="#t3">三 Harness 四支柱</a>
+    <div class="grp">经济</div>
+    <a href="#t4">四 KYC → KYA</a>
+    <a href="#t5">五 商业协议竞赛</a>
+    <div class="grp">能力</div>
+    <a href="#t6">六 RSI 递归自进化</a>
+    <a href="#t7">七 长任务指数增长</a>
+    <div class="grp">风险与结构</div>
+    <a href="#t8">八 安全焦点转移</a>
+    <a href="#t9">九 动态多 Agent</a>
+    <a href="#t10">十 记忆基础设施化</a>
+    <div class="grp">反面</div>
+    <a href="#ct">反趋势：三个降温信号</a>
+    <a href="#sum">小结</a>
+    <a href="#ev">数据可信度</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>一句话总览</h2>
+
+<div class="box ok">
+<div class="t">2026 年最重要的事，不是「模型又能干更多了」，而是「工程界终于承认：模型能力不是瓶颈」</div>
+</div>
+
+<div class="grid">
+  <div class="card rd"><div class="k">60% vs 0-20%</div><div class="v" style="font-size:19px">60% ↔ 0-20%</div><div class="d">开发者 60% 时间已在用 AI 辅助，但能完全委托给 Agent 的任务只占 0-20%</div></div>
+  <div class="card gn"><div class="k">Harness 实战效果</div><div class="v" style="font-size:19px">24.86% → 90.54%</div><div class="d">同一存量 Java 应用加上 Harness 体系后的 AI 代码采纳率</div></div>
+  <div class="card yl"><div class="k">METR 翻倍周期</div><div class="v">7 个月</div><div class="d">Agent 能完成的任务时长翻倍周期</div></div>
+</div>
+
+<div class="box danger">
+<div class="t">「60% vs 0-20%」这个落差是整个 2026 年的核心矛盾</div>
+<p>模型的原始能力已经足够强，但从「能力」到「**可信赖的工程产出**」之间，横亘着一道系统性鸿沟。<strong>今年的所有新趋势，本质上都是在填这道沟。</strong></p>
+</div>
+</section>
+
+<!-- 1 -->
+<section id="t1">
+<h2><span class="n">一</span>第三次范式跃迁：Prompt → Context → Harness</h2>
+
+<div class="flow">
+  <div class="step"><span class="n">2022-2024</span><strong>Prompt Engineering</strong><br><span style="font-size:12px;color:var(--tx3)">怎么把这一次问好？</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><span class="n">2025</span><strong>Context Engineering</strong><br><span style="font-size:12px;color:var(--tx3)">给 Agent 看什么？</span></div>
+  <div class="arrow">→</div>
+  <div class="step" style="border-color:var(--gn);background:rgba(63,185,80,.08)"><span class="n">2026</span><strong>Harness Engineering</strong><br><span style="font-size:12px;color:var(--tx3)">怎么设计跨会话的完整系统？</span></div>
+</div>
+
+<table>
+<thead><tr><th>阶段</th><th>时间</th><th>核心问题</th><th>核心隐喻</th></tr></thead>
+<tbody>
+<tr><td><strong>Prompt Engineering</strong></td><td>2022-2024</td><td>怎么把这一次问好？</td><td>写好一封邮件</td></tr>
+<tr><td><strong>Context Engineering</strong></td><td>2025</td><td>给 Agent 看什么？</td><td>给邮件附上所有正确的附件（Tobi Lutke, Shopify CEO）</td></tr>
+<tr><td><strong>Harness Engineering</strong></td><td><strong>2026</strong></td><td>怎么设计跨会话、跨 Agent 角色、跨执行阶段的<strong>完整系统</strong>？</td><td>设计整条流水线</td></tr>
+</tbody>
+</table>
+
+<p><strong>第二阶段的突破性认知</strong>：<em>「模型的表现上限取决于上下文的质量，而非 prompt 的措辞。」</em></p>
+<p><strong>第三阶段的抽象层次跃升</strong>：不再关注「一次对话」或「一次上下文窗口」，而是<strong>跨越多个会话、多个 Agent 角色、多个执行阶段的完整系统架构</strong>。</p>
+
+<h3>两句关键引语</h3>
+<div class="box">
+<div class="t">OpenAI 工程师 Ryan Lopopolo（团队用 Agent 构建百万行代码产品后）</div>
+<blockquote><p><strong>"Agents aren't hard; the Harness is hard."</strong></p></blockquote>
+</div>
+<div class="box">
+<div class="t">Mitchell Hashimoto（HashiCorp 创始人）的操作性定义</div>
+<blockquote><p><strong>"Every time you discover an agent has made a mistake, you take the time to engineer a solution so that it can never make that mistake again."</strong></p></blockquote>
+<p><strong>注意这句话的落点</strong>：不是「修代码」，而是「<strong>修 Harness</strong>」——从根源上消除同类问题再次发生的可能。</p>
+</div>
+
+<h3>一句话定义</h3>
+<div class="box ok">
+<p><strong>Harness Engineering 是围绕 AI Coding Agent 设计和构建约束机制（Constraints）、反馈回路（Feedback Loops）、工作流控制（Workflow Orchestration）与持续改进循环（Continuous Improvement）的系统工程实践。</strong></p>
+</div>
+</section>
+
+<!-- 2 -->
+<section id="t2">
+<h2><span class="n">二</span>「Agent 无法评估自己的产出」被确认为核心工程问题</h2>
+<p>这是本轮调研中<strong>最有解释力的一个发现</strong>。</p>
+
+<div class="box danger">
+<div class="t">Anthropic 的结论</div>
+<blockquote><p><strong>"Agents are incapable of accurately evaluating their own work."</strong></p></blockquote>
+<p><strong>这句话的分量</strong>：它意味着<strong>不能依赖 Agent 自我审查</strong>，必须构建外部化的、自动化的质量验证体系。</p>
+</div>
+
+<h3>四种失败模式</h3>
+<table>
+<thead><tr><th>#</th><th>失败模式</th><th>表现</th><th>关键数据</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>One-shot Syndrome</strong><br><span style="font-size:12px">试图一步到位</span></td><td>拿到复杂需求后试图在单个上下文窗口内完成全部</td><td class="warn-b">上下文窗口 <strong>Sweet Spot 在 40% 以下</strong>填充率；超过则幻觉/循环/格式错误快速增加</td></tr>
+<tr><td>2</td><td><strong>Premature Victory Declaration</strong><br><span style="font-size:12px">过早宣布胜利</span></td><td>完成部分工作就宣布结束，输出「编码完成」但编译都不过</td><td>—</td></tr>
+<tr><td>3</td><td><strong>Premature Feature Completion</strong><br><span style="font-size:12px">过早标记功能完成</span></td><td>认为功能已实现但未做端到端验证，部署后才发现关键路径不通</td><td class="ok-b">应对：Browser Automation（Puppeteer MCP）做自动化端到端验证截图</td></tr>
+<tr><td>4</td><td><strong>Cold Start Problem</strong><br><span style="font-size:12px">环境启动困难</span></td><td>多会话间缺乏持久化记忆，每次新会话花大量 token 重新理解项目</td><td>—</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">共同根源</div>
+<p>Agent 缺乏<strong>外部的结构化约束（Structured Constraints）</strong>和<strong>反馈机制（Feedback Mechanisms）</strong>。</p>
+</div>
+
+<h3>应对：角色分离</h3>
+<p>Anthropic 在 Harness 设计中明确分离三种角色：<strong>Planner（规划）/ Generator（实现）/ Evaluator（验证）</strong>。</p>
+<div class="box ok">
+<blockquote><p><strong>核心发现</strong>："将做事的 Agent 和评判的 Agent 分开，是一个强有力的杠杆（Powerful Lever）。"</p></blockquote>
+<p>这条原则向上延伸就是 RSI 的基础——<code>Agent-as-a-Judge</code>（见趋势六）。</p>
+</div>
+</section>
+
+<!-- 3 -->
+<section id="t3">
+<h2><span class="n">三</span>Harness 四支柱成为事实标准</h2>
+<p>综合 Anthropic 的长时任务实践与 OpenAI 用 Codex 构建百万行产品的经验（<strong>3→7 人团队，约 1M LOC、1,500 PRs、人均 3.5 PRs/天、效率提升约 10 倍</strong>）：</p>
+
+<h3>支柱一：上下文架构 —— 恰好够用，不多不少</h3>
+<div class="box warn">
+<div class="t">OpenAI 的教训</div>
+<p>早期把 <code>AGENTS.md</code> 写成了<strong>百科全书</strong>，结果是——</p>
+<blockquote><p><strong>「所有内容都重要 = 没有内容重要」</strong></p></blockquote>
+<p><strong>修正方案</strong>：<code>AGENTS.md</code> 控制在 <strong>~100 行</strong>，作为<strong>索引和地图（Index &amp; Map）</strong>，指向更深层的 Design Docs、Architecture Specs、Quality Criteria。</p>
+</div>
+
+<p><strong>三层加载策略</strong>：</p>
+<table>
+<thead><tr><th>层</th><th>加载时机</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>L1 会话常驻</strong></td><td>每轮都在</td><td>Agent 定义文件（约 420 行，Index &amp; Map）+ 3 份 Rules</td></tr>
+<tr><td><strong>L2 阶段触发</strong></td><td>进入某阶段时</td><td>当前阶段的 Skill + 该阶段需要的规范</td></tr>
+<tr><td><strong>L3 按需查询</strong></td><td>Agent 自主决定</td><td>Wiki 业务文档</td></tr>
+</tbody>
+</table>
+<p><strong>核心考量</strong>：让 Agent 在任何时刻都拥有「<strong>刚好够用的上下文（Just-enough Context）</strong>」。</p>
+
+<h3>支柱二：Agent 专业化 —— 受限工具集优于全权限</h3>
+<blockquote><p>拥有<strong>受限工具集（Constrained Toolset）</strong>的专业 Agent，优于拥有全部权限的通用 Agent。</p></blockquote>
+
+<h3>支柱三：持久化记忆 —— 写文件系统，不写上下文窗口</h3>
+<pre><code>Anthropic 的标准化启动序列：
+检查当前工作目录
+  → 读取 Git Log 和进度文件（如 progress.md）
+  → 定位优先级最高的未完成任务
+  → 开始工作</code></pre>
+<p><strong>这使得跨越数十个会话的长时间任务成为可能。</strong></p>
+
+<h3>支柱四：结构化执行 —— 质量门禁 + 精确回退</h3>
+<div class="box danger">
+<div class="t">铁律</div>
+<p><strong>永远不让 Agent 在未经审查和批准书面计划之前写代码。</strong></p>
+</div>
+<p>理想流程：<strong>理解 → 规划 → 执行 → 验证</strong>，每个阶段之间有明确的质量门禁。</p>
+
+<p><strong>实战中的完整设计（10 阶段流水线）</strong>：</p>
+<pre><code>需求分析 → 需求评审 → 编码实现 → 编码评审 → 单元测试编写
+→ 单元测试评审 → 代码推送 → CI 验证 → 部署验证 → 用户确认</code></pre>
+<p>每个阶段有三要素：<strong>触发条件（Entry Criteria）/ Skill 加载（Skill Injection）/ 质量门禁（Quality Gate）</strong></p>
+
+<p><strong>精确回退路径（Rollback Routes）</strong>：</p>
+<table>
+<thead><tr><th>失败</th><th>回退到</th></tr></thead>
+<tbody>
+<tr><td>CI 失败且测试为 0/0</td><td>阶段 5（测试编写）</td></tr>
+<tr><td>编译错误</td><td>阶段 3（编码实现）</td></tr>
+<tr><td>需求不符</td><td>阶段 1（需求分析）</td></tr>
+</tbody>
+</table>
+
+<p><strong>评审循环上限（Iteration Cap）</strong>：需求评审最多 3 轮，编码/测试评审最多 2 轮，超出升级人工——<strong>防止 Agent 陷入无限自我修改循环</strong>。</p>
+<p><strong>5 个 Human-in-the-Loop 确认点</strong>：需求待决议 / 计划评审后 / 编码评审后 / 部署环境参数 / 最终交付。</p>
+
+<h3>两条值得记住的原则</h3>
+<div class="box pp">
+<blockquote><p><strong>"Waiting is expensive, fixing is cheap."</strong></p></blockquote>
+<p>宁可让 Agent 多跑一轮验证，也不要在人工 Review 时才发现问题。</p>
+</div>
+<div class="box pp">
+<blockquote><p><strong>"The agent's knowledge boundary equals the repository's file boundary."</strong></p></blockquote>
+<p><strong>如果某条架构约定不在代码库中以机器可读的形式存在，对 Agent 来说它就不存在。</strong></p>
+<p>这条尤其深刻：它解释了为什么「写在群聊里的约定」等于不存在，也解释了趋势四（KYA）和 skills 生态爆发的根本原因。</p>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="t4">
+<h2><span class="n">四</span>Agent 身份与支付：从 KYC 到 KYA</h2>
+<div class="box warn"><div class="t">这是 2026 年最被低估的一条趋势线</div><p>2026-09-10 <strong>一天之内</strong>发生了两件事。</p></div>
+
+<h3>事件 A：印度 NPCI 筹建 AI Agent Registry</h3>
+<p>路透社援引知情人士报道，<strong>印度国家支付公司（NPCI）</strong>正在为其筹划中的 <strong>Unified Agentic Protocol</strong> 建设一套 <strong>AI Agent Registry</strong>，用于审核、验证并<strong>持续监控</strong>那些代表用户在 UPI 网络中发起支付的 AI Agent。</p>
+<div class="grid">
+  <div class="card yl"><div class="k">UPI 单月交易笔数</div><div class="v">245.1 亿</div><div class="d">2026 年 8 月</div></div>
+  <div class="card yl"><div class="k">UPI 单月金额</div><div class="v" style="font-size:20px">29.82 万亿卢比</div><div class="d">2026 年 8 月</div></div>
+</div>
+<p><strong>路线图</strong>：从低金额高频消费（日用品）起步 → 未来可能扩展到「价格达阈值自动买入」，甚至执行投资行为；Registry 可能从 UPI 延伸到银行卡、账单支付。</p>
+
+<h3>事件 B：Ant International + Mastercard + Visa 联合推进 KYA 互操作框架</h3>
+<table>
+<thead><tr><th>一方</th><th>协议</th></tr></thead>
+<tbody>
+<tr><td>Visa</td><td><code>Trusted Agent Protocol</code></td></tr>
+<tr><td>Mastercard</td><td><code>Verifiable Intent</code></td></tr>
+<tr><td>Ant International</td><td><code>Agentic Mobile Protocol</code></td></tr>
+</tbody>
+</table>
+<p><strong>三个设计重点</strong>：</p>
+<ol>
+<li><strong>Operator Traceability</strong> —— 把 Agent 追溯到经过验证的运营者、持卡人或组织</li>
+<li><strong>共享的 Certification Requirements</strong> —— 标准化验证 Agent 的安全与行为能力</li>
+<li><strong>Continuous Transaction Monitoring</strong> —— 依据身份、交易行为与风险信号<strong>持续重新评估</strong></li>
+</ol>
+<p><strong>Mastercard 走得更远</strong>：其 <strong>Agent Pay</strong> 已公开使用 KYA 说法，并通过 Verifiable Intent 证明交易确实来自经过认证的用户意图与明确同意；面向机构场景引入程序化 <strong>Permissioning</strong>（预设授权规则与消费边界）。</p>
+
+<h3>为什么 KYC 之后必然出现 KYA</h3>
+<p><strong>传统前提</strong>：Identity 和 Action 属于同一个主体——「提出意图的人、拥有权限的人和最终按下按钮的人，本来就是同一个人。」</p>
+<pre><code>过去：Human ──→ Action
+现在：Human → Agent → Tool → Payment Network → Merchant</code></pre>
+<p>链条拉长后，只知道 Human 是谁不够了。系统还必须知道：<strong>这个 Agent 是谁、谁在运行它、谁把权限委托给了它、它此刻执行的是哪个任务、这次调用是否仍在那个任务被允许的范围内。</strong></p>
+
+<h3>信任链的完整形态</h3>
+<table>
+<thead><tr><th>阶段</th><th>链</th></tr></thead>
+<tbody>
+<tr><td>传统</td><td><code>Identity → Permission → Action</code></td></tr>
+<tr><td>Agent 时代（中间状态）</td><td><code>Identity → Delegation → Mission → Intent → Boundary → Action</code></td></tr>
+<tr><td><strong>完整因果链</strong></td><td class="ok-b"><code>Human → Agent Identity → Delegation → Intent → Boundary → Execution → Evidence</code></td></tr>
+</tbody>
+</table>
+
+<h3>哲学转变：从「信任主体」到「信任执行」</h3>
+<div class="box danger">
+<p>一个 AI Agent 可能完整走完全部 KYA 流程：真实存在、注册合法、证书有效、平台可信、可追溯到真实用户，用户也确实授权它「帮我买一张周五晚上去上海的机票，预算不超过 2000 元」。</p>
+<p>但接下来仍可能出现完全不同的执行结果：<strong>误解日期、选择用户不接受的机场、在原始任务已被取消后继续执行、因 Prompt Injection 悄悄改变目标、或仍握着完全合法的 Credential 却把这笔 1800 元的授权用在另一个毫不相干的交易对象上。</strong></p>
+<p><strong>这里没有 Credential Theft，没有 Identity Spoofing，没有未经注册的 Agent，甚至没有传统意义上的权限越界。</strong></p>
+</div>
+<div class="box ok">
+<div class="t">核心转变</div>
+<p>从 <strong>"Can I trust this Agent"</strong> 变成 <strong>"Can I trust this execution"</strong>。</p>
+<blockquote><p><strong>真正的成熟，不是从不可信的人走向可信的人，而是从可信的人走向可信的结构。</strong></p></blockquote>
+</div>
+<table>
+<thead><tr><th>口号</th><th>保护对象</th></tr></thead>
+<tbody>
+<tr><td><code>Money can only move through <strong>authenticated identities</strong></code></td><td>账户</td></tr>
+<tr><td><code>Money can only move through <strong>authorized executions</strong></code></td><td class="ok-b"><strong>现实结果</strong></td></tr>
+</tbody>
+</table>
+
+<h3>一个尚未解决的问题：责任归属</h3>
+<p>路透社在报道 NPCI 计划时特别提到：<strong>对于错误支付或未经授权支付究竟由谁承担责任，监管层面仍未有定论。</strong></p>
+<p><strong>这个空白本身是重要信号</strong>——只要责任无法沿因果链分配，就说明产业仍缺少把 Delegation / Intent / Boundary / Execution / Evidence 串起来的技术结构。</p>
+</section>
+
+<!-- 5 -->
+<section id="t5">
+<h2><span class="n">五</span>智能体商业协议标准化竞赛</h2>
+<table>
+<thead><tr><th>协议 / 产品</th><th>方</th><th>时间</th></tr></thead>
+<tbody>
+<tr><td><strong>Agentic Commerce Protocol (ACP)</strong></td><td>OpenAI</td><td>—</td></tr>
+<tr><td><strong>Universal Commerce Protocol (UCP)</strong></td><td><strong>Google</strong>（开源）</td><td class="ok-b"><strong>2026-01</strong></td></tr>
+<tr><td><strong>Agent Pay</strong></td><td>Mastercard（对全美持卡人开放）</td><td>2025-11</td></tr>
+<tr><td>Stripe + Tempo</td><td>Stripe</td><td>2026-03</td></tr>
+<tr><td><strong>Agent Wallet</strong>（智付底座）</td><td>连连数字</td><td>2026-04</td></tr>
+</tbody>
+</table>
+<p><strong>Google UCP 的定位</strong>：开源的商业协议规范，目标是在 AI 时代支持由 AI Agent 主导的电商交易体验——定义 AI 电商系统如何在<strong>商品发现、评估、结账与下单</strong>全流程中与商家交互。</p>
+<div class="box ok">
+<div class="t">信号</div>
+<p>2025 年被认为是「智能体阶段的第一年」。<strong>支付与电商是第一批出现跨厂商协议竞争的领域</strong>——这通常是基础设施成熟的前兆。</p>
+</div>
+</section>
+
+<!-- 6 -->
+<section id="t6">
+<h2><span class="n">六</span>RSI 递归自进化成为研究前沿</h2>
+<div class="box pp">
+<div class="t">虎嗅（2026-03-24）的判断</div>
+<p>「<strong>2026 Agent 最大突破是『递归自进化』</strong>，三年后有望实现『神经计算机』」</p>
+</div>
+
+<h3>三层定义</h3>
+<table>
+<thead><tr><th>层</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>自修改</td><td>系统能改自己的代码</td></tr>
+<tr><td>自改进</td><td>改完确实变强</td></tr>
+<tr><td><strong>递归自改进（RSI）</strong></td><td class="ok-b"><strong>多次迭代，且新版本在「改进自身的能力」上超越前代</strong></td></tr>
+</tbody>
+</table>
+
+<h3>关键使能技术：Agent-as-a-Judge</h3>
+<div class="box">
+<blockquote><p><strong>Agent-as-a-Judge 之所以重要，不只是因为它能评估，更因为它为 recursive self-improvement 提供了（闭环）。</strong></p></blockquote>
+<p><strong>这正好接回趋势二</strong>——「Agent 无法评估自己的产出」，所以要用<strong>另一个 Agent</strong> 来评估。</p>
+</div>
+
+<h3>代表工作</h3>
+<table>
+<thead><tr><th>工作</th><th>方</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>MASS</strong>（多 Agent 自监督）</td><td>UC Berkeley + Sakana AI</td><td>联合学习编排 + 有界子 Agent 执行。对照实验：单 Agent 学生模型用<strong>多约 1.4 倍的已处理监督 token</strong> 训练，胜率 <strong>64.0%</strong></td></tr>
+<tr><td><strong>RSI-Anything</strong></td><td>PhAI Labs</td><td>从代码/数学等数字任务，走向需要连续交互的计算机环境乃至物理世界</td></tr>
+</tbody>
+</table>
+<p><strong>MASS 的结论</strong>：<em>「优化 Agent 之间的协作方式，并让各个子 Agent 在明确的任务范围内执行工作，有助于提高训练数据的质量。」</em> —— 与趋势三的「Agent 专业化」互相印证。</p>
+
+<div class="box danger">
+<div class="t">⚠️ 必须标注的风险</div>
+<p>RSI 同时是<strong>最有争议</strong>的方向。它把「Agent 无法自评」的问题从工程问题升级为<strong>对齐问题</strong>：如果改进者与被改进者是同一类系统，评估偏差会被递归放大。<strong>这也是 Agent-as-a-Judge 必须独立的根本原因。</strong></p>
+</div>
+</section>
+
+<!-- 7 -->
+<section id="t7">
+<h2><span class="n">七</span>长任务能力指数增长，失败模式同步放大</h2>
+
+<h3>METR 的量化</h3>
+<p>METR 于 2025-03 提出「<strong>50% 任务完成时间跨度</strong>」指标（模型在 50% 成功率下能完成的任务，对应人类完成所需的时间长度）。其经验外推线：</p>
+<blockquote><p><strong>"the length of tasks models can complete is well predicted by an exponential trend, with a doubling time of around 7 months"</strong></p></blockquote>
+<p><strong>即：能力大致每 7 个月翻倍。</strong></p>
+
+<h3>一个具体案例（2026-05）</h3>
+<div class="grid">
+  <div class="card"><div class="k">Claude Mythos Preview</div><div class="v">17 小时</div><div class="d">长任务时长</div></div>
+  <div class="card"><div class="k">同一个月</div><div class="v">423 个</div><div class="d">修掉的 Firefox bug</div></div>
+</div>
+<p>按 7 个月翻倍曲线，从 1 小时到 17 小时是 4 次翻倍 ≈ 28 个月。若该案例属实，<strong>实际进度快于 METR 的拟合曲线</strong>。</p>
+
+<h3>评测基准的同步升级</h3>
+<p><strong>AgencyBench</strong>（2026 年初）：标志着评测进入「百万 Token」时代——<strong>138 个真实场景任务，平均需要约 90 次工具调用</strong>，重点考察 Agent 在<strong>长达数小时的长程任务中的稳定性</strong>，而非单步决策。</p>
+
+<div class="box danger">
+<div class="t">⚠️ 反面：能力增长放大失败后果</div>
+<p><strong>注意一个不对称</strong>：任务时长翻倍，意味着<strong>失败的影响面也翻倍</strong>。</p>
+<ul>
+<li>1 小时任务出错 → 浪费 1 小时</li>
+<li>17 小时任务出错 → 浪费 17 小时 + <strong>可能已产生副作用</strong>（改了代码、发了 PR、动了钱）</li>
+</ul>
+<p><strong>这解释了为什么 Harness 的「质量门禁 + 精确回退 + 循环上限」在 2026 年成为刚需</strong>——不是因为模型变差了，而是因为<strong>试错成本随任务长度线性上升</strong>。</p>
+</div>
+</section>
+
+<!-- 8 -->
+<section id="t8">
+<h2><span class="n">八</span>Agent 安全焦点从「注入」转向「过度自主」</h2>
+
+<h3>OWASP GenAI LLM Top 10 2026 的核心变化</h3>
+<div class="box warn">
+<div class="t">风险焦点转移</div>
+<p><strong>从 Prompt Injection 转向 Excessive Agency（过度自主权）。</strong></p>
+</div>
+
+<table>
+<thead><tr><th>编号</th><th>风险</th></tr></thead>
+<tbody>
+<tr><td><code>ASI02</code></td><td><strong>Tool Misuse &amp; Exploitation</strong>（工具滥用）</td></tr>
+<tr><td><code>ASI03</code></td><td><strong>Identity &amp; Privilege Abuse</strong>（身份与权限滥用）</td></tr>
+<tr><td><code>ASI04</code></td><td><strong>Agentic Supply Chain Vulnerabilities</strong>（Agent 供应链漏洞）</td></tr>
+<tr><td><code>ASI05</code></td><td><strong>Unexpected Code Execution</strong>（意外代码执行）</td></tr>
+<tr><td><code>ASI06</code></td><td><strong>Memory &amp; Context Poisoning</strong>（记忆与上下文投毒）</td></tr>
+<tr><td><code>ASI07</code></td><td><strong>Insecure Inter-Agent Communication</strong>（不安全的 Agent 间通信）</td></tr>
+</tbody>
+</table>
+<p><strong>这个清单本身就是趋势信号</strong>：从「输入被污染」转向「Agent 自己做的事越界了」。</p>
+
+<h3>一个深刻的技术洞察（Docker 博客，2026-05-18）</h3>
+<div class="box danger">
+<blockquote><p><strong>The agent's context window is a flat namespace.</strong> The credential file looks the same as the source file looks the same as the README looks the same as the prompt injection. <strong>There's no architectural distinction between "data the agent should treat as authoritative" and（不可信数据）.</strong></p></blockquote>
+<p><strong>「Agent 的上下文窗口是一个扁平命名空间」</strong>——凭证文件、源码文件、README、prompt injection 长得一模一样，架构上没有任何区分。</p>
+<p><strong>这是对当前 Agent 架构最尖锐的批评之一。</strong></p>
+</div>
+
+<h3>行业级动作</h3>
+<p><strong>英伟达联合逾 100 家厂商推出 Open Agent Safety Platform</strong>，核心组件为 <strong>OpenShell 开源沙箱</strong>。</p>
+<div class="box warn"><div class="t">⚠️ 本条据行业日报转述，未见官方公告核实，需谨慎对待</div></div>
+
+<div class="box ok">
+<div class="t">本会话一手核验可佐证这个方向的真实性</div>
+<p>skills.sh 上已有：<code>bitwarden/ai-plugins</code>（<strong>65 个 skill</strong>，密钥管理）、<code>auth0/agent-skills</code>（34 个）、<code>clerk/skills</code>（31 个）、<code>coinbase/agentic-wallet-skills</code>（29 个）、<code>microsoft/azure-skills</code> 含 <code>entra-agent-id</code>——<strong>认证、密钥、Agent 身份已经成为官方 skill 生态里成规模的品类。</strong></p>
+</div>
+</section>
+
+<!-- 9 -->
+<section id="t9">
+<h2><span class="n">九</span>多 Agent 从「预定义团队」走向「运行时动态派生」</h2>
+<table>
+<thead><tr><th></th><th>传统多 Agent</th><th>2026 新形态</th></tr></thead>
+<tbody>
+<tr><td><strong>团队结构</strong></td><td>预定义</td><td class="ok-b"><strong>运行时动态派生</strong></td></tr>
+<tr><td><strong>生命周期</strong></td><td>固定</td><td>任务完成后<strong>自动解散</strong></td></tr>
+<tr><td><strong>隐喻</strong></td><td>组建一个团队</td><td><strong>按需扩缩，一个指令孵化一支临时团队</strong></td></tr>
+</tbody>
+</table>
+
+<h3>三种架构（已形成共识分类）</h3>
+<ul>
+<li><strong>Orchestrator（主控）</strong> —— 一个中心 Agent 调度</li>
+<li><strong>Peer-to-peer（对等）</strong> —— Agent 之间直接协作</li>
+<li><strong>Hierarchical（层级）</strong> —— 多级嵌套</li>
+</ul>
+
+<div class="box ok">
+<div class="t">与趋势三的关系</div>
+<p><strong>「动态派生子 Agent」正是「Agent 专业化」的自然延伸</strong>：不再预先定义所有角色，而是<strong>在需要时按任务派生一个受限工具集的专家</strong>。</p>
+</div>
+
+<div class="box">
+<div class="t">本会话的一手证据</div>
+<p>skills.sh 上 <code>obra/superpowers</code> 的 <strong><code>subagent-driven-development</code></strong>（两阶段审查：先查 spec 合规，再查代码质量）、<strong><code>dispatching-parallel-agents</code></strong>（并发 subagent 工作流）、<code>stablyai/orca</code> 的 <strong><code>orchestration</code></strong>（289.3K 安装）——<strong>「多 Agent 编排」已经是一个有专门 skill 的成熟品类。</strong></p>
+</div>
+</section>
+
+<!-- 10 -->
+<section id="t10">
+<h2><span class="n">十</span>记忆从「会话内」升级为「跨会话基础设施」，并成为新攻击面</h2>
+
+<h3>升级路径</h3>
+<div class="flow">
+  <div class="step"><span class="n">过去</span>会话记忆<br><span style="font-size:12px;color:var(--tx3)">有窗口就丢</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><span class="n">现在</span>跨会话持久记忆</div>
+  <div class="arrow">→</div>
+  <div class="step" style="border-color:var(--gn);background:rgba(63,185,80,.08)"><span class="n">趋势</span>文件系统 / 图 / 向量<br><span style="font-size:12px;color:var(--tx3)">混合架构</span></div>
+</div>
+
+<p><strong>Anthropic 的实践已经把它标准化</strong>：进度写 <code>progress.md</code> + 读 Git Log，<strong>而不是塞进上下文窗口</strong>。</p>
+
+<h3>本会话的一手证据（「记忆」已成规模品类）</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td><code>mem0ai/mem0</code></td><td>67,153★</td><td>最流行的 Agent 记忆层</td></tr>
+<tr><td><code>MemTensor/MemOS</code></td><td>11,854★</td><td>hybrid-retrieval，自述省 35.24% token</td></tr>
+<tr><td><code>basicmachines-co/basic-memory</code></td><td>4,167★</td><td>Markdown 本地记忆，与 Obsidian 兼容</td></tr>
+<tr><td><code>microsoft/kernel-memory</code></td><td>2,231★</td><td>微软研究项目</td></tr>
+<tr><td><code>memodb-io/memobase</code></td><td>2,932★</td><td>基于用户档案的长期记忆</td></tr>
+<tr><td><code>doobidoo/mcp-memory-service</code></td><td>2,013★</td><td>知识图谱 + 自主整合</td></tr>
+</tbody>
+</table>
+
+<div class="box danger">
+<div class="t">⚠️ 但记忆同时成为攻击面</div>
+<p>OWASP 2026 把 <strong>ASI06 Memory &amp; Context Poisoning（记忆与上下文投毒）</strong>单列为风险项。</p>
+<p><strong>逻辑很直接</strong>：记忆是<strong>跨会话持久</strong>的，一旦被投毒，<strong>污染会持续影响后续所有会话</strong>——比一次性的 prompt injection 危害大得多。而且记忆通常由 Agent <strong>自动写入</strong>，人不会逐条审查。</p>
+<p><strong>这是一个尚未被充分重视的新风险。</strong></p>
+</div>
+</section>
+
+<!-- 反趋势 -->
+<section id="ct">
+<h2><span class="n">反</span>趋势：三个「降温信号」</h2>
+<p><strong>一个成熟的趋势报告必须包含反面证据。</strong></p>
+
+<h3>信号一：上下文文件可能不划算</h3>
+<p><strong>ETH Zurich + LogicStar.ai 实验</strong>（300 个 SWE-bench Lite + 138 个 CTXbench）：</p>
+<table>
+<thead><tr><th>条件</th><th>成功率</th><th>成本</th></tr></thead>
+<tbody>
+<tr><td>自动生成的仓库级上下文文件</td><td class="no-b">无显著提升</td><td class="no-b">+20%</td></tr>
+<tr><td>开发者亲手写的上下文文件</td><td class="warn-b">+2.4%（统计不显著）</td><td class="no-b">同样增加</td></tr>
+</tbody>
+</table>
+<p><strong>且</strong>：<em>「实验结果与文件长度没有明显关系，成本增加更可能来自每条指令所触发的行为。」</em></p>
+
+<h3>信号二：旧提示词会主动伤害</h3>
+<p><strong>Claude Code 创造者 Boris Cherny</strong>：为适配 Opus 5 <strong>删掉 &gt;80% 系统提示词</strong>；<strong>消融测试发现删掉后模型有时显得更聪明</strong>。</p>
+
+<h3>信号三：窗口变大不等于变好</h3>
+<blockquote><p><strong>"context windows are constrained not by raw token capacity but by attention mechanics"</strong></p></blockquote>
+<p>随长度增加会出现 lost-in-the-middle、U 型注意力曲线、注意力稀缺。</p>
+<p><strong>「把窗口当垃圾桶」是 2026 年最普遍的反模式。</strong></p>
+</section>
+
+<!-- 小结 -->
+<section id="sum">
+<h2><span class="n">结</span>小结：2026 年的 Agent 在解决什么问题</h2>
+<div class="box ok">
+<div class="t">把所有趋势收敛成一句话</div>
+<p><strong>2026 年的 Agent 工程，正在从「让模型能做」转向「让系统的产出可被信任」。</strong></p>
+</div>
+
+<table>
+<thead><tr><th>趋势</th><th>在解决什么信任问题</th></tr></thead>
+<tbody>
+<tr><td>一、Harness Engineering</td><td>谁来保证跨会话的产出质量</td></tr>
+<tr><td>二、自我评估缺陷</td><td>模型不能自评，谁来评</td></tr>
+<tr><td>三、四支柱</td><td>用什么结构保证</td></tr>
+<tr><td>四、KYA</td><td>谁在代表谁行动</td></tr>
+<tr><td>五、商业协议</td><td>机器之间怎么交易</td></tr>
+<tr><td>六、RSI</td><td>系统能不能改进自己（以及谁来评估这个改进）</td></tr>
+<tr><td>七、长任务</td><td>时间越长，信任成本越高</td></tr>
+<tr><td>八、安全</td><td>越自主，越需要边界</td></tr>
+<tr><td>九、动态多 Agent</td><td>谁负责哪个局部</td></tr>
+<tr><td>十、记忆</td><td>跨会话的连续性靠什么保证</td></tr>
+</tbody>
+</table>
+
+<div class="box pp">
+<div class="t">贯穿所有趋势的一条主线</div>
+<p><strong>把隐性知识显性化、把主观判断结构化、把一次性经验固化为可复用约束。</strong></p>
+<p>这正好解释了本会话前九轮观察到的现象：<strong>skills 生态（102 家官方厂商、数千个官方 skill）和 MCP 生态的爆发，本质上都是这条主线的产物。</strong></p>
+</div>
+</section>
+
+<!-- 证据 -->
+<section id="ev">
+<h2><span class="n">证</span>数据可信度</h2>
+
+<h3>来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span>一手</td><td>本会话前九轮一手核验（skills.sh 176 榜单 / 102 官方厂商 / 50 条审计 / 143 个 MCP 仓库）；Anthropic 官方工程博客原文；agentskills.io 规范原文</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-b">B 级</span>官方报告引述</td><td>Anthropic《2026 Agentic Coding Trends Report》（二手引述）；METR time horizon 系列；OWASP GenAI LLM Top 10 2026</td><td class="warn-b">中高</td></tr>
+<tr><td><span class="pill p-y">C 级</span>具名实战复盘</td><td>阿里云开发者 Harness Engineering 实战（作者具名、含完整方法论与实测数字）；路透社 NPCI 报道引述；虎嗅 KYA 分析</td><td class="warn-b">中高</td></tr>
+<tr><td><span class="pill p-r">D 级</span>待核实</td><td>Open Agent Safety Platform / OpenShell（<strong>仅见行业日报转述</strong>）；Claude Mythos Preview 的 17 小时 / 423 bug（<strong>单一来源</strong>）</td><td class="no-b">中低</td></tr>
+</tbody>
+</table>
+
+<h3>明确未核实 / 存疑项</h3>
+<ol>
+<li><strong>「Anthropic 2026 Agentic Coding Trends Report」的原始报告</strong>：本轮只拿到二手引述的「60% vs 0-20%」数字，<strong>未找到报告原文</strong>。</li>
+<li><strong>Open Agent Safety Platform / OpenShell</strong>：<strong>仅见二手行业日报转述</strong>，未找到英伟达官方公告。原引述文章本身也标注为「据转述、待官方公告核实」。</li>
+<li><strong>Claude Mythos Preview 的 17 小时长任务与 423 个 Firefox bug</strong>：<strong>单一来源</strong>（知乎），未从 METR 或 Anthropic 官方确认。</li>
+<li><strong>METR「7 个月翻倍」</strong>：为经验外推线，且<strong>不同基准的 time horizon 边界相差超过 100 倍</strong>。</li>
+<li><strong>NPCI 的 AI Agent Registry 计划</strong>：路透社引述<strong>知情人士</strong>，<strong>NPCI 官方未确认</strong>。</li>
+<li><strong>Visa/Mastercard/Ant International 的 KYA 框架</strong>：自述为「正在形成中的框架」，<strong>无公开技术规范、无治理机构、无时间表</strong>。</li>
+<li><strong>OpenAI 百万行代码案例</strong>（3→7 人 / 1M LOC / 1,500 PRs / 10 倍效率）：来自二手引述，<strong>未找到官方出处</strong>。</li>
+<li><strong>Harness 实战的 24.86% → 90.54%</strong>：<strong>单一项目的自述数据</strong>，非受控实验。</li>
+<li><strong>RSI 的能力边界</strong>：MASS / RSI-Anything 均为<strong>近期论文，未见独立复现</strong>。</li>
+</ol>
+
+<h3>本轮方法说明</h3>
+<div class="box warn">
+<div class="t">一个反复出现的困难</div>
+<p>中文科技媒体的深度文章大量托管在<strong>知乎（拒绝抓取）和微信公众号（需鉴权）</strong>，本轮多篇文章只能通过 WebFetch 摘要或转载站（uml.org.cn、CSDN、百家号）获取，<strong>导致部分引述存在二次转述风险</strong>，已在来源分级中标注。</p>
+<p><strong>相对可靠的做法</strong>：优先抓取<strong>带具名作者、含完整方法论和原始数字</strong>的实战复盘，以及<strong>能拿到原文的规范类文档</strong>（agentskills.io 的 <code>.md</code> 端点）。</p>
+</div>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 核验：Anthropic 官方博客 + agentskills.io 规范原文 + 阿里云 Harness 实战复盘 + 路透社引述 + METR 系列 + OWASP 2026 解读 + 本会话前九轮一手数据 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/trends.json</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+</body>
+</html>
