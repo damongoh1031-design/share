@@ -11,9 +11,9 @@ tags:
   - osint
 created: 2026-10-14
 updated: 2026-10-14
-version: 1.2
+version: 1.3
 status: stable
-source: 本次会话（GitHub REST API 实测 + README/官网抓取 + Messages-Searcher 本机实测 + LLM 工具形态深挖）
+source: 本次会话（GitHub 实测 + README 抓取 + Messages-Searcher 实测 + LLM 工具形态深挖 + Discord 登录态/CDP 实测）
 confidence: 已核实
 ---
 
@@ -133,6 +133,18 @@ rg -i "关键词" --glob "*.json" .
 git clone --depth 1 <repo> test-ms && rm -rf test-ms/.git   # 先读代码再运行
 cp -r test-ms test-ms-run   # 在副本里改配置跑，保持原始仓库干净
 # 假 token 冒烟：期望只到登录环节失败（LoginFailure），不到 on_ready
+
+# 6) 驱动「已登录的 Chrome」搜 Discord —— 零 token 方案（2026-10-14 实测跑通）
+#    前提：Chrome 带 --remote-debugging-port=9222 运行，且该浏览器已登录 discord.com
+#    原理：CDP附着真实浏览器，在 discord.com 页面上下文调用客户端同款搜索端点
+#    先帮用户开登录页（他只需登录一次，之后随时可搜）：
+curl -X PUT "http://127.0.0.1:9222/json/new?url=https%3A%2F%2Fdiscord.com%2Fapp"
+#    登录后执行搜索（参数：关键词 [服务器序号]）：
+node tools/cdp-discord-search.mjs "关键词" 0
+#    核对 9222 浏览器与目标浏览器是否同一配置文件（旁路读 cookie 罐，不碰页面）：
+node tools/cdp-cookie-check.mjs
+#    临时启用 CDP（关掉所有 Chrome 后）：
+#    "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222
 ```
 
 ```text
@@ -157,6 +169,9 @@ pinned:            只看置顶
 6. **已删消息只能靠提前记录找回** —— 持续归档选 DHT 或日志机器人，事后工具无能为力。
 7. **GitHub 搜索页 `get text` 可能为空但 `snapshot` 正常** —— 虚拟列表/aria 结构导致 text 提取丢失，snapshot（含 ref）更可靠。
 8. **discord.py 1.x 生态在 Python ≥3.13 集体阵亡** —— PEP 594 删除 `cgi`，aiohttp 3.7.x 导入即炸；遇到 2021 年代的 Python 脚本先查依赖年代再看代码。
+9. **Discord 网页登录态不在 cookie 里** —— 2026-10-14 实测：导出的 discord.com cookie 罐（12 个：`_cfuvid`/`__dcfduid`/`_ga`/`OptanonConsent`/`dbind`/`__cf_bm` 等）打 `GET /api/v9/users/@me` 全部 **401**。登录态在 discord.com 域的 `localStorage.token`，导出 cookie 零鉴权价值。
+10. **「有 cookie」≠「已登录」** —— 只要访问过 discord.com 就会留下 Cloudflare/设备 cookie；判断真实登录只能打 `/users/@me` 或查 localStorage。用 CDP `Network.getCookies` 旁路比对两个浏览器是否同一配置文件，比对 `_ga` 设备 ID 最稳（本轮实测：导出的 `_ga=GA1.1.830215638.1791862591` 与 9222 Chrome 罐内一致 → 同一配置文件，但该浏览器未登录网页版）。
+11. **CDP 9222 端点未必是你日常的 profile** —— 端口属于哪个 Chrome 实例要用 `netstat -ano` 查 PID 归属；挂着的调试端口也可能属于工具拉起的无头实例（其页内 `/users/@me` 同样 401）。
 
 ## 未核实 / 存疑
 
@@ -171,6 +186,7 @@ pinned:            只看置顶
 
 ## 修订记录
 
+- **1.3**（2026-10-14）：新增 Discord 登录态实测结论（cookie 导出 401、localStorage token 机制、CDP `Network.getCookies` 身份比对）与「驱动已登录 Chrome 零 token 搜索」可复用操作（tools/cdp-discord-search.mjs）；坑 #9–#11。
 - **1.2**（2026-10-14）：新增第 7 节「让 LLM 搜索 Discord 内容的软件形态」深挖结果（MCP/Skill/CLI/浏览器/RAG 五形态 + 选型结论）。
 - **1.1**（2026-10-14）：新增第 6 节 Messages-Searcher 本机实测纪要（双重 TypeError + cgi 模块缺失 + re.match 锚定/静默跳频道实测）；坑 #5/#8 更新为实测结论。
 - **1.0**（2026-10-14）：初版。
@@ -183,3 +199,4 @@ pinned:            只看置顶
 - CSDN 2024 年文章 ×2：`/api/v9/guilds/{guildId}/messages/search` 端点佐证
 - Messages-Searcher 源码与实测：https://github.com/KanekiWeb/Messages-Searcher （克隆于 2026-10-14，Python 3.13.12 / discord.py 2.7.1 与 1.7.3 双路冒烟）
 - LLM 工具形态深挖（2026-10-14，GitHub Search API 四路查询 + 8 个仓库 README 抓取）：SaseQ/discord-mcp、v-3/discordmcp、hanweg/mcp-discord、cappyeo/discord-mcp、mastra-ai/discord-mcp-server、banodoco/hivemind、Nice-Wolf-Studio/agent-discord-skills、quangdang46/discord_cli、youngsecurity/discord_vector_db、sandraschi/discord-mcp、jackwener/opencli（20k★ 报道见 https://hub.baai.ac.cn/view/54747 ）
+- Discord 登录态与 CDP 实测（2026-10-14）：用户 cookie 导出打 `/api/v9/users/@me` → 401；`netstat -ano` 确认 9222 属主 Chrome PID；CDP `Network.getCookies` 比对 `_ga` 证实同一配置文件但未登录网页版；`tools/cdp-discord-search.mjs` 零 token 驱动方案
