@@ -1,7 +1,0 @@
-{
-  "name": "education-training-experts",
-  "version": "1.0.0",
-  "description": "Corporate training, study abroad, technical documentation experts",
-  "agents": "./agents/",
-  "expertType": "agent"
-}
