@@ -1,9 +1,10 @@
 {
   "packed_at": "2026-10-14",
+  "updated_at": "2026-10-14T16:45:00+08:00",
   "source": "C:/Users/Admin/.workbuddy-ai/skills",
-  "skills_count": 48,
-  "skills_files": 690,
-  "skills_size": "13M",
+  "skills_count": 50,
+  "skills_files": 687,
+  "skills_size": "~13M",
   "github_account": "damongoh1031-design",
   "github_repo": "damongoh1031-design/share (public)",
   "token": {
@@ -13,6 +14,10 @@
     "expires_est": "2027-01-10 (90 days)",
     "file": "secrets/github-pat.txt"
   },
-  "excluded": ["github-sync/_work (107M git clone)"],
+  "excluded": ["github-sync/_work (git clone)", "github-sync/token.txt", "__pycache__", "*.zip"],
+  "changelog": [
+    "2026-10-14 initial push (workbuddy-migration bundle)",
+    "2026-10-14 add mcp-nixos; update github-sync (SKILL.md convention + config mappings); refresh counts"
+  ],
   "notes": "secrets/ 含活 PAT，勿推 public 仓库"
 }

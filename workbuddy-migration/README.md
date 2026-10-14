@@ -1,6 +1,7 @@
 # workbuddy-migration — 迁移到新 IDE 的恢复手册
 
 打包日期：2026-10-14
+更新日期：2026-10-14（补入 mcp-nixos，更新 github-sync）
 来源机器：win32 / WorkBuddy AI / 用户级 skills 目录 `C:\Users\Admin\.workbuddy-ai\skills\`
 
 ## 包结构
@@ -9,8 +10,8 @@
 workbuddy-migration/
 ├── README.md                      ← 本文件
 ├── manifest.json                  ← 清单（技能数、文件数、token 状态）
-├── skills/                        ← 48 个用户级 skill 原样拷贝（已剔除 _work 缓存和 token）
-└── secrets/                       ← 凭据（勿上传公网仓库）
+├── skills/                        ← 50 个用户级 skill 原样拷贝（已剔除 _work 缓存、token、__pycache__）
+└── secrets/                       ← 凭据（勿上传公网仓库；本仓库中未包含）
     ├── github-pat.txt             ← GitHub PAT 明文（scope=repo，90 天）
     └── github-sync-config.json    ← github-sync 原始配置（mappings 指向旧工作区，需改）
 ```

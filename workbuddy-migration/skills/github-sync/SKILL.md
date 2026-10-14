@@ -5,9 +5,9 @@ description: 把本地成果文件同步（commit + push）到 GitHub 仓库。�
 
 # github-sync · 成果同步到 GitHub
 
-## 用户常驻约定（2026-10-13 确认）
+## 用户常驻约定（2026-10-13 确认，2026-10-14 补充）
 
-**所有成果一律同步到 GitHub。** 默认仓库：
+**所有成果一律同步到 GitHub，所有研究结果（调研报告 / KB 文档 / 数据集 / 脚本 / 可视化）完成后也必须 push，不例外。** 默认仓库：
 
 | 项 | 值 |
 |---|---|
@@ -16,6 +16,7 @@ description: 把本地成果文件同步（commit + push）到 GitHub 仓库。�
 | 账号 | `damongoh1031@gmail.com`（无 2FA） |
 | 可见性 | **public**（含个人数据时要提醒用户是否转私有） |
 | 成果落点 | 每个项目一个子目录，如 `malaysiayp-phone-directory/`、`kb/` |
+| 强制时机 | 研究/任务收尾时立即 push，不等用户提醒 |
 
 ## 快速用法
 

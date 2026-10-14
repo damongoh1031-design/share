@@ -12,12 +12,8 @@
   },
   "mappings": [
     {
-      "src": "C:/Users/Admin/WorkBuddy AI/2026-10-08-11-47-53/kb",
-      "dest": "malaysiayp-phone-directory/kb"
-    },
-    {
-      "src": "C:/Users/Admin/WorkBuddy AI/2026-10-07-16-32-42/phone-directory/data/deliverable",
-      "dest": "malaysiayp-phone-directory/deliverable"
+      "src": "C:/Users/Admin/WorkBuddy AI/2026-10-14-14-38-20/kb",
+      "dest": "workbuddy-2026-10-14/kb"
     }
   ],
   "note": "mappings 为固定同步映射。dest 为仓库内相对路径。token 过期时用 scripts/mint_pat.py 续期。"
