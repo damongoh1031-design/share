@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSeek Harness 插件生态热度报告 · 谁最流行，为什么</title>
+<style>
+  :root{
+    --bg:#0e1116; --bg2:#151a21; --bg3:#1b2129; --line:#272e38;
+    --tx:#e6eaf0; --tx2:#9aa4b2; --tx3:#6b7684;
+    --accent:#4c8dff; --green:#3fb950; --amber:#d29922; --red:#f85149; --purple:#a371f7; --teal:#2dd4bf;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  h1{font-size:28px;font-weight:600;margin:0 0 10px;letter-spacing:-.3px}
+  .sub{color:var(--tx2);font-size:14px}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:var(--bg3);border:1px solid var(--line);border-radius:999px;
+    padding:3px 12px;font-size:12px;color:var(--tx2)}
+  .pill b{color:var(--tx);font-weight:500}
+  h2{font-size:20px;font-weight:600;margin:52px 0 16px;padding-left:12px;
+    border-left:3px solid var(--accent);letter-spacing:-.2px}
+  h3{font-size:16px;font-weight:600;margin:30px 0 10px}
+  h4{font-size:14px;font-weight:600;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0;padding-left:22px}
+  li{margin:6px 0}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--bg3);
+    border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:#8ec9ff}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
+  th{text-align:left;background:var(--bg3);color:var(--tx);font-weight:600;
+    padding:10px 12px;border:1px solid var(--line);white-space:nowrap}
+  td{padding:8px 12px;border:1px solid var(--line);color:var(--tx2);vertical-align:top}
+  td code{font-size:12px}
+  tr:hover td{background:rgba(76,141,255,.04)}
+  .num{text-align:right;font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;margin:16px 0}
+  .card.accent{border-left:3px solid var(--accent)}
+  .card.green{border-left:3px solid var(--green)}
+  .card.amber{border-left:3px solid var(--amber)}
+  .card.red{border-left:3px solid var(--red)}
+  .card h4{margin-top:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:700px){.grid2{grid-template-columns:1fr}}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+  @media(max-width:760px){.grid4{grid-template-columns:repeat(2,1fr)}}
+  .metric{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .metric .lb{font-size:12.5px;color:var(--tx2);margin-bottom:4px}
+  .metric .vl{font-size:24px;font-weight:500;letter-spacing:-.5px;font-family:var(--mono)}
+  .rank{font-family:var(--mono);color:var(--tx3);font-size:12px}
+  .top1{color:var(--amber);font-weight:600}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;
+    font-weight:500;vertical-align:middle;white-space:nowrap}
+  .tag.t1{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+  .tag.t2{background:rgba(76,141,255,.15);color:var(--accent);border:1px solid rgba(76,141,255,.35)}
+  .tag.t3{background:rgba(163,113,247,.15);color:var(--purple);border:1px solid rgba(163,113,247,.35)}
+  .tag.t4{background:rgba(45,212,191,.15);color:var(--teal);border:1px solid rgba(45,212,191,.35)}
+  .tag.t5{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+  .tag.t6{background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.35)}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
+    color:var(--tx3);font-size:12.5px}
+  footer a{color:var(--tx2);text-decoration:none;border-bottom:1px dotted var(--line)}
+  footer a:hover{color:var(--accent)}
+  .note{font-size:12.5px;color:var(--tx3);margin-top:6px}
+  .bar{height:8px;border-radius:4px;background:var(--accent);display:inline-block;vertical-align:middle}
+  .why{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+  .why h3{margin-top:0;font-size:15.5px}
+  .why .evidence{font-size:13px;color:var(--tx2);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>DeepSeek Harness 插件生态热度报告</h1>
+  <div class="sub">谁是目前最流行的 DSH 插件，以及它们为什么流行</div>
+  <div class="meta">
+    <span class="pill">数据源 <b>dshmarket.com 官方榜单</b></span>
+    <span class="pill">榜单规模 <b>48 条</b></span>
+    <span class="pill">周下载总量 <b>548.7 万</b></span>
+    <span class="pill">调研日期 <b>2026-10-14</b></span>
+  </div>
+</header>
+
+<h2>一、数据来源与方法论</h2>
+<p>本报告的排名依据 <b>dshmarket.com（DSH 官方插件市场）首页「装得最多的」榜单</b>，该板块明确标注「<b>按上周 npm 下载量排序</b>」，是当前唯一公开、可量化、有官方背书的 DSH 插件热度数据。</p>
+<table>
+  <tr><th>项目</th><th>说明</th></tr>
+  <tr><td>排序口径</td><td>上周 npm 下载量（<code>N/周</code>）</td></tr>
+  <tr><td>★ 星标</td><td>插件对应 GitHub 仓库的 star 数 —— <b>注意：与下载量严重脱钩，见第三节</b></td></tr>
+  <tr><td>榜单条数</td><td>48 条（首页展示上限）</td></tr>
+  <tr><td>周下载总量</td><td>5,486,628 次</td></tr>
+  <tr><td>市场总插件数</td><td>4,644 个（23 个分类）</td></tr>
+  <tr><td>数据抓取时间</td><td>2026-10-14 17:27 (GMT+8)</td></tr>
+</table>
+<div class="card amber">
+  <h4>为什么用「npm 下载量」而不是 star 数</h4>
+  <p>DSH 插件绝大多数通过 npm 分发，<code>dsh plugin add</code> 每次安装/更新都会产生下载计数。它是<b>真实使用行为</b>的代理指标，而 star 数会被「多平台通用项目」严重污染——本榜单中星标最高的 <code>tt-a1i/archify</code>（★83,106）实际周下载仅 3.1 万，因为 DSH 只是它的一个集成分支。</p>
+</div>
+
+<h2>二、核心发现：极度集中的头部市场</h2>
+<div class="grid4">
+  <div class="metric"><div class="lb">第 1 名占比</div><div class="vl" style="color:var(--amber)">23.7%</div></div>
+  <div class="metric"><div class="lb">前 3 名占比</div><div class="vl">32.7%</div></div>
+  <div class="metric"><div class="lb">前 10 名占比</div><div class="vl">54.7%</div></div>
+  <div class="metric"><div class="lb">榜单中位数</div><div class="vl" style="font-size:19px">6.65万</div></div>
+</div>
+<p>三个关键事实：</p>
+<ol>
+  <li><b>单一插件吃掉近四分之一流量。</b><code>billion-context</code> 一个插件 130 万周下载，占整个榜单 548.7 万总量的 23.7%，是第二名的 <b>4.9 倍</b>。这是典型的「一个刚需插件定义整个生态」现象。</li>
+  <li><b>前 10 名占一半以上。</b>48 条榜单里，前 10 名拿走 54.7% 的下载量，第 25 名之后基本跌到 6 万/周以下。</li>
+  <li><b>作者集中度比插件集中度更高。</b>前 48 名中，<b><code>MichengAI</code> 一人占 11 席</b>，<code>zhu1090093659</code> 占 7 席。两者合计 18 席，占榜单 37.5%。</li>
+</ol>
+
+<h2>三、星标数是个陷阱：两组数据完全背离</h2>
+<table>
+  <tr><th>插件</th><th class="num">★ 星标</th><th class="num">周下载</th><th>性质</th></tr>
+  <tr><td><code>tt-a1i/archify</code></td><td class="num">83,106</td><td class="num">31,124</td><td>通用架构图项目，DSH 只是其中一个集成</td></tr>
+  <tr><td><code>vectorize-io/hindsight</code></td><td class="num">49,309</td><td class="num">59,538</td><td>跨平台记忆系统，非 DSH 原生</td></tr>
+  <tr><td><code>volcengine/OpenViking</code></td><td class="num">39,849</td><td class="num">39,595</td><td>火山引擎官方项目，DSH 为示例之一</td></tr>
+  <tr><td colspan="4" style="color:var(--tx3);padding-top:14px;border:none;font-size:12.5px">—— 对比：DSH 原生插件 ——</td></tr>
+  <tr><td><code>MichengAI/dsh-codex-ui</code></td><td class="num">142</td><td class="num">265,526</td><td class="top1">DSH 原生，下载量是星标的 1870 倍</td></tr>
+  <tr><td><code>MichengAI/dsh-agency-agents</code></td><td class="num">115</td><td class="num">155,263</td><td class="top1">DSH 原生</td></tr>
+  <tr><td><code>zhu1090093659/dsh-pet</code></td><td class="num">16</td><td class="num">154,186</td><td class="top1">DSH 原生，★16 却排进前 10</td></tr>
+</table>
+<div class="card red">
+  <h4>结论：判断 DSH 插件是否流行，看下载量，别看 star</h4>
+  <p>DSH 生态还很年轻（2026 年 8 月开源），<b>原生插件几乎没有时间积累 star</b>。真正高频使用的插件星标普遍在两位数到三位数，而下载量已达十几万。反过来，几万 star 的项目往往只是「顺手支持了 DSH」。<b>两者的相关性接近于零。</b></p>
+</div>
+
+<h2>四、TOP 20 榜单（按上周下载量）</h2>
+<table>
+  <tr><th>#</th><th>插件</th><th>分类</th><th class="num">★</th><th class="num">周下载</th><th>一句话能力</th></tr>
+  <tr><td class="rank">1</td><td><code>ranxianglei/billion-context</code></td><td>会话与消息</td><td class="num">1,179</td><td class="num top1">1,300,026</td><td>上下文压缩，省 5 倍 token，支持几十亿 token 超长会话</td></tr>
+  <tr><td class="rank">2</td><td><code>MichengAI/dsh-codex-ui</code></td><td>UI 增强</td><td class="num">142</td><td class="num">265,526</td><td>Codex 风格侧栏、工作区会话树、全局搜索、轮次导航</td></tr>
+  <tr><td class="rank">3</td><td><code>omdsh-dev/DSH-better-sidebar</code></td><td>UI 增强</td><td class="num">4,153</td><td class="num">230,287</td><td>侧边栏工作台：文件编辑、终端、Git、子代理</td></tr>
+  <tr><td class="rank">4</td><td><code>MichengAI/dsh-skills-manager</code></td><td>开发与运行时</td><td class="num">152</td><td class="num">208,978</td><td>在设置里管理本地技能，只读查看公共 Agent 技能</td></tr>
+  <tr><td class="rank">5</td><td><code>MichengAI/dsh-archive-manager</code></td><td>会话与消息</td><td class="num">131</td><td class="num">185,958</td><td>已归档会话页：按工作区搜索、恢复、删除</td></tr>
+  <tr><td class="rank">6</td><td><code>MeteorNOX/Balance-Whale-Widget</code></td><td>UI 增强</td><td class="num">4,719</td><td class="num">184,537</td><td>余额/用量挂件，30+ 厂商模板，按模型查余额与订阅额度</td></tr>
+  <tr><td class="rank">7</td><td><code>zhu1090093659/dsh-skill-explorer</code></td><td>技能包</td><td class="num">8,707</td><td class="num">161,989</td><td>技能中心：分级浏览、启停、创建、回收站</td></tr>
+  <tr><td class="rank">8</td><td><code>MichengAI/dsh-agency-agents</code></td><td>技能包</td><td class="num">115</td><td class="num">155,263</td><td>可召唤的领域专家名单，以子代理运行</td></tr>
+  <tr><td class="rank">9</td><td><code>zhu1090093659/dsh-pet</code></td><td>娱乐</td><td class="num">16</td><td class="num">154,186</td><td>常驻界面鲸鱼娘，随 Agent 状态切换动画</td></tr>
+  <tr><td class="rank">10</td><td><code>bowenliang123/dsh-context</code></td><td>用量与计费</td><td class="num">2,079</td><td class="num">154,094</td><td>上下文仪表盘 + <code>/context</code> 命令 + Context 浏览器</td></tr>
+  <tr><td class="rank">11</td><td><code>zhu1090093659/dsh-remote-web-ui</code></td><td>远程与移动端</td><td class="num">8,707</td><td class="num">149,550</td><td>手机/PC 远程操控 dsh web，扫码配对 + SSE 同步</td></tr>
+  <tr><td class="rank">12</td><td><code>zhu1090093659/dsh-task-board</code></td><td>UI 增强</td><td class="num">8,707</td><td class="num">148,727</td><td>多列任务看板，卡片交给真实会话执行，支持 cron</td></tr>
+  <tr><td class="rank">13</td><td><code>MichengAI/dsh-im-connect</code></td><td>通知与集成</td><td class="num">52</td><td class="num">141,090</td><td>微信/企微/钉钉/飞书/QQ/Telegram 接入，一聊天一频道</td></tr>
+  <tr><td class="rank">14</td><td><code>zhu1090093659/dsh-git-graph</code></td><td>Git 与代码评审</td><td class="num">8,707</td><td class="num">138,444</td><td>分支选择器 + 提交历史泳道图谱</td></tr>
+  <tr><td class="rank">15</td><td><code>MichengAI/dsh-automation</code></td><td>工作流与自动化</td><td class="num">25</td><td class="num">123,673</td><td>独立会话里按计划执行编码任务</td></tr>
+  <tr><td class="rank">16</td><td><code>zhu1090093659/dsh-ssh</code></td><td>远程与移动端</td><td class="num">8,707</td><td class="num">123,442</td><td>SSH 运维面板：Web 终端、SFTP、端口转发、集群执行</td></tr>
+  <tr><td class="rank">17</td><td><code>zhu1090093659/dsh-web-all</code></td><td>UI 增强</td><td class="num">8,707</td><td class="num">118,257</td><td>Web UI 插件与皮肤合集（全家桶）</td></tr>
+  <tr><td class="rank">18</td><td><code>Han-1413141/dsh-cost-meter</code></td><td>用量与计费</td><td class="num">408</td><td class="num">108,151</td><td>会话/当日费用统计、预算图框、峰谷计价</td></tr>
+  <tr><td class="rank">19</td><td><code>liustack/modlens</code></td><td>视觉与多模态</td><td class="num">4,239</td><td class="num">96,722</td><td>给纯文本模型补视觉：输出结构化 JSON 证据</td></tr>
+  <tr><td class="rank">20</td><td><code>MichengAI/dsh-btw</code></td><td>会话与消息</td><td class="num">18</td><td class="num">92,579</td><td><code>/btw</code> 一次性旁问，不写主对话</td></tr>
+</table>
+<p class="note">完整 48 条榜单数据见报告末尾附注。</p>
+
+<h2>五、为什么是它们？六大驱动力</h2>
+<p>把 TOP 48 按「解决的问题」重新归类后，可以清晰看到六条主线。它们不是随机分布，而是<b>直接对应 DSH 官方能力的缺口</b>。</p>
+
+<div class="why">
+  <h3><span class="tag t1">驱动力 1</span> 省 Token / 控成本 —— 唯一的第一刚需</h3>
+  <p>DSH 通过 API 计费，长会话的成本会随上下文线性膨胀。任何能直接降低 token 消耗的插件，都会立刻变成刚需。</p>
+  <p><b>代表：</b><code>billion-context</code>（130 万/周，断层第一）、<code>dsh-context</code>（15.4 万，上下文可视化）、<code>dsh-cost-meter</code>（10.8 万）、<code>Balance-Whale-Widget</code>（18.5 万）。</p>
+  <div class="evidence"><b>为什么它能断层第一：</b>billion-context 官方描述「省 5 倍 token」且支持「几十亿 token 单会话」——同时命中「省钱」和「超长会话」两个痛点。其余插件多是监控和可视化，只有它是直接省钱。<b>省钱类插件是唯一能突破生态早期天花板的品类。</b></div>
+</div>
+
+<div class="why">
+  <h3><span class="tag t2">驱动力 2</span> 官方 UI 太简陋 —— 供给量最大的品类</h3>
+  <p>DSH 官方只提供一个基础外壳，界面能力极度克制。而「UI 增强」是市场里插件数量最多的分类，达 <b>810 个</b>，占 23 类之首。</p>
+  <p><b>代表：</b><code>dsh-codex-ui</code>（26.6 万，第 2）、<code>DSH-better-sidebar</code>（23 万，第 3）、<code>dsh-web-all</code>（11.8 万）、<code>dsh-TUI</code>（4.6 万）、<code>dsh-genui</code>（3.6 万）。</p>
+  <div class="evidence"><b>为什么：</b>用户带着「对标 Claude Code / Codex」的预期来，第一眼看到的却是极简界面。把界面补成「像样的开发工具」是最直接的价值交付——<b>装了立刻看得见</b>，不需要学习成本。</div>
+</div>
+
+<div class="why">
+  <h3><span class="tag t3">驱动力 3</span> 对标 Claude Code / Codex 的功能补位</h3>
+  <p>DSH 的定位就是对标这两者，用户会拿它们的既有功能逐项比对，缺什么就催生什么插件。</p>
+  <p><b>代表：</b><code>dsh-rewind</code>（2.6 万，Claude Code <code>/rewind</code> 语义）、<code>dsh-code-review</code>（6.9 万，<code>/review</code>）、<code>dsh-simplify</code>（8.3 万，<code>/simplify</code>）、<code>dsh-btw</code>（9.3 万）、<code>dsh-task-board</code>（14.9 万）、<code>dsh-automation</code>（12.4 万，cron 定时）。</p>
+  <div class="evidence"><b>为什么：</b>这是一条<b>「已有心智模型」的迁移路径</b>——用户不需要理解新概念，只要看到熟悉的命令名就会装。命令名本身就是最强的获客文案。</div>
+</div>
+
+<div class="why">
+  <h3><span class="tag t4">驱动力 4</span> 模型能力缺口 —— 视觉与搜索的桥接</h3>
+  <p>DeepSeek V4 系列 API 只能处理纯文本，粘贴截图 AI 完全看不懂；原生联网搜索范围也有限。这是<b>模型层的硬缺口</b>，必须由插件补。</p>
+  <p><b>代表：</b><code>modlens</code>（9.7 万，★4,239，把图片转结构化 JSON 证据）、<code>dsh-vision-router</code>（3.5 万）、<code>modsearch</code>（4.2 万）、<code>dsh-free-search</code>（4.6 万，7 个搜索引擎自动回退）。</p>
+  <div class="evidence"><b>为什么：</b>modlens 的关键差异是<b>不只做 OCR</b>——它保留元素间的位置关系和语义，所以前端开发能直接丢截图让 AI 检查还原度。这类插件是「模型做不到、插件替它做」，价值最硬，也最容易形成口碑。</div>
+</div>
+
+<div class="why">
+  <h3><span class="tag t5">驱动力 5</span> 场景延伸 —— 从「电脑上的工具」到「随时可用的助理」</h3>
+  <p>用户不满足于坐在电脑前用 DSH，希望手机上、IM 里、远程服务器上都能用。</p>
+  <p><b>代表：</b><code>dsh-remote-web-ui</code>（15 万，扫码远程操控）、<code>dsh-ssh</code>（12.3 万）、<code>dsh-im-connect</code>（14.1 万，微信/企微/钉钉/飞书/QQ/Telegram）、<code>dsh-im</code>（6.2 万，9 种渠道）、<code>dsh-pocket</code>（Cloudflare Quick Tunnel 公网访问，免自建服务器）。</p>
+  <div class="evidence"><b>为什么：</b>DSH 常跑长任务，用户希望「出去吃饭时掏出手机还能看进度」。远程类插件解决的是<b>使用场景的物理限制</b>，一旦用上就回不去，粘性极高。同时这也是安全风险最高的一类——<b>远程二维码/公网地址/访问密码切勿分享</b>。</div>
+</div>
+
+<div class="why">
+  <h3><span class="tag t6">驱动力 6</span> 整活与皮肤 —— 高下载 ≠ 高实用</h3>
+  <p>娱乐类插件（138 个）下载量不低，但性质与前面五类完全不同：<b>靠社区传播而非功能价值驱动</b>。</p>
+  <p><b>代表：</b><code>dsh-pet</code>（15.4 万，第 9，★仅 16）、<code>dsh-deep-whale</code> 鲸鱼娘皮肤（3.9 万）、<code>dsh-dream-skin</code>（3.5 万）、<code>dsh-wallpaper-engine</code>（4.9 万）、以及 <code>dsh-deepcel</code>（伪装成 Excel）、<code>dsh-liang-skin</code>（推理强度「滑动变祖器」）、<code>dsh-ads</code>（往界面塞 2005 年风格弹窗广告）等纯整活项目。</p>
+  <div class="evidence"><b>为什么：</b>视觉冲击力强、截图可传播、零使用门槛，所以能快速冲量。但要注意：<b>dsh-pet 以 ★16 排进下载量第 9</b>，说明这类下载里有大量「装一次看看就卸」的行为。<b>下载量高不必然代表留得住。</b></div>
+</div>
+
+<h2>六、头部玩家的两种打法</h2>
+<div class="grid2">
+  <div class="card accent">
+    <h4>打法 A：矩阵策略 —— <code>MichengAI</code>（11 席）</h4>
+    <p>不追求单个爆款，而是用十几个<b>小切口、单功能</b>插件覆盖全场景：会话管理（codex-ui / archive-manager / btw）、技能（skills-manager / agency-agents）、代码（code-review / simplify）、集成（im-connect）、自动化（automation）、趣味（codex-pet / pua）。</p>
+    <p><b>为什么有效：</b>每个插件只解决一个明确问题，描述里全是具体功能点，命中率高；装了一个之后自然会被推荐装下一个，形成内部导流。</p>
+  </div>
+  <div class="card accent">
+    <h4>打法 B：全家桶策略 —— <code>zhu1090093659/dsh-web</code>（7 席）</h4>
+    <p>一个 monorepo 拆出 7 个包：skill-explorer、remote-web-ui、task-board、git-graph、ssh、web-all、dsh-pet，共享 <b>★8,707</b> 的仓库星标。</p>
+    <p><b>为什么有效：</b>共享仓库热度，任何子包被搜到都会带动其余；<code>dsh-web-all</code> 提供「一键全装」，进一步拉高整包下载量。<b>本质是把单个插件的获客成本摊薄到 7 个产品上。</b></p>
+  </div>
+</div>
+<p class="note">反观 <code>omdsh-dev</code>（3 席）和 <code>liustack</code>（2 席），走的是「少而精」路线：better-sidebar 单点做到 23 万周下载，modlens + modsearch 两个互补插件覆盖视觉与搜索。</p>
+
+<h2>七、长尾现状：市场还在极早期</h2>
+<p>市场共有 <b>4,644 个插件</b>，但官方榜单 48 条就覆盖了 548.7 万周下载。对比「最新收录」板块的实际情况——</p>
+<ul>
+  <li>最新收录的 24 个插件里，<b>绝大多数星标为 0、周下载量为 0</b>（如 <code>dsh-thinking-highlight</code>、<code>dsh-session-titler</code>、<code>dsh-pixel-ui</code> 等）；</li>
+  <li>有数据的极少：<code>benrong2048-boop/dsh-prompt-polish</code> ★3，<code>aa2246740/dsh-dragndrop-attachments</code> ★1 / 290 周下载。</li>
+</ul>
+<div class="card green">
+  <h4>这说明了什么</h4>
+  <p>DSH 生态 2026 年 8 月才开源，<b>供给爆炸但使用高度集中</b>：4,600+ 插件中真正被广泛使用的不足 50 个。这意味着：</p>
+  <ul>
+    <li><b>选插件要盯榜单，不要逛长尾</b>——长尾里 90% 是玩具或刚发布的实验品；</li>
+    <li><b>榜单变化会很快</b>——生态处于窗口期，今天的冷门可能下周爆发；</li>
+    <li><b>但也意味着兼容性风险高</b>——DSH 官方在快速迭代（9 月 29 日发布 v0.2 预览版并提供桌面安装包，10 月 3 日加入实验性 Claude Code Mods 兼容层），很多插件跟不上版本，装之前要留意版本要求。</li>
+  </ul>
+</div>
+
+<h2>八、如何自己判断插件是否真流行</h2>
+<ol>
+  <li><b>看周下载量，不看 star。</b>star 会被多平台项目污染（archify ★83,106 但仅 3.1 万周下载）。</li>
+  <li><b>看作者是否成矩阵。</b>同一作者多个插件同时上榜（如 MichengAI 11 席），说明该方向被反复验证，踩坑概率低。</li>
+  <li><b>看描述里有没有具体数字。</b>「省 5 倍 token」「支持 30+ 厂商模板」「7 个搜索引擎」这类可验证的量化承诺，通常比「增强体验」之类的空话靠谱。</li>
+  <li><b>看分类。</b>当前下载量集中在：会话与消息、UI 增强、用量与计费、技能包、远程与移动端、视觉与多模态。这些是真实痛点所在。</li>
+  <li><b>警惕纯视觉类的高下载。</b>皮肤/桌宠类传播性强但留存低，别把下载量等同于实用价值。</li>
+  <li><b>留意版本要求。</b>市场详情页会给出 <code>^0.1.7</code> 这类版本约束，装前先确认自己的 dsh 版本满足。</li>
+</ol>
+
+<div class="card red">
+  <h4>安全提醒</h4>
+  <p>插件是第三方代码，尤其<b>会操作浏览器、Shell、文件和远程访问的插件</b>风险最高（<code>dsh-ssh</code>、<code>dsh-remote-web-ui</code>、<code>dsh-browser</code> 等）。安装前务必查看仓库来源和声明的权限范围。建议只装有刚需的插件，并用 Git 管理本地 DSH 配置以便回滚。</p>
+</div>
+
+<h2>九、给你（本机）的落地建议</h2>
+<p>结合本机已装插件清单（web profile 14 个 / desktop profile 7 个）对比 TOP 20 榜单：</p>
+<table>
+  <tr><th>榜单插件</th><th>周下载</th><th>本机状态</th><th>建议</th></tr>
+  <tr><td><code>billion-context</code></td><td class="num top1">1,300,026</td><td style="color:var(--green)">✅ 已装</td><td>保持，这是省 token 的核心</td></tr>
+  <tr><td><code>dsh-codex-ui</code></td><td class="num">265,526</td><td style="color:var(--amber)">❌ 未装</td><td>若嫌官方侧栏简陋，值得装</td></tr>
+  <tr><td><code>DSH-better-sidebar</code></td><td class="num">230,287</td><td style="color:var(--green)">✅ 已装</td><td>保持</td></tr>
+  <tr><td><code>dsh-skills-manager</code></td><td class="num">208,978</td><td style="color:var(--amber)">❌ 未装（但有 <code>skills-management</code>，且已 disabled）</td><td>两者功能重叠，二选一即可</td></tr>
+  <tr><td><code>dsh-context</code></td><td class="num">154,094</td><td style="color:var(--amber)">❌ 未装</td><td>跑长会话建议装，配合 billion-context 用</td></tr>
+  <tr><td><code>dsh-cost-meter</code></td><td class="num">108,151</td><td style="color:var(--amber)">❌ 未装（有 <code>dsh-bill</code> 同类）</td><td>已有计费插件，无需重复</td></tr>
+  <tr><td><code>modlens</code></td><td class="num">96,722</td><td style="color:var(--amber)">❌ 未装</td><td>需要看截图/前端还原度就装</td></tr>
+</table>
+<p class="note">另：你的 desktop profile 缺 <code>dsh-library</code>、<code>dsh-knowledge-base</code>、<code>dsh-bill</code> 等 web 端已有的插件，两套 profile 插件不同步，如需在桌面端使用要单独安装。</p>
+
+<footer>
+  <p><b>数据与参考来源</b></p>
+  <p>
+    · <a href="https://dshmarket.com/zh/">dsh-market 官方插件市场首页</a>（「装得最多的」榜单，按上周 npm 下载量排序，48 条）<br>
+    · <a href="https://dshmarket.com/zh/browse/">dsh-market 全量插件目录</a>（4,644 个插件，23 个分类）<br>
+    · <a href="https://cloud.tencent.com/developer/article/2734987">腾讯云开发者社区《16 个超火的 DeepSeek Harness 插件》</a>（第三方编辑视角交叉验证）<br>
+    · 本机 <code>C:\Users\Admin\.dsh\profiles\{web,desktop}\package.json</code> 实测扫描
+  </p>
+  <p class="note">数据抓取于 2026-10-14 17:27 (GMT+8)。DSH 生态处于高速变化期，下载量排名会持续变动；本项目处于开发者预览阶段，官方明确「未来将出现破坏兼容性的变更」。本报告为热度分析，不构成插件推荐或安全背书。</p>
+</footer>
+
+</div>
+</body>
+</html>
