@@ -4,7 +4,7 @@
 
 | id | 标题 | 版本 | 状态 | 更新 | 标签 |
 |---|---|---|---|---|---|
-| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——37 章配置实录 | 2.0 | stable | 2026-10-14 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, nix-dev, best-practices, system-nix, npins, switch-inhibitor, fsType-required, release-notes-2605, mkShellNoCC, inputsFrom, post-build-hook, cachix, direnv, sphinx-sources-trick, stage1-systemd, dbus-broker, wineWow64Packages, rocm-7, nixfmt |
+| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——38 章配置实录 | 2.1 | stable | 2026-10-14 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, nix-dev, best-practices, system-nix, npins, switch-inhibitor, fsType-required, release-notes-2605, mkShellNoCC, inputsFrom, post-build-hook, cachix, direnv, sphinx-sources-trick, stage1-systemd, dbus-broker, wineWow64Packages, rocm-7, nixfmt, mcp-nixos, search-nixos-org, option-defaults, not-found-false-negative, index-lag, aliases-nix, kernel-removal, auto-cpufreq |
 | [nixos-operations-guide](./nixos-operations-guide.md) | NixOS 运维指南（26.05）——配置路线、游戏、非 Nix 二进制、混合版本策略、查询工具链、LLM 辅助 | 1.5 | stable | 2026-10-12 | nixos, nix, flakes, home-manager, gaming, steam, appimage, nix-ld, llm-ops, mcp, rolling-release, nixpkgs-unstable, nixhub, flakehub, noogle, systemd-user-service, linger, hermes-agent, openclaw |
 | [distro-ai-collaborative-management](./distro-ai-collaborative-management.md) | 发行版「AI 协同管理」实践全景——哪些发行版真的有 MCP / Skills / AI 运维方案 | 1.0 | stable | 2026-10-12 | linux-distro, mcp, agent-skills, ai-ops, redhat, nixos, opensuse, omarchy, bluefin, clawhub, skills-sh |
 
@@ -79,6 +79,28 @@
 > 6. **★ `profiles/hardened` 已移除 + `wineWowPackages` 改名 `wineWow64Packages`**（官方警告 prefix 不向后兼容、**可能丢数据**，`yabridge` / `wineasio` 用户必查）。
 >
 > 另有：**官方最佳实践七条**（URL 加引号 / 避免 `rec` / 顶层不用 `with` / 不用 `<...>` lookup path / `import <nixpkgs> {}` 不纯 / `//` 是浅合并 / `src = ./.;` 不可复现）—— **这是官方唯一明确说「不要这么写」的地方，可直接作 Agent 代码审查清单**；**`system.nix`**（26.05 新增配置入口，不用 channel 也不用 flake）；**npins**；**自定义二进制缓存的安全警告**（私钥持有者能往 store 里塞任意文件）；**`mkShellNoCC`**（nix.dev recipe 全用它，比 `mkShell` 少带 `stdenv.cc`）；**数据库损坏 ≠ store 损坏**（用 sqlite `.dump` 重建，不要 `--repair`）。
+
+> **v2.1（2026-10-14 第十轮：mcp-nixos 交叉核实）**：`nixos-amd-teaching-guide.md` 升到 **2.1**（37 章 → 38 章），新增第 19 节。问题原话：「根据 mcp-nixos 来修正报告」。**本轮性质是「用实时数据源反向核对前 37 章的结论」** —— 不是补内容，是验证。
+>
+> **工具**：**mcp-nixos v3.1.0**（<https://github.com/utensils/mcp-nixos>，MIT，直连 search.nixos.org 的 Elasticsearch 索引，**不需要装 Nix**），`uvx mcp-nixos@latest` 直跑。**约 325 条查询**，12 个批次。
+>
+> **★ 修正了 3 处**（全部已就地改）：
+>
+> 1. **`services.hardware.auto-cpufreq` → `services.auto-cpufreq`** —— **「文件在 `services/hardware/` 目录」≠「选项在 `services.hardware.` 下」**（写错会求值失败）
+> 2. **`nixfmt-rfc-style` → `pkgs.nixfmt`（1.5.0）** —— 描述原文 *"Official formatter for Nix code"*；**不存在 `nixfmt-rfc-style` 这个包**
+> 3. **`services.openssh.generateHostKeys` 默认值** —— 实测 **Default = `services.openssh.enable`**（跟随 sshd），不是 `true`
+>
+> **★ 三处错误的共同点**：**全部来自「从命名规律推断」而不是「读源码读错」** —— 这是本 KB 首次系统性暴露「推断型错误」的占比。**推断比读错更危险，因为它看起来很有道理。**
+>
+> **★ 本轮最强的两条证据**：
+> - **`boot.initrd.systemd.enable`：25.11 = `false`，26.05 = `true`** —— 双 channel 实测，**「默认值真的变了」的直接证据**（比读 release notes 更硬）
+> - **`linux_7_0`（7.0.14）/ `linux_7_1`（7.1.2）在 25.11 存在、26.05 消失** —— **「非 longterm 内核会被从 nixpkgs 删除」的实物证据**（`linux_7_2` 还在，**被删的是「被超越的」那两代**）
+>
+> **★★ 本轮确立的通用方法论：`NOT_FOUND` ≠ 不存在。** mcp-nixos 索引查不到的名字有**四类假阴性**：① **别名**（`xorg.libX11` / `libX11` / `fonts.fonts` / `nix.binaryCaches`）② **attrset 中间层**（`services.lact` → 查 `services.lact.enable`）③ **派生 attrset**（`linuxPackages` → 查 `linuxKernel.kernels.linux_6_18`）④ **nix.conf 键**（`extra-substituters` / `post-build-hook`）。**四步判据都不命中，才判定为真的不存在。**
+>
+> **★ 这条纪律保护了一个正确结论**：`xorg.libX11` 等 5 个名字**全部 `NOT_FOUND`**，但源码对比证明它们是 **`warn` 别名**（25.11 无 `libX11` 别名条目、`xorg` 是真实包集；26.05 有 `libX11 = libx11; # Added 2026-02-06` 且 `xorg` 变成 `warnAlias` 别名集）—— **§25.2 的 `xorg` 改名结论无需修改**。
+>
+> **另有**：**`nixfmt` 1.5.0 / `bazaar` 0.7.15 / `powerstation` 0.8.1 / `rocmPackages.clr` 7.2.3 / `scx.full` 1.1.2 / `npins` 0.4.2 / `nodejs` 24.21.0 / `python3` 3.13.15** 等一批版本号已核实；**`profiles/hardened` 的移除手法**是「文件在、内容是 `mkRemovedOptionModule` 存根」—— **看文件在不在判断不出是否被移除**。
 
 ## 约定
 

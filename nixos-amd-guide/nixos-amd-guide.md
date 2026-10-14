@@ -8,8 +8,8 @@
 | 下一版本 | NixOS 26.11「Zokor」（2026 年 11 月底） |
 | 硬件画像 | **AMD 显卡 + AMD CPU + Realtek 有线网卡**（无 NVIDIA、无无线） |
 | 用户画像 | 中文用户 · GNOME 或 KDE · Flatpak · Steam · Vibe Coding |
-| 文档版本 | 2.0 |
-| 核实日期 | 2026-10-14（**第九轮：以 nix.dev guides 与 NixOS 26.05 release notes 补充，新增第三十六、三十七章，并就地修正 §17.4 / §27.1 / §27.3 / §30.6 / §32.2 / §33.5 / §35.1**，见附录 B.17） |
+| 文档版本 | 2.1 |
+| 核实日期 | 2026-10-14（**第十轮：用 mcp-nixos（实时 nixpkgs 索引）交叉核实前 37 章，新增第三十八章，并就地修正 §14 / §36.6 / §B.17.3 共 3 处**，见附录 B.18） |
 | 姊妹文档 | `nixos-ops-guide.md`（通用深度手册，含完整理论推导） |
 
 ---
@@ -60,7 +60,8 @@
 | **三十五** | **构建镜像：Live ISO、repart 与 Appliance**（官方 Part I 缺口） | 三类频道与升级 / 自动升级的取舍 / **构建 Live ISO（两条路）** / **`nixos-rebuild build-image`** / **`image.repart`** / Nix Store 分区与 Btrfs 子卷 / **Appliance + UKI（没有 `configuration.nix`）** / 六个反模式 |
 | **三十六** | **nix.dev 官方指南精华**（Best Practices · Troubleshooting · FAQ · Recipes） | **★ 官方最佳实践七条（给 Agent 的代码审查清单）** / **`system.nix`（26.05 新增，不用 channel 也不用 flake）** / npins / **五个报错的官方修法** / **二进位包的官方答案（含两条本指南之前缺的 `nix-ld` 细节）** / 二进制缓存 / post-build-hook / Cachix / direnv / **`mkShellNoCC`** / Python 环境 |
 | **三十七** | **NixOS 26.05 破坏性变更与新增特性总表**（官方 release notes 逐条） | **★ 升级前必查 16 项** / **`fsType` 不再有默认值（官方手册正文已过时）** / **Stage 1 默认改为 systemd** / **Switch inhibitors** / `profiles/hardened` 移除 / `wineWowPackages` 改名（游戏必读） / 网络与桌面变更 / **26.05 变更速查表** |
-| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
+| **三十八** | **mcp-nixos 交叉核实：26.05 版本与选项实测对照表** | **★ 用实时索引反向核对前 37 章** / **26.05 vs 25.11 选项默认值实测对照** / **内核包实测（`linux_7_0`/`linux_7_1` 消失的实物证据）** / **★ 修正 3 处** / **★★ `NOT_FOUND` ≠ 不存在（四类假阴性）** |
+| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes · B.18 mcp-nixos 交叉核实**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
 
 > [!TIP]
 > **时间估算**：全新安装 + 跑通本文全部配置，**约 3–4 小时**（含下载时间）。其中装机约 40 分钟，配置与调试约 2–3 小时。
@@ -268,7 +269,7 @@
 | 27–32 | Test 驱动开发 / 安装器测试 | — | ➖ 贡献向 |
 | 33+ | Modular Services / Portability / Migration | — | ➖ 贡献向 |
 
-### 导航 6 · 缺口汇总（第八轮新增的十章 + 第九轮新增的两章）
+### 导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章）
 
 | 新章节 | 对应官方 Part | 补的是什么 | 对你为什么有用 |
 |---|---|---|---|
@@ -284,6 +285,7 @@
 | **三十五** | Part I 缺口 | ISO / 镜像 / Appliance / 频道 | 想给别人做装机盘、或做不可变设备时用 |
 | **三十六** | **nix.dev（guides）** | 官方最佳实践 / 排错 / FAQ / Recipes | **给 Agent 的代码审查清单**；不用 channel 也不用 flake 的第四条路 |
 | **三十七** | **release notes 26.05** | 破坏性变更与新增特性总表 | **升级前逐条检查单**；解释「老教程为什么失效」 |
+| **三十八** | **mcp-nixos（实时索引）** | 26.05 版本与选项实测对照 | **反向核对前 37 章的结论**；**`NOT_FOUND` ≠ 不存在** |
 
 > [!TIP]
 > **阅读建议**：
@@ -292,6 +294,7 @@
 > - **想改 nixpkgs / 让 Agent 写模块** → 加读 **三十四** 和 **三十六**（§36.1 的七条清单可直接贴给 Agent）
 > - **装机前** → 先读 **二十七**（文件系统与加密）
 > - **升级 / 别人教程不管用时** → 先读 **三十七**（26.05 变更总表）
+> - **想自己核实某个包/选项存不存在** → 读 **三十八**（mcp-nixos 用法 + 四类假阴性）
 
 ---
 
@@ -3539,7 +3542,7 @@ message = "SCX is only supported on kernel version >= 6.12.";
 |---|---|---|
 | `services.ananicy` | 按规则自动调进程 nice / ionice | 与 scx 无直接冲突，但效果会重叠 |
 | `services.irqbalance` | 中断负载均衡 | 多核有帮助；现代内核的 IRQ affinity 已不错，收益有限 |
-| `services.hardware.auto-cpufreq` | 动态调 CPU 频率/功耗 | ⚠️ **与 `power-profiles-daemon` 冲突** |
+| `services.auto-cpufreq` | 动态调 CPU 频率/功耗 | ⚠️ **与 `power-profiles-daemon` 冲突**。**正确路径是 `services.auto-cpufreq`，不是 `services.hardware.auto-cpufreq`**（后者不存在，写错会求值失败）——`[mcp-nixos 实测 2026-10-14]` |
 | `services.power-profiles-daemon` | 电源档位（GNOME/KDE 默认开） | ⚠️ 与 TLP / auto-cpufreq 互斥 |
 | `services.thermald` | 温度管理 | ❌ **仅 Intel**，AMD 用户装了也没用 |
 
@@ -15819,12 +15822,19 @@ nixos-rebuild switch --option narinfo-cache-negative-ttl 0
 >
 > ```bash
 > # 一次性格式化
-> nix-shell -p nixfmt-rfc-style --run "nixfmt configuration.nix"
+> nix-shell -p nixfmt --run "nixfmt configuration.nix"
 > # 或者进 devShell
-> nix-shell -p nixfmt-rfc-style
+> nix-shell -p nixfmt
 > ```
 >
-> **注意包名**：`nixfmt` 在 nixpkgs 里现在叫 **`nixfmt-rfc-style`**（对应 RFC 166 的官方风格）。`pkgs.nixfmt` 是旧版。
+> **★ 包名（2026-10-14 用 mcp-nixos 核实，修正了本节上一版的推断）**：
+>
+> | 说法 | 核实结果 |
+> |---|---|
+> | ~~`nixfmt-rfc-style`~~ | ❌ **不存在**（mcp-nixos：`Package 'nixfmt-rfc-style' not found`） |
+> | **`nixfmt`** | ✅ **`pkgs.nixfmt` = 1.5.0**，描述原文 *"**Official formatter for Nix code**"*，主页 `github.com/NixOS/nixfmt` |
+>
+> **结论**：**直接用 `pkgs.nixfmt` 就行** —— 它**已经是** RFC 166 风格的官方实现（上游仓库就叫 `NixOS/nixfmt`，描述里写着 "Official formatter"）。**本指南 §36.6 上一版写的「现在叫 `nixfmt-rfc-style`」是错的**，已更正。
 
 ---
 
@@ -17297,6 +17307,531 @@ fsType = mkOption {
 ---
 
 
+## 三十八、mcp-nixos 交叉核实：26.05 版本与选项实测对照表
+
+**本章回答一个问题**：**本指南前面 37 章的结论，有多少能被「实时数据源」独立验证？**
+
+**工具**：**mcp-nixos**（<https://github.com/utensils/mcp-nixos>，MIT，作者 James Brink，最新 release **3.1.0 / 2026-09-05**）。
+
+| 项 | 值 |
+|---|---|
+| 本机实测版本 | **mcp-nixos v3.1.0**（2026-10-14，Windows，经 `uvx` 直跑） |
+| 数据规模 | 包 **150,810** / NixOS 选项 **25,773**（`action=stats`，unstable 索引） |
+| 26.05 索引文档数 | **175,460**（`action=channels`） |
+| 依赖 | **不需要装 Nix**（`uvx mcp-nixos@latest` 即可；本机无 `nix` 命令也能跑） |
+
+> [!IMPORTANT]
+> **本章的定位：这是一次「用实时数据源反向核对本指南」的核查，不是新知识介绍。**
+>
+> **为什么值得单独成章**：
+> 1. **本指南前面 37 章的结论大多来自「读源码」** —— 源码是权威的，但**读源码容易漏、也容易读错**（比如把 attrset 当成选项）
+> 2. **mcp-nixos 直连 search.nixos.org 的 Elasticsearch 索引** —— 它是**从 nixpkgs 实际求值结果**生成的，能独立回答「这个名字到底存不存在」
+> 3. **LLM 训练数据比 nixpkgs 落后数月** —— 这是本指南反复强调的「老教程失效」根因，**而 mcp-nixos 是解决它的工具**
+
+> [!NOTE]
+> **本章的数字全部是 2026-10-14 的实测输出**（`channel=26.05` = stable，`channel=25.11` 用于对照）。
+>
+> **复现方式**：见 §38.8 的完整查询清单。**不需要装 Nix**，只需 `uvx`。
+
+---
+
+### 38.1 两个工具：`nix` 与 `nix_versions`
+
+**mcp-nixos 只暴露两个工具**，合计约 1,030 tokens 的上下文开销。
+
+**① `nix` —— 统一查询**
+
+```
+nix(action, query, source, type, channel, limit, version, system)
+```
+
+| 参数 | 取值 | 默认 |
+|---|---|---|
+| `action` | `search` / `info` / `stats` / `browse` / `channels` / `flake-inputs` / `cache` / `store` | 必填 |
+| `source` | `nixos` / `home-manager` / `darwin` / `flakes` / `flakehub` / `nixvim` / `nvf` / `wiki` / `nix-dev` / `noogle` / `nixhub` | `nixos` |
+| `type` | nixos 搜索：`packages` / `options` / `programs` / `flakes`；nixos info：`package` / `option` | `packages` |
+| `channel` | `unstable` / `stable` / 具体版本如 `25.11` / `26.05` | `unstable` |
+| `limit` | 1–100 | `20` |
+
+**② `nix_versions` —— 包版本历史**
+
+```
+nix_versions(package, version, limit)
+```
+
+返回 license / homepage / programs 元数据、逐版本平台可用性、**nixpkgs commit hash**（可复现构建）、属性路径。
+
+> [!TIP]
+> **★ 本指南用得上的三个路由规则**：
+>
+> | 你想知道 | 调用 |
+> |---|---|
+> | **某个选项存不存在 / 默认值是多少** | `nix {"action":"info","query":"<选项>","type":"option","channel":"26.05"}` |
+> | **某个包存不存在 / 版本号** | `nix {"action":"info","query":"<包>","channel":"26.05"}` |
+> | **有哪些同类** | `nix {"action":"search","query":"<关键词>","channel":"26.05"}` |
+>
+> **`stable` 永远指向当前 stable**（2026-10-14 实测 = **26.05**）—— 所以**不要写死 26.05**，写 `stable` 更耐用。
+
+> [!WARNING]
+> **⚠️ `info` 的 `type` 必须写对**：查选项要 `type=option`，查包要 `type=package`（默认）。
+>
+> **写错的后果**：`nix {"action":"info","query":"services.scx.enable"}`（忘了 `type=option`）会返回 `Package 'services.scx.enable' not found` —— **看起来像「这个选项不存在」，其实是你查错了类型**。
+
+---
+
+### 38.2 ★ 核实方法：批次化 + 驱动脚本
+
+**本轮的做法**（可复用）：
+
+1. **从指南里自动抽取候选名** —— 用正则扫全文，抽出所有 `pkgs.<name>` 与形如 `<顶层前缀>.<子路径>` 的选项名（先剔除围栏代码块，避免把示例里的临时名当包名）
+2. **分批跑 `info`** —— 每批 20–60 个，按「包」和「选项」分开
+3. **只看 `Error (NOT_FOUND)`** —— 命中即通过，未命中才需要人判断
+4. **对 `NOT_FOUND` 二次判断** —— 见 §38.7，**很多 `NOT_FOUND` 不是错误**
+
+> [!TIP]
+> **★ 本机跑法（不需要装 Nix）**：
+>
+> ```bash
+> # 冒烟测试
+> uvx mcp-nixos@latest --help
+> ```
+>
+> **写进客户端配置**（任选其一）：
+>
+> ```json
+> {"mcpServers": {"nixos": {"command": "uvx", "args": ["mcp-nixos"]}}}
+> ```
+>
+> ```json
+> {"mcpServers": {"nixos": {"command": "nix", "args": ["run", "github:utensils/mcp-nixos", "--"]}}}
+> ```
+>
+> **本指南本轮用的是自写的 stdio 驱动脚本**（`.build/mcp-nixos-driver.py`）—— 直接 `subprocess` 起 `uvx mcp-nixos@latest`，走 JSON-RPC over stdio，**批量投喂查询**。这样一次进程启动能跑几十个查询，比逐个调用快得多。
+
+> [!NOTE]
+> **为什么用「批量驱动」而不是逐个 MCP 调用**：`uvx` 每次冷启动约 10 秒；**一个批次几十个查询只付一次启动成本**。
+
+---
+
+### 38.3 ★★ 26.05 vs 25.11：关键选项默认值实测对照
+
+**这张表是本轮最有价值的部分** —— 它把本指南散落在各章的「26.05 变了什么」集中做了一次**独立复验**。
+
+| 选项 | **25.11** | **26.05** | 本指南哪一章说过 | 核实结论 |
+|---|---|---|---|---|
+| **`boot.initrd.systemd.enable`** | **`false`** | **`true`** | §27.3 / §30.6 / §37.1 | ✅ **完全吻合** |
+| **`fileSystems.<name>.fsType`** | 有默认值（源码 `default = "auto"`） | **无 Default 行** | §27.1 / §37.6 | ✅ **完全吻合** |
+| `services.dbus.implementation` | — | **`"broker"`** | §37.4 | ✅ 吻合 |
+| `networking.resolvconf.enable` | — | **`true`** | §37.13 | ✅ 吻合 |
+| `networking.firewall.logRefusedConnections` | — | **`false`** | §37.13 | ✅ 吻合 |
+| `fonts.fontconfig.useEmbeddedBitmaps` | — | **`true`** | §37.14 | ✅ 吻合 |
+| `hardware.graphics.enable` | — | **`false`** | §3.1 / §13 | ✅ 吻合 |
+| `hardware.cpu.amd.updateMicrocode` | — | **`false`** | §3.4 | ✅ 吻合 |
+| `hardware.amdgpu.overdrive.ppfeaturemask` | — | **`"0xfffd7fff"`** | §3.4 | ✅ 吻合 |
+| `services.openssh.generateHostKeys` | — | **`services.openssh.enable`** | §37.14 / §B.17 | ⚠️ **本指南 B.17 原写「默认 true」，已更正** |
+| `networking.wireless.enableHardening` | — | **`true`**（新增） | §37.13 | ✅ 吻合 |
+| `i18n.inputMethod.enabled` | — | **Deprecated**（描述原文 *"Deprecated - use `type` and `enable = true` instead"*） | §5.2 | ✅ 吻合 |
+| `system.switch.enable` | — | `true` | §35.6 | ✅ 吻合 |
+| `nix.gc.automatic` | — | `false` | §11 | ✅ 吻合 |
+| `system.autoUpgrade.allowReboot` | — | `false` | §35.4 | ✅ 吻合 |
+| `boot.loader.systemd-boot.configurationLimit` | — | `null` | §30.4 | ✅ 吻合 |
+| `nix.settings.substituters` | — | **`[ ]`**（描述：*"By default `https://cache.nixos.org/` is added."*） | §36.7 | ✅ **吻合**（证实「直接设会丢官方缓存」） |
+
+**已确认「不存在」的选项**（本指南声称它们被移除，实测确认）：
+
+| 选项 | 实测 | 本指南出处 |
+|---|---|---|
+| `services.openssh.banner` | ❌ NOT_FOUND | §37.14 |
+| `programs.light` | ❌ NOT_FOUND | §37.14 |
+| `system.rebuild.enableNg` | ❌ NOT_FOUND | §37.8 |
+| `networking.wireless.userControlled.group` | ❌ NOT_FOUND | §37.13 |
+| `services.flatpak.remotes` | ❌ NOT_FOUND | §7.3 |
+| `services.flatpak.uninstallUnmanaged` | ❌ NOT_FOUND | §7.3 |
+| `services.ollama.acceleration` | ❌ NOT_FOUND | §3.7 |
+| `services.crabfit.enable` | ❌ NOT_FOUND | §37（服务类，跳过） |
+| `nix.binaryCaches` | ❌ NOT_FOUND | §12 / §13 |
+| `programs.mangohud` | ❌ NOT_FOUND（NixOS 侧） | §8 / §13 |
+
+> [!TIP]
+> **★ 这张表最有用的一行是 `boot.initrd.systemd.enable`** —— 因为它是本指南**第八轮判断错、第九轮改对**的那一条。
+>
+> **实测把两边的默认值都打出来了**：25.11 = `false`，26.05 = `true`。**这是「默认值真的变了」的直接证据**，比读 release notes 的文字更硬。
+
+> [!IMPORTANT]
+> **★ 另一个发现：`nix.settings.substituters` 的默认值是 `[ ]`，不是 `[ "https://cache.nixos.org/" ]`。**
+>
+> 选项**描述**里写 *"By default `https://cache.nixos.org/` is added."* —— **这句「added」是指 nixpkgs 在别处替你加进去**（`nix.settings.substituters` 的模块层默认），**不是选项自身的 default**。
+>
+> **实践含义（与 §36.7 一致）**：**你在 `configuration.nix` 里写 `nix.settings.substituters = [ "https://example.org" ]` 会覆盖掉官方缓存** —— **必须显式把 `"https://cache.nixos.org"` 也列进去**。
+
+---
+
+### 38.4 ★★ 内核包实测：26.05 到底有哪些内核
+
+**这是本指南第三十三章「非 longterm 内核会被删除」那条硬规则的直接证据。**
+
+**26.05（`channel=26.05`）全部内核**（`search linuxKernel.kernels`，共 **14** 个）：
+
+| 属性名 | 版本 | 类型 |
+|---|---|---|
+| `linuxKernel.kernels.linux_default` | **6.18.56** | **← 默认内核** |
+| `linuxKernel.kernels.linux_latest` | 7.2.10 | 最新稳定 |
+| `linuxKernel.kernels.linux_testing` | 7.3-rc6 | rc |
+| `linuxKernel.kernels.linux_6_18` | 6.18.56 | 当前 stable 主线 |
+| `linuxKernel.kernels.linux_7_2` | 7.2.10 | 当前 latest |
+| `linuxKernel.kernels.linux_6_12` | 6.12.112 | **LTS** |
+| `linuxKernel.kernels.linux_6_6` | 6.6.158 | **LTS** |
+| `linuxKernel.kernels.linux_6_1` | 6.1.189 | **LTS** |
+| `linuxKernel.kernels.linux_5_15` | 5.15.222 | **LTS** |
+| `linuxKernel.kernels.linux_5_10` | 5.10.271 | **LTS** |
+| `linuxKernel.kernels.linux_zen` | 7.2.9 | 第三方 |
+| `linuxKernel.kernels.linux_xanmod` | 6.18.56 | 第三方 |
+| `linuxKernel.kernels.linux_xanmod_latest` | 7.2.10 | 第三方 |
+| `linuxKernel.kernels.linux_xanmod_stable` | 7.2.10 | 第三方 |
+
+**25.11（对照）多出来的内核**：
+
+| 属性名 | 版本 | 26.05 还有吗 |
+|---|---|---|
+| **`linux_7_0`** | 7.0.14 | ❌ **没了** |
+| **`linux_7_1`** | 7.1.2 | ❌ **没了** |
+| **`linux_hardened`** | 6.12.87 | ❌ **没了**（release notes `:232`） |
+| **`linux_6_12_hardened`** | 6.12.87 | ❌ **没了** |
+| **`linux_rt_6_1`** | 6.1.156-rt56 | ❌ **没了**（release notes `:236`） |
+| **`linux_rt_5_10`** | 5.10.245-rt139 | ❌ **没了** |
+| `linux_rpi1/2/3/4` | 6.12.47-… | ❌ 没了（Raspberry Pi 内核，与你无关） |
+
+> [!IMPORTANT]
+> **★ 三条实测结论**：
+>
+> 1. **`linux_default` 在 26.05 = 6.18.56** —— **证实 release notes 的「默认内核 6.12 → 6.18」**（§37.3）
+> 2. **`linux_7_0` 与 `linux_7_1` 在 25.11 存在、26.05 消失** —— **这是「非 longterm 内核会被从 nixpkgs 删除」的实物证据**（§33.1）。**注意 `linux_7_2` 还在** —— 因为它是当前的 latest，**被删的是「被超越的」那两代**
+> 3. **`linux_hardened` / `linux_6_12_hardened` / `linux_rt_*` 全部消失** —— **证实 §37.14 的「移除」清单**
+
+> [!TIP]
+> **★ 一个索引细节：内核不叫 `pkgs.linuxPackages`。**
+>
+> **实测**：`nix {"action":"info","query":"linuxPackages"}` → **NOT_FOUND**；`linuxPackages_latest` / `linuxPackages_zen` → **也都 NOT_FOUND**。
+>
+> **但内核确实存在**，索引里的名字是 **`linuxKernel.kernels.linux_6_18`** / **`linuxKernel.packages.linux_6_18.kernel`**。
+>
+> **原因**：`pkgs.linuxPackages*` 是**由 `linuxKernel` 派生的 attrset**，索引记的是派生源头。**所以「`linuxPackages` 查不到」不等于「内核不在 nixpkgs」** —— 这是 §38.7 要讲的边界之一。
+
+---
+
+### 38.5 ★ 包版本实测表（26.05）
+
+**下面全部是 `channel=26.05` 的实测输出**，可以直接当「26.05 上这个包是什么版本」的对照表。
+
+**语言工具链（§15 相关）**
+
+| 包 | 26.05 实测版本 | 本指南 §15 的说法 | 结论 |
+|---|---|---|---|
+| `pkgs.nodejs` | **24.21.0** | 「24 LTS（默认）」 | ✅ 吻合 |
+| `pkgs.nodejs_22` | 22.23.3 | ✅ 存在 | ✅ |
+| `pkgs.nodejs_26` | 26.11.1 | ✅ 存在 | ✅ |
+| `pkgs.nodejs_latest` | 26.11.1 | 「= `nodejs_26`」 | ✅ 吻合 |
+| `pkgs.nodejs-slim` | 24.21.0 | — | 新增 |
+| `pkgs.python3` | **3.13.15** | 「3.13」 | ✅ 吻合 |
+| `pkgs.python314` | 3.14.7 | ✅ 存在 | ✅ |
+| `pkgs.python315` | 3.15.0 | — | 新增（**本指南没提**） |
+| `pkgs.bun` | 1.3.13 | 1.3.13 | ✅ |
+| `pkgs.deno` | 2.8.3 | 2.8.3 | ✅ |
+| `pkgs.pnpm` | 11.27.0 | `= pnpm_11` | ✅ |
+| `pkgs.pnpm_10` | 10.34.0 | ✅ 存在 | ✅ |
+| `pkgs.yarn` | 1.22.22 | ✅ 存在 | ✅ |
+| `pkgs.yarn-berry_4` | 4.14.1 | ✅ 存在 | ✅ |
+| `pkgs.rustup` | 1.29.0 | ✅ 存在 | ✅ |
+| `pkgs.cargo` / `pkgs.rustc` | 1.95.0 | — | 新增 |
+| `pkgs.go` | 1.26.8 | — | 新增 |
+| `pkgs.uv` | 0.11.21 | — | 新增 |
+| `pkgs.tsx` | 4.21.0 | ✅ 存在 | ✅ |
+| `pkgs.typescript` | 5.9.3 | — | 新增 |
+| `pkgs.esbuild` | 0.27.2 | — | 新增 |
+| `pkgs.ruff` | 0.15.14 | ✅ 存在 | ✅ |
+| `pkgs.mise` | 2026.5.12 | ✅ 存在 | ✅ |
+| `pkgs.devenv` | 2.1.2 | ✅ 存在 | ✅ |
+| **`corepack_latest`** | ❌ NOT_FOUND | 「26.05 已删除」 | ✅ 吻合 |
+
+**游戏与图形（§8 / §14 / §32 相关）**
+
+| 包 | 26.05 实测版本 | 备注 |
+|---|---|---|
+| `pkgs.mesa` | **26.1.8** | ✅ 与 §20 的第四轮实测一致 |
+| `pkgs.vulkan-loader` | 1.4.341.0 | — |
+| `pkgs.libdrm` | 2.4.133 | — |
+| `pkgs.proton-ge-bin` | **GE-Proton11-1** | ✅ 与 §20 一致 |
+| `pkgs.gamemode` | 1.8.2 | — |
+| `pkgs.mangohud` | 0.8.3 | — |
+| `pkgs.goverlay` | 1.8.1 | — |
+| `pkgs.vkbasalt` | 0.3.2.10 | — |
+| `pkgs.lutris` | 0.5.22 | — |
+| `pkgs.heroic` | 2.22.1 | — |
+| `pkgs.bottles` | 63.2 | — |
+| `pkgs.wine` | 11.0 | — |
+| `pkgs.protontricks` | 1.14.1 | — |
+| `pkgs.protonup-qt` | 2.14.0 | — |
+| `pkgs.steam` / `pkgs.steam-run` | 1.0.0.85 | — |
+
+**AMD 与硬件（§3 / §32 相关）**
+
+| 包 | 26.05 实测版本 | 备注 |
+|---|---|---|
+| `rocmPackages.clr` | **7.2.3** | ✅ **证实「ROCm 升到 7.x」**（§37.7） |
+| `rocmPackages.hipcc` | 22.0.0-rocm | — |
+| `rocmPackages.rocm-smi` | 7.2.3 | — |
+| `pkgs.zluda` | 6-preview.63 | ✅ 与 §3.4 的 `zluda.enable` 对应 |
+| `pkgs.lact` | 0.9.0 | ✅ 与 §3.5 的 `services.lact` 对应 |
+| `pkgs.corectrl` | 1.5.1 | — |
+| `pkgs.linux-firmware` | 20260916 | — |
+| `pkgs.fwupd` | 2.1.4 | — |
+| `pkgs.r8125` | 9.016.01 | ✅ **RTL8125 的树外驱动，确实存在**（§2） |
+| `pkgs.r8168` | 8.056.02 | ✅ 同上 |
+| `pkgs.clinfo` / `pkgs.vulkan-tools` / `pkgs.libva-utils` | 3.0.25 / 1.4.341.0 / 2.23.0 | ✅ §3.8 的验证命令可用 |
+| `pkgs.pciutils` / `pkgs.lshw` / `pkgs.inxi` | 3.15.0 / 02.20 / 3.3.40-1 | ✅ §0 的诊断命令可用 |
+
+**调度器与游戏机（§14 / §23 相关）**
+
+| 包 | 26.05 实测版本 | 备注 |
+|---|---|---|
+| `pkgs.scx.full` | **1.1.2** | ✅ 默认包 |
+| `pkgs.scx.rustscheds` | 1.1.2 | ✅ §14 提到的精简版 |
+| `pkgs.scx.cscheds` | 0-unstable-2026-01-13 | — |
+| `pkgs.ananicy` | unstable-2023-03-21 | — |
+| `pkgs.ananicy-rules-cachyos` | 0-unstable-2026-05-19 | ✅ §18 的 CachyOS 规则包 |
+| `pkgs.bore` | 0.4.1 | ✅（**注意：这是 TCP 隧道，不是调度器**，§18 已澄清） |
+| `pkgs.tuned` | 2.27.0 | — |
+| `pkgs.auto-cpufreq` | 3.0.0 | — |
+| `pkgs.tlp` | 1.9.1 | — |
+| `pkgs.power-profiles-daemon` | 0.30 | — |
+| `pkgs.irqbalance` | 1.9.5 | — |
+| `pkgs.limine` | 12.5.2 | — |
+
+**掌机与桌面（§23 相关）**
+
+| 包 | 26.05 实测版本 | 本指南 §23 的说法 | 结论 |
+|---|---|---|---|
+| `pkgs.inputplumber` | **0.77.1** | 0.77.1 | ✅ |
+| `pkgs.powerstation` | **0.8.1** | 版本未核实 | ✅ **现已核实** |
+| `pkgs.bazaar` | **0.7.15** | 版本未核实 | ✅ **现已核实** |
+| `pkgs.distrobox` | **1.8.2.5** | 1.8.2.5 | ✅ |
+| `pkgs.nh` | **4.4.2** | 4.4.2 | ✅ |
+| `pkgs.waydroid` | 1.6.3 | — | 新增 |
+| `pkgs.lanzaboote` | ❌ NOT_FOUND | 「= 404」 | ✅ **吻合**（不在 nixpkgs，在独立 flake） |
+| **`pkgs.decky-loader`** | ❌ NOT_FOUND | 「= 404」 | ✅ 吻合 |
+| **`pkgs.hhd`** | ❌ NOT_FOUND | 「未找到」 | ✅ 吻合 |
+| `pkgs.umu-launcher` | ✅ 存在 | — | — |
+
+**Wine 生态（§37.12 相关）**
+
+| 包 | 26.05 实测版本 | 备注 |
+|---|---|---|
+| `wineWow64Packages.base` / `.full` / `.stable` / `.minimal` / `.wayland` / `.stableFull` | 11.0 | ✅ **新名字** |
+| `wineWow64Packages.staging` / `.unstable` | 11.8 | — |
+| `wineWow64Packages.fonts` | 11.0 | — |
+| **`wineWow64Packages.yabridge`** | 9.21 | ✅ **`yabridge` 确实走新包名** |
+| **`wineWowPackages`** | ❌ **NOT_FOUND** | ✅ **证实旧名已删** |
+| `pkgs.yabridge`（顶层） | 5.1.1 | — |
+| `pkgs.wineasio` | 1.3.0 | ✅ 在 §37.12 的受影响清单里 |
+| `pkgs.winbox` / `pkgs.synthesia` / `pkgs.vtfedit` / `pkgs.opentrack` / `pkgs.slushload` | 4.4 / 10.9 / 1.3.3 / 2026.1.0-unstable / 3 | ✅ **全部存在**（§37.12 的清单已核实） |
+
+**nix.dev 工具（§36 相关）**
+
+| 包 | 26.05 实测版本 | 本指南 §36 的说法 | 结论 |
+|---|---|---|---|
+| **`pkgs.nixfmt`** | **1.5.0**（描述 *"Official formatter for Nix code"*） | 原写「现在叫 `nixfmt-rfc-style`」 | ❌ **已更正**（§38.6） |
+| `pkgs.npins` | 0.4.2 | ✅ 存在 | ✅ |
+| `pkgs.nix-ld` | 2.0.6 | ✅ 存在 | ✅ |
+| `pkgs.nix-direnv` | 3.1.2 | ✅ 存在 | ✅ |
+| `pkgs.nix-index` | 0.1.10 | ✅ 存在 | ✅ |
+| `pkgs.appimage-run` | ✅ 存在 | — | — |
+| `pkgs.brightnessctl` | 0.5.1 | ✅ §37.14 的替代品 | ✅ |
+| `pkgs.iw` | 6.17 | ✅ §37.14 | ✅ |
+| `pkgs.dpkg` / `pkgs.rpm` | 1.23.7 / 4.20.1 | ✅ §25 的解包方案 | ✅ |
+| `pkgs.just` / `pkgs.ripgrep` | 1.51.0 / 15.1.0 | — | 新增 |
+| `pkgs.fcitx5` | 5.1.19 | — | 新增 |
+
+---
+
+### 38.6 ★★ 本次核实**修正**的三处
+
+> [!DANGER]
+> **① `services.hardware.auto-cpufreq` → `services.auto-cpufreq`（真错误，会导致求值失败）**
+>
+> **实测**：`services.hardware.auto-cpufreq.enable` → ❌ **NOT_FOUND**；`search auto-cpufreq` → ✅ **`services.auto-cpufreq.enable`** + **`services.auto-cpufreq.settings`**。
+>
+> **已就地修正**（§14 的服务表）。
+>
+> **为什么会写错**：`auto-cpufreq` 是**独立项目**（不是 `hardware.*` 命名空间下的驱动），它的模块放在 `nixos/modules/services/hardware/` **目录**里 —— **但选项路径是 `services.auto-cpufreq`**。**「文件在 `services/hardware/` 目录」≠「选项在 `services.hardware.` 下」** —— 这是读目录结构时的经典误推。
+
+> [!DANGER]
+> **② `nixfmt-rfc-style` → `nixfmt`（真错误，`nix-shell -p` 会失败）**
+>
+> **实测**：`nixfmt-rfc-style` → ❌ **NOT_FOUND**；`nixfmt` → ✅ **1.5.0**，描述原文 *"**Official formatter for Nix code**"*，主页 `https://github.com/NixOS/nixfmt`。
+>
+> **已就地修正**（§36.6）。
+>
+> **为什么会写错**：本指南 §36.6 上一版是**从 nixpkgs 历史改名推断**的（当时标注了「未逐条核实」）。**实际 `pkgs.nixfmt` 就是官方 RFC 166 实现** —— 上游仓库 `NixOS/nixfmt` 的描述直接写着 "Official formatter"，**不存在一个叫 `nixfmt-rfc-style` 的独立包**。
+
+> [!WARNING]
+> **③ `services.openssh.generateHostKeys` 的默认值（表述不准）**
+>
+> **本指南 B.17 原写**：「`services.openssh.generateHostKeys` 默认 true」。
+>
+> **实测**：**Default = `services.openssh.enable`**（即**跟随 sshd 开关**，`services.openssh.enable` 默认 `false`）。
+>
+> **正确表述**：**「新增该选项，默认跟随 `services.openssh.enable`；可显式设 `true` 在不开 sshd 的情况下也生成 host key」** —— release notes 的原文是 *"by setting `services.openssh.generateHostKeys = true` **while leaving `services.openssh.enable` disabled**"*，**它讲的是「可以这么设」，不是「默认就是 true」**。
+>
+> **已就地修正**（§B.17.3）。
+
+> [!TIP]
+> **★ 三处错误的共同点**：**都不是「读源码读错」，而是「从命名规律推断」** ——
+> - `services/hardware/` 目录 → 误推 `services.hardware.*`
+> - 「官方 formatter」→ 误推包名带 `-rfc-style`
+> - 「新增了可以设 true 的能力」→ 误推默认值是 true
+>
+> **这正是 mcp-nixos 的价值**：**它不做推断，只回答「这个名字在不在」。**
+
+---
+
+### 38.7 ★★ mcp-nixos 的边界：哪些 `NOT_FOUND` 不是错误
+
+**这是本章最重要的方法论** —— **不搞清边界，就会把正确的配置「修」坏。**
+
+> [!IMPORTANT]
+> **mcp-nixos 的索引来自 search.nixos.org 的 Elasticsearch** —— 它记的是**「实际存在的包与选项」**。
+>
+> **以下四类名字查不到，但完全可能是对的**：
+
+| 类别 | 例子 | 为什么查不到 | 正确做法 |
+|---|---|---|---|
+| **① 别名（`aliases.nix` 的 `warn`/`throw` 条目）** | `xorg.libX11`、`libX11`、`fonts.fonts`、`nix.binaryCaches` | 别名是 `warn`/`throw` 包装，**不是 derivation** | 读 `pkgs/top-level/aliases.nix` 原文 |
+| **② attrset（不是叶子选项）** | `services.lact`、`services.scx`、`hardware.nvidia`、`users.users` | `info` 要求**精确路径** | 查叶子：`services.lact.enable` |
+| **③ 派生 attrset** | `linuxPackages`、`linuxPackages_latest`、`rocmPackages.clr.icd` | 索引记**派生源头** | 查 `linuxKernel.kernels.linux_6_18` |
+| **④ freeform 键（nix.conf 键）** | `extra-substituters`、`post-build-hook`、`nix.settings.secret-key-files` | 它们是 **`nix.settings` 自由格式子模块的键**，不是选项 | 查 `man nix.conf` 或模块源码 |
+
+> [!DANGER]
+> **⚠️ 本轮核实中最容易踩的坑：把 `xorg.libX11` 的 `NOT_FOUND` 当成「这个名字不存在」。**
+>
+> **实测**：`xorg.libX11` / `xorg.libxcb` / `xorg.pixman` / `xorg.xorgproto` / `xorg.xauth` → **全部 NOT_FOUND**。
+>
+> **但它们是存在的** —— 只是**以 `warn` 别名形式存在**（§25.2 的结论没错）。**源码证据**：
+>
+> | 分支 | `pkgs/top-level/aliases.nix` | `all-packages.nix` |
+> |---|---|---|
+> | **25.11** | **无** `libX11` / `xorg =` 条目 | `:4036` `libX11 = xorg.libX11;`；`:9740` `xorg = { … }`（**真实包集**） |
+> | **26.05** | `:1178` `libX11 = libx11; # Added 2026-02-06`；`:1185` `libXext = libxext;`；`:1187` `libXfont2 = libxfont_2;`；`:1188` `libXfont = libxfont_1;`；**`:2361` `xorg = lib.mapAttrs (name: value: warnAlias "The xorg package set has been deprecated, 'xorg.${name}' has been renamed to '${name}'" value) { … }`** | — |
+>
+> **结论**：**§25.2 的原始结论完全正确** —— 26.05 把 `xorg` 从「真实包集」改成了「**会打弃用警告的别名集**」，`libX*` 全部改名 `libx*`。**mcp-nixos 看不到它，是因为别名不进索引。**
+>
+> **所以：`NOT_FOUND` + 「本指南说它是个别名」→ 不是错误；`NOT_FOUND` + 「本指南说它是个真包/真选项」→ 才是错误。**
+
+> [!TIP]
+> **★ 判断流程（四步）**：
+>
+> 1. **`NOT_FOUND` 的名字是不是「点分路径的中间层」？** → 是 → 查它的叶子（如 `services.lact` → `services.lact.enable`）
+> 2. **它是不是「官方文档说已改名/已弃用」的？** → 是 → 去读 `aliases.nix`，不要信索引
+> 3. **它是不是 nix.conf 的键？** → 是 → 去读 `man nix.conf`
+> 4. **它是不是「内核/包集派生」？** → 是 → 换 `linuxKernel.kernels.*` / `rocmPackages.*` 这类源头名再查
+>
+> **四步都不命中，才判定为「真的不存在」。**
+
+---
+
+### 38.8 可复用操作：本轮的全部查询清单
+
+**★ 一键核实「某选项在 26.05 的默认值」**：
+
+```bash
+# 前提：本机有 uvx（不需要 Nix）
+uvx mcp-nixos@latest --help   # 冒烟测试
+
+# 用本指南的驱动脚本批量查（.build/mcp-nixos-driver.py）
+# 批次文件格式：[{"action":"info","query":"<名字>","type":"option","channel":"26.05"}, ...]
+python .build/mcp-nixos-driver.py .build/mcp-batch-XX.json
+```
+
+**★ 最常用的六条查询**：
+
+```jsonc
+// 1. 选项的默认值（最常用）
+{"action": "info", "query": "fileSystems.<name>.fsType", "type": "option", "channel": "26.05"}
+
+// 2. 包的版本
+{"action": "info", "query": "mesa", "channel": "26.05"}
+
+// 3. 搜索（拿不准名字时）
+{"action": "search", "query": "auto-cpufreq", "type": "options", "channel": "26.05"}
+
+// 4. 当前有哪些 channel / stable 是哪个
+{"action": "channels"}
+
+// 5. 包/选项总数
+{"action": "stats"}
+
+// 6. 两个 channel 对照（判断「是不是 26.05 才改的」）
+{"action": "info", "query": "boot.initrd.systemd.enable", "type": "option", "channel": "25.11"}
+```
+
+**★ 本轮的批次文件**（留在 `.build/`，可复跑）：
+
+| 文件 | 内容 | 条数 |
+|---|---|---|
+| `.build/mcp-batch-00.json` | `channels` + `stats` | 2 |
+| `.build/mcp-batch-01.json` | xorg 改名 / nixfmt / npins / wineWow / rocm / 掌机包 | 20 |
+| `.build/mcp-batch-02.json` | 语言工具链 / 游戏 / AMD / 系统工具包 | 60 |
+| `.build/mcp-batch-03.json` | 26.05 关键选项默认值 + 25.11 对照 | 40 |
+| `.build/mcp-batch-04.json` | 叶子选项存在性 | 40 |
+| `.build/mcp-batch-05.json` | 选项搜索（mangohud / binaryCaches / searx / xpadneo / scx） | 15 |
+| `.build/mcp-batch-06.json` | nodejs / python 默认版本 | 25 |
+| `.build/mcp-batch-07.json` | 系统选项系统扫描 | 59 |
+| `.build/mcp-batch-08.json` | fonts / nix.settings / steam / nix-ld | 14 |
+| `.build/mcp-batch-09.json` | Wine 生态 / 内核 / 硬件工具 | 33 |
+| `.build/mcp-batch-10.json` | 内核包索引 | 12 |
+| `.build/mcp-batch-11.json` | `linux_default` 双分支对照 | 5 |
+
+**合计约 325 条查询**，覆盖本指南提到的**全部**包名与选项名。
+
+> [!TIP]
+> **★ 一行命令复查本指南最关键的那条结论**（`fsType` 有没有默认值）：
+>
+> ```bash
+> # 26.05：输出里【没有】Default 行 → 证实「必须显式写」
+> # 25.11：源码里 default = "auto" → 有默认值
+> ```
+>
+> **判断方法**：看 `info` 的输出里**有没有 `Default:` 那一行**。**没有 `Default:` = 没有默认值 = 必须显式指定。**
+
+---
+
+### 38.9 六个反模式
+
+> [!WARNING]
+> **① 把 `NOT_FOUND` 一律当成「不存在」** —— 别名 / attrset / 派生 / freeform 四类都是假阴性（§38.7）。
+>
+> **② 忘了写 `type=option`** —— 查选项时不写会返回 `Package 'xxx' not found`，**看起来像选项不存在**。
+>
+> **③ 用 `unstable` 索引去核对 26.05 的结论** —— **默认 channel 是 `unstable`**，必须显式传 `channel`。**26.05 的包名与 unstable 可能不同**。
+>
+> **④ 把 mcp-nixos 当成「比源码权威」** —— 它是**索引**，索引有滞后（`channels` 输出里明确写 *"Branch HEAD … may be ahead of indexed data"*）。**冲突时以源码为准。**
+>
+> **⑤ 用 mcp-nixos 查 home-manager 选项时忘了 `source`** —— HM 选项必须 `source=home-manager`（如 `programs.mangohud.enable` **只在 HM 侧存在**，NixOS 侧 `NOT_FOUND` 是**正确的**）。
+>
+> **⑥ 认为「查到了就能用」** —— **存在 ≠ 已启用 ≠ 配置正确**。比如 `services.scx.enable` 存在，**但内核不支持 sched_ext 时它会静默跳过**（§14.4）。
+
+> [!TIP]
+> **本章的四行一句话总结**：
+>
+> **想知道某个选项/包在 26.05 的真实状态** → 用 `nix action=info`，**必须显式传 `channel` 与 `type`**（§38.1）。
+> **`NOT_FOUND` 先别改配置** → 按 §38.7 的四步判据走一遍，**四类假阴性**占了本轮多数。
+> **本轮核实修正了 3 处** → `services.auto-cpufreq`（不是 `services.hardware.*`）、`nixfmt`（不是 `nixfmt-rfc-style`）、`generateHostKeys` 默认值（§38.6）。
+> **最强的交叉证据是双 channel 对照** → `boot.initrd.systemd.enable` 25.11=`false` / 26.05=`true`（§38.3）。
+>
+> **本章你至少要记住一条**：**`NOT_FOUND` ≠ 不存在** —— 别名、attrset、派生集、freeform 键**四类都查不到，但四类都可能是对的**。
+
+---
+
+
 ## 附录 A：命令速查
 
 ### A.1 系统重建与验证
@@ -18355,7 +18890,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | 11 | **`fonts.fontconfig.useEmbeddedBitmaps` 默认 `true`**（中文用户观感可能受影响） | release notes `:442` |
 | 12 | **`rocmPackages_6` 移除，`rocmPackages` 升到 ROCm 7.x** | release notes `:317` |
 
-**其余本轮收录的条目**（全部写进第三十七章）：默认内核 6.12→6.18 / `linux_hardened` 与 `linux-rt` 移除 / `services.xserver` 对未知 X11 驱动改为报错 / activation script 里 reload-restart 弃用（26.11 移除）/ `switch-to-configuration` 的 `ExecReload=` 新行为 / `programs.light` 移除 / `services.openssh.generateHostKeys` 默认 true / `openssh.banner` 移到 `settings.Banner` / `firewall.logRefusedConnections` 默认 false / reiserfs 与 ecryptfs 移除 / `post-resume.target` 移除 / `nix-env -i` 的 unit 不再被启动 / `iw` 与 `wirelesstools` 不再隐式安装 / `hardware.xpadneo` 新增 settings / systemd-nspawn 测试驱动（能测 GPU）。
+**其余本轮收录的条目**（全部写进第三十七章）：默认内核 6.12→6.18 / `linux_hardened` 与 `linux-rt` 移除 / `services.xserver` 对未知 X11 驱动改为报错 / activation script 里 reload-restart 弃用（26.11 移除）/ `switch-to-configuration` 的 `ExecReload=` 新行为 / `programs.light` 移除 / `services.openssh.generateHostKeys` 新增（**默认值 = `services.openssh.enable`**，即跟随 sshd；可显式设 `true` 在不开 sshd 时也生成 host key）/ `openssh.banner` 移到 `settings.Banner` / `firewall.logRefusedConnections` 默认 false / reiserfs 与 ecryptfs 移除 / `post-resume.target` 移除 / `nix-env -i` 的 unit 不再被启动 / `iw` 与 `wirelesstools` 不再隐式安装 / `hardware.xpadneo` 新增 settings / systemd-nspawn 测试驱动（能测 GPU）。
 
 #### B.17.4 ★ 本轮最重要的方法论发现：官方手册正文与 release notes / 源码矛盾
 
@@ -18411,6 +18946,155 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 
 ---
 
+### B.18 第十轮（2026-10-14）mcp-nixos 交叉核实（本指南 v2.1）
+
+**本轮触发**：用户要求「根据 mcp-nixos 来修正报告」。
+
+**本轮定位**：**这是一次「用实时数据源反向核对本指南」的核查** —— 不是新增知识，而是**验证前 37 章的结论**。产出为**第三十八章**。
+
+#### B.18.1 mcp-nixos 出处与实测环境
+
+| 项 | 值 |
+|---|---|
+| 上游仓库 | <https://github.com/utensils/mcp-nixos>（MIT，作者 James Brink） |
+| 最新 release | **3.1.0 / 2026-09-05** |
+| 本机实测版本 | **mcp-nixos v3.1.0**（`serverInfo` 握手返回） |
+| 运行方式 | `uvx mcp-nixos@latest` —— **不需要装 Nix** |
+| 数据源 | search.nixos.org 的 Elasticsearch 索引（从 nixpkgs 实际求值结果生成） |
+| 暴露的工具 | 仅 2 个：`nix`（统一查询）/ `nix_versions`（包版本历史） |
+| 数据规模（`action=stats`） | 包 **150,810** / 选项 **25,773**（unstable 索引） |
+| 26.05 索引文档数（`action=channels`） | **175,460** |
+
+**`action=channels` 实测输出（2026-10-14）**：
+
+| channel | 索引标签 | 文档数 | Branch HEAD |
+|---|---|---|---|
+| 25.11 | `latest-48-nixos-25.11` | 160,604 | `b6018f87da91d19d0ab4cf979885689b469cdd41` |
+| **26.05** | `latest-52-nixos-26.05` | **175,460** | `7993f34ee47e28a3d607a525aadc6c94b73be728` |
+| beta | `latest-52-nixos-26.05` | 175,460 | 同上 |
+| **stable（current: 26.05）** | `latest-52-nixos-26.05` | 175,460 | 同上 |
+| unstable | `latest-52-nixos-unstable` | 183,323 | `7fd4004d0511991fff3a0524856a9be09e28c5f0` |
+
+**★ 官方提示原文**：*"'stable' always points to current stable release. 'Revision (indexed)' is the exact commit the search index was built from (safe to compare against `nix_versions`). 'Branch HEAD' is the upstream branch tip … **it may be a few commits ahead of the indexed data**"* —— **这就是「索引有滞后」的官方说明**。
+
+#### B.18.2 本轮建立的工具（可复现，留在 `.build/`）
+
+| 工具 | 用途 |
+|---|---|
+| **`.build/mcp-nixos-driver.py`** | **stdio JSON-RPC 驱动** —— `subprocess` 起 `uvx mcp-nixos@latest`，批量投喂查询，**一次进程启动跑几十个查询**（`uvx` 冷启动约 10 秒，批量能省掉重复启动成本） |
+| `.build/mcp-batch-00.json` … `.build/mcp-batch-11.json` | 12 个批次文件，**合计约 325 条查询**，覆盖本指南提到的全部包名与选项名 |
+
+#### B.18.3 本轮修正的三处（全部已就地改到正文）
+
+| # | 原写法 | 实测 | 落点 |
+|---|---|---|---|
+| 1 | `services.hardware.auto-cpufreq` | ❌ NOT_FOUND → 正确是 **`services.auto-cpufreq`** | §14 服务表 |
+| 2 | `nixfmt-rfc-style` | ❌ NOT_FOUND → 正确是 **`pkgs.nixfmt`（1.5.0，*"Official formatter for Nix code"*）** | §36.6 |
+| 3 | `services.openssh.generateHostKeys` 默认 true | ⚠️ 实测 **Default = `services.openssh.enable`**（跟随 sshd） | §B.17.3 |
+
+**★ 三处错误的共同点**：**都不是「读源码读错」，而是「从命名规律推断」** ——
+- `services/hardware/` 目录 → 误推 `services.hardware.*`
+- 「官方 formatter」→ 误推包名带 `-rfc-style`
+- 「新增了可以设 true 的能力」→ 误推默认值是 true
+
+#### B.18.4 本轮确立的方法论（写进第三十八章）
+
+**★ `NOT_FOUND` ≠ 不存在。** mcp-nixos 的索引只记「实际存在的包与选项」，以下**四类查不到但可能是对的**：
+
+| 类别 | 例子 | 正确做法 |
+|---|---|---|
+| **① 别名**（`aliases.nix` 的 `warn`/`throw` 条目） | `xorg.libX11`、`libX11`、`fonts.fonts`、`nix.binaryCaches` | 读 `pkgs/top-level/aliases.nix` 原文 |
+| **② attrset**（不是叶子选项） | `services.lact`、`services.scx`、`hardware.nvidia`、`users.users` | 查叶子：`services.lact.enable` |
+| **③ 派生 attrset** | `linuxPackages`、`rocmPackages.clr.icd` | 查源头：`linuxKernel.kernels.linux_6_18` |
+| **④ freeform 键**（nix.conf 键） | `extra-substituters`、`post-build-hook` | 读 `man nix.conf` 或模块源码 |
+
+**★ 四步判据**：① 是不是点分路径的中间层？→ 查叶子 ② 官方是否说它已改名/弃用？→ 读 `aliases.nix` ③ 是不是 nix.conf 键？→ 读 man ④ 是不是内核/包集派生？→ 换源头名。**四步都不命中才判定为真的不存在。**
+
+#### B.18.5 ★★ 本轮最强的一条交叉证据
+
+**`boot.initrd.systemd.enable` 的双 channel 对照**：
+
+| channel | 默认值 |
+|---|---|
+| **25.11** | **`false`** |
+| **26.05** | **`true`** |
+
+**这是「默认值真的变了」的直接实测证据** —— 比读 release notes 的文字更硬。**本指南第八轮判断错（推断为 scripted）、第九轮改对**的那一条，**本轮由独立数据源二次确认**。
+
+#### B.18.6 ★★ 内核包实测（`linux_7_0` / `linux_7_1` 消失的实物证据）
+
+| 分支 | `linuxKernel.kernels.*` 条目数 | 关键条目 |
+|---|---|---|
+| **26.05** | **14** | `linux_default` **6.18.56** / `linux_latest` 7.2.10 / `linux_testing` 7.3-rc6 / `linux_7_2` 7.2.10 / `linux_6_18` 6.18.56 / `linux_6_12` 6.12.112 / `linux_6_6` / `linux_6_1` / `linux_5_15` / `linux_5_10` / `linux_zen` 7.2.9 / `linux_xanmod*` ×3 |
+| **25.11** | **19** | 多出 **`linux_7_0`**（7.0.14）、**`linux_7_1`**（7.1.2）、**`linux_hardened`**（6.12.87）、**`linux_6_12_hardened`**、**`linux_rt_6_1`**、**`linux_rt_5_10`**、`linux_rpi1/2/3/4` |
+
+**两条结论**：
+1. **`linux_default` = 6.18.56** → **证实 release notes 的「默认内核 6.12 → 6.18」**
+2. **`linux_7_0` / `linux_7_1` 在 25.11 有、26.05 无** → **这是「非 longterm 内核会被从 nixpkgs 删除」的实物证据**（§33.1）。注意 `linux_7_2` 还在 —— **被删的是「被超越的」那两代**
+
+#### B.18.7 本轮核实的选项默认值总表（26.05）
+
+（完整表见 §38.3，此处只列「确认吻合」的 16 项）
+
+`fileSystems.<name>.fsType`（无 Default）/ `boot.initrd.systemd.enable`（true）/ `services.dbus.implementation`（"broker"）/ `networking.resolvconf.enable`（true）/ `networking.firewall.logRefusedConnections`（false）/ `fonts.fontconfig.useEmbeddedBitmaps`（true）/ `hardware.graphics.enable`（false）/ `hardware.cpu.amd.updateMicrocode`（false）/ `hardware.amdgpu.overdrive.ppfeaturemask`（"0xfffd7fff"）/ `networking.wireless.enableHardening`（true）/ `i18n.inputMethod.enabled`（Deprecated）/ `system.switch.enable`（true）/ `nix.gc.automatic`（false）/ `system.autoUpgrade.allowReboot`（false）/ `boot.loader.systemd-boot.configurationLimit`（null）/ `nix.settings.substituters`（`[ ]`，描述说 *"By default cache.nixos.org is added"*）。
+
+**确认「不存在」的 10 项**：`services.openssh.banner` / `programs.light` / `system.rebuild.enableNg` / `networking.wireless.userControlled.group` / `services.flatpak.remotes` / `services.flatpak.uninstallUnmanaged` / `services.ollama.acceleration` / `services.crabfit.enable` / `nix.binaryCaches` / `programs.mangohud`（NixOS 侧）。
+
+#### B.18.8 本轮新核实到的版本号（前几轮标「未核实」的）
+
+| 包 | 26.05 实测版本 |
+|---|---|
+| **`pkgs.bazaar`** | **0.7.15** |
+| **`pkgs.powerstation`** | **0.8.1** |
+| `pkgs.inputplumber` | 0.77.1（与 §23 一致） |
+| `pkgs.distrobox` | 1.8.2.5（与 §23 一致） |
+| `pkgs.nh` | 4.4.2（与 §23 一致） |
+| `pkgs.scx.full` / `.rustscheds` | 1.1.2 |
+| `rocmPackages.clr` | **7.2.3**（证实 ROCm 7.x） |
+| `pkgs.mesa` | 26.1.8（与第四轮一致） |
+| `pkgs.proton-ge-bin` | GE-Proton11-1（与第四轮一致） |
+| `pkgs.nixfmt` | **1.5.0** |
+| `pkgs.npins` | 0.4.2 |
+| `pkgs.nodejs` | **24.21.0**（与 §15 一致） |
+| `pkgs.python3` | **3.13.15**（与 §15 一致） |
+| `pkgs.uv` | 0.11.21 |
+| `pkgs.r8125` / `pkgs.r8168` | 9.016.01 / 8.056.02 |
+
+#### B.18.9 ★ 一条对既有章节的旁证（`xorg` 改名）
+
+**实测**：`xorg.libX11` / `xorg.libxcb` / `xorg.pixman` / `xorg.xorgproto` / `xorg.xauth` → **全部 NOT_FOUND**。
+
+**但这不是「不存在」** —— 它们是 `warn` 别名。**源码对比确认 §25.2 的原始结论完全正确**：
+
+| 分支 | `pkgs/top-level/aliases.nix` | `all-packages.nix` |
+|---|---|---|
+| **25.11** | **无** `libX11` / `xorg =` 条目 | `:4036` `libX11 = xorg.libX11;`；`:9740` `xorg = { … }`（**真实包集**） |
+| **26.05** | `:1178` `libX11 = libx11; # Added 2026-02-06`；`:1185` `libXext = libxext;`；`:1187` `libXfont2 = libxfont_2;`；`:1188` `libXfont = libxfont_1;`；**`:2361` `xorg = lib.mapAttrs (name: value: warnAlias "The xorg package set has been deprecated, 'xorg.${name}' has been renamed to '${name}'" value) { … }`** | — |
+
+**结论**：26.05 把 `xorg` 从「真实包集」改成「**会打弃用警告的别名集**」，`libX*` 全部改名 `libx*` —— **§25.2 的结论无需修改**。
+
+#### B.18.10 一条对既有章节的旁证（`profiles/hardened` 移除）
+
+**源码证据**：`nixos-26.05/nixos/modules/profiles/hardened.nix` 的内容已变成 **`mkRemovedOptionModule` 存根**：
+
+```nix
+# This profile included most standard hardening options enabled by default,
+# which may have impacted system stability, feature availability, and performance.
+
+{ lib, ... }:
+{
+  imports = [
+    (lib.mkRemovedOptionModule [ "profiles" "hardened" ] ''
+      The hardened profile has been removed, see the backward incompatibilities section of the 26.05 release notes for more information.
+    '')
+  ];
+}
+```
+
+**⚠️ 注意**：**文件仍然存在（HTTP 200）** —— 所以「看文件在不在」**判断不出是否被移除**，必须**看文件内容**。**§37.11 的结论正确**，且这条「文件在但内容是 `mkRemovedOptionModule` 存根」是官方移除选项的标准手法（本指南 §34.7 讲模块时提过）。
+
+---
+
 ## 附录 C：未核实 / 存疑项
 
 > [!NOTE]
@@ -18429,6 +19113,13 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 > - **1 条已被官方答案解决** —— ~~「26.05 默认 stage 1 是 scripted 还是 systemd」~~ → **✅ systemd**（见下表第一行）
 > - **新增 14 条**与第三十六、三十七章相关的存疑项（见「附录 C 补充：第九轮」）
 > - **本轮的存疑项特征从「官方原文歧义」转向「官方只说了一半」** —— 详见该补充节的 NOTE
+
+> [!NOTE]
+> **第十轮（2026-10-14 mcp-nixos 交叉核实）的状态更新**：
+> - **1 条已被实时数据源解决** —— ~~「`nixfmt` 的包名（`nixfmt` vs `nixfmt-rfc-style`）在 26.05 的确切状态」~~ → **✅ `pkgs.nixfmt`（1.5.0）**，`nixfmt-rfc-style` **不存在**
+> - **3 条版本号已核实** —— `pkgs.bazaar` = 0.7.15 / `pkgs.powerstation` = 0.8.1 / `rocmPackages.clr` = 7.2.3
+> - **★ 本轮修正了正文 3 处** —— `services.hardware.auto-cpufreq` → `services.auto-cpufreq`；`nixfmt-rfc-style` → `nixfmt`；`generateHostKeys` 默认值表述。**详见 §38.6 与附录 B.18.3**
+> - **★ 本轮确立了一条方法论** —— **`NOT_FOUND` ≠ 不存在**（别名 / attrset / 派生集 / freeform 键四类假阴性），**详见 §38.7**
 
 | 项 | 状态 | 说明 |
 |---|---|---|
@@ -18602,7 +19293,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | **`yabridge` / `wineasio` 的 prefix 重建具体步骤** | `[官方警告]` + `[未展开]` | 官方只说 *"need to be regenerated with potential for data loss"*，**没给步骤**。§37.12 的 5 步流程是**推断** |
 | **`system.nix` 与 flake 共存时的优先级** | `[未核实]` | 官方说 `system.nix` 是 *"alternative entry point to `configuration.nix` (and `flake.nix`)"*，**但没说两者同时存在时用哪个** |
 | **`npins` 的实际维护状态与 26.05 兼容性** | `[未实测]` | 官方 guides 推荐它，**但本指南未在 26.05 上实跑过 `npins init`** |
-| **`nixfmt` 的包名（`nixfmt` vs `nixfmt-rfc-style`）在 26.05 的确切状态** | `[未核实]` | §36.6 说「现在叫 `nixfmt-rfc-style`」是**基于 nixpkgs 历史改名的推断**，未逐条核实别名表 |
+| ~~**`nixfmt` 的包名（`nixfmt` vs `nixfmt-rfc-style`）在 26.05 的确切状态**~~ | ✅ **第十轮已解决（2026-10-14，mcp-nixos 实测）**：**`pkgs.nixfmt` = 1.5.0**，描述原文 *"**Official formatter for Nix code**"*，主页 `https://github.com/NixOS/nixfmt`；**`nixfmt-rfc-style` 不存在**（`Package 'nixfmt-rfc-style' not found`）。**§36.6 的推断已更正**，详见 §38.6 ② |
 | **`systemd-nspawn` 测试后端能否真的跑 GPU 测试** | `[官方声明]` + `[未实测]` | 官方原文 *"make it possible to exercise GPU/CUDA workloads"*，**本指南未验证** |
 | **官方手册正文还有多少处「与 release notes 矛盾」** | `[已知 1 处]` | 已确认 `fsType` 一处（§37.6）。**是否有其他未发现的同类问题未系统扫描** |
 | **`rocmPackages` 7.x 对现有 OpenCL 应用的实际兼容性** | `[官方警告]` + `[未实测]` | 官方警告是给「树外包」的。**用 `clr.icd` 的应用是否受影响未实测** |
@@ -18616,6 +19307,30 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 > **为什么会出现这种模式**：**release notes 的定位是「告知变更」，不是「教你怎么迁移」** —— 所以它给出「什么变了」和「为什么会变」，**但常常不给出「具体怎么做」**。
 >
 > **★ 本轮最大的收获是一条「方法论」而非一条「事实」**：**官方手册正文可能滞后于 release notes + 模块源码**（`fsType` 实证）。**所以遇到「配置报错但手册说可以」时，先去读 release notes 的 `Backward Incompatibilities`，再读模块源码的 `mkOption`。**
+
+#### 附录 C 补充：第十轮（2026-10-14 mcp-nixos 交叉核实）的新增存疑项
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| **mcp-nixos 索引的滞后量到底有多大** | `[官方提示]` + `[未量化]` | `channels` 输出明确说 *"may be a few commits ahead of the indexed data"*，**但没给具体 commit 数或天数**。§38.1 已标注 |
+| **`nix_versions` 的版本历史覆盖到多早** | `[未核实]` | 本指南本轮只用了 `nix` 工具，**`nix_versions` 未实测** |
+| **`nix.settings.substituters` 的 `[ ]` 默认值下，`cache.nixos.org` 到底由谁加进去** | `[描述推断]` | 选项描述说 *"By default cache.nixos.org is added"*，**但 `Default: [ ]`** —— 「谁加的、在哪加」未在源码层逐行确认。§38.3 的结论（「直接设会丢官方缓存」）是**实践推断** |
+| **`linuxKernel.kernels` 在 25.11 索引里为何缺 `linux_default` / `linux_latest`** | `[未核实]` | 25.11 的 `search linuxKernel.kernels` 返回 19 项但**没有 `linux_default` / `linux_latest`**；26.05 有。**是索引差异还是 nixpkgs 差异未确认** |
+| **`xorg` 别名集的 `warn` 是「每次求值都打」还是「只打一次」** | `[未核实]` | 源码用的是 `warnAlias`，**警告的触发频率与可见性未实测** |
+| **本指南还有多少处「从命名规律推断」的同类错误** | `[已修 3 处]` | 本轮修正的 3 处**都是同类问题**（§38.6）。**是否还有未发现的未系统扫描** |
+| **`services.scx.scheduler` 的 26 个取值里，哪些在 AMD 桌面游戏上真的更好** | `[官方列了取值]` + `[未实测]` | mcp-nixos 只给枚举（含 `scx_lavd`），**收益仍无基准**（与 §14.4 的旧存疑项一致） |
+| **`wineWow64Packages.yabridge`（9.21）与顶层 `pkgs.yabridge`（5.1.1）的关系** | `[未核实]` | 实测两者版本号不同（9.21 vs 5.1.1）。**哪个是「正确入口」未确认** |
+| **`pkgs.python315`（3.15.0）是否适合日常使用** | `[未核实]` | 实测存在（本指南 §15 未提）。**稳定性与生态兼容性未评估** |
+| **mcp-nixos 的 `source=home-manager` 侧覆盖率** | `[未实测]` | 本轮**只用了 `source=nixos`**。HM 选项（如 `programs.mangohud`）**未逐条核实** |
+
+> [!NOTE]
+> **第十轮存疑项的特征**：**几乎全是「工具本身的边界」而不是「nixpkgs 的事实」**。
+>
+> 前三轮的存疑项是「官方没说清」或「官方只说了一半」；**本轮是「工具查不到的那部分」** —— 别名、attrset、派生集、freeform 键、索引滞后。
+>
+> **★ 本轮最大的收获仍是一条「方法论」**：**`NOT_FOUND` ≠ 不存在**（§38.7 的四类假阴性 + 四步判据）。**这是使用任何「索引型」工具时的通用纪律** —— 索引是「已知事实的快照」，不是「全部真相」。
+>
+> **⚠️ 附带一条自我提醒**：**本指南本轮修正的 3 处错误，全部来自「从命名规律推断」而不是「读源码读错」** —— 这说明**推断是比读错更危险的错误来源**，因为它看起来很有道理。**遇到「目录结构 / 命名惯例 / 文档措辞」三类线索时，宁可多查一次。**
 
 ---
 
@@ -18698,10 +19413,22 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 > 5. **★ `nix-ld` 在 `x86_64` 上不支持 32 位可执行文件，且启用后必须「登出再登入」**（§36.6）—— **对 Steam / Wine 用户关键**
 > 6. **★ `profiles/hardened` 已移除 + `wineWowPackages` 改名 `wineWow64Packages`**（§17.4 / §37.11 / §37.12）
 
+> [!NOTE]
+> **2026-10-14 第十轮更新（mcp-nixos 交叉核实，新增第三十八章）**：这一轮的性质是**「反向核对」** —— **不是补内容，而是验证前 37 章的结论**。
+>
+> **做法**：用 **mcp-nixos v3.1.0**（直连 search.nixos.org 的 Elasticsearch 索引，**不需要装 Nix**）批量核实本指南提到的**全部**包名与选项名（**约 325 条查询**，12 个批次文件），并对 **25.11 / 26.05 双 channel 做默认值对照**。
+>
+> **本轮最高价值的 4 条结果**：
+> 1. **★ 修正了 3 处** —— `services.hardware.auto-cpufreq` → **`services.auto-cpufreq`**；`nixfmt-rfc-style` → **`nixfmt`（1.5.0）**；`generateHostKeys` 默认值表述（§38.6）
+> 2. **★ 双 channel 对照直接证实「默认值真的变了」** —— `boot.initrd.systemd.enable`：**25.11 = `false`，26.05 = `true`**（§38.3）
+> 3. **★ `linux_7_0` / `linux_7_1` 在 25.11 存在、26.05 消失** —— **这是「非 longterm 内核会被删除」的实物证据**（§38.4）
+> 4. **★ 确立了一条通用方法论** —— **`NOT_FOUND` ≠ 不存在**：别名 / attrset / 派生集 / freeform 键**四类假阴性**（§38.7）。**本轮把 `xorg.libX11` 的 `NOT_FOUND` 误判风险单独写了 DANGER 块**
+>
+> **三处错误的共同点**：**全部来自「从命名规律推断」而不是「读源码读错」** —— 这是本指南首次系统性暴露「推断型错误」的占比。
+
 | 主题 | 为什么值得补 | 需要什么证据 |
 |---|---|---|
-| ~~**Hermes Agent 的 Nix flake 确切用法**~~ | ✅ **已完成**（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7） | 已取官方 `nix/nixosModules.nix` + `homeManagerModules.nix` + `nix-setup.md` 全文 |
-| **OpenClaw 的 skills 目录结构** | 第十章讲了 skills 概念，但具体路径/加载机制未核实 | 官方仓库文档 |
+| ~~**Hermes Agent 的 Nix flake 确切用法**~~ | ✅ **已完成**（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7） | 已取官方 `nix/nixosModules.nix` + `homeManagerModules.nix` + `nix-setup.md` 全文 || **OpenClaw 的 skills 目录结构** | 第十章讲了 skills 概念，但具体路径/加载机制未核实 | 官方仓库文档 |
 | ~~**sops-nix / agenix 完整配置**~~ | ⚠️ **部分完成**：第二十一章给了 Hermes 侧的 sops-nix / agenix 接法（`environmentFiles` + `authFile`），但**完整的 age key 生命周期管理仍未展开** | 两个项目的 README + NixOS 集成示例 |
 | ~~**Home Manager 完整迁移**~~ | ✅ **已完成**（第十九章全章 + 第二十一章的 HM 模块落地） | HM option 文档 + 官方模块源码 |
 | ~~**flake + 混合版本（stable 基座 + rolling 组件）的完整实现**~~ | ✅ **已完成**（第二十章全章，含 `pkgs.unstable` 三种写法、`follows` 的坑、**不用 flake 的三条路**） | nixpkgs-unstable 输入 + overlay / `_module.args` 写法 |
@@ -18711,6 +19438,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | ~~**以官方手册结构为骨架重构本指南**~~ | ✅ **已完成（第八轮）**：新增「官方手册骨架导航」章（5 个 Part / 177 个叙事章节双向对照）+ **第二十六～三十五章共 10 章**（配置语法 / 文件系统 / 用户 / systemd / 系统状态 / 容器 / 图形栈 / 内核与系统切换 / 写模块 / 构建镜像） | 官方手册 stable 全文（本地副本）+ 8 组锚点原文提取（见附录 B.16） |
 | ~~**以 nix.dev guides 补充「怎么写才对」**~~ | ✅ **已完成（第九轮）**：**第三十六章**（13 节）—— 官方最佳实践七条 + `system.nix` + npins + 五个报错的官方修法 + 二进位包官方答案 + 4 个 Recipe | nix.dev Guides 全部 Markdown 源（14 个文件，见附录 B.17.1） |
 | ~~**NixOS 26.05 破坏性变更总表**~~ | ✅ **已完成（第九轮）**：**第三十七章**（16 节）—— 升级前必查 16 项 + `fsType` 矛盾实例 + Stage 1 默认变更 + switch inhibitors + 网络与桌面变更 | 26.05 release notes 原文 496 行（`.build/rl-2605.section.md`）+ 25.11/26.05 模块源码对比（见附录 B.17） |
+| ~~**用实时索引反向核对本指南的结论**~~ | ✅ **已完成（第十轮）**：**第三十八章**（9 节）—— mcp-nixos 用法 + 26.05/25.11 默认值对照 + 内核包实测 + **修正 3 处** + **`NOT_FOUND` 四类假阴性** | mcp-nixos v3.1.0（`uvx`，约 325 条查询）+ `.build/mcp-nixos-driver.py` + 12 个批次文件（见附录 B.18） |
 | **实测基准数据** | 本文多处标 `[未核实]` 就是因为缺可复现的基准（scx 收益、内核切换收益） | 你自己的 A/B 测试 |
 
 #### E.1.1 本轮之后**仍未做**的高价值方向

@@ -1,12 +1,12 @@
 ---
 id: nixos-amd-teaching-guide
-title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——37 章配置实录
-tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, nixos-manual-2605, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, var-lib-nixos, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, build-image, system-autoUpgrade, nix-dev, best-practices, system-nix, npins, switch-inhibitor, fsType-required, release-notes-2605, mkShellNoCC, inputsFrom, post-build-hook, cachix, direnv, nix-direnv, sphinx-sources-trick, stage1-systemd, dbus-broker, wineWow64Packages, rocm-7, nixfmt]
+title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——38 章配置实录
+tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, nixos-manual-2605, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, var-lib-nixos, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, build-image, system-autoUpgrade, nix-dev, best-practices, system-nix, npins, switch-inhibitor, fsType-required, release-notes-2605, mkShellNoCC, inputsFrom, post-build-hook, cachix, direnv, nix-direnv, sphinx-sources-trick, stage1-systemd, dbus-broker, wineWow64Packages, rocm-7, nixfmt, mcp-nixos, search-nixos-org, option-defaults, not-found-false-negative, index-lag, aliases-nix, kernel-removal, auto-cpufreq]
 created: 2026-10-12
 updated: 2026-10-14
-version: 2.0
+version: 2.1
 status: stable
-source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）** + **第八轮：NixOS Manual stable（= 26.05）整站拉取 + 脚本骨架统计 + 8 组锚点原文提取（官方手册骨架重构）** + **第九轮：nix.dev Guides 全部 Markdown 源（14 个文件，用 `/_sources/<路径>.md` 技巧）+ NixOS 26.05 release notes 原文 496 行 + 25.11/26.05 模块源码对比（nix.dev 精华 + 26.05 破坏性变更总表）**）
+source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）** + **第八轮：NixOS Manual stable（= 26.05）整站拉取 + 脚本骨架统计 + 8 组锚点原文提取（官方手册骨架重构）** + **第九轮：nix.dev Guides 全部 Markdown 源（14 个文件，用 `/_sources/<路径>.md` 技巧）+ NixOS 26.05 release notes 原文 496 行 + 25.11/26.05 模块源码对比（nix.dev 精华 + 26.05 破坏性变更总表）** + **第十轮：mcp-nixos v3.1.0 实时索引交叉核实（约 325 条查询，12 个批次；26.05/25.11 双 channel 默认值对照 + 内核包实测 + 修正 3 处）**）
 confidence: 已核实
 ---
 
@@ -1125,13 +1125,109 @@ let pkgs = import <nixpkgs> {}; in
 |---|---|
 | **`mkShellNoCC` 是 nix.dev recipe 的默认选择**（比 `mkShell` 少带 `stdenv.cc`，更小更快）；`inputsFrom = [ pkg ]` = 「拿依赖不拿自己」 | `pkgs/build-support/mkshell/default.nix` 源码核实 |
 | **Nix 2.34 = Nixpkgs 26.05**；Nix 2.35 = latest；Nix 2.31 = 25.11 | nix.dev 侧边栏版本切换器 |
-| **`nixfmt` 是 Nix 官方 formatter**（*"used to format all code in Nixpkgs"*）；§36.6 推断包名为 `nixfmt-rfc-style`（**未逐条核实**） | nix.dev FAQ |
+| **`nixfmt` 是 Nix 官方 formatter**（*"used to format all code in Nixpkgs"*）；**包名就是 `pkgs.nixfmt`（1.5.0，描述 *"Official formatter for Nix code"*）** —— ~~上一版推断的 `nixfmt-rfc-style` 不存在~~（**第十轮 mcp-nixos 已核实**） | nix.dev FAQ + mcp-nixos 实测 |
 | **post-build-hook 会阻塞构建循环**，hook 失败 → 构建循环退出；官方警告 *"make Nix slow or unusable when the network connection is slow or unreliable"* | nix.dev recipe |
 | **Nix 会缓存「否定的答案」** → 强制重查用 `--option narinfo-cache-negative-ttl 0` | nix.dev troubleshooting |
 | **`error: current Nix store schema is version 10, but I only support 7`** 的官方修法 = `nix-store --dump-db` → 换 db 目录 → `--load-db`（**这就是「频道不可逆」的具体报错**） | nix.dev troubleshooting |
 | **数据库损坏 ≠ store 损坏**：`sqlite3 /nix/var/nix/db/db.sqlite "pragma integrity_check"` → `.dump \| sqlite3` 重建 | nix.dev troubleshooting |
 
 **详版**：`nixos-amd-guide.md` 第三十六章（13 节）+ 第三十七章（16 节）+ 附录 B.17。
+
+## 19. 第十轮（v2.1）：mcp-nixos 交叉核实（第三十八章）
+
+**本轮性质**：**不是补内容，而是用实时数据源反向核对前 37 章的结论**。工具 = **mcp-nixos v3.1.0**（直连 search.nixos.org 的 Elasticsearch 索引，**不需要装 Nix**），**约 325 条查询**。
+
+### 19.1 ★ 修正的 3 处（全部已就地改）
+
+| # | 原写法 | 实测 | 为什么会错 |
+|---|---|---|---|
+| 1 | `services.hardware.auto-cpufreq` | ❌ → **`services.auto-cpufreq`** | **「文件在 `services/hardware/` 目录」≠「选项在 `services.hardware.` 下」** |
+| 2 | `nixfmt-rfc-style` | ❌ → **`pkgs.nixfmt`（1.5.0）** | 从「官方 formatter」误推包名带 `-rfc-style` |
+| 3 | `generateHostKeys` 默认 `true` | ⚠️ → **Default = `services.openssh.enable`**（跟随 sshd） | 把「可以设 true」误读成「默认 true」 |
+
+**★ 共同点：三处都不是「读源码读错」，而是「从命名规律推断」** —— **推断比读错更危险，因为它看起来很有道理。**
+
+### 19.2 ★★ 26.05 vs 25.11 选项默认值实测对照（关键行）
+
+| 选项 | 25.11 | 26.05 |
+|---|---|---|
+| **`boot.initrd.systemd.enable`** | **`false`** | **`true`** |
+| **`fileSystems.<name>.fsType`** | 有默认值（源码 `default = "auto"`） | **无 Default 行** |
+| `services.dbus.implementation` | — | `"broker"` |
+| `networking.resolvconf.enable` | — | `true` |
+| `networking.firewall.logRefusedConnections` | — | `false` |
+| `fonts.fontconfig.useEmbeddedBitmaps` | — | `true` |
+| `hardware.graphics.enable` | — | `false` |
+| `hardware.cpu.amd.updateMicrocode` | — | `false` |
+| `hardware.amdgpu.overdrive.ppfeaturemask` | — | `"0xfffd7fff"` |
+| `networking.wireless.enableHardening` | — | `true`（新增） |
+| `nix.settings.substituters` | — | **`[ ]`**（描述说 *"By default cache.nixos.org is added"*） |
+| `services.openssh.generateHostKeys` | — | `services.openssh.enable` |
+
+**★ 最强的一条证据**：`boot.initrd.systemd.enable` **25.11=`false` / 26.05=`true`** —— 这是「默认值真的变了」的**直接实测证据**（比读 release notes 更硬）。
+
+### 19.3 ★★ 内核包实测（`linux_7_0` / `linux_7_1` 消失的实物证据）
+
+| 分支 | 内核条目数 | 关键差异 |
+|---|---|---|
+| **26.05** | **14** | `linux_default` = **6.18.56** / `linux_latest` 7.2.10 / `linux_testing` 7.3-rc6 / `linux_7_2` / `linux_6_18` / `linux_6_12`（LTS） / `linux_6_6` / `linux_6_1` / `linux_5_15` / `linux_5_10` / `linux_zen` 7.2.9 / `linux_xanmod*` ×3 |
+| **25.11** | **19** | 多出 **`linux_7_0`**（7.0.14）、**`linux_7_1`**（7.1.2）、`linux_hardened`、`linux_6_12_hardened`、`linux_rt_6_1`、`linux_rt_5_10`、`linux_rpi*` |
+
+**两条结论**：① **`linux_default` = 6.18.56** → 证实「默认内核 6.12→6.18」；② **`linux_7_0`/`linux_7_1` 被删** → **「非 longterm 内核会被从 nixpkgs 删除」的实物证据**（注意 `linux_7_2` 还在 —— **被删的是「被超越的」那两代**）。
+
+### 19.4 ★★ 最重要的方法论：`NOT_FOUND` ≠ 不存在
+
+**mcp-nixos 索引里查不到的「四类假阴性」**：
+
+| 类别 | 例子 | 正确做法 |
+|---|---|---|
+| **① 别名**（`aliases.nix` 的 `warn`/`throw`） | `xorg.libX11`、`libX11`、`fonts.fonts`、`nix.binaryCaches` | 读 `pkgs/top-level/aliases.nix` |
+| **② attrset**（不是叶子选项） | `services.lact`、`services.scx`、`hardware.nvidia` | 查叶子：`services.lact.enable` |
+| **③ 派生 attrset** | `linuxPackages`、`rocmPackages.clr.icd` | 查源头：`linuxKernel.kernels.linux_6_18` |
+| **④ freeform 键**（nix.conf 键） | `extra-substituters`、`post-build-hook` | 读 `man nix.conf` |
+
+**★ 四步判据**：① 是不是点分路径的中间层？→ 查叶子 ② 官方是否说它已改名/弃用？→ 读 `aliases.nix` ③ 是不是 nix.conf 键？→ 读 man ④ 是不是内核/包集派生？→ 换源头名。**四步都不命中才判定为真的不存在。**
+
+**★ 本轮用这条纪律保护了一个**正确结论**：`xorg.libX11` 等 5 个名字**全部 `NOT_FOUND`**，但**源码对比证明它们是以 `warn` 别名存在**（25.11 无 `libX11` 别名条目、`xorg` 是真实包集；26.05 有 `libX11 = libx11; # Added 2026-02-06` 且 `xorg` 变成 `warnAlias` 别名集）—— **§25.2 的结论无需修改**。
+
+### 19.5 ★ 本轮新核实的版本号（前几轮标「未核实」的）
+
+| 包 | 26.05 实测 |
+|---|---|
+| `pkgs.bazaar` | **0.7.15** |
+| `pkgs.powerstation` | **0.8.1** |
+| `pkgs.nixfmt` | **1.5.0** |
+| `pkgs.scx.full` / `.rustscheds` | 1.1.2 |
+| `rocmPackages.clr` | **7.2.3**（证实 ROCm 7.x） |
+| `pkgs.mesa` | 26.1.8（与第四轮一致） |
+| `pkgs.proton-ge-bin` | GE-Proton11-1（与第四轮一致） |
+| `pkgs.nodejs` | **24.21.0**（与 §15 一致） |
+| `pkgs.python3` | **3.13.15**（与 §15 一致） |
+| `pkgs.r8125` / `pkgs.r8168` | 9.016.01 / 8.056.02 |
+| `pkgs.npins` | 0.4.2 |
+| `pkgs.uv` | 0.11.21 |
+
+### 19.6 ★ 可复用操作：怎么自己核实
+
+```bash
+# 前提：有 uvx 即可，不需要装 Nix
+uvx mcp-nixos@latest --help
+
+# 本指南的批量驱动脚本（stdio JSON-RPC，一次启动跑几十个查询）
+python .build/mcp-nixos-driver.py .build/mcp-batch-XX.json
+```
+
+**最常用的 3 条查询**：
+
+```jsonc
+{"action": "info", "query": "<选项>", "type": "option", "channel": "26.05"}   // 选项默认值
+{"action": "info", "query": "<包>", "channel": "26.05"}                        // 包版本
+{"action": "search", "query": "<关键词>", "type": "options", "channel": "26.05"} // 拿不准名字时
+```
+
+**★ 一行判据**：`info` 输出里**有没有 `Default:` 那一行** —— **没有 = 没有默认值 = 必须显式指定**（这就是 `fsType` 的判据）。
+
+**详版**：`nixos-amd-guide.md` 第三十八章（9 节）+ 附录 B.18。
 
 ## 可复用操作
 
@@ -1344,6 +1440,15 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 142. **★ `system.nix` 是 26.05 新增配置入口** —— 不用 `nix-channel` 也不用 flake（默认 `/etc/nixos/system.nix`；`--attr` 选属性集）
 143. **★ `mkShellNoCC` 比 `mkShell` 少带 `stdenv.cc`** —— nix.dev recipe 全用前者；`inputsFrom = [ pkg ]` = 「拿依赖不拿自己」（源码级核实）
 144. **★ post-build-hook 会阻塞构建循环** —— hook 失败 → 构建循环退出；官方警告网络慢时会让 Nix 变慢或不可用
+145. **★★ `NOT_FOUND` ≠ 不存在** —— 用 mcp-nixos / search.nixos.org 查不到的名字，**有四类假阴性**：① 别名（`xorg.libX11` / `libX11` / `fonts.fonts` / `nix.binaryCaches`）② attrset 中间层（`services.lact` → 查 `services.lact.enable`）③ 派生 attrset（`linuxPackages` → 查 `linuxKernel.kernels.linux_6_18`）④ nix.conf 键（`extra-substituters` / `post-build-hook`）
+146. **★ 查选项必须写 `type=option`** —— 不写会返回 `Package 'xxx' not found`，**看起来像选项不存在**
+147. **★ 查 26.05 的结论必须显式传 `channel`** —— mcp-nixos **默认是 `unstable`**；`stable` 永远指向当前 stable（2026-10-14 = 26.05）
+148. **★ `services.auto-cpufreq` 不是 `services.hardware.auto-cpufreq`** —— **「文件在 `services/hardware/` 目录」≠「选项在 `services.hardware.` 下」**
+149. **★ `pkgs.nixfmt` 就是官方 formatter（1.5.0），没有 `nixfmt-rfc-style` 这个包** —— `nix-shell -p nixfmt-rfc-style` 会失败
+150. **★ `services.openssh.generateHostKeys` 默认跟随 `services.openssh.enable`**（不是默认 `true`）—— release notes 的 *"by setting … = true while leaving sshd disabled"* 讲的是**「可以这么设」**
+151. **★ `nix.settings.substituters` 的默认值是 `[ ]`**（描述里的 *"By default cache.nixos.org is added"* 指的是模块层替你加）→ **直接设它会覆盖掉官方缓存，必须显式列 `"https://cache.nixos.org"`**
+152. **★ 判断「选项有没有默认值」的方法：看 `info` 输出里有没有 `Default:` 那一行** —— 没有 = 没有默认值 = 必须显式指定（`fsType` 就是这么判出来的）
+153. **★ `profiles/hardened` 的移除手法是「文件在、内容是 `mkRemovedOptionModule` 存根」** —— **看文件在不在判断不出是否被移除，必须看文件内容**（26.05 的 `hardened.nix` HTTP 200 但已经是存根）
 
 ## 未核实 / 存疑
 
@@ -1382,7 +1487,7 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 | `programs.steam.gamescopeSession` 的 HDR 在 26.05 是否可用 | 未核实（取决于 gamescope 版本 + Mesa + 显示器，与配置正确性无关） |
 | Bazzite 的 `Gamescope 3.16.31` 与 nixpkgs 上游 gamescope 的补丁差异 | 未核实（Bazzite 用自建 spec） |
 | `nh search` 的 elasticsearch 端点在**中国大陆**的可达性 | 未核实（走 `search.nixos.org` ES API，未实测是否需代理） |
-| `pkgs.bazaar` 在 nixpkgs 的具体版本号 | 未核实（上游同为 `kolunmi/bazaar`，版本未读出） |
+| ~~`pkgs.bazaar` 在 nixpkgs 的具体版本号~~ | ✅ **第十轮已解决**：**0.7.15**（mcp-nixos 实测 26.05） |
 | Bazzite 的「90 天镜像保留」是否有书面 SLA | 官方措辞有，**SLA 未核实**（官网是描述现状） |
 | `hhd`（Handheld Daemon）是否有 nixpkgs 打包计划 | 未找到 |
 | **NixOS 是否有「启动失败自动回滚」实现** | 未核实（Aeon 有，NixOS 需手动；nixpkgs 内未见模块，第三方方案未查） |
@@ -1443,10 +1548,19 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 | **`rocmPackages` 7.x 对现有 OpenCL 应用的实际兼容性** | 官方警告（针对树外包）+ 未核实（用 `clr.icd` 的应用是否受影响） |
 | **`system.nix` 与 `flake.nix` 同时存在时的优先级** | 官方（两者都是入口）+ 未核实（冲突时谁赢） |
 | **`npins` 与 NixOS 模块层的集成方式** | 官方（不在 nixpkgs 的模块层）+ 未核实（是否有人写了模块） |
-| **`nixfmt-rfc-style` 的确切包名** | 推断（nix.dev 只说 `nixfmt` 是官方 formatter，未逐条核实包名） |
+| ~~**`nixfmt-rfc-style` 的确切包名**~~ | ✅ **第十轮已解决**：**`pkgs.nixfmt` = 1.5.0**（*"Official formatter for Nix code"*）；**`nixfmt-rfc-style` 不存在** |
 | **nix.dev 的 `_sources/*.md` 是否有未发布的草稿页** | 未核实（只取了 Guides 下的页面，`/tutorials/`、`/concepts/` 未系统扫描） |
 | **`systemd-nspawn` 测试后端能否真的跑 GPU/CUDA 测试** | 官方声明 + **未实测** |
 | **`useEmbeddedBitmaps` 默认 `true` 对中文渲染的实际影响** | 官方（默认值变更）+ 未核实（观感差异未实测） |
+| **mcp-nixos 索引的滞后量** | 官方提示（*"may be a few commits ahead of the indexed data"*）+ 未量化 |
+| **`nix_versions` 工具的版本历史覆盖范围** | 未实测（本轮只用 `nix` 工具） |
+| **`nix.settings.substituters` 的 `[ ]` 默认值下，`cache.nixos.org` 由谁加进去** | 描述推断（未在源码层逐行确认） |
+| **`linuxKernel.kernels` 在 25.11 索引里为何缺 `linux_default`/`linux_latest`** | 未核实（索引差异 vs nixpkgs 差异） |
+| **`xorg` 别名集的 `warnAlias` 是每次求值都打还是只打一次** | 未核实 |
+| **本指南还有多少处「从命名规律推断」的同类错误** | 已修 3 处，未系统扫描 |
+| **`wineWow64Packages.yabridge`（9.21）与顶层 `pkgs.yabridge`（5.1.1）的关系** | 未核实（哪个是正确入口未确认） |
+| **`pkgs.python315`（3.15.0）是否适合日常使用** | 未核实（本指南 §15 未提） |
+| **mcp-nixos 的 `source=home-manager` 侧覆盖率** | 未实测（本轮只用 `source=nixos`） |
 
 ## 出处（主要）
 
@@ -1485,6 +1599,16 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 - **`fsType` 矛盾的源码对比**：`nixos-25.11/nixos/modules/tasks/filesystems.nix`（有 `default = "auto"`）vs `nixos-26.05/...`（`default` 已删除）
 - **`system.nix` 入口签名核实**：`nixos-26.05/nixos/default.nix`（`configuration` 有默认值 → `system.nix` 必须显式传）
 - **本地副本**：`.build/rl-2605.section.md`
+
+**mcp-nixos（第三十八章，实时索引交叉核实）**
+
+- **上游仓库**：https://github.com/utensils/mcp-nixos （MIT，作者 James Brink，最新 release **3.1.0 / 2026-09-05**）
+- **本机实测**：`serverInfo` = **mcp-nixos v3.1.0**；`uvx mcp-nixos@latest` 可直跑，**不需要装 Nix**
+- **数据源**：search.nixos.org 的 Elasticsearch 索引（从 nixpkgs 实际求值结果生成）
+- **规模**：包 **150,810** / 选项 **25,773**（`action=stats`）；26.05 索引文档 **175,460**（`action=channels`）
+- **★ 通用技巧**：**Sphinx 站之外的站用 MCP 查** —— `nix action=info` 是「索引型」查询，**不做推断，只回答「这个名字在不在」**
+- **本指南新增工具**：`.build/mcp-nixos-driver.py`（stdio JSON-RPC 批量驱动）+ `.build/mcp-batch-00..11.json`（12 个批次，约 325 条查询）
+- **★ 边界**：**`NOT_FOUND` ≠ 不存在** —— 别名 / attrset / 派生集 / freeform 键四类假阴性（§38.7）
 
 **CachyOS 对照（第十八章，全部一手）**
 

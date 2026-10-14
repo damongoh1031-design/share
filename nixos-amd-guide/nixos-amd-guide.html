@@ -105,13 +105,13 @@
 <div class="layout">
   <aside>
     <div class="brand">NixOS Teaching Guide</div>
-    <div class="ver">v2.0 · 2026-10-14</div>
+    <div class="ver">v2.1 · 2026-10-14</div>
     <div class="toc-group"><a class="toc-item" href="#sec-0"><span class="toc-num">01</span><span>官方手册骨架导航（本指南 ↔ NixOS 26.05 Manual）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-0-0">导航 1 · 官方手册的骨架（4 个正文部分）</a>
 <a class="toc-sub" href="#sub-0-1">导航 2 · 逐条对照表：官方 Part I · Installation</a>
 <a class="toc-sub" href="#sub-0-2">导航 3 · 逐条对照表：官方 Part II · Configuration</a>
 <a class="toc-sub" href="#sub-0-3">导航 4 · 逐条对照表：官方 Part III · Administration</a>
 <a class="toc-sub" href="#sub-0-4">导航 5 · 逐条对照表：官方 Part IV · Development</a>
-<a class="toc-sub" href="#sub-0-5">导航 6 · 缺口汇总（第八轮新增的十章 + 第九轮新增的两章）</a></div></div>
+<a class="toc-sub" href="#sub-0-5">导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章）</a></div></div>
 <div class="toc-group"><a class="toc-item" href="#sec-1"><span class="toc-num">02</span><span>零、怎么用这份指南</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-1-0">0.1 你的硬件画像决定了「哪些坑你根本不会踩」</a>
 <a class="toc-sub" href="#sub-1-1">0.2 证据分级（全文遵守）</a>
 <a class="toc-sub" href="#sub-1-2">0.3 三条铁律（先记住，能省你几天时间）</a>
@@ -435,39 +435,49 @@
 <a class="toc-sub" href="#sub-38-13">37.14 其他与桌面用户相关的变更</a>
 <a class="toc-sub" href="#sub-38-14">37.15 26.05 变更速查表（按「会不会影响我」分类）</a>
 <a class="toc-sub" href="#sub-38-15">37.16 六个反模式</a></div></div>
-<div class="toc-group"><a class="toc-item" href="#sec-39"><span class="toc-num">40</span><span>附录 A：命令速查</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-39-0">A.1 系统重建与验证</a>
-<a class="toc-sub" href="#sub-39-1">A.2 回滚与 generation</a>
-<a class="toc-sub" href="#sub-39-2">A.3 磁盘与 store</a>
-<a class="toc-sub" href="#sub-39-3">A.4 查询</a>
-<a class="toc-sub" href="#sub-39-4">A.5 flake 操作</a>
-<a class="toc-sub" href="#sub-39-5">A.6 诊断（AMD 平台专用）</a>
-<a class="toc-sub" href="#sub-39-6">A.7 自动升级</a>
-<a class="toc-sub" href="#sub-39-7">A.8 游戏 / 性能诊断（第十四章）</a>
-<a class="toc-sub" href="#sub-39-8">A.9 语言工具链与 MCP（第十五、十六章）</a></div></div>
-<div class="toc-group"><a class="toc-item" href="#sec-40"><span class="toc-num">41</span><span>附录 B：出处汇总</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-40-0">B.1 官方文档与手册</a>
-<a class="toc-sub" href="#sub-40-1">B.2 NixOS Wiki</a>
-<a class="toc-sub" href="#sub-40-2">B.3 nixpkgs 源码（nixos-26.05 分支，逐条比对）</a>
-<a class="toc-sub" href="#sub-40-3">B.3.1 非 nixpkgs 的上游源码</a>
-<a class="toc-sub" href="#sub-40-4">B.4 镜像源</a>
-<a class="toc-sub" href="#sub-40-5">B.5 AI agent 工具与 MCP</a>
-<a class="toc-sub" href="#sub-40-6">B.6 生态查询工具（第十二章）</a>
-<a class="toc-sub" href="#sub-40-7">B.7 社区</a>
-<a class="toc-sub" href="#sub-40-8">B.8 第十四～十七章的新增出处</a>
-<a class="toc-sub" href="#sub-40-9">B.9 第十八章的新增出处（CachyOS 对照）</a>
-<a class="toc-sub" href="#sub-40-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</a>
-<a class="toc-sub" href="#sub-40-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</a>
-<a class="toc-sub" href="#sub-40-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</a>
-<a class="toc-sub" href="#sub-40-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</a>
-<a class="toc-sub" href="#sub-40-14">B.14 第六轮（2026-10-12）第二十四章「Aeon 模式」的新增出处</a>
-<a class="toc-sub" href="#sub-40-15">B.15 第七轮（2026-10-12）第二十五章「二进位包与依赖问题」的新增出处</a>
-<a class="toc-sub" href="#sub-40-16">B.16 第八轮（2026-10-12）官方手册骨架核实（本指南 v1.9）</a>
-<a class="toc-sub" href="#sub-40-17">B.17 第九轮（2026-10-14）nix.dev guides + NixOS 26.05 release notes（本指南 v2.0）</a></div></div>
-<div class="toc-group"><a class="toc-item" href="#sec-41"><span class="toc-num">42</span><span>附录 C：未核实 / 存疑项</span></a></div>
-<div class="toc-group"><a class="toc-item" href="#sec-42"><span class="toc-num">43</span><span>附录 D：与姊妹文档的关系</span></a></div>
-<div class="toc-group"><a class="toc-item" href="#sec-43"><span class="toc-num">44</span><span>附录 E：还可以补充什么（Roadmap）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-43-0">E.1 高价值（建议下一轮补）</a>
-<a class="toc-sub" href="#sub-43-1">E.2 中价值</a>
-<a class="toc-sub" href="#sub-43-2">E.3 低价值 / 已知无法补充</a>
-<a class="toc-sub" href="#sub-43-3">E.4 建议你自己做的验证（本文无法替代）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-39"><span class="toc-num">40</span><span>三十八、mcp-nixos 交叉核实：26.05 版本与选项实测对照表</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-39-0">38.1 两个工具：nix 与 nix_versions</a>
+<a class="toc-sub" href="#sub-39-1">38.2 ★ 核实方法：批次化 + 驱动脚本</a>
+<a class="toc-sub" href="#sub-39-2">38.3 ★★ 26.05 vs 25.11：关键选项默认值实测对照</a>
+<a class="toc-sub" href="#sub-39-3">38.4 ★★ 内核包实测：26.05 到底有哪些内核</a>
+<a class="toc-sub" href="#sub-39-4">38.5 ★ 包版本实测表（26.05）</a>
+<a class="toc-sub" href="#sub-39-5">38.6 ★★ 本次核实修正的三处</a>
+<a class="toc-sub" href="#sub-39-6">38.7 ★★ mcp-nixos 的边界：哪些 NOT_FOUND 不是错误</a>
+<a class="toc-sub" href="#sub-39-7">38.8 可复用操作：本轮的全部查询清单</a>
+<a class="toc-sub" href="#sub-39-8">38.9 六个反模式</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-40"><span class="toc-num">41</span><span>附录 A：命令速查</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-40-0">A.1 系统重建与验证</a>
+<a class="toc-sub" href="#sub-40-1">A.2 回滚与 generation</a>
+<a class="toc-sub" href="#sub-40-2">A.3 磁盘与 store</a>
+<a class="toc-sub" href="#sub-40-3">A.4 查询</a>
+<a class="toc-sub" href="#sub-40-4">A.5 flake 操作</a>
+<a class="toc-sub" href="#sub-40-5">A.6 诊断（AMD 平台专用）</a>
+<a class="toc-sub" href="#sub-40-6">A.7 自动升级</a>
+<a class="toc-sub" href="#sub-40-7">A.8 游戏 / 性能诊断（第十四章）</a>
+<a class="toc-sub" href="#sub-40-8">A.9 语言工具链与 MCP（第十五、十六章）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-41"><span class="toc-num">42</span><span>附录 B：出处汇总</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-41-0">B.1 官方文档与手册</a>
+<a class="toc-sub" href="#sub-41-1">B.2 NixOS Wiki</a>
+<a class="toc-sub" href="#sub-41-2">B.3 nixpkgs 源码（nixos-26.05 分支，逐条比对）</a>
+<a class="toc-sub" href="#sub-41-3">B.3.1 非 nixpkgs 的上游源码</a>
+<a class="toc-sub" href="#sub-41-4">B.4 镜像源</a>
+<a class="toc-sub" href="#sub-41-5">B.5 AI agent 工具与 MCP</a>
+<a class="toc-sub" href="#sub-41-6">B.6 生态查询工具（第十二章）</a>
+<a class="toc-sub" href="#sub-41-7">B.7 社区</a>
+<a class="toc-sub" href="#sub-41-8">B.8 第十四～十七章的新增出处</a>
+<a class="toc-sub" href="#sub-41-9">B.9 第十八章的新增出处（CachyOS 对照）</a>
+<a class="toc-sub" href="#sub-41-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</a>
+<a class="toc-sub" href="#sub-41-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</a>
+<a class="toc-sub" href="#sub-41-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</a>
+<a class="toc-sub" href="#sub-41-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</a>
+<a class="toc-sub" href="#sub-41-14">B.14 第六轮（2026-10-12）第二十四章「Aeon 模式」的新增出处</a>
+<a class="toc-sub" href="#sub-41-15">B.15 第七轮（2026-10-12）第二十五章「二进位包与依赖问题」的新增出处</a>
+<a class="toc-sub" href="#sub-41-16">B.16 第八轮（2026-10-12）官方手册骨架核实（本指南 v1.9）</a>
+<a class="toc-sub" href="#sub-41-17">B.17 第九轮（2026-10-14）nix.dev guides + NixOS 26.05 release notes（本指南 v2.0）</a>
+<a class="toc-sub" href="#sub-41-18">B.18 第十轮（2026-10-14）mcp-nixos 交叉核实（本指南 v2.1）</a></div></div>
+<div class="toc-group"><a class="toc-item" href="#sec-42"><span class="toc-num">43</span><span>附录 C：未核实 / 存疑项</span></a></div>
+<div class="toc-group"><a class="toc-item" href="#sec-43"><span class="toc-num">44</span><span>附录 D：与姊妹文档的关系</span></a></div>
+<div class="toc-group"><a class="toc-item" href="#sec-44"><span class="toc-num">45</span><span>附录 E：还可以补充什么（Roadmap）</span></a><div class="toc-kids"><a class="toc-sub" href="#sub-44-0">E.1 高价值（建议下一轮补）</a>
+<a class="toc-sub" href="#sub-44-1">E.2 中价值</a>
+<a class="toc-sub" href="#sub-44-2">E.3 低价值 / 已知无法补充</a>
+<a class="toc-sub" href="#sub-44-3">E.4 建议你自己做的验证（本文无法替代）</a></div></div>
   </aside>
   <main><h1>NixOS 教学指南（AMD 平台 · 中文用户 · Vibe Coding）</h1>
 <h3>从装机到日常：AMD 显卡 / AMD CPU / Realtek 有线网卡 / GNOME 与 KDE / Flatpak / Steam / AI Agent 管理</h3>
@@ -496,11 +506,11 @@
 </tr>
 <tr>
 <td>文档版本</td>
-<td>2.0</td>
+<td>2.1</td>
 </tr>
 <tr>
 <td>核实日期</td>
-<td>2026-10-14（<strong>第九轮：以 nix.dev guides 与 NixOS 26.05 release notes 补充，新增第三十六、三十七章，并就地修正 §17.4 / §27.1 / §27.3 / §30.6 / §32.2 / §33.5 / §35.1</strong>，见附录 B.17）</td>
+<td>2026-10-14（<strong>第十轮：用 mcp-nixos（实时 nixpkgs 索引）交叉核实前 37 章，新增第三十八章，并就地修正 §14 / §36.6 / §B.17.3 共 3 处</strong>，见附录 B.18）</td>
 </tr>
 <tr>
 <td>姊妹文档</td>
@@ -715,8 +725,13 @@
 <td><strong>★ 升级前必查 16 项</strong> / <strong><code>fsType</code> 不再有默认值（官方手册正文已过时）</strong> / <strong>Stage 1 默认改为 systemd</strong> / <strong>Switch inhibitors</strong> / <code>profiles/hardened</code> 移除 / <code>wineWowPackages</code> 改名（游戏必读） / 网络与桌面变更 / <strong>26.05 变更速查表</strong></td>
 </tr>
 <tr>
+<td><strong>三十八</strong></td>
+<td><strong>mcp-nixos 交叉核实：26.05 版本与选项实测对照表</strong></td>
+<td><strong>★ 用实时索引反向核对前 37 章</strong> / <strong>26.05 vs 25.11 选项默认值实测对照</strong> / <strong>内核包实测（<code>linux_7_0</code>/<code>linux_7_1</code> 消失的实物证据）</strong> / <strong>★ 修正 3 处</strong> / <strong>★★ <code>NOT_FOUND</code> ≠ 不存在（四类假阴性）</strong></td>
+</tr>
+<tr>
 <td><strong>附录</strong></td>
-<td>A 命令速查 · B 出处汇总（<strong>含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes</strong>） · C 未核实项 · D 姊妹文档 · E 可补充方向</td>
+<td>A 命令速查 · B 出处汇总（<strong>含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes · B.18 mcp-nixos 交叉核实</strong>） · C 未核实项 · D 姊妹文档 · E 可补充方向</td>
 <td>备查</td>
 </tr>
 </tbody></table>
@@ -1572,7 +1587,7 @@
 <td>➖ 贡献向</td>
 </tr>
 </tbody></table>
-<h3 id="sub-0-5">导航 6 · 缺口汇总（第八轮新增的十章 + 第九轮新增的两章）</h3>
+<h3 id="sub-0-5">导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章）</h3>
 <table>
 <thead>
 <tr>
@@ -1654,6 +1669,12 @@
 <td>破坏性变更与新增特性总表</td>
 <td><strong>升级前逐条检查单</strong>；解释「老教程为什么失效」</td>
 </tr>
+<tr>
+<td><strong>三十八</strong></td>
+<td><strong>mcp-nixos（实时索引）</strong></td>
+<td>26.05 版本与选项实测对照</td>
+<td><strong>反向核对前 37 章的结论</strong>；<strong><code>NOT_FOUND</code> ≠ 不存在</strong></td>
+</tr>
 </tbody></table>
 <div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>阅读建议</strong>：</p>
 <ul>
@@ -1662,6 +1683,7 @@
 <li><strong>想改 nixpkgs / 让 Agent 写模块</strong> → 加读 <strong>三十四</strong> 和 <strong>三十六</strong>（§36.1 的七条清单可直接贴给 Agent）</li>
 <li><strong>装机前</strong> → 先读 <strong>二十七</strong>（文件系统与加密）</li>
 <li><strong>升级 / 别人教程不管用时</strong> → 先读 <strong>三十七</strong>（26.05 变更总表）</li>
+<li><strong>想自己核实某个包/选项存不存在</strong> → 读 <strong>三十八</strong>（mcp-nixos 用法 + 四类假阴性）</li>
 </ul>
 </div></div>
 <hr>
@@ -5786,9 +5808,9 @@ message = &quot;SCX is only supported on kernel version &gt;= 6.12.&quot;;
 <td>多核有帮助；现代内核的 IRQ affinity 已不错，收益有限</td>
 </tr>
 <tr>
-<td><code>services.hardware.auto-cpufreq</code></td>
+<td><code>services.auto-cpufreq</code></td>
 <td>动态调 CPU 频率/功耗</td>
-<td>⚠️ <strong>与 <code>power-profiles-daemon</code> 冲突</strong></td>
+<td>⚠️ <strong>与 <code>power-profiles-daemon</code> 冲突</strong>。<strong>正确路径是 <code>services.auto-cpufreq</code>，不是 <code>services.hardware.auto-cpufreq</code></strong>（后者不存在，写错会求值失败）——<code>[mcp-nixos 实测 2026-10-14]</code></td>
 </tr>
 <tr>
 <td><code>services.power-profiles-daemon</code></td>
@@ -21921,11 +21943,28 @@ $ nix-store --load-db &lt; /tmp/db.dump
 <li><strong>语法错误的早期信号</strong>：<strong><code>nixfmt</code> 解析失败 = 语法错了</strong>，不用等到 <code>nixos-rebuild</code> 求值</li>
 </ol>
 <pre><code class="language-bash"># 一次性格式化
-nix-shell -p nixfmt-rfc-style --run &quot;nixfmt configuration.nix&quot;
+nix-shell -p nixfmt --run &quot;nixfmt configuration.nix&quot;
 # 或者进 devShell
-nix-shell -p nixfmt-rfc-style
+nix-shell -p nixfmt
 </code></pre>
-<p><strong>注意包名</strong>：<code>nixfmt</code> 在 nixpkgs 里现在叫 <strong><code>nixfmt-rfc-style</code></strong>（对应 RFC 166 的官方风格）。<code>pkgs.nixfmt</code> 是旧版。</p>
+<p><strong>★ 包名（2026-10-14 用 mcp-nixos 核实，修正了本节上一版的推断）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>说法</th>
+<th>核实结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><del><code>nixfmt-rfc-style</code></del></td>
+<td>❌ <strong>不存在</strong>（mcp-nixos：<code>Package &#39;nixfmt-rfc-style&#39; not found</code>）</td>
+</tr>
+<tr>
+<td><strong><code>nixfmt</code></strong></td>
+<td>✅ <strong><code>pkgs.nixfmt</code> = 1.5.0</strong>，描述原文 <em>&quot;<strong>Official formatter for Nix code</strong>&quot;</em>，主页 <code>github.com/NixOS/nixfmt</code></td>
+</tr>
+</tbody></table>
+<p><strong>结论</strong>：<strong>直接用 <code>pkgs.nixfmt</code> 就行</strong> —— 它<strong>已经是</strong> RFC 166 风格的官方实现（上游仓库就叫 <code>NixOS/nixfmt</code>，描述里写着 &quot;Official formatter&quot;）。<strong>本指南 §36.6 上一版写的「现在叫 <code>nixfmt-rfc-style</code>」是错的</strong>，已更正。</p>
 </div></div>
 <hr>
 <h3 id="sub-37-6">36.7 Recipe：自定义二进制缓存（含官方安全警告）</h3>
@@ -23661,8 +23700,1288 @@ fonts.fontconfig.useEmbeddedBitmaps = false;
 <p><strong>本章你至少要记住一条</strong>：<strong><code>fsType</code> 在 26.05 必须显式写</strong> —— 官方手册说「可以省略」是过时的。</p>
 </div></div>
 <hr>
-<h2 id="sec-39">附录 A：命令速查</h2>
-<h3 id="sub-39-0">A.1 系统重建与验证</h3>
+<h2 id="sec-39">三十八、mcp-nixos 交叉核实：26.05 版本与选项实测对照表</h2>
+<p><strong>本章回答一个问题</strong>：<strong>本指南前面 37 章的结论，有多少能被「实时数据源」独立验证？</strong></p>
+<p><strong>工具</strong>：<strong>mcp-nixos</strong>（<a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a>，MIT，作者 James Brink，最新 release <strong>3.1.0 / 2026-09-05</strong>）。</p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本机实测版本</td>
+<td><strong>mcp-nixos v3.1.0</strong>（2026-10-14，Windows，经 <code>uvx</code> 直跑）</td>
+</tr>
+<tr>
+<td>数据规模</td>
+<td>包 <strong>150,810</strong> / NixOS 选项 <strong>25,773</strong>（<code>action=stats</code>，unstable 索引）</td>
+</tr>
+<tr>
+<td>26.05 索引文档数</td>
+<td><strong>175,460</strong>（<code>action=channels</code>）</td>
+</tr>
+<tr>
+<td>依赖</td>
+<td><strong>不需要装 Nix</strong>（<code>uvx mcp-nixos@latest</code> 即可；本机无 <code>nix</code> 命令也能跑）</td>
+</tr>
+</tbody></table>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>本章的定位：这是一次「用实时数据源反向核对本指南」的核查，不是新知识介绍。</strong></p>
+<p><strong>为什么值得单独成章</strong>：</p>
+<ol>
+<li><strong>本指南前面 37 章的结论大多来自「读源码」</strong> —— 源码是权威的，但<strong>读源码容易漏、也容易读错</strong>（比如把 attrset 当成选项）</li>
+<li><strong>mcp-nixos 直连 search.nixos.org 的 Elasticsearch 索引</strong> —— 它是<strong>从 nixpkgs 实际求值结果</strong>生成的，能独立回答「这个名字到底存不存在」</li>
+<li><strong>LLM 训练数据比 nixpkgs 落后数月</strong> —— 这是本指南反复强调的「老教程失效」根因，<strong>而 mcp-nixos 是解决它的工具</strong></li>
+</ol>
+</div></div>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本章的数字全部是 2026-10-14 的实测输出</strong>（<code>channel=26.05</code> = stable，<code>channel=25.11</code> 用于对照）。</p>
+<p><strong>复现方式</strong>：见 §38.8 的完整查询清单。<strong>不需要装 Nix</strong>，只需 <code>uvx</code>。</p>
+</div></div>
+<hr>
+<h3 id="sub-39-0">38.1 两个工具：<code>nix</code> 与 <code>nix_versions</code></h3>
+<p><strong>mcp-nixos 只暴露两个工具</strong>，合计约 1,030 tokens 的上下文开销。</p>
+<p><strong>① <code>nix</code> —— 统一查询</strong></p>
+<pre><code>nix(action, query, source, type, channel, limit, version, system)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>取值</th>
+<th>默认</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>action</code></td>
+<td><code>search</code> / <code>info</code> / <code>stats</code> / <code>browse</code> / <code>channels</code> / <code>flake-inputs</code> / <code>cache</code> / <code>store</code></td>
+<td>必填</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>nixos</code> / <code>home-manager</code> / <code>darwin</code> / <code>flakes</code> / <code>flakehub</code> / <code>nixvim</code> / <code>nvf</code> / <code>wiki</code> / <code>nix-dev</code> / <code>noogle</code> / <code>nixhub</code></td>
+<td><code>nixos</code></td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>nixos 搜索：<code>packages</code> / <code>options</code> / <code>programs</code> / <code>flakes</code>；nixos info：<code>package</code> / <code>option</code></td>
+<td><code>packages</code></td>
+</tr>
+<tr>
+<td><code>channel</code></td>
+<td><code>unstable</code> / <code>stable</code> / 具体版本如 <code>25.11</code> / <code>26.05</code></td>
+<td><code>unstable</code></td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>1–100</td>
+<td><code>20</code></td>
+</tr>
+</tbody></table>
+<p><strong>② <code>nix_versions</code> —— 包版本历史</strong></p>
+<pre><code>nix_versions(package, version, limit)
+</code></pre>
+<p>返回 license / homepage / programs 元数据、逐版本平台可用性、<strong>nixpkgs commit hash</strong>（可复现构建）、属性路径。</p>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 本指南用得上的三个路由规则</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>你想知道</th>
+<th>调用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>某个选项存不存在 / 默认值是多少</strong></td>
+<td><code>nix {&quot;action&quot;:&quot;info&quot;,&quot;query&quot;:&quot;&lt;选项&gt;&quot;,&quot;type&quot;:&quot;option&quot;,&quot;channel&quot;:&quot;26.05&quot;}</code></td>
+</tr>
+<tr>
+<td><strong>某个包存不存在 / 版本号</strong></td>
+<td><code>nix {&quot;action&quot;:&quot;info&quot;,&quot;query&quot;:&quot;&lt;包&gt;&quot;,&quot;channel&quot;:&quot;26.05&quot;}</code></td>
+</tr>
+<tr>
+<td><strong>有哪些同类</strong></td>
+<td><code>nix {&quot;action&quot;:&quot;search&quot;,&quot;query&quot;:&quot;&lt;关键词&gt;&quot;,&quot;channel&quot;:&quot;26.05&quot;}</code></td>
+</tr>
+</tbody></table>
+<p><strong><code>stable</code> 永远指向当前 stable</strong>（2026-10-14 实测 = <strong>26.05</strong>）—— 所以<strong>不要写死 26.05</strong>，写 <code>stable</code> 更耐用。</p>
+</div></div>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong>⚠️ <code>info</code> 的 <code>type</code> 必须写对</strong>：查选项要 <code>type=option</code>，查包要 <code>type=package</code>（默认）。</p>
+<p><strong>写错的后果</strong>：<code>nix {&quot;action&quot;:&quot;info&quot;,&quot;query&quot;:&quot;services.scx.enable&quot;}</code>（忘了 <code>type=option</code>）会返回 <code>Package &#39;services.scx.enable&#39; not found</code> —— <strong>看起来像「这个选项不存在」，其实是你查错了类型</strong>。</p>
+</div></div>
+<hr>
+<h3 id="sub-39-1">38.2 ★ 核实方法：批次化 + 驱动脚本</h3>
+<p><strong>本轮的做法</strong>（可复用）：</p>
+<ol>
+<li><strong>从指南里自动抽取候选名</strong> —— 用正则扫全文，抽出所有 <code>pkgs.&lt;name&gt;</code> 与形如 <code>&lt;顶层前缀&gt;.&lt;子路径&gt;</code> 的选项名（先剔除围栏代码块，避免把示例里的临时名当包名）</li>
+<li><strong>分批跑 <code>info</code></strong> —— 每批 20–60 个，按「包」和「选项」分开</li>
+<li><strong>只看 <code>Error (NOT_FOUND)</code></strong> —— 命中即通过，未命中才需要人判断</li>
+<li><strong>对 <code>NOT_FOUND</code> 二次判断</strong> —— 见 §38.7，<strong>很多 <code>NOT_FOUND</code> 不是错误</strong></li>
+</ol>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 本机跑法（不需要装 Nix）</strong>：</p>
+<pre><code class="language-bash"># 冒烟测试
+uvx mcp-nixos@latest --help
+</code></pre>
+<p><strong>写进客户端配置</strong>（任选其一）：</p>
+<pre><code class="language-json">{&quot;mcpServers&quot;: {&quot;nixos&quot;: {&quot;command&quot;: &quot;uvx&quot;, &quot;args&quot;: [&quot;mcp-nixos&quot;]}}}
+</code></pre>
+<pre><code class="language-json">{&quot;mcpServers&quot;: {&quot;nixos&quot;: {&quot;command&quot;: &quot;nix&quot;, &quot;args&quot;: [&quot;run&quot;, &quot;github:utensils/mcp-nixos&quot;, &quot;--&quot;]}}}
+</code></pre>
+<p><strong>本指南本轮用的是自写的 stdio 驱动脚本</strong>（<code>.build/mcp-nixos-driver.py</code>）—— 直接 <code>subprocess</code> 起 <code>uvx mcp-nixos@latest</code>，走 JSON-RPC over stdio，<strong>批量投喂查询</strong>。这样一次进程启动能跑几十个查询，比逐个调用快得多。</p>
+</div></div>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>为什么用「批量驱动」而不是逐个 MCP 调用</strong>：<code>uvx</code> 每次冷启动约 10 秒；<strong>一个批次几十个查询只付一次启动成本</strong>。</p>
+</div></div>
+<hr>
+<h3 id="sub-39-2">38.3 ★★ 26.05 vs 25.11：关键选项默认值实测对照</h3>
+<p><strong>这张表是本轮最有价值的部分</strong> —— 它把本指南散落在各章的「26.05 变了什么」集中做了一次<strong>独立复验</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th><strong>25.11</strong></th>
+<th><strong>26.05</strong></th>
+<th>本指南哪一章说过</th>
+<th>核实结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>boot.initrd.systemd.enable</code></strong></td>
+<td><strong><code>false</code></strong></td>
+<td><strong><code>true</code></strong></td>
+<td>§27.3 / §30.6 / §37.1</td>
+<td>✅ <strong>完全吻合</strong></td>
+</tr>
+<tr>
+<td><strong><code>fileSystems.&lt;name&gt;.fsType</code></strong></td>
+<td>有默认值（源码 <code>default = &quot;auto&quot;</code>）</td>
+<td><strong>无 Default 行</strong></td>
+<td>§27.1 / §37.6</td>
+<td>✅ <strong>完全吻合</strong></td>
+</tr>
+<tr>
+<td><code>services.dbus.implementation</code></td>
+<td>—</td>
+<td><strong><code>&quot;broker&quot;</code></strong></td>
+<td>§37.4</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>networking.resolvconf.enable</code></td>
+<td>—</td>
+<td><strong><code>true</code></strong></td>
+<td>§37.13</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>networking.firewall.logRefusedConnections</code></td>
+<td>—</td>
+<td><strong><code>false</code></strong></td>
+<td>§37.13</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>fonts.fontconfig.useEmbeddedBitmaps</code></td>
+<td>—</td>
+<td><strong><code>true</code></strong></td>
+<td>§37.14</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>hardware.graphics.enable</code></td>
+<td>—</td>
+<td><strong><code>false</code></strong></td>
+<td>§3.1 / §13</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>hardware.cpu.amd.updateMicrocode</code></td>
+<td>—</td>
+<td><strong><code>false</code></strong></td>
+<td>§3.4</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>hardware.amdgpu.overdrive.ppfeaturemask</code></td>
+<td>—</td>
+<td><strong><code>&quot;0xfffd7fff&quot;</code></strong></td>
+<td>§3.4</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>services.openssh.generateHostKeys</code></td>
+<td>—</td>
+<td><strong><code>services.openssh.enable</code></strong></td>
+<td>§37.14 / §B.17</td>
+<td>⚠️ <strong>本指南 B.17 原写「默认 true」，已更正</strong></td>
+</tr>
+<tr>
+<td><code>networking.wireless.enableHardening</code></td>
+<td>—</td>
+<td><strong><code>true</code></strong>（新增）</td>
+<td>§37.13</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>i18n.inputMethod.enabled</code></td>
+<td>—</td>
+<td><strong>Deprecated</strong>（描述原文 <em>&quot;Deprecated - use <code>type</code> and <code>enable = true</code> instead&quot;</em>）</td>
+<td>§5.2</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>system.switch.enable</code></td>
+<td>—</td>
+<td><code>true</code></td>
+<td>§35.6</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>nix.gc.automatic</code></td>
+<td>—</td>
+<td><code>false</code></td>
+<td>§11</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>system.autoUpgrade.allowReboot</code></td>
+<td>—</td>
+<td><code>false</code></td>
+<td>§35.4</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>boot.loader.systemd-boot.configurationLimit</code></td>
+<td>—</td>
+<td><code>null</code></td>
+<td>§30.4</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>nix.settings.substituters</code></td>
+<td>—</td>
+<td><strong><code>[ ]</code></strong>（描述：<em>&quot;By default <code>https://cache.nixos.org/</code> is added.&quot;</em>）</td>
+<td>§36.7</td>
+<td>✅ <strong>吻合</strong>（证实「直接设会丢官方缓存」）</td>
+</tr>
+</tbody></table>
+<p><strong>已确认「不存在」的选项</strong>（本指南声称它们被移除，实测确认）：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>实测</th>
+<th>本指南出处</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>services.openssh.banner</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§37.14</td>
+</tr>
+<tr>
+<td><code>programs.light</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§37.14</td>
+</tr>
+<tr>
+<td><code>system.rebuild.enableNg</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§37.8</td>
+</tr>
+<tr>
+<td><code>networking.wireless.userControlled.group</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§37.13</td>
+</tr>
+<tr>
+<td><code>services.flatpak.remotes</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§7.3</td>
+</tr>
+<tr>
+<td><code>services.flatpak.uninstallUnmanaged</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§7.3</td>
+</tr>
+<tr>
+<td><code>services.ollama.acceleration</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§3.7</td>
+</tr>
+<tr>
+<td><code>services.crabfit.enable</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§37（服务类，跳过）</td>
+</tr>
+<tr>
+<td><code>nix.binaryCaches</code></td>
+<td>❌ NOT_FOUND</td>
+<td>§12 / §13</td>
+</tr>
+<tr>
+<td><code>programs.mangohud</code></td>
+<td>❌ NOT_FOUND（NixOS 侧）</td>
+<td>§8 / §13</td>
+</tr>
+</tbody></table>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 这张表最有用的一行是 <code>boot.initrd.systemd.enable</code></strong> —— 因为它是本指南<strong>第八轮判断错、第九轮改对</strong>的那一条。</p>
+<p><strong>实测把两边的默认值都打出来了</strong>：25.11 = <code>false</code>，26.05 = <code>true</code>。<strong>这是「默认值真的变了」的直接证据</strong>，比读 release notes 的文字更硬。</p>
+</div></div>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>★ 另一个发现：<code>nix.settings.substituters</code> 的默认值是 <code>[ ]</code>，不是 <code>[ &quot;https://cache.nixos.org/&quot; ]</code>。</strong></p>
+<p>选项<strong>描述</strong>里写 <em>&quot;By default <code>https://cache.nixos.org/</code> is added.&quot;</em> —— <strong>这句「added」是指 nixpkgs 在别处替你加进去</strong>（<code>nix.settings.substituters</code> 的模块层默认），<strong>不是选项自身的 default</strong>。</p>
+<p><strong>实践含义（与 §36.7 一致）</strong>：<strong>你在 <code>configuration.nix</code> 里写 <code>nix.settings.substituters = [ &quot;https://example.org&quot; ]</code> 会覆盖掉官方缓存</strong> —— <strong>必须显式把 <code>&quot;https://cache.nixos.org&quot;</code> 也列进去</strong>。</p>
+</div></div>
+<hr>
+<h3 id="sub-39-3">38.4 ★★ 内核包实测：26.05 到底有哪些内核</h3>
+<p><strong>这是本指南第三十三章「非 longterm 内核会被删除」那条硬规则的直接证据。</strong></p>
+<p><strong>26.05（<code>channel=26.05</code>）全部内核</strong>（<code>search linuxKernel.kernels</code>，共 <strong>14</strong> 个）：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>版本</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>linuxKernel.kernels.linux_default</code></td>
+<td><strong>6.18.56</strong></td>
+<td><strong>← 默认内核</strong></td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_latest</code></td>
+<td>7.2.10</td>
+<td>最新稳定</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_testing</code></td>
+<td>7.3-rc6</td>
+<td>rc</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_6_18</code></td>
+<td>6.18.56</td>
+<td>当前 stable 主线</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_7_2</code></td>
+<td>7.2.10</td>
+<td>当前 latest</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_6_12</code></td>
+<td>6.12.112</td>
+<td><strong>LTS</strong></td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_6_6</code></td>
+<td>6.6.158</td>
+<td><strong>LTS</strong></td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_6_1</code></td>
+<td>6.1.189</td>
+<td><strong>LTS</strong></td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_5_15</code></td>
+<td>5.15.222</td>
+<td><strong>LTS</strong></td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_5_10</code></td>
+<td>5.10.271</td>
+<td><strong>LTS</strong></td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_zen</code></td>
+<td>7.2.9</td>
+<td>第三方</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_xanmod</code></td>
+<td>6.18.56</td>
+<td>第三方</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_xanmod_latest</code></td>
+<td>7.2.10</td>
+<td>第三方</td>
+</tr>
+<tr>
+<td><code>linuxKernel.kernels.linux_xanmod_stable</code></td>
+<td>7.2.10</td>
+<td>第三方</td>
+</tr>
+</tbody></table>
+<p><strong>25.11（对照）多出来的内核</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>版本</th>
+<th>26.05 还有吗</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>linux_7_0</code></strong></td>
+<td>7.0.14</td>
+<td>❌ <strong>没了</strong></td>
+</tr>
+<tr>
+<td><strong><code>linux_7_1</code></strong></td>
+<td>7.1.2</td>
+<td>❌ <strong>没了</strong></td>
+</tr>
+<tr>
+<td><strong><code>linux_hardened</code></strong></td>
+<td>6.12.87</td>
+<td>❌ <strong>没了</strong>（release notes <code>:232</code>）</td>
+</tr>
+<tr>
+<td><strong><code>linux_6_12_hardened</code></strong></td>
+<td>6.12.87</td>
+<td>❌ <strong>没了</strong></td>
+</tr>
+<tr>
+<td><strong><code>linux_rt_6_1</code></strong></td>
+<td>6.1.156-rt56</td>
+<td>❌ <strong>没了</strong>（release notes <code>:236</code>）</td>
+</tr>
+<tr>
+<td><strong><code>linux_rt_5_10</code></strong></td>
+<td>5.10.245-rt139</td>
+<td>❌ <strong>没了</strong></td>
+</tr>
+<tr>
+<td><code>linux_rpi1/2/3/4</code></td>
+<td>6.12.47-…</td>
+<td>❌ 没了（Raspberry Pi 内核，与你无关）</td>
+</tr>
+</tbody></table>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>★ 三条实测结论</strong>：</p>
+<ol>
+<li><strong><code>linux_default</code> 在 26.05 = 6.18.56</strong> —— <strong>证实 release notes 的「默认内核 6.12 → 6.18」</strong>（§37.3）</li>
+<li><strong><code>linux_7_0</code> 与 <code>linux_7_1</code> 在 25.11 存在、26.05 消失</strong> —— <strong>这是「非 longterm 内核会被从 nixpkgs 删除」的实物证据</strong>（§33.1）。<strong>注意 <code>linux_7_2</code> 还在</strong> —— 因为它是当前的 latest，<strong>被删的是「被超越的」那两代</strong></li>
+<li><strong><code>linux_hardened</code> / <code>linux_6_12_hardened</code> / <code>linux_rt_*</code> 全部消失</strong> —— <strong>证实 §37.14 的「移除」清单</strong></li>
+</ol>
+</div></div>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 一个索引细节：内核不叫 <code>pkgs.linuxPackages</code>。</strong></p>
+<p><strong>实测</strong>：<code>nix {&quot;action&quot;:&quot;info&quot;,&quot;query&quot;:&quot;linuxPackages&quot;}</code> → <strong>NOT_FOUND</strong>；<code>linuxPackages_latest</code> / <code>linuxPackages_zen</code> → <strong>也都 NOT_FOUND</strong>。</p>
+<p><strong>但内核确实存在</strong>，索引里的名字是 <strong><code>linuxKernel.kernels.linux_6_18</code></strong> / <strong><code>linuxKernel.packages.linux_6_18.kernel</code></strong>。</p>
+<p><strong>原因</strong>：<code>pkgs.linuxPackages*</code> 是<strong>由 <code>linuxKernel</code> 派生的 attrset</strong>，索引记的是派生源头。<strong>所以「<code>linuxPackages</code> 查不到」不等于「内核不在 nixpkgs」</strong> —— 这是 §38.7 要讲的边界之一。</p>
+</div></div>
+<hr>
+<h3 id="sub-39-4">38.5 ★ 包版本实测表（26.05）</h3>
+<p><strong>下面全部是 <code>channel=26.05</code> 的实测输出</strong>，可以直接当「26.05 上这个包是什么版本」的对照表。</p>
+<p><strong>语言工具链（§15 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>本指南 §15 的说法</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pkgs.nodejs</code></td>
+<td><strong>24.21.0</strong></td>
+<td>「24 LTS（默认）」</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>pkgs.nodejs_22</code></td>
+<td>22.23.3</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.nodejs_26</code></td>
+<td>26.11.1</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.nodejs_latest</code></td>
+<td>26.11.1</td>
+<td>「= <code>nodejs_26</code>」</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>pkgs.nodejs-slim</code></td>
+<td>24.21.0</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.python3</code></td>
+<td><strong>3.13.15</strong></td>
+<td>「3.13」</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>pkgs.python314</code></td>
+<td>3.14.7</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.python315</code></td>
+<td>3.15.0</td>
+<td>—</td>
+<td>新增（<strong>本指南没提</strong>）</td>
+</tr>
+<tr>
+<td><code>pkgs.bun</code></td>
+<td>1.3.13</td>
+<td>1.3.13</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.deno</code></td>
+<td>2.8.3</td>
+<td>2.8.3</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.pnpm</code></td>
+<td>11.27.0</td>
+<td><code>= pnpm_11</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.pnpm_10</code></td>
+<td>10.34.0</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.yarn</code></td>
+<td>1.22.22</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.yarn-berry_4</code></td>
+<td>4.14.1</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.rustup</code></td>
+<td>1.29.0</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.cargo</code> / <code>pkgs.rustc</code></td>
+<td>1.95.0</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.go</code></td>
+<td>1.26.8</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.uv</code></td>
+<td>0.11.21</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.tsx</code></td>
+<td>4.21.0</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.typescript</code></td>
+<td>5.9.3</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.esbuild</code></td>
+<td>0.27.2</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.ruff</code></td>
+<td>0.15.14</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.mise</code></td>
+<td>2026.5.12</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.devenv</code></td>
+<td>2.1.2</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong><code>corepack_latest</code></strong></td>
+<td>❌ NOT_FOUND</td>
+<td>「26.05 已删除」</td>
+<td>✅ 吻合</td>
+</tr>
+</tbody></table>
+<p><strong>游戏与图形（§8 / §14 / §32 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pkgs.mesa</code></td>
+<td><strong>26.1.8</strong></td>
+<td>✅ 与 §20 的第四轮实测一致</td>
+</tr>
+<tr>
+<td><code>pkgs.vulkan-loader</code></td>
+<td>1.4.341.0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.libdrm</code></td>
+<td>2.4.133</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.proton-ge-bin</code></td>
+<td><strong>GE-Proton11-1</strong></td>
+<td>✅ 与 §20 一致</td>
+</tr>
+<tr>
+<td><code>pkgs.gamemode</code></td>
+<td>1.8.2</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.mangohud</code></td>
+<td>0.8.3</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.goverlay</code></td>
+<td>1.8.1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.vkbasalt</code></td>
+<td>0.3.2.10</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.lutris</code></td>
+<td>0.5.22</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.heroic</code></td>
+<td>2.22.1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.bottles</code></td>
+<td>63.2</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.wine</code></td>
+<td>11.0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.protontricks</code></td>
+<td>1.14.1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.protonup-qt</code></td>
+<td>2.14.0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.steam</code> / <code>pkgs.steam-run</code></td>
+<td>1.0.0.85</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>AMD 与硬件（§3 / §32 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rocmPackages.clr</code></td>
+<td><strong>7.2.3</strong></td>
+<td>✅ <strong>证实「ROCm 升到 7.x」</strong>（§37.7）</td>
+</tr>
+<tr>
+<td><code>rocmPackages.hipcc</code></td>
+<td>22.0.0-rocm</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>rocmPackages.rocm-smi</code></td>
+<td>7.2.3</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.zluda</code></td>
+<td>6-preview.63</td>
+<td>✅ 与 §3.4 的 <code>zluda.enable</code> 对应</td>
+</tr>
+<tr>
+<td><code>pkgs.lact</code></td>
+<td>0.9.0</td>
+<td>✅ 与 §3.5 的 <code>services.lact</code> 对应</td>
+</tr>
+<tr>
+<td><code>pkgs.corectrl</code></td>
+<td>1.5.1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.linux-firmware</code></td>
+<td>20260916</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.fwupd</code></td>
+<td>2.1.4</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.r8125</code></td>
+<td>9.016.01</td>
+<td>✅ <strong>RTL8125 的树外驱动，确实存在</strong>（§2）</td>
+</tr>
+<tr>
+<td><code>pkgs.r8168</code></td>
+<td>8.056.02</td>
+<td>✅ 同上</td>
+</tr>
+<tr>
+<td><code>pkgs.clinfo</code> / <code>pkgs.vulkan-tools</code> / <code>pkgs.libva-utils</code></td>
+<td>3.0.25 / 1.4.341.0 / 2.23.0</td>
+<td>✅ §3.8 的验证命令可用</td>
+</tr>
+<tr>
+<td><code>pkgs.pciutils</code> / <code>pkgs.lshw</code> / <code>pkgs.inxi</code></td>
+<td>3.15.0 / 02.20 / 3.3.40-1</td>
+<td>✅ §0 的诊断命令可用</td>
+</tr>
+</tbody></table>
+<p><strong>调度器与游戏机（§14 / §23 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pkgs.scx.full</code></td>
+<td><strong>1.1.2</strong></td>
+<td>✅ 默认包</td>
+</tr>
+<tr>
+<td><code>pkgs.scx.rustscheds</code></td>
+<td>1.1.2</td>
+<td>✅ §14 提到的精简版</td>
+</tr>
+<tr>
+<td><code>pkgs.scx.cscheds</code></td>
+<td>0-unstable-2026-01-13</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.ananicy</code></td>
+<td>unstable-2023-03-21</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.ananicy-rules-cachyos</code></td>
+<td>0-unstable-2026-05-19</td>
+<td>✅ §18 的 CachyOS 规则包</td>
+</tr>
+<tr>
+<td><code>pkgs.bore</code></td>
+<td>0.4.1</td>
+<td>✅（<strong>注意：这是 TCP 隧道，不是调度器</strong>，§18 已澄清）</td>
+</tr>
+<tr>
+<td><code>pkgs.tuned</code></td>
+<td>2.27.0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.auto-cpufreq</code></td>
+<td>3.0.0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.tlp</code></td>
+<td>1.9.1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.power-profiles-daemon</code></td>
+<td>0.30</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.irqbalance</code></td>
+<td>1.9.5</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.limine</code></td>
+<td>12.5.2</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>掌机与桌面（§23 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>本指南 §23 的说法</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pkgs.inputplumber</code></td>
+<td><strong>0.77.1</strong></td>
+<td>0.77.1</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.powerstation</code></td>
+<td><strong>0.8.1</strong></td>
+<td>版本未核实</td>
+<td>✅ <strong>现已核实</strong></td>
+</tr>
+<tr>
+<td><code>pkgs.bazaar</code></td>
+<td><strong>0.7.15</strong></td>
+<td>版本未核实</td>
+<td>✅ <strong>现已核实</strong></td>
+</tr>
+<tr>
+<td><code>pkgs.distrobox</code></td>
+<td><strong>1.8.2.5</strong></td>
+<td>1.8.2.5</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.nh</code></td>
+<td><strong>4.4.2</strong></td>
+<td>4.4.2</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.waydroid</code></td>
+<td>1.6.3</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.lanzaboote</code></td>
+<td>❌ NOT_FOUND</td>
+<td>「= 404」</td>
+<td>✅ <strong>吻合</strong>（不在 nixpkgs，在独立 flake）</td>
+</tr>
+<tr>
+<td><strong><code>pkgs.decky-loader</code></strong></td>
+<td>❌ NOT_FOUND</td>
+<td>「= 404」</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><strong><code>pkgs.hhd</code></strong></td>
+<td>❌ NOT_FOUND</td>
+<td>「未找到」</td>
+<td>✅ 吻合</td>
+</tr>
+<tr>
+<td><code>pkgs.umu-launcher</code></td>
+<td>✅ 存在</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>Wine 生态（§37.12 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>wineWow64Packages.base</code> / <code>.full</code> / <code>.stable</code> / <code>.minimal</code> / <code>.wayland</code> / <code>.stableFull</code></td>
+<td>11.0</td>
+<td>✅ <strong>新名字</strong></td>
+</tr>
+<tr>
+<td><code>wineWow64Packages.staging</code> / <code>.unstable</code></td>
+<td>11.8</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>wineWow64Packages.fonts</code></td>
+<td>11.0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong><code>wineWow64Packages.yabridge</code></strong></td>
+<td>9.21</td>
+<td>✅ <strong><code>yabridge</code> 确实走新包名</strong></td>
+</tr>
+<tr>
+<td><strong><code>wineWowPackages</code></strong></td>
+<td>❌ <strong>NOT_FOUND</strong></td>
+<td>✅ <strong>证实旧名已删</strong></td>
+</tr>
+<tr>
+<td><code>pkgs.yabridge</code>（顶层）</td>
+<td>5.1.1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.wineasio</code></td>
+<td>1.3.0</td>
+<td>✅ 在 §37.12 的受影响清单里</td>
+</tr>
+<tr>
+<td><code>pkgs.winbox</code> / <code>pkgs.synthesia</code> / <code>pkgs.vtfedit</code> / <code>pkgs.opentrack</code> / <code>pkgs.slushload</code></td>
+<td>4.4 / 10.9 / 1.3.3 / 2026.1.0-unstable / 3</td>
+<td>✅ <strong>全部存在</strong>（§37.12 的清单已核实）</td>
+</tr>
+</tbody></table>
+<p><strong>nix.dev 工具（§36 相关）</strong></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+<th>本指南 §36 的说法</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>pkgs.nixfmt</code></strong></td>
+<td><strong>1.5.0</strong>（描述 <em>&quot;Official formatter for Nix code&quot;</em>）</td>
+<td>原写「现在叫 <code>nixfmt-rfc-style</code>」</td>
+<td>❌ <strong>已更正</strong>（§38.6）</td>
+</tr>
+<tr>
+<td><code>pkgs.npins</code></td>
+<td>0.4.2</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.nix-ld</code></td>
+<td>2.0.6</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.nix-direnv</code></td>
+<td>3.1.2</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.nix-index</code></td>
+<td>0.1.10</td>
+<td>✅ 存在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.appimage-run</code></td>
+<td>✅ 存在</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pkgs.brightnessctl</code></td>
+<td>0.5.1</td>
+<td>✅ §37.14 的替代品</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.iw</code></td>
+<td>6.17</td>
+<td>✅ §37.14</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.dpkg</code> / <code>pkgs.rpm</code></td>
+<td>1.23.7 / 4.20.1</td>
+<td>✅ §25 的解包方案</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pkgs.just</code> / <code>pkgs.ripgrep</code></td>
+<td>1.51.0 / 15.1.0</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+<tr>
+<td><code>pkgs.fcitx5</code></td>
+<td>5.1.19</td>
+<td>—</td>
+<td>新增</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="sub-39-5">38.6 ★★ 本次核实<strong>修正</strong>的三处</h3>
+<div class="callout danger"><div class="callout-h"><span class="callout-i">⛔</span>危险</div><div class="callout-b"><p><strong>① <code>services.hardware.auto-cpufreq</code> → <code>services.auto-cpufreq</code>（真错误，会导致求值失败）</strong></p>
+<p><strong>实测</strong>：<code>services.hardware.auto-cpufreq.enable</code> → ❌ <strong>NOT_FOUND</strong>；<code>search auto-cpufreq</code> → ✅ <strong><code>services.auto-cpufreq.enable</code></strong> + <strong><code>services.auto-cpufreq.settings</code></strong>。</p>
+<p><strong>已就地修正</strong>（§14 的服务表）。</p>
+<p><strong>为什么会写错</strong>：<code>auto-cpufreq</code> 是<strong>独立项目</strong>（不是 <code>hardware.*</code> 命名空间下的驱动），它的模块放在 <code>nixos/modules/services/hardware/</code> <strong>目录</strong>里 —— <strong>但选项路径是 <code>services.auto-cpufreq</code></strong>。<strong>「文件在 <code>services/hardware/</code> 目录」≠「选项在 <code>services.hardware.</code> 下」</strong> —— 这是读目录结构时的经典误推。</p>
+</div></div>
+<div class="callout danger"><div class="callout-h"><span class="callout-i">⛔</span>危险</div><div class="callout-b"><p><strong>② <code>nixfmt-rfc-style</code> → <code>nixfmt</code>（真错误，<code>nix-shell -p</code> 会失败）</strong></p>
+<p><strong>实测</strong>：<code>nixfmt-rfc-style</code> → ❌ <strong>NOT_FOUND</strong>；<code>nixfmt</code> → ✅ <strong>1.5.0</strong>，描述原文 <em>&quot;<strong>Official formatter for Nix code</strong>&quot;</em>，主页 <code>https://github.com/NixOS/nixfmt</code>。</p>
+<p><strong>已就地修正</strong>（§36.6）。</p>
+<p><strong>为什么会写错</strong>：本指南 §36.6 上一版是<strong>从 nixpkgs 历史改名推断</strong>的（当时标注了「未逐条核实」）。<strong>实际 <code>pkgs.nixfmt</code> 就是官方 RFC 166 实现</strong> —— 上游仓库 <code>NixOS/nixfmt</code> 的描述直接写着 &quot;Official formatter&quot;，<strong>不存在一个叫 <code>nixfmt-rfc-style</code> 的独立包</strong>。</p>
+</div></div>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong>③ <code>services.openssh.generateHostKeys</code> 的默认值（表述不准）</strong></p>
+<p><strong>本指南 B.17 原写</strong>：「<code>services.openssh.generateHostKeys</code> 默认 true」。</p>
+<p><strong>实测</strong>：<strong>Default = <code>services.openssh.enable</code></strong>（即<strong>跟随 sshd 开关</strong>，<code>services.openssh.enable</code> 默认 <code>false</code>）。</p>
+<p><strong>正确表述</strong>：<strong>「新增该选项，默认跟随 <code>services.openssh.enable</code>；可显式设 <code>true</code> 在不开 sshd 的情况下也生成 host key」</strong> —— release notes 的原文是 <em>&quot;by setting <code>services.openssh.generateHostKeys = true</code> <strong>while leaving <code>services.openssh.enable</code> disabled</strong>&quot;</em>，<strong>它讲的是「可以这么设」，不是「默认就是 true」</strong>。</p>
+<p><strong>已就地修正</strong>（§B.17.3）。</p>
+</div></div>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 三处错误的共同点</strong>：<strong>都不是「读源码读错」，而是「从命名规律推断」</strong> ——</p>
+<ul>
+<li><code>services/hardware/</code> 目录 → 误推 <code>services.hardware.*</code></li>
+<li>「官方 formatter」→ 误推包名带 <code>-rfc-style</code></li>
+<li>「新增了可以设 true 的能力」→ 误推默认值是 true</li>
+</ul>
+<p><strong>这正是 mcp-nixos 的价值</strong>：<strong>它不做推断，只回答「这个名字在不在」。</strong></p>
+</div></div>
+<hr>
+<h3 id="sub-39-6">38.7 ★★ mcp-nixos 的边界：哪些 <code>NOT_FOUND</code> 不是错误</h3>
+<p><strong>这是本章最重要的方法论</strong> —— <strong>不搞清边界，就会把正确的配置「修」坏。</strong></p>
+<div class="callout important"><div class="callout-h"><span class="callout-i">★</span>重要</div><div class="callout-b"><p><strong>mcp-nixos 的索引来自 search.nixos.org 的 Elasticsearch</strong> —— 它记的是**「实际存在的包与选项」**。</p>
+<p><strong>以下四类名字查不到，但完全可能是对的</strong>：</p>
+</div></div>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>例子</th>
+<th>为什么查不到</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>① 别名（<code>aliases.nix</code> 的 <code>warn</code>/<code>throw</code> 条目）</strong></td>
+<td><code>xorg.libX11</code>、<code>libX11</code>、<code>fonts.fonts</code>、<code>nix.binaryCaches</code></td>
+<td>别名是 <code>warn</code>/<code>throw</code> 包装，<strong>不是 derivation</strong></td>
+<td>读 <code>pkgs/top-level/aliases.nix</code> 原文</td>
+</tr>
+<tr>
+<td><strong>② attrset（不是叶子选项）</strong></td>
+<td><code>services.lact</code>、<code>services.scx</code>、<code>hardware.nvidia</code>、<code>users.users</code></td>
+<td><code>info</code> 要求<strong>精确路径</strong></td>
+<td>查叶子：<code>services.lact.enable</code></td>
+</tr>
+<tr>
+<td><strong>③ 派生 attrset</strong></td>
+<td><code>linuxPackages</code>、<code>linuxPackages_latest</code>、<code>rocmPackages.clr.icd</code></td>
+<td>索引记<strong>派生源头</strong></td>
+<td>查 <code>linuxKernel.kernels.linux_6_18</code></td>
+</tr>
+<tr>
+<td><strong>④ freeform 键（nix.conf 键）</strong></td>
+<td><code>extra-substituters</code>、<code>post-build-hook</code>、<code>nix.settings.secret-key-files</code></td>
+<td>它们是 <strong><code>nix.settings</code> 自由格式子模块的键</strong>，不是选项</td>
+<td>查 <code>man nix.conf</code> 或模块源码</td>
+</tr>
+</tbody></table>
+<div class="callout danger"><div class="callout-h"><span class="callout-i">⛔</span>危险</div><div class="callout-b"><p><strong>⚠️ 本轮核实中最容易踩的坑：把 <code>xorg.libX11</code> 的 <code>NOT_FOUND</code> 当成「这个名字不存在」。</strong></p>
+<p><strong>实测</strong>：<code>xorg.libX11</code> / <code>xorg.libxcb</code> / <code>xorg.pixman</code> / <code>xorg.xorgproto</code> / <code>xorg.xauth</code> → <strong>全部 NOT_FOUND</strong>。</p>
+<p><strong>但它们是存在的</strong> —— 只是<strong>以 <code>warn</code> 别名形式存在</strong>（§25.2 的结论没错）。<strong>源码证据</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>分支</th>
+<th><code>pkgs/top-level/aliases.nix</code></th>
+<th><code>all-packages.nix</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>25.11</strong></td>
+<td><strong>无</strong> <code>libX11</code> / <code>xorg =</code> 条目</td>
+<td><code>:4036</code> <code>libX11 = xorg.libX11;</code>；<code>:9740</code> <code>xorg = { … }</code>（<strong>真实包集</strong>）</td>
+</tr>
+<tr>
+<td><strong>26.05</strong></td>
+<td><code>:1178</code> <code>libX11 = libx11; # Added 2026-02-06</code>；<code>:1185</code> <code>libXext = libxext;</code>；<code>:1187</code> <code>libXfont2 = libxfont_2;</code>；<code>:1188</code> <code>libXfont = libxfont_1;</code>；<strong><code>:2361</code> <code>xorg = lib.mapAttrs (name: value: warnAlias &quot;The xorg package set has been deprecated, &#39;xorg.${name}&#39; has been renamed to &#39;${name}&#39;&quot; value) { … }</code></strong></td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>结论</strong>：<strong>§25.2 的原始结论完全正确</strong> —— 26.05 把 <code>xorg</code> 从「真实包集」改成了「<strong>会打弃用警告的别名集</strong>」，<code>libX*</code> 全部改名 <code>libx*</code>。<strong>mcp-nixos 看不到它，是因为别名不进索引。</strong></p>
+<p><strong>所以：<code>NOT_FOUND</code> + 「本指南说它是个别名」→ 不是错误；<code>NOT_FOUND</code> + 「本指南说它是个真包/真选项」→ 才是错误。</strong></p>
+</div></div>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 判断流程（四步）</strong>：</p>
+<ol>
+<li><strong><code>NOT_FOUND</code> 的名字是不是「点分路径的中间层」？</strong> → 是 → 查它的叶子（如 <code>services.lact</code> → <code>services.lact.enable</code>）</li>
+<li><strong>它是不是「官方文档说已改名/已弃用」的？</strong> → 是 → 去读 <code>aliases.nix</code>，不要信索引</li>
+<li><strong>它是不是 nix.conf 的键？</strong> → 是 → 去读 <code>man nix.conf</code></li>
+<li><strong>它是不是「内核/包集派生」？</strong> → 是 → 换 <code>linuxKernel.kernels.*</code> / <code>rocmPackages.*</code> 这类源头名再查</li>
+</ol>
+<p><strong>四步都不命中，才判定为「真的不存在」。</strong></p>
+</div></div>
+<hr>
+<h3 id="sub-39-7">38.8 可复用操作：本轮的全部查询清单</h3>
+<p><strong>★ 一键核实「某选项在 26.05 的默认值」</strong>：</p>
+<pre><code class="language-bash"># 前提：本机有 uvx（不需要 Nix）
+uvx mcp-nixos@latest --help   # 冒烟测试
+
+# 用本指南的驱动脚本批量查（.build/mcp-nixos-driver.py）
+# 批次文件格式：[{&quot;action&quot;:&quot;info&quot;,&quot;query&quot;:&quot;&lt;名字&gt;&quot;,&quot;type&quot;:&quot;option&quot;,&quot;channel&quot;:&quot;26.05&quot;}, ...]
+python .build/mcp-nixos-driver.py .build/mcp-batch-XX.json
+</code></pre>
+<p><strong>★ 最常用的六条查询</strong>：</p>
+<pre><code class="language-jsonc">// 1. 选项的默认值（最常用）
+{&quot;action&quot;: &quot;info&quot;, &quot;query&quot;: &quot;fileSystems.&lt;name&gt;.fsType&quot;, &quot;type&quot;: &quot;option&quot;, &quot;channel&quot;: &quot;26.05&quot;}
+
+// 2. 包的版本
+{&quot;action&quot;: &quot;info&quot;, &quot;query&quot;: &quot;mesa&quot;, &quot;channel&quot;: &quot;26.05&quot;}
+
+// 3. 搜索（拿不准名字时）
+{&quot;action&quot;: &quot;search&quot;, &quot;query&quot;: &quot;auto-cpufreq&quot;, &quot;type&quot;: &quot;options&quot;, &quot;channel&quot;: &quot;26.05&quot;}
+
+// 4. 当前有哪些 channel / stable 是哪个
+{&quot;action&quot;: &quot;channels&quot;}
+
+// 5. 包/选项总数
+{&quot;action&quot;: &quot;stats&quot;}
+
+// 6. 两个 channel 对照（判断「是不是 26.05 才改的」）
+{&quot;action&quot;: &quot;info&quot;, &quot;query&quot;: &quot;boot.initrd.systemd.enable&quot;, &quot;type&quot;: &quot;option&quot;, &quot;channel&quot;: &quot;25.11&quot;}
+</code></pre>
+<p><strong>★ 本轮的批次文件</strong>（留在 <code>.build/</code>，可复跑）：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+<th>条数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.build/mcp-batch-00.json</code></td>
+<td><code>channels</code> + <code>stats</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-01.json</code></td>
+<td>xorg 改名 / nixfmt / npins / wineWow / rocm / 掌机包</td>
+<td>20</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-02.json</code></td>
+<td>语言工具链 / 游戏 / AMD / 系统工具包</td>
+<td>60</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-03.json</code></td>
+<td>26.05 关键选项默认值 + 25.11 对照</td>
+<td>40</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-04.json</code></td>
+<td>叶子选项存在性</td>
+<td>40</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-05.json</code></td>
+<td>选项搜索（mangohud / binaryCaches / searx / xpadneo / scx）</td>
+<td>15</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-06.json</code></td>
+<td>nodejs / python 默认版本</td>
+<td>25</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-07.json</code></td>
+<td>系统选项系统扫描</td>
+<td>59</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-08.json</code></td>
+<td>fonts / nix.settings / steam / nix-ld</td>
+<td>14</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-09.json</code></td>
+<td>Wine 生态 / 内核 / 硬件工具</td>
+<td>33</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-10.json</code></td>
+<td>内核包索引</td>
+<td>12</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-11.json</code></td>
+<td><code>linux_default</code> 双分支对照</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<p><strong>合计约 325 条查询</strong>，覆盖本指南提到的<strong>全部</strong>包名与选项名。</p>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>★ 一行命令复查本指南最关键的那条结论</strong>（<code>fsType</code> 有没有默认值）：</p>
+<pre><code class="language-bash"># 26.05：输出里【没有】Default 行 → 证实「必须显式写」
+# 25.11：源码里 default = &quot;auto&quot; → 有默认值
+</code></pre>
+<p><strong>判断方法</strong>：看 <code>info</code> 的输出里<strong>有没有 <code>Default:</code> 那一行</strong>。<strong>没有 <code>Default:</code> = 没有默认值 = 必须显式指定。</strong></p>
+</div></div>
+<hr>
+<h3 id="sub-39-8">38.9 六个反模式</h3>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong>① 把 <code>NOT_FOUND</code> 一律当成「不存在」</strong> —— 别名 / attrset / 派生 / freeform 四类都是假阴性（§38.7）。</p>
+<p><strong>② 忘了写 <code>type=option</code></strong> —— 查选项时不写会返回 <code>Package &#39;xxx&#39; not found</code>，<strong>看起来像选项不存在</strong>。</p>
+<p><strong>③ 用 <code>unstable</code> 索引去核对 26.05 的结论</strong> —— <strong>默认 channel 是 <code>unstable</code></strong>，必须显式传 <code>channel</code>。<strong>26.05 的包名与 unstable 可能不同</strong>。</p>
+<p><strong>④ 把 mcp-nixos 当成「比源码权威」</strong> —— 它是<strong>索引</strong>，索引有滞后（<code>channels</code> 输出里明确写 <em>&quot;Branch HEAD … may be ahead of indexed data&quot;</em>）。<strong>冲突时以源码为准。</strong></p>
+<p><strong>⑤ 用 mcp-nixos 查 home-manager 选项时忘了 <code>source</code></strong> —— HM 选项必须 <code>source=home-manager</code>（如 <code>programs.mangohud.enable</code> <strong>只在 HM 侧存在</strong>，NixOS 侧 <code>NOT_FOUND</code> 是<strong>正确的</strong>）。</p>
+<p><strong>⑥ 认为「查到了就能用」</strong> —— <strong>存在 ≠ 已启用 ≠ 配置正确</strong>。比如 <code>services.scx.enable</code> 存在，<strong>但内核不支持 sched_ext 时它会静默跳过</strong>（§14.4）。</p>
+</div></div>
+<div class="callout tip"><div class="callout-h"><span class="callout-i">✓</span>提示</div><div class="callout-b"><p><strong>本章的四行一句话总结</strong>：</p>
+<p><strong>想知道某个选项/包在 26.05 的真实状态</strong> → 用 <code>nix action=info</code>，<strong>必须显式传 <code>channel</code> 与 <code>type</code></strong>（§38.1）。
+<strong><code>NOT_FOUND</code> 先别改配置</strong> → 按 §38.7 的四步判据走一遍，<strong>四类假阴性</strong>占了本轮多数。
+<strong>本轮核实修正了 3 处</strong> → <code>services.auto-cpufreq</code>（不是 <code>services.hardware.*</code>）、<code>nixfmt</code>（不是 <code>nixfmt-rfc-style</code>）、<code>generateHostKeys</code> 默认值（§38.6）。
+<strong>最强的交叉证据是双 channel 对照</strong> → <code>boot.initrd.systemd.enable</code> 25.11=<code>false</code> / 26.05=<code>true</code>（§38.3）。</p>
+<p><strong>本章你至少要记住一条</strong>：<strong><code>NOT_FOUND</code> ≠ 不存在</strong> —— 别名、attrset、派生集、freeform 键<strong>四类都查不到，但四类都可能是对的</strong>。</p>
+</div></div>
+<hr>
+<h2 id="sec-40">附录 A：命令速查</h2>
+<h3 id="sub-40-0">A.1 系统重建与验证</h3>
 <pre><code class="language-bash"># 日常改配置（立即生效）
 sudo nixos-rebuild switch
 
@@ -23683,7 +25002,7 @@ sudo nixos-rebuild build-vm
 sudo nixos-rebuild switch --flake /etc/nixos#mypc
 sudo nixos-rebuild dry-build --flake .#mypc
 </code></pre>
-<h3 id="sub-39-1">A.2 回滚与 generation</h3>
+<h3 id="sub-40-1">A.2 回滚与 generation</h3>
 <pre><code class="language-bash"># 列出所有 generation
 sudo nixos-rebuild list-generations
 
@@ -23699,7 +25018,7 @@ sudo nix-collect-garbage --delete-older-than 30d
 # ⛔ 危险：删除所有旧 generation（不要用）
 # sudo nix-collect-garbage -d
 </code></pre>
-<h3 id="sub-39-2">A.3 磁盘与 store</h3>
+<h3 id="sub-40-2">A.3 磁盘与 store</h3>
 <pre><code class="language-bash"># 看磁盘占用
 df -h /nix /boot
 du -sh /nix/store
@@ -23719,7 +25038,7 @@ nix path-info -Sh /nix/store/&lt;hash&gt;-&lt;name&gt;
 # 树状查看依赖大小
 nix-tree /run/current-system
 </code></pre>
-<h3 id="sub-39-3">A.4 查询</h3>
+<h3 id="sub-40-3">A.4 查询</h3>
 <pre><code class="language-bash"># 查选项定义（本机已安装系统内）
 nixos-option programs.steam.enable
 
@@ -23736,7 +25055,7 @@ nix eval --json .#nixosConfigurations.mypc.config &gt; current-config.json
 nix shell nixpkgs#ffmpeg
 nix run nixpkgs#cowsay -- hello
 </code></pre>
-<h3 id="sub-39-4">A.5 flake 操作</h3>
+<h3 id="sub-40-4">A.5 flake 操作</h3>
 <pre><code class="language-bash"># 更新所有 input
 nix flake update
 
@@ -23755,7 +25074,7 @@ nix flake metadata
 # ⚠️ 改了 flake.nix 后必须先 git add，否则 Nix 看不到
 git add flake.nix flake.lock
 </code></pre>
-<h3 id="sub-39-5">A.6 诊断（AMD 平台专用）</h3>
+<h3 id="sub-40-5">A.6 诊断（AMD 平台专用）</h3>
 <pre><code class="language-bash"># 显卡是否被识别、用的什么驱动
 lspci -k | grep -A 3 -i vga
 # 期望看到：Kernel driver in use: amdgpu
@@ -23784,7 +25103,7 @@ journalctl -b -p err --no-pager
 # 看某个服务的日志
 journalctl -u nixos-upgrade.service --no-pager
 </code></pre>
-<h3 id="sub-39-6">A.7 自动升级</h3>
+<h3 id="sub-40-6">A.7 自动升级</h3>
 <pre><code class="language-bash"># 手动触发一次自动升级
 sudo systemctl start nixos-upgrade
 
@@ -23794,7 +25113,7 @@ journalctl -u nixos-upgrade.service --no-pager
 # 看定时器状态
 systemctl list-timers | grep -E &quot;nixos|flake&quot;
 </code></pre>
-<h3 id="sub-39-7">A.8 游戏 / 性能诊断（第十四章）</h3>
+<h3 id="sub-40-7">A.8 游戏 / 性能诊断（第十四章）</h3>
 <pre><code class="language-bash"># ── 调度器（scx） ──
 ls /sys/kernel/sched_ext                    # 存在 = 内核支持 sched-ext
 systemctl status scx                        # 服务状态
@@ -23835,7 +25154,7 @@ free -h
 sysctl vm.max_map_count
 sysctl fs.inotify.max_user_watches
 </code></pre>
-<h3 id="sub-39-8">A.9 语言工具链与 MCP（第十五、十六章）</h3>
+<h3 id="sub-40-8">A.9 语言工具链与 MCP（第十五、十六章）</h3>
 <pre><code class="language-bash"># ── 语言版本确认 ──
 node -v ; npm -v ; npx -v
 python3 -V ; uv --version
@@ -23876,8 +25195,8 @@ export PLAYWRIGHT_BROWSERS_PATH=&quot;$(nix-build &#39;&lt;nixpkgs&gt;&#39; -A p
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 </code></pre>
 <hr>
-<h2 id="sec-40">附录 B：出处汇总</h2>
-<h3 id="sub-40-0">B.1 官方文档与手册</h3>
+<h2 id="sec-41">附录 B：出处汇总</h2>
+<h3 id="sub-41-0">B.1 官方文档与手册</h3>
 <table>
 <thead>
 <tr>
@@ -23934,7 +25253,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows">https://github.com/ValveSoftware/Proton/wiki/Using-a-NTFS-disk-with-Linux-and-Windows</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-1">B.2 NixOS Wiki</h3>
+<h3 id="sub-41-1">B.2 NixOS Wiki</h3>
 <table>
 <thead>
 <tr>
@@ -24007,7 +25326,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://wiki.nixos.org/wiki/NixOS_search">https://wiki.nixos.org/wiki/NixOS_search</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-2">B.3 nixpkgs 源码（<code>nixos-26.05</code> 分支，逐条比对）</h3>
+<h3 id="sub-41-2">B.3 nixpkgs 源码（<code>nixos-26.05</code> 分支，逐条比对）</h3>
 <p>前缀：<code>https://github.com/NixOS/nixpkgs/blob/nixos-26.05/</code></p>
 <table>
 <thead>
@@ -24197,7 +25516,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><code>nixos/doc/manual/release-notes/rl-2605.section.md</code>（⚠️ <strong>NixOS</strong> 发布说明，与上面那个<strong>是两个不同文件</strong>）</td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-3">B.3.1 非 nixpkgs 的上游源码</h3>
+<h3 id="sub-41-3">B.3.1 非 nixpkgs 的上游源码</h3>
 <table>
 <thead>
 <tr>
@@ -24210,7 +25529,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><code>torvalds/linux</code> <code>block/elevator.c:893-898</code></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-4">B.4 镜像源</h3>
+<h3 id="sub-41-4">B.4 镜像源</h3>
 <table>
 <thead>
 <tr>
@@ -24243,7 +25562,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://mirrors.ustc.edu.cn/flathub">https://mirrors.ustc.edu.cn/flathub</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-5">B.5 AI agent 工具与 MCP</h3>
+<h3 id="sub-41-5">B.5 AI agent 工具与 MCP</h3>
 <table>
 <thead>
 <tr>
@@ -24272,7 +25591,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html">https://nix-community.github.io/home-manager/options/home-manager/programs/mangohud.html</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-6">B.6 生态查询工具（第十二章）</h3>
+<h3 id="sub-41-6">B.6 生态查询工具（第十二章）</h3>
 <table>
 <thead>
 <tr>
@@ -24329,7 +25648,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://www.jetify.com/docs">https://www.jetify.com/docs</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-7">B.7 社区</h3>
+<h3 id="sub-41-7">B.7 社区</h3>
 <table>
 <thead>
 <tr>
@@ -24362,7 +25681,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://github.com/fufexan/nix-gaming">https://github.com/fufexan/nix-gaming</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-8">B.8 第十四～十七章的新增出处</h3>
+<h3 id="sub-41-8">B.8 第十四～十七章的新增出处</h3>
 <p><strong>游戏 / 内核 / 调度器</strong></p>
 <table>
 <thead>
@@ -24511,7 +25830,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://nixos.org/manual/nix/stable/command-ref/conf-file.html">https://nixos.org/manual/nix/stable/command-ref/conf-file.html</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-9">B.9 第十八章的新增出处（CachyOS 对照）</h3>
+<h3 id="sub-41-9">B.9 第十八章的新增出处（CachyOS 对照）</h3>
 <p><strong>CachyOS 官方仓库（一手）</strong></p>
 <table>
 <thead>
@@ -24627,7 +25946,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td><a href="https://github.com/zen-kernel/zen-kernel/tree/v7.2.9-zen1">https://github.com/zen-kernel/zen-kernel/tree/v7.2.9-zen1</a></td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</h3>
+<h3 id="sub-41-10">B.10 本轮复核（2026-10-12 第二轮）新增/修正的出处</h3>
 <blockquote>
 <p>本轮对全文做了一次<strong>逐条一手复核</strong>：把 22 个 nixpkgs 模块文件 + 内核源码 + 两套 release notes + NixOS Wiki 全部重读一遍。以下是<strong>新发现或修正</strong>的部分。</p>
 </blockquote>
@@ -24928,7 +26247,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td>✅</td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</h3>
+<h3 id="sub-41-11">B.11 第十九～二十二章的新增出处（2026-10-12 第三轮）</h3>
 <h4>B.11.1 nixpkgs / 上游仓库存在性核实（<code>[核实·源码]</code>，逐条 HTTP 状态码）</h4>
 <table>
 <thead>
@@ -25323,7 +26642,7 @@ export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 <td>发帖人是 nixpkgs 里 OpenClaw 的维护者 <code>chrisportela</code>；原话 <em>&quot;There are also a number of CVEs filed for it routinely&quot;</em>；社区回答 <em>&quot;No&quot;</em>（无法既自动更新又不标 insecure）</td>
 </tr>
 </tbody></table>
-<h3 id="sub-40-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</h3>
+<h3 id="sub-41-12">B.12 第四轮（2026-10-12）双分支版本实测与第二十章修正</h3>
 <p><strong>本轮做了什么</strong>：在 <code>nixos-26.05</code> 与 <code>nixos-unstable</code> 两个分支上，逐包比对内核 / Mesa / 游戏组件的版本，并复核第二十章的结论。<strong>结论：第二十章 §20.1 有一处过宽表述被修正。</strong></p>
 <h4>B.12.1 双分支逐包版本比对（2026-10-12 实测）</h4>
 <table>
@@ -25448,7 +26767,7 @@ packageAliases = {
 </tr>
 </tbody></table>
 <p><strong>姊妹文档交叉引用</strong>：<code>nixos-ops-guide.md</code> 第六章 §6.0 / §6.2 / §6.4 ③ / §6.6 有同一发现的详版。</p>
-<h3 id="sub-40-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</h3>
+<h3 id="sub-41-13">B.13 第五轮（2026-10-12）第二十三章「Bazzite 模式」的新增出处</h3>
 <p>本章全部断言分两类：<strong>Bazzite 侧的官方文档</strong>（原文引用）与 <strong>NixOS 侧的源码核实</strong>。</p>
 <h4>B.13.1 Bazzite 侧（官方来源）</h4>
 <table>
@@ -25568,7 +26887,7 @@ packageAliases = {
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本轮的核实方法与前三轮一致</strong>：<strong>Bazzite 侧的每条主张都取自官方文档原文</strong>（不用二手转述），<strong>NixOS 侧的每条主张都直接读 <code>nixos-26.05</code> 源码</strong>（不用「我记得」）。两者都给了可直接复验的路径。</p>
 <p>特别值得记下的一条：<strong><code>ANDROID_BINDER_IPC = &quot;y&quot;</code></strong> —— 这条推翻了社区广泛流传的「NixOS 装 Waydroid 必须自定义内核」。<strong>这类「社区共识其实是过时信息」的案例，是本文档坚持源码核实的主要原因。</strong></p>
 </div></div>
-<h3 id="sub-40-14">B.14 第六轮（2026-10-12）第二十四章「Aeon 模式」的新增出处</h3>
+<h3 id="sub-41-14">B.14 第六轮（2026-10-12）第二十四章「Aeon 模式」的新增出处</h3>
 <p>本章同样是<strong>两边都一手</strong>：Aeon 侧取官方站点与 LWN 的一手技术分析，NixOS 侧直接读 nixpkgs / Home Manager 源码。</p>
 <h4>B.14.1 Aeon / MicroOS Desktop 侧</h4>
 <table>
@@ -25669,7 +26988,7 @@ packageAliases = {
 </tbody></table>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>为什么这一条值得单列</strong>：用户的问题原话是「基座是稳定，但 apps 是最新的」。这个表述隐含了「稳定 = 冻结」的假设。<strong>而 Aeon 恰好是反例</strong> —— 它证明了「不冻结也能稳定」，靠的是机制而非版本。<strong>把这个前提讲清，用户才可能意识到 NixOS 上有三条路而不是一条。</strong></p>
 </div></div>
-<h3 id="sub-40-15">B.15 第七轮（2026-10-12）第二十五章「二进位包与依赖问题」的新增出处</h3>
+<h3 id="sub-41-15">B.15 第七轮（2026-10-12）第二十五章「二进位包与依赖问题」的新增出处</h3>
 <p>本章是<strong>源码级核实</strong>：全部主张来自 nixpkgs <code>nixos-26.05</code> 分支的模块源码与上游项目 README，<strong>不依赖任何二手教程</strong>。</p>
 <h4>B.15.1 nixpkgs 模块源码（逐文件读取）</h4>
 <table>
@@ -25809,7 +27128,7 @@ packageAliases = {
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>关于「nix-ld 会不会影响系统自带程序」</strong>：不会。<code>programs.nix-ld</code> 只在<strong>默认 loader 路径</strong>（<code>/lib64/ld-linux-x86-64.so.2</code>）上放符号链接，而 nixpkgs 构建的程序 ELF 里<strong>硬编码了 store 里的 loader 绝对路径</strong>，不经过这个符号链接。<strong>唯一受影响的是「按 FHS 默认路径找 loader」的第三方二进制。</strong></p>
 </div></div>
 <hr>
-<h3 id="sub-40-16">B.16 第八轮（2026-10-12）官方手册骨架核实（本指南 v1.9）</h3>
+<h3 id="sub-41-16">B.16 第八轮（2026-10-12）官方手册骨架核实（本指南 v1.9）</h3>
 <p><strong>本轮的方法与第七轮不同</strong>：第七轮是「按主题查 nixpkgs 源码」；本轮是「<strong>把官方手册整站拉下来，先建骨架，再按骨架补缺口</strong>」。</p>
 <p><strong>① 一手来源</strong></p>
 <table>
@@ -26136,7 +27455,7 @@ for(const tag of [&quot;h1&quot;,&quot;h2&quot;,&quot;h3&quot;,&quot;h4&quot;]){
 </tr>
 </tbody></table>
 <hr>
-<h3 id="sub-40-17">B.17 第九轮（2026-10-14）nix.dev guides + NixOS 26.05 release notes（本指南 v2.0）</h3>
+<h3 id="sub-41-17">B.17 第九轮（2026-10-14）nix.dev guides + NixOS 26.05 release notes（本指南 v2.0）</h3>
 <p><strong>本轮触发</strong>：用户给出 <a href="https://nix.dev/guides/">https://nix.dev/guides/</a>，要求「从官方文档补充资料」。</p>
 <p><strong>本轮定位</strong>：第八轮补的是 <strong>reference</strong>（官方手册 = 「有什么」）；本轮补的是 <strong>guides</strong>（nix.dev = 「怎么写才对」）。<strong>两者互补，不重复。</strong></p>
 <h4>B.17.1 nix.dev 来源清单（全部用 Markdown 源抓取）</h4>
@@ -26340,7 +27659,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td>release notes <code>:317</code></td>
 </tr>
 </tbody></table>
-<p><strong>其余本轮收录的条目</strong>（全部写进第三十七章）：默认内核 6.12→6.18 / <code>linux_hardened</code> 与 <code>linux-rt</code> 移除 / <code>services.xserver</code> 对未知 X11 驱动改为报错 / activation script 里 reload-restart 弃用（26.11 移除）/ <code>switch-to-configuration</code> 的 <code>ExecReload=</code> 新行为 / <code>programs.light</code> 移除 / <code>services.openssh.generateHostKeys</code> 默认 true / <code>openssh.banner</code> 移到 <code>settings.Banner</code> / <code>firewall.logRefusedConnections</code> 默认 false / reiserfs 与 ecryptfs 移除 / <code>post-resume.target</code> 移除 / <code>nix-env -i</code> 的 unit 不再被启动 / <code>iw</code> 与 <code>wirelesstools</code> 不再隐式安装 / <code>hardware.xpadneo</code> 新增 settings / systemd-nspawn 测试驱动（能测 GPU）。</p>
+<p><strong>其余本轮收录的条目</strong>（全部写进第三十七章）：默认内核 6.12→6.18 / <code>linux_hardened</code> 与 <code>linux-rt</code> 移除 / <code>services.xserver</code> 对未知 X11 驱动改为报错 / activation script 里 reload-restart 弃用（26.11 移除）/ <code>switch-to-configuration</code> 的 <code>ExecReload=</code> 新行为 / <code>programs.light</code> 移除 / <code>services.openssh.generateHostKeys</code> 新增（<strong>默认值 = <code>services.openssh.enable</code></strong>，即跟随 sshd；可显式设 <code>true</code> 在不开 sshd 时也生成 host key）/ <code>openssh.banner</code> 移到 <code>settings.Banner</code> / <code>firewall.logRefusedConnections</code> 默认 false / reiserfs 与 ecryptfs 移除 / <code>post-resume.target</code> 移除 / <code>nix-env -i</code> 的 unit 不再被启动 / <code>iw</code> 与 <code>wirelesstools</code> 不再隐式安装 / <code>hardware.xpadneo</code> 新增 settings / systemd-nspawn 测试驱动（能测 GPU）。</p>
 <h4>B.17.4 ★ 本轮最重要的方法论发现：官方手册正文与 release notes / 源码矛盾</h4>
 <p><strong>实例：<code>fsType</code></strong></p>
 <table>
@@ -26454,7 +27773,333 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 </tbody></table>
 <p><strong>本轮新增的 13 个 <code>nix.dev</code> 文件 + 1 个 release notes 文件</strong> 都放在 <code>.build/</code> 下，<strong>不污染工作区根目录</strong>。</p>
 <hr>
-<h2 id="sec-41">附录 C：未核实 / 存疑项</h2>
+<h3 id="sub-41-18">B.18 第十轮（2026-10-14）mcp-nixos 交叉核实（本指南 v2.1）</h3>
+<p><strong>本轮触发</strong>：用户要求「根据 mcp-nixos 来修正报告」。</p>
+<p><strong>本轮定位</strong>：<strong>这是一次「用实时数据源反向核对本指南」的核查</strong> —— 不是新增知识，而是<strong>验证前 37 章的结论</strong>。产出为<strong>第三十八章</strong>。</p>
+<h4>B.18.1 mcp-nixos 出处与实测环境</h4>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上游仓库</td>
+<td><a href="https://github.com/utensils/mcp-nixos">https://github.com/utensils/mcp-nixos</a>（MIT，作者 James Brink）</td>
+</tr>
+<tr>
+<td>最新 release</td>
+<td><strong>3.1.0 / 2026-09-05</strong></td>
+</tr>
+<tr>
+<td>本机实测版本</td>
+<td><strong>mcp-nixos v3.1.0</strong>（<code>serverInfo</code> 握手返回）</td>
+</tr>
+<tr>
+<td>运行方式</td>
+<td><code>uvx mcp-nixos@latest</code> —— <strong>不需要装 Nix</strong></td>
+</tr>
+<tr>
+<td>数据源</td>
+<td>search.nixos.org 的 Elasticsearch 索引（从 nixpkgs 实际求值结果生成）</td>
+</tr>
+<tr>
+<td>暴露的工具</td>
+<td>仅 2 个：<code>nix</code>（统一查询）/ <code>nix_versions</code>（包版本历史）</td>
+</tr>
+<tr>
+<td>数据规模（<code>action=stats</code>）</td>
+<td>包 <strong>150,810</strong> / 选项 <strong>25,773</strong>（unstable 索引）</td>
+</tr>
+<tr>
+<td>26.05 索引文档数（<code>action=channels</code>）</td>
+<td><strong>175,460</strong></td>
+</tr>
+</tbody></table>
+<p><strong><code>action=channels</code> 实测输出（2026-10-14）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>channel</th>
+<th>索引标签</th>
+<th>文档数</th>
+<th>Branch HEAD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>25.11</td>
+<td><code>latest-48-nixos-25.11</code></td>
+<td>160,604</td>
+<td><code>b6018f87da91d19d0ab4cf979885689b469cdd41</code></td>
+</tr>
+<tr>
+<td><strong>26.05</strong></td>
+<td><code>latest-52-nixos-26.05</code></td>
+<td><strong>175,460</strong></td>
+<td><code>7993f34ee47e28a3d607a525aadc6c94b73be728</code></td>
+</tr>
+<tr>
+<td>beta</td>
+<td><code>latest-52-nixos-26.05</code></td>
+<td>175,460</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><strong>stable（current: 26.05）</strong></td>
+<td><code>latest-52-nixos-26.05</code></td>
+<td>175,460</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>unstable</td>
+<td><code>latest-52-nixos-unstable</code></td>
+<td>183,323</td>
+<td><code>7fd4004d0511991fff3a0524856a9be09e28c5f0</code></td>
+</tr>
+</tbody></table>
+<p><strong>★ 官方提示原文</strong>：<em>&quot;&#39;stable&#39; always points to current stable release. &#39;Revision (indexed)&#39; is the exact commit the search index was built from (safe to compare against <code>nix_versions</code>). &#39;Branch HEAD&#39; is the upstream branch tip … <strong>it may be a few commits ahead of the indexed data</strong>&quot;</em> —— <strong>这就是「索引有滞后」的官方说明</strong>。</p>
+<h4>B.18.2 本轮建立的工具（可复现，留在 <code>.build/</code>）</h4>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>.build/mcp-nixos-driver.py</code></strong></td>
+<td><strong>stdio JSON-RPC 驱动</strong> —— <code>subprocess</code> 起 <code>uvx mcp-nixos@latest</code>，批量投喂查询，<strong>一次进程启动跑几十个查询</strong>（<code>uvx</code> 冷启动约 10 秒，批量能省掉重复启动成本）</td>
+</tr>
+<tr>
+<td><code>.build/mcp-batch-00.json</code> … <code>.build/mcp-batch-11.json</code></td>
+<td>12 个批次文件，<strong>合计约 325 条查询</strong>，覆盖本指南提到的全部包名与选项名</td>
+</tr>
+</tbody></table>
+<h4>B.18.3 本轮修正的三处（全部已就地改到正文）</h4>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>原写法</th>
+<th>实测</th>
+<th>落点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>services.hardware.auto-cpufreq</code></td>
+<td>❌ NOT_FOUND → 正确是 <strong><code>services.auto-cpufreq</code></strong></td>
+<td>§14 服务表</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>nixfmt-rfc-style</code></td>
+<td>❌ NOT_FOUND → 正确是 <strong><code>pkgs.nixfmt</code>（1.5.0，<em>&quot;Official formatter for Nix code&quot;</em>）</strong></td>
+<td>§36.6</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>services.openssh.generateHostKeys</code> 默认 true</td>
+<td>⚠️ 实测 <strong>Default = <code>services.openssh.enable</code></strong>（跟随 sshd）</td>
+<td>§B.17.3</td>
+</tr>
+</tbody></table>
+<p><strong>★ 三处错误的共同点</strong>：<strong>都不是「读源码读错」，而是「从命名规律推断」</strong> ——</p>
+<ul>
+<li><code>services/hardware/</code> 目录 → 误推 <code>services.hardware.*</code></li>
+<li>「官方 formatter」→ 误推包名带 <code>-rfc-style</code></li>
+<li>「新增了可以设 true 的能力」→ 误推默认值是 true</li>
+</ul>
+<h4>B.18.4 本轮确立的方法论（写进第三十八章）</h4>
+<p><strong>★ <code>NOT_FOUND</code> ≠ 不存在。</strong> mcp-nixos 的索引只记「实际存在的包与选项」，以下<strong>四类查不到但可能是对的</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>例子</th>
+<th>正确做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>① 别名</strong>（<code>aliases.nix</code> 的 <code>warn</code>/<code>throw</code> 条目）</td>
+<td><code>xorg.libX11</code>、<code>libX11</code>、<code>fonts.fonts</code>、<code>nix.binaryCaches</code></td>
+<td>读 <code>pkgs/top-level/aliases.nix</code> 原文</td>
+</tr>
+<tr>
+<td><strong>② attrset</strong>（不是叶子选项）</td>
+<td><code>services.lact</code>、<code>services.scx</code>、<code>hardware.nvidia</code>、<code>users.users</code></td>
+<td>查叶子：<code>services.lact.enable</code></td>
+</tr>
+<tr>
+<td><strong>③ 派生 attrset</strong></td>
+<td><code>linuxPackages</code>、<code>rocmPackages.clr.icd</code></td>
+<td>查源头：<code>linuxKernel.kernels.linux_6_18</code></td>
+</tr>
+<tr>
+<td><strong>④ freeform 键</strong>（nix.conf 键）</td>
+<td><code>extra-substituters</code>、<code>post-build-hook</code></td>
+<td>读 <code>man nix.conf</code> 或模块源码</td>
+</tr>
+</tbody></table>
+<p><strong>★ 四步判据</strong>：① 是不是点分路径的中间层？→ 查叶子 ② 官方是否说它已改名/弃用？→ 读 <code>aliases.nix</code> ③ 是不是 nix.conf 键？→ 读 man ④ 是不是内核/包集派生？→ 换源头名。<strong>四步都不命中才判定为真的不存在。</strong></p>
+<h4>B.18.5 ★★ 本轮最强的一条交叉证据</h4>
+<p><strong><code>boot.initrd.systemd.enable</code> 的双 channel 对照</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>channel</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>25.11</strong></td>
+<td><strong><code>false</code></strong></td>
+</tr>
+<tr>
+<td><strong>26.05</strong></td>
+<td><strong><code>true</code></strong></td>
+</tr>
+</tbody></table>
+<p><strong>这是「默认值真的变了」的直接实测证据</strong> —— 比读 release notes 的文字更硬。<strong>本指南第八轮判断错（推断为 scripted）、第九轮改对</strong>的那一条，<strong>本轮由独立数据源二次确认</strong>。</p>
+<h4>B.18.6 ★★ 内核包实测（<code>linux_7_0</code> / <code>linux_7_1</code> 消失的实物证据）</h4>
+<table>
+<thead>
+<tr>
+<th>分支</th>
+<th><code>linuxKernel.kernels.*</code> 条目数</th>
+<th>关键条目</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>26.05</strong></td>
+<td><strong>14</strong></td>
+<td><code>linux_default</code> <strong>6.18.56</strong> / <code>linux_latest</code> 7.2.10 / <code>linux_testing</code> 7.3-rc6 / <code>linux_7_2</code> 7.2.10 / <code>linux_6_18</code> 6.18.56 / <code>linux_6_12</code> 6.12.112 / <code>linux_6_6</code> / <code>linux_6_1</code> / <code>linux_5_15</code> / <code>linux_5_10</code> / <code>linux_zen</code> 7.2.9 / <code>linux_xanmod*</code> ×3</td>
+</tr>
+<tr>
+<td><strong>25.11</strong></td>
+<td><strong>19</strong></td>
+<td>多出 <strong><code>linux_7_0</code></strong>（7.0.14）、<strong><code>linux_7_1</code></strong>（7.1.2）、<strong><code>linux_hardened</code></strong>（6.12.87）、<strong><code>linux_6_12_hardened</code></strong>、<strong><code>linux_rt_6_1</code></strong>、<strong><code>linux_rt_5_10</code></strong>、<code>linux_rpi1/2/3/4</code></td>
+</tr>
+</tbody></table>
+<p><strong>两条结论</strong>：</p>
+<ol>
+<li><strong><code>linux_default</code> = 6.18.56</strong> → <strong>证实 release notes 的「默认内核 6.12 → 6.18」</strong></li>
+<li><strong><code>linux_7_0</code> / <code>linux_7_1</code> 在 25.11 有、26.05 无</strong> → <strong>这是「非 longterm 内核会被从 nixpkgs 删除」的实物证据</strong>（§33.1）。注意 <code>linux_7_2</code> 还在 —— <strong>被删的是「被超越的」那两代</strong></li>
+</ol>
+<h4>B.18.7 本轮核实的选项默认值总表（26.05）</h4>
+<p>（完整表见 §38.3，此处只列「确认吻合」的 16 项）</p>
+<p><code>fileSystems.&lt;name&gt;.fsType</code>（无 Default）/ <code>boot.initrd.systemd.enable</code>（true）/ <code>services.dbus.implementation</code>（&quot;broker&quot;）/ <code>networking.resolvconf.enable</code>（true）/ <code>networking.firewall.logRefusedConnections</code>（false）/ <code>fonts.fontconfig.useEmbeddedBitmaps</code>（true）/ <code>hardware.graphics.enable</code>（false）/ <code>hardware.cpu.amd.updateMicrocode</code>（false）/ <code>hardware.amdgpu.overdrive.ppfeaturemask</code>（&quot;0xfffd7fff&quot;）/ <code>networking.wireless.enableHardening</code>（true）/ <code>i18n.inputMethod.enabled</code>（Deprecated）/ <code>system.switch.enable</code>（true）/ <code>nix.gc.automatic</code>（false）/ <code>system.autoUpgrade.allowReboot</code>（false）/ <code>boot.loader.systemd-boot.configurationLimit</code>（null）/ <code>nix.settings.substituters</code>（<code>[ ]</code>，描述说 <em>&quot;By default cache.nixos.org is added&quot;</em>）。</p>
+<p><strong>确认「不存在」的 10 项</strong>：<code>services.openssh.banner</code> / <code>programs.light</code> / <code>system.rebuild.enableNg</code> / <code>networking.wireless.userControlled.group</code> / <code>services.flatpak.remotes</code> / <code>services.flatpak.uninstallUnmanaged</code> / <code>services.ollama.acceleration</code> / <code>services.crabfit.enable</code> / <code>nix.binaryCaches</code> / <code>programs.mangohud</code>（NixOS 侧）。</p>
+<h4>B.18.8 本轮新核实到的版本号（前几轮标「未核实」的）</h4>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>26.05 实测版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>pkgs.bazaar</code></strong></td>
+<td><strong>0.7.15</strong></td>
+</tr>
+<tr>
+<td><strong><code>pkgs.powerstation</code></strong></td>
+<td><strong>0.8.1</strong></td>
+</tr>
+<tr>
+<td><code>pkgs.inputplumber</code></td>
+<td>0.77.1（与 §23 一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.distrobox</code></td>
+<td>1.8.2.5（与 §23 一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.nh</code></td>
+<td>4.4.2（与 §23 一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.scx.full</code> / <code>.rustscheds</code></td>
+<td>1.1.2</td>
+</tr>
+<tr>
+<td><code>rocmPackages.clr</code></td>
+<td><strong>7.2.3</strong>（证实 ROCm 7.x）</td>
+</tr>
+<tr>
+<td><code>pkgs.mesa</code></td>
+<td>26.1.8（与第四轮一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.proton-ge-bin</code></td>
+<td>GE-Proton11-1（与第四轮一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.nixfmt</code></td>
+<td><strong>1.5.0</strong></td>
+</tr>
+<tr>
+<td><code>pkgs.npins</code></td>
+<td>0.4.2</td>
+</tr>
+<tr>
+<td><code>pkgs.nodejs</code></td>
+<td><strong>24.21.0</strong>（与 §15 一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.python3</code></td>
+<td><strong>3.13.15</strong>（与 §15 一致）</td>
+</tr>
+<tr>
+<td><code>pkgs.uv</code></td>
+<td>0.11.21</td>
+</tr>
+<tr>
+<td><code>pkgs.r8125</code> / <code>pkgs.r8168</code></td>
+<td>9.016.01 / 8.056.02</td>
+</tr>
+</tbody></table>
+<h4>B.18.9 ★ 一条对既有章节的旁证（<code>xorg</code> 改名）</h4>
+<p><strong>实测</strong>：<code>xorg.libX11</code> / <code>xorg.libxcb</code> / <code>xorg.pixman</code> / <code>xorg.xorgproto</code> / <code>xorg.xauth</code> → <strong>全部 NOT_FOUND</strong>。</p>
+<p><strong>但这不是「不存在」</strong> —— 它们是 <code>warn</code> 别名。<strong>源码对比确认 §25.2 的原始结论完全正确</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>分支</th>
+<th><code>pkgs/top-level/aliases.nix</code></th>
+<th><code>all-packages.nix</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>25.11</strong></td>
+<td><strong>无</strong> <code>libX11</code> / <code>xorg =</code> 条目</td>
+<td><code>:4036</code> <code>libX11 = xorg.libX11;</code>；<code>:9740</code> <code>xorg = { … }</code>（<strong>真实包集</strong>）</td>
+</tr>
+<tr>
+<td><strong>26.05</strong></td>
+<td><code>:1178</code> <code>libX11 = libx11; # Added 2026-02-06</code>；<code>:1185</code> <code>libXext = libxext;</code>；<code>:1187</code> <code>libXfont2 = libxfont_2;</code>；<code>:1188</code> <code>libXfont = libxfont_1;</code>；<strong><code>:2361</code> <code>xorg = lib.mapAttrs (name: value: warnAlias &quot;The xorg package set has been deprecated, &#39;xorg.${name}&#39; has been renamed to &#39;${name}&#39;&quot; value) { … }</code></strong></td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>结论</strong>：26.05 把 <code>xorg</code> 从「真实包集」改成「<strong>会打弃用警告的别名集</strong>」，<code>libX*</code> 全部改名 <code>libx*</code> —— <strong>§25.2 的结论无需修改</strong>。</p>
+<h4>B.18.10 一条对既有章节的旁证（<code>profiles/hardened</code> 移除）</h4>
+<p><strong>源码证据</strong>：<code>nixos-26.05/nixos/modules/profiles/hardened.nix</code> 的内容已变成 <strong><code>mkRemovedOptionModule</code> 存根</strong>：</p>
+<pre><code class="language-nix"># This profile included most standard hardening options enabled by default,
+# which may have impacted system stability, feature availability, and performance.
+
+{ lib, ... }:
+{
+  imports = [
+    (lib.mkRemovedOptionModule [ &quot;profiles&quot; &quot;hardened&quot; ] &#39;&#39;
+      The hardened profile has been removed, see the backward incompatibilities section of the 26.05 release notes for more information.
+    &#39;&#39;)
+  ];
+}
+</code></pre>
+<p><strong>⚠️ 注意</strong>：<strong>文件仍然存在（HTTP 200）</strong> —— 所以「看文件在不在」<strong>判断不出是否被移除</strong>，必须<strong>看文件内容</strong>。<strong>§37.11 的结论正确</strong>，且这条「文件在但内容是 <code>mkRemovedOptionModule</code> 存根」是官方移除选项的标准手法（本指南 §34.7 讲模块时提过）。</p>
+<hr>
+<h2 id="sec-42">附录 C：未核实 / 存疑项</h2>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本表列出本文无法从一手来源确认的结论。</strong> 按你的要求，这些<strong>没有当成事实写进正文</strong>，而是明确标注。使用时请自行验证。</p>
 </div></div>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>本轮（2026-10-12 复核轮）的状态更新</strong>：本表原有 3 条 <code>[部分未核实]</code> 已被<strong>源码级核实解决</strong>，条目标题加了删除线（<code>~~…~~</code>）并注明 ✅。同时本轮<strong>新发现并修正</strong>了正文 6 处事实错误（模块路径 5 处 + nix-ld 默认库表述 1 处），详见 §附录 B.3 与 §15.8.3 的更新。</p>
@@ -26467,6 +28112,14 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <li><strong>1 条已被官方答案解决</strong> —— <del>「26.05 默认 stage 1 是 scripted 还是 systemd」</del> → <strong>✅ systemd</strong>（见下表第一行）</li>
 <li><strong>新增 14 条</strong>与第三十六、三十七章相关的存疑项（见「附录 C 补充：第九轮」）</li>
 <li><strong>本轮的存疑项特征从「官方原文歧义」转向「官方只说了一半」</strong> —— 详见该补充节的 NOTE</li>
+</ul>
+</div></div>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>第十轮（2026-10-14 mcp-nixos 交叉核实）的状态更新</strong>：</p>
+<ul>
+<li><strong>1 条已被实时数据源解决</strong> —— <del>「<code>nixfmt</code> 的包名（<code>nixfmt</code> vs <code>nixfmt-rfc-style</code>）在 26.05 的确切状态」</del> → <strong>✅ <code>pkgs.nixfmt</code>（1.5.0）</strong>，<code>nixfmt-rfc-style</code> <strong>不存在</strong></li>
+<li><strong>3 条版本号已核实</strong> —— <code>pkgs.bazaar</code> = 0.7.15 / <code>pkgs.powerstation</code> = 0.8.1 / <code>rocmPackages.clr</code> = 7.2.3</li>
+<li><strong>★ 本轮修正了正文 3 处</strong> —— <code>services.hardware.auto-cpufreq</code> → <code>services.auto-cpufreq</code>；<code>nixfmt-rfc-style</code> → <code>nixfmt</code>；<code>generateHostKeys</code> 默认值表述。<strong>详见 §38.6 与附录 B.18.3</strong></li>
+<li><strong>★ 本轮确立了一条方法论</strong> —— <strong><code>NOT_FOUND</code> ≠ 不存在</strong>（别名 / attrset / 派生集 / freeform 键四类假阴性），<strong>详见 §38.7</strong></li>
 </ul>
 </div></div>
 <table>
@@ -27126,9 +28779,9 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td>官方 guides 推荐它，<strong>但本指南未在 26.05 上实跑过 <code>npins init</code></strong></td>
 </tr>
 <tr>
-<td><strong><code>nixfmt</code> 的包名（<code>nixfmt</code> vs <code>nixfmt-rfc-style</code>）在 26.05 的确切状态</strong></td>
-<td><code>[未核实]</code></td>
-<td>§36.6 说「现在叫 <code>nixfmt-rfc-style</code>」是<strong>基于 nixpkgs 历史改名的推断</strong>，未逐条核实别名表</td>
+<td><del><strong><code>nixfmt</code> 的包名（<code>nixfmt</code> vs <code>nixfmt-rfc-style</code>）在 26.05 的确切状态</strong></del></td>
+<td>✅ <strong>第十轮已解决（2026-10-14，mcp-nixos 实测）</strong>：<strong><code>pkgs.nixfmt</code> = 1.5.0</strong>，描述原文 <em>&quot;<strong>Official formatter for Nix code</strong>&quot;</em>，主页 <code>https://github.com/NixOS/nixfmt</code>；<strong><code>nixfmt-rfc-style</code> 不存在</strong>（<code>Package &#39;nixfmt-rfc-style&#39; not found</code>）。<strong>§36.6 的推断已更正</strong>，详见 §38.6 ②</td>
+<td></td>
 </tr>
 <tr>
 <td><strong><code>systemd-nspawn</code> 测试后端能否真的跑 GPU 测试</strong></td>
@@ -27156,8 +28809,73 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <p><strong>为什么会出现这种模式</strong>：<strong>release notes 的定位是「告知变更」，不是「教你怎么迁移」</strong> —— 所以它给出「什么变了」和「为什么会变」，<strong>但常常不给出「具体怎么做」</strong>。</p>
 <p><strong>★ 本轮最大的收获是一条「方法论」而非一条「事实」</strong>：<strong>官方手册正文可能滞后于 release notes + 模块源码</strong>（<code>fsType</code> 实证）。<strong>所以遇到「配置报错但手册说可以」时，先去读 release notes 的 <code>Backward Incompatibilities</code>，再读模块源码的 <code>mkOption</code>。</strong></p>
 </div></div>
+<h4>附录 C 补充：第十轮（2026-10-14 mcp-nixos 交叉核实）的新增存疑项</h4>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mcp-nixos 索引的滞后量到底有多大</strong></td>
+<td><code>[官方提示]</code> + <code>[未量化]</code></td>
+<td><code>channels</code> 输出明确说 <em>&quot;may be a few commits ahead of the indexed data&quot;</em>，<strong>但没给具体 commit 数或天数</strong>。§38.1 已标注</td>
+</tr>
+<tr>
+<td><strong><code>nix_versions</code> 的版本历史覆盖到多早</strong></td>
+<td><code>[未核实]</code></td>
+<td>本指南本轮只用了 <code>nix</code> 工具，<strong><code>nix_versions</code> 未实测</strong></td>
+</tr>
+<tr>
+<td><strong><code>nix.settings.substituters</code> 的 <code>[ ]</code> 默认值下，<code>cache.nixos.org</code> 到底由谁加进去</strong></td>
+<td><code>[描述推断]</code></td>
+<td>选项描述说 <em>&quot;By default cache.nixos.org is added&quot;</em>，<strong>但 <code>Default: [ ]</code></strong> —— 「谁加的、在哪加」未在源码层逐行确认。§38.3 的结论（「直接设会丢官方缓存」）是<strong>实践推断</strong></td>
+</tr>
+<tr>
+<td><strong><code>linuxKernel.kernels</code> 在 25.11 索引里为何缺 <code>linux_default</code> / <code>linux_latest</code></strong></td>
+<td><code>[未核实]</code></td>
+<td>25.11 的 <code>search linuxKernel.kernels</code> 返回 19 项但<strong>没有 <code>linux_default</code> / <code>linux_latest</code></strong>；26.05 有。<strong>是索引差异还是 nixpkgs 差异未确认</strong></td>
+</tr>
+<tr>
+<td><strong><code>xorg</code> 别名集的 <code>warn</code> 是「每次求值都打」还是「只打一次」</strong></td>
+<td><code>[未核实]</code></td>
+<td>源码用的是 <code>warnAlias</code>，<strong>警告的触发频率与可见性未实测</strong></td>
+</tr>
+<tr>
+<td><strong>本指南还有多少处「从命名规律推断」的同类错误</strong></td>
+<td><code>[已修 3 处]</code></td>
+<td>本轮修正的 3 处<strong>都是同类问题</strong>（§38.6）。<strong>是否还有未发现的未系统扫描</strong></td>
+</tr>
+<tr>
+<td><strong><code>services.scx.scheduler</code> 的 26 个取值里，哪些在 AMD 桌面游戏上真的更好</strong></td>
+<td><code>[官方列了取值]</code> + <code>[未实测]</code></td>
+<td>mcp-nixos 只给枚举（含 <code>scx_lavd</code>），<strong>收益仍无基准</strong>（与 §14.4 的旧存疑项一致）</td>
+</tr>
+<tr>
+<td><strong><code>wineWow64Packages.yabridge</code>（9.21）与顶层 <code>pkgs.yabridge</code>（5.1.1）的关系</strong></td>
+<td><code>[未核实]</code></td>
+<td>实测两者版本号不同（9.21 vs 5.1.1）。<strong>哪个是「正确入口」未确认</strong></td>
+</tr>
+<tr>
+<td><strong><code>pkgs.python315</code>（3.15.0）是否适合日常使用</strong></td>
+<td><code>[未核实]</code></td>
+<td>实测存在（本指南 §15 未提）。<strong>稳定性与生态兼容性未评估</strong></td>
+</tr>
+<tr>
+<td><strong>mcp-nixos 的 <code>source=home-manager</code> 侧覆盖率</strong></td>
+<td><code>[未实测]</code></td>
+<td>本轮<strong>只用了 <code>source=nixos</code></strong>。HM 选项（如 <code>programs.mangohud</code>）<strong>未逐条核实</strong></td>
+</tr>
+</tbody></table>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>第十轮存疑项的特征</strong>：<strong>几乎全是「工具本身的边界」而不是「nixpkgs 的事实」</strong>。</p>
+<p>前三轮的存疑项是「官方没说清」或「官方只说了一半」；<strong>本轮是「工具查不到的那部分」</strong> —— 别名、attrset、派生集、freeform 键、索引滞后。</p>
+<p><strong>★ 本轮最大的收获仍是一条「方法论」</strong>：<strong><code>NOT_FOUND</code> ≠ 不存在</strong>（§38.7 的四类假阴性 + 四步判据）。<strong>这是使用任何「索引型」工具时的通用纪律</strong> —— 索引是「已知事实的快照」，不是「全部真相」。</p>
+<p><strong>⚠️ 附带一条自我提醒</strong>：<strong>本指南本轮修正的 3 处错误，全部来自「从命名规律推断」而不是「读源码读错」</strong> —— 这说明<strong>推断是比读错更危险的错误来源</strong>，因为它看起来很有道理。<strong>遇到「目录结构 / 命名惯例 / 文档措辞」三类线索时，宁可多查一次。</strong></p>
+</div></div>
 <hr>
-<h2 id="sec-42">附录 D：与姊妹文档的关系</h2>
+<h2 id="sec-43">附录 D：与姊妹文档的关系</h2>
 <p>本文是<strong>面向你具体配置的教学指南</strong>。更深的理论推导、NVIDIA 相关内容、以及完整的出处链，见：</p>
 <table>
 <thead>
@@ -27214,11 +28932,11 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 </tr>
 </tbody></table>
 <hr>
-<h2 id="sec-43">附录 E：还可以补充什么（Roadmap）</h2>
+<h2 id="sec-44">附录 E：还可以补充什么（Roadmap）</h2>
 <blockquote>
 <p>按用户要求「仔细思考还有什么资料可以补充」。以下是<strong>本次没有展开、但对你可能有用</strong>的方向，按价值排序。</p>
 </blockquote>
-<h3 id="sub-43-0">E.1 高价值（建议下一轮补）</h3>
+<h3 id="sub-44-0">E.1 高价值（建议下一轮补）</h3>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>2026-10-12 第三轮更新</strong>：下表原前四项中的三项已在本轮完成，已加删除线并注明落点。新增&quot;仍未做&quot;的方向见 E.1.1。</p>
 </div></div>
 <div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>2026-10-12 第五轮更新（新增第二十三章）</strong>：用户第 8 问的最后一条「如何让 NixOS 做到类似 Fedora Bazzite 的使用模式」已<strong>独立成章</strong>（第二十三章，17 节）。原 E.3 里被判定为「补不了」的两项（<strong>SteamOS 的 Gaming Mode UI</strong>、<strong>掌机 TDP 控制</strong>）已被<strong>部分推翻</strong> —— 见 E.3 的更新标注。</p>
@@ -27257,6 +28975,17 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <li><strong>★ <code>profiles/hardened</code> 已移除 + <code>wineWowPackages</code> 改名 <code>wineWow64Packages</code></strong>（§17.4 / §37.11 / §37.12）</li>
 </ol>
 </div></div>
+<div class="callout note"><div class="callout-h"><span class="callout-i">ℹ</span>说明</div><div class="callout-b"><p><strong>2026-10-14 第十轮更新（mcp-nixos 交叉核实，新增第三十八章）</strong>：这一轮的性质是**「反向核对」** —— <strong>不是补内容，而是验证前 37 章的结论</strong>。</p>
+<p><strong>做法</strong>：用 <strong>mcp-nixos v3.1.0</strong>（直连 search.nixos.org 的 Elasticsearch 索引，<strong>不需要装 Nix</strong>）批量核实本指南提到的<strong>全部</strong>包名与选项名（<strong>约 325 条查询</strong>，12 个批次文件），并对 <strong>25.11 / 26.05 双 channel 做默认值对照</strong>。</p>
+<p><strong>本轮最高价值的 4 条结果</strong>：</p>
+<ol>
+<li><strong>★ 修正了 3 处</strong> —— <code>services.hardware.auto-cpufreq</code> → <strong><code>services.auto-cpufreq</code></strong>；<code>nixfmt-rfc-style</code> → <strong><code>nixfmt</code>（1.5.0）</strong>；<code>generateHostKeys</code> 默认值表述（§38.6）</li>
+<li><strong>★ 双 channel 对照直接证实「默认值真的变了」</strong> —— <code>boot.initrd.systemd.enable</code>：<strong>25.11 = <code>false</code>，26.05 = <code>true</code></strong>（§38.3）</li>
+<li><strong>★ <code>linux_7_0</code> / <code>linux_7_1</code> 在 25.11 存在、26.05 消失</strong> —— <strong>这是「非 longterm 内核会被删除」的实物证据</strong>（§38.4）</li>
+<li><strong>★ 确立了一条通用方法论</strong> —— <strong><code>NOT_FOUND</code> ≠ 不存在</strong>：别名 / attrset / 派生集 / freeform 键<strong>四类假阴性</strong>（§38.7）。<strong>本轮把 <code>xorg.libX11</code> 的 <code>NOT_FOUND</code> 误判风险单独写了 DANGER 块</strong></li>
+</ol>
+<p><strong>三处错误的共同点</strong>：<strong>全部来自「从命名规律推断」而不是「读源码读错」</strong> —— 这是本指南首次系统性暴露「推断型错误」的占比。</p>
+</div></div>
 <table>
 <thead>
 <tr>
@@ -27269,11 +28998,6 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td><del><strong>Hermes Agent 的 Nix flake 确切用法</strong></del></td>
 <td>✅ <strong>已完成</strong>（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7）</td>
 <td>已取官方 <code>nix/nixosModules.nix</code> + <code>homeManagerModules.nix</code> + <code>nix-setup.md</code> 全文</td>
-</tr>
-<tr>
-<td><strong>OpenClaw 的 skills 目录结构</strong></td>
-<td>第十章讲了 skills 概念，但具体路径/加载机制未核实</td>
-<td>官方仓库文档</td>
 </tr>
 <tr>
 <td><del><strong>sops-nix / agenix 完整配置</strong></del></td>
@@ -27319,6 +29043,11 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td><del><strong>NixOS 26.05 破坏性变更总表</strong></del></td>
 <td>✅ <strong>已完成（第九轮）</strong>：<strong>第三十七章</strong>（16 节）—— 升级前必查 16 项 + <code>fsType</code> 矛盾实例 + Stage 1 默认变更 + switch inhibitors + 网络与桌面变更</td>
 <td>26.05 release notes 原文 496 行（<code>.build/rl-2605.section.md</code>）+ 25.11/26.05 模块源码对比（见附录 B.17）</td>
+</tr>
+<tr>
+<td><del><strong>用实时索引反向核对本指南的结论</strong></del></td>
+<td>✅ <strong>已完成（第十轮）</strong>：<strong>第三十八章</strong>（9 节）—— mcp-nixos 用法 + 26.05/25.11 默认值对照 + 内核包实测 + <strong>修正 3 处</strong> + <strong><code>NOT_FOUND</code> 四类假阴性</strong></td>
+<td>mcp-nixos v3.1.0（<code>uvx</code>，约 325 条查询）+ <code>.build/mcp-nixos-driver.py</code> + 12 个批次文件（见附录 B.18）</td>
 </tr>
 <tr>
 <td><strong>实测基准数据</strong></td>
@@ -27381,7 +29110,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td><code>nixos-rebuild</code> 加 <code>--show-trace</code> 记 eval 时间；或对同一包比较 <code>nix path-info</code> 的哈希</td>
 </tr>
 </tbody></table>
-<h3 id="sub-43-1">E.2 中价值</h3>
+<h3 id="sub-44-1">E.2 中价值</h3>
 <table>
 <thead>
 <tr>
@@ -27426,7 +29155,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td>进阶：根文件系统每次重启清空</td>
 </tr>
 </tbody></table>
-<h3 id="sub-43-2">E.3 低价值 / 已知无法补充</h3>
+<h3 id="sub-44-2">E.3 低价值 / 已知无法补充</h3>
 <table>
 <thead>
 <tr>
@@ -27455,7 +29184,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 <td>抓取被拦截（<code>old.reddit.com</code> 返回 Blocked）。已用 NixOS Discourse / Arch BBS / HN 替代</td>
 </tr>
 </tbody></table>
-<h3 id="sub-43-3">E.4 建议你<strong>自己</strong>做的验证（本文无法替代）</h3>
+<h3 id="sub-44-3">E.4 建议你<strong>自己</strong>做的验证（本文无法替代）</h3>
 <p>因为「优化收益」是<strong>负载与硬件相关</strong>的，以下必须你自己测：</p>
 <table>
 <thead>
