@@ -4,7 +4,7 @@ title: Hermes Agent 设置技巧汇总(官方最佳实践 + Reddit 社区实证 
 tags: [hermes-agent, nousresearch, ai-agent, settings, reddit, cli, memory, skills, mcp, cron]
 created: 2026-10-14
 updated: 2026-10-14
-version: 2
+version: 3
 status: active
 source: 官方文档 hermes-agent.nousresearch.com + Reddit 社区(r/openclaw、r/better_claw、r/hermesagent、r/LocalLLaMA、r/AI_Agents,经 cnblogs/百家号转引)+ 中文实战社区 + 本机安装实测(2026-10-14)
 confidence: high(官方文档、本机实测已核实;Reddit 观点为社区转引,个别数字未能独立复核)
@@ -223,7 +223,50 @@ hermes profile export work -o work.tar.gz # 备份/迁移
 
 **多模型策略建议**:主模型按任务质量要求选;auxiliary 显式钉本地端点(压缩/摘要不需要多模态,省云端费用);delegation.model 钉便宜模型+父留前沿模型,是省钱最大杠杆。
 
-## 15. 未核实项(v1 原有,v2 续)
+## 15. 社区数据抓取与反爬调教(v3 补充,2026-10-14 社区调研)
+
+**合规边界(先说)**:只抓公开数据 + 用本人账号登录态 + 遵守频率限制;不集成验证码破解/打码服务;遇到人机验证页面的正确处理是停下报告、降频或换官方 API/OAuth,而不是对抗风控。社区主流做法是换合规出口(住宅代理云浏览器)而非"攻破"验证。
+
+### 15.1 目标站点 → 社区推荐路径
+
+| 目标 | 推荐路径 | 依据 |
+|---|---|---|
+| 百度贴吧 | 移动版端点 `tieba.baidu.com/mo/q/m?kw=<kw>&pn=<N>` + WebFetch;**不要 curl**(数据中心 IP 一律 403;单帖 URL curl 会拿到「百度安全验证」2.5KB 空壳,同 URL 用 WebFetch 却能返回正文);吧内搜索端点全部被验证码拦截,只能深翻 + 关键词聚合 | 本机 tieba-scrape skill 实测(2026-09,rimworld 吧 130-200 帖/天,pn=6000≈47 天前,pn 可到 14000) |
+| 知乎 | zhuanlan 详情页时抓时空(反爬),走浏览器工具或缓存;anysearch extract 可提取正文 | 本轮实测(同域 5 篇 2 篇抓到) |
+| Reddit | reddit.com/search.json 与 old.reddit 对本机网络出口直接 block(403 页面);redlib 公共镜像多已关闭(2026-08 起);可行路:住宅代理云浏览器出口 / 免 key 源(last30days skill 自动配 Reddit 源)/ 官方 API(需账号) | 本机 2026-10-14 实测 |
+| Discord | **Hermes 原生 gateway Discord adapter**(bot 身份,最稳);读频道历史让 agent 在服务器内操作 | 官方文档 |
+| 通用网页 | 浏览器工具链(47 内置工具):`browser_navigate` / `browser_snapshot`(可访问性树 + `@e1` ref 定位)/ `browser_click` / `browser_type` / `browser_press` / `browser_scroll` / `browser_vision`(视觉兜底)/ `execute_code`(像素级操作) | 社区(实在智能 2026-08) |
+
+### 15.2 搜索与提取配置
+
+```bash
+hermes config set web_search.provider bing        # 免 key 直接用
+hermes config set web_search.provider google      # 需 CSE key,免费 100 次/天
+hermes config set web_search.search_engine_id <id>
+hermes config set tavily.api_key <key>            # 1000 次/月免费,结果已清洗
+hermes skills install anysearch                    # 免费,含百度源,支持 batch_search/extract
+```
+
+- 社区实测排序(2026-06):anysearch > Bing(5000 次/月免费)> Google CSE > Tavily > DuckDuckGo(中文弱);Brave 英文最强。
+- 网页提取 4 后端:**Firecrawl(默认)/ Parallel / Tavily / Exa**,`hermes setup --portal` 一条命令配好 provider + 4 个 tool gateway。
+- **调教关键**:把工具优先级写进 MEMORY.md("日常搜 anysearch,挂了退 Bing……"),比每次口头交代有效。
+
+### 15.3 反爬三条社区路线
+
+| 路线 | 配置 | 特点 |
+|---|---|---|
+| Browser Use 云浏览器 | `hermes setup` → Browser Automation 步骤选 Browser Use,粘 API Key | 195 国住宅代理 + 反检测指纹,免本地 Chromium |
+| Scrapeless CDP | `config.yaml` 加一行 `browser: cdp_url: "wss://browser.scrapeless.com/api/v2/browser?token=${KEY}&proxyCountry=US&sessionTTL=600"`;临时用 `/browser connect "<wss-url>"` | 一行接入;所有 browser_* 工具自动走云浏览器;`sessionName` 保登录态/cookie,`sessionRecording=true` 可回放视频排错 |
+| 本地拟人化 | snapshot+vision 双模定位 → 输入拆单字符+随机间隔(均值 450ms 正态)→ 每次 press 后必须 snapshot 校验结果渲染 → 失败截图留证 | 零成本,成功率看站点;某教程提到 Camofox 本地伪装(localhost:8080),仅单篇来源,**未在官方文档/本机 config 见到,未核实** |
+
+### 15.4 "调教"= 把技巧固化到三层
+
+1. **SOUL.md**(仅 HERMES_HOME 生效):写抓取行为规范,如"browser_press 后必须 browser_snapshot 校验结果节点,未命中立即终止报错"、"提交前停下等人类确认"。⚠ 纠偏:有教程让把此规则放"项目根目录 SOUL.md + soul_path",与官方文档矛盾——SOUL.md 只在 HERMES_HOME 加载,项目级规则应放 AGENTS.md。
+2. **MEMORY.md**(上限 2200 字符,倒逼高密度):记失败教训与工具优先级,如"贴吧单帖不用 curl""reddit 直连走不通"。
+3. **Skill**:5 步以上重复流程让 Hermes 固化为 skill(学习循环:打分→改写→择优;离线进化走轨迹压缩);或手动 `hermes skills install`。
+4. 学习循环会把失败经验自动沉淀(MEMORY.md 存事实、SKILL 存流程),这是"越用越聪明"的兑现路径。
+
+## 16. 未核实项(v1 原有,v2/v3 续)
 
 - Reddit 具体帖子链接未能直接抓取(reddit.com 与 redlib 镜像均被网络策略拦截),社区引述经 cnblogs/百家号 2026-05-08 汇总转引,原帖用户名/票数以该汇总为准。
 - "Reddit 7 月汇总 276 用例"来自知乎文章(含明显营销内容),仅作背景参考,未逐条核实。
