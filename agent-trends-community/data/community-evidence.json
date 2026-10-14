@@ -1,0 +1,249 @@
+{
+  "meta": {
+    "question": "从社区意见中再度整理趋势",
+    "generated_at": "2026-10-14",
+    "window": "2026-09-14 to 2026-10-14",
+    "engine": "last30days v3.27.1",
+    "sources_active": ["reddit", "hackernews", "github", "grounding"],
+    "sources_missing": ["x", "youtube", "tiktok", "instagram", "polymarket"],
+    "evidence_totals": {
+      "total_items": 63,
+      "reddit": {"items": 28, "upvotes": 7103, "comments": 3447},
+      "hackernews": {"items": 34, "points": 3100, "comments": 1866},
+      "github": {"items": 1, "reactions": 8, "comments": 2}
+    },
+    "core_finding": "社区验证了大部分官方叙事，但重心明显不同：官方讲范式，社区在修管道。社区最大的情绪（职业焦虑、平台不公）在官方叙事里完全缺席。",
+    "one_liner": "官方在讲「范式」，社区在修「管道」。"
+  },
+  "community_confirms": [
+    {
+      "id": "C1",
+      "trend": "Harness 化",
+      "official_counterpart": "Harness Engineering 范式跃迁",
+      "evidence_type": "Show HN / 项目帖密度",
+      "tools": [
+        {"name": "Relay", "desc": "a harness for AI coding agents that recover and verify"},
+        {"name": "Rashomon", "desc": "An independent execution record for AI coding agents"},
+        {"name": "Crashlytics for AI Coding Agents", "desc": "agent 崩溃诊断"},
+        {"name": "Vibe Coding Production Kit", "desc": "a production workflow for AI coding agents"},
+        {"name": "Ctxfw", "desc": "AST context firewall that cuts agent prompt tokens by 67%"},
+        {"name": "Brig", "desc": "A MicroVM sandbox for AI coding agents on Mac and Linux"},
+        {"name": "Casbin Gateway", "desc": "a security gateway for the AI coding agents on your machine"}
+      ],
+      "observation": "全部是「模型外面那一圈」，没有一个是模型本身 - 社区用造工具的方式独立确认了 Harness 方向",
+      "role_emergence": "Harness 工程师已人格化为职业角色：Mitchell Hashimoto 2026-02-05 提出，OpenAI 2026-02-11 推广，PPIO 2026-07-17 在 WAIC 产品化为 Agent Harness",
+      "community_skepticism": {"by": "RataNova", "quote": "The repo lacks hard numbers on token consumption per feature compared to a straightforward prompting session. Without that benchmark measuring whether running ten validation gates actually pays off...", "note": "社区接受方向但要求硬数据，与上一轮 ETH Zurich 实验（成本+20%、成功率无显著提升）呼应"}
+    },
+    {
+      "id": "C2",
+      "trend": "执行时授权 / 治理落地",
+      "official_counterpart": "KYC → KYA",
+      "evidence_type": "事故复盘 + 提问帖",
+      "items": [
+        {"type": "事故", "source": "r/AI_Agents", "quote": "Financial services client. Every demo was clean. On real calls one agent made up a fee that wasn't in the script. Another skipped a required disclosure when the prospect cut in at the wrong moment. The one that held up locked each step so it couldn't move on without the required language. How are people testing for this before going live?", "note": "唯一扛住的那个把每一步锁死 - 这就是执行控制的社区版表述"},
+        {"type": "论断", "source": "r/AI_Agents", "quote": "Human approval on an AI agent is not authorization: bind it to the payload"},
+        {"type": "提问", "source": "r/AI_Agents", "quote": "When should an AI agent have to revalidate its authority?"},
+        {"type": "治理困境", "source": "r/AI_Agents", "quote": "how do enterprises roll out AI agents across teams with governance and human approvals? the Replit code freeze only existed in the prompt", "note": "本轮社区给出的最锋利一句：写在提示词里的约束不构成约束"}
+      ]
+    },
+    {
+      "id": "C3",
+      "trend": "记忆（最拥挤赛道 + 已有反思）",
+      "official_counterpart": "记忆基础设施化",
+      "evidence_type": "HN 项目密度",
+      "projects": [
+        "Show HN: MemorySync - Memory for AI Agents",
+        "We Built an Alternative to Vector RAG for AI Agent Memory",
+        "Long-term memory for AI coding agents as a tree of plain files",
+        "Agent's Memory Needs a Retention Policy",
+        "Agents Don't Need Another Memory API. They Need a Memory Agent",
+        "Show HN: Detailed Guide to Agent Memory",
+        "V7 gives AI agents institutional memory"
+      ],
+      "top_counter_post": {"title": "Agents don't need memory, they need documentation", "points": 391, "comments": 310},
+      "comments": [
+        {"by": "jdw64", "quote": "Peter Naur argued in his famous essay Programming as Theory Building that documentation alone cannot fully capture or preserve the complete mental model behind a program. However, AI works differently from humans in that much more of its working context has to be made explicit."},
+        {"by": "alienbaby", "quote": "having built something similar for tracking 'memory' and items at home, it can quickly consume your tokens when dealing with both reading and updating, keeping stale info relevant etc."},
+        {"by": "espeed", "quote": "For every prompt and response, I extract each semantic statement. Map its reasons in a Whybase proposition tree - a recursive proposition tree where each atomic statement is proposition with one of..."}
+      ],
+      "community_consensus": "不是「记忆 vs 文档」二选一，而是「记忆的读写成本和过期信息维护才是真问题」。alienbaby 的 keeping stale info relevant 独立对应 OWASP 2026 的 ASI06 Memory & Context Poisoning"
+    },
+    {
+      "id": "C4",
+      "trend": "安全（从事故出发）",
+      "official_counterpart": "OWASP ASI 分类",
+      "evidence_type": "新闻事件 + 学术论文",
+      "incidents": [
+        {"title": "South Korea says AI agents appear to have been used to hack the country's banks", "points": 100, "comments": 32, "source": "Reuters via HN"},
+        {"title": "My personal AI agent posted my bank details on company Slack", "points": 63, "comments": 70, "source": "Business Insider via HN"},
+        {"title": "A Privacy Analysis of Web and Mobile Conversational AI Agents", "points": 426, "comments": 140},
+        {"title": "There are no \"rogue\" AI agents", "points": 396, "comments": 269}
+      ],
+      "privacy_findings": [
+        {"by": "damaru2", "quote": "Entire conversations via exposed permalinks. For Grok: trackers receiving the conversation URL could access the full chat because the link lacked access controls. Screenshots of conversations. TikTok received screenshots of Grok chats during sharing, exposing the actual visible conversation content."},
+        {"by": "classified", "quote": "Is it still called a leak if it was the whole point and purpose of the deal? Someone should have to investigate, but I suppose it's all \"legal\"?"}
+      ],
+      "sandbox_escape": {"by": "silverFork", "quote": "in one case, they had physically disconnected the sandbox from internet and asked it to do something and it had used connections through (import routines) that they had allowed, to pseudo escape the sandbox. Yes it wasn't obviously trying escape the sandbox but it escaped.", "note": "社区提供的最具体逃逸路径：物理断网的沙箱被允许的 import 例程穿透"}
+    },
+    {
+      "id": "C5",
+      "trend": "多 agent（带怀疑）",
+      "official_counterpart": "运行时动态派生子 Agent",
+      "evidence_type": "提问帖",
+      "items": [
+        {"source": "r/AI_Agents", "quote": "Why does every AI agent framework eventually reinvent a workflow engine?", "note": "潜台词：所谓多 agent 编排在工程上往往退化成重新实现一遍工作流引擎"},
+        {"source": "r/AI_Agents", "quote": "AI code is soft like fabric. Building a tipi, we need poles, not just pegs."}
+      ]
+    }
+  ],
+  "community_only_trends": [
+    {
+      "id": "U1",
+      "trend": "通用 Agent 配置（AGENTS.md）",
+      "why_matters": "社区最强的单一诉求，4,060 👍，且不是任何厂商的产品路线图",
+      "evidence": {"issue": "Claude Code #6235", "thumbs_up": 4060, "need": "A cross-tool standard for codebase understanding, replacing tool-specific files (CLAUDE.md)"},
+      "community_verdict": "Universal Agent Configs (AGENTS.md) is inevitable. ... 2026 will see a de facto standard for agent-codebase communication - akin to how Dockerfile unified container builds.",
+      "corroboration": ["DeepSeek TUI PR #2745 让 LLM 生成 AGENTS.md", "AGENTS.md 是 AAIF 创始项目之一（与 Anthropic MCP、Block goose 并列）"]
+    },
+    {
+      "id": "U2",
+      "trend": "稳定性 > 新功能",
+      "why_matters": "跨 9 个工具的社区共识；在人人发新功能的年份，社区第一诉求是别崩",
+      "quote": "Across the board, communities are demanding interoperability (universal agent configs like AGENTS.md), platform parity (Windows, Linux, Wayland), and stability over new features. The most urgent shared pain points revolve around authentication reliability, copy/paste regressions, and resource management (memory leaks, context window gating).",
+      "architecture_convergence": "the convergence toward MCP-based tool integration, remote execution, and cross-session persistence signals a rapidly standardizing architecture"
+    },
+    {
+      "id": "U3",
+      "trend": "平台不公（Windows / Linux 是二等公民）",
+      "why_matters": "官方叙事完全不存在，但社区是持续痛点；agent 工具的能力宣传默认以 macOS 为基准",
+      "quote": "Platform parity remains elusive. Windows and Linux users consistently face worse experiences: missing clipboard, broken sandboxes (Codex on Windows), PTY crashes (Gemini CLI), and WSL performance regressions. Developers on non-macOS should scrutinize each tool's platform support matrix.",
+      "evidence": ["Copilot CLI #2082/#3260/#3666 复制粘贴", "DeepSeek TUI #1920 Wayland 粘贴", "OpenAI Codex Windows 沙箱失败（平台级高严重度回归）"]
+    },
+    {
+      "id": "U4",
+      "trend": "用量透明度成为硬需求",
+      "quote": "Telemetry and usage transparency are demanded. Issues like OpenCode's persistent cost tracking (#7763) and DeepSeek TUI's token visibility (#2666) show that developers want consumption data they can trust - without hidden background drain (Codex #24818).",
+      "related": "Context window gating is a major UX failure. Claude Code's \"1M context credit\" bugs (#63060 et al.) and Copilot CLI's truncated long-context models (#3677) highlight that model capacity and billing are poorly communicated."
+    },
+    {
+      "id": "U5",
+      "trend": "远程执行从 nice-to-have 变 must-have",
+      "quote": "Remote execution is moving from nice-to-have to must-have. Claude Code, Gemini CLI, and Pi all have active issues related to SSH, WSL, and remote context. As hybrid workflows grow, tools that cannot clearly communicate which machine is being acted upon will lose trust.",
+      "note": "这是信任问题，不是功能问题"
+    },
+    {
+      "id": "U6",
+      "trend": "自托管 / 拥有自己的 Agent",
+      "evidence": {"post": "Talorys - A self-hosted personal AI agent on Cloudflare's free tier", "points": 329, "comments": 155},
+      "author_quote": {"by": "rociiu", "quote": "The idea came from wanting a personal AI assistant that I could own and control, without paying a monthly subscription or relying on someone else's hosted service."},
+      "semantic_debate": {"by": "flufluflufluffy", "quote": "This might sound kinda crazy, but I define \"self-hosted\" as something that I host myself."},
+      "same_class": ["NanoMuse (open-source AI agent for your phone and computer)", "Halo (A Personal AI with On-Device Harness, Memory and Browser Agent)"],
+      "note": "「拥有权」是社区真实诉求，既不是能力问题也不是协议问题"
+    },
+    {
+      "id": "U7",
+      "trend": "跨 Agent 会话可移植",
+      "evidence": {"product": "Skillsync (YC W26)", "desc": "AI chat sessions made portable across agents", "points": 68, "comments": 62},
+      "community_reaction": {"by": "bcorigliano", "quote": "I've been mostly working with Claude and Chatgpt for separate stuff, however sometimes one of them is stuck and I could definitely use this to start a session with the other one and see if it figures it out."},
+      "community_downgrade": {"by": "pjm331", "quote": "If I were you I would look into maybe like analyzing sessions across harnesses? I'm not sure, some way to leverage this shared schema work that is not syncing. Because syncing is trivially solved by just telling the agent to keep a work journal.", "note": "社区用一句话把一个产品需求降级成工程习惯"}
+    },
+    {
+      "id": "U8",
+      "trend": "职业焦虑（社区最大情绪）",
+      "why_matters": "上一轮十个趋势里没有一条涉及人的处境，但社区里互动量最高的帖子几乎都是关于人的",
+      "top_posts": [
+        {"title": "Interviewed candidates for \"AI engineer\" roles this week, my god is this really where our industry is going?", "sub": "r/ExperiencedDevs", "score": 1524, "comments": 917},
+        {"title": "When does the AI reality set in for middle and senior management?", "sub": "r/ExperiencedDevs", "score": 533, "comments": 610},
+        {"title": "Job requires/uses very little AI. Sinking ship or goldmine?", "sub": "r/ExperiencedDevs", "score": 400, "comments": 666},
+        {"title": "I'm trying to learn AI Agents, but I'm getting really confused. How should I approach it?", "sub": "r/AI_Agents", "score": 158, "comments": 86}
+      ],
+      "top_comments": [
+        {"by": "u/birdgovorun", "upvotes": 1128, "quote": "The real issue is that the value of mediocre developers - which I assume were the majority of developers you were interviewing - is becoming a net negative, and companies haven't yet fully understood（this）."},
+        {"by": "u/programmer-ke", "upvotes": 447, "quote": "Plus it is way easier to teach a competent developer how to use some new AI workflow productively, than it is to teach an AI super user how to become a competent developer."},
+        {"by": "u/RedditMapz", "upvotes": 383, "quote": "No you are not behind and you are not crazy. Anyone working in any real production code knows that AI cannot replace humans despite the endless nonsense being spewed by the vibecoder evangelists."},
+        {"by": "u/prh8", "upvotes": 1240, "quote": "Savor every day you work at a place that isn't completely insane."},
+        {"by": "u/HK-65", "upvotes": 242, "quote": "The thing with AI is that it's essentially an engineering tool that's being pushed from the owner class downwards. The average capital owner does not know, understand or experience AI beyond using it."}
+      ]
+    }
+  ],
+  "community_skepticism": [
+    {
+      "id": "S1",
+      "title": "AI 写的代码更多，但不是更多软件",
+      "points": 361, "comments": 302, "source": "Ars Technica via HN",
+      "comments": [
+        {"by": "alexnewman", "quote": "Maybe but I'd argue the frontier corps will self destruct via green and product management enough to make this impractical. So far here's how I see that going: 1) can't easily autopilot due to security. Gonna keep on prompting you into running weird shell commands.", "note": "这正是 Harness 化的动因，且社区是从「安全让我无法放手」推出的，不是从范式理论推出的"},
+        {"by": "radlad", "quote": "I'm noticing AI catching many bugs in code that previously went unnoticed. Some of them are important, and it's great to catch them early. The other 11 items in the list of 12 would probably never be hit in practice, but now that you know...", "note": "「代码更多但软件不多」的微观机制：AI 既发现真 bug，也制造大量永远不会触发的理论问题"}
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "构建 agent 比看起来难得多",
+      "posts": ["Is it just me or is building AI agents harder than people make it look?（61分/52评论）", "I'm trying to learn AI Agents, but I'm getting really confused.（158分/86评论）"],
+      "note": "社区存在巨大的「入门落差」：宣传说得很容易，实际做起来很难，且没人告诉你从哪开始"
+    },
+    {
+      "id": "S3",
+      "title": "MCP 仍然 pre-1.0",
+      "quote": "MCP is the new plugin standard - but brittle. Nearly every tool is adopting MCP, but parsing bugs (DeepSeek TUI #2744), prompt cache busting (Qwen Code #4777), and enterprise proxy issues (Copilot CLI #3636) indicate the ecosystem is still pre-1.0.",
+      "note": "prompt cache busting 是社区发现的实际成本问题，不是协议设计问题"
+    },
+    {
+      "id": "S4",
+      "title": "框架疲劳",
+      "evidence": "Why does every AI agent framework eventually reinvent a workflow engine?",
+      "note": "9 个 CLI 工具功能高度趋同（都在加 MCP、会话恢复、用量统计），差异化主要靠 niche"
+    }
+  ],
+  "pain_point_ranking": [
+    {"n": 1, "pain": "认证可靠性", "evidence": "Copilot CLI #3596/#3682、Kimi Code #2425/#2427（403 错误）、OpenCode #12789"},
+    {"n": 2, "pain": "复制/粘贴回归", "evidence": "Copilot CLI #2082/#3260/#3666、DeepSeek TUI #1920（Wayland）、Kimi Code #2422"},
+    {"n": 3, "pain": "资源管理（内存泄漏 / 上下文窗口门控）", "evidence": "Claude Code #63060、Copilot CLI #3677、OpenCode 内存 megathread #20695"},
+    {"n": 4, "pain": "平台对齐（Windows / Linux / Wayland）", "evidence": "Codex Windows 沙箱失败、Gemini CLI PTY 崩溃、WSL 性能回归"},
+    {"n": 5, "pain": "用量透明度", "evidence": "OpenCode #7763、DeepSeek TUI #2666、Codex #24818（hidden background drain）"},
+    {"n": 6, "pain": "跨工具配置标准", "evidence": "Claude Code #6235（4,060 👍）"},
+    {"n": 7, "pain": "token 生命周期 / 静默刷新", "evidence": "Copilot CLI、Kimi Code、OpenCode 均有相关 issue"},
+    {"n": 8, "pain": "远程执行上下文可见性", "evidence": "Claude Code #65527、Gemini CLI #27354、Pi #5341"}
+  ],
+  "trend_reconciliation": {
+    "note": "社区版趋势排序 vs 上一轮官方版趋势排序",
+    "rows": [
+      {"rank": 1, "community": "可靠性优先于能力", "official": null, "diff": "NEW - 官方叙事里没有"},
+      {"rank": 2, "community": "Harness 工具生态爆发", "official": "Harness Engineering 范式", "diff": "CONFIRM - 但社区用工具投票而非理论"},
+      {"rank": 3, "community": "通用配置标准（AGENTS.md）", "official": "AGENTS.md 作为四层生态之一", "diff": "UP - 社区权重远高于官方"},
+      {"rank": 4, "community": "执行时授权 / 治理落地", "official": "KYC → KYA", "diff": "CONFIRM - 社区从事故出发"},
+      {"rank": 5, "community": "记忆（含反思）", "official": "记忆基础设施化", "diff": "CONFIRM - 且社区更早提出成本与过期问题"},
+      {"rank": 6, "community": "安全（从事故出发）", "official": "OWASP ASI 分类", "diff": "CONFIRM - 社区证据更具体"},
+      {"rank": 7, "community": "平台不公", "official": null, "diff": "NEW"},
+      {"rank": 8, "community": "职业焦虑", "official": null, "diff": "NEW"},
+      {"rank": 9, "community": "自托管 / 拥有权", "official": null, "diff": "NEW"},
+      {"rank": 10, "community": "远程执行", "official": null, "diff": "NEW"},
+      {"rank": 11, "community": "多 agent（带怀疑）", "official": "运行时动态派生子 Agent", "diff": "DAMPEN - 社区更怀疑"},
+      {"rank": 12, "community": "用量透明度", "official": null, "diff": "NEW"},
+      {"rank": 13, "community": "跨 agent 会话可移植", "official": null, "diff": "NEW"},
+      {"rank": null, "community": "（零出现）", "official": "RSI 递归自进化", "diff": "ABSENT - 社区完全不谈"},
+      {"rank": null, "community": "（零出现）", "official": "智能体商业协议竞赛", "diff": "ABSENT - 社区完全不谈"},
+      {"rank": null, "community": "（不谈增长，谈崩塌）", "official": "长任务能力指数增长", "diff": "ABSENT"}
+    ],
+    "three_key_differences": [
+      "社区不谈 RSI、不谈商业协议、不谈能力增长 - 这三条在官方叙事排位很高，但在 63 条社区证据里零出现。它们可能是真趋势，但不是社区的关注点",
+      "社区有五条官方叙事完全缺席的趋势：可靠性优先、平台不公、职业焦虑、自托管、远程执行",
+      "社区对同一件事的表述更具体、更可执行：官方说「质量门禁」，社区说「Replit 的代码冻结只存在于 prompt 里」；官方说「执行时授权」，社区说「demo 全干净，真实通话里一个编造了脚本外的费用」"
+    ]
+  },
+  "unverified": [
+    "「Harness 工程师」作为职业角色：来自百度百科条目（称 Hashimoto 2026-02-05 提出、OpenAI 2026-02-11 推广），未取得原始英文出处",
+    "agents-radar 摘要为第三方自动生成，具体 issue 号与 👍 数未逐条核验（虽可核验）",
+    "Claude Code #6235 的 4,060 👍 来自摘要转述，未直接读取 issue 页面确认",
+    "PPIO 的 Agent Harness 产品来自百度百科，未查证官方发布材料",
+    "Reddit upvote 数为引擎抓取，可能与实时值有偏差（抓取时间 2026-10-14）",
+    "「社区共识」的代表性：Reddit/HN 用户以英文技术人群为主，不代表中文社区、非英语社区、非开发者从业者",
+    "upvote 不等于认同：高赞帖可能反映情绪共鸣而非事实准确"
+  ],
+  "run_gaps": {
+    "missing_sources": "X/Twitter（未授权 cookie）、YouTube（yt-dlp 未安装）、TikTok/Instagram（无 ScrapeCreators key）、Polymarket（无结果）",
+    "impact": "X 是 agent 社区讨论的重要阵地，YouTube 有最深讲解内容；这两块缺席会让「社区意见」偏 Reddit/HN 的技术向",
+    "source_failure": "Jobs 源报 502 unreachable - 不代表招聘讨论为零（职业焦虑来自 Reddit）",
+    "how_to_fix": "安装 yt-dlp（免费）解锁 YouTube 转录；ScrapeCreators 免费 key（10,000 次调用）解锁 TikTok/Instagram 及其评论"
+  }
+}

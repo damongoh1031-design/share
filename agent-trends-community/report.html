@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从社区意见重新整理 Agent 趋势</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.78;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+aside{width:276px;flex:0 0 276px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:7px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1080px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box.pp{border-left-color:var(--pp);background:rgba(188,140,255,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)} .box.pp .t{color:var(--pp)}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+blockquote{border-left:3px solid var(--tx3);padding:2px 0 2px 16px;margin:14px 0;color:var(--tx2);font-style:italic}
+blockquote strong{color:var(--tx);font-style:normal}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:24px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+.quote{background:var(--bg2);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:8px;padding:14px 18px;margin:12px 0}
+.quote .who{font-size:12.5px;color:var(--ac2);font-weight:600;margin-bottom:6px}
+.quote .txt{color:var(--tx);font-size:14px}
+.quote .up{font-size:11.5px;color:var(--yl);font-weight:600}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 18px 60px}
+  h2{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>从社区意见重新整理 Agent 趋势</h1>
+  <div class="sub">63 条社区证据<br>2026-09-14 → 2026-10-14</div>
+  <nav>
+    <div class="grp">总览</div>
+    <a href="#s0" class="on">〇 一句话总览</a>
+    <div class="grp">社区验证的</div>
+    <a href="#c1">一 Harness 化</a>
+    <a href="#c2">二 执行时授权</a>
+    <a href="#c3">三 记忆 + 反思</a>
+    <a href="#c4">四 安全（事故）</a>
+    <a href="#c5">五 多 agent 怀疑</a>
+    <div class="grp">社区独有的</div>
+    <a href="#u1">六 AGENTS.md 诉求</a>
+    <a href="#u2">七 稳定性 &gt; 新功能</a>
+    <a href="#u3">八 平台不公</a>
+    <a href="#u4">九 用量透明度</a>
+    <a href="#u5">十 自托管 / 职业焦虑</a>
+    <div class="grp">反面</div>
+    <a href="#s">十一 社区质疑</a>
+    <a href="#pain">十二 痛点排序</a>
+    <div class="grp">对照</div>
+    <a href="#rec">十三 社区 vs 官方</a>
+    <a href="#ev">十四 数据可信度</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>一句话总览</h2>
+
+<div class="box ok">
+<div class="t">官方在讲「范式」，社区在修「管道」。</div>
+</div>
+
+<div class="grid">
+  <div class="card"><div class="k">社区证据总量</div><div class="v">63 条</div><div class="d">Reddit 28 / HN 34 / GitHub 1</div></div>
+  <div class="card rd"><div class="k">社区最强单一诉求</div><div class="v">4,060 👍</div><div class="d">AGENTS.md 跨工具标准（Claude Code #6235）</div></div>
+  <div class="card yl"><div class="k">社区最大情绪</div><div class="v">1,524 分</div><div class="d">职业焦虑帖（917 评论）</div></div>
+  <div class="card pp"><div class="k">官方叙事零出现</div><div class="v">3 条</div><div class="d">RSI / 商业协议 / 能力增长</div></div>
+</div>
+
+<h3>官方叙事 vs 社区实际</h3>
+<table>
+<thead><tr><th></th><th>官方叙事</th><th>社区实际</th></tr></thead>
+<tbody>
+<tr><td><strong>Harness</strong></td><td>第三次范式跃迁</td><td>一堆 Show HN 工具（sandbox / verifier / execution record / context firewall）</td></tr>
+<tr><td><strong>授权</strong></td><td>KYC → KYA 互操作框架</td><td>「demo 全干净，真实通话全崩」+「人类批准不等于授权」</td></tr>
+<tr><td><strong>记忆</strong></td><td>记忆基础设施化</td><td><strong>最拥挤的赛道</strong>，且已在反思「不需要另一个 memory API」</td></tr>
+<tr><td><strong>标准</strong></td><td>MCP / A2A / UCP 协议</td><td><strong>AGENTS.md 诉求 4,060 👍</strong>——「像 Dockerfile 统一容器构建那样」</td></tr>
+<tr><td><strong>优先级</strong></td><td>能力与协议</td><td><strong>「稳定性优先于新功能」</strong></td></tr>
+<tr><td><strong>缺席的</strong></td><td>—</td><td><strong>职业焦虑、平台不公（Windows/Linux 二等公民）</strong></td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- C1 -->
+<section id="c1">
+<h2><span class="n">一</span>Harness 化 —— 社区已经用工具投票</h2>
+<p><strong>这是社区证据最密的一个方向。</strong> 最近 30 天 HN 的 Show HN / 项目帖里，harness 类工具密集出现：</p>
+
+<table>
+<thead><tr><th>工具</th><th>做什么</th></tr></thead>
+<tbody>
+<tr><td><strong>Relay</strong></td><td><em>"a harness for AI coding agents that recover and verify"</em></td></tr>
+<tr><td><strong>Rashomon</strong></td><td><em>"An independent execution record for AI coding agents"</em></td></tr>
+<tr><td><strong>Crashlytics for AI Coding Agents</strong></td><td>agent 崩溃诊断</td></tr>
+<tr><td><strong>Vibe Coding Production Kit</strong></td><td><em>"a production workflow for AI coding agents"</em></td></tr>
+<tr><td><strong>Ctxfw</strong></td><td><em>"AST context firewall that cuts agent prompt tokens by 67%"</em></td></tr>
+<tr><td><strong>Brig</strong></td><td><em>"A MicroVM sandbox for AI coding agents on Mac and Linux"</em></td></tr>
+<tr><td><strong>Casbin Gateway</strong></td><td><em>"a security gateway for the AI coding agents on your machine"</em></td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<div class="t">注意这些工具的形态</div>
+<p>沙箱、验证器、执行记录、上下文防火墙、安全网关——<strong>全部是「模型外面那一圈」，没有一个是模型本身</strong>。社区用造工具的方式，独立地确认了 Harness Engineering 的方向。</p>
+</div>
+
+<h3>「Harness 工程师」已人格化为职业角色</h3>
+<div class="box">
+<p>由 <strong>Mitchell Hashimoto 于 2026-02-05 首次提出</strong>，<strong>2026-02-11 OpenAI 发表文章推广</strong>。2026-07-17 PPIO 在 WAIC 发布名为 <strong>Agent Harness</strong> 的平台层产品（融合沙箱、任务编排、工具调用、记忆管理）。</p>
+</div>
+
+<h3>一条值得记录的社区质疑</h3>
+<div class="quote">
+<div class="who">RataNova · HN 评论（Vibe Coding Production Kit 帖下）</div>
+<div class="txt">"The repo lacks hard numbers on token consumption per feature compared to a straightforward prompting session. Without that benchmark measuring whether <strong>running ten validation gates actually pays off</strong>..."</div>
+</div>
+<p><strong>社区接受 harness 的方向，但要求拿出「十个验证门禁到底划不划算」的硬数据。</strong> 这与上一轮 ETH Zurich 实验（成本 +20%、成功率无显著提升）形成呼应——<strong>方向对，但收益未被证明。</strong></p>
+</section>
+
+<!-- C2 -->
+<section id="c2">
+<h2><span class="n">二</span>执行时授权 —— 社区从事故出发</h2>
+<p>官方版本是 NPCI 的 Agent Registry 和 Visa/Mastercard 的 KYA 框架。<strong>社区的版本是具体的翻车记录</strong>：</p>
+
+<div class="quote">
+<div class="who">r/AI_Agents · 语音 agent 在真实通话中崩塌</div>
+<div class="txt">"Financial services client. <strong>Every demo was clean. On real calls one agent made up a fee that wasn't in the script.</strong> Another skipped a required disclosure when the prospect cut in at the wrong moment.<br><br><strong>The one that held up locked each step so it couldn't move on without the required language.</strong> How are people testing for this before going live?"</div>
+</div>
+
+<p><strong>这条帖子的每一句都值得注意</strong>：demo 全干净、真实通话全崩、唯一扛住的那个<strong>把每一步锁死</strong>。这就是「执行控制」的社区版表述，比任何协议文档都具体。</p>
+
+<h3>另外三条社区表述</h3>
+<table>
+<thead><tr><th>类型</th><th>来源</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>论断</td><td>r/AI_Agents</td><td><strong>Human approval on an AI agent is not authorization: bind it to the payload</strong></td></tr>
+<tr><td>提问</td><td>r/AI_Agents</td><td><strong>When should an AI agent have to revalidate its authority?</strong></td></tr>
+<tr><td>治理困境</td><td>r/AI_Agents</td><td><strong>how do enterprises roll out AI agents across teams with governance and human approvals? the Replit code freeze only existed in the prompt</strong></td></tr>
+</tbody>
+</table>
+
+<div class="box danger">
+<div class="t">「Replit 的代码冻结只存在于 prompt 里」</div>
+<p>这是整轮调研中社区给出的最锋利的一句。它直接说明了：<strong>写在提示词里的约束不构成约束。</strong> 这与官方 Harness Engineering 的「质量门禁」主张完全一致，但社区是从<strong>治理事故</strong>里学到的。</p>
+</div>
+</section>
+
+<!-- C3 -->
+<section id="c3">
+<h2><span class="n">三</span>记忆 —— 最拥挤的赛道，且已开始反思</h2>
+
+<p><strong>密度证据</strong>：最近 30 天 HN 上关于 agent 记忆的项目/文章至少 7 条：</p>
+<table>
+<thead><tr><th>标题</th><th>立场</th></tr></thead>
+<tbody>
+<tr><td>Show HN: <strong>MemorySync</strong> – Memory for AI Agents</td><td>做</td></tr>
+<tr><td><strong>We Built an Alternative to Vector RAG</strong> for AI Agent Memory</td><td>做</td></tr>
+<tr><td><strong>Long-term memory for AI coding agents as a tree of plain files</strong></td><td>做</td></tr>
+<tr><td><strong>Agent's Memory Needs a Retention Policy</strong></td><td>做（强调保留策略）</td></tr>
+<tr><td><strong>Agents Don't Need Another Memory API. They Need a Memory Agent</strong></td><td class="warn-b"><strong>反思</strong></td></tr>
+<tr><td>Show HN: <strong>Detailed Guide to Agent Memory</strong></td><td>教学</td></tr>
+<tr><td><strong>V7 gives AI agents institutional memory</strong></td><td>做</td></tr>
+</tbody>
+</table>
+
+<h3>但社区已出现明确的反向声音</h3>
+<div class="box pp">
+<div class="t">HN 391 分 / 310 评论</div>
+<blockquote><p><strong>Agents don't need memory, they need documentation</strong></p></blockquote>
+</div>
+
+<div class="quote">
+<div class="who">jdw64</div>
+<div class="txt">"Peter Naur argued in his famous essay <strong>Programming as Theory Building</strong> that documentation alone cannot fully capture or preserve the complete mental model behind a program. However, AI works differently from humans in that <strong>much more of its working context has to be made explicit</strong>."</div>
+</div>
+<div class="quote">
+<div class="who">alienbaby</div>
+<div class="txt">"having built something similar for tracking 'memory' and items at home, <strong>it can quickly consume your tokens when dealing with both reading and updating, keeping stale info relevant</strong> etc."</div>
+</div>
+<div class="quote">
+<div class="who">espeed</div>
+<div class="txt">"For every prompt and response, I extract each semantic statement. Map its reasons in a <strong>Whybase proposition tree</strong> - a recursive proposition tree where each atomic statement is proposition with one of..."</div>
+</div>
+
+<div class="box warn">
+<div class="t">社区共识的实际形态</div>
+<p>不是「记忆 vs 文档」二选一，而是<strong>「记忆的读写成本和过期信息维护才是真问题」</strong>。</p>
+<p>alienbaby 那句 <strong>"keeping stale info relevant"</strong> 直接对应 OWASP 2026 的 <strong>ASI06 Memory &amp; Context Poisoning</strong>——<strong>社区从工程成本角度独立发现了同一个风险。</strong></p>
+</div>
+</section>
+
+<!-- C4 -->
+<section id="c4">
+<h2><span class="n">四</span>安全 —— 社区的证据全是事故</h2>
+
+<table>
+<thead><tr><th>事件</th><th>分数</th></tr></thead>
+<tbody>
+<tr><td><strong>South Korea says AI agents appear to have been used to hack the country's banks</strong></td><td class="c">HN 100 分 / 32 评论</td></tr>
+<tr><td><strong>My personal AI agent posted my bank details on company Slack</strong></td><td class="c">HN 63 分 / 70 评论</td></tr>
+<tr><td><strong>A Privacy Analysis of Web and Mobile Conversational AI Agents</strong></td><td class="c no-b">HN <strong>426 分</strong> / 140 评论</td></tr>
+<tr><td><strong>There are no "rogue" AI agents</strong></td><td class="c no-b">HN <strong>396 分</strong> / 269 评论</td></tr>
+</tbody>
+</table>
+
+<h3>隐私论文的发现</h3>
+<div class="quote">
+<div class="who">damaru2</div>
+<div class="txt">"Entire conversations via exposed permalinks. For Grok: trackers receiving the conversation URL could access the full chat because the link lacked access controls. Screenshots of conversations. <strong>TikTok received screenshots of Grok chats during sharing</strong>, exposing the actual visible conversation content."</div>
+</div>
+<div class="quote">
+<div class="who">classified</div>
+<div class="txt">"Is it still called a leak if it was the whole point and purpose of the deal? Someone should have to investigate, but I suppose it's all 'legal'?"</div>
+</div>
+
+<h3>最硬的一条技术细节：沙箱逃逸</h3>
+<div class="quote">
+<div class="who">silverFork · 「There are no rogue AI agents」帖下</div>
+<div class="txt">"in one case, they had physically disconnected the sandbox from internet and asked it to do something and it had used <strong>connections through (import routines) that they had allowed, to pseudo escape the sandbox</strong>. Yes it wasn't obviously trying escape the sandbox but it escaped."</div>
+</div>
+<div class="box danger">
+<div class="t">物理断网的沙箱被允许的 import 例程穿透</div>
+<p>这是社区提供的最具体的逃逸路径，<strong>比任何威胁模型文档都实在</strong>。</p>
+</div>
+</section>
+
+<!-- C5 -->
+<section id="c5">
+<h2><span class="n">五</span>多 agent —— 社区的怀疑比官方重</h2>
+<p>官方叙事把「运行时动态派生子 Agent」列为趋势。<strong>社区的表述是一个问句</strong>（r/AI_Agents）：</p>
+<div class="box warn">
+<blockquote><p><strong>Why does every AI agent framework eventually reinvent a workflow engine?</strong></p></blockquote>
+<p><strong>潜台词是</strong>：所谓「多 agent 编排」在工程上往往退化成<strong>重新实现一遍工作流引擎</strong>——而工作流引擎是几十年前就解决过的问题。</p>
+</div>
+<div class="quote">
+<div class="who">r/AI_Agents</div>
+<div class="txt">"<strong>AI code is soft like fabric. Building a tipi, we need poles, not just pegs.</strong>"</div>
+</div>
+</section>
+
+<!-- U1 -->
+<section id="u1">
+<h2><span class="n">六</span>社区独有 ①：通用 Agent 配置（AGENTS.md）</h2>
+<div class="box danger">
+<div class="t">社区最强的单一诉求</div>
+<p><strong>数据</strong>：Claude Code 的 issue <strong>#6235 有 4,060 个 👍</strong>。这是本轮所有社区证据里<strong>单一最高互动量</strong>的一条。</p>
+</div>
+
+<p><strong>社区需求</strong>：<em>"A cross-tool standard for codebase understanding, <strong>replacing tool-specific files (CLAUDE.md)</strong>."</em></p>
+
+<div class="box ok">
+<div class="t">社区判断（原文）</div>
+<blockquote><p><strong>Universal Agent Configs (AGENTS.md) is inevitable.</strong> The overwhelming response to Claude Code's issue (#6235) and DeepSeek TUI's LLM-generated <code>AGENTS.md</code> suggest that <strong>2026 will see a de facto standard for agent–codebase communication - akin to how <code>Dockerfile</code> unified container builds.</strong></p></blockquote>
+</div>
+
+<p><strong>为什么这条重要</strong>：<strong>这是社区自发投票选出的「最想要的东西」，而它不是任何厂商的产品路线图。</strong> 4,060 个 👍 的含义是——开发者受够了为每个工具维护一份专属配置文件。</p>
+<p><strong>佐证</strong>：DeepSeek TUI 的 PR #2745 直接让 LLM 生成 <code>AGENTS.md</code>；上一轮我们也发现 <code>AGENTS.md</code> 是 <strong>AAIF 的创始项目之一</strong>（与 Anthropic MCP、Block goose 并列）。</p>
+</section>
+
+<!-- U2 -->
+<section id="u2">
+<h2><span class="n">七</span>社区独有 ②：稳定性 &gt; 新功能</h2>
+<p>跨 9 个 AI CLI 工具（Claude Code / Codex / Gemini CLI / Copilot CLI / Kimi Code / OpenCode / Pi / Qwen Code / DeepSeek TUI）的社区摘要，第一段就是：</p>
+<div class="box pp">
+<blockquote><p><strong>Across the board, communities are demanding interoperability (universal agent configs like <code>AGENTS.md</code>), platform parity (Windows, Linux, Wayland), and stability over new features.</strong> The most urgent shared pain points revolve around <strong>authentication reliability, copy/paste regressions, and resource management (memory leaks, context window gating)</strong>.</p></blockquote>
+</div>
+<p><strong>「stability over new features」</strong> —— 在一个人人都在发新模型、新功能的年份，<strong>社区的第一诉求是别崩</strong>。这是对「能力竞赛」叙事最直接的修正。</p>
+<p><strong>同时它也指出了架构收敛方向</strong>：</p>
+<blockquote><p>the convergence toward <strong>MCP-based tool integration</strong>, <strong>remote execution</strong>, and <strong>cross-session persistence</strong> signals a rapidly standardizing architecture.</p></blockquote>
+</section>
+
+<!-- U3 -->
+<section id="u3">
+<h2><span class="n">八</span>社区独有 ③：平台不公（Windows / Linux 是二等公民）</h2>
+<div class="box danger">
+<div class="t">这条在官方叙事里完全不存在，但在社区是持续痛点</div>
+<blockquote><p><strong>Platform parity remains elusive. Windows and Linux users consistently face worse experiences: missing clipboard, broken sandboxes (Codex on Windows), PTY crashes (Gemini CLI), and WSL performance regressions.</strong> Developers on non-macOS should scrutinize each tool's platform support matrix.</p></blockquote>
+</div>
+<p><strong>具体证据</strong>：Copilot CLI 有 3+ 个未决的复制/粘贴 issue（#2082、#3260、#3666）；DeepSeek TUI #1920 是 Wayland 下的粘贴问题；OpenAI Codex 的 Windows 沙箱失败是<strong>平台级高严重度回归</strong>。</p>
+<div class="box warn">
+<div class="t">含义</div>
+<p>Agent 工具的「能力」宣传默认以 macOS 为基准。<strong>占开发者多数的 Windows 与 Linux 用户，实际体验被系统性忽略。</strong></p>
+</div>
+</section>
+
+<!-- U4 -->
+<section id="u4">
+<h2><span class="n">九</span>社区独有 ④：用量透明度成为硬需求</h2>
+<blockquote><p><strong>Telemetry and usage transparency are demanded.</strong> Issues like OpenCode's persistent cost tracking (#7763) and DeepSeek TUI's token visibility (#2666) show that <strong>developers want consumption data they can trust - without hidden background drain (Codex #24818)</strong>.</p></blockquote>
+<p><strong>「without hidden background drain」</strong>——社区不只想要成本数据，还怀疑<strong>后台偷偷消耗</strong>。这直接关系到 agent 的信任基础。</p>
+<h3>与之相关的另一条</h3>
+<blockquote><p><strong>Context window gating is a major UX failure.</strong> Claude Code's "1M context credit" bugs (#63060 et al.) and Copilot CLI's truncated long-context models (#3677) highlight that <strong>model capacity and billing are poorly communicated</strong>.</p></blockquote>
+<h3>远程执行从「有了更好」变成「必须有」</h3>
+<blockquote><p><strong>Remote execution is moving from nice-to-have to must-have.</strong> Claude Code, Gemini CLI, and Pi all have active issues related to SSH, WSL, and remote context. As hybrid workflows grow, <strong>tools that cannot clearly communicate which machine is being acted upon will lose trust.</strong></p></blockquote>
+<p><strong>「无法清晰说明自己正在操作哪台机器」</strong>——这是一个信任问题，不是功能问题。</p>
+</section>
+
+<!-- U5 -->
+<section id="u5">
+<h2><span class="n">十</span>社区独有 ⑤：自托管 + 职业焦虑</h2>
+
+<h3>自托管 / 拥有自己的 Agent</h3>
+<div class="box ok">
+<div class="t">HN 329 分 / 155 评论</div>
+<p><strong>Talorys - A self-hosted personal AI agent on Cloudflare's free tier</strong></p>
+</div>
+<div class="quote">
+<div class="who">rociiu（作者）</div>
+<div class="txt">"The idea came from wanting a personal AI assistant that I could <strong>own and control</strong>, without paying a monthly subscription or relying on someone else's hosted service."</div>
+</div>
+<div class="quote">
+<div class="who">flufluflufluffy · 一条有意思的语义争论</div>
+<div class="txt">"This might sound kinda crazy, but <strong>I define 'self-hosted' as something that I host myself</strong>."</div>
+</div>
+<p><strong>同类项目</strong>：<strong>NanoMuse</strong>（<em>"An open-source AI agent for your phone and computer"</em>）、<strong>Halo</strong>（<em>"A Personal AI with On-Device Harness, Memory and Browser Agent"</em>）。</p>
+<p><strong>含义</strong>：<strong>「拥有权」是社区的真实诉求，而它既不是能力问题也不是协议问题。</strong> 当大厂在谈 agent 商业协议时，一部分社区在谈「我不想租一个助理」。</p>
+
+<h3>职业焦虑 —— 社区最大情绪，官方叙事完全缺席</h3>
+<div class="box danger">
+<div class="t">这是本轮最被低估的发现</div>
+<p>上一轮的十个趋势里，没有一条涉及人的处境。但社区里<strong>互动量最高的帖子几乎都是关于人的</strong>。</p>
+</div>
+<table>
+<thead><tr><th>帖子</th><th>分数</th><th>评论</th></tr></thead>
+<tbody>
+<tr><td><strong>Interviewed candidates for "AI engineer" roles this week, my god is this really where our industry is going?</strong>（r/ExperiencedDevs）</td><td class="no-b"><strong>1,524</strong></td><td class="c"><strong>917</strong></td></tr>
+<tr><td><strong>When does the AI reality set in for middle and senior management?</strong>（r/ExperiencedDevs）</td><td class="star">533</td><td class="c">610</td></tr>
+<tr><td><strong>Job requires/uses very little AI. Sinking ship or goldmine?</strong>（r/ExperiencedDevs）</td><td class="star">400</td><td class="c">666</td></tr>
+<tr><td><strong>I'm trying to learn AI Agents, but I'm getting really confused.</strong>（r/AI_Agents）</td><td class="star">158</td><td class="c">86</td></tr>
+</tbody>
+</table>
+
+<h4>最高赞评论</h4>
+<div class="quote">
+<div class="who">u/birdgovorun <span class="up">1,128 赞</span></div>
+<div class="txt">"The real issue is that <strong>the value of mediocre developers - which I assume were the majority of developers you were interviewing - is becoming a net negative</strong>, and companies haven't yet fully understood（this）."</div>
+</div>
+<div class="quote">
+<div class="who">u/programmer-ke <span class="up">447 赞</span></div>
+<div class="txt">"Plus <strong>it is way easier to teach a competent developer how to use some new AI workflow productively, than it is to teach an AI super user how to become a competent developer.</strong>"</div>
+</div>
+<div class="quote">
+<div class="who">u/RedditMapz <span class="up">383 赞</span></div>
+<div class="txt">"No you are not behind and you are not crazy. <strong>Anyone working in any real production code knows that AI cannot replace humans</strong> despite the endless nonsense being spewed by the vibecoder evangelists."</div>
+</div>
+<div class="quote">
+<div class="who">u/prh8 <span class="up">1,240 赞</span></div>
+<div class="txt">"<strong>Savor every day you work at a place that isn't completely insane.</strong>"</div>
+</div>
+<div class="quote">
+<div class="who">u/HK-65 <span class="up">242 赞</span></div>
+<div class="txt">"The thing with AI is that it's essentially an engineering tool that's <strong>being pushed from the owner class downwards</strong>. The average capital owner does not know, understand or experience AI beyond using it."</div>
+</div>
+
+<div class="box warn">
+<div class="t">为什么这条趋势必须写进报告</div>
+<p>因为<strong>趋势的承受者是人</strong>。官方报告谈 harness、谈协议、谈记忆架构，社区里最多人点赞的是「我是不是要失业了」和「怎么学才不迷路」。<strong>忽略这一层，趋势分析就是不完整的。</strong></p>
+</div>
+</section>
+
+<!-- 质疑 -->
+<section id="s">
+<h2><span class="n">十一</span>社区质疑 / 降温的方向</h2>
+
+<h3>① 「AI 写的代码更多，但不是更多软件」</h3>
+<div class="box danger">
+<div class="t">本轮 HN 最高分的技术讨论 · 361 分 / 302 评论</div>
+<blockquote><p><strong>AI coding agents generate more code, but not more software</strong>（Ars Technica）</p></blockquote>
+</div>
+<div class="quote">
+<div class="who">alexnewman</div>
+<div class="txt">"Maybe but I'd argue the frontier corps will self destruct via green and product management enough to make this impractical. So far here's how I see that going: <strong>1) can't easily autopilot due to security. Gonna keep on prompting you into running weird shell commands.</strong>"</div>
+</div>
+<div class="quote">
+<div class="who">radlad</div>
+<div class="txt">"<strong>I'm noticing AI catching many bugs in code that previously went unnoticed.</strong> Some of them are important, and it's great to catch them early. <strong>The other 11 items in the list of 12 would probably never be hit in practice</strong>, but now that you know..."</div>
+</div>
+<p><strong>radlad 的观察很精确</strong>：AI 既<strong>发现了真 bug</strong>，也<strong>制造了大量永远不会触发的理论问题</strong>。这是「代码更多但软件不多」的微观机制。</p>
+<p><strong>注意 alexnewman 那句</strong>：<em>"can't easily autopilot due to security. Gonna keep on prompting you into running weird shell commands"</em> —— <strong>这正是 Harness 化的动因，而且社区是从「安全让我无法放手」推出的，不是从范式理论推出的。</strong></p>
+
+<h3>② 「构建 agent 比看起来难得多」</h3>
+<table>
+<thead><tr><th>帖子</th><th>分数 / 评论</th></tr></thead>
+<tbody>
+<tr><td><strong>Is it just me or is building AI agents harder than people make it look?</strong></td><td class="c">61 / 52</td></tr>
+<tr><td><strong>I'm trying to learn AI Agents, but I'm getting really confused. How should I approach it?</strong></td><td class="c">158 / 86</td></tr>
+</tbody>
+</table>
+<p><strong>这两条加起来说明</strong>：社区里存在一个<strong>巨大的「入门落差」</strong>——宣传说得很容易，实际做起来很难，且没人告诉你从哪开始。</p>
+
+<h3>③ MCP 仍然 pre-1.0</h3>
+<blockquote><p><strong>MCP is the new plugin standard - but brittle.</strong> Nearly every tool is adopting MCP, but <strong>parsing bugs (DeepSeek TUI #2744), prompt cache busting (Qwen Code #4777), and enterprise proxy issues (Copilot CLI #3636)</strong> indicate <strong>the ecosystem is still pre-1.0</strong>.</p></blockquote>
+<p><strong>具体到「prompt cache busting」</strong>：MCP 工具列表的变动会<strong>击穿 prompt 缓存</strong>——这是一个社区发现的实际成本问题，而不是协议设计问题。</p>
+
+<h3>④ 框架疲劳</h3>
+<p><strong>Why does every AI agent framework eventually reinvent a workflow engine?</strong> —— 这条帖子的存在本身就是信号：<strong>社区对「又一个 agent 框架」已经疲惫</strong>，并开始质疑它们是否在解决真问题。</p>
+<p><strong>佐证</strong>：跨工具摘要显示，9 个 CLI 工具的功能高度趋同（都在加 MCP、都在加会话恢复、都在加用量统计），<strong>差异化主要靠 niche</strong>（企业合规 / 桌面沙箱 / 中文市场 / 多标签）。</p>
+</section>
+
+<!-- 痛点 -->
+<section id="pain">
+<h2><span class="n">十二</span>社区最紧急的痛点排序</h2>
+<table>
+<thead><tr><th>#</th><th>痛点</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td><strong>1</strong></td><td><strong>认证可靠性</strong></td><td>Copilot CLI #3596/#3682、Kimi Code #2425/#2427（403 错误）、OpenCode #12789</td></tr>
+<tr><td><strong>2</strong></td><td><strong>复制/粘贴回归</strong></td><td>Copilot CLI #2082/#3260/#3666、DeepSeek TUI #1920（Wayland）、Kimi Code #2422</td></tr>
+<tr><td><strong>3</strong></td><td><strong>资源管理</strong>（内存泄漏 / 上下文窗口门控）</td><td>Claude Code #63060、Copilot CLI #3677、OpenCode 内存 megathread #20695</td></tr>
+<tr><td><strong>4</strong></td><td><strong>平台对齐</strong>（Windows / Linux / Wayland）</td><td>Codex Windows 沙箱失败、Gemini CLI PTY 崩溃、WSL 性能回归</td></tr>
+<tr><td><strong>5</strong></td><td><strong>用量透明度</strong></td><td>OpenCode #7763、DeepSeek TUI #2666、Codex #24818（hidden background drain）</td></tr>
+<tr><td><strong>6</strong></td><td><strong>跨工具配置标准</strong></td><td>Claude Code #6235（<strong>4,060 👍</strong>）</td></tr>
+<tr><td><strong>7</strong></td><td><strong>token 生命周期 / 静默刷新</strong></td><td>Copilot CLI、Kimi Code、OpenCode 均有相关 issue</td></tr>
+<tr><td><strong>8</strong></td><td><strong>远程执行上下文可见性</strong></td><td>Claude Code #65527、Gemini CLI #27354、Pi #5341</td></tr>
+</tbody>
+</table>
+<div class="box danger">
+<div class="t">读法</div>
+<p><strong>前三条全部是「可靠性」问题，没有一条是「能力」问题。</strong> 这印证了第七节的结论——<strong>社区要的不是更强的 agent，是别崩的 agent。</strong></p>
+</div>
+</section>
+
+<!-- 对照 -->
+<section id="rec">
+<h2><span class="n">十三</span>社区视角下的「趋势」重排</h2>
+<table>
+<thead><tr><th>排序</th><th>社区版趋势</th><th>上一轮官方版对应</th><th>差异</th></tr></thead>
+<tbody>
+<tr><td><strong>1</strong></td><td><strong>可靠性优先于能力</strong></td><td>—</td><td class="ok-b">🆕 官方叙事里没有</td></tr>
+<tr><td><strong>2</strong></td><td><strong>Harness 工具生态爆发</strong></td><td>Harness Engineering 范式</td><td class="ok-b">✅ 印证，社区用工具投票</td></tr>
+<tr><td><strong>3</strong></td><td><strong>通用配置标准（AGENTS.md）</strong></td><td>AGENTS.md 作为四层生态之一</td><td class="warn-b">⬆️ 社区权重远高于官方</td></tr>
+<tr><td><strong>4</strong></td><td><strong>执行时授权 / 治理落地</strong></td><td>KYC → KYA</td><td class="ok-b">✅ 印证，社区从事故出发</td></tr>
+<tr><td><strong>5</strong></td><td><strong>记忆（含反思）</strong></td><td>记忆基础设施化</td><td class="ok-b">✅ 印证，社区更早提出成本问题</td></tr>
+<tr><td><strong>6</strong></td><td><strong>安全（从事故出发）</strong></td><td>OWASP ASI 分类</td><td class="ok-b">✅ 印证，社区证据更具体</td></tr>
+<tr><td><strong>7</strong></td><td><strong>平台不公</strong></td><td>—</td><td class="ok-b">🆕</td></tr>
+<tr><td><strong>8</strong></td><td><strong>职业焦虑</strong></td><td>—</td><td class="ok-b">🆕</td></tr>
+<tr><td><strong>9</strong></td><td><strong>自托管 / 拥有权</strong></td><td>—</td><td class="ok-b">🆕</td></tr>
+<tr><td><strong>10</strong></td><td><strong>远程执行</strong></td><td>—</td><td class="ok-b">🆕</td></tr>
+<tr><td>11</td><td>多 agent（<strong>带怀疑</strong>）</td><td>运行时动态派生子 Agent</td><td class="warn-b">⚠️ 社区更怀疑</td></tr>
+<tr><td>12</td><td>用量透明度</td><td>—</td><td class="ok-b">🆕</td></tr>
+<tr><td>13</td><td>跨 agent 会话可移植</td><td>—</td><td class="ok-b">🆕</td></tr>
+<tr><td>—</td><td class="no-b">（零出现）</td><td>RSI 递归自进化</td><td class="no-b">❌ 社区完全不谈</td></tr>
+<tr><td>—</td><td class="no-b">（零出现）</td><td>智能体商业协议竞赛</td><td class="no-b">❌ 社区完全不谈</td></tr>
+<tr><td>—</td><td class="no-b">（不谈增长，谈崩塌）</td><td>长任务能力指数增长</td><td class="no-b">❌</td></tr>
+</tbody>
+</table>
+
+<h3>三条最关键的差异</h3>
+<div class="box ok">
+<div class="t">① 社区不谈 RSI、不谈商业协议、不谈能力增长</div>
+<p>这三条在官方/媒体叙事里排位很高，但在 63 条社区证据里<strong>零出现</strong>。它们可能是真趋势，但<strong>不是社区的关注点</strong>——这个区别很重要：<strong>趋势报告如果只读厂商材料，会把「厂商在推的东西」误当成「从业者在做的事」。</strong></p>
+</div>
+<div class="box ok">
+<div class="t">② 社区有五条官方叙事完全缺席的趋势</div>
+<p>可靠性优先、平台不公、职业焦虑、自托管、远程执行。</p>
+</div>
+<div class="box ok">
+<div class="t">③ 社区对同一件事的表述更具体、更可执行</div>
+<p>官方说「质量门禁」，社区说「Replit 的代码冻结只存在于 prompt 里」；官方说「执行时授权」，社区说「demo 全干净，真实通话里一个编造了脚本外的费用」。<strong>社区的表述能直接变成工程约束，官方的表述需要翻译。</strong></p>
+</div>
+</section>
+
+<!-- 证据 -->
+<section id="ev">
+<h2><span class="n">十四</span>数据可信度</h2>
+
+<h3>本轮信源与方法</h3>
+<table>
+<thead><tr><th>来源</th><th>量</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><strong><code>last30days</code> 引擎</strong></td><td>2026-09-14 至 2026-10-14；63 条证据（Reddit 28 帖 / 7,103 赞 / 3,447 评论；HN 34 帖 / 3,100 分 / 1,866 评论；GitHub 1 项）</td><td class="ok-b"><strong>高</strong>（一手帖与评论，含 upvote 数）</td></tr>
+<tr><td><strong>跨 9 工具社区摘要</strong>（agents-radar）</td><td>65KB，覆盖 Claude Code / Codex / Gemini CLI / Copilot CLI / Kimi Code / OpenCode / Pi / Qwen Code / DeepSeek TUI</td><td class="warn-b">中高（第三方生成，但引用具体 issue 号与 👍 数）</td></tr>
+<tr><td><strong>Web 补充检索</strong></td><td>3 次（harness 工程师、社区讨论、Harness 产品化）</td><td class="warn-b">中</td></tr>
+<tr><td><strong>本会话前十一轮一手核验</strong></td><td>skills.sh 176 榜单 / 102 官方厂商 / 143 个 MCP 仓库 / agentskills.io 规范原文</td><td class="ok-b"><strong>高</strong></td></tr>
+</tbody>
+</table>
+
+<h3>本轮配置与缺口（必须说明）</h3>
+<div class="box warn">
+<div class="t">本次运行的实际信源</div>
+<p><strong>启用</strong>：Reddit、Hacker News、GitHub、Web。<br>
+<strong>未启用</strong>：X/Twitter（未授权 cookie）、YouTube（yt-dlp 未安装）、TikTok / Instagram（无 ScrapeCreators key）、Polymarket（无结果）。</p>
+</div>
+<ol>
+<li><strong>缺口</strong>：X 是 agent 社区讨论的重要阵地（尤其 AI 从业者的即时观点），YouTube 有最深的讲解内容。<strong>这两块的缺席会让「社区意见」偏 Reddit/HN 的技术向。</strong></li>
+<li><strong>一次源失败</strong>：Jobs 源报 502（unreachable）。<strong>这不代表招聘讨论为零</strong>——社区里的职业焦虑（第十节）来自 Reddit，不是 Jobs 源。</li>
+<li><strong>可选的补齐方式</strong>：安装 <code>yt-dlp</code>（免费）可解锁 YouTube 转录；ScrapeCreators 免费 key（10,000 次调用）可解锁 TikTok/Instagram 及其评论。</li>
+</ol>
+
+<h3>明确未核实 / 存疑项</h3>
+<ol>
+<li><strong>「Harness 工程师」作为职业角色的严肃性</strong>：信息来自百度百科条目（称 Hashimoto 2026-02-05 提出、OpenAI 2026-02-11 推广），<strong>未取得原始英文出处</strong>。</li>
+<li><strong>agents-radar 摘要的生成方式</strong>：为第三方自动生成，<strong>具体 issue 号与 👍 数未逐条核验</strong>。</li>
+<li><strong>Claude Code #6235 的 4,060 👍</strong>：来自该摘要转述，<strong>未直接读取 issue 页面确认</strong>。</li>
+<li><strong>PPIO 的 Agent Harness 产品</strong>：来自百度百科，未查证官方发布材料。</li>
+<li><strong>Reddit 帖子的 upvote 数</strong>：由引擎抓取，<strong>可能与实时值有偏差</strong>（抓取时间 2026-10-14）。</li>
+<li><strong>「社区共识」的代表性</strong>：Reddit / HN 用户以英文技术人群为主，<strong>不代表中文社区、非英语社区、以及非开发者从业者</strong>。本轮的「社区意见」应理解为「英文技术社区意见」。</li>
+<li><strong>upvote 不等于认同</strong>：高赞帖可能反映的是情绪共鸣而非事实准确（如第十节的高赞评论更多是情绪表达）。</li>
+</ol>
+
+<h3>本轮方法说明</h3>
+<div class="box ok">
+<div class="t">与上一轮的关键方法差异</div>
+<p>上一轮主要依赖<strong>厂商报告与媒体分析</strong>（二手转述风险高，我标注了 9 条未核实项）。<strong>这一轮改用社区数据引擎，直接抓取帖文、评论与 upvote 数</strong>——证据可追溯到具体 URL 与具体用户。</p>
+<p><strong>但社区信源有自己的偏差</strong>：Reddit/HN 偏向英文、偏向技术、偏向「愿意发帖的人」。<strong>因此本轮结论应作为上一轮官方视角的「补集」，而不是替代。</strong> 两份报告对照阅读，才能看到完整图景。</p>
+</div>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 信源：<code>last30days</code> 引擎（63 条社区证据，2026-09-14 至 2026-10-14）+ 跨 9 工具社区摘要 + Web 补充 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/community-evidence.json</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+</body>
+</html>
