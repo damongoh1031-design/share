@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>包管理器 MCP 选型研究报告（apt / dnf / zypper / yum / pacman / nixos-rebuild / snap / flatpak）</title>
+<meta name="description" content="包管理器 MCP 选型深度研究报告：apt / dnf / zypper / yum / pacman / nixos-rebuild / snap / flatpak 八个命令 × 五发行版 × 20 个 MCP 逐条取证。">
+<style>
+:root{
+  --bg:#f7f8fa; --panel:#ffffff; --ink:#1a1d24; --ink-2:#4a5262; --ink-3:#7b8494;
+  --line:#e3e6ec; --line-2:#eef1f5;
+  --accent:#1f5fd6; --accent-soft:#eaf1fd;
+  --code-bg:#f4f6f9; --code-ink:#243040;
+  --warn:#b45309; --warn-bg:#fef7e6;
+  --danger:#b91c1c; --danger-bg:#fdf0ef;
+  --ok:#15803d; --ok-bg:#eef8f1;
+  --gA:#15803d; --gB:#1f5fd6; --gC:#b45309; --gD:#7b8494;
+  --radius:10px; --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  font-size:15.5px; line-height:1.78; -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.layout{display:flex; gap:0; max-width:var(--maxw); margin:0 auto; align-items:flex-start}
+
+/* ── 侧栏目录 ── */
+.sidebar{
+  position:sticky; top:0; flex:0 0 292px; max-height:100vh; overflow-y:auto;
+  padding:26px 14px 40px 20px; font-size:13.2px; line-height:1.62;
+  border-right:1px solid var(--line);
+  scrollbar-width:thin;
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:#cfd5df; border-radius:3px}
+.sidebar .toc-title{
+  font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:700; margin:0 0 12px 4px;
+}
+.sidebar ul{list-style:none; margin:0; padding:0}
+.sidebar li{margin:1px 0}
+.sidebar a{
+  display:block; padding:3.5px 8px; border-radius:6px; color:var(--ink-2);
+  text-decoration:none; border-left:2px solid transparent; transition:background .12s,color .12s;
+}
+.sidebar a:hover{background:var(--accent-soft); color:var(--accent)}
+.sidebar ul ul{margin-left:0; padding-left:10px}
+.sidebar ul ul a{font-size:12.5px; color:var(--ink-3); padding:2.5px 8px}
+.sidebar ul ul a:hover{color:var(--accent)}
+
+/* ── 主体 ── */
+.main{flex:1 1 auto; min-width:0; padding:0 40px 90px}
+.hero{
+  padding:52px 0 30px; border-bottom:1px solid var(--line); margin-bottom:34px;
+}
+.hero h1{
+  font-size:31px; line-height:1.32; margin:0 0 18px; letter-spacing:-.4px; font-weight:800;
+}
+.hero .meta{display:flex; flex-direction:column; gap:7px; font-size:13.5px; color:var(--ink-2)}
+.hero .meta .row{display:flex; gap:9px; flex-wrap:wrap; align-items:baseline}
+.hero .meta .k{
+  flex:0 0 auto; font-weight:700; color:var(--ink-3); font-size:12px;
+  letter-spacing:.06em; padding-top:1px;
+}
+.hero .meta .v{flex:1 1 auto; min-width:0}
+.grades{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px}
+
+/* ── 排版 ── */
+h2{
+  font-size:23px; margin:56px 0 18px; padding:0 0 12px; font-weight:750;
+  border-bottom:2px solid var(--ink); letter-spacing:-.2px; scroll-margin-top:16px;
+}
+h3{
+  font-size:18px; margin:36px 0 13px; font-weight:700; color:var(--ink);
+  scroll-margin-top:16px;
+}
+h4{font-size:15.5px; margin:26px 0 10px; font-weight:700; color:var(--ink-2)}
+p{margin:0 0 15px}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+.anchor{
+  opacity:0; margin-left:9px; font-size:.72em; color:var(--ink-3);
+  font-weight:400; text-decoration:none; transition:opacity .12s;
+}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+hr{border:0; border-top:1px solid var(--line); margin:44px 0}
+
+/* ── 列表 ── */
+ul,ol{margin:0 0 16px; padding-left:25px}
+li{margin:5px 0}
+li>ul,li>ol{margin-top:5px; margin-bottom:6px}
+
+/* ── 引用块 ── */
+blockquote{
+  margin:20px 0; padding:14px 18px; background:var(--panel);
+  border-left:3px solid var(--accent); border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--ink-2); font-size:14.6px;
+}
+blockquote p:last-child{margin-bottom:0}
+
+/* ── 表格 ── */
+.table-wrap{
+  overflow-x:auto; margin:20px 0 26px; border:1px solid var(--line);
+  border-radius:var(--radius); background:var(--panel);
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+}
+table{border-collapse:collapse; width:100%; font-size:13.9px; min-width:520px}
+thead th{
+  background:#f0f3f8; text-align:left; font-weight:700; color:var(--ink);
+  padding:11px 14px; border-bottom:1.5px solid var(--line); white-space:nowrap;
+  font-size:13.2px; letter-spacing:.01em;
+}
+tbody td{padding:10px 14px; border-bottom:1px solid var(--line-2); vertical-align:top; line-height:1.65}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:#fbfcfe}
+tbody tr:hover{background:var(--accent-soft)}
+td code,th code{font-size:12.6px}
+
+/* ── 代码 ── */
+code{
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono","Cascadia Mono",Menlo,monospace;
+  font-size:13.2px; background:var(--code-bg); color:var(--code-ink);
+  padding:1.5px 5.5px; border-radius:5px; border:1px solid var(--line-2);
+  word-break:break-word;
+}
+pre{
+  background:var(--code-bg); border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px 18px; overflow-x:auto; margin:18px 0 24px; line-height:1.62;
+}
+pre code{
+  background:none; border:0; padding:0; font-size:13px; color:var(--code-ink);
+  white-space:pre; word-break:normal;
+}
+pre::-webkit-scrollbar{height:8px}
+pre::-webkit-scrollbar-thumb{background:#cfd5df; border-radius:4px}
+
+/* pygments 浅色配色（codehilite） */
+.hl .k,.hl .kd,.hl .kn,.hl .kc{color:#a626a4}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd{color:#0a7d3e}
+.hl .c,.hl .c1,.hl .cm{color:#8a93a3; font-style:italic}
+.hl .nf,.hl .fm{color:#1f5fd6}
+.hl .nc,.hl .nn{color:#b45309}
+.hl .mi,.hl .mf{color:#0b7285}
+.hl .nt{color:#1f5fd6}
+.hl .o,.hl .ow{color:#4a5262}
+
+/* ── 徽章 ── */
+.badge{
+  display:inline-block; min-width:19px; text-align:center;
+  font-size:11.5px; font-weight:800; line-height:17px; height:18px;
+  border-radius:5px; padding:0 5px; vertical-align:1.5px; margin:0 1px;
+}
+.badge.g-A{background:var(--ok-bg); color:var(--gA); border:1px solid #c9e6d4}
+.badge.g-B{background:var(--accent-soft); color:var(--gB); border:1px solid #c9dcf8}
+.badge.g-C{background:var(--warn-bg); color:var(--gC); border:1px solid #f2ddb0}
+.badge.g-D{background:#f1f3f6; color:var(--gD); border:1px solid #dde1e8}
+.star{color:#e0a800; font-size:.95em}
+
+/* 强调块：含"⚠"或"❗"的段落 */
+.warnbox{
+  background:var(--danger-bg); border:1px solid #f3d0cd; border-left:3px solid var(--danger);
+  border-radius:0 var(--radius) var(--radius) 0; padding:13px 17px; margin:20px 0;
+}
+
+/* ── 返回顶部 ── */
+#top{
+  position:fixed; right:26px; bottom:26px; width:42px; height:42px; border-radius:50%;
+  background:var(--panel); border:1px solid var(--line); color:var(--ink-2);
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+  cursor:pointer; box-shadow:0 3px 12px rgba(16,24,40,.13); text-decoration:none;
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}
+#top.show{opacity:1; pointer-events:auto}
+#top:hover{background:var(--accent); color:#fff; border-color:var(--accent)}
+
+/* ── 页脚 ── */
+.foot{
+  margin-top:60px; padding-top:22px; border-top:1px solid var(--line);
+  font-size:12.6px; color:var(--ink-3); text-align:center; line-height:1.9;
+}
+
+/* ── 移动端 ── */
+.mobile-toc{display:none}
+@media (max-width:1000px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .main{padding:0 20px 70px}
+  .hero{padding:34px 0 24px}
+  .hero h1{font-size:24px}
+  .mobile-toc{
+    display:block; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:10px 14px; margin:0 0 24px; font-size:14px;
+  }
+  .mobile-toc summary{cursor:pointer; font-weight:700; color:var(--ink-2); outline:none}
+  .mobile-toc .toc-inner{padding-top:10px}
+  .mobile-toc a{display:block; padding:3px 0; font-size:13.2px; color:var(--ink-2)}
+}
+
+/* ── 打印 ── */
+@media print{
+  body{background:#fff; font-size:10.5pt}
+  .sidebar,#top,.mobile-toc{display:none!important}
+  .layout{display:block; max-width:none}
+  .main{padding:0}
+  .hero{padding-top:0}
+  h2{page-break-after:avoid; font-size:15pt; margin-top:22pt}
+  h3{page-break-after:avoid; font-size:12.5pt}
+  .table-wrap,pre,blockquote{page-break-inside:avoid}
+  .table-wrap{box-shadow:none}
+  a{color:var(--ink)}
+  .anchor{display:none}
+}
+</style>
+</head>
+<body>
+<a id="top" href="#" title="返回顶部">↑</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="目录">
+  <div class="toc-title">目录</div>
+  <div class="toc">
+<ul>
+<li><a href="#_1">摘要</a><ul>
+<li><a href="#_2">三条核心结论</a></li>
+<li><a href="#_3">一张表看完</a></li>
+<li><a href="#_4">三条推荐架构</a></li>
+</ul>
+</li>
+<li><a href="#1-8">第 1 章 需求映射：8 个命令 → 真实系统命令</a><ul>
+<li><a href="#11">1.1 命令映射表</a></li>
+<li><a href="#12">1.2 三个必须先澄清的点</a></li>
+</ul>
+</li>
+<li><a href="#2">第 2 章 可用性总表</a><ul>
+<li><a href="#21-8">2.1 通用兜底层（覆盖全部 8 个命令）</a></li>
+</ul>
+</li>
+<li><a href="#3">第 3 章 逐发行版取证</a><ul>
+<li><a href="#31-debian-ubuntu-apt">3.1 Debian / Ubuntu — apt</a></li>
+<li><a href="#32-fedora-rhel-dnf-yum">3.2 Fedora / RHEL 系 — dnf（及 yum）</a></li>
+<li><a href="#33-opensuse-sles-zypper">3.3 openSUSE / SLES — zypper</a></li>
+<li><a href="#34-arch-pacman">3.4 Arch — pacman</a></li>
+<li><a href="#35-nixos-nixos-rebuild">3.5 NixOS — nixos-rebuild</a></li>
+<li><a href="#36-snap">3.6 Snap — 完全没有</a></li>
+<li><a href="#37-flatpak">3.7 Flatpak — 只有空壳</a></li>
+</ul>
+</li>
+<li><a href="#4">第 4 章 通用兜底层</a><ul>
+<li><a href="#41-tumfmcp-shell-server201mit">4.1 ⭐ tumf/mcp-shell-server（201★，MIT）—— 推荐首选</a></li>
+<li><a href="#42-classfangssh-mcp-server">4.2 classfang/ssh-mcp-server —— 多机场景</a></li>
+<li><a href="#43-rhel-lightspeedlinux-mcp-server317apache-20-rhel">4.3 rhel-lightspeed/linux-mcp-server（317★，Apache-2.0）—— RHEL 系官方路径</a></li>
+<li><a href="#44-imandextermcp-shell-server2mit-shell">4.4 iMANDexter/mcp-shell-server（2★，MIT）—— 远程 shell，警告最直白</a></li>
+</ul>
+</li>
+<li><a href="#5">第 5 章 命名陷阱与假候选</a><ul>
+<li><a href="#51-oborchersmcp-server-pacman11-arch-linux">5.1 ⚠️ oborchers/mcp-server-pacman（11★）—— 与 Arch Linux 毫无关系</a></li>
+<li><a href="#52-arch-mcp-safe_system_update-prompt-tool">5.2 ⚠️ arch-mcp 的 safe_system_update 是 Prompt 不是 Tool</a></li>
+<li><a href="#53-apt-aptos">5.3 ⚠️ 搜索 apt 被 Aptos 区块链污染</a></li>
+<li><a href="#54-dnf">5.4 ⚠️ 搜索 dnf 被游戏污染</a></li>
+<li><a href="#55">5.5 无许可证 = 不可用</a></li>
+<li><a href="#56">5.6 名字骗人的项目</a></li>
+</ul>
+</li>
+<li><a href="#6">第 6 章 推荐架构</a><ul>
+<li><a href="#a-mcp">方案 A · 专用 MCP 组合（按发行版各装一个）</a></li>
+<li><a href="#b-shell">方案 B · 统一 shell 执行层（多发行版混合环境推荐）</a></li>
+<li><a href="#c-ssh">方案 C · SSH 集中式（多机）</a></li>
+<li><a href="#d">方案 D · 只读优先（推荐作为起点）</a></li>
+</ul>
+</li>
+<li><a href="#7">第 7 章 坑与反直觉</a></li>
+<li><a href="#8">第 8 章 未核实与覆盖边界</a><ul>
+<li><a href="#81">8.1 未取得一手证据的项</a></li>
+<li><a href="#82">8.2 明确的方法论边界</a></li>
+<li><a href="#83">8.3 与前序报告的关系</a></li>
+</ul>
+</li>
+<li><a href="#a">附录 A 证据分级说明</a></li>
+<li><a href="#b">附录 B 可复现命令</a><ul>
+<li><a href="#b1-github-search-api">B.1 检索式（GitHub Search API）</a></li>
+<li><a href="#b2-readme">B.2 直读源码确认工具集（比 README 可靠）</a></li>
+<li><a href="#b3-b-tumfmcp-shell-server">B.3 方案 B 的完整配置（tumf/mcp-shell-server）</a></li>
+<li><a href="#b4-a-apt-mcp">B.4 方案 A 的 apt-mcp 配置</a></li>
+<li><a href="#b5">B.5 各发行版的只读巡检命令（可作起点）</a></li>
+</ul>
+</li>
+<li><a href="#c">附录 C 参考链接</a></li>
+</ul>
+</div>
+
+</nav>
+
+<main class="main">
+  <header class="hero">
+    <h1>包管理器 MCP 选型研究报告（apt / dnf / zypper / yum / pacman / nixos-rebuild / snap / flatpak）</h1>
+    <div class="meta">
+      <div class="row"><span class="k">版本</span><span class="v">v1.0</span></div>
+<div class="row"><span class="k">成稿日期</span><span class="v">2026-10-12</span></div>
+<div class="row"><span class="k">检索方式</span><span class="v">GitHub Search API（11 组限定式查询）+ 仓库 README / 源码文件直读</span></div>
+<div class="row"><span class="k">覆盖发行版</span><span class="v">Debian/Ubuntu、Fedora/RHEL 系、openSUSE/SLES、Arch、NixOS + 跨发行版（snap/flatpak）</span></div>
+      <div class="row"><span class="k">证据分级</span><span class="v"><div class="grades"><span class="badge g-A">A</span><span class="legend">官方文档原文 / 源码树直读，可复现</span><span class="badge g-B">B</span><span class="legend">项目 README / 官方功能页原文</span><span class="badge g-C">C</span><span class="legend">项目自述未独立复现</span><span class="badge g-D">D</span><span class="legend">本报告推断</span></div></span></div>
+    </div>
+  </header>
+
+  <details class="mobile-toc" open>
+    <summary>目录</summary>
+    <div class="toc-inner"><div class="toc">
+<ul>
+<li><a href="#_1">摘要</a><ul>
+<li><a href="#_2">三条核心结论</a></li>
+<li><a href="#_3">一张表看完</a></li>
+<li><a href="#_4">三条推荐架构</a></li>
+</ul>
+</li>
+<li><a href="#1-8">第 1 章 需求映射：8 个命令 → 真实系统命令</a><ul>
+<li><a href="#11">1.1 命令映射表</a></li>
+<li><a href="#12">1.2 三个必须先澄清的点</a></li>
+</ul>
+</li>
+<li><a href="#2">第 2 章 可用性总表</a><ul>
+<li><a href="#21-8">2.1 通用兜底层（覆盖全部 8 个命令）</a></li>
+</ul>
+</li>
+<li><a href="#3">第 3 章 逐发行版取证</a><ul>
+<li><a href="#31-debian-ubuntu-apt">3.1 Debian / Ubuntu — apt</a></li>
+<li><a href="#32-fedora-rhel-dnf-yum">3.2 Fedora / RHEL 系 — dnf（及 yum）</a></li>
+<li><a href="#33-opensuse-sles-zypper">3.3 openSUSE / SLES — zypper</a></li>
+<li><a href="#34-arch-pacman">3.4 Arch — pacman</a></li>
+<li><a href="#35-nixos-nixos-rebuild">3.5 NixOS — nixos-rebuild</a></li>
+<li><a href="#36-snap">3.6 Snap — 完全没有</a></li>
+<li><a href="#37-flatpak">3.7 Flatpak — 只有空壳</a></li>
+</ul>
+</li>
+<li><a href="#4">第 4 章 通用兜底层</a><ul>
+<li><a href="#41-tumfmcp-shell-server201mit">4.1 ⭐ tumf/mcp-shell-server（201★，MIT）—— 推荐首选</a></li>
+<li><a href="#42-classfangssh-mcp-server">4.2 classfang/ssh-mcp-server —— 多机场景</a></li>
+<li><a href="#43-rhel-lightspeedlinux-mcp-server317apache-20-rhel">4.3 rhel-lightspeed/linux-mcp-server（317★，Apache-2.0）—— RHEL 系官方路径</a></li>
+<li><a href="#44-imandextermcp-shell-server2mit-shell">4.4 iMANDexter/mcp-shell-server（2★，MIT）—— 远程 shell，警告最直白</a></li>
+</ul>
+</li>
+<li><a href="#5">第 5 章 命名陷阱与假候选</a><ul>
+<li><a href="#51-oborchersmcp-server-pacman11-arch-linux">5.1 ⚠️ oborchers/mcp-server-pacman（11★）—— 与 Arch Linux 毫无关系</a></li>
+<li><a href="#52-arch-mcp-safe_system_update-prompt-tool">5.2 ⚠️ arch-mcp 的 safe_system_update 是 Prompt 不是 Tool</a></li>
+<li><a href="#53-apt-aptos">5.3 ⚠️ 搜索 apt 被 Aptos 区块链污染</a></li>
+<li><a href="#54-dnf">5.4 ⚠️ 搜索 dnf 被游戏污染</a></li>
+<li><a href="#55">5.5 无许可证 = 不可用</a></li>
+<li><a href="#56">5.6 名字骗人的项目</a></li>
+</ul>
+</li>
+<li><a href="#6">第 6 章 推荐架构</a><ul>
+<li><a href="#a-mcp">方案 A · 专用 MCP 组合（按发行版各装一个）</a></li>
+<li><a href="#b-shell">方案 B · 统一 shell 执行层（多发行版混合环境推荐）</a></li>
+<li><a href="#c-ssh">方案 C · SSH 集中式（多机）</a></li>
+<li><a href="#d">方案 D · 只读优先（推荐作为起点）</a></li>
+</ul>
+</li>
+<li><a href="#7">第 7 章 坑与反直觉</a></li>
+<li><a href="#8">第 8 章 未核实与覆盖边界</a><ul>
+<li><a href="#81">8.1 未取得一手证据的项</a></li>
+<li><a href="#82">8.2 明确的方法论边界</a></li>
+<li><a href="#83">8.3 与前序报告的关系</a></li>
+</ul>
+</li>
+<li><a href="#a">附录 A 证据分级说明</a></li>
+<li><a href="#b">附录 B 可复现命令</a><ul>
+<li><a href="#b1-github-search-api">B.1 检索式（GitHub Search API）</a></li>
+<li><a href="#b2-readme">B.2 直读源码确认工具集（比 README 可靠）</a></li>
+<li><a href="#b3-b-tumfmcp-shell-server">B.3 方案 B 的完整配置（tumf/mcp-shell-server）</a></li>
+<li><a href="#b4-a-apt-mcp">B.4 方案 A 的 apt-mcp 配置</a></li>
+<li><a href="#b5">B.5 各发行版的只读巡检命令（可作起点）</a></li>
+</ul>
+</li>
+<li><a href="#c">附录 C 参考链接</a></li>
+</ul>
+</div>
+</div>
+  </details>
+
+  <blockquote>
+<p>本报告回答一个具体问题：<strong>要用 MCP 在 NixOS / Fedora / Ubuntu / Arch / openSUSE 上执行 <code>apt</code>、<code>dnf</code>、<code>zypper</code>、<code>yum</code>/<code>pacman</code>、<code>nixos-rebuild</code>、<code>snap</code>、<code>flatpak</code> 来更新系统，有哪些 MCP 可用？</strong>
+全文先给出「可用性总表」，再逐发行版取证，最后给三种推荐架构。每一条能力断言都标注证据等级；凡搜索结果里同名但实际无关的项目，单独列入「命名陷阱」章。</p>
+</blockquote>
+<h2 id="_1">摘要<a class="anchor" href="#_1" aria-label="锚点">#</a></h2>
+<p><strong>一句话结论：8 个目标命令里只有 4 个有真正可用的专用 MCP（apt / dnf / zypper / pacman），没有一个专用 MCP 能覆盖全部发行版；而「真正能执行全系统升级」的专用工具，全网只有 <code>brianlechthaler/apt-mcp</code> 的 <code>apt_update</code> + <code>apt_upgrade</code> 一对。</strong></p>
+<h3 id="_2">三条核心结论<a class="anchor" href="#_2" aria-label="锚点">#</a></h3>
+<ol>
+<li><strong><code>snap</code> 与 <code>flatpak</code> 完全没有可用的专用 MCP。</strong> 唯一名叫 flatpak-mcp-server 的仓库 README 只有 27 字节（空壳）。这两个必须走通用 shell MCP。</li>
+<li><strong><code>yum</code> 不需要专用 MCP。</strong> RHEL 8+ / CentOS 8+ / Fedora 22+ 里 <code>yum</code> 就是 <code>dnf</code> 的符号链接；只有 RHEL/CentOS 7 才是真正的 yum。搜索 <code>yum mcp</code> 得到的全是无关项目。</li>
+<li><strong><code>openSUSE/managesw-mcp</code> 是唯一一个跨包管理器的官方 MCP</strong>——openSUSE 官方组织出品，官方原文：<em>"Most of the functions are only available on <code>zypper</code> and <code>dnf</code> based systems"</em>，同时覆盖 openSUSE/SLES 与 Fedora/RHEL 系。</li>
+</ol>
+<h3 id="_3">一张表看完<a class="anchor" href="#_3" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>目标命令</th>
+<th>发行版</th>
+<th>有可用专用 MCP？</th>
+<th>最佳选择</th>
+<th>能执行全系统升级？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apt</code> / <code>apt-get</code></td>
+<td>Debian / Ubuntu</td>
+<td>✅ 有 2 个</td>
+<td><strong><code>brianlechthaler/apt-mcp</code></strong>（0★，MIT）</td>
+<td>✅ <strong><code>apt_update</code> + <code>apt_upgrade</code></strong></td>
+</tr>
+<tr>
+<td><code>dnf</code></td>
+<td>Fedora / RHEL 系</td>
+<td>✅ 有 2 个</td>
+<td><strong><code>openSUSE/managesw-mcp</code></strong>（2★，MIT）</td>
+<td>⚠️ <code>install_patches</code> 装补丁，无 <code>distro-sync</code></td>
+</tr>
+<tr>
+<td><code>zypper</code></td>
+<td>openSUSE / SLES</td>
+<td>✅ 有 3 个</td>
+<td><strong><code>openSUSE/managesw-mcp</code></strong> 或 <strong><code>openSUSE/mcp-server-zypp</code></strong></td>
+<td>⚠️ 同上；<code>mcp-server-zypp</code> 只有单包 install</td>
+</tr>
+<tr>
+<td><code>yum</code></td>
+<td>RHEL / CentOS 7</td>
+<td>❌ 不需要</td>
+<td>走 dnf 路径</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pacman</code></td>
+<td>Arch</td>
+<td>✅ 有 1 个</td>
+<td><strong><code>nihalxkumar/arch-mcp</code></strong>（59★）</td>
+<td>❌ <strong>只有单包安装 + 更新检查</strong></td>
+</tr>
+<tr>
+<td><code>nixos-rebuild</code></td>
+<td>NixOS</td>
+<td>✅ 有 2 个</td>
+<td><strong><code>JEFF7712/nix-agent</code></strong>（16★）</td>
+<td>✅ <code>build</code>/<code>diff</code>/<code>switch</code>/<code>generations</code></td>
+</tr>
+<tr>
+<td><code>snap</code></td>
+<td>Ubuntu / 通用</td>
+<td>❌ <strong>没有</strong></td>
+<td>通用 shell MCP 兜底</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>flatpak</code></td>
+<td>通用</td>
+<td>❌ <strong>没有</strong></td>
+<td>通用 shell MCP 兜底</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_4">三条推荐架构<a class="anchor" href="#_4" aria-label="锚点">#</a></h3>
+<ul>
+<li><strong>方案 A · 专用 MCP 组合</strong>（按发行版各装一个）：Debian/Ubuntu→<code>apt-mcp</code>；Fedora/openSUSE→<code>managesw-mcp</code>；Arch→<code>arch-mcp</code> + 兜底；NixOS→<code>nix-agent</code> + <code>mcp-nixos</code>。</li>
+<li><strong>方案 B · 统一 shell 执行层</strong>（多发行版混合环境推荐）：<strong><code>tumf/mcp-shell-server</code></strong>（201★，MIT，argv 数组执行 + <code>ALLOW_COMMANDS</code>/<code>ALLOW_PATTERNS</code> 白名单 + 结构化审计日志 + 脱敏）。</li>
+<li><strong>方案 C · SSH 集中式</strong>（多机）：<code>classfang/ssh-mcp-server</code> + <code>--whitelist</code> 正则完整命令匹配。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ <strong>最重要的一条反直觉</strong>：<code>nihalxkumar/arch-mcp</code> 里那个叫 <code>safe_system_update</code> 的东西<strong>是 Prompt，不是 Tool</strong>。它位于 README 的 <code>### Prompts (Guided Workflows)</code> 段下，作用是「检查 Arch News → 验磁盘空间 → 列更新 → 检查服务 → <strong>给建议</strong>」，<strong>它不执行 <code>pacman -Syu</code></strong>。看到工具名就下结论会直接搞错。</p>
+</blockquote>
+<hr />
+<h2 id="1-8">第 1 章 需求映射：8 个命令 → 真实系统命令<a class="anchor" href="#1-8" aria-label="锚点">#</a></h2>
+<h3 id="11">1.1 命令映射表<a class="anchor" href="#11" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>用户说的命令</th>
+<th>发行版</th>
+<th>刷新索引</th>
+<th>升级已装包</th>
+<th>全系统升级（含依赖变更）</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apt</code></td>
+<td>Debian / Ubuntu</td>
+<td><code>apt update</code></td>
+<td><code>apt upgrade</code></td>
+<td><code>apt full-upgrade</code></td>
+<td>也是 <code>apt-get</code></td>
+</tr>
+<tr>
+<td><code>dnf</code></td>
+<td>Fedora / RHEL 8+</td>
+<td><code>dnf makecache</code></td>
+<td><code>dnf upgrade</code></td>
+<td><code>dnf distro-sync</code></td>
+<td><code>dnf update</code> 是别名</td>
+</tr>
+<tr>
+<td><code>rpm-ostree</code></td>
+<td>Fedora Silverblue / Kinoite</td>
+<td><code>rpm-ostree refresh-md</code></td>
+<td><code>rpm-ostree upgrade</code></td>
+<td>同左</td>
+<td>不可变系统，<strong>不能用 <code>dnf install</code></strong></td>
+</tr>
+<tr>
+<td><code>zypper</code></td>
+<td>openSUSE Leap</td>
+<td><code>zypper refresh</code></td>
+<td><code>zypper update</code></td>
+<td><code>zypper dup</code></td>
+<td>Leap 用 <code>update</code></td>
+</tr>
+<tr>
+<td><code>zypper</code></td>
+<td>openSUSE Tumbleweed</td>
+<td><code>zypper refresh</code></td>
+<td>—</td>
+<td><strong><code>zypper dup</code></strong></td>
+<td>⚠️ 滚动版<strong>必须</strong>用 <code>dup</code></td>
+</tr>
+<tr>
+<td><code>transactional-update</code></td>
+<td>openSUSE MicroOS / Aeon</td>
+<td>—</td>
+<td><code>transactional-update up</code></td>
+<td>同左</td>
+<td>不可变系统</td>
+</tr>
+<tr>
+<td><code>pacman</code></td>
+<td>Arch</td>
+<td><code>pacman -Sy</code></td>
+<td><code>pacman -Syu</code></td>
+<td><code>pacman -Syu</code></td>
+<td>⚠️ 不要只 <code>-Sy</code> 不 <code>-u</code></td>
+</tr>
+<tr>
+<td><code>yay</code> / <code>paru</code></td>
+<td>Arch（AUR）</td>
+<td>—</td>
+<td><code>yay -Syu</code></td>
+<td><code>yay -Syu</code></td>
+<td>第三方 helper</td>
+</tr>
+<tr>
+<td><code>nixos-rebuild</code></td>
+<td>NixOS</td>
+<td><code>nix-channel --update</code> 或 <code>nix flake update</code></td>
+<td>—</td>
+<td><code>nixos-rebuild switch --upgrade</code></td>
+<td>⚠️ 顺序：先更新 channel/flake，再 switch</td>
+</tr>
+<tr>
+<td><code>snap</code></td>
+<td>Ubuntu / 通用</td>
+<td><code>snap refresh --list</code></td>
+<td><code>snap refresh</code></td>
+<td>同左</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>flatpak</code></td>
+<td>通用</td>
+<td><code>flatpak update --appstream</code></td>
+<td><code>flatpak update</code></td>
+<td>同左</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="12">1.2 三个必须先澄清的点<a class="anchor" href="#12" aria-label="锚点">#</a></h3>
+<p><strong>（1）<code>yum</code> 不需要专用 MCP。</strong>
+RHEL 8+ / CentOS 8+ / Fedora 22+ 中 <code>yum</code> 是 <code>dnf</code> 的符号链接，底层就是 dnf。只有 RHEL 7 / CentOS 7 才是真正的 yum（Python 2 实现）。因此「yum MCP」既不存在也不必要——用 dnf 路径即可。</p>
+<p><strong>（2）<code>zypper update</code> 与 <code>zypper dup</code> 不是一回事。</strong>
+openSUSE Leap 用 <code>update</code>（保守，不跨版本）；<strong>Tumbleweed 是滚动发行版，必须用 <code>dup</code></strong>。如果用 <code>update</code> 在 Tumbleweed 上做全量更新，会遇到依赖冲突。任何给 openSUSE 用的 MCP 如果只暴露一个模糊的 "upgrade"，在 Tumbleweed 上就是错的。</p>
+<p><strong>（3）NixOS 的「更新系统」是两阶段。</strong>
+<code>nixos-rebuild switch --upgrade</code> 会先更新 channels 再重建；如果用 flake，则必须 <code>nix flake update</code>（或 <code>nix flake update &lt;input&gt;</code>）之后再 <code>nixos-rebuild switch</code>。把这两步合成一个「upgrade」工具会掩盖「flake 锁文件变更」这个关键决策点。</p>
+<hr />
+<h2 id="2">第 2 章 可用性总表<a class="anchor" href="#2" aria-label="锚点">#</a></h2>
+<p>证据等级：<span class="badge g-A">A</span> = 源码直读 · <span class="badge g-B">B</span> = 仓库 README 原文 · <span class="badge g-C">C</span> = 仅搜索结果元数据 · <span class="badge g-D">D</span> = 本报告推断</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th style="text-align: right;">MCP 仓库</th>
+<th>★</th>
+<th>语言</th>
+<th>许可</th>
+<th>最后推送</th>
+<th>覆盖命令</th>
+<th>是否执行变更</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td style="text-align: right;"><code>brianlechthaler/apt-mcp</code></td>
+<td>0</td>
+<td>Rust</td>
+<td><strong>MIT</strong></td>
+<td>2026-06-16</td>
+<td><code>apt</code> / <code>dpkg</code></td>
+<td>✅ 变更需 <code>confirm: true</code></td>
+<td><span class="badge g-A">A</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align: right;"><code>GdMacmillan/apt-mcp-server</code></td>
+<td>6</td>
+<td>JavaScript</td>
+<td>NOASSERTION</td>
+<td>2026-02-26</td>
+<td><code>apt</code> / <code>dpkg</code></td>
+<td>✅ <strong>假设免密 sudo</strong></td>
+<td>B</td>
+</tr>
+<tr>
+<td>3</td>
+<td style="text-align: right;"><code>openSUSE/managesw-mcp</code></td>
+<td>2</td>
+<td>Go</td>
+<td><strong>MIT</strong></td>
+<td>2026-07-06</td>
+<td><strong><code>zypper</code> + <code>dnf</code></strong></td>
+<td>✅ <code>install_package</code> / <code>install_patches</code> / <code>modify_repo</code></td>
+<td><span class="badge g-A">A</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td style="text-align: right;"><code>openSUSE/mcp-server-zypp</code></td>
+<td>0</td>
+<td>C++/Go</td>
+<td>GPL-3.0</td>
+<td>2026-09-04</td>
+<td><code>zypper</code>（libzypp）</td>
+<td>✅ <code>confirm_install</code> / <code>confirm_remove</code></td>
+<td>B</td>
+</tr>
+<tr>
+<td>5</td>
+<td style="text-align: right;"><code>anjupathak03/zypper-mcp</code></td>
+<td>0</td>
+<td>Python</td>
+<td><strong>无许可</strong></td>
+<td>2025-12-21</td>
+<td><code>zypper</code> 只读</td>
+<td>❌ 明确无 install/remove/upgrade</td>
+<td>B</td>
+</tr>
+<tr>
+<td>6</td>
+<td style="text-align: right;"><code>nihalxkumar/arch-mcp</code></td>
+<td>59</td>
+<td>Python</td>
+<td>GPL-3.0 OR MIT</td>
+<td>2026-03-10</td>
+<td><code>pacman</code> / AUR / Arch Wiki</td>
+<td>⚠️ 仅单包 <code>install_package_secure</code></td>
+<td>B</td>
+</tr>
+<tr>
+<td>7</td>
+<td style="text-align: right;"><code>JEFF7712/nix-agent</code></td>
+<td>16</td>
+<td>Python</td>
+<td><strong>MIT</strong></td>
+<td>2026-10-12</td>
+<td><strong><code>nixos-rebuild</code></strong></td>
+<td>✅ <code>switch</code>（<strong>默认高信任</strong>）</td>
+<td>B</td>
+</tr>
+<tr>
+<td>8</td>
+<td style="text-align: right;"><code>bolivian-peru/os-moda</code></td>
+<td>120</td>
+<td>Rust</td>
+<td>Apache-2.0</td>
+<td>2026-06-24</td>
+<td><code>nixos-rebuild</code>（SafeSwitch）</td>
+<td>✅ 带自动回滚</td>
+<td>B</td>
+</tr>
+<tr>
+<td>9</td>
+<td style="text-align: right;"><code>lukasl-dev/rime</code></td>
+<td>19</td>
+<td>Rust</td>
+<td>MIT</td>
+<td>2026-01-03</td>
+<td>Nix 生态查询</td>
+<td>❌ 全只读</td>
+<td>B</td>
+</tr>
+<tr>
+<td>10</td>
+<td style="text-align: right;"><code>utensils/mcp-nixos</code></td>
+<td><strong>853</strong></td>
+<td>Python</td>
+<td>MIT</td>
+<td>2026-09-05</td>
+<td>NixOS 包/选项查询</td>
+<td>❌ 只读（2 工具，~1030 token）</td>
+<td>B</td>
+</tr>
+<tr>
+<td>11</td>
+<td style="text-align: right;"><code>stubbedev/nix-mcp</code></td>
+<td>1</td>
+<td>Go</td>
+<td>MIT</td>
+<td>2026-10-10</td>
+<td>Nix 生态查询（Go 重写 mcp-nixos）</td>
+<td>❌ 只读</td>
+<td>B</td>
+</tr>
+<tr>
+<td>12</td>
+<td style="text-align: right;"><code>felixdorn/mcp-nix</code></td>
+<td>7</td>
+<td>Python</td>
+<td>GPL-3.0</td>
+<td>2026-01-08</td>
+<td>Nix 生态查询</td>
+<td>❌ 只读</td>
+<td>B</td>
+</tr>
+<tr>
+<td>13</td>
+<td style="text-align: right;"><code>simonives/redwrench</code></td>
+<td>—</td>
+<td>Rust</td>
+<td>MIT OR Apache-2.0</td>
+<td>—</td>
+<td>Fedora 系统管理（可跑 dnf）</td>
+<td>✅ 策略引擎 + 四档 tier</td>
+<td>B</td>
+</tr>
+<tr>
+<td>14</td>
+<td style="text-align: right;"><code>amineutron/fedora-agents</code></td>
+<td>—</td>
+<td>TypeScript</td>
+<td>MIT</td>
+<td>—</td>
+<td><strong>KVM/Borg/Timeshift，非包管理</strong></td>
+<td>✅ 逐脚本 sudoers</td>
+<td>B</td>
+</tr>
+<tr>
+<td>15</td>
+<td style="text-align: right;"><code>lucasarakaki/flatpak-mcp-server</code></td>
+<td>0</td>
+<td>PHP</td>
+<td>MIT</td>
+<td>2025-07-18</td>
+<td>名义上 flatpak</td>
+<td>❌ <strong>README 27 字节，空壳</strong></td>
+<td><span class="badge g-A">A</span></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="21-8">2.1 通用兜底层（覆盖全部 8 个命令）<a class="anchor" href="#21-8" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th style="text-align: right;">MCP 仓库</th>
+<th>★</th>
+<th>许可</th>
+<th>关键机制</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td style="text-align: right;"><strong><code>tumf/mcp-shell-server</code></strong></td>
+<td><strong>201</strong></td>
+<td>MIT</td>
+<td><strong>argv 数组执行，不做 shell 字符串解释</strong>；<code>ALLOW_COMMANDS</code> + <code>ALLOW_PATTERNS</code> 白名单；超时 + 输出字节上限；最小子环境；<strong>结构化审计日志</strong>（argv 脱敏 + SHA-256 摘要）</td>
+<td>A</td>
+</tr>
+<tr>
+<td>17</td>
+<td style="text-align: right;"><code>rhel-lightspeed/linux-mcp-server</code></td>
+<td><strong>317</strong></td>
+<td>Apache-2.0</td>
+<td>Red Hat 官方；<code>run_script</code> 工具集（Gatekeeper + 人工介入 + OS 沙箱）；硬编码策略「不得添加新仓库」「不得从互联网下载」</td>
+<td>A</td>
+</tr>
+<tr>
+<td>18</td>
+<td style="text-align: right;"><code>classfang/ssh-mcp-server</code></td>
+<td>—</td>
+<td>见仓库</td>
+<td><code>--whitelist</code> 正则<strong>完整命令匹配</strong>；启用白名单时含 <code>;</code> <code>&amp;</code> | 反引号 <code>$()</code> <code>&gt;</code> <code>&lt;</code> 换行的命令直接拒绝</td>
+<td>B</td>
+</tr>
+<tr>
+<td>19</td>
+<td style="text-align: right;"><code>iMANDexter/mcp-shell-server</code></td>
+<td>2</td>
+<td>MIT</td>
+<td>HTTPS + bearer token + 完整审计日志 + systemd；<strong>明确警告「intentionally grants remote command execution」</strong>，建议 <code>--no-sudo</code> 起步</td>
+<td>B</td>
+</tr>
+<tr>
+<td>20</td>
+<td style="text-align: right;"><code>blazickjp/shell-mcp-server</code></td>
+<td>22</td>
+<td>Apache-2.0</td>
+<td>限定目录内执行，支持 bash/sh/cmd/powershell + 超时</td>
+<td>B</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="3">第 3 章 逐发行版取证<a class="anchor" href="#3" aria-label="锚点">#</a></h2>
+<h3 id="31-debian-ubuntu-apt">3.1 Debian / Ubuntu — <code>apt</code><a class="anchor" href="#31-debian-ubuntu-apt" aria-label="锚点">#</a></h3>
+<h4 id="brianlechthalerapt-mcp0rustmit"><span class="star">★</span> <code>brianlechthaler/apt-mcp</code>（0★，Rust，MIT）—— 设计最好，星标最低<a class="anchor" href="#brianlechthalerapt-mcp0rustmit" aria-label="锚点">#</a></h4>
+<p>这是本报告见到的<strong>安全设计最完整的包管理 MCP</strong>，且明确声明遵循 NSA 的《MCP Security Design Considerations》(PP-26-1834)。</p>
+<p><strong>工具面</strong>（证据 A，<code>docs/features/tools.md</code>）：</p>
+<p>只读 scope（<strong>默认</strong>）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>作用</th>
+<th>底层命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apt_search</code></td>
+<td>搜索包</td>
+<td><code>apt-cache search</code></td>
+</tr>
+<tr>
+<td><code>apt_show</code></td>
+<td>包元数据</td>
+<td><code>apt-cache show</code></td>
+</tr>
+<tr>
+<td><code>apt_policy</code></td>
+<td>版本策略</td>
+<td><code>apt-cache policy</code></td>
+</tr>
+<tr>
+<td><code>apt_depends</code> / <code>apt_rdepends</code></td>
+<td>依赖 / 反向依赖</td>
+<td><code>apt-cache depends</code> / <code>rdepends</code></td>
+</tr>
+<tr>
+<td><code>apt_list_installed</code></td>
+<td>已装包与版本</td>
+<td><code>dpkg-query</code></td>
+</tr>
+<tr>
+<td><code>apt_list_upgradable</code></td>
+<td><strong>有可用升级的包</strong></td>
+<td><code>apt list --upgradable</code></td>
+</tr>
+<tr>
+<td><code>apt_simulate</code></td>
+<td><strong>dry-run 变更操作</strong>（<code>install</code>/<code>remove</code>/<code>upgrade</code>/<code>purge</code>/<code>autoremove</code>）</td>
+<td><code>--simulate</code></td>
+</tr>
+<tr>
+<td><code>apt_sources_list</code></td>
+<td>源列表</td>
+<td>读 <code>/etc/apt/sources.list</code></td>
+</tr>
+<tr>
+<td><code>apt_version</code></td>
+<td>版本</td>
+<td><code>apt-get --version</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>变更 scope（需 <code>APT_MCP_SCOPES=read,mutate</code> 且 <code>confirm: true</code>）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>底层命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>apt_update</code></strong></td>
+<td><strong><code>apt-get update</code></strong>（刷新索引）</td>
+</tr>
+<tr>
+<td><strong><code>apt_upgrade</code></strong></td>
+<td><strong><code>apt-get upgrade -y</code></strong>（升级已装包）</td>
+</tr>
+<tr>
+<td><code>apt_install</code> / <code>apt_remove</code> / <code>apt_purge</code> / <code>apt_autoremove</code></td>
+<td>对应 <code>apt-get</code> 子命令</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>安全控制</strong>（证据 A，<code>docs/security.md</code>）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>控制</th>
+<th>实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最小权限（逐调用）</td>
+<td><code>APT_MCP_SCOPES</code> 启动时限定；每个工具声明所需 scope；变更工具必须 <code>confirm: true</code></td>
+</tr>
+<tr>
+<td><strong>无 shell</strong></td>
+<td><em>"No shell; strict argv"</em> —— 从根上消除命令注入</td>
+</tr>
+<tr>
+<td>输入校验</td>
+<td>包名正则 <code>^[a-z0-9][a-z0-9+.\-]*$</code>；搜索模式限字母数字 + 有限通配；<strong>单次变更最多 50 个包</strong></td>
+</tr>
+<tr>
+<td>输出上限</td>
+<td><code>APT_MCP_MAX_OUTPUT_BYTES</code>，默认 1 MiB</td>
+</tr>
+<tr>
+<td>审计日志</td>
+<td>结构化 JSON-lines 写 stderr，每次调用 + 每次结果各一条；<code>params_fingerprint</code> 存 params 的 <strong>SHA-256</strong> 而非原文；<code>result_status</code> ∈ <code>success</code>/<code>denied</code>/<code>error</code></td>
+</tr>
+<tr>
+<td><strong>防工具定义漂移（rug-pull）</strong></td>
+<td><strong>版本化服务器 <code>apt-mcp@0.1.0</code> + pinned tool schemas</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>它只有 0★</strong>。设计质量与热度完全倒挂——这是本报告最值得注意的一组反差。用之前自己读一遍源码。</p>
+</blockquote>
+<h4 id="gdmacmillanapt-mcp-server6javascript">⚠️ <code>GdMacmillan/apt-mcp-server</code>（6★，JavaScript）—— 星标更高，安全性更差<a class="anchor" href="#gdmacmillanapt-mcp-server6javascript" aria-label="锚点">#</a></h4>
+<ul>
+<li>官方原文：<em>"it exposes tools for installing, removing, updating, and querying apt packages using the system's native <code>apt</code> and <code>dpkg</code> binaries with </em><em><code>sudo</code> privileges</em><em>."</em></li>
+<li>官方原文：<em>"</em><em>Secure, passwordless <code>sudo</code> assumed for all operations</em><em>"</em> 与 <em>"The server assumes the user has passwordless <code>sudo</code> for apt operations."</em></li>
+<li>仓库内部目录名是 <code>popos-control-mcp</code>，stdio 传输。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 「假设免密 sudo」意味着这个 MCP 一旦被接入，<strong>Agent 对该机器拥有无门槛 root 包管理权</strong>。它没有任何 scope 分层、没有 <code>confirm</code> 二次确认、没有审计日志描述。除非在一次性容器里，否则不建议。</p>
+</blockquote>
+<h3 id="32-fedora-rhel-dnf-yum">3.2 Fedora / RHEL 系 — <code>dnf</code>（及 <code>yum</code>）<a class="anchor" href="#32-fedora-rhel-dnf-yum" aria-label="锚点">#</a></h3>
+<h4 id="opensusemanagesw-mcp2gomit-zypper-dnf-mcp"><span class="star">★</span> <code>openSUSE/managesw-mcp</code>（2★，Go，MIT）—— 唯一跨 zypper + dnf 的官方 MCP<a class="anchor" href="#opensusemanagesw-mcp2gomit-zypper-dnf-mcp" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>openSUSE 官方组织</strong>仓库（<code>github.com/openSUSE</code>）。</li>
+<li>官方原文：<em>"<code>managesw-mcp</code> is a server that exposes OS software management functions through the Model Context Protocol (MCP). It allows you to manage </em><em>packages, repositories, and patches</em><em> on a Linux system. </em><em>Most of the functions are only available on <code>zypper</code> and <code>dnf</code> based systems</em><em>"</em></li>
+<li>实现（证据 A，读 <code>managesw-mcp.go</code>）：Go + 官方 MCP SDK（<code>github.com/modelcontextprotocol/go-sdk/mcp</code>）+ cobra/viper；后端抽象在 <code>internal/pkg/syspackage</code>，系统识别在 <code>internal/pkg/oscheck</code>；环境变量前缀 <code>MANAGESW_MCP</code>；支持 stdio 与 Streamable HTTP（含 TLS）。</li>
+</ul>
+<p><strong>9 个工具</strong>（证据 A，源码 <code>Name</code>/<code>Description</code> 字段）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+<th>变更性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>list_packages</code></td>
+<td>列出已装包</td>
+<td>只读</td>
+</tr>
+<tr>
+<td><code>query_package</code></td>
+<td>查包信息（已装或在仓库中）</td>
+<td>只读</td>
+</tr>
+<tr>
+<td><code>search_package</code></td>
+<td>在已启用仓库搜索（支持通配符）</td>
+<td>只读</td>
+</tr>
+<tr>
+<td><code>list_repos</code></td>
+<td>列出仓库（名称/URL/启用状态）</td>
+<td>只读</td>
+</tr>
+<tr>
+<td><code>list_patches</code></td>
+<td><strong>列出可用补丁</strong>（名称/类别/严重性）</td>
+<td>只读</td>
+</tr>
+<tr>
+<td><strong><code>install_patches</code></strong></td>
+<td><strong>安装补丁</strong>——可全部，或按类别/严重性选子集</td>
+<td>⚠️ <strong>变更</strong></td>
+</tr>
+<tr>
+<td><code>install_package</code></td>
+<td>安装包及其依赖</td>
+<td>⚠️ 变更</td>
+</tr>
+<tr>
+<td><code>remove_package</code></td>
+<td>移除包及其依赖</td>
+<td>⚠️ 变更</td>
+</tr>
+<tr>
+<td><code>modify_repo</code></td>
+<td>启用/禁用/改属性/新增/删除仓库</td>
+<td>⚠️ <strong>高危变更</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>三个必须知道的点</strong>：
+1. <strong>只有 2★</strong>，Go 单文件（8,618 字节），README 仅 955 字节。成熟度低。
+2. <strong><code>modify_repo</code> 是高危工具</strong>——它能新增或删除软件源，等于控制「包从哪来」。这比装包本身危险得多，接入时必须单独评估。
+3. <strong>没有 <code>distro-sync</code> / 全系统升级工具</strong>。<code>install_patches</code> 是补丁安装（近似于安全更新），不是 <code>dnf upgrade</code>。</p>
+</blockquote>
+<h4 id="simonivesredwrenchrustmit-or-apache-20-fedora"><code>simonives/redwrench</code>（Rust，MIT OR Apache-2.0）—— 策略引擎式，Fedora 专属<a class="anchor" href="#simonivesredwrenchrustmit-or-apache-20-fedora" aria-label="锚点">#</a></h4>
+<ul>
+<li>定位是 <strong>Fedora 系统管理 MCP</strong>，不是包管理 MCP；但它能执行命令，配置里明确提到 <code>dnf install</code> 超时场景。</li>
+<li>核心设计（证据 B）：</li>
+<li><strong>策略引擎先于执行</strong>，四档内置 tier：<code>safe</code> / <code>standard</code> / <code>developer</code> / <code>unrestricted</code></li>
+<li><strong>自定义规则叠加在 tier 之上，且最先评估</strong>（<em>"Custom rules layer on top of the tier and are evaluated FIRST"</em>）</li>
+<li><strong>每次调用都写 systemd journal，无论被允许还是被拒绝</strong></li>
+<li><code>developer</code> tier 需要指定运行用户名（不用 root 跑 bash/python/gcc/npm/cargo）</li>
+<li>安装：官方 release 提供 <code>.rpm</code>（在 Fedora 上构建）；<code>sudo dnf install ./redwrench-*.rpm</code></li>
+<li>⚠️ <strong>尚未进 COPR 或 Fedora 官方仓库</strong>（README 的 ROADMAP 承认），作者自述是业余项目。</li>
+</ul>
+<h4 id="amineutronfedora-agentsmitnpm-fedora-agents-mcp"><code>amineutron/fedora-agents</code>（MIT，npm <code>fedora-agents-mcp</code>）—— 名字骗人，不做包管理<a class="anchor" href="#amineutronfedora-agentsmitnpm-fedora-agents-mcp" aria-label="锚点">#</a></h4>
+<ul>
+<li>实际功能：<strong>KVM/libvirt 虚拟机 + Borg/Timeshift 备份</strong>。19 个工具，<strong>没有一个碰 dnf/rpm</strong>。</li>
+<li>但它的<strong>权限设计是全报告最值得抄的</strong>（证据 B）：</li>
+<li>每个工具声明是否需要 sudo、是否具破坏性；<strong>客户端必须确认破坏性调用</strong></li>
+<li>参数在任何脚本运行前用 <strong>Zod 校验</strong></li>
+<li><strong>root 权限逐脚本授予</strong>：sudoers <strong>不对 <code>virsh</code> / <code>virt-clone</code> / <code>qemu-img</code> 开 NOPASSWD</strong>（因为那等于把整个虚拟化层通过 sudo 交出去），只对复制脚本逐条授权</li>
+<li>安装器生成 <code>/etc/sudoers.d/lyra</code> 并<strong>先用 <code>visudo -cf</code> 校验再生效</strong></li>
+<li>日志写 JSON 到 <code>MCP_AGENTS_LOG_DIR</code>（默认 <code>/var/log/mcp-agents</code>），<strong>文件权限 0600，绝不写 <code>/tmp</code></strong></li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ <strong><code>yum</code> 的结论</strong>：搜索 <code>yum mcp server in:name,description</code> 结果为 0 个相关项目。RHEL/CentOS 7 的 yum 场景没有专用 MCP，用 dnf 路径或通用 shell MCP。</p>
+</blockquote>
+<h3 id="33-opensuse-sles-zypper">3.3 openSUSE / SLES — <code>zypper</code><a class="anchor" href="#33-opensuse-sles-zypper" aria-label="锚点">#</a></h3>
+<p>openSUSE 官方组织（<code>github.com/openSUSE</code>）在这个领域产出了 4 个 MCP，其中 2 个与包管理直接相关：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th style="text-align: right;">★</th>
+<th>语言</th>
+<th>许可</th>
+<th>最后推送</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>openSUSE/managesw-mcp</code></td>
+<td style="text-align: right;">2</td>
+<td>Go</td>
+<td>MIT</td>
+<td>2026-07-06</td>
+<td><strong>跨 zypper + dnf 的包/仓库/补丁管理</strong></td>
+</tr>
+<tr>
+<td><code>openSUSE/mcp-server-zypp</code></td>
+<td style="text-align: right;">0</td>
+<td>C++/Go</td>
+<td>GPL-3.0</td>
+<td>2026-09-04</td>
+<td><strong>libzypp 级 zypper 管理</strong></td>
+</tr>
+<tr>
+<td><code>openSUSE/systemd-mcp</code></td>
+<td style="text-align: right;">10</td>
+<td>Go</td>
+<td>MIT</td>
+<td>2026-09-24</td>
+<td>systemd（<strong>不是包管理</strong>）</td>
+</tr>
+<tr>
+<td><code>openSUSE/mcp-bugzilla</code></td>
+<td style="text-align: right;">14</td>
+<td>Python</td>
+<td>无许可</td>
+<td>2026-10-01</td>
+<td>Bugzilla 查询</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="opensusemcp-server-zypp0gpl-30-upgrade"><span class="star">★</span> <code>openSUSE/mcp-server-zypp</code>（0★，GPL-3.0）—— 安全设计最讲究，但缺 upgrade<a class="anchor" href="#opensusemcp-server-zypp0gpl-30-upgrade" aria-label="锚点">#</a></h4>
+<p><strong>8 个工具，按是否需 root 分层</strong>（证据 B）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>需要 root</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search_packages</code></td>
+<td>否</td>
+<td>按名称/摘要找包</td>
+</tr>
+<tr>
+<td><code>find_providers</code></td>
+<td>否</td>
+<td>哪些包提供某能力</td>
+</tr>
+<tr>
+<td><code>find_dependents</code></td>
+<td>否</td>
+<td>哪些包依赖某包</td>
+</tr>
+<tr>
+<td><code>check_updates</code></td>
+<td>否</td>
+<td><strong>列出可用更新</strong></td>
+</tr>
+<tr>
+<td><code>plan_install</code></td>
+<td>否</td>
+<td><strong>dry-run 求解安装——不做任何变更</strong></td>
+</tr>
+<tr>
+<td><code>plan_remove</code></td>
+<td>否</td>
+<td><strong>dry-run 求解移除——不做任何变更</strong></td>
+</tr>
+<tr>
+<td><code>confirm_install</code></td>
+<td><strong>是</strong></td>
+<td>真正安装，<strong>受 GPG 密钥信任与许可证接受门控</strong></td>
+</tr>
+<tr>
+<td><code>confirm_remove</code></td>
+<td><strong>是</strong></td>
+<td>真正移除</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>三条值得单独记的设计</strong>（证据 B）：</p>
+<ol>
+<li><strong>只有两个 <code>confirm_*</code> 工具会碰系统，且除非 worker 进程是 root 否则拒绝运行。</strong> <code>plan_*</code> 与只读工具永远可用、永不改动。</li>
+<li><strong>GPG 密钥信任决策只能走交互式 elicitation</strong>：<em>"There is no tool argument that can pre-approve a key fingerprint — an LLM agent can only accept or reject a key through an interactive MCP elicitation round-trip, never by passing an argument that bypasses the prompt."</em> 这一条直接堵死「Agent 自己批准一个陌生签名密钥」的攻击面。</li>
+<li><strong><code>confirm_*</code> 在 RPM 事务真正开始前可取消，开始后绝不打断</strong>：<em>"interrupting a live RPM transaction is a good way to corrupt the local package database."</em></li>
+</ol>
+<p><strong>架构（证据 B）</strong>：Go proxy（说 MCP，stdio 或可选 HTTP）+ C++ worker（链 libzypp，掌管全部包管理逻辑）。<strong>每次工具调用起一个全新的 <code>zypp-mcp-tool</code> 子进程，用完即退</strong>——这既让 Go 侧永不碰 C++ ABI，也绕开 libzypp 的可重入约束（一次调用的库状态不会泄漏到下一次）。工具 schema 定义在 C++ 侧（<code>worker/src/tools/registry.h</code>），Go proxy 启动时用 <code>--list-tools</code> 动态发现。</p>
+<blockquote>
+<p class="warnbox">⚠️ <strong>关键缺口</strong>：<code>check_updates</code> 只<strong>列</strong>可用更新，<strong>没有 <code>confirm_upgrade</code></strong>。所以这个 MCP 能做「查有什么更新」+「装/删单个包」，<strong>不能一键全系统升级</strong>。要 <code>zypper update</code> / <code>zypper dup</code> 还得靠通用执行层。
+⚠️ 0★，GPL-3.0（注意许可证传染性）。</p>
+</blockquote>
+<h4 id="anjupathak03zypper-mcp0">❌ <code>anjupathak03/zypper-mcp</code>（0★，<strong>无许可证</strong>）—— 只读，且不可用<a class="anchor" href="#anjupathak03zypper-mcp0" aria-label="锚点">#</a></h4>
+<ul>
+<li>14 个工具，全是只读：<code>search_packages</code>、<code>package_info</code>、<code>list_installed</code>、<code>list_updates</code>、<code>list_repos</code>、<code>what_provides</code>、<code>list_patches</code>、<code>patch_info</code>、<code>list_patterns</code>、<code>pattern_info</code>、<code>list_products</code>、<code>product_info</code>、<code>list_licenses</code>、<code>history</code>。</li>
+<li>官方原文：<em>"Only read-only zypper operations are exposed; there are no install/remove/upgrade commands."</em></li>
+<li>所有命令带 <code>--non-interactive --no-refresh --color=never</code>；有小型 allowlist 阻止变更命令被调用。</li>
+<li>⚠️ <strong>仓库没有 LICENSE 文件</strong>。无许可证 = 默认保留全部权利 = 不能合法使用/分发。</li>
+</ul>
+<h4 id="lioilsourcesleapdoctor0-idea">❌ <code>lioilsources/LeapDoctor</code>（0★，无许可证）—— 只是一个 idea 记录<a class="anchor" href="#lioilsourcesleapdoctor0-idea" aria-label="锚点">#</a></h4>
+<p>README 全文 317 字节，内容是 5 行想法草稿：</p>
+<pre><code>20/2/2026
+- Idea: Ask Claude Code to update my new Suse Leap desktop
+- provide right augmented context about desktop configuration to Claude
+- provide MCP tool to know what commands to execute
+- provide MCP tool to know weher to search for logs
+- safety net by snapper to rollback on failure
+</code></pre>
+<p>无实现、无许可证。<strong>不可用</strong>。（但其思路——「用 snapper 快照做回滚网」——值得借鉴。）</p>
+<h3 id="34-arch-pacman">3.4 Arch — <code>pacman</code><a class="anchor" href="#34-arch-pacman" aria-label="锚点">#</a></h3>
+<h4 id="nihalxkumararch-mcp59gpl-30-or-mit-arch-mcp"><code>nihalxkumar/arch-mcp</code>（59★，GPL-3.0 OR MIT）—— 唯一专用 Arch MCP，但<strong>没有全系统升级工具</strong><a class="anchor" href="#nihalxkumararch-mcp59gpl-30-or-mit-arch-mcp" aria-label="锚点">#</a></h4>
+<p><strong>可执行工具（Tools）全清单</strong>（证据 B，按 README 分段）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>分段</th>
+<th>工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>包管理</td>
+<td><code>check_updates_dry_run</code>（检查可用更新）、<strong><code>install_package_secure</code></strong>（带安全检查安装，阻止恶意包）、<code>remove_packages</code>、<code>manage_orphans</code>（列/删孤儿包，<strong>永远先 dry-run</strong>）、<code>manage_install_reason</code>、<code>verify_package_integrity</code></td>
+</tr>
+<tr>
+<td>镜像</td>
+<td><code>optimize_mirrors</code>（status/test/suggest/health 四动作）</td>
+</tr>
+<tr>
+<td>系统状态</td>
+<td><code>get_system_info</code>、<code>check_disk_space</code>、<code>check_failed_services</code>、<code>get_boot_logs</code>、<code>get_pacman_cache_stats</code></td>
+</tr>
+<tr>
+<td>配置</td>
+<td><code>analyze_pacman_conf</code>、<code>analyze_makepkg_conf</code></td>
+</tr>
+<tr>
+<td>安全分析</td>
+<td><code>analyze_pkgbuild_safety</code>（<strong>50+ 红旗</strong>）、<code>analyze_package_metadata_risk</code>（包信任评分：投票数/维护者/年龄）</td>
+</tr>
+<tr>
+<td>查询</td>
+<td><code>query_package_history</code>（4 种查询：all / package / failures / sync）、<code>query_file_ownership</code>、<code>get_official_package_info</code>、<code>list_group_packages</code>、<code>list_package_groups</code></td>
+</tr>
+<tr>
+<td>知识</td>
+<td><code>search_archwiki</code>、<code>search_aur</code>、<code>get_latest_news</code>、<code>get_news_since_last_update</code>、<code>check_critical_news</code>、<code>check_database_freshness</code></td>
+</tr>
+<tr>
+<td>诊断</td>
+<td><code>troubleshoot_issue</code>、<code>audit_aur_package</code>、<code>analyze_dependencies</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>资源（Resources，URI 形式）</strong>：<code>pacman://installed</code>、<code>pacman://orphans</code>、<code>pacman://explicit</code>、<code>pacman://groups</code>、<code>pacman://group/*</code>、<code>pacman://database/freshness</code>、<code>pacman://log/recent</code>、<code>pacman://log/failed</code>、<code>archnews://since-update</code>、<code>config://pacman</code>、<code>mirrors://active</code>、<code>mirrors://health</code>。</p>
+<p><strong>Prompts（引导式工作流）</strong>：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Prompt</th>
+<th>工作流</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>troubleshoot_issue</code></td>
+<td>提关键词 → 搜 Wiki → 上下文建议</td>
+</tr>
+<tr>
+<td><code>audit_aur_package</code></td>
+<td>取元数据 → 分析 PKGBUILD → 安全建议</td>
+</tr>
+<tr>
+<td><code>analyze_dependencies</code></td>
+<td>查仓库 → 映射依赖 → 建议安装顺序</td>
+</tr>
+<tr>
+<td><strong><code>safe_system_update</code></strong></td>
+<td><strong>检查关键 News → 验磁盘空间 → 列更新 → 检查服务 → 给建议</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️⚠️ <strong>最重要的纠正</strong>：<code>safe_system_update</code> <strong>在 Prompts 段，不在 Tools 段</strong>。它是一条「引导工作流」，输出是<strong>建议</strong>，<strong>它不执行 <code>pacman -Syu</code></strong>。
+这意味着 <strong>arch-mcp 无法执行全系统升级</strong>——它能装单个包（<code>install_package_secure</code>）、能查有什么更新（<code>check_updates_dry_run</code>）、能检查 Arch News、能分析 AUR 包风险，但<strong>没有 <code>pacman -Syu</code> 的执行工具</strong>。
+README 里<strong>没有</strong>任何关于 root / sudo / 权限提升的说明——它如何获得写权限未文档化，这本身是个需要自查的点。</p>
+</blockquote>
+<p><strong>权限配置建议</strong>（沿用前序报告结论）：arch-mcp 含写操作，接入时应设 <code>trust: untrusted</code> + <code>tools.include</code> 白名单。</p>
+<h3 id="35-nixos-nixos-rebuild">3.5 NixOS — <code>nixos-rebuild</code><a class="anchor" href="#35-nixos-nixos-rebuild" aria-label="锚点">#</a></h3>
+<p>NixOS 侧的 MCP 生态是全报告最丰富的（6 个以上），但<strong>必须区分「查」与「改」</strong>。</p>
+<h4 id="jeff7712nix-agent16pythonmit-nixos-rebuild-mcp"><span class="star">★</span> <code>JEFF7712/nix-agent</code>（16★，Python，MIT）—— 唯一专用 <code>nixos-rebuild</code> 执行 MCP<a class="anchor" href="#jeff7712nix-agent16pythonmit-nixos-rebuild-mcp" aria-label="锚点">#</a></h4>
+<ul>
+<li>官方原文：<em>"A local MCP server that gives AI agents composable NixOS / Home Manager operations: </em><em>build, diff, switch, and generations</em><em> for the operational core, plus </em><em>eval, locate, and check</em><em> for config introspection."</em></li>
+<li>与 <code>mcp-nixos</code> 明确配对：<em>"nix-agent operates on your actual configuration, <code>mcp-nixos</code> handles package and option discovery."</em>（一个改，一个查）</li>
+<li>附带两个技能：<code>skills/nix-agent/SKILL.md</code>（工作流技能）与 <code>skills/nix-agent-init/SKILL.md</code>（仓库上手指南）</li>
+<li>支持本地用量日志：<code>NIX_AGENT_USAGE_LOG=1</code> 记录逐调用字节计量，<code>nix-agent usage</code> 汇总</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️⚠️ <strong>默认是「高信任」，低信任是「降级选项」</strong>。官方原文：<em>"The documented default is </em><em>high trust</em><em>: unprompted <code>switch</code> / <code>generations</code> and </em><em>passwordless sudo narrowed to this machine's flake</em><em>. Lower trust (host prompts, a sudo password) is an </em><em>opt-down</em><em>."</em>
+也就是说，<strong>照文档装完，Agent 可以不经提示就 <code>nixos-rebuild switch</code> 并免密 sudo</strong>。而且作者自述 <em>"Experimental and a work in progress."</em>
+对比它自己的文档名 <code>docs/privileged-automation.md</code>（"default non-interactive dry-activate, switch, and rollback"）——它默认走 dry-activate 再 switch 再 rollback，比裸 switch 好，但仍是无人值守的 root 级系统变更。</p>
+</blockquote>
+<h4 id="bolivian-peruos-moda120rustapache-20-nixos-agent-os"><code>bolivian-peru/os-moda</code>（120★，Rust，Apache-2.0）—— 最完整的 NixOS agent OS，但自述研究级<a class="anchor" href="#bolivian-peruos-moda120rustapache-20-nixos-agent-os" aria-label="锚点">#</a></h4>
+<ul>
+<li>定位：<em>"An operating system built for AI agents. You operate the server by talking to it."</em></li>
+<li><strong>92 个结构化工具</strong>，10 个 Rust 守护进程，v1.3.0，Apache-2.0</li>
+<li>核心机制：</li>
+<li><strong>SafeSwitch</strong>：改 NixOS 配置 → 重建 → <strong>健康检查失败则自动回滚</strong></li>
+<li><strong>SHA-256 哈希链审计账本</strong>（append-only ledger），结构化变更全部上链</li>
+<li><code>system_health</code> 返回 <strong>JSON 而非文本</strong>（不用正则去解析）</li>
+<li>因为 NixOS 每次变更都是一个带 generation 号的事务，回滚是一条命令</li>
+<li>可在 Claude Code（默认）/ OpenClaw / 云端 managed-agent 之间切换运行时，无需 SSH 或重建</li>
+<li>官方示例：<em>"Install nginx and reverse-proxy port 3000" —— it edits NixOS config, rebuilds via SafeSwitch with auto-rollback if health checks fail.</em></li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️⚠️ <strong>作者自己给出了极强的免责声明，必须原样转述</strong>：
+- <em>"osModa is an ambitious </em><em>solo project</em><em> (~250 commits; 247 tests + a self-run pentest — </em><em>not</em><em> an external audit), </em><em>not battle-tested infrastructure</em><em>."</em>
+- <em>"the safety model has a </em><em>known gap</em><em> it's actively closing: the default runtime's native shell/file tools </em><em>aren't yet routed through the approval gate and audit ledger</em><em> (the hook that fixes this is built and wire-tested, but not yet verified end-to-end on a live box)"</em>
+- <em>"</em><em>Run it on a fresh, disposable server — not a production machine you care about.</em><em>"</em>
+- 组件成熟度不均：<em>"the runtime, the agentd contracts, and the ledger are solid; the mesh, the crypto wallet, voice, and the skill engine are earlier and less proven."</em>
+结论：<strong>想法最好，但当前不能上生产</strong>。它值得作为架构参考（「用 NixOS 事务性做 Agent 的安全网」这个思路是对的），不适合直接部署。</p>
+</blockquote>
+<h4 id="nix">只读的 Nix 知识层（不能改系统）<a class="anchor" href="#nix" aria-label="锚点">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th style="text-align: right;">★</th>
+<th>语言</th>
+<th>许可</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>utensils/mcp-nixos</code></strong></td>
+<td style="text-align: right;"><strong>853</strong></td>
+<td>Python</td>
+<td>MIT</td>
+<td><strong>只 2 个工具，约 1030 token</strong>——作者明确以「省上下文」为设计目标（<em>"We consolidated 17 tools into 2 because your AI's context window isn't infinite."</em>）。覆盖 13 万+ 包、2.3 万+ 选项、Home Manager、nix-darwin、Nixvim、NVF、FlakeHub、Noogle、NixOS Wiki、nix.dev、版本历史、binary cache。<strong>不需要装 Nix</strong>（<code>uvx mcp-nixos</code>），支持 stdio / HTTP / Docker</td>
+</tr>
+<tr>
+<td><code>lukasl-dev/rime</code></td>
+<td style="text-align: right;">19</td>
+<td>Rust</td>
+<td>MIT</td>
+<td>Nix / NixOS / Home Manager / nvf / Nixhub 查询；工具如 <code>nix_evaluate</code>、<code>nix_packages_search</code>、<code>nixos_wiki_search</code>、<code>nixos_channels</code>、<code>home_manager_options_search</code>。<strong>全只读，无 switch</strong></td>
+</tr>
+<tr>
+<td><code>stubbedev/nix-mcp</code></td>
+<td style="text-align: right;">1</td>
+<td>Go</td>
+<td>MIT</td>
+<td>mcp-nixos 的 Go 重写版，同样 2 工具面；单静态二进制（几十 MB RSS vs Python 运行时约 150 MB）；<strong>支持 stdio + HTTP + MCP roots（含 <code>X-Mcp-Root</code> 头）</strong>，一个 HTTP 实例可服务多个客户端</td>
+</tr>
+<tr>
+<td><code>felixdorn/mcp-nix</code></td>
+<td style="text-align: right;">7</td>
+<td>Python</td>
+<td>GPL-3.0</td>
+<td>覆盖 Nixpkgs、NixOS、Home Manager、Nix Darwin、Nixvim、Impermanence、MicroVM.nix、nix-nomad、sops-nix、nixos-hardware、disko；能搜 nix 标准库与函数定义、查某包存在于哪些 nixpkgs 版本</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>NixOS 的正确组合是「一个查 + 一个改」</strong>：<code>mcp-nixos</code>（或 <code>nix-mcp</code> / <code>mcp-nix</code>）负责「这个选项叫什么、这个包在哪个版本」，<code>nix-agent</code> 负责 <code>build</code>/<code>diff</code>/<code>switch</code>。只装查询层，Agent 会编造选项名；只装执行层，Agent 会写错配置。</p>
+</blockquote>
+<h3 id="36-snap">3.6 Snap — 完全没有<a class="anchor" href="#36-snap" aria-label="锚点">#</a></h3>
+<ul>
+<li>搜索 <code>snap package mcp server in:name,description</code> → <strong>1 个结果</strong>，且是 <code>canonical/discourse-mcp-snap</code>（把 Discourse MCP 打包成 strict snap），<strong>与 snap 包管理无关</strong>。</li>
+<li>Canonical（snap 的维护方）没有发布任何 snap 管理 MCP。</li>
+<li><strong>结论：<code>snap refresh</code> 没有任何专用 MCP，必须走通用 shell MCP。</strong></li>
+</ul>
+<h3 id="37-flatpak">3.7 Flatpak — 只有空壳<a class="anchor" href="#37-flatpak" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th style="text-align: right;">★</th>
+<th>语言</th>
+<th>许可</th>
+<th>实际情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lucasarakaki/flatpak-mcp-server</code></td>
+<td style="text-align: right;">0</td>
+<td>PHP</td>
+<td>MIT</td>
+<td><strong>README 全文 27 字节</strong>，内容只有标题 <code># Flatpak MCP Server in PHP</code>。无工具说明、无安装方式。<strong>实质是空壳</strong>（证据 A：直接读到 27 字节）</td>
+</tr>
+<tr>
+<td><code>MVDW-Java/flatpak-doc-mcp</code></td>
+<td style="text-align: right;">0</td>
+<td>Python</td>
+<td>无许可</td>
+<td><strong>只查 flatpak 文档</strong>，不管理包</td>
+</tr>
+<tr>
+<td><code>musmandev092/claude-desktop-flatpak-for-linux</code></td>
+<td style="text-align: right;">1</td>
+<td>Python</td>
+<td>MIT</td>
+<td>把 Claude Desktop 打成 flatpak，<strong>不是 flatpak 管理</strong></td>
+</tr>
+<tr>
+<td><code>wanbnn/unity-mcp-flatpak</code></td>
+<td style="text-align: right;">0</td>
+<td>Shell</td>
+<td>MIT</td>
+<td>与 flatpak 包管理无关</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>搜索 <code>flatpak update install mcp in:name,description</code> → <strong>0 个结果</strong>。</li>
+<li><strong>结论：<code>flatpak update</code> 没有任何可用专用 MCP，必须走通用 shell MCP。</strong></li>
+</ul>
+<hr />
+<h2 id="4">第 4 章 通用兜底层<a class="anchor" href="#4" aria-label="锚点">#</a></h2>
+<p>当专用 MCP 缺失（snap、flatpak、yum、Arch 全系统升级、zypper 全量升级）时，通用执行层是唯一出路。以下是本报告核验过的四个选项，按推荐度排序。</p>
+<h3 id="41-tumfmcp-shell-server201mit">4.1 <span class="star">★</span> <code>tumf/mcp-shell-server</code>（201★，MIT）—— 推荐首选<a class="anchor" href="#41-tumfmcp-shell-server201mit" aria-label="锚点">#</a></h3>
+<p>这是通用 shell MCP 里<strong>设计最严谨</strong>的一个。官方定位：<em>"A trusted execution server implementing the Model Context Protocol (MCP). It runs allowlisted commands as </em><em>argv arrays</em><em>, with stdin input, contained redirection, a minimal child environment, execution limits, and structured audit logging."</em></p>
+<p><strong>核心机制</strong>（证据 A，README 全文直读）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>机制</th>
+<th>实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>argv 数组执行</strong></td>
+<td><em>"Allowed commands run via subprocess argv </em><em>without shell-string interpretation</em><em>"</em> —— 从根上消除 shell 注入</td>
+</tr>
+<tr>
+<td><strong>安全管道</strong></td>
+<td><em>"Pipelines preserve and validate argv segments instead of invoking a shell"</em></td>
+</tr>
+<tr>
+<td>白名单</td>
+<td><code>ALLOW_COMMANDS</code>（命令名）或 <strong><code>ALLOW_PATTERNS</code>（完整匹配，含参数）</strong></td>
+</tr>
+<tr>
+<td>执行限制</td>
+<td>服务端默认超时 + 最大超时 + 输出字节上限，全部强制</td>
+</tr>
+<tr>
+<td><strong>最小子环境</strong></td>
+<td>子进程只拿到小份白名单环境（<code>MCP_SHELL_CHILD_ENV_ALLOWLIST</code>），<strong>不继承服务端全部密钥</strong></td>
+</tr>
+<tr>
+<td><strong>结构化审计日志</strong></td>
+<td>事件名 <code>shell_execution_audit</code>，覆盖成功/拒绝/超时/输出超限/进程错误</td>
+</tr>
+<tr>
+<td>审计脱敏</td>
+<td>含 <code>SECRET</code>/<code>TOKEN</code>/<code>PASSWORD</code>/<code>API_KEY</code>/<code>PRIVATE_KEY</code>/<code>CREDENTIAL</code>/<code>AUTH</code> 等标记的 argv 与环境值替换为 <code>[REDACTED]</code>；长值转短 SHA-256 摘要；<strong>审计日志不含原始 stdout/stderr</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>默认参数加固</strong>（证据 A，官方列出的拒绝清单）——这是它区别于其他 shell MCP 的关键：即使命令名被允许，以下参数形态仍被拒绝：</p>
+<p><code>find -exec</code>、shell/解释器启动器、<code>awk system()</code>、<code>tar --checkpoint-action=exec</code>、<code>env</code>、<code>xargs</code>、命令包装器 <code>timeout</code>/<code>nice</code>/<code>nohup</code>、shell 逃逸工具 <code>sed</code>/<code>less</code>/<code>vim</code>/<code>ssh</code>、常见替代名 <code>gfind</code>/<code>gawk</code>/<code>gtar</code>/<code>gsort</code>、GNU <code>sort</code> 的外部程序选项（<code>--compress-program</code>、<code>-o</code>/<code>--output</code>、<code>--files0-from</code>、<code>-T</code>/<code>--temporary-directory</code>，含缩写与聚合形式如 <code>--co</code>、<code>--o</code>、<code>-ro FILE</code>、<code>-rT DIR</code>）、<strong>所有 Git 命令级配置覆盖</strong>（<code>git -c &lt;name=value&gt;</code>）与持久 <code>git config</code> 写入。</p>
+<p><strong>用于包管理的配置</strong>：</p>
+<pre><code class="language-bash"># 用 ALLOW_PATTERNS 做「命令 + 参数」全匹配，而不是只放命令名
+ALLOW_PATTERNS='^apt-get (update|upgrade|full-upgrade)$|^dnf (makecache|upgrade|check-update)$|^zypper (refresh|update|dup)$|^pacman -Syu$|^nixos-rebuild (dry-activate|switch)( --upgrade)?$|^snap refresh$|^flatpak update$'
+ALLOW_COMMANDS='systemctl,journalctl,df,ss'
+MCP_SHELL_CHILD_ENV_ALLOWLIST='LANG,LC_ALL'
+</code></pre>
+<blockquote>
+<p class="warnbox">⚠️⚠️ <strong>官方明示的边界，必须原样转述</strong>：
+- <em>"The measures below are the server's own enforceable boundary; </em><em>they are not an OS sandbox</em><em>. A command-name allowlist controls which executables the server launches directly, but an allowed program still runs with the server process's OS authority and may read accessible files, consume CPU, spawn child processes, or reach the network."</em>
+- <em>"The command-specific rejection rules described under Security are </em><em>best-effort defense in depth</em><em> against known dangerous argument forms. They are </em><em>non-exhaustive</em><em>, and they are </em><em>not a proof that an allowed program is safe</em><em>."</em>
+- <em>"Allowlisting a command name is </em><em>not a sandbox</em><em> for that program's own argument-level execution features."</em></p>
+<p>翻译成人话：<strong><code>ALLOW_COMMANDS="pacman"</code> 会允许 <code>pacman -Rdd</code>（跳过依赖检查强删）这种危险组合。要真正收紧，必须用 <code>ALLOW_PATTERNS</code> 全匹配，或者把执行层放进容器/VM。</strong> 白名单降低暴露面，但不替代隔离边界。</p>
+</blockquote>
+<h3 id="42-classfangssh-mcp-server">4.2 <code>classfang/ssh-mcp-server</code> —— 多机场景<a class="anchor" href="#42-classfangssh-mcp-server" aria-label="锚点">#</a></h3>
+<ul>
+<li>工具：<code>execute-command</code>（含超时）、<code>job-start</code>（远端后台任务，返回 <code>job_id</code>）、<code>upload</code>、<code>download</code>、<code>list-servers</code></li>
+<li>策略：<code>--whitelist</code> / <code>--blacklist</code>，<strong>逗号分隔的正则表达式</strong></li>
+<li><strong>关键安全设计</strong>（证据 B，中文 README 原文）：<em>"白名单按</em><em>完整命令匹配</em><em>；启用白名单时，包含 <code>;</code>、<code>&amp;</code>、<code>|</code>、反引号、<code>$()</code>、<code>&gt;</code>、<code>&lt;</code> 或换行符的命令会被</em><em>直接拒绝</em><em>，不能使用命令连接、管道、重定向或命令替换绕过校验。"</em></li>
+<li>官方示例白名单：
+  <code>--whitelist "^ls(?: [A-Za-z0-9_./-]+)*$,^cat [A-Za-z0-9_./-]+$,^df(?: -[A-Za-z]+)*(?: [A-Za-z0-9_./-]+)?$"</code></li>
+<li>官方警告：<em>"</em><em>强烈建议</em><em> 使用 <code>--whitelist</code> 选项来限制可执行的命令集合。如果没有白名单，任何命令都可以在远程服务器上执行，这可能带来重大的安全风险。"</em></li>
+<li>另一个细节：命令正常执行但以非零退出码结束时（如 <code>grep</code> 无匹配），<strong>直接返回输出并附 <code>[exit code] N</code></strong>，不当作工具错误——这对 <code>dnf check-update</code>（有更新时返回 100）这类语义很重要。</li>
+</ul>
+<p><strong>用于包管理的白名单</strong>：</p>
+<pre><code>--whitelist &quot;^apt-get (update|upgrade)$|^dnf (makecache|upgrade|check-update)$|^zypper (refresh|update|dup)$|^pacman -Syu$|^nixos-rebuild (dry-activate|switch)( --upgrade)?$|^snap refresh$|^flatpak update$&quot;
+</code></pre>
+<blockquote>
+<p class="warnbox">⚠️ <code>nixos-rebuild switch</code> 通常耗时数分钟，会超过 <code>execute-command</code> 的超时。这类长任务应改用 <code>job-start</code> 后台任务（同样经过白名单校验）。</p>
+</blockquote>
+<h3 id="43-rhel-lightspeedlinux-mcp-server317apache-20-rhel">4.3 <code>rhel-lightspeed/linux-mcp-server</code>（317★，Apache-2.0）—— RHEL 系官方路径<a class="anchor" href="#43-rhel-lightspeedlinux-mcp-server317apache-20-rhel" aria-label="锚点">#</a></h3>
+<ul>
+<li>Red Hat 官方（<code>rhel-lightspeed</code> 组织），<strong>默认工具集是结构性只读的</strong>：命令硬编码成元组、具名占位符、无 shell 插值。</li>
+<li><strong>要执行包管理必须显式开启受保护命令执行</strong>：<code>LINUX_MCP_TOOLSET=run_script|both</code></li>
+<li>三道护栏：Gatekeeper LLM + 人工介入 + OS 沙箱（官方自称 <em>"rudimentary"</em>）</li>
+<li><strong>硬编码策略</strong>：<em>"No new repositories may be added"</em>、<em>"nothing may be downloaded from the internet"</em>（除预配置仓库）</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 两个已知问题（沿用前序报告结论）：
+1. <code>LINUX_MCP_TRANSPORT=http</code> <strong>没有认证</strong>，官方警告不要用于生产或不可信网络。
+2. <strong>Gatekeeper 模型的评分表在官方文档里仍是 <code>??</code>（未公布）</strong>——不要把它当唯一防线。</p>
+<p>另一层限制：硬编码策略「不得添加新仓库」+「不得从互联网下载」，意味着这个工具集<strong>在设计上就不适合做「更新系统」</strong>——更新需要下载。它对 RHEL 的价值在只读诊断，不在包管理。</p>
+</blockquote>
+<h3 id="44-imandextermcp-shell-server2mit-shell">4.4 <code>iMANDexter/mcp-shell-server</code>（2★，MIT）—— 远程 shell，警告最直白<a class="anchor" href="#44-imandextermcp-shell-server2mit-shell" aria-label="锚点">#</a></h3>
+<ul>
+<li>定位：<em>"Give an AI agent a real shell on your own Linux box — over HTTPS, behind a bearer token, with a full audit log."</em></li>
+<li>零依赖；TLS 走 acme.sh / Let's Encrypt；systemd 服务</li>
+<li><strong>官方警告原文</strong>：<em>"⚠️ </em><em>This tool intentionally grants remote command execution.</em><em> Anyone holding the token can run commands as the service user — and as root if you granted sudo. Read Security before you deploy it, and </em><em>start with <code>--no-sudo</code></em><em>."</em></li>
+<li>优点：警告写得诚实，<code>--no-sudo</code> 默认起步是正确姿势。</li>
+</ul>
+<hr />
+<h2 id="5">第 5 章 命名陷阱与假候选<a class="anchor" href="#5" aria-label="锚点">#</a></h2>
+<p>本章记录检索过程中实际踩到的坑。<strong>这些是「搜索第一名但完全不是你要的东西」的典型</strong>。</p>
+<h3 id="51-oborchersmcp-server-pacman11-arch-linux">5.1 ⚠️ <code>oborchers/mcp-server-pacman</code>（11★）—— 与 Arch Linux 毫无关系<a class="anchor" href="#51-oborchersmcp-server-pacman11-arch-linux" aria-label="锚点">#</a></h3>
+<p>搜索 <code>pacman mcp server</code> 排第一（11★，MIT）的项目，名字叫 pacman，README 里也确实写「Pacman MCP Server」，但：</p>
+<blockquote>
+<p><em>"A Model Context Protocol server that provides package index querying capabilities. This server enables LLMs to search and retrieve information from package repositories like </em><em>PyPI, npm, crates.io, Docker Hub, and Terraform Registry</em><em>."</em></p>
+</blockquote>
+<p>它的工具是 <code>search_package</code>（index ∈ pypi/npm/crates/terraform）、<code>package_info</code>、<code>search_docker_image</code>、<code>docker_image_info</code>、<code>terraform_module_latest_version</code>。</p>
+<p><strong>这里的 "pacman" 是「包管理器」的泛称（package manager 的缩写玩法），指的是编程语言包索引，不是 Arch 的 pacman。</strong> 它完全不能 <code>pacman -Syu</code>。</p>
+<h3 id="52-arch-mcp-safe_system_update-prompt-tool">5.2 ⚠️ <code>arch-mcp</code> 的 <code>safe_system_update</code> 是 Prompt 不是 Tool<a class="anchor" href="#52-arch-mcp-safe_system_update-prompt-tool" aria-label="锚点">#</a></h3>
+<p>见 §3.4。这是本报告最重要的一处纠正。判断依据：它在 README 的 <code>### Prompts (Guided Workflows)</code> 表里，不在 <code>### Tools (Executable Functions)</code> 表里；且描述结尾是 "Recommendations"（给建议）。</p>
+<h3 id="53-apt-aptos">5.3 ⚠️ 搜索 <code>apt</code> 被 Aptos 区块链污染<a class="anchor" href="#53-apt-aptos" aria-label="锚点">#</a></h3>
+<p><code>apt mcp server in:name,description</code> 返回 24 个结果，其中至少 8 个是 <strong>Aptos 区块链</strong>（<code>Tlazypanda/aptos-mcp-server</code>、<code>rishi-xyz/aptos-mcp</code>、<code>ctianming/moveflow_aptos_mcp_server</code>、<code>ToolOracle/aptoracle</code>、<code>Aptoide/aptoide-mcp</code>）、或 <strong>Aptabase 分析</strong>（<code>aptabase/aptabase-mcp</code>）、或<strong>意大利房产爬虫</strong>（<code>n3pt7un/apt_scrape</code>）、或 <strong>AST 分析</strong>（<code>clouatre-labs/aptu-coder</code>）。真正操作 Debian apt 的只有 2 个。</p>
+<h3 id="54-dnf">5.4 ⚠️ 搜索 <code>dnf</code> 被游戏污染<a class="anchor" href="#54-dnf" aria-label="锚点">#</a></h3>
+<p><code>dnf mcp in:name,description</code> 返回 1 个结果：<code>heihuo000/pvfUtility-MCP</code>，描述是 <em>"用于 pvfUtility 的 MCP 服务器 - </em><em>DNF 游戏文件</em><em>的 AI 辅助集成系统"</em>。这里的 DNF 是《地下城与勇士》(Dungeon &amp; Fighter)。</p>
+<h3 id="55">5.5 无许可证 = 不可用<a class="anchor" href="#55" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>anjupathak03/zypper-mcp</code></td>
+<td>无 LICENSE 文件 → 默认保留全部权利</td>
+</tr>
+<tr>
+<td><code>lioilsources/LeapDoctor</code></td>
+<td>无 LICENSE 文件</td>
+</tr>
+<tr>
+<td><code>openSUSE/mcp-bugzilla</code></td>
+<td>搜索结果 <code>license: None</code>（虽然出自官方组织）</td>
+</tr>
+<tr>
+<td><code>E13ctr0N/AiSysAdmin</code></td>
+<td>无许可证</td>
+</tr>
+<tr>
+<td><code>domdomegg/shell-exec-mcp</code></td>
+<td>搜索结果 <code>license: None</code></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ 无许可证 ≠ 开源。GitHub 上公开可见的代码，默认是「保留全部权利」，<strong>没有授权你使用</strong>。企业内部用之前必须确认许可。</p>
+</blockquote>
+<h3 id="56">5.6 名字骗人的项目<a class="anchor" href="#56" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>名字暗示</th>
+<th>实际是</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amineutron/fedora-agents</code></td>
+<td>Fedora 系统管理</td>
+<td><strong>KVM/libvirt 虚拟机 + Borg/Timeshift 备份</strong>，不碰 dnf</td>
+</tr>
+<tr>
+<td><code>oborchers/mcp-server-pacman</code></td>
+<td>Arch pacman</td>
+<td>PyPI/npm/crates.io 索引查询</td>
+</tr>
+<tr>
+<td><code>openSUSE/systemd-mcp</code></td>
+<td>openSUSE 包管理</td>
+<td><strong>systemd</strong>，与包管理无关</td>
+</tr>
+<tr>
+<td><code>lucasarakaki/flatpak-mcp-server</code></td>
+<td>flatpak 管理</td>
+<td>27 字节空壳</td>
+</tr>
+<tr>
+<td><code>musmandev092/claude-desktop-flatpak-for-linux</code></td>
+<td>flatpak</td>
+<td>把 Claude Desktop 打包成 flatpak</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="6">第 6 章 推荐架构<a class="anchor" href="#6" aria-label="锚点">#</a></h2>
+<h3 id="a-mcp">方案 A · 专用 MCP 组合（按发行版各装一个）<a class="anchor" href="#a-mcp" aria-label="锚点">#</a></h3>
+<p>适合：<strong>单一发行版的固定环境</strong>，要最好的工具语义和最小的权限面。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>装什么</th>
+<th>配置要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debian / Ubuntu</td>
+<td><strong><code>brianlechthaler/apt-mcp</code></strong></td>
+<td><code>APT_MCP_SCOPES=read</code> 起步；要升级改 <code>read,mutate</code>；变更工具必须传 <code>confirm: true</code></td>
+</tr>
+<tr>
+<td>Fedora / RHEL 系</td>
+<td><strong><code>openSUSE/managesw-mcp</code></strong></td>
+<td>⚠️ <strong>接入前单独评估 <code>modify_repo</code></strong>（能改软件源）；建议先只用 <code>list_*</code> / <code>query_*</code> / <code>search_*</code></td>
+</tr>
+<tr>
+<td>openSUSE / SLES</td>
+<td><strong><code>openSUSE/mcp-server-zypp</code></strong>（查+单包）或 <strong><code>managesw-mcp</code></strong></td>
+<td><code>plan_*</code> 免 root、<code>confirm_*</code> 必须 root；GPG 信任走交互 elicitation，别关掉</td>
+</tr>
+<tr>
+<td>Arch</td>
+<td><strong><code>nihalxkumar/arch-mcp</code></strong></td>
+<td><code>trust: untrusted</code> + <code>tools.include</code> 白名单；⚠️ <strong>全系统升级需兜底</strong></td>
+</tr>
+<tr>
+<td>NixOS</td>
+<td><strong><code>JEFF7712/nix-agent</code></strong>（改）+ <strong><code>mcp-nixos</code></strong>（查）</td>
+<td>⚠️ nix-agent 默认高信任（免密 sudo + 无提示 switch），务必先按 <code>docs/privileged-automation.md</code> 走 dry-activate 路径</td>
+</tr>
+<tr>
+<td>snap / flatpak</td>
+<td>—</td>
+<td><strong>无专用 MCP，必须走方案 B 或 C</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>这个方案的缺口</strong>：Arch 全系统升级、zypper 全量升级、snap、flatpak 四项仍无覆盖 → 仍需方案 B/C 补。</p>
+<h3 id="b-shell">方案 B · 统一 shell 执行层（多发行版混合环境推荐）<a class="anchor" href="#b-shell" aria-label="锚点">#</a></h3>
+<p>适合：<strong>同时管 2 个以上发行版</strong>，或需要覆盖 snap/flatpak。</p>
+<p><strong>组件</strong>：<code>tumf/mcp-shell-server</code>（201★，MIT）</p>
+<pre><code class="language-bash"># 用 ALLOW_PATTERNS 做「命令 + 参数」全匹配 —— 不要只放命令名
+ALLOW_PATTERNS='^apt-get (update|upgrade|full-upgrade)$|^dnf (makecache|upgrade|check-update)$|^zypper (refresh|update|dup)$|^pacman -Syu$|^nixos-rebuild (dry-activate|switch)( --upgrade)?$|^snap refresh$|^flatpak update$'
+ALLOW_COMMANDS='systemctl,journalctl,df,ss,uptime'
+MCP_SHELL_CHILD_ENV_ALLOWLIST='LANG,LC_ALL'
+</code></pre>
+<p>为什么它比「给 Agent 一个 sudo shell」好：
+- <strong>argv 数组执行</strong>，无 shell 字符串解释 → 无 <code>;</code> <code>&amp;&amp;</code> <code>|</code> 注入面
+- <strong>审计日志</strong>：每次调用一条 <code>shell_execution_audit</code>，含脱敏 argv、有效 timeout、output_limit
+- <strong>最小子环境</strong>：不继承服务端的 API key 等密钥
+- 默认拒绝 <code>find -exec</code> / <code>xargs</code> / <code>env</code> / <code>timeout</code> / <code>sed</code> / <code>vim</code> / <code>ssh</code> / git <code>-c</code> 覆盖等已知逃逸向量</p>
+<blockquote>
+<p class="warnbox">⚠️ 但仍必须配 OS 层隔离（容器 / VM / 专用用户）。官方明说它不是 OS 沙箱。</p>
+</blockquote>
+<h3 id="c-ssh">方案 C · SSH 集中式（多机）<a class="anchor" href="#c-ssh" aria-label="锚点">#</a></h3>
+<p>适合：<strong>一台工作台管 N 台机器</strong>。</p>
+<p><strong>组件</strong>：<code>classfang/ssh-mcp-server</code></p>
+<pre><code class="language-bash">--whitelist &quot;^apt-get (update|upgrade)$|^dnf (makecache|upgrade|check-update)$|^zypper (refresh|update|dup)$|^pacman -Syu$|^nixos-rebuild (dry-activate|switch)( --upgrade)?$|^snap refresh$|^flatpak update$&quot;
+</code></pre>
+<ul>
+<li>白名单按<strong>完整命令匹配</strong>；启用后含 <code>;</code> <code>&amp;</code> <code>|</code> 反引号 <code>$()</code> <code>&gt;</code> <code>&lt;</code> 换行的命令<strong>直接拒绝</strong></li>
+<li><code>nixos-rebuild switch</code> 这类长任务用 <code>job-start</code> 后台任务（同样过白名单）</li>
+</ul>
+<h3 id="d">方案 D · 只读优先（推荐作为起点）<a class="anchor" href="#d" aria-label="锚点">#</a></h3>
+<p><strong>先只读，再开写。</strong> 每个发行版都能先接只读层：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>发行版</th>
+<th>只读层</th>
+<th>能做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debian/Ubuntu</td>
+<td><code>apt-mcp</code>（<code>APT_MCP_SCOPES=read</code>）</td>
+<td><code>apt_list_upgradable</code>、<code>apt_simulate</code></td>
+</tr>
+<tr>
+<td>Fedora/openSUSE</td>
+<td><code>managesw-mcp</code> 的 <code>list_*</code> / <code>query_*</code> / <code>search_*</code></td>
+<td>列更新、查补丁</td>
+</tr>
+<tr>
+<td>openSUSE</td>
+<td><code>mcp-server-zypp</code> 的 <code>check_updates</code> + <code>plan_*</code></td>
+<td>列更新、dry-run 求解</td>
+</tr>
+<tr>
+<td>Arch</td>
+<td><code>arch-mcp</code> 的 <code>check_updates_dry_run</code> + <code>check_critical_news</code> + <code>get_news_since_last_update</code></td>
+<td>列更新、读 Arch News</td>
+</tr>
+<tr>
+<td>NixOS</td>
+<td><code>mcp-nixos</code> / <code>nix-mcp</code> + <code>nix-agent</code> 的 <code>build</code> / <code>diff</code></td>
+<td>查包查选项、<code>nixos-rebuild build</code>（不 activate）</td>
+</tr>
+<tr>
+<td>全发行版</td>
+<td><code>tumf/mcp-shell-server</code> 只放 <code>--version</code> / <code>list-updates</code> 类</td>
+<td>统一只读巡检</td>
+</tr>
+</tbody>
+</table></div>
+<p>跑通只读巡检 2 周、确认 Agent 的判断可靠之后，再逐条开写权限。这是前序报告里「AI agent 运维事故链」给出的最直接教训。</p>
+<hr />
+<h2 id="7">第 7 章 坑与反直觉<a class="anchor" href="#7" aria-label="锚点">#</a></h2>
+<ol>
+<li><strong><code>arch-mcp</code> 的 <code>safe_system_update</code> 是 Prompt，不是 Tool</strong>——它给建议，不执行 <code>pacman -Syu</code>。</li>
+<li><strong><code>oborchers/mcp-server-pacman</code> 与 Arch 无关</strong>——它查 PyPI/npm/crates.io。</li>
+<li><strong><code>snap</code> 和 <code>flatpak</code> 完全没有可用的专用 MCP</strong>。flatpak 那个仓库 README 只有 27 字节。</li>
+<li><strong><code>yum</code> 不需要专用 MCP</strong>——RHEL 8+/CentOS 8+ 里 yum 是 dnf 的符号链接。</li>
+<li><strong>只有 <code>apt-mcp</code> 提供真正的全系统升级工具对</strong>（<code>apt_update</code> + <code>apt_upgrade</code>）。其余全部只能装单个包或列更新。</li>
+<li><strong><code>openSUSE/managesw-mcp</code> 是唯一跨 zypper + dnf 的官方 MCP</strong>，但只有 2★、单文件 8.6 KB。</li>
+<li><strong><code>managesw-mcp</code> 的 <code>modify_repo</code> 比装包危险得多</strong>——它能新增/删除软件源，等于控制包来源。</li>
+<li><strong><code>mcp-server-zypp</code> 没有 <code>confirm_upgrade</code></strong>——只能查更新 + 装/删单包。</li>
+<li><strong><code>GdMacmillan/apt-mcp-server</code> 假设免密 sudo</strong>，官方原文 <em>"Secure, passwordless <code>sudo</code> assumed for all operations"</em>。</li>
+<li><strong><code>brianlechthaler/apt-mcp</code> 是 0★ 但设计最好</strong>——遵循 NSA PP-26-1834，<code>APT_MCP_SCOPES</code> 分层、无 shell、argv 严格、审计日志脱敏、版本化防 rug-pull。<strong>星标与质量倒挂</strong>。</li>
+<li><strong><code>JEFF7712/nix-agent</code> 默认高信任</strong>——免密 sudo + 无提示 <code>switch</code>，低信任是「降级选项」。</li>
+<li><strong><code>bolivian-peru/os-moda</code> 作者自己说不要上生产</strong>——默认运行时的 shell/文件工具<strong>尚未接入审批门与审计账本</strong>，且未做外部审计。</li>
+<li><strong><code>tumf/mcp-shell-server</code> 不是 OS 沙箱</strong>——官方明说命令白名单不约束程序自身行为；<code>ALLOW_COMMANDS="pacman"</code> 会允许 <code>pacman -Rdd</code>。要用 <code>ALLOW_PATTERNS</code>。</li>
+<li><strong><code>arch-mcp</code> README 没有任何 root/sudo 说明</strong>——它如何获得写权限未文档化，接入前必须自查。</li>
+<li><strong><code>oborchers/mcp-server-pacman</code> 和 <code>heihuo000/pvfUtility-MCP</code> 是检索污染</strong>——前者是包索引，后者是 DNF 游戏。</li>
+<li><strong>搜索 <code>apt</code> 有 8/24 是 Aptos 区块链</strong>——加 <code>linux</code> 或 <code>debian</code> 限定词才能过滤。</li>
+<li><strong>无许可证的仓库不能用</strong>：<code>anjupathak03/zypper-mcp</code>、<code>lioilsources/LeapDoctor</code>、<code>E13ctr0N/AiSysAdmin</code>、<code>domdomegg/shell-exec-mcp</code> 等。</li>
+<li><strong><code>lioilsources/LeapDoctor</code> 只有 5 行想法</strong>，无实现。</li>
+<li><strong><code>amineutron/fedora-agents</code> 不做包管理</strong>——它是 KVM/libvirt + 备份，但它的 sudoers 逐脚本授权设计值得抄。</li>
+<li><strong><code>redwrench</code> 不在 Fedora 官方仓库也不在 COPR</strong>——只能从 release 下 <code>.rpm</code> 手动装。</li>
+<li><strong><code>linux-mcp-server</code> 的硬编码策略禁止下载</strong>——所以它<strong>在设计上就不适合做系统更新</strong>，只适合只读诊断。</li>
+<li><strong><code>LINUX_MCP_TRANSPORT=http</code> 无认证</strong>，官方警告不要用于生产。</li>
+<li><strong>NixOS 的更新是两阶段</strong>（先 <code>nix flake update</code> / <code>nix-channel --update</code>，再 <code>nixos-rebuild switch</code>），合成一个「upgrade」工具会掩盖 flake 锁文件变更这个决策点。</li>
+<li><strong>openSUSE Tumbleweed 必须用 <code>zypper dup</code></strong>，用 <code>update</code> 会遇依赖冲突。任何只暴露模糊 "upgrade" 的 MCP 在 Tumbleweed 上是错的。</li>
+<li><strong>Arch 不要只 <code>pacman -Sy</code> 不 <code>-u</code></strong>（部分升级会炸系统）。白名单必须写成 <code>^pacman -Syu$</code> 全匹配。</li>
+<li><strong>Fedora Silverblue / Kinoite / openSUSE MicroOS 是不可变系统</strong>，不能用 <code>dnf install</code> / <code>zypper in</code>，要用 <code>rpm-ostree</code> / <code>transactional-update</code>。上面的所有 MCP 都没覆盖这一层。</li>
+<li><strong><code>apt-mcp</code> 的 <code>apt_upgrade</code> 是 <code>apt-get upgrade -y</code></strong>，不是 <code>full-upgrade</code>——它不会处理需要新增/删除依赖的升级。要 <code>full-upgrade</code> 得自己走 shell 层。</li>
+<li><strong><code>ssh-mcp-server</code> 启用白名单后含 <code>|</code> 的命令会被拒</strong>——但 <code>dnf check-update</code> 返回 100 是正常语义，它已特殊处理（返回输出 + <code>[exit code] N</code>）。</li>
+<li><strong><code>nixos-rebuild switch</code> 会超时</strong>——它跑几分钟，必须用 <code>job-start</code> 后台任务而不是 <code>execute-command</code>。</li>
+<li><strong>GitHub Search API 未认证配额是 10 次/分钟</strong>。本报告跑了 11 组查询，中间被限流 2 次，必须加 <code>sleep</code> 间隔。</li>
+</ol>
+<hr />
+<h2 id="8">第 8 章 未核实与覆盖边界<a class="anchor" href="#8" aria-label="锚点">#</a></h2>
+<h3 id="81">8.1 未取得一手证据的项<a class="anchor" href="#81" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项</th>
+<th>状态</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>openSUSE/managesw-mcp</code> 的 dnf 后端实现细节</td>
+<td>部分</td>
+<td>README 明确说支持 dnf；源码中后端在 <code>internal/pkg/syspackage</code>，未逐个文件读</td>
+</tr>
+<tr>
+<td><code>arch-mcp</code> 的权限提升方式</td>
+<td><strong>未核实</strong></td>
+<td>README 完全没提 root / sudo / polkit</td>
+</tr>
+<tr>
+<td><code>arch-mcp</code> 的 <code>install_package_secure</code> 是否真执行 pacman</td>
+<td>未核实</td>
+<td>描述是「Install with security checks」，未读源码确认调用链</td>
+</tr>
+<tr>
+<td><code>simonives/redwrench</code> 的星标与最新推送</td>
+<td>未核实</td>
+<td>本轮 core API 配额耗尽（60/60），仅有前序报告数据</td>
+</tr>
+<tr>
+<td><code>amineutron/fedora-agents</code> 的星标与最新推送</td>
+<td>未核实</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>classfang/ssh-mcp-server</code> 的星标</td>
+<td>未核实</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>iMANDexter/mcp-shell-server</code> 的完整审计字段</td>
+<td>部分</td>
+<td>仅 README 摘要</td>
+</tr>
+<tr>
+<td>各候选的许可证商业条款</td>
+<td>未核实</td>
+<td>多个仓库 <code>license.spdx_id</code> 为 <code>NOASSERTION</code> 或缺失</td>
+</tr>
+<tr>
+<td><code>openSUSE/mcp-server-zypp</code> 是否计划加 upgrade 工具</td>
+<td>未核实</td>
+<td>未读 issue / roadmap</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="82">8.2 明确的方法论边界<a class="anchor" href="#82" aria-label="锚点">#</a></h3>
+<ol>
+<li><strong>本轮未做端到端实测</strong>。所有能力断言来自 README 原文、源码文件直读或搜索结果元数据，<strong>未实际部署任一 MCP 执行 <code>apt upgrade</code> / <code>dnf upgrade</code> 验证</strong>。</li>
+<li><strong>「未发现」不等于「不存在」</strong>。snap / flatpak 的结论是「在 GitHub 检索中未发现可用的专用 MCP」，不排除存在未打关键词标签的私有项目。</li>
+<li><strong>检索只覆盖 GitHub</strong>。未检索 npm / PyPI / Glama / Smithery / PulseMCP 等 MCP 目录站。这些站点可能有 GitHub 描述里没写关键词的项目。</li>
+<li><strong>未评估各 MCP 的代码质量与维护活跃度</strong>。0★ 项目可能明天就停更。</li>
+<li><strong>本轮 core API 配额耗尽</strong>（14:25 时已 60/60），部分仓库的精确星标/推送日期只能引用前序报告或搜索结果快照（检索日 2026-10-12）。</li>
+</ol>
+<h3 id="83">8.3 与前序报告的关系<a class="anchor" href="#83" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>报告</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>研究报告_AI_Agent_Linux运维_全发行版.md</code></td>
+<td>用 Hermes Agent 管 Linux 需要什么 MCP / Skills / 知识库方案</td>
+</tr>
+<tr>
+<td><code>研究报告_通用Agent工作台选型_六项能力.md</code></td>
+<td>除 Hermes Agent 外还有哪些通用 Agent 工作台可用</td>
+</tr>
+<tr>
+<td><strong>本报告</strong></td>
+<td><strong>具体到 8 个包管理命令，每个发行版有哪些 MCP 可用</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>三份报告的执行层结论一致：<strong>优先用专用 MCP（最小权限 + 可审计），缺失时用 <code>tumf/mcp-shell-server</code> 这类 argv 白名单执行层兜底，永远不要给 Agent 一个裸 sudo shell。</strong></p>
+<hr />
+<h2 id="a">附录 A 证据分级说明<a class="anchor" href="#a" aria-label="锚点">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>等级</th>
+<th>含义</th>
+<th>本报告的典型来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge g-A">A</span></td>
+<td>源码 / 文件直读，可复现</td>
+<td><code>brianlechthaler/apt-mcp</code> 的 <code>docs/features/tools.md</code> 与 <code>docs/security.md</code>；<code>managesw-mcp.go</code> 的工具注册字段；<code>lucasarakaki/flatpak-mcp-server</code> 的 27 字节 README</td>
+</tr>
+<tr>
+<td><span class="badge g-B">B</span></td>
+<td>仓库 README 原文</td>
+<td><code>nihalxkumar/arch-mcp</code> 的工具表；<code>openSUSE/mcp-server-zypp</code> 的八工具表；<code>tumf/mcp-shell-server</code> 的安全说明</td>
+</tr>
+<tr>
+<td><span class="badge g-C">C</span></td>
+<td>仅搜索结果元数据</td>
+<td>星标、许可证、推送日期</td>
+</tr>
+<tr>
+<td><span class="badge g-D">D</span></td>
+<td>本报告推断</td>
+<td>「<code>ALLOW_COMMANDS="pacman"</code> 会允许 <code>pacman -Rdd</code>」的推论；各方案适用场景判断</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="b">附录 B 可复现命令<a class="anchor" href="#b" aria-label="锚点">#</a></h2>
+<h3 id="b1-github-search-api">B.1 检索式（GitHub Search API）<a class="anchor" href="#b1-github-search-api" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># 未认证配额：search 10 次/分钟。必须加 sleep，否则会被限流
+q(){ curl -s -m 25 &quot;https://api.github.com/search/repositories?q=$(python -c &quot;import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))&quot; &quot;$1&quot;)&amp;sort=stars&amp;order=desc&amp;per_page=15&quot; \
+  | python -c &quot;import sys,json;d=json.load(sys.stdin);[print(i['full_name'],i['stargazers_count'],(i.get('license') or {}).get('spdx_id'),i['pushed_at'][:10]) for i in d.get('items',[])]&quot;; }
+
+q &quot;apt mcp server in:name,description&quot;           # 注意过滤 Aptos 区块链噪声
+q &quot;dnf mcp in:name,description&quot;                  # 注意过滤 DNF 游戏噪声
+q &quot;zypper mcp in:name,description&quot;
+q &quot;pacman mcp server in:name,description&quot;        # 第一名与 Arch 无关
+q &quot;nixos mcp in:name,description&quot;
+q &quot;opensuse mcp server in:name,description&quot;      # ← 找到 managesw-mcp 与 mcp-server-zypp
+q &quot;flatpak mcp in:name,description&quot;
+q &quot;snap package mcp server in:name,description&quot;  # → 0 个相关
+q &quot;shell command execution mcp server in:name,description&quot;
+q &quot;ansible mcp server in:name,description&quot;
+q &quot;nixos-rebuild mcp in:name,description,readme&quot;
+</code></pre>
+<h3 id="b2-readme">B.2 直读源码确认工具集（比 README 可靠）<a class="anchor" href="#b2-readme" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># managesw-mcp 的 9 个工具（Go 源码里的 Name/Description 字段）
+curl -sL &quot;https://raw.githubusercontent.com/openSUSE/managesw-mcp/main/managesw-mcp.go&quot; \
+  | grep -nE 'Name:|Description:'
+
+# apt-mcp 的工具与 scope 划分
+curl -sL &quot;https://raw.githubusercontent.com/brianlechthaler/apt-mcp/main/docs/features/tools.md&quot;
+curl -sL &quot;https://raw.githubusercontent.com/brianlechthaler/apt-mcp/main/docs/security.md&quot;
+</code></pre>
+<h3 id="b3-b-tumfmcp-shell-server">B.3 方案 B 的完整配置（<code>tumf/mcp-shell-server</code>）<a class="anchor" href="#b3-b-tumfmcp-shell-server" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># 只放「命令 + 参数」全匹配，不要只放命令名
+export ALLOW_PATTERNS='^apt-get (update|upgrade|full-upgrade)$|^dnf (makecache|upgrade|check-update)$|^zypper (refresh|update|dup)$|^pacman -Syu$|^nixos-rebuild (dry-activate|switch)( --upgrade)?$|^snap refresh$|^flatpak update$'
+export ALLOW_COMMANDS='systemctl,journalctl,df,ss,uptime'
+export MCP_SHELL_CHILD_ENV_ALLOWLIST='LANG,LC_ALL'
+</code></pre>
+<h3 id="b4-a-apt-mcp">B.4 方案 A 的 <code>apt-mcp</code> 配置<a class="anchor" href="#b4-a-apt-mcp" aria-label="锚点">#</a></h3>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apt&quot;: {
+      &quot;command&quot;: &quot;docker&quot;,
+      &quot;args&quot;: [&quot;run&quot;, &quot;--rm&quot;, &quot;-i&quot;, &quot;apt-mcp-run&quot;, &quot;apt-mcp&quot;],
+      &quot;env&quot;: { &quot;APT_MCP_SCOPES&quot;: &quot;read&quot; }
+    }
+  }
+}
+</code></pre>
+<p>要开变更：把 <code>APT_MCP_SCOPES</code> 改为 <code>read,mutate</code>，且每个变更工具必须传 <code>confirm: true</code>。</p>
+<h3 id="b5">B.5 各发行版的只读巡检命令（可作起点）<a class="anchor" href="#b5" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># Debian / Ubuntu
+apt list --upgradable
+
+# Fedora / RHEL 系
+dnf check-update            # 有更新时退出码 100，属正常
+dnf updateinfo list security
+
+# openSUSE
+zypper list-updates
+zypper list-patches
+
+# Arch
+pacman -Qu
+checkupdates                # pacman-contrib 提供，不锁数据库
+# 升级前必读 Arch News
+
+# NixOS
+nixos-rebuild dry-build     # 不 activate
+nixos-rebuild dry-activate
+
+# 通用
+snap refresh --list
+flatpak update --appstream &amp;&amp; flatpak remote-ls --updates
+</code></pre>
+<h2 id="c">附录 C 参考链接<a class="anchor" href="#c" aria-label="锚点">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brianlechthaler/apt-mcp</code></td>
+<td>https://github.com/brianlechthaler/apt-mcp</td>
+</tr>
+<tr>
+<td><code>GdMacmillan/apt-mcp-server</code></td>
+<td>https://github.com/GdMacmillan/apt-mcp-server</td>
+</tr>
+<tr>
+<td><code>openSUSE/managesw-mcp</code></td>
+<td>https://github.com/openSUSE/managesw-mcp</td>
+</tr>
+<tr>
+<td><code>openSUSE/mcp-server-zypp</code></td>
+<td>https://github.com/openSUSE/mcp-server-zypp</td>
+</tr>
+<tr>
+<td><code>openSUSE/systemd-mcp</code></td>
+<td>https://github.com/openSUSE/systemd-mcp</td>
+</tr>
+<tr>
+<td><code>nihalxkumar/arch-mcp</code></td>
+<td>https://github.com/nihalxkumar/arch-mcp</td>
+</tr>
+<tr>
+<td><code>JEFF7712/nix-agent</code></td>
+<td>https://github.com/JEFF7712/nix-agent</td>
+</tr>
+<tr>
+<td><code>bolivian-peru/os-moda</code></td>
+<td>https://github.com/bolivian-peru/os-moda</td>
+</tr>
+<tr>
+<td><code>utensils/mcp-nixos</code></td>
+<td>https://github.com/utensils/mcp-nixos</td>
+</tr>
+<tr>
+<td><code>lukasl-dev/rime</code></td>
+<td>https://github.com/lukasl-dev/rime</td>
+</tr>
+<tr>
+<td><code>stubbedev/nix-mcp</code></td>
+<td>https://github.com/stubbedev/nix-mcp</td>
+</tr>
+<tr>
+<td><code>felixdorn/mcp-nix</code></td>
+<td>https://github.com/felixdorn/mcp-nix</td>
+</tr>
+<tr>
+<td><code>simonives/redwrench</code></td>
+<td>https://github.com/simonives/redwrench</td>
+</tr>
+<tr>
+<td><code>amineutron/fedora-agents</code></td>
+<td>https://github.com/amineutron/fedora-agents</td>
+</tr>
+<tr>
+<td><code>tumf/mcp-shell-server</code></td>
+<td>https://github.com/tumf/mcp-shell-server</td>
+</tr>
+<tr>
+<td><code>classfang/ssh-mcp-server</code></td>
+<td>https://github.com/classfang/ssh-mcp-server</td>
+</tr>
+<tr>
+<td><code>rhel-lightspeed/linux-mcp-server</code></td>
+<td>https://github.com/rhel-lightspeed/linux-mcp-server</td>
+</tr>
+<tr>
+<td><code>iMANDexter/mcp-shell-server</code></td>
+<td>https://github.com/iMANDexter/mcp-shell-server</td>
+</tr>
+<tr>
+<td>NSA MCP 安全设计考量 (PP-26-1834)</td>
+<td>https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<p><em>报告完 · v1.0 · 2026-10-12 · 11 组检索式 × 20 个 MCP × README/源码直读 · 证据分级见附录 A · 未核实项见第 8 章</em></p>
+
+  <div class="foot">
+    本报告由 WorkBuddy AI 生成 · 六项能力 × 19 个候选 × 官方文档逐条取证 · 成稿 2026-10-12<br>
+    所有事实均可通过「附录 B」中的命令复现 · 证据分级见「附录 A」· 未核实项见第 8 章
+  </div>
+</main>
+
+</div>
+<script>
+(function(){
+  var t=document.getElementById('top');
+  function onScroll(){ if(window.scrollY>520) t.classList.add('show'); else t.classList.remove('show'); }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  // 侧栏目录当前章节高亮
+  var links=[].slice.call(document.querySelectorAll('.sidebar a[href^="#"]'));
+  var map={};
+  links.forEach(function(a){ var el=document.getElementById(decodeURIComponent(a.hash.slice(1))); if(el) map[el.id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window && targets.length){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[e.target.id]; if(a){a.classList.add('active'); a.style.background='var(--accent-soft)'; a.style.color='var(--accent)';}
+        }
+      });
+    },{rootMargin:'-8% 0px -78% 0px'});
+    targets.forEach(function(t){io.observe(t);});
+  }
+})();
+</script>
+</body>
+</html>

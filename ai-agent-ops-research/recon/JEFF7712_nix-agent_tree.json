@@ -1,0 +1,1253 @@
+{
+  "sha": "eaa114364b14c4f9c7c5436cd50218ebb8da8b85",
+  "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/eaa114364b14c4f9c7c5436cd50218ebb8da8b85",
+  "tree": [
+    {
+      "path": ".dockerignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f11df44d7da79404501b4b29dfffb41b101141b",
+      "size": 485,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2f11df44d7da79404501b4b29dfffb41b101141b"
+    },
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e51caa281fddf6f16e28bd6fdbce931841cedfa4",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/e51caa281fddf6f16e28bd6fdbce931841cedfa4"
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2472e213b65b44b85ed516a68823376316f98052",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/2472e213b65b44b85ed516a68823376316f98052"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a73140e81f1ffcb2cb5fe78224d58dbc4df1220e",
+      "size": 1261,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/a73140e81f1ffcb2cb5fe78224d58dbc4df1220e"
+    },
+    {
+      "path": ".github/workflows/site-pages.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c415095c8cdc9043524a7106a5354f3cf5a299a",
+      "size": 1463,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/3c415095c8cdc9043524a7106a5354f3cf5a299a"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55bbca9a9daf831a0eebce243305e5c9468bb7f6",
+      "size": 264,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/55bbca9a9daf831a0eebce243305e5c9468bb7f6"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e0a5dd3fd2dce711e498b7a990e4b2457743c8c",
+      "size": 6079,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/4e0a5dd3fd2dce711e498b7a990e4b2457743c8c"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f88abb574329c083fc4a1cfd9a55ac3ed36d8a0e",
+      "size": 1062,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/f88abb574329c083fc4a1cfd9a55ac3ed36d8a0e"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6efab49fdf7d2e453b33ad5c51d7353698718bd6",
+      "size": 2035,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/6efab49fdf7d2e453b33ad5c51d7353698718bd6"
+    },
+    {
+      "path": "assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "951f070cbc28aff871d7fc1bdfe16a6cadd917af",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/951f070cbc28aff871d7fc1bdfe16a6cadd917af"
+    },
+    {
+      "path": "assets/banner.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6411ed30d61b02a959979ab20266b533953ea57f",
+      "size": 164734,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/6411ed30d61b02a959979ab20266b533953ea57f"
+    },
+    {
+      "path": "assets/banner.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef449034a53cf8e4edcc5a55ade8b49c7079f556",
+      "size": 4038,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/ef449034a53cf8e4edcc5a55ade8b49c7079f556"
+    },
+    {
+      "path": "assets/nix-snowflake.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a065bc9db60ff6b8709b7d1ee7941a8355ccf8a",
+      "size": 6567,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2a065bc9db60ff6b8709b7d1ee7941a8355ccf8a"
+    },
+    {
+      "path": "docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5c110be6ed2189208e956c92b7cc6fa0c9f786e0",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/5c110be6ed2189208e956c92b7cc6fa0c9f786e0"
+    },
+    {
+      "path": "docs/agent-install.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "927b16c8d1be8fe85e37e01dbf244166d0c726d2",
+      "size": 16661,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/927b16c8d1be8fe85e37e01dbf244166d0c726d2"
+    },
+    {
+      "path": "docs/implementation-plan.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2acd7eb0d0898c799adee673cd7518302f5dbf42",
+      "size": 10913,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2acd7eb0d0898c799adee673cd7518302f5dbf42"
+    },
+    {
+      "path": "docs/privileged-automation.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ee69cec20bf781bf65ecb101f3969d224315acd",
+      "size": 5567,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/3ee69cec20bf781bf65ecb101f3969d224315acd"
+    },
+    {
+      "path": "docs/usage.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff26a7128090a24bc3cce1d0433bf2acc699e32d",
+      "size": 20883,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/ff26a7128090a24bc3cce1d0433bf2acc699e32d"
+    },
+    {
+      "path": "examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "83e471f48dd34637f1ca2cb5b36f4417f5d72590",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/83e471f48dd34637f1ca2cb5b36f4417f5d72590"
+    },
+    {
+      "path": "examples/claude-code-mcp.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90d9c174a6f985b6e8bffde9dc6aaa3c6b463084",
+      "size": 157,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/90d9c174a6f985b6e8bffde9dc6aaa3c6b463084"
+    },
+    {
+      "path": "examples/codex-config.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8879a16fa3047086fd6db7cc7d3ad7c25cdc7cef",
+      "size": 151,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8879a16fa3047086fd6db7cc7d3ad7c25cdc7cef"
+    },
+    {
+      "path": "examples/cursor-cli-config.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43b59df12786ef28181ed799a4a1dcd14f24a077",
+      "size": 475,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/43b59df12786ef28181ed799a4a1dcd14f24a077"
+    },
+    {
+      "path": "examples/opencode-mcp.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e4234a2114d8952cb9f16731c49d17f163ff4bd",
+      "size": 157,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/6e4234a2114d8952cb9f16731c49d17f163ff4bd"
+    },
+    {
+      "path": "flake.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f609479da4a556e3b4d67e7f52679acc7c0bafb",
+      "size": 1497,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/5f609479da4a556e3b4d67e7f52679acc7c0bafb"
+    },
+    {
+      "path": "flake.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82c3eea6b580a77ee098ccd1e9df77cd50c8670c",
+      "size": 8113,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/82c3eea6b580a77ee098ccd1e9df77cd50c8670c"
+    },
+    {
+      "path": "install-skill.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "eef9fe4b44189b8d5a7f97b85800b1f8dd45fc3b",
+      "size": 796,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/eef9fe4b44189b8d5a7f97b85800b1f8dd45fc3b"
+    },
+    {
+      "path": "nix",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "58bef511d25b266e5fcfe1dd96a389f98121ee2d",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/58bef511d25b266e5fcfe1dd96a389f98121ee2d"
+    },
+    {
+      "path": "nix/module.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7665af7832c4736b313181162bb83ddcc0b35b90",
+      "size": 4392,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/7665af7832c4736b313181162bb83ddcc0b35b90"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ac805e14b080222ab200e0e56ec50179a4573bf",
+      "size": 559,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2ac805e14b080222ab200e0e56ec50179a4573bf"
+    },
+    {
+      "path": "site",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7c64d4c5f58a3293440df9b340bb2f83e1b9d503",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/7c64d4c5f58a3293440df9b340bb2f83e1b9d503"
+    },
+    {
+      "path": "site/.dockerignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "960b515be1785af5225b60fa01d1e7bd39d1292e",
+      "size": 348,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/960b515be1785af5225b60fa01d1e7bd39d1292e"
+    },
+    {
+      "path": "site/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "974f244a0b7520d3c3ffcfa5f53c8ec6f7922d3e",
+      "size": 18,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/974f244a0b7520d3c3ffcfa5f53c8ec6f7922d3e"
+    },
+    {
+      "path": "site/Dockerfile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fb5fd63e0ba0b71591d562abb10f9d3c58b4748",
+      "size": 702,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2fb5fd63e0ba0b71591d562abb10f9d3c58b4748"
+    },
+    {
+      "path": "site/__tests__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1a0af5df6e053d9c2d04d5961880290bf66d25c2",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/1a0af5df6e053d9c2d04d5961880290bf66d25c2"
+    },
+    {
+      "path": "site/__tests__/GlyphSnowflake.test.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d616f43c8bee59b0529ffde4c89309c72ffbeaf",
+      "size": 5700,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8d616f43c8bee59b0529ffde4c89309c72ffbeaf"
+    },
+    {
+      "path": "site/__tests__/IconLinks.test.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daab2bc09c1188db7df8dc9ada27dcc09e61b237",
+      "size": 1785,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/daab2bc09c1188db7df8dc9ada27dcc09e61b237"
+    },
+    {
+      "path": "site/__tests__/InstallPrompt.test.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a18a9fce8c5c7675dfa577bc931cc93e99381a0",
+      "size": 4893,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/5a18a9fce8c5c7675dfa577bc931cc93e99381a0"
+    },
+    {
+      "path": "site/__tests__/docsCatalog.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a33831d86ceaca76e1f3ed6439a31cf30c23d67f",
+      "size": 838,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/a33831d86ceaca76e1f3ed6439a31cf30c23d67f"
+    },
+    {
+      "path": "site/__tests__/docsLinks.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea1c4d30cfc9d9e3752222a196294e26d602c57c",
+      "size": 1479,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/ea1c4d30cfc9d9e3752222a196294e26d602c57c"
+    },
+    {
+      "path": "site/__tests__/docsMarkdown.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b28aaf302718093fde74bd5d4f6e0ad3bea66c0",
+      "size": 1577,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/3b28aaf302718093fde74bd5d4f6e0ad3bea66c0"
+    },
+    {
+      "path": "site/__tests__/docsPages.test.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "874662434901cb3687067f8863a8006badf31a18",
+      "size": 3882,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/874662434901cb3687067f8863a8006badf31a18"
+    },
+    {
+      "path": "site/__tests__/faceMood.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daeb96870fd4be8149b34df53c5e101244ff776f",
+      "size": 5995,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/daeb96870fd4be8149b34df53c5e101244ff776f"
+    },
+    {
+      "path": "site/__tests__/glyphAtlas.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "339b52cc0b8e886e23b85e65c187532e13f3421a",
+      "size": 2698,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/339b52cc0b8e886e23b85e65c187532e13f3421a"
+    },
+    {
+      "path": "site/__tests__/glyphFallback.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0192596b178da0c25dac322748a88eb5dd2df1ce",
+      "size": 780,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/0192596b178da0c25dac322748a88eb5dd2df1ce"
+    },
+    {
+      "path": "site/__tests__/glyphRenderLifecycle.test.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e3849bc125d3f659d9f438e8e4d60622cdad5fc",
+      "size": 6459,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/4e3849bc125d3f659d9f438e8e4d60622cdad5fc"
+    },
+    {
+      "path": "site/__tests__/layout.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "818a59c58f7a89bc7dc0ffb9bbb98958a24edbca",
+      "size": 359,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/818a59c58f7a89bc7dc0ffb9bbb98958a24edbca"
+    },
+    {
+      "path": "site/__tests__/page.test.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "699b75bed9333e9fe9f8d60c18f4e7dbc6fb468f",
+      "size": 1899,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/699b75bed9333e9fe9f8d60c18f4e7dbc6fb468f"
+    },
+    {
+      "path": "site/__tests__/shaderValidation.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0e61bed608aac3b4f97e21d7eb41f1bcb32f8d7",
+      "size": 2926,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/d0e61bed608aac3b4f97e21d7eb41f1bcb32f8d7"
+    },
+    {
+      "path": "site/__tests__/shaders.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afbbc3ab3baf13619421e955b34ba4ac1a7eb601",
+      "size": 7490,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/afbbc3ab3baf13619421e955b34ba4ac1a7eb601"
+    },
+    {
+      "path": "site/__tests__/snowflakeGeometry.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09f1549120e55ff044e02204b6f9eb02506e99ca",
+      "size": 12112,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/09f1549120e55ff044e02204b6f9eb02506e99ca"
+    },
+    {
+      "path": "site/app",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5fb9e2f528a323e1660b74ffdbff1df257952211",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/5fb9e2f528a323e1660b74ffdbff1df257952211"
+    },
+    {
+      "path": "site/app/docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4ff3966fbd16d4bec6c4378290076295a1e23d0a",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/4ff3966fbd16d4bec6c4378290076295a1e23d0a"
+    },
+    {
+      "path": "site/app/docs/[slug]",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7d01890d60abc5b18abb2d54e858352452d102d0",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/7d01890d60abc5b18abb2d54e858352452d102d0"
+    },
+    {
+      "path": "site/app/docs/[slug]/page.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88fa2b4ba6b662258f01af2f31147bc06a77d66f",
+      "size": 615,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/88fa2b4ba6b662258f01af2f31147bc06a77d66f"
+    },
+    {
+      "path": "site/app/docs/layout.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0a156a138cc30f22777e09314c1d79222db1c9a",
+      "size": 611,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e0a156a138cc30f22777e09314c1d79222db1c9a"
+    },
+    {
+      "path": "site/app/docs/page.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e00a5f612e55b492ddce20e3a85c943f2d1261cf",
+      "size": 257,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e00a5f612e55b492ddce20e3a85c943f2d1261cf"
+    },
+    {
+      "path": "site/app/fonts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0d044fa3cabed2e2ff5f2258647f9b2594e57792",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/0d044fa3cabed2e2ff5f2258647f9b2594e57792"
+    },
+    {
+      "path": "site/app/fonts/OFL.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c35c4c618fab33da8695177b3a6cefe0810b7b28",
+      "size": 4456,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/c35c4c618fab33da8695177b3a6cefe0810b7b28"
+    },
+    {
+      "path": "site/app/fonts/ibm-plex-mono-latin-400-normal.woff2",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0804aaff92260b5359330f63e05b9ac25ccabeee",
+      "size": 14708,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/0804aaff92260b5359330f63e05b9ac25ccabeee"
+    },
+    {
+      "path": "site/app/fonts/ibm-plex-mono-latin-500-normal.woff2",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "090f82f7ec7997047324e07650865305a099969a",
+      "size": 14888,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/090f82f7ec7997047324e07650865305a099969a"
+    },
+    {
+      "path": "site/app/globals.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcfbc469e2698d0e89a893627b3a7ce48ca8f8ee",
+      "size": 12126,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/dcfbc469e2698d0e89a893627b3a7ce48ca8f8ee"
+    },
+    {
+      "path": "site/app/layout.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87987ce4bf3e4ca6417ec60feac5bc147db88574",
+      "size": 828,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/87987ce4bf3e4ca6417ec60feac5bc147db88574"
+    },
+    {
+      "path": "site/app/page.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "403c29a0ab9bd6f375fb8699e35112350c5b88f2",
+      "size": 1444,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/403c29a0ab9bd6f375fb8699e35112350c5b88f2"
+    },
+    {
+      "path": "site/components",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a01768355ffdda812d2d24da6bf56d885b954c29",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/a01768355ffdda812d2d24da6bf56d885b954c29"
+    },
+    {
+      "path": "site/components/DocsArticle.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8bf6285c9497fb330c8ee4b3fd7dfab100fa0915",
+      "size": 608,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8bf6285c9497fb330c8ee4b3fd7dfab100fa0915"
+    },
+    {
+      "path": "site/components/DocsSidebar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85d24a562f77cbd2f1e2f9beb57257d10b341666",
+      "size": 589,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/85d24a562f77cbd2f1e2f9beb57257d10b341666"
+    },
+    {
+      "path": "site/components/DocsSidebarNav.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d72b06f65068cfba4f67ec901447598ebb268cde",
+      "size": 239,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/d72b06f65068cfba4f67ec901447598ebb268cde"
+    },
+    {
+      "path": "site/components/GlyphSnowflake.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36e90c9fdabad752c5cd06e8231d88117e3d9faf",
+      "size": 20394,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/36e90c9fdabad752c5cd06e8231d88117e3d9faf"
+    },
+    {
+      "path": "site/components/IconLinks.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0234779173c7f64aeca7d13f997f51fcd08eae09",
+      "size": 1365,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/0234779173c7f64aeca7d13f997f51fcd08eae09"
+    },
+    {
+      "path": "site/components/InstallPrompt.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62b45756bec1292033b2e0f9181bc022d9bc0783",
+      "size": 3011,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/62b45756bec1292033b2e0f9181bc022d9bc0783"
+    },
+    {
+      "path": "site/eslint.config.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "060cba989b48a89696a96dc0cd7a2571b9b428ee",
+      "size": 446,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/060cba989b48a89696a96dc0cd7a2571b9b428ee"
+    },
+    {
+      "path": "site/lib",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "919ff361a07b9b13a34aae6dd216bc7f2d7c5dff",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/919ff361a07b9b13a34aae6dd216bc7f2d7c5dff"
+    },
+    {
+      "path": "site/lib/docs.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cab0290e0a87666ba6fb22f361aa14e09dc8bbeb",
+      "size": 1217,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/cab0290e0a87666ba6fb22f361aa14e09dc8bbeb"
+    },
+    {
+      "path": "site/lib/docsCatalog.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd2b98d0066585c18a5167d41762045eac8aba1c",
+      "size": 1102,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/bd2b98d0066585c18a5167d41762045eac8aba1c"
+    },
+    {
+      "path": "site/lib/docsLinks.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25130d72c2cdff4947e1670913f8b7cc044668ad",
+      "size": 1840,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/25130d72c2cdff4947e1670913f8b7cc044668ad"
+    },
+    {
+      "path": "site/lib/docsMarkdown.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21ba4d24ca6ce1f17cba01461c2d0941b440deb9",
+      "size": 1976,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/21ba4d24ca6ce1f17cba01461c2d0941b440deb9"
+    },
+    {
+      "path": "site/lib/faceMood.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b06693af0d6ee51a0438e4211c7aa4a918cb487",
+      "size": 4714,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8b06693af0d6ee51a0438e4211c7aa4a918cb487"
+    },
+    {
+      "path": "site/lib/glyphAtlas.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d37e22acd7c87d60b8c8994c09d50ded8dce24a",
+      "size": 2420,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/4d37e22acd7c87d60b8c8994c09d50ded8dce24a"
+    },
+    {
+      "path": "site/lib/glyphCharacters.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e489a175fbb4b2286ec45ccae77782b14335acc6",
+      "size": 44,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e489a175fbb4b2286ec45ccae77782b14335acc6"
+    },
+    {
+      "path": "site/lib/glyphFallback.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dae9d0e64e736a72145b59d22f948b51ee428fa",
+      "size": 4868,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/1dae9d0e64e736a72145b59d22f948b51ee428fa"
+    },
+    {
+      "path": "site/lib/glyphRenderLifecycle.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "800983f984881caacec66e66a27863375492a745",
+      "size": 3986,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/800983f984881caacec66e66a27863375492a745"
+    },
+    {
+      "path": "site/lib/shaderValidation.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8385499d149f6d359b5d779df570f19e04ebcc57",
+      "size": 1460,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8385499d149f6d359b5d779df570f19e04ebcc57"
+    },
+    {
+      "path": "site/lib/shaders.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7591fff496bbcd317bf14f8f0a76137a95c5b49",
+      "size": 11148,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/d7591fff496bbcd317bf14f8f0a76137a95c5b49"
+    },
+    {
+      "path": "site/lib/snowflakeGeometry.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24732665af11cc0bccc1b5a8c8686fb28c5cce70",
+      "size": 11193,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/24732665af11cc0bccc1b5a8c8686fb28c5cce70"
+    },
+    {
+      "path": "site/next-env.d.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4b7818fbb2c2c34c24feb1b627ee824507c5600",
+      "size": 251,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/c4b7818fbb2c2c34c24feb1b627ee824507c5600"
+    },
+    {
+      "path": "site/next.config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a18b38ebc0c1d2270cebe8d0480ec2910ef34a80",
+      "size": 148,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/a18b38ebc0c1d2270cebe8d0480ec2910ef34a80"
+    },
+    {
+      "path": "site/package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91e4c131fc8f6ca85e3633da74553f8675a4bb20",
+      "size": 1235,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/91e4c131fc8f6ca85e3633da74553f8675a4bb20"
+    },
+    {
+      "path": "site/pnpm-lock.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c943c0c9d976bac2ba429d8d7ecb6fe7f196021",
+      "size": 190169,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8c943c0c9d976bac2ba429d8d7ecb6fe7f196021"
+    },
+    {
+      "path": "site/pnpm-workspace.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e661e881b208075c73162c998bb7acac5b607e65",
+      "size": 93,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e661e881b208075c73162c998bb7acac5b607e65"
+    },
+    {
+      "path": "site/public",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d5d3dc0dbbff4f27e2c9a165c68172f43fe96a45",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/d5d3dc0dbbff4f27e2c9a165c68172f43fe96a45"
+    },
+    {
+      "path": "site/public/cursor-dot.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b0c5ab20a24835fec9c47eec7f086e25487323e",
+      "size": 376,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/9b0c5ab20a24835fec9c47eec7f086e25487323e"
+    },
+    {
+      "path": "site/public/nix-agent-mark.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f89be0e708aeab57128b46b6f9c656d625fa944c",
+      "size": 2324,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/f89be0e708aeab57128b46b6f9c656d625fa944c"
+    },
+    {
+      "path": "site/public/nix-snowflake.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a065bc9db60ff6b8709b7d1ee7941a8355ccf8a",
+      "size": 6567,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2a065bc9db60ff6b8709b7d1ee7941a8355ccf8a"
+    },
+    {
+      "path": "site/scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4964b6df0689383b915566e4f92ae378360344f9",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/4964b6df0689383b915566e4f92ae378360344f9"
+    },
+    {
+      "path": "site/scripts/sync-docs-assets.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84c054e5c6805ee15d881e53a47acbffb2118354",
+      "size": 697,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/84c054e5c6805ee15d881e53a47acbffb2118354"
+    },
+    {
+      "path": "site/tsconfig.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e9dac624e2e32300ae0a328a95bfdcea24175a8",
+      "size": 615,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2e9dac624e2e32300ae0a328a95bfdcea24175a8"
+    },
+    {
+      "path": "site/vitest.config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "262024c290574280ffe84aaaca4674e249e3ce38",
+      "size": 161,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/262024c290574280ffe84aaaca4674e249e3ce38"
+    },
+    {
+      "path": "site/vitest.setup.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb32bff73b8136394328a7044519f30071ae1e48",
+      "size": 150,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/bb32bff73b8136394328a7044519f30071ae1e48"
+    },
+    {
+      "path": "skills",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7d5a96659e0bb181c2a0bd0085fa2275b94da889",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/7d5a96659e0bb181c2a0bd0085fa2275b94da889"
+    },
+    {
+      "path": "skills/nix-agent-init",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ce89580b0d1518f1b78c44ccd064bd7ea14d5b00",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/ce89580b0d1518f1b78c44ccd064bd7ea14d5b00"
+    },
+    {
+      "path": "skills/nix-agent-init/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "962f4d02935ab53266040af44754caf9c3978844",
+      "size": 7821,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/962f4d02935ab53266040af44754caf9c3978844"
+    },
+    {
+      "path": "skills/nix-agent",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "57d6d456ce7141b708deb1b206444ec2b0fd73a9",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/57d6d456ce7141b708deb1b206444ec2b0fd73a9"
+    },
+    {
+      "path": "skills/nix-agent/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4926b219e4bdcec05c7c839d54289916da535fa",
+      "size": 12789,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e4926b219e4bdcec05c7c839d54289916da535fa"
+    },
+    {
+      "path": "skills/nix-agent/TESTING.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66fa977e87e6ae145eb6f5cde1cdbf39645c4657",
+      "size": 3641,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/66fa977e87e6ae145eb6f5cde1cdbf39645c4657"
+    },
+    {
+      "path": "src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3fe3323b9527f251927259be55db7b8cadbdba73",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/3fe3323b9527f251927259be55db7b8cadbdba73"
+    },
+    {
+      "path": "src/nix_agent",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bcb3007125511f93cbd3ae55df7ec284c9e0827e",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/bcb3007125511f93cbd3ae55df7ec284c9e0827e"
+    },
+    {
+      "path": "src/nix_agent/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3eca4ab57516f5380824d0ccd69b1afd01dd5496",
+      "size": 233,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/3eca4ab57516f5380824d0ccd69b1afd01dd5496"
+    },
+    {
+      "path": "src/nix_agent/__main__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b85ebdf019b44b68869ae06047c0e26130b4ace2",
+      "size": 3198,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/b85ebdf019b44b68869ae06047c0e26130b4ace2"
+    },
+    {
+      "path": "src/nix_agent/bootstrap.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06ce341869bcad684f5d98de30838b3773b08ac3",
+      "size": 1390,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/06ce341869bcad684f5d98de30838b3773b08ac3"
+    },
+    {
+      "path": "src/nix_agent/health.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d49e5437143c25a65aa355573e4264e126c5295",
+      "size": 2448,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8d49e5437143c25a65aa355573e4264e126c5295"
+    },
+    {
+      "path": "src/nix_agent/hostattr.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e44f0e36e358f72ddc16442140147c5b86509cb",
+      "size": 2495,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/7e44f0e36e358f72ddc16442140147c5b86509cb"
+    },
+    {
+      "path": "src/nix_agent/logparse.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88adabbcc59cc3d8340b201a7f79997eaf947a93",
+      "size": 7010,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/88adabbcc59cc3d8340b201a7f79997eaf947a93"
+    },
+    {
+      "path": "src/nix_agent/metrics.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "47ed6af0eb29aa167b0fa2f9755690a1879d983a",
+      "size": 16915,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/47ed6af0eb29aa167b0fa2f9755690a1879d983a"
+    },
+    {
+      "path": "src/nix_agent/privilege.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "565d583bd285eb12aa4cf7ce37ed20fe815dfc5c",
+      "size": 1529,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/565d583bd285eb12aa4cf7ce37ed20fe815dfc5c"
+    },
+    {
+      "path": "src/nix_agent/runner.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "263aa2a5cf0450375a8ca9251fcf7849869e08e2",
+      "size": 5732,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/263aa2a5cf0450375a8ca9251fcf7849869e08e2"
+    },
+    {
+      "path": "src/nix_agent/server.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "382ded23b01702152a4b96998a16648782045fc8",
+      "size": 5262,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/382ded23b01702152a4b96998a16648782045fc8"
+    },
+    {
+      "path": "src/nix_agent/target.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a67faefe1c42976cff83364b98a270a5e0363230",
+      "size": 9118,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/a67faefe1c42976cff83364b98a270a5e0363230"
+    },
+    {
+      "path": "src/nix_agent/tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d59d3942981493af3415ee35a98db023d2bc364b",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/d59d3942981493af3415ee35a98db023d2bc364b"
+    },
+    {
+      "path": "src/nix_agent/tools/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "src/nix_agent/tools/build.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5916a5a744dc0b04182d55de5133793d070df3e5",
+      "size": 4854,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/5916a5a744dc0b04182d55de5133793d070df3e5"
+    },
+    {
+      "path": "src/nix_agent/tools/check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16b893a407eb1061a213c0f6847cd29165e71fcb",
+      "size": 6711,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/16b893a407eb1061a213c0f6847cd29165e71fcb"
+    },
+    {
+      "path": "src/nix_agent/tools/eval.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6cfee571630d84d8dc0d320afa780fe17159c3f9",
+      "size": 6745,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/6cfee571630d84d8dc0d320afa780fe17159c3f9"
+    },
+    {
+      "path": "src/nix_agent/tools/inspect_flake.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32ea54c74b0313b212cccc548121322bca33a22d",
+      "size": 6527,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/32ea54c74b0313b212cccc548121322bca33a22d"
+    },
+    {
+      "path": "src/nix_agent/tools/locate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5409a3356589cbef9adb44e158ca3828331de9d7",
+      "size": 6077,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/5409a3356589cbef9adb44e158ca3828331de9d7"
+    },
+    {
+      "path": "src/nix_agent/tools/switch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2d915cf3898f605aaaefc52cf309f763b7357a4",
+      "size": 13832,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e2d915cf3898f605aaaefc52cf309f763b7357a4"
+    },
+    {
+      "path": "tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "52409f5361a8ae23aa9ef5656dc6b22095f34e85",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/52409f5361a8ae23aa9ef5656dc6b22095f34e85"
+    },
+    {
+      "path": "tests/fixtures",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3f863ce61e1956d135cce9aef6503d97fe30d250",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/3f863ce61e1956d135cce9aef6503d97fe30d250"
+    },
+    {
+      "path": "tests/fixtures/builder-failure-exit-code.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d67a679fca6c88243ef51ead0bd6fef8134efa71",
+      "size": 504,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/d67a679fca6c88243ef51ead0bd6fef8134efa71"
+    },
+    {
+      "path": "tests/fixtures/builder-failure.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aada0fba8b41762f9f3d78bb11a968b5ca6434f9",
+      "size": 442,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/aada0fba8b41762f9f3d78bb11a968b5ca6434f9"
+    },
+    {
+      "path": "tests/fixtures/diff-closures.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16753b73ecd2fbb8a149f234bd4ddacaa0b63b3e",
+      "size": 19861,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/16753b73ecd2fbb8a149f234bd4ddacaa0b63b3e"
+    },
+    {
+      "path": "tests/fixtures/eval-error.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ff1abd526d9d6bbc70200e3b7244e204d89a5b1",
+      "size": 688,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/2ff1abd526d9d6bbc70200e3b7244e204d89a5b1"
+    },
+    {
+      "path": "tests/fixtures/nvd-diff.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8bfafcbcc587f00184a40f3a93a520b8d637f171",
+      "size": 42715,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8bfafcbcc587f00184a40f3a93a520b8d637f171"
+    },
+    {
+      "path": "tests/fixtures/systemctl-failed.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e73f0e272714329e0f0cfd97a3969d37eed6838",
+      "size": 437,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/5e73f0e272714329e0f0cfd97a3969d37eed6838"
+    },
+    {
+      "path": "tests/fixtures/tiny-flake",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "02aaa1982701e7d8f69d2ad4e217fec901006aad",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/02aaa1982701e7d8f69d2ad4e217fec901006aad"
+    },
+    {
+      "path": "tests/fixtures/tiny-flake/flake.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08c2e548185b4601296de39a35beadd889ec75e6",
+      "size": 178,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/08c2e548185b4601296de39a35beadd889ec75e6"
+    },
+    {
+      "path": "tests/snapshots",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a4aca0c4cf5e7e07fbc7bde9eb5f3199ca966cc6",
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/trees/a4aca0c4cf5e7e07fbc7bde9eb5f3199ca966cc6"
+    },
+    {
+      "path": "tests/snapshots/tool_envelopes.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef289c23c2b7407b1bb2803707df59eb52b532ea",
+      "size": 3702,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/ef289c23c2b7407b1bb2803707df59eb52b532ea"
+    },
+    {
+      "path": "tests/test_bootstrap.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31b3ccafc1c94ac505b7915d7bf3b4c306c62bc1",
+      "size": 1864,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/31b3ccafc1c94ac505b7915d7bf3b4c306c62bc1"
+    },
+    {
+      "path": "tests/test_build_diff.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db2a565f360456100c271225de0b6fdade1771df",
+      "size": 10602,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/db2a565f360456100c271225de0b6fdade1771df"
+    },
+    {
+      "path": "tests/test_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9cdfb731dadf306b673236bf006392bf026a348a",
+      "size": 8394,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/9cdfb731dadf306b673236bf006392bf026a348a"
+    },
+    {
+      "path": "tests/test_cli.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31b90419bc32cf6eec8c9423d1355891a09a5b5c",
+      "size": 611,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/31b90419bc32cf6eec8c9423d1355891a09a5b5c"
+    },
+    {
+      "path": "tests/test_distribution.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f704609ea5c2c8e556fcab0538814ed0a53e863a",
+      "size": 4201,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/f704609ea5c2c8e556fcab0538814ed0a53e863a"
+    },
+    {
+      "path": "tests/test_envelope_schemas.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b6471c9b5c676de2c80296ce5f9ad0f80634547",
+      "size": 7528,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/4b6471c9b5c676de2c80296ce5f9ad0f80634547"
+    },
+    {
+      "path": "tests/test_eval_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eda8a0e84e48321e5e8024c57fee39536063e0e3",
+      "size": 11628,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/eda8a0e84e48321e5e8024c57fee39536063e0e3"
+    },
+    {
+      "path": "tests/test_fixture_corpus.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04dc28fb618e176c3b87b7230e4d258c4f35d969",
+      "size": 1513,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/04dc28fb618e176c3b87b7230e4d258c4f35d969"
+    },
+    {
+      "path": "tests/test_fixture_quoting.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e238522a5d139af9c54d6fe786b3c2b7c1f1e83d",
+      "size": 404,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e238522a5d139af9c54d6fe786b3c2b7c1f1e83d"
+    },
+    {
+      "path": "tests/test_health.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b5e6d63d3d5aa4c1600f33358d1fc8f8bdc6d06f",
+      "size": 4998,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/b5e6d63d3d5aa4c1600f33358d1fc8f8bdc6d06f"
+    },
+    {
+      "path": "tests/test_imports.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9973c0928cc822b01da032d86eb6a09d4d8652a",
+      "size": 704,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/a9973c0928cc822b01da032d86eb6a09d4d8652a"
+    },
+    {
+      "path": "tests/test_inspect_flake.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ad042d749025a88cb9a322bfb1b0a1b61dfd6c7",
+      "size": 10413,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/1ad042d749025a88cb9a322bfb1b0a1b61dfd6c7"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f090d15d27a3234dd78ca85ac468c52b212519aa",
+      "size": 1317,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/f090d15d27a3234dd78ca85ac468c52b212519aa"
+    },
+    {
+      "path": "tests/test_locate_option.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60d8d886be259bf5330001ddba4e08904533415b",
+      "size": 7259,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/60d8d886be259bf5330001ddba4e08904533415b"
+    },
+    {
+      "path": "tests/test_logparse.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ba4546408f4a5b57bea5227cd04d5e5153ee1e2",
+      "size": 8076,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/8ba4546408f4a5b57bea5227cd04d5e5153ee1e2"
+    },
+    {
+      "path": "tests/test_mcp_smoke.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3ed28379c9bdeb7db4e8dbbf287fe611ddc0c1b",
+      "size": 1089,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/f3ed28379c9bdeb7db4e8dbbf287fe611ddc0c1b"
+    },
+    {
+      "path": "tests/test_metrics.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd4745b77beb7a018ec5d25b5b5bcd33a8c6bc43",
+      "size": 10179,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/fd4745b77beb7a018ec5d25b5b5bcd33a8c6bc43"
+    },
+    {
+      "path": "tests/test_public_content.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e4a2cde84e784b045032524df98b2f6fb6de7a3",
+      "size": 7979,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/3e4a2cde84e784b045032524df98b2f6fb6de7a3"
+    },
+    {
+      "path": "tests/test_runner.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "baad9ae024929229f9b37b2a5ef85020d4ee2193",
+      "size": 9968,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/baad9ae024929229f9b37b2a5ef85020d4ee2193"
+    },
+    {
+      "path": "tests/test_server.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01e4d8c4b29e53aed1368b081f5cacb31248d9f4",
+      "size": 954,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/01e4d8c4b29e53aed1368b081f5cacb31248d9f4"
+    },
+    {
+      "path": "tests/test_switch_generations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5f29267f857517ab83749c4acdf6aaed205fa0c",
+      "size": 33628,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/e5f29267f857517ab83749c4acdf6aaed205fa0c"
+    },
+    {
+      "path": "tests/test_target.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93c89f07534d9719b32e01c55985ee08d02fb2e5",
+      "size": 10857,
+      "url": "https://api.github.com/repos/JEFF7712/nix-agent/git/blobs/93c89f07534d9719b32e01c55985ee08d02fb2e5"
+    }
+  ],
+  "truncated": false
+}

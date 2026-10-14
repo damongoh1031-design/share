@@ -1,0 +1,856 @@
+   55|  0|  79736|@ethancedwards | ...To be honest, I doubt they've read the code. If someone left a review, I think the review would go https://gruhn.me/blog/2026-08-03/ straight to the LLM and the response would be fed back
+        https://discourse.nixos.org/t/None/79736/1
+   45|  0|  77567|@emily         | ...ixpkgs core team, we've https://github.com/NixOS/nixpkgs/pull/514587 proposed an initial policy covering the use of automation for Nixpkgs, including LLM‐based AI tools, for community rev
+        https://discourse.nixos.org/t/None/77567/1
+   45|  0|  64345|@Wimpy         | ...omplete builds. Each change to my workstations and servers required frustrating additional compilation time for things like 3rd party kernel modules, Ollama, custom package overrides, and
+        https://discourse.nixos.org/t/None/64345/1
+   32|  0|  66137|@cdepillabout  | ...ivation github.com https://github.com/cdepillabout/mkAIDerivation GitHub - cdepillabout/mkAIDerivation: Generate a Nix derivation on the fly using an LLM Generate a Nix derivation on the 
+        https://discourse.nixos.org/t/None/66137/1
+   28|  0|  78627|@lucasew       | ...nto account gotchas that a human would spend a lot of time checking. Today, Nixpkgs is heavily documented with well-written guidelines but lacks that LLM entry point. AGENTS would help? W
+        https://discourse.nixos.org/t/None/78627/1
+   27|  0|  71476|@mbrock        | ...sroot. So Nix truly shines here. Fil-C does require patching many programs. I wanted to know how the patches were actually done, so I used a bunch of Claude subagents to simultaneously re
+        https://discourse.nixos.org/t/None/71476/1
+   23|  0|  79113|@MagicRB       | ...l anything, please don't hesitate to contact me here, on matrix @magic_rb:matrix.redalder.org or Signal magic_rb.01 . If you're considering asking an LLM a question about this project, pl
+        https://discourse.nixos.org/t/None/79113/1
+   20|  0|  78964|@not-jack      | In every post I see about LLM usage in Nix/Nixpkgs/NixOS the community is divided. Considering PR's like https://github.com/NixOS/nixpkgs/pull/534657 exist, I would like to ask a...
+        https://discourse.nixos.org/t/None/78964/1
+   18|  0|  79501|@decentstates  | ...bit of a journey and ended up building https://codeberg.org/decentstates/nix-housing nix-housing . I wrote some blog posts that explain the idea (non-LLM): https://decentstat.es/posts/sha
+        https://discourse.nixos.org/t/None/79501/1
+   17|  0|  62640|@jamesbrink    | Wanted to share my mcp-nixos server with other who might find it helpful. I use AI editors / Agents and Claude a lot, this was a bit of a passion project for me as its a tool I really wanted
+        https://discourse.nixos.org/t/None/62640/1
+   17|  0|  65168|@olafkfreund   | ...ls DevEnv Management : Streamlined development environments Neovim Integration : NixOS-aware editor setup Multi-LLM Support : Ollama (local), OpenAI, Gemini, and more! :art: Beautiful Ter
+        https://discourse.nixos.org/t/None/65168/1
+   16|  0|  79704|@palo          | ...VanDalo/nixos-telemetry/blob/862a85f749df22d88158bfb34991cb7eccf7da12/OPTIONS.md OPTIONS.md Thanks! Regarding https://discourse.nixos.org/t/discourse-llm-policy/78302 : I must disclose th
+        https://discourse.nixos.org/t/None/79704/1
+   16|  0|  31246|@johnrichardrinehart| ...-23.11.20230803.d85f641.drv └───/nix/store/nq9dj7dpvazjg7n437hxbfcjly9di17b-system-path.drv └───/nix/store/yjbvja9b80zzzl2b21pr05z4z2269n38-capitaine-cursors-4.drv └───/nix/store/0yfa0rs0
+        https://discourse.nixos.org/t/None/31246/1
+   15|  0|  79202|@TLATER        | ...guration files, CLI No No No Docker-style client/server thing Very weird, was this created because the author doesn't grok systemd units and asked an LLM to write something in rust? Namin
+        https://discourse.nixos.org/t/None/79202/3
+   15|  0|  18741|@jeff-hykin    | SergeK: but that does not necessitate splitting nixpkgs into multiple repositories What if we can have our cake and eat it too. Or in this case; modularize nixpkgs without actually splitting
+        https://discourse.nixos.org/t/None/18741/84
+   14|  0|  76810|@JRMurr        | ...nixpkgs pkgs Note: while I did start this project a year ago myself, when i picked it back up a few months ago I've been primarily developing it with claude. If you feel strongly about vi
+        https://discourse.nixos.org/t/None/76810/1
+   14|  0|  21832|@roberth       | Movie script written by GPT-3 at nix.camp. Details below. No container deployment programs were hurt during the production of this script. INT. EELCO’S BEDROOM - NIGHT Yes! My p...
+        https://discourse.nixos.org/t/None/21832/1
+   13|  0|  79881|@SergeK        | ...subsequent or https://en.wikipedia.org/wiki/Van_Halen_test preceding discourse as "personal attacks" against the marginalized and vulnerable group of LLM enthusiasts:) Nix is […] deeply f
+        https://discourse.nixos.org/t/None/79881/11
+   12|  0|  76502|@randomizedcoder| ...build .#container` produces loadable OCI image - [ ] `nix flake check` passes smoke tests - [ ] `nix fmt` runs cleanly (idempotent) 🤖 Generated with [Claude Code](https://claude.com/claud
+        https://discourse.nixos.org/t/None/76502/2
+   11|  0|  80179|@olafkfreund   | ...unpopular here. I think documentation needs to be created towards agents more and more. Users will are using agents to gather information these days, llms.txt will be the hear and soul of
+        https://discourse.nixos.org/t/None/80179/1
+   11|  0|  70332|@musicmatze    | It seems that someone enabled Copilot on nixpkgs: https://github.com/NixOS/nixpkgs/pull/448223 Can we please disable it again?
+        https://discourse.nixos.org/t/None/70332/1
+   11|  0|  24341|@matthewcroughan| I found this really amusing, so I’m just gonna post it here. This was generated by ChatGPT. Ladies and gentlemen, let me tell you about Nix and NixOS, two of the most dangerous operating sys
+        https://discourse.nixos.org/t/None/24341/1
+   10|  0|  72275|@fieldempty    | Since NixOS is Unix-like system, with a text based interface, and configuration in one file, can LLM fully automate it? I'm just a casual NixOS user (mid-level at best), and I don't have any
+        https://discourse.nixos.org/t/None/72275/1
+   10|  0|  80177|@bitbloxhub    | I recently saw a Claude Co-authored-by in a PR: https://github.com/NixOS/nixpkgs/pull/561695#pullrequestreview-5271648988 github.com/NixOS/nixpkgs Pull Request https://githu...
+        https://discourse.nixos.org/t/None/80177/1
+   10|  0|  72028|@sunya         | ...you should definitely set up caching, since compiling from source will take hundreds of years and ultimately leave nothing for you. Google Gemini or ChatGPT know very little about Nix or 
+        https://discourse.nixos.org/t/None/72028/1
+    9|  0|  78262|@7c6f434c      | ...y enough to be done with the work to not consider the why very much Way too many people consider misguided at least one technical decision in Nix pre-ChatGPT-service-launch, though. Openi
+        https://discourse.nixos.org/t/None/78262/20
+    8|  0|  29018|@abathur       | ...ng this was up to anything, but the comment linked below (in response to an earlier comment correcting some misconceptions) sounds very much like how ChatGPT responds to being corrected: 
+        https://discourse.nixos.org/t/None/29018/1
+    8|  0|  25035|@blaggacao     | This is like ChatGPT for nixpkgs .
+        https://discourse.nixos.org/t/None/25035/11
+    7|  0|  76873|@arcstur       | Do you use coding agents within NixOS? If yes, what is your workflow? Which packages you use, services, etc? I was hoping to prepare one using Ollama as backend. Do you have any suggestions?
+        https://discourse.nixos.org/t/None/76873/1
+    7|  0|  63546|@Ericson2314   | ...ll NixOS on a friend's laptop (first time I did this in minute) and ran into these issues: When I booted into graphical installer didn't have a mouse cursor (?!), and I also couldn't use 
+        https://discourse.nixos.org/t/None/63546/1
+    7|  0|  78143|@dyrkon        | ...g the benefits of NixOS: reproducibility, declarative configuration and the ability to understand what is being deployed. I also experimented with an MCP server. Since Nix configuration i
+        https://discourse.nixos.org/t/None/78143/1
+    7|  0|  46894|@fricklerhandwerk| ...generate python interpreter table ( https://github.com/alejandrosame @alejandrosame ) https://github.com/NixOS/nixpkgs/pull/313146 #313146 Add nextjs ollama llm UI frontend for Ollama ( h
+        https://discourse.nixos.org/t/None/46894/1
+    6|  0|  61072|@pauldub       | https://waymarks.net/2025/03/02/00-claude-code-on-nixos Packaging Claude Code on NixOS
+        https://discourse.nixos.org/t/None/61072/1
+    6|  0|  80505|@kiara         | ...om/orgs/NixOS/projects/19) to [schedule and track reviews](https://github.com/NixOS/nix/tree/master/maintainers#project-board-protocol). Assisted-by: Claude:claude-opus-5-5
+        https://discourse.nixos.org/t/None/80505/6
+    6|  0|  79802|@tomberek      | ...uilds in a devShell and pure build can be the same thing. This leads to joy. Ref: can play with the idea at https://github.com/tomberek/nixgg#try-it (Claude alert)
+        https://discourse.nixos.org/t/None/79802/9
+    6|  0|  25175|@tobiasvandriessel| Hey everyone, Goal I’m a new NixOS user and my goal is to add my SSH key automatically to the SSH-agent using the KWallet at login time so that I just enter my passphrase at the first login 
+        https://discourse.nixos.org/t/None/25175/1
+    6|  0|  28379|@lucperkins    | https://determinate.systems/posts/open-policy-agent Determinate Systems https://determinate.systems/posts/open-policy-agent Packaging Open Policy Agent policies with Nix · Determinate System
+        https://discourse.nixos.org/t/None/28379/1
+    5|  0|  60594|@aabccd021     | Getting Started with Local LLM on NixOS (CUDA, Ollama, Open WebUI) https://www.youtube.com/watch Getting Started with Local LLM on NixOS (CUDA, Ollama, Open WebUI)
+        https://discourse.nixos.org/t/None/60594/1
+    5|  0|  78333|@TLATER        | ...inux kernel. Also nixpkgs, for that matter. I am with you that this is depressing, but it has become impossible to use any Linux system if protesting LLM use is your motivation. Your effo
+        https://discourse.nixos.org/t/None/78333/33
+    5|  0|  48382|@shivaraj-bh   | https://community.flake.parts/services-flake/llm services-flake https://community.flake.parts/services-flake/llm Local AI chatbot The llm example allows you to run advanced AI chatbots and s
+        https://discourse.nixos.org/t/None/48382/1
+    5|  0|  76061|@bouk          | ...t year. The naughty list linked from that thread already has Firefox and systemd in it and I'd be very surprised if the chromium developers don't use Gemini, since they work at Google. So
+        https://discourse.nixos.org/t/None/76061/57
+    5|  0|  78034|@Oslamelon     | Packages Pi for NixOS with declarative configuration support — models, keybindings, extensions via services.pi-coding-agent or programs.pi-coding-agent https://github.com/ChauDucToan/pi-flak
+        https://discourse.nixos.org/t/None/78034/1
+    5|  0|   4731|@lilyball      | pinentry has been https://github.com/NixOS/nixpkgs/commit/3d832dee59ed0338db4afb83b4c481a062163771 disabled by default . The commit includes a release note saying GnuPG is now built without 
+        https://discourse.nixos.org/t/None/4731/2
+    4|  0|  80199|@olafkfreund   | Portable skills for AI coding agents, maintained from pinned upstream sources. Notice!! This has been create with help of Claude,Codex and Antigravity agents with full human review. Skill Pu
+        https://discourse.nixos.org/t/None/80199/1
+    4|  0|  79124|@not-jack      | ...b.com/NixOS/nixpkgs/blob/57763c722af776b129ebfea46dc17a5421047ab9/CONTRIBUTING.md#automationai-policy AI policy requires you to disclose that this is LLM-assisted :slight_smile: Assisted-
+        https://discourse.nixos.org/t/None/79124/2
+    4|  0|  79021|@rhendric      | Am I talking to an LLM? I don't know how to be clearer: yes, NixOS has slower and more irregular package releases than other distros. Yes, this has some impact on the secur...
+        https://discourse.nixos.org/t/None/79021/12
+    4|  0|  79496|@tfc           | ...etta Build x86_64 Linux packages 2.5x faster on your Apple Silicon Mac with the new Rosetta-based linux-builder, a drop-in replacement in nix-darwin. LLM disclaimer: Image generated with 
+        https://discourse.nixos.org/t/None/79496/1
+    4|  0|  79267|@XanderTheDev  | ....elotouch.com/hc/en-us/p/Driver-Linux-AMD64 this driver to NixOS. They are really stupid drivers, they just use really old stuff. I just made it with Claude. I do not really care about yo
+        https://discourse.nixos.org/t/None/79267/1
+    4|  0|  77272|@crertel       | ...teristics) power over how they organize their sandbox VMs. LLMs have "solved" to a decent degree getting projects to build: I check out a repo, point Claude at it, say "figure out how to 
+        https://discourse.nixos.org/t/None/77272/2
+    4|  0|  77203|@mipmip        | Just created https://nixpaint.extranix.com/ this online drawing app as fun project for Nix promotion. Hope you like it. I shamelessly used claude to do all the typing. Btw I was inspired by 
+        https://discourse.nixos.org/t/None/77203/1
+    4|  0|  68131|@frozen.frog23 | .../en.wikipedia.org/wiki/On-board_diagnostics onboard diagnostic (OBD) tool (for https://github.com/nix-community/nix-on-droid nix-on-droid ) (WARNING: COPILOT SPOTTED!) https://github.com/
+        https://discourse.nixos.org/t/None/68131/5
+    4|  0|  14156|@toraritte     | The question is basically this ( https://unix.stackexchange.com/questions/132065/how-do-i-get-ssh-agent-to-work-in-all-terminals How do I get ssh-agent to work in all terminals? ) but for Ni
+        https://discourse.nixos.org/t/None/14156/1
+    3|  0|  78686|@collinarnett  | ...fzakaria 1 commits changed 2 files with 2 additions and 0 deletions https://github.com/NixOS/nixpkgs/pull/534657/files +2 -0 Add AGENTS.md to direct LLM agents to the Automation/AI policy
+        https://discourse.nixos.org/t/None/78686/5
+    3|  0|  79878|@AhmedAmrNabil | ...as part of the https://nixos.org/community/teams/ngi Nix@NGI packaging effort , funded by https://nlnet.nl NLnet under the NGI0 Core grant(s). Note: LLM was used to generate the descripti
+        https://discourse.nixos.org/t/None/79878/1
+    3|  0|  76300|@kiara         | ...by Mutsuha Asada on generating fixes for build failures planet nix 2026 talk by Anthropic employee Bernardo Meurer Costa introducing (as per the talk Claude-written) distributed nix build
+        https://discourse.nixos.org/t/None/76300/14
+    3|  0|  66183|@ciphergoth    | ...es directory will include soft links for both direct and peer dependencies. I'm pretty new to both Nix and the npm ecosystem and I've been relying on Claude Sonnet 4 to help me explore th
+        https://discourse.nixos.org/t/None/66183/1
+    3|  0|  75952|@DaVinci42     | ...scans all packages for available updates. However, some packages explicitly declare meta.platforms that does not include x86_64-linux — for example, chatgpt which only targets x86_64-darw
+        https://discourse.nixos.org/t/None/75952/1
+    3|  0|  25655|@akirak        | Recently, Microsoft has released playwright-mcp. Following this thread, I have packaged Playwright as a flake for MCP usage, so it can be run on NixOS: https://github.com/akirak/nix-playwrig
+        https://discourse.nixos.org/t/None/25655/54
+    3|  0|  78035|@Oslamelon     | I've made pi-coding-agent using nix flake. Here is my guide on how to implement it. # In your flake.nix inputs.pi-flake.url = "github:ChauDucToan/pi-flake"; I've made module for both nixpkgs
+        https://discourse.nixos.org/t/None/78035/1
+    3|  0|  75152|@hans4687      | https://michael.stapelberg.ch/posts/2026-02-01-coding-agent-microvm-nix/
+        https://discourse.nixos.org/t/None/75152/1
+    3|  0|  69349|@randomizedcoder| G'day, Quick demo video of ollama, open-webui, vscode, roo-code with AMD ROCM cards with NixOS ollama vscode roo-code basics on Linux NixOS with AMD ROCM https://www.youtube.com/watch...
+        https://discourse.nixos.org/t/None/69349/1
+    3|  0|  70636|@lads          | Hi all. I am familiar with two resources on the web: https://nixos-and-flakes.thiscute.world NixOS & Flakes Book (somewhat limited) https://saylesss88.github.io/ Saylesss 88 (untitled, possi
+        https://discourse.nixos.org/t/None/70636/1
+    3|  0|  76492|@nixables      | https://www.birkey.co/2026-03-22-why-i-love-nixos.html birkey.co https://www.birkey.co/2026-03-22-why-i-love-nixos.html Why I love NixOS Why I love NixOS is really about the Nix package mana
+        https://discourse.nixos.org/t/None/76492/1
+    2|  0|  78057|@mirkolenz     | Hi there, I created https://github.com/mirkolenz/llmhop LLMhop , a tiny OpenAI-compatible router to serve multiple LLM inference servers on the same machine, complete with a NixOS module to 
+        https://discourse.nixos.org/t/None/78057/1
+    2|  0|  77024|@willhansen    | I'm trying to set up an LLM coding assistant workflow (with opencode) that's adequately sandboxed in a container, but also has access to the dev shell flake that has all of the...
+        https://discourse.nixos.org/t/None/77024/1
+    2|  0|  77810|@TLATER        | No, the LLM is just throwing bullshit around. ++ concatenates lists. Your examples don't result in any nesting, you can try it out in the repl: nix-repl > attrse...
+        https://discourse.nixos.org/t/None/77810/18
+    2|  0|  80417|@withakay      | ...some limitations. https://decentstat.es/posts/nix-housing/ They also have the disclaimer in this article that the project nix-housing is "Obligatory: LLM assisted but not vibe-coded.", wh
+        https://discourse.nixos.org/t/None/80417/3
+    2|  0|  46561|@Gaditone      | The only way that Nixos can be popularized is if there was an LLM exclusive to the OS. I don’t see how “my Grandad” (to evoke a stereotypical non-technical user) would get around rebuild err
+        https://discourse.nixos.org/t/None/46561/10
+    2|  0|  78356|@samestep      | Oh hey, I got the same hash mismatch a few hours ago! I asked Claude to debug it, and it claims that this is due to http://cache.nixos.org cache.nixos.org somehow getting a straight-up wrong
+        https://discourse.nixos.org/t/None/78356/2
+    2|  0|  79444|@bitbloxhub    | AI USAGE: I used ChatGPT (GPT-5.6-Sol) to assist with design and planning, and Pi with GPT-5.6-Luna via openai-codex to help with implementation https://github.com/bitbloxhub/nix-grove githu
+        https://discourse.nixos.org/t/None/79444/1
+    2|  0|  73243|@Twice         | ...hrough publicly available information but couldn't find a good solution. As a result, I wrote a patch for calamares-nixos-extensions in nixpkgs using Codex ( https://github.com/PragmaTwic
+        https://discourse.nixos.org/t/None/73243/1
+    2|  0|  57458|@shackra       | Hi! I moved to hyprland from Gnome and for some apps it seems that the cursor just disappears, here is a video showcasing the issue: Watch NixOS cursor disappears on some apps under hyprland
+        https://discourse.nixos.org/t/None/57458/1
+    2|  0|  77030|@boxenlude     | ...pi/pi-coding-agent/package.nix pi-coding-agent package from unstable. It works fine, but installing extensions (e.g. https://www.npmjs.com/package/pi-mcp-adapter pi-mcp-adapter ) does not
+        https://discourse.nixos.org/t/None/77030/1
+    2|  0|  45146|@Technicus     | ...uild123d . System Information: $ nixos-version 24.05pre608655.ff0dbd94265a (Uakari) $ inxi -z CPU: 8-Core AMD Ryzen 7 7730U with Radeon Graphics (-MT MCP-) speed/min/max: 2061/400/4546 MH
+        https://discourse.nixos.org/t/None/45146/1
+    2|  0|  77738|@bitbloxhub    | https://github.com/bitbloxhub/skills-flake github.com https://github.com/bitbloxhub/skills-flake GitHub - bitbloxhub/skills-flake: Download and install agent skills declaratively... Download
+        https://discourse.nixos.org/t/None/77738/1
+    2|  0|  73209|@YPares        | https://github.com/YPares/rigup.nix github.com https://github.com/YPares/rigup.nix GitHub - YPares/rigup.nix: Build your AI agent's rig: parameterizable skills... Build your AI agent's rig: 
+        https://discourse.nixos.org/t/None/73209/1
+    2|  0|  25394|@supermarin    | Is there a way to use nix https://nixos.org/manual/nix/stable/advanced-topics/distributed-builds.html remote builds with a Yubikey (using yubikey-agent)? I’m trying to avoid maintaining a se
+        https://discourse.nixos.org/t/None/25394/1
+    2|  0|   6354|@colemickens   | My understanding is that the nix-daemon does the actual work of SSHing to the remote builder. How do I manage this when using a gpg-agent-protected SSH key? $ nix build -f default.nix --buil
+        https://discourse.nixos.org/t/None/6354/1
+    2|  0|  64355|@mipmip        | My PR with a flake.nix just got merged in Newelle, a promissing GenAI assistant made with gtk and python. Have a try: nix run github:qwersyk/Newelle
+        https://discourse.nixos.org/t/None/64355/1
+    2|  0|  68444|@randomizedcoder| ...efcbca0348e9e8ac42fad6263ec9f91/docs/troubleshooting.md#amd-gpu-discovery loadModels = [ "nomic-embed-text:latest" "codellama:34b" "llama3.2:latest" "gpt-oss:20b" "deepseek-r1:32b" "llama
+        https://discourse.nixos.org/t/None/68444/1
+    2|  0|  52503|@digitalrobot  | ...: # disk-configuration.nix disko.devices.disk = { "myBtrfsRaid1" = { type = "disk"; device = "/dev/disk/by-id/ < ...disk1... > "; content = { type = "gpt"; # TIP: omit this line for a btr
+        https://discourse.nixos.org/t/None/52503/2
+    2|  0|  77525|@gamebeaker    | ...hiscute.world/introduction/ Nixos & Flakes Book And than use flakes to only use the unstable channel for pipewire. At the moment i use this setup for ollama as the new gemma models don't 
+        https://discourse.nixos.org/t/None/77525/2
+    1|  0|  45183|@jmeland       | ...ry new nix user here. Been slogging through nix-darwin setup the last few days. Emphasis on slog. But still excited. I use a neat tool called https://llm.datasette.io/en/stable/ llm to ac
+        https://discourse.nixos.org/t/None/45183/1
+    1|  0|  75847|@randomizedcoder| ...mited resources and time, to constantly scan the repo, mark broken ones, and use some automation to create pull requests to fix them. Similarly, some LLM help on nixpkgs pull request revi
+        https://discourse.nixos.org/t/None/75847/5
+    1|  0|  59565|@waffle8946    | ...p to your package list without the overlay would of course not work, since nixpkgs has no such attribute at the top-level called xsaneGimp . Finally, LLMs are downright insane and tend to
+        https://discourse.nixos.org/t/None/59565/2
+    1|  0|  80257|@kucendro      | ...f caching like https://github.com/nix-community/harmonia Harmonia , but not good for "I just want a fast sketch". (I was informed, I need to disclose LLM usage for projects. I am so sorry
+        https://discourse.nixos.org/t/None/80257/1
+    1|  0|  76983|@bitbloxhub    | ...her container-libs based tools Needs an overlay to patch Podman/CRI-O, see https://github.com/containers/container-libs/issues/747 . A lot of this is LLM-generated, but I do understand mo
+        https://discourse.nixos.org/t/None/76983/1
+    1|  0|  60645|@JosW          | Perhaps the info on Cuda in this video might be helpfull also? Getting Started with Local LLM on NixOS (CUDA, Ollama, Open WebUI) https://www.youtube.com/watch Getting Started with Local LLM
+        https://discourse.nixos.org/t/None/60645/20
+    1|  0|  77238|@s-celles      | ...lready found on this forum A few threads touch the topic without really covering it: NixOS automation with AI — describes a two-machine architecture (LLM "brain" + NixOS "body"), but stay
+        https://discourse.nixos.org/t/None/77238/1
+    1|  0|  74259|@nicabate      | Managing Multiple NixOS Machines with Claude Code via SSH TL;DR I'm using Claude Code (Anthropic's AI CLI) running in a dedicated LXC container to manage multiple NixOS machines via SSH over
+        https://discourse.nixos.org/t/None/74259/1
+    1|  0|  58257|@kiara         | ...DME.md]: https://github.com/NixOS/nixpkgs/blob/master/pkgs/README.md [pkgs/test]: https://github.com/NixOS/nixpkgs/blob/master/pkgs/test Assisted-by: Claude:claude-opus-5-5 https://claude
+        https://discourse.nixos.org/t/None/58257/47
+    1|  0|  78120|@TLATER        | ...ick-walt: It is a setting within Noctalia's own configuration, passed through the Home Manager module's settings attribute That's what I said. Though claude is wrong about how it all work
+        https://discourse.nixos.org/t/None/78120/6
+    1|  0|  73727|@meoowdypardner| ...prismlauncher mpv gimp krita godot swayimg # Utilities wl-clipboard cliphist speedtest protonvpn-gui kdePackages.dolphin brillo pywal mako quickshell claude-code kdePackages.ark # Librari
+        https://discourse.nixos.org/t/None/73727/1
+    1|  0|  49867|@jevy          | Same deal: nix run git+https://src.thehellings.com/greg/aider-flake Loaded /home/jevin/code/personal/typestream/.env Aider v0.47.1 Models: claude-3-5-sonnet-20240620 with diff edit format, w
+        https://discourse.nixos.org/t/None/49867/38
+    1|  0|  78414|@crertel       | ...the issues you were having? It might help figure out if it's NixOS being the wrong answer for your problem space, if it's something that other LLMs (Claude) might be better at, or somethi
+        https://discourse.nixos.org/t/None/78414/6
+    1|  0|  67383|@diyornv       | how to update cursor ai editor. I tried it sudo nix-channel --update but it didn't update i installed it via configuration.nix
+        https://discourse.nixos.org/t/None/67383/1
+    1|  0|  63882|@kamransoomro84| ...lising that http://nixos.org nixos.org is not just about the OS. To be very honest the documentation is hell and very hard to parse. If I didn't have Claude to help me create flakes and e
+        https://discourse.nixos.org/t/None/63882/13
+    1|  0|  59925|@mindtree      | ...dumping all of the info on nix cross compilation I could find on the internet, I managed to get the derivation building for wasm successfully! I got claude to summarise everything I learn
+        https://discourse.nixos.org/t/None/59925/2
+    1|  0|  79498|@bitbloxhub    | ...ally. Thanks for explaining. It looks like the nix-store --export format does not have CA/FOD info, and your jq was returing .drv s. With the help of ChatGPT (GPT-5.6-Sol) I got it to mak
+        https://discourse.nixos.org/t/None/79498/11
+    1|  0|  77641|@snuggleton    | ...orum discussions about people experiencing similar problems and it looks like satisfactory resolutions are rare. I don't usually do this, but I asked ChatGPT for advice. I've been trying 
+        https://discourse.nixos.org/t/None/77641/1
+    1|  0|  79803|@bitbloxhub    | Can you find the derivation path for that gix-url derivation and run this (ChatGPT (GPT-5.6-Sol) assisted, but seems to work decently at getting derivation phases/hooks/whatever) script on i
+        https://discourse.nixos.org/t/None/79803/8
+    1|  0|  68028|@rcmlz         | ...kages; propagatedBuildInputs = buildEnvPackages; but that apparently did not work. I am also a beginner in Nix. Maybe someone with more experience or ChatGPT & Co. can help with b.)? Howe
+        https://discourse.nixos.org/t/None/68028/11
+    1|  0|  50844|@Saeverix      | ...(specifically the upstream branch) is also used in Arch Linux, so I know they work for my fingerprint scanner. With the help of the documentation and ChatGPT I manager to create a working
+        https://discourse.nixos.org/t/None/50844/1
+    1|  0|  66242|@stultiloquator| ...here (as suggested by https://nixos.org/download/#nixos-more the NixOS download page ), but finding the binaries is not clear to a plebe like myself. ChatGPT helped, kind of, by providing
+        https://discourse.nixos.org/t/None/66242/1
+    1|  0|  42778|@JackPala      | ...at user had perfect Wayland + NixOS + Nvidia + Plasma KDE So I nuked my KDE config for my current user and it worked. I it runs perfectly now. I used ChatGPT to create a small script to n
+        https://discourse.nixos.org/t/None/42778/3
+    1|  0|  35733|@adisbladis    | ...it compares in terms of memory needed for evaluation. I also wanted to know what the impact was so I converted an arbitrary nixpkgs package ( github-copilot-cli ) with a package-lock.json
+        https://discourse.nixos.org/t/None/35733/3
+    1|  0|  36652|@lenny         | Hey, I wanted to try and run a github copilot-like setup locally on my nixos machines but ran into some packaging issues. The way to do it right now seems to be the https://continue.dev/ ext
+        https://discourse.nixos.org/t/None/36652/1
+    1|  0|  78979|@FoxPhD        | ...memory of my first attempt at nixifying. I ported my settings over to Home Manager, with the express purpose of moving to VSCodium and away from MS's copilotification of VSCode. I also st
+        https://discourse.nixos.org/t/None/78979/7
+    1|  0|   6949|@milahu        | ...tch#title=Why%20You%20Should%20Not%20Learn%20to%20Code.%20by%20TechLead automate updating of packages automate adding new packages, similar to github copilot (AI pair programmer) integrat
+        https://discourse.nixos.org/t/None/6949/15
+    1|  0|  12062|@carnotweat    | ...to be cross-compiled in other flakes. This also limits how i write overlays https://git.sr.ht/~ehmry/sigil/tree/post-mortem/item/overlay/default.nix gemini://gemini.spam.works/~emery/sigi
+        https://discourse.nixos.org/t/None/12062/17
+    1|  0|  76891|@XiaoXiao      | ...security wrappers, GNOME) back to pure stable pkgs . Quarantined Unstable via Overlay: For the few apps that actually need to be bleeding edge (like gemini-cli or ollama ), I set up a pro
+        https://discourse.nixos.org/t/None/76891/7
+    1|  0|  74848|@kriswilk      | ...52436d717b here . But since it was not (at all!) obvious to me and may be a trap that others land in… here is the more detailed explanation (courtesy Gemini 3 Pro): -– Somewhere in your f
+        https://discourse.nixos.org/t/None/74848/3
+    1|  0|  19905|@moritzschaefer| I use the Vanilla-DMZ cursor theme, as described in the wiki ( https://nixos.wiki/wiki/Cursor_Themes Cursor Themes - NixOS Wiki ). This seems to work fine for most applications,...
+        https://discourse.nixos.org/t/None/19905/1
+    1|  0|  33595|@Hubro         | ...Sandven"; extraGroups = [ "networkmanager" "wheel" ]; shell = pkgs.zsh; packages = with pkgs; [ ]; }; home-manager.users.tomas = { pkgs, ... }: { gtk.cursorTheme.package = pkgs.gnome.adwa
+        https://discourse.nixos.org/t/None/33595/1
+    1|  0|  12622|@noj           | ...o.0 #7 0x00007f72c04528af in g_log () from /nix/store/ai5054xzilz0q285c0ldabmkvhyyl6yq-glib-2.64.6/lib/libglib-2.0.so.0 #8 0x00007f72bf7f67e8 in meta_cursor_sprite_xcursor_realize_texture
+        https://discourse.nixos.org/t/None/12622/1
+    1|  0|  73166|@jhsware       | I have released a new version of nix-infra with experimental Model Context Protocol (MCP) support. The two template projects have been updated with improved testing support and a Mariadb Gal
+        https://discourse.nixos.org/t/None/73166/1
+    1|  0|  72289|@Kamilcuk      | Github is blocked at my company: $ nix profile install nixpkgs#{chrome,firefox,mcp-hub} warning: 'install' is a deprecated alias for 'add' [4.2/45.6 MiB DL] downloading 'https://github.com/N
+        https://discourse.nixos.org/t/None/72289/1
+    1|  0|  31645|@kvtb          | Situation: I’m running mbsync every few minutes (configured using home-manager), which uses pass to retrieve the imap password. Pass needs to decrypt, so it depends on GnuPG GPG and gpg-agen
+        https://discourse.nixos.org/t/None/31645/1
+    1|  0|  25660|@rampion       | According to man configuration.nix , enabling services.yubikey-agent should start yubikey-agent on login: services.yubikey-agent.enable Whether to start yubikey-agent when you log in. Also s
+        https://discourse.nixos.org/t/None/25660/1
+    1|  0|  61714|@Culottes      | I recently migrated from Arch Linux to NixOS, but I have a problem since my migration I can't use my Yubikey with ssh. I get an error when I do ssh-add < path of ssh key of type sk > : Could
+        https://discourse.nixos.org/t/None/61714/1
+    1|  0|  24750|@tailrecursive | I have gpg-agent running by systemd unit with the following config: # home-manager configuration programs.gpg = { enable = true; package = pkgs.unstable.gnupg; }; services.gpg-agent = { enab
+        https://discourse.nixos.org/t/None/24750/1
+    1|  0|  59416|@Taverius      | I'm have some issues running NixOS (24.11) inside Proxmox, is anyone else seeing the same behaviour? qemu-guest-agent enabled snapshot backups fail. The guest agent issues fs-freeze to NixOS
+        https://discourse.nixos.org/t/None/59416/1
+    1|  0|  55499|@NathanRHD     | Hello! I am using the https://search.nixos.org/packages figma-agent package by installing it in my config.nix systemPkgs I think I’d quite like the agent to run on startup, in the background
+        https://discourse.nixos.org/t/None/55499/1
+    1|  0|  40563|@mipmip        | When deploying NixOS on a EC2 in AWS we noticed CloudWatch Agent was missing. Here is a rough https://github.com/wearetechnative/amazon-cloudwatch-agent-nix 1st version of a flake to install
+        https://discourse.nixos.org/t/None/40563/1
+    1|  0|  45405|@c4f3z1n       | In order to store and use my SSH host keys in a PGP format I’m trying the following approach inspired by https://github.com/nix-community/home-manager/blob/ab5542e9dbd13d0100f8baae2bc2d68af9
+        https://discourse.nixos.org/t/None/45405/1
+    1|  0|  32225|@random        | hey! i have tried to make polkit work and it worked for a time, and it is not working anymore IDK why. my nixos configuration - # Polkit systemd = { user.services.polkit-gnome-authentication
+        https://discourse.nixos.org/t/None/32225/1
+    1|  0|  77040|@magicquark    | The bug was reported in this issue: https://github.com/NixOS/nixpkgs/issues/465173 github.com/NixOS/nixpkgs Issue https://github.com/NixOS/nixpkgs/issues/465173 python3Packages.proton-vpn-lo
+        https://discourse.nixos.org/t/None/77040/3
+    1|  0|  30162|@kfound        | ...this is also the case for hand-rolled ISOs. My working hypothesis is that the machine (which does not support legacy boot at all) will only recognise GPT-formatted USB boot devices. From 
+        https://discourse.nixos.org/t/None/30162/1
+    1|  0|  79151|@ellipsis      | ...ng sudo nixos-rebuild switch ends in the same bootloader error /nix/store/2ygh3qwdxsxk6b069y1m7hmkcxfh11kd-grub-2.12/sbin/grub-install: warning: this GPT partition label contains no BIOS 
+        https://discourse.nixos.org/t/None/79151/1
+    1|  0|  62762|@ElvishJerricco| ...which explains why initrd doesn't find the partition (the uuid is retrieved from the file system on the partition, not from the partition uuid in the GPT). How did you resize nixos to mak
+        https://discourse.nixos.org/t/None/62762/2
+    1|  0|  77533|@ng0177        | The solution provided in https://discourse.nixos.org/t/how-to-run-ollama-service-from-unstable-channel/76101 seems not to work any longer. Ollama versions available are: 0.21 stable 0.22 uns
+        https://discourse.nixos.org/t/None/77533/1
+    1|  0|  75581|@ziggy         | ...ions root=UUID=your_nixos_UUID init=/nix/var/nix/profiles/system/init loglevel=4 lsm=landlock,yama,bpf "your_nixos_UUID" means the UUID of your nixos GPT partition. Verify accuracy of con
+        https://discourse.nixos.org/t/None/75581/1
+    1|  0|   6983|@stianlagstad  | ...l live cd from https://channels.nixos.org/nixos-20.03/latest-nixos-plasma5-x86_64-linux.iso here Use rufus on the windows laptop to create a bootable gpt & uefi drive Here’s a screenshot 
+        https://discourse.nixos.org/t/None/6983/1
+    1|  0|  79279|@bitbloxhub    | ...-flake Can manage reapack extensions! https://github.com/bitbloxhub/nixos-config/commit/6b74b5fbbebd76a21eb7fac78a0788c39cc58159 … Co-authored-by: Pi/GPT-5.6-Luna < gpt-5.6-luna@pi.local 
+        https://discourse.nixos.org/t/None/79279/6
+    1|  0|  69337|@kekneus373    | that config gpt gave you is part of avahi service file which nixos basically redirects from system configuration to /etc/avahi/services/samba.service . you asked me...
+        https://discourse.nixos.org/t/None/69337/3
+    1|  0|  50798|@superpim      | ...#1-NixOS SMP Thu Jul 18 11:21:27 UTC 2024 aarch64 GNU/Linux I ran the following (installation) commands: DISK=/dev/sda parted --script $DISK mklabel gpt parted --script $DISK mkpart ESP f
+        https://discourse.nixos.org/t/None/50798/1
+    1|  0|  42353|@bzLem0n       | ...orks fine. I installed NixOS onto a USB-C SSD last weekend with a BTRFS on LUKS setup and there are only a few things I needed to do differently. Use GPT partition table and an EFI bootlo
+        https://discourse.nixos.org/t/None/42353/7
+    1|  0|  43017|@tigheni       | ...ng was getting in the way Installing for i386-pc platform. /nix/store/4ifsgb6ljch39yrshhcr5m8z3q5jzb8g-grub-2.12-rc1/sbin/grub-install: warning: this GPT partition label contains no BIOS 
+        https://discourse.nixos.org/t/None/43017/1
+    1|  0|  59718|@pixL404       | ...ystem.stateVer sion = "unstable"; nixpkgs.config.rocmSupport = true; services = { ollama = { enable = true; home = "/var/lib/ollama"; loadModels = [ "deepseek-r1:14b" "deepseek-coder-v2" 
+        https://discourse.nixos.org/t/None/59718/1
+    1|  0|  79248|@kenucaf       | Hmm, someone flagged the solution I posted that I got from DeepSeek (and attributed as such) and the post was hidden… Apparently there's some policy against good answers if they came from AI
+        https://discourse.nixos.org/t/None/79248/15
+    1|  0|  62734|@wroclaw       | This should be enough in NixOS configuration mouile { services.ollama = { enable = true; acceleration = "rocm"; }; } or package override { pkgs ? import < nixpkgs > {} }: pkgs.ollama.overrid
+        https://discourse.nixos.org/t/None/62734/2
+    1|  0|  74675|@bachp         | ...nixpkgs that have dedicated -cuda and -rocm variants. But if I understand correctly they could all be replaced by their pkgsCuda or pkgsRocm variant. ollama-cuda = > pkgsCuda.ollama pytho
+        https://discourse.nixos.org/t/None/74675/1
+    1|  0|  62600|@nPrevail      | ...now, and it's been great! Something I've noticed, as I've added more into my configuration.nix file, especially now that my configurations installs: ollama, specialisations for AMD and Nv
+        https://discourse.nixos.org/t/None/62600/1
+    1|  0|  46388|@nPrevail      | ...v832r2c0sixvnbcvmhc3913b9s4kj-rocblas-6.0.2.drv /nix/store/gxmqynh260796zg1pgjbb8qg3166qha0-rocm-path.drv /nix/store/f6ayxd7fa3lpc5ljghgn5v9j7zg0zyhy-ollama-0.1.38.drv /nix/store/6fchpys8
+        https://discourse.nixos.org/t/None/46388/1
+    1|  0|  51713|@Darren        | ...eas I’ve been looking through forms trying to find something for the past 4 days, the main thing I want to use my gpu for is rendering and stuff like ollama (which unfortunately doesn’t w
+        https://discourse.nixos.org/t/None/51713/1
+    1|  0|  44053|@rjpc          | Thanks for everything, Mario! I just recently used a branch of yours to workaround some issue with ollama May God bless you for all your work and contributions to nixpkgs. Stay steadfast.
+        https://discourse.nixos.org/t/None/44053/23
+    1|  0|  72944|@waffle8946    | There's also a readme for the nixos setup: https://github.com/Gnarus-G/maccel/blob/main/README_NIXOS.md (though it says the module was vibe-coded :neutral_face: )
+        https://discourse.nixos.org/t/None/72944/3
+    1|  0|  55397|@viraptor      | Ooops, I accidentally an actool reimplementation. https://github.com/viraptor/actool It got very minimal testing and is purely vibecoded, but seems to work better than what we ship in nixpkg
+        https://discourse.nixos.org/t/None/55397/13
+    1|  0|  67313|@rnhmjoj       | Probably you can cut the middleman and ask your favourite LLM to write you one of those NixOS books.
+        https://discourse.nixos.org/t/None/67313/4
+    1|  0|  73275|@kiara         | i dunno if that snippet like came from an LLM, but invoking the separate package sounds like non-idiomatic usage to me. the nixos wiki does have an https://wiki.nixos.org/wiki/Niri article o
+        https://discourse.nixos.org/t/None/73275/2
+    1|  0|  64130|@summitbc      | I've also configured boot.loader.efi.efiSysMountPoint = "/boot/efi"; because I followed https://gist.github.com/ladinu/bfebdd90a5afd45dec811296016b2a3f this guide for encrypted /boot on NixO
+        https://discourse.nixos.org/t/None/64130/5
+    0|  0|   3032|@raboof        | ...hub.com/NixOS/nixpkgs/pull/74174 github.com/NixOS/nixpkgs Pull Request https://github.com/NixOS/nixpkgs/pull/74174 make-iso9660-image: produce stable GPT disk GUID NixOS:master ← raboof:f
+        https://discourse.nixos.org/t/None/3032/105
+    0|  0|   2617|@WolfangAukang | ...files +33 -0 ###### Motivation for this change [**gmid**](https://github.com/omar-polo/gmid) https://github.com/NixOS/nixpkgs/pull/141659 … is a fast Gemini server written with security i
+        https://discourse.nixos.org/t/None/2617/410
+    0|  0|  77419|@Beach-Bum     | ...is built around reviewable changes. But most AI agent tooling just runs shell commands and hopes for the best. Agentix is a control layer between an LLM and your NixOS/flake configuration
+        https://discourse.nixos.org/t/None/77419/1
+    0|  0|  66276|@torgo         | ...nges one makes via the GUI. This seems to me (unless I'm missing something) to create a challenge for using Home manager. I brainstormed this with an LLM and it gave me three options, nei
+        https://discourse.nixos.org/t/None/66276/1
+    0|  0|  75338|@PenguinRising | ...nyway). And from all the searching I have done, it appears that the way to create a network namespace declaratively is through a systemd service. The LLM-generated answer on how to do tha
+        https://discourse.nixos.org/t/None/75338/10
+    0|  0|  70867|@katsboxofhustles| ...ng environment over the next year in order to build the best collegiate note-taking personal information system possible using only FOSS tools and an LLM." Now it's October, and I've gone
+        https://discourse.nixos.org/t/None/70867/1
+    0|  0|  79490|@ruro          | Cool idea. I have to ask though: was an LLM involved in the creation of this project? Also, what if version "1.0.0" of some package "foo" was broken in one nixpkgs revision and then removed 
+        https://discourse.nixos.org/t/None/79490/9
+    0|  0|  69851|@dcunit3d      | ...tes its main sources with the installation… oh i forgot that nixpkgs does that too. it's really the best way to find answers (not the browser and not LLM). you find information about thin
+        https://discourse.nixos.org/t/None/69851/21
+    0|  0|  80256|@Oneechan69    | ...nd a thinkpad x1 carbon. When I closed the lid, my monitor is the only display but up to a few mins later the laptop screen turns back on. I asked an llm and tried this configuration and 
+        https://discourse.nixos.org/t/None/80256/1
+    0|  0|  62272|@teh           | ...source drop-in replacement for Bambu Studio's... Open-source drop-in replacement for Bambu Studio's proprietary `bambu_networking` plugin. I asked an LLM to review the code and create a d
+        https://discourse.nixos.org/t/None/62272/30
+    0|  0|  71543|@sshine        | Is anyone familiar with pre-existing Nix wrappers for isolating Claude Code? I am thinking of something like running Claude Code inside either a virtual machine with a volume mount, or a sys
+        https://discourse.nixos.org/t/None/71543/1
+    0|  0|  79668|@Mowerick      | https://github.com/Mowerick/claude-desktop-nix
+        https://discourse.nixos.org/t/None/79668/1
+    0|  0|  69953|@batou069      | ...ls For USB Devices gcr # Dev Stuff nixd nh ]) ++ (with pkgs.unstable; [ bc curl glib # for gsettings to work fastfetch jq nwg-look swww nix-search-tv claude-code bitwarden-cli ruff bitwar
+        https://discourse.nixos.org/t/None/69953/10
+    0|  0|  65667|@jumperthumper | I've installed claude and it comes with this update script https://github.com/NixOS/nixpkgs/pull/384860/files . The installed version is out of date. How do I actually run...
+        https://discourse.nixos.org/t/None/65667/1
+    0|  0|  78827|@crertel       | If your gaming works on other linux distros, you'll be fine here. Do a GUI installer, and do nix-shell -p claude-code or similar, and it'll get you the rest of the way. You can learn by watc
+        https://discourse.nixos.org/t/None/78827/15
+    0|  0|  78591|@sinisterpillow| Some responses from people on other platforms that did not work perfectly: "I had the same issue a couple months back, i asked claude back then and got: sudo nix-store --gc --print-dead 2 > 
+        https://discourse.nixos.org/t/None/78591/2
+    0|  0|  77345|@zoechi        | claude-code came up with this (after many attempts) Perhaps it's useful to anyone: Got this working on NixOS with the KanIDM NixOS module + oauth2-proxy. Po...
+        https://discourse.nixos.org/t/None/77345/2
+    0|  0|  77321|@LVy-H         | ...state/nix/profile/bin:/etc/profiles/per-user/hoang/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin . I added the ~/.local/bin to use claude code, everything else is the d
+        https://discourse.nixos.org/t/None/77321/3
+    0|  0|  76505|@aljones15     | ...at builds on top of opencv. The project is called OpenCFU: https://github.com/qgeissmann/OpenCFU I have two basic scripts so far (TBH these came from claude 4.6): default.nix let pkgs = i
+        https://discourse.nixos.org/t/None/76505/1
+    0|  0|  60615|@jaylward      | ...to 1.23.5. I found that I needed to set the version using underscores like pkgs.go_1_24 by searching through GitHub for examples and then also asking Claude… but then I could not get Clau
+        https://discourse.nixos.org/t/None/60615/1
+    0|  0|  58678|@s-celles      | ...-global/dsm/feature/active_directory I'm quite new to NixOS but want to connect it to this AD. I'm using NixOS in Windows 11 thanks to WSL. Thanks to Claude.ai I did a nearly good enough 
+        https://discourse.nixos.org/t/None/58678/1
+    0|  0|  49793|@shmu26        | ...driver, in my case “brmfcfaxdrv-2.0.1-1.i386.deb” which comes in both deb and rpm flavors. I got it installed on NixOS by following instructions from claude.ai chat: Extract the .deb pack
+        https://discourse.nixos.org/t/None/49793/1
+    0|  0|  79238|@KerrnelPanic  | ...easily expandable to an example where you pin the version. Another thing to keep in mind, some tools are evolving so quickly (maybe because of cheap claude code) that even nix' unstable l
+        https://discourse.nixos.org/t/None/79238/46
+    0|  0|  78563|@AWildLeon     | ...additions and 0 deletions https://github.com/NixOS/nixpkgs/pull/543254/files +7492 -0 > **Note:** the overview below was drafted with AI assistance (Claude Sonnet 5), https://github.com/N
+        https://discourse.nixos.org/t/None/78563/7
+    0|  0|  63342|@rabbit-aaron  | I had the same problem, i figured it out with claude code, : https://github.com/rabbit-aaron/airplay-receiver-nixos/tree/generic-config
+        https://discourse.nixos.org/t/None/63342/11
+    0|  0|  78555|@Felipe-9      | ...ese patches ( https://github.com/armbian/build ) I feel like im doing everything wrong, does anyone have experience installing nixos on a SoCs? Using claude i went as far as writing this:
+        https://discourse.nixos.org/t/None/78555/1
+    0|  0|  57066|@Figgymandias  | @Elias-Graf I've had the same problem as you and thanks to this current thread, this thread and a good dose of claude (full disclosure: i'm a total nixos noob), I've managed to get it workin
+        https://discourse.nixos.org/t/None/57066/6
+    0|  0|  76088|@Oneechan69    | ...linked): environment.systemPackages = [ pkgs.uv ] programs.nix-ld = { enable = true; libraries = [ config.boot.kernelPackages.nvidia_x11 ]; } I asked Claude and it listed some packages wi
+        https://discourse.nixos.org/t/None/76088/3
+    0|  0|  75363|@trumee        | Hello, I have used Opencode with Anthropic Claude Opus 4.5 to modify the nix code and it does a very good job. The downside is it needs subscription and privacy is an issue. Is there any rec
+        https://discourse.nixos.org/t/None/75363/1
+    0|  0|  68835|@TomMD         | How did this experience turn out? I was trying to (get claude to) port a Python image classifier into Rust and a nix flake but it sounds like things are about to hit a snag unless I upstream
+        https://discourse.nixos.org/t/None/68835/4
+    0|  0|  72248|@onnimonni     | ...duckdb lib? Is there a way for me to search with filenames from nix packages? What would be the best course of action to include this in my project? Claude Code currently helped me to do 
+        https://discourse.nixos.org/t/None/72248/1
+    0|  0|  71358|@viluon        | ...ible is then used again to determine whether to apply a patch or not. More importantly though, I'd like to understand what's wrong. I've tried asking Claude for pointers but the results w
+        https://discourse.nixos.org/t/None/71358/1
+    0|  0|  69757|@behrangsa     | ...h file nixpkgs.tar.gz Thanks heaps for all the advice! Edit 1: NOTE: In the first version of this comment, I had added some how-to guide generated by Claude. It had some issues and inaccu
+        https://discourse.nixos.org/t/None/69757/3
+    0|  0|  61596|@NoidoDev      | ...le. I can't find any of it in the repo on the website and "lprng" does not install. This is what I want to do - The output is from my discussion with Claude AI: Thanks for providing that 
+        https://discourse.nixos.org/t/None/61596/1
+    0|  0|  60506|@jgarvin       | ...as rebuilding everything used to bootstrap nix itself with the flag, so bison, perl, gcc, etc were all getting rebuilt too which is overkill. So with Claude's help I came up with this: { 
+        https://discourse.nixos.org/t/None/60506/1
+    0|  0|  63192|@JackPala      | Hey guys I made an OpenAI codex .nix file that seems to work: https://github.com/JackPala/OpenAI-Codex-NixOS github.com https://github.com/JackPala/OpenAI-Codex-NixOS GitHub - JackP...
+        https://discourse.nixos.org/t/None/63192/1
+    0|  0|  76039|@vegadoom      | ...t around to investigating the beam.smp crashes. I had attempted first to use the OP's nix file instead of mine, but still had the same issue. I asked codex to look into it. This is what i
+        https://discourse.nixos.org/t/None/76039/13
+    0|  0|  37850|@anon9325635   | ...on that I LOVE and hate in the same time :)) I hate some things because I am very much a nub in this level ok Linux, but I intend, with your help and ChatGPT help to improve on that. Rega
+        https://discourse.nixos.org/t/None/37850/1
+    0|  0|  40977|@tennox        | ...0:22AM - 22 Jan 24 UTC https://github.com/tennox tennox tennox I tried using this tool (via `nix shell .. github:ryantm/nixpkgs-update`) to upd … ate chatgpt-cli: ``` nixpkgs on  chatgpt
+        https://discourse.nixos.org/t/None/40977/1
+    0|  0|  73249|@Nika03        | here's also some stuff I did with chatgpt, which maybe have some use: Skip to content You said: my nixos system isn't connecting to internet via ethernet. NetworkManager sees the gateway but
+        https://discourse.nixos.org/t/None/73249/10
+    0|  0|  18297|@mvb           | ...the https://nixos.wiki/wiki/Java#Overriding_java_jks_Certificate_Store Java page , which currently doesn’t have any useful info for JDK 11. I’ve had ChatGPT compile a full tutorial from s
+        https://discourse.nixos.org/t/None/18297/19
+    0|  0|  67842|@filigrana     | ...s, which is available at https://github.com/sezanzeb/input-remapper , since it doesn't appear to be listed in the channels as an installable package… chatgpt made me write 400 flake.nix f
+        https://discourse.nixos.org/t/None/67842/1
+    0|  0|  63733|@BoredSquirrel | ...d config. https://nixos.wiki/wiki/Linux_kernel I have checked the wiki but it is a bit too complicated for me, Nix is not simple :smiley: So, I asked ChatGPT, with a clear goal and a ton 
+        https://discourse.nixos.org/t/None/63733/1
+    0|  0|  58743|@SherlockXia   | ...gressions being fixed in a kernel update. Looks like this one might never get fixed… You are not the only one having problems like that. I have asked chatgpt and it suggest me to use a in
+        https://discourse.nixos.org/t/None/58743/1
+    0|  0|  33822|@primeid       | ...scode wget curl microsoft-edge # i3 i3status rofi #i3-rounded i3lock #i3nator #i3lock-blur # iphone libimobiledevice usbmuxd _1password-gui shell_gpt chatgpt-cli fish zsh neovim home-mana
+        https://discourse.nixos.org/t/None/33822/1
+    0|  0|  79393|@bitbloxhub    | ...mkCargoDerivation , been a while since I used crane since switching to https://nix-community.github.io/crate2nix/ crate2nix ) as a pre-commit check. ChatGPT's mkCargoDerivation idea cargo
+        https://discourse.nixos.org/t/None/79393/6
+    0|  0|  78593|@nurmohammed840| ...ixOS. I'm trying to download Steam But nix building some dependencies from source, and it's taking over an hour. I added the following settings (from ChatGPT), And expected Nix to downloa
+        https://discourse.nixos.org/t/None/78593/1
+    0|  0|  77163|@XanderTheDev  | ...due to inactivity and the code is now outdated. I have never made a nix package based on a deb package, so I don't know how this stuff works. I asked ChatGPT to fix it, but I couldn't get
+        https://discourse.nixos.org/t/None/77163/1
+    0|  0|  77091|@winstonji     | ...e/96zvl7pbipjvgyrs752gqmc2bm7lf8a5-luarocks-nix-nix_v3.5.0-1-unstable-2026-03-31/lib/lua/5.1/luarocks.so' I wasn't exactly sure what was going on but ChatGPT seems to think the problem is
+        https://discourse.nixos.org/t/None/77091/1
+    0|  0|  40086|@thomaseizinger| ...have any experience with QT either so I am not sure why there is a launcher binary next to the actual app. Do I need to patch both? How do I do that? ChatGPT was suggesting something like
+        https://discourse.nixos.org/t/None/40086/1
+    0|  0|   2470|@kenpb         | ...Since the XDG paths were being ignored, I poked around the binary using Frida to check what functions were being called for the tray icons, then told chatgpt to write a quick cpp hook to 
+        https://discourse.nixos.org/t/None/2470/10
+    0|  0|  71483|@ribaldone     | ...nd wayland. And here comes the problem, because it looks like I cannot create a flake.nix file for the container with bind mounts defined in it. Even Chatgpt and Gemini say I must define 
+        https://discourse.nixos.org/t/None/71483/1
+    0|  0|  70283|@MiyaSHs       | ...nux, i edited a gtk's theme gtk.css (this one to be specific https://www.gnome-look.org/p/2287265 ) to get its colors from pywal16 (with some help of chatgpt, sent him the theme's gtk.css
+        https://discourse.nixos.org/t/None/70283/1
+    0|  0|  68057|@filigrana     | ...n.nix or use anyway… In two seconds I inserted the line services.printing.cups-pdf.enable = true and the PDF printer was ready… I don't want to blame chatgpt for helping me, but it's stil
+        https://discourse.nixos.org/t/None/68057/4
+    0|  0|  67569|@ilonic        | I asked ChatGPT to make me a Nix flake that allows me to enter two environments: one for building programs for Windows and one for Linux, everything works fine for t...
+        https://discourse.nixos.org/t/None/67569/1
+    0|  0|  67246|@PeterPancake695| ...ng hyprland and gdm. When I start up my computer and enter into hyprland, nm-applet requires to unlock my keyring. Ive looked online on forums, asked chatgpt, tried this, tried that, but 
+        https://discourse.nixos.org/t/None/67246/1
+    0|  0|  65130|@LinuxIsBest   | You know, you say that, but ChatGPT just proved you wrong. This works. # ---------------------------------------- # 🔄 Automatic NixOS Upgrades. # ---------------------------------------...
+        https://discourse.nixos.org/t/None/65130/8
+    0|  0|  64344|@chooh         | ...f7ax670j43pa9y6wr5lm848wcrw1al-ruby-dev-3.2.8/bin/ruby The derivation name still shows ruby-dev-3.2.8 , even though the actual Ruby version is 3.2.6. ChatGPT suggested to use mkRuby . Sec
+        https://discourse.nixos.org/t/None/64344/1
+    0|  0|  60934|@polyface      | hi, i am trying nixos, and its a bit rough. i tried chatgpt, but it doesnt work well. So my question is, how do you download a text file and put it in your $HOME/.config files? I have set up
+        https://discourse.nixos.org/t/None/60934/1
+    0|  0|  60469|@mastermjr     | ...! /tmp/storage-run-*/containers/ R! /tmp/storage-run-*/libpod/tmp/ R! /tmp/containers-user-*/containers R! /tmp/podman-run-*/libpod/tmp ''; thank you chatgpt for saving me hours of trying
+        https://discourse.nixos.org/t/None/60469/1
+    0|  0|  60374|@felipelalli   | I tried ChatGPT: boot.loader.grub = { enable = true; device = "${vars.bootDevice}"; useOSProber = true; extraEntries = '' menuentry "NixOS (text only)" { linux $kern...
+        https://discourse.nixos.org/t/None/60374/1
+    0|  0|  59474|@lifium        | ...153| mangohud 154| "${inputs.legacylauncher.packages.${pkgs.system}.default}" | ^ 155| libreoffice-fresh I have been trying to find a solution using ChatGPT and that was of no help. here 
+        https://discourse.nixos.org/t/None/59474/1
+    0|  0|  41564|@felipelalli   | ...GIN_PATH="${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins/platforms" ''; } But to do that I made a lot of trial and error + Google + ChatGPT. There is an easy way to run 
+        https://discourse.nixos.org/t/None/41564/1
+    0|  0|  58443|@Nutellafreak  | ...linux.nixosConfigurations."thinkpad".config.system.build.nixos-rebuild' or 'nixosConfigurations."thinkpad".config.system.build.nixos-rebuild' I asked ChatGPT and did the following: export
+        https://discourse.nixos.org/t/None/58443/1
+    0|  0|  26995|@ConradMearns  | ...lish-cname test.local I get dbus.exceptions.DBusException: org.freedesktop.Avahi.NotPermittedError: Not permitted And I’m unsure of how to continue - ChatGPT isn’t versed enough in Nix to
+        https://discourse.nixos.org/t/None/26995/1
+    0|  0|  57488|@knoxode       | ...orking TLS backend, so I cannot activate a license. I am very new to Nix, but really need this application for my work/studies, and I have been using chatGPT to try to help get me as at l
+        https://discourse.nixos.org/t/None/57488/1
+    0|  0|  56180|@Pikatsuto     | ...riends' computer at the time. then i just updated windows after learning about the problems when 24h2 was released then recently, I desperately asked chatgpt who could advise me on this m
+        https://discourse.nixos.org/t/None/56180/1
+    0|  0|  52691|@stevenroose   | ...and ( fsType ) set to the by-uuid for the LUKS mapper homeraid. Most of this was done by nixos-generate-config except for the swraid.enable = true . ChatGPT suggested a whole bunch of ker
+        https://discourse.nixos.org/t/None/52691/1
+    0|  0|  50365|@fherking      | Thanks for the help, I found another way to do it , after messing with chatgpt for an hour i arrived to this. created file nsearch.nix in /etc/nixos { config, pkgs, ... }: let myFlake = buil
+        https://discourse.nixos.org/t/None/50365/5
+    0|  0|  50295|@new-tunics    | ...I am struggling to manage the configuration (both system-level and user-level). I read parts of the NixOS manual, I watch videos, I bounce things off chatGPT, and I try things out. I am f
+        https://discourse.nixos.org/t/None/50295/1
+    0|  0|  50249|@GordyNumberOne| ...ions: unknown ├───homeManagerModules: unknown ├───nixosConfigurations │ └───work: NixOS configuration └───nixosModules └───default: NixOS module Both chatGPT and I are totally stuck on th
+        https://discourse.nixos.org/t/None/50249/1
+    0|  0|  49364|@madanas       | ...trying to setup home manager in NixOS running in WSL. However, it seems my import is not working correctly. I’m not sure what I’m missing. Google and ChatGPT were of no use here. My /etc/
+        https://discourse.nixos.org/t/None/49364/1
+    0|  0|  47803|@fsbof         | ...ation over time. If you consistently see high swap usage, you may need to consider adding more physical RAM or reducing the number of concurrent VMs. ChatGPT Certainly! Given your setup a
+        https://discourse.nixos.org/t/None/47803/10
+    0|  0|  47578|@lietapa       | I asked ChatGPT: Target : They use Nix for their infrastructure and development environments, enabling consistent and reproducible builds. ( EDIT : “ https://www.wor...
+        https://discourse.nixos.org/t/None/47578/2
+    0|  0|  47517|@Mx2uller      | ...an be changed but I couldn’t find a way to point to location outside nix store. Is there a way to do it? default.nix I made with help of nix-init and chatGPT: { lib , stdenv , fetchFromGi
+        https://discourse.nixos.org/t/None/47517/1
+    0|  0|  47370|@aboode95      | ...y in nixpkgs but) I want to learn to create a shell environment in which I can use this local package. But after some back and forth in this site and chatgpt and other guides, I am gettin
+        https://discourse.nixos.org/t/None/47370/1
+    0|  0|  44392|@miguelgranja  | ...ion.nix:19:17: 18| 19| boot.loader = { | ^ 20| grub.enable = true; Is there anything I should learn on how to make posts on this forum ? Btw, I tried chatGPT and the docs, and it all seem
+        https://discourse.nixos.org/t/None/44392/1
+    0|  0|  43322|@plyzct        | .../Dan6erbond/shrinkarr This app is ideal for my setup but I can’t figure out how to get it working… I’ve discussed options re: nix-shell and venv with ChatGPT without any success. I would 
+        https://discourse.nixos.org/t/None/43322/1
+    0|  0|  42224|@jeff-hykin    | ...ages share/ for anything handled by XDG_DATA_DIRS. This includes bash completions, icons, themes, localization files, plugins, etc. Ask Google or ask ChatGPT about the XDG_DATA_DIRS direc
+        https://discourse.nixos.org/t/None/42224/20
+    0|  0|  30517|@blaggacao     | https://github.com/water-sucks/nixos/pull/3 github.com/water-sucks/nixos Pull Request https://github.com/water-sucks/nixos/pull/3 doc: add an adapted ChatGPT game plan for the project water-
+        https://discourse.nixos.org/t/None/30517/19
+    0|  0|  30552|@felipelalli   | How do I use the unstable channel? EDIT: Ok, ChatGPT helped me: sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable sudo nix-channel --update sudo nixos-rebuild s
+        https://discourse.nixos.org/t/None/30552/5
+    0|  0|  36682|@jaylward      | ...find /nix/store | grep '*libretro_snes9x.so' and I see multiple results inside the nix store. How do I programmatically resolve those paths? I asked ChatGPT because it’s been surprisingly
+        https://discourse.nixos.org/t/None/36682/12
+    0|  0|  33380|@nadrog        | ...) and I do not know how nor where to find the answer myself. I already have ‘services.collectd.enable = true;’ in configuration.nix and both Bard and ChatGPT suggest I should add ‘service
+        https://discourse.nixos.org/t/None/33380/1
+    0|  0|  30193|@Long_C        | ...plugin on my NixOS 23.05.553.e7603eba51f (Stoat) x86_64 system, and I’m hoping someone here can assist me. Firstly, I want to clarify that I am using ChatGPT to help me write this post. I
+        https://discourse.nixos.org/t/None/30193/1
+    0|  0|  25208|@busti         | ...long turn-around times as github issues where it can take multiple days for people to reply? An IRC / Matrix / Discord channel maybe? I tried asking ChatGPT, but it’s nixos knowledge is l
+        https://discourse.nixos.org/t/None/25208/1
+    0|  0|  68228|@mrjones2014   | I have been scratching my head about this for days. Recently I'm experimenting with GitHub Copilot a bit. I added copilot-language-server to programs.neovim.extraPackages , and updated my al
+        https://discourse.nixos.org/t/None/68228/1
+    0|  0|  43767|@Tobi34        | I have nixos 23.11 installed. I want to use vscode with copilot chat. I installed vscode from the unstable channel, vscode works. But whenever I start the copilot chat, i get the error: “Cha
+        https://discourse.nixos.org/t/None/43767/1
+    0|  0|  50282|@pulp_user     | I’m a complete nixos noob, trying to use the GitHub Copilot Extension in VSCode, and I’m having a rough time. Firstly, various login methods just fail. When I click sign button and allow the
+        https://discourse.nixos.org/t/None/50282/1
+    0|  0|  21870|@smasher164    | See https://github.com/orgs/community/discussions/33392 Github Copilot VS Code extension is not working with NixOS install of VS Code 1.71 - it is not recognised as a recent enough version f
+        https://discourse.nixos.org/t/None/21870/1
+    0|  0|  48416|@inkurey-22    | ...mplete newbie to Nix and NixOS so I don’t know exactly how to manipulate the config files etc. SO my problem is that I installed CLion, installed the Copilot plugin within the IDE and it’
+        https://discourse.nixos.org/t/None/48416/1
+    0|  0|  65503|@NoidoDev      | These two packages don't work. I thought at first, it was because they used "-" in the name, but others do that as well. error: undefined variable 'gpt-box' at /etc/nixos/configuration.nix:4
+        https://discourse.nixos.org/t/None/65503/1
+    0|  0|  34746|@viluon        | ...ode-with-extensions.override { vscodeExtensions = with vscode-extensions; [ sumneko.lua vscode-extensions.rust-lang.rust-analyzer bbenoist.nix github.copilot ms-vscode-remote.remote-ssh m
+        https://discourse.nixos.org/t/None/34746/1
+    0|  0|  71617|@fusion809     | ...qprygry-nixos-system-nixos-25.05.811874.daf6dc47aa4b.drv' failed to build And I am stumped as to how to fix this error. I have tried getting GitHub's Copilot to help me with this, but tha
+        https://discourse.nixos.org/t/None/71617/1
+    0|  0|  65657|@Tobi34        | ...ting (nixpkgs-unstable.vscode-with-extensions.override { vscodeExtensions = nixpkgs-unstable.vscode-utils.extensionsFromVscodeMarketplace [ { name = "copilot"; publisher = "github"; versi
+        https://discourse.nixos.org/t/None/65657/3
+    0|  0|  56559|@kennystrawnmusic| ...up rust-analyzer (vscode-with-extensions.override { vscodeExtensions = with vscode-extensions; [ rust-lang.rust-analyzer gruntfuggly.todo-tree github.copilot github.codespaces tamasfe.eve
+        https://discourse.nixos.org/t/None/56559/1
+    0|  0|  67825|@bc42          | ...nd mounts. Maybe I should be doing one but I'm doing the other. This is what I've got so far. Please excuse anything weird, it's partly me and partly Copilot. Let's blame Copilot for anyt
+        https://discourse.nixos.org/t/None/67825/1
+    0|  0|  61495|@qpe           | ...ns = with pkgs.vscode-extensions; [ bbenoist.nix ms-vscode.cpptools ms-vscode.cpptools-extension-pack ms-vscode.cmake-tools jnoortheen.nix-ide github.copilot github.copilot-chat #ms-pytho
+        https://discourse.nixos.org/t/None/61495/1
+    0|  0|  61436|@qpe           | ...s = with pkgs.vscode-extensions; [ bbenoist.nix ms-vsco de.cpptools ms-vscode.cpptools-extension-pack ms-vscode.cmake-tools jnoortheen.nix-ide github.copilot github.copilot-chat ms-python
+        https://discourse.nixos.org/t/None/61436/3
+    0|  0|  61188|@qpe           | ...k = false; extensions = with pkgs.vscode-extensions; [ bbenoist.nix ms-vscode.cpptools ms-vscode.cpptools-extension-pack ms-vscode.cmake-tools github.copilot github.copilot-chat ms-python
+        https://discourse.nixos.org/t/None/61188/1
+    0|  0|  75858|@badcold       | I have quite a few plugins in both setup (nix-on-fedora and nixos) and rarely have issues with them. I did not try the github copilot one but I used the opencode plugin via IntelliJ successf
+        https://discourse.nixos.org/t/None/75858/6
+    0|  0|  74954|@SpitfireGG    | ...chime.nix │ │ ├── paradise.nix │ │ ├── radium.nix │ │ └── tokyonight.nix │ ├── core │ │ ├── compe │ │ │ ├── blink.nix │ │ │ ├── cmp.nix_bak │ │ │ ├── copilot-cmp.nix │ │ │ ├── lspkind.nix
+        https://discourse.nixos.org/t/None/74954/1
+    0|  0|  69095|@lucperkins    | ...cted by GitHub downtime. GitHub is a massive platform that does a million things and thus has many possible sources of failure (imagine, for example, Copilot's infrastructure having issue
+        https://discourse.nixos.org/t/None/69095/12
+    0|  0|  66866|@blaxinger     | ...ugh couldn't even be a problem on linux but are on NixOs, but I'll keep trying for a bit before I give up. My main IDE is Pycharm, and apart from the Copilot catastrophe, I got a Python e
+        https://discourse.nixos.org/t/None/66866/1
+    0|  0|  31577|@brnix         | I’ve done some with GitHub copilot. I would say it’s successful maybe 40% of the time. When I started this thread, I just wanted to make sure there wasn’t some nix related tooling or p...
+        https://discourse.nixos.org/t/None/31577/4
+    0|  0|  49294|@AcidRain      | ...ll:../Project/]$ code --list-extensions christian-kohler.path-intellisense equinusocio.vsc-material-theme equinusocio.vsc-material-theme-icons github.copilot ms-vscode-remote.remote-conta
+        https://discourse.nixos.org/t/None/49294/1
+    0|  0|  48190|@nada          | I have add pkgs.gh in my nix-darwin config. It works as expect, but when I run gh copilot It returns: failed to run extension: fork/exec /Users/nada/.local/share/gh/extensions/gh-copilot/gh-
+        https://discourse.nixos.org/t/None/48190/1
+    0|  0|  34133|@TheOddler     | I’m trying to install VSCode insiders to get the Copilot Chat plugin to work. I found online I could do: home-manager.users.pablo.programs.vscode = { enable = true; package = (pkgs.vscode.ov
+        https://discourse.nixos.org/t/None/34133/1
+    0|  0|  29838|@IsaacShaha    | ...ipboard"; }; shading = 20; transparent = true; }; vscode = { enable = true; extensions = with pkgs.vscode-extensions; [ esbenp.prettier-vscode github.copilot grapecity.gc-excelviewer jnoo
+        https://discourse.nixos.org/t/None/29838/1
+    0|  0|  23758|@sullyj3       | I have the latest available node installed with home-manager. However, in order to setup github copilot, I need node < = 17. So I tried to get a shell with node 16: ⮞ node --version v18.12.1
+        https://discourse.nixos.org/t/None/23758/1
+    0|  0|  68905|@gasabr        | I'm trying to install gemini-cli package, but it gives me "undefined variable" error when using both nixos rebuild and nix shell. I'm sure there is no typos, tried copying straig...
+        https://discourse.nixos.org/t/None/68905/1
+    0|  0|  68071|@brantes       | { config, pkgs, ... }: { home.packages = [ pkgs.sops ]; sops = { age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt"; secrets = { "gemini_api_key" = { sopsFile = ../secret
+        https://discourse.nixos.org/t/None/68071/1
+    0|  0|  75007|@rastarr       | ...C I'm in no way a developer and stumble with nix syntax so class me as still a nix newbie. But I did try to create a derivation for this GitHub using Gemini AI. After 4 hours and many tri
+        https://discourse.nixos.org/t/None/75007/1
+    0|  0|  41705|@sarahec       | There are times when a global install is useful, even if they're rare. We're experimenting with the gemini-cli tools and extensions here and they update far faster than nixpkgs, so that's th
+        https://discourse.nixos.org/t/None/41705/12
+    0|  0|  69115|@withakay      | ...r a while and spent some time throwing my head against the wall because it looked like what you had should work. After enough of that I threw it into Gemini, which suggested This is a ver
+        https://discourse.nixos.org/t/None/69115/2
+    0|  0|  80542|@davparker     | ...My next step was to automate the install of the software. I created my first package today. Works. Here is the nix file. I had major assistance from Gemini. { lib , appimageTools , fetchu
+        https://discourse.nixos.org/t/None/80542/1
+    0|  0|  79847|@jacekk90      | it's dramat. I was close to back to ubuntu. Gemini told me how do it with my configuration.nix
+        https://discourse.nixos.org/t/None/79847/25
+    0|  0|  80096|@gamebeaker    | ...ryantm.github.io/nixpkgs/languages-frameworks/maven/#stable-maven-plugins stable-maven-plugins with the maven-enforcer-plugin. I tried debugging with gemini Ai and will describe what i al
+        https://discourse.nixos.org/t/None/80096/1
+    0|  0|  67274|@Codeatron5000 | ...ell { # ... NIX_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath (with pkgs; [ stdenv.cc.cc zlib fuse3 icu nss openssl curl expat ]); }; Disclaimer: Google Gemini helped with finding this solut
+        https://discourse.nixos.org/t/None/67274/2
+    0|  0|  75795|@AlyElsharkawy | ...th evaluation times. Most of the nixos-rebuild switch time is spent on the line "evaulating file: < github:nixos/nixpkgs/HASH/ > /flake.nix". I asked Gemini and it said that it was likely
+        https://discourse.nixos.org/t/None/75795/9
+    0|  0|  69601|@AndreasKaratzas| I believe that with the help of Gemini, I managed to integrate your advise. For completeness of this thread, here is what I currently have: # flake.nix # # High-Performance Machine Learnin..
+        https://discourse.nixos.org/t/None/69601/4
+    0|  0|  69258|@AMHOAZ        | ...ease take a look at it because I'm really not sure if there's a problem with it or not. I feel like my config is correct, and I even asked an AI like Gemini 2.5 Pro and it said there are 
+        https://discourse.nixos.org/t/None/69258/5
+    0|  0|  20801|@yuu           | ...x github:nix-community/fenix global flake:flake-parts github:hercules-ci/flake-parts global flake:flake-utils github:numtide/flake-utils global flake:gemini github:nix-community/flake-gem
+        https://discourse.nixos.org/t/None/20801/7
+    0|  0|  59828|@enoren5       | ...error: filesystem error: read_symlink: No such file or directory [/nix/var/nix/profiles/per-user/root/channels/nixpkgs] root@nixoslaptop:~/ > I asked Gemini AI this question: What does th
+        https://discourse.nixos.org/t/None/59828/18
+    0|  0|  51937|@Cyber_Raven   | ...lling anonymous lambda [Truncated Error, see below] error: getting status of '/nix/store/derivations/resources.nix': No such file or directory Google Gemini Code assist seems to think tha
+        https://discourse.nixos.org/t/None/51937/1
+    0|  0|  42449|@jawuku        | ...er - I’m not the author, just a user who wants to use his theme on NixOS Openbox Here is the Nix code. Some was derived from code generated by Google Gemini AI Thank you for advice. { pkg
+        https://discourse.nixos.org/t/None/42449/1
+    0|  0|  15207|@DrSensor      | ...x github:nix-community/fenix global flake:flake-parts github:hercules-ci/flake-parts global flake:flake-utils github:numtide/flake-utils global flake:gemini github:nix-community/flake-gem
+        https://discourse.nixos.org/t/None/15207/4
+    0|  0|  16594|@shinzui       | ...flake:dwarffs github:edolstra/dwarffs global flake:fenix github:nix-community/fenix global flake:flake-utils github:flake-utils/numtide global flake:gemini github:nix-community/flake-gemi
+        https://discourse.nixos.org/t/None/16594/7
+    0|  0|  11410|@j-k           | What should be done with non-http/https homepages or changelog links in nixpkgs? If a package’s homepage uses gopher or gemini instead of http/https: should it be used as is? Users that have
+        https://discourse.nixos.org/t/None/11410/1
+    0|  0|  69624|@12qs1         | ...la suite pour l'instant, j'ai d'autres problèmes. Je vais tout traduire en anglais. Bon courage pour comprendre mon problème ! Si quelqu'un pouvait m'aider, ce serait super. Merci ! trans
+        https://discourse.nixos.org/t/None/69624/1
+    0|  0|  64321|@12qs1         | ...n'a pas marcher. En gros, je cherche sur ce qui est dit sur internet, et nix os pour installer unrealengine mais rien de propre… Si quelqu'un peut m'aider, je serais bien content de me dé
+        https://discourse.nixos.org/t/None/64321/1
+    0|  0|  63138|@famadorian    | I'm trying to get started with MCP, but finding nothing for NixOS. I want something like this microvm approach https://github.com/tuananh/hyper-mcp github.com https://github.com/tuanan...
+        https://discourse.nixos.org/t/None/63138/1
+    0|  0|  75212|@arnaud-bourree| I try to build cline command line package with the following cline/default.nix file: { lib, fetchFromGitHub, buildNpmPackage, ... }: let # Récupération du dépôt GitHub av...
+        https://discourse.nixos.org/t/None/75212/1
+    0|  0|  66041|@sourgrapes    | ...Nix onto my machine and almost exactly recreated the configuration I had before. However, I'm getting this bug that I've never had before, where the cursor will appear double if it sits s
+        https://discourse.nixos.org/t/None/66041/1
+    0|  0|  64873|@leana8959     | Hello, I noticed that XMonad uses the wrong cursor theme when dragging or resizing a window. After asking the XMonad community on Matrix, I figured the problem is more likely found in my nix
+        https://discourse.nixos.org/t/None/64873/1
+    0|  0|  71645|@Arrow-Space   | Hello, I am looking for some help with some trouble I am having with theming my cursor in sddm. At this point I feel like I have tried a billion different solutions but I haven't seen any im
+        https://discourse.nixos.org/t/None/71645/1
+    0|  0|  80432|@DeleteUndoBackspace| hi good people im new here. i spent hours looking for solution. im on nixos 26.05 niri. my issue is i cant change my cursor size (its too big) and theme. please help
+        https://discourse.nixos.org/t/None/80432/1
+    0|  0|  60995|@xNefas        | Hiya fellow NixOS users, hope this post finds you well :smiley: I'm reaching out for some help with setting up the Cursor IDE to use rust-analyzer , and I'd love your insights if anyone has 
+        https://discourse.nixos.org/t/None/60995/1
+    0|  0|  49917|@MrQvest       | Hey everyone, I’m very new to NixOS. I installed the KDE version with Plasma 6, and some apps I installed are not following the system cursor theme (breeze, in this case) and they are also n
+        https://discourse.nixos.org/t/None/49917/1
+    0|  0|  75638|@poyo86        | I keep having this (recent) issue where nixos-rebuild makes catppuccin-cursors and it's dependencies (like inkscape, which for me takes ages to compile) build from source when they shouldn't
+        https://discourse.nixos.org/t/None/75638/1
+    0|  0|  64956|@cccslater     | I'm trying to patch simp1e-cursors ( https://github.com/NixOS/nixpkgs/blob/4faa5f5321320e49a78ae7848582f684d64783e9/pkgs/by-name/si/simp1e-cursors/package.nix nix package source , htt...
+        https://discourse.nixos.org/t/None/64956/1
+    0|  0|  61582|@NathanRHD     | ...have set the xserver dpi, have set 200% scaling in the gnome settings apps display settings, i'm using stylix (in and out of home manager) to set the cursor size (no theme), and i have xd
+        https://discourse.nixos.org/t/None/61582/1
+    0|  0|  75321|@FrancoBujakiewicz| I'm want to set cursor pointer with home manager but in configuration.nix : home-manager.users.franco = { home.stateVersion = "25.05"; home.pointerCursor = { gtk.enable = t...
+        https://discourse.nixos.org/t/None/75321/1
+    0|  0|  11797|@basil         | Please help fix this. When I install applications via nix-env, I only get an ugly cursor in those applications. The worst thing is that this cursor doesn’t scale on hidpi screens. I’ll be ve
+        https://discourse.nixos.org/t/None/11797/1
+    0|  0|  28170|@ppenguin      | Suddenly I’m seeing a very strange issue, were my mouse cursor on some apps is additionally scaled up by a factor two. I didn’t really change anything in my config, just nix flake update . I
+        https://discourse.nixos.org/t/None/28170/1
+    0|  0|  15235|@orangutanklaus| ...running better with a prebuilt Ubuntu unfortunately. Now I installed QT-apps like Mullvad, Nextcloud-desktop and KeepassXC with nix-env but the mouse cursor is very small when hovering ov
+        https://discourse.nixos.org/t/None/15235/1
+    0|  0|  71114|@462           | I installed NixOS on a virtual machine using the manual but when I reach the desktop (I tried GNOME and Cinnamon) the cursor is invisible. It is there; if you move on an icon it gets highlig
+        https://discourse.nixos.org/t/None/71114/1
+    0|  0|  67411|@diyornv       | Hello everyone, I'm using NixOS with the GNOME desktop environment. I'm having an issue where VSCode , Cursor AI , and Atom editors do not launch properly. Sometimes, after restarting my sys
+        https://discourse.nixos.org/t/None/67411/1
+    0|  0|  72628|@tlmooreclemson| ...graphics.enable32Bit=true; etc.) and ran `sudo nixos-rebuild boot --upgrade' When I restarted my computer I arrived at a black screen with a blinking cursor in the corner. I'm able to boo
+        https://discourse.nixos.org/t/None/72628/1
+    0|  0|  65175|@MacAoi        | ...vers = ["nvidia"]; and other things followinig nix wiki to configuration.nix when i rebuild and switch it goes straight to Black screen with blinking cursor i tty and login to hyprland vi
+        https://discourse.nixos.org/t/None/65175/1
+    0|  0|  58500|@ronanlv       | Hello everyone I already did a long search (couple of weeks having this issue), but cannot seem to pinpoint to cause. I get a black screen with mouse cursor on my nixos plasma instance, it a
+        https://discourse.nixos.org/t/None/58500/1
+    0|  0|  52108|@Chlebqowy     | ...aren’t updated anymore or don’t work. The thing on the wiki needs home manager (which I don’t want to use) and it doesn’t work with locally installed cursor themes. In the same entry on t
+        https://discourse.nixos.org/t/None/52108/1
+    0|  0|  30893|@knightpp      | Hi. There’s https://github.com/NixOS/nixpkgs/issues/119433#issuecomment-1326957279 a fix for flatpak cursor theme and fonts. But I cannot use it in my config without error: infinite recursio
+        https://discourse.nixos.org/t/None/30893/1
+    0|  0|  59691|@fusion809     | ...ch } "; }; programs.gnome-shell.theme.name = "WhiteSur-Dark-solid"; gtk.theme.name = "WhiteSur-Dark-solid"; gtk.iconTheme.name = "WhiteSur-Dark"; gtk.cursorTheme.name = "WhiteSur-cursors"
+        https://discourse.nixos.org/t/None/59691/1
+    0|  0|  18330|@noblman       | I am trying to set a GTK cursor theme in home.nix: gtk = { enable = true; cursorTheme = { package = pkgs.vanilla-dmz; name = "Vanilla-DMZ"; }; theme = { name = "Dracula"; package =...
+        https://discourse.nixos.org/t/None/18330/1
+    0|  0|  32661|@UzairQamarxyz | Hey there. I’ve recently switched to Nixos with lightdm + dwm. I am facing a couple of issues with cursor themes and keyboard repeat rate and would very much like some help with them. First 
+        https://discourse.nixos.org/t/None/32661/1
+    0|  0|  61166|@waffle8946    | ...nix#L23-L29 gtkGreeterConf = writeText "lightdm-gtk-greeter.conf" '' [greeter] theme-name = ${cfg.theme.name} icon-theme-name = ${cfg.iconTheme.name} cursor-theme-name = ${cfg.cursorTheme
+        https://discourse.nixos.org/t/None/61166/34
+    0|  0|  49278|@Fireb3rt      | Hi friends. I am attempting to package a custom cursor set and reference it inside my own NixOS flakes configuration. I am at a bit of a loss and I’m not sure what the root of the issue is, 
+        https://discourse.nixos.org/t/None/49278/1
+    0|  0|  28553|@aacebedo      | Hi all, I have different modules I use in my flake and I would like to add parameters to some of them. I succeeded in adding parameters named cursorThemePackage by adding the following in th
+        https://discourse.nixos.org/t/None/28553/1
+    0|  0|  57509|@Postboote     | ...config not home manager: { stylix = { enable = true; base16Scheme = "${pkgs.base16-schemes}/share/themes/onedark.yaml"; image = ../png/mountain.jpeg; cursor.package = pkgs.simp1e-cursors;
+        https://discourse.nixos.org/t/None/57509/4
+    0|  0|  79121|@asqiir        | ...// < path where my config lives > ?ref=refs/heads/main & rev= < commit hash > ' … while updating the flake input 'pub' error: unknown hash algorithm 'cursor' Try 'nix --help' for more inf
+        https://discourse.nixos.org/t/None/79121/1
+    0|  0|  73028|@ziggy         | ...screen. In view that the default symlinked configuration utilizes the following parameters: [greeter] theme-name = Adwaita icon-theme-name = Adwaita cursor-theme-name = Adwaita cursor-the
+        https://discourse.nixos.org/t/None/73028/21
+    0|  0|  65429|@Oneechan69    | ...unch of looking up but didn't find any solutions, and hyprpm isn't available on NixOS. I'm trying to install https://github.com/VirtCode/hypr-dynamic-cursors hypr-dynamic-cursors . I adde
+        https://discourse.nixos.org/t/None/65429/1
+    0|  0|  56553|@marmar        | ...[ 5746.348] (==) Max clients allowed: 256, resource mask: 0x1fffff [ 5746.364] (**) FontPath set to: /nix/store/vr6ycm45cppkjp6an07y1r79fpjxipws-font-cursor-misc-1.0.4/lib/X11/fonts/misc,
+        https://discourse.nixos.org/t/None/56553/1
+    0|  0|  36234|@quinn-dougherty| ...before the mouse takes back over. ╰─ > $ cat /etc/lightdm/lightdm-gtk-greeter.conf [greeter] theme-name = Adwaita-dark icon-theme-name = Adwaita-dark cursor-theme-name = Adwaita-dark curs
+        https://discourse.nixos.org/t/None/36234/1
+    0|  0|  24139|@arashsm79     | ...1:40:58 nixbox sddm[1340]: Adding cookie to "/var/run/sddm/{945d96c1-c005-4236-8486-b1d4e4ca2fec}" Dec 20 11:41:00 nixbox sddm[1340]: Setting default cursor Dec 20 11:41:00 nixbox sddm[13
+        https://discourse.nixos.org/t/None/24139/1
+    0|  0|   4734|@tungdil       | ...t so easy to record a screen cast that shows the problem. The uploaded GIF is the best I could create. Peek is running on the host system. The bigger cursor is the one from the host. It w
+        https://discourse.nixos.org/t/None/4734/3
+    0|  0|   1016|@NULLx76       | https://github.com/NixOS/nixpkgs/pull/195221 github.com/NixOS/nixpkgs Pull Request https://github.com/NixOS/nixpkgs/pull/195221 catppuccin-cursors: init at 0.2.0 NixOS:master ← NULLx76:catpp
+        https://discourse.nixos.org/t/None/1016/28
+    0|  0|  75451|@schemar       | ...c4f6d99a44f/home/linux-desktop.nix home/linux-desktop.nix (excerpt): # Scaling in xresources: xresources = { extraConfig = '' *dpi: 192 Xft.dpi: 192 Xcursor.size: 48 ''; }; home.file.".lo
+        https://discourse.nixos.org/t/None/75451/1
+    0|  0|  63492|@ManUtopiK     | Hi! I tried to update some packages (cursor, vivaldi, chromium…) using the unstable channel. NixOS apply the changes but I cannot open the apps. Here is the error when I launch cursor : curs
+        https://discourse.nixos.org/t/None/63492/1
+    0|  0|  38894|@vactomas      | ...progWin.run() File "/nix/store/k3k8d8zn5dnyf8y638yx4zzjvb6y9cxk-virt-manager-4.1.0/share/virt-manager/virtManager/asyncjob.py", line 270, in run Gdk.Cursor.new_from_name(gdk_window.get_di
+        https://discourse.nixos.org/t/None/38894/1
+    0|  0|  28921|@gambrose      | I am trying to change the wallpaper on my greeter screen. I can modify the theme/icons/cursor in the configuration.nix file, but although it correctly sets the background in lightdm-gtk-gree
+        https://discourse.nixos.org/t/None/28921/1
+    0|  0|  27011|@zxen          | ...on `home-manager.users.azlanr.programs.gtk' does not exist. Definition values: - In `/nix/store/5i6bi3yx11vjkm63vmkms3gs22nvi78r-source/flake.nix': { cursorTheme = { name = "capitaine-cur
+        https://discourse.nixos.org/t/None/27011/1
+    0|  0|  75208|@dhwisema      | ...aries = options.programs.nix-ld.libraries.default ++ ( with pkgs; [ glib # libglib-2.0.so.0 libGL libxkbcommon fontconfig libx11 freetype dbus libxcb-cursor kdePackages.qtbase kdePackages
+        https://discourse.nixos.org/t/None/75208/1
+    0|  0|  62819|@bitfix13      | ...ON_TYPE = "wayland"; 21 ┊ ┊ XDG_SESSION_DESKTOP = "niri"; 22 ┊ ┊ XDG_CURRENT_DESKTOP = "niri"; 23 ┊ ┊ WINIT_UNIX_BACKEND = "wayland"; 24 ┊ ┊ #If your cursor becomes invisible 25 ┊ ┊ # WLR
+        https://discourse.nixos.org/t/None/62819/38
+    0|  0|  74273|@GBember       | ...n theme in kvantum and set qt5/6ct to use kvantum everything works fine. I'm not using home manager or stylix.The theming related packages are bibata-cursors papirus-icon-theme catppuccin
+        https://discourse.nixos.org/t/None/74273/1
+    0|  0|  75466|@malikwirin    | The package is available (see https://search.nixos.org/packages & query=markitdown-mcp ) image But when trying to install it it behaves like it is non existant, not just in my configuration:
+        https://discourse.nixos.org/t/None/75466/1
+    0|  0|  70810|@Malix         | ...b:NixOS/nixos-hardware/master"; fh.url = "github:DeterminateSystems/fh"; declarative-flatpak.url = "github:in-a-dil-emma/declarative-flatpak/v4.0.1"; mcp-nixos.url = "github:utensils/mcp-
+        https://discourse.nixos.org/t/None/70810/1
+    0|  0|  34100|@eureka-cpu    | ...etoothd[1032]: src/plugin.c:plugin_init() Failed to init vcp plugin Jul 10 12:14:13 nixos bluetoothd[1032]: src/plugin.c:plugin_init() Failed to init mcp plugin Jul 10 12:14:13 nixos blue
+        https://discourse.nixos.org/t/None/34100/3
+    0|  0|  58173|@Mephist0phel3s| .../plugin.c:init_plugin() System does not support vcp plugin Jan 02 08:22:27 nixos bluetoothd[1664]: src/plugin.c:init_plugin() System does not support mcp plugin Jan 02 08:22:27 nixos blue
+        https://discourse.nixos.org/t/None/58173/14
+    0|  0|  11834|@lucc          | I am using NixOS and have set the option https://search.nixos.org/options programs.gnupg.agent.enable = true . This generates two systemd user units: gpg-agent.service and gpg-agent.socket .
+        https://discourse.nixos.org/t/None/11834/1
+    0|  0|  75935|@holden-c      | https://github.com/archie-judd/agent-sandbox.nix/tree/main GitHub https://github.com/archie-judd/agent-sandbox.nix/tree/main GitHub - archie-judd/agent-sandbox.nix Contribute to archie-judd/
+        https://discourse.nixos.org/t/None/75935/1
+    0|  0|  68802|@averdow       | I'm working on a Jenkins agent module that I would like to publish, and I wanted to make sure I'm adding dependencies correctly. Right now, I'm changing the systemd PATH to add dependencies:
+        https://discourse.nixos.org/t/None/68802/1
+    0|  0|  22623|@luke-clifton  | A few months ago gpg stopped working for me. The symptoms are that it can not find a pinentry program. I can work around this by manually starting the agent, however, I have the following in
+        https://discourse.nixos.org/t/None/22623/1
+    0|  0|  72341|@laggron42     | Hi! I'm using home-manager on macOS and I'm looking to write a custom launchd agent. The context is that I'm ditching Docker Desktop for https://github.com/abiosoft/colima colima , which doe
+        https://discourse.nixos.org/t/None/72341/1
+    0|  0|  75432|@TornaxO7      | I've set https://nix-community.github.io/home-manager/options.xhtml#opt-services.yubikey-agent.enable services.yubikey-agent.enable to true . However, even after rebooting I'm getting the fo
+        https://discourse.nixos.org/t/None/75432/1
+    0|  0|  56125|@aidalgol      | When I start up a VM via https://github.com/Mic92/nixos-shell nixos-shell , I get errors from gpg-connect-agent on root autologin, even though I have not enabled gpg-agent in my VM config. g
+        https://discourse.nixos.org/t/None/56125/1
+    0|  0|  23667|@heitorpb      | Hello! I am migrating my dev server to NixOs as a way to learn Nix. What I am struggling right now is to setup gpg-agent forwarding from my laptop to the server. The laptop is running ArchLi
+        https://discourse.nixos.org/t/None/23667/1
+    0|  0|  79213|@pr06lefs      | After enabling my VPN in configuration.nix, I get the following: Broadcast message from root@myinstance (Tue 2026-07-28 12:07:38 MDT): Password entry required for 'Enter Auth Username:' (PID
+        https://discourse.nixos.org/t/None/79213/1
+    0|  0|  75436|@TornaxO7      | Hi! I enabled the https://nix-community.github.io/home-manager/options.xhtml#opt-services.yubikey-agent.enable yubikey-agent option from home-manager . However, if I try to use my yubikey fo
+        https://discourse.nixos.org/t/None/75436/1
+    0|  0|  18701|@ppenguin      | I got vscode-remote-ssh (both ends running nixos ) working with @mudrii 's hack from https://github.com/mudrii/hmtst/blob/e65ecc966559a422b3a5a3906b0aa6039d2ee2cc/services/nixos-vscode-ssh-f
+        https://discourse.nixos.org/t/None/18701/1
+    0|  0|   2740|@jabranham     | I’m running nixOS, and my configuration has programs.gnupg.agent.enable = true; , which installed gnupg from the nixos channel (19.03) and starts it for each user that logs in. However, my u
+        https://discourse.nixos.org/t/None/2740/1
+    0|  0|  23648|@s1341         | Has anyone had any experience setting up wazuh agents on nixos systems? Would there be interest in adding a wazuh-agent package to nixpkgs? If not wazuh, what EDR/XDR do people use on nixos?
+        https://discourse.nixos.org/t/None/23648/1
+    0|  0|  66227|@AndrewCouncil | I have been having some strange behavior with the interactions between using 1Password as my identity agent for SSH and attempting to access a private flake input over git+ssh. Here is the s
+        https://discourse.nixos.org/t/None/66227/1
+    0|  0|  46693|@kiranshila    | Hey everyone, I’m new to NixOS and I’ve been having a blast getting my system set up with home manager, but I’ve hit a wall with setting up VSCodium such that it has access to the running gp
+        https://discourse.nixos.org/t/None/46693/1
+    0|  0|  54669|@Guelakais     | I have the following in my /etc/nixos/configuration.nix , programs.ssh.startAgent = true; run nixos-rebuild --upgrade switch , and rebooted, but ssh-add complains Error connecting to agent: 
+        https://discourse.nixos.org/t/None/54669/1
+    0|  0|  53711|@dahikino      | hello all, i’m newby on nixos, i installed nixos last week. I use the gpg-agent but i have a issue with it, it start with a lot of delay after to log on. i would like to add the parameter “–
+        https://discourse.nixos.org/t/None/53711/1
+    0|  0|  16858|@aidalgol      | I have the following in my /etc/nixos/configuration.nix , programs.ssh.startAgent = true; run nixos-rebuild --upgrade switch , and rebooted, but ssh-add complains Error connecting to agent: 
+        https://discourse.nixos.org/t/None/16858/1
+    0|  0|   5931|@jamespo       | I’m looking to have the qemu guest agent running in my nix VM. I’ve found https://github.com/NixOS/nixpkgs/blob/3285f0f2ff36aea7d5e87520a3e9ef66c44f87b8/nixos/modules/virtualisation/qemu-gue
+        https://discourse.nixos.org/t/None/5931/1
+    0|  0|   4987|@Ninlives      | I’d like to package an unfree software, but the website blocks download request with fetchurl’s default user-agent. It’s fine for local user because I could manually download the binaries an
+        https://discourse.nixos.org/t/None/4987/1
+    0|  0|  73118|@notknownenemy | I have seen that there was post about MeshCentral not working on NixOS. I wanted to give a try, and see if anyone found something new? For example I am able to get the MeshCentral agent conn
+        https://discourse.nixos.org/t/None/73118/1
+    0|  0|  71232|@morphismz     | I am new to nixos and trying to set up my gpg-agent to handle ssh. I am following this guide: https://rzetterberg.github.io/yubikey-gpg-nixos.html (the relevant section is GPG/SSH Agent). Th
+        https://discourse.nixos.org/t/None/71232/1
+    0|  0|  43124|@sjdwhiting    | I’ve been working on packaging the Wazuh agent over the last couple of weeks. It is something I’ve wanted to see done for a bit, and there is already an existing packaging request for it. I’
+        https://discourse.nixos.org/t/None/43124/1
+    0|  0|  56044|@fireking      | Hi, I installed gnupg in home manager (NixOS 24.05) with KDE Plasma 6 using the following: services.gpg-agent = { enabled = true; pinentryPackage = lib.mkForce pinentry-qt; }; I also added p
+        https://discourse.nixos.org/t/None/56044/1
+    0|  0|  49434|@sim4life      | I am using Win11 WSL-Ubuntu 22.04 inside powershell, I installed stand alone home-manager v24.05 using curl and used Nixpkgs v24.05 channel. I removed the existing gpg installation using: $ 
+        https://discourse.nixos.org/t/None/49434/1
+    0|  0|  41393|@Kyle          | In my configuration.nix I used programs.gnupg.agent = { enable = true; pinentryFlavor = "qt"; }; but, I got this error error: Failed assertions: - The option definition programs.gnupg.agent.
+        https://discourse.nixos.org/t/None/41393/1
+    0|  0|  52468|@adamoudad     | I get the following error when I use pass. gpg: decryption failed: no pinentry I run on NixOS 24.05.4997.086b448a5d54 (Uakari) . Here are the relevant parts in my /etc/nixos/configuration.ni
+        https://discourse.nixos.org/t/None/52468/1
+    0|  0|  35174|@bphd          | I’ve tried security.polkit.enable / env / XDG_RUNTIME_DIR= / DISPLAY= / export / pkttyagent / pkexec / exec / xhost / io.elementary.desktop.agent-polkit / sudo / dbus-launch . Haven’t tried 
+        https://discourse.nixos.org/t/None/35174/1
+    0|  0|  37643|@matrss        | I’ve recently tried to package the nessus agent here: https://github.com/matrss/nixpkgs/commit/35523c1752ade441277a6f70a25db29fe06f6334 (to run it I also created a simple systemd service tha
+        https://discourse.nixos.org/t/None/37643/2
+    0|  0|  11113|@groodt        | We use Buildkite for CI and nixpkgs for declaring packages we use in our builds. Our agent pool is elastic. We run on AWS and the agents are EC2 machines. Is there a good approach for “warmi
+        https://discourse.nixos.org/t/None/11113/1
+    0|  0|  78807|@koolean       | Disclosure: I worked through this with an AI assistant. The behavioural findings below are things I actually tested on my machine and confirmed. Setup Several repos, each with a flake defaul
+        https://discourse.nixos.org/t/None/78807/1
+    0|  0|   9903|@JeffreyBenjaminBrown| ...2 boot loader on /dev/sda... Installing for i386-pc platform. /nix/store/nkd8zj3mjws9h1n2qv5y0lwshkm23fh6-grub-2.04/sbin/grub-install: warning: this GPT partition label contains no BIOS B
+        https://discourse.nixos.org/t/None/9903/1
+    0|  0|  72430|@averageuser   | ...rules is solution for me. Also as per articles i read rules should be. `` login ; * ; ambuj ; Su0000-2400 sshd ; * ; ambuj ; Su0000-2400 `` and using gpt i tried to put some config into c
+        https://discourse.nixos.org/t/None/72430/1
+    0|  0|  12606|@bgibson       | ...not the boot partition. That file is below too. Anyone have any idea what’s causing this? Thanks! nixos-partition.sh #!/usr/bin/env bash #make UEFI (GPT) Partition Table and boot/root/hom
+        https://discourse.nixos.org/t/None/12606/1
+    0|  0|  78754|@kazimierzkrauze| ...nd this is my disko.nix: { disko.devices = { disk = { disk0 = { type = "disk"; device = "/dev/disk/by-id/wwn-0x50000398c889e7ed"; content = { type = "gpt"; partitions = { ESP = { size = "
+        https://discourse.nixos.org/t/None/78754/6
+    0|  0|  75718|@NobbZ         | It does not support EFI but can deal with GPT? Still you have boot.loader.grub.efiSupport set to true in https://github.com/GDBlaster/NixOs-Config/blob/2790b5046fad5c14e24732ab3563cc63e4310f
+        https://discourse.nixos.org/t/None/75718/4
+    0|  0|  60681|@gesangen      | ...ootloader could not be installed, and when following instructions to install via command line, I would get the error that my efi partition isn't on a GPT partition label. I found some dis
+        https://discourse.nixos.org/t/None/60681/1
+    0|  0|  53999|@famadorian    | ...GA-64G-DS_002336138399... Installing for i386-pc platform. /nix/store/2bmssmvfgy3vjs4hx1g1psm0zfhh719h-grub-2.12-rc1/sbin/grub-install: warning: this GPT partition label contains no BIOS 
+        https://discourse.nixos.org/t/None/53999/1
+    0|  0|   6856|@SRGOM         | ...If you’d like you can do a nixos rebuild-switch --install-bootloader after changing boot.loader.grub.device . I think this can be extended to BIOS + GPT and UEFI + GPT too but you’ll have
+        https://discourse.nixos.org/t/None/6856/9
+    0|  0|  79255|@quocjq        | ...are.facter.reportPath = ../hardware/facter.json; disko.devices = { disk.main = { type = "disk"; device = "/dev/disk/by-id/XXXXX"; content = { type = "gpt"; partitions = { ……. }; }; }; }; 
+        https://discourse.nixos.org/t/None/79255/1
+    0|  0|  75294|@mio-19        | ...kgs = import nixpkgs { inherit system; overlays = [ inputs0.nur.overlays.default inputs0.nix-vscode-extensions.overlays.default (final: prev: { shell-gpt = pkgs-pin.shell-gpt; }) ]; }; in
+        https://discourse.nixos.org/t/None/75294/2
+    0|  0|  76544|@istvn.urbn    | ...ere are the Nix files for reference: # disko-config.nix { disko.devices = { disk = { main = { device = "/dev/vda"; type = "disk"; content = { type = "gpt"; partitions = { ESP = { type = "
+        https://discourse.nixos.org/t/None/76544/1
+    0|  0|  75642|@busti         | ...e, it is basically an exact copy of the disko example flake. disko.devices = { disk.disk1 = { device = "/dev/vda"; type = "disk"; content = { type = "gpt"; partitions = { boot = { name = 
+        https://discourse.nixos.org/t/None/75642/1
+    0|  0|  73961|@mergemoveagree| ...= [ "${modulesPath}/image/repart.nix" ]; systemd.repart.enable = true; systemd.repart.partitions."01-root".Type = "root"; boot.initrd.systemd.root = "gpt-auto"; boot.initrd.supportedFiles
+        https://discourse.nixos.org/t/None/73961/1
+    0|  0|  73816|@AcidDemon     | ...enovo IdeaPad 120S with 64GB eMMC ( /dev/mmcblk0 ) using nixos-anywhere + disko . Yes, the device is old/not highly specced… :rofl: Storage layout is GPT → ESP → LUKS2 → LVM VG (thinpool)
+        https://discourse.nixos.org/t/None/73816/1
+    0|  0|  61691|@chandyland    | ...-linux-x86-64.so.2 (0x00007f636c88a000) In other iterations of my nix expression, I've tried using patchelf to manually set the rpath (with help from GPT-4o mini), and I've also tried jus
+        https://discourse.nixos.org/t/None/61691/5
+    0|  0|  56497|@krostar       | ...nt nixos configuration: disko = { devices = { disk = { sdcard = { device = "/dev/disk/by-id/mmc-SH64G_0x9973a25d"; type = "disk"; content = { type = "gpt"; partitions = { firmware = { lab
+        https://discourse.nixos.org/t/None/56497/1
+    0|  0|  55991|@rht           | ...og output didn’t give additional information unfortunately. I have tried removing the eval-cache-* in /root/.nix, but this still happen. I have asked GPT-o4 for help, but as expected it c
+        https://discourse.nixos.org/t/None/55991/1
+    0|  0|  55389|@TheConundrumer| ...ome to a situation where I need my system running in UEFI mode, and I was wondering what’s the correct way to switch NixOS - and it’s partitions - to GPT. I’ve done some research on the t
+        https://discourse.nixos.org/t/None/55389/1
+    0|  0|  40190|@ppenguin      | ...ome/jeroen/devel/g1tlab/1nnovatio/nixos-servers' is dirty trace: warning: The legacy table is outdated and should not be used. We recommend using the gpt type instead. Please note that ce
+        https://discourse.nixos.org/t/None/40190/1
+    0|  0|  79214|@scorpiofifth  | ...le) nixos-disk-image > Disk /build/nixos.raw: 5151MB nixos-disk-image > Sector size (logical/physical): 512B/512B nixos-disk-image > Partition Table: gpt nixos-disk-image > Disk Flags: ni
+        https://discourse.nixos.org/t/None/79214/1
+    0|  0|  78114|@georgiybza    | ...re to go from here, for context I am trying to dual-boot NixOS, it's getting installed off of a Live USB. If it matters, it's a graphical ISO, I used GPT, and left all other settings defa
+        https://discourse.nixos.org/t/None/78114/3
+    0|  0|  30773|@Ambroisie     | ...2 boot loader on /dev/sda... Installing for i386-pc platform. /nix/store/k16fsfwnccjmknzrrqhcmwm3l8g2p61d-grub-2.06/sbin/grub-install: warning: this GPT partition label contains no BIOS B
+        https://discourse.nixos.org/t/None/30773/1
+    0|  0|  73247|@1emank        | Thanks a lot, I'm quite new to nix and I couldn't find anything that was both useful and something that I could understand. I had to resort to gpt to get something useful, but it turns out i
+        https://discourse.nixos.org/t/None/73247/3
+    0|  0|  69423|@Linux-DADDY   | ...: { imports = [ inputs.disko.nixosModules.disko ]; disko.devices = { disk = { nvme0n1 = { type = "disk"; device = "/dev/nvme0n1"; content = { type = "gpt"; partitions = { ESP = { label = 
+        https://discourse.nixos.org/t/None/69423/1
+    0|  0|  71192|@tcurdt        | ...disko.nixosModules.disko ]; }; }; }; } disk-config.nix: { disko.devices = { disk = { main = { type = "disk"; device = "/dev/sda"; content = { type = "gpt"; partitions = { boot = { size = 
+        https://discourse.nixos.org/t/None/71192/1
+    0|  0|  70151|@PaulJ         | ...ggling to understand. This is the disko-config.nix: { disko.devices = { disk = { main = { type = "disk"; device = "/dev/nvme0n1"; content = { type = "gpt"; partitions = { ESP = { priority
+        https://discourse.nixos.org/t/None/70151/1
+    0|  0|  69346|@Una_oveja     | ...t and My /boot is 268,4MB in size and partition uses vfat, my Nix partition uses ext4 (I also have a Windows partition with NTFS), I'm using UEFI and GPT, and my bootloader is the default
+        https://discourse.nixos.org/t/None/69346/7
+    0|  0|  67461|@ZaksenCode    | ...t partition for disk, it looks like this: image I use cfdisk, but i think you can use something simillar. I rebuild my Flash Drive with ventoy to use GPT Partition and add NixOS iso on th
+        https://discourse.nixos.org/t/None/67461/15
+    0|  0|  65328|@ironhak       | ...ot@nixos:~]# sudo parted -l Model: SKHynix_HFS512GDE9X081N (nvme) Disk /dev/nvme0n1: 512GB Sector size (logical/physical): 512B/512B Partition Table: gpt Disk Flags: Number Start End Size
+        https://discourse.nixos.org/t/None/65328/9
+    0|  0|  65179|@crymear1v3r   | ...downloaded the graphical installer ( https://nixos.org/download/ ) and used balena-etcher to flash the iso to a usb. I also initialized the ssd with gpt on windows before booting into the
+        https://discourse.nixos.org/t/None/65179/1
+    0|  0|  29212|@synalice      | ...nto PCR 9 I can't edit NixOS configuration from this state. What do I do? I am using Rufus portable v4.7.2231 to burn the image. I tried both MBR and GPT. I also tried both iso and dd (Ru
+        https://discourse.nixos.org/t/None/29212/21
+    0|  0|  69447|@true911       | Nevermind, I got it solved with deepseek and home-manager. Community feedback really can't compete with having an AI sitting there troubleshooting alongside you. I'd mark this as [SOLVED] bu
+        https://discourse.nixos.org/t/None/69447/3
+    0|  0|  46436|@nPrevail      | I recently made this post yesterday, and came to conclusion that the issue lies in building Ollama: https://discourse.nixos.org/t/unable-to-complete-the-nixos-24-05-upgrade-something-to-do-w
+        https://discourse.nixos.org/t/None/46436/1
+    0|  0|  61068|@little-dude   | ...els locally. I basically https://github.com/little-dude/nix-config/commit/e77cfd2d04f456f96e2ef0b47fc3f24e5452f213 added this to my config : services.ollama = { enable = true; acceleratio
+        https://discourse.nixos.org/t/None/61068/1
+    0|  0|  68149|@pjz           | I'm on nixos 25.05 (stable) on a System76 Oryx (oryp4) that has an onboard nvidia GTX1070 and have set services.ollama = { enable = true; loadModels = [ "qwen2.5-coder:14b" ]; acceleration =
+        https://discourse.nixos.org/t/None/68149/1
+    0|  0|  59120|@uzi           | Am on and 7900XT and getting the following error running ollama + rocm. On unstable-nixos channel: Jan 21 02:08:35 latitude2 ollama[25521]: time=2025-01-21T02:08:35.025+08:00 level=INFO sour
+        https://discourse.nixos.org/t/None/59120/1
+    0|  0|  44305|@heartbeast42  | TL;DR: I want to get Ollama running but it can't find libstdc++.so.6. – How do I get Ollama running? – How can I go about debugging this and understanding this in the right "nix...
+        https://discourse.nixos.org/t/None/44305/1
+    0|  0|  76101|@ng0177        | The question is how to get loadModels to access the unstable channnel? https://discourse.nixos.org/t/services-ollama-loadmodels/68444 may or may not be related) sudo nix-channel --add unstab
+        https://discourse.nixos.org/t/None/76101/1
+    0|  0|  50624|@nixup         | Hello, recently I have bought a GTX1060 for some CUDA action for Ollama. I looked up that the services.ollama.acceleration gets set to cuda if nixpkgs,cudaSupport is set to true, so I tried 
+        https://discourse.nixos.org/t/None/50624/1
+    0|  0|  67463|@ng0177        | ...add an editor to edit configuration.nix! The Nano editor is also in stalled by default. # wget code-cursor-fhs gedit git github-desktop gparted (pkgs.ollama.override { acceleration = "roc
+        https://discourse.nixos.org/t/None/67463/6
+    0|  0|  78115|@gamebeaker    | I stumbled over this because of ollama. Version 30.5 is already in nixos-26.05 while it is still on version 24.0 on unstable. Here are the corresponding PRs: nixos-unstable: https://github..
+        https://discourse.nixos.org/t/None/78115/1
+    0|  0|  72604|@randomizedcoder| ...itoring rocmPackages.rocminfo rocmPackages.rocm-smi rocmPackages.rocm-core lact # https://github.com/aristocratos/btop btop-rocm # https://github.com/ollama/ollama ollama-rocm I made a sm
+        https://discourse.nixos.org/t/None/72604/8
+    0|  0|  37336|@SharkLava     | I have tried to install the https://search.nixos.org/packages ollama package from the nix repository. For some odd reason the installation fails. The build is successful when I comment that 
+        https://discourse.nixos.org/t/None/37336/1
+    0|  0|  77168|@arbope        | ...; services.xserver = { enable = true; xkb = { layout = "es"; }; windowManager.awesome.enable = true; displayManager.startx.enable = true; }; services.ollama = { enable = true; acceleratio
+        https://discourse.nixos.org/t/None/77168/5
+    0|  0|  80487|@nPrevail      | ...gest barrier I have right now is figuring out how to configure it into my configuration.nix file. I've seen millions of tutorials on how to configure ollama and it's very easy to setup. E
+        https://discourse.nixos.org/t/None/80487/1
+    0|  0|  67191|@ng0177        | ...m # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default. # wget gedit git github-desktop zef (pkgs.ollama.override { acceleration = "roc
+        https://discourse.nixos.org/t/None/67191/4
+    0|  0|  50108|@orahcio       | Recently I couldn’t to build my unstable system because I have qutebrowse and ollama, I don’t know why, the unstable version of these packages does not build anymore. I read some posts to mi
+        https://discourse.nixos.org/t/None/50108/1
+    0|  0|  41994|@Pierre        | ...he installation of Jina Hubble SDK, but Jina Hubble SDK is a prerequisite for installing DocArray. flake.nix { description = "Python environment with ollama"; inputs.nixpkgs.url = "github
+        https://discourse.nixos.org/t/None/41994/1
+    0|  0|  41868|@Pierre        | ...L I use nix version nix 2.18.1 I run nix develop in the directory containing flake.nix that looks like that: { description = "Python environment with ollama"; inputs.nixpkgs.url = "github
+        https://discourse.nixos.org/t/None/41868/1
+    0|  0|  68591|@TLATER        | ...package name from this option example in nixos option (no other specific reason to add such this) That's for compute. If you run stable diffusion or ollama or such it would theoretically 
+        https://discourse.nixos.org/t/None/68591/13
+    0|  0|  69728|@Knuschberkeks | ...nvironment.systemPack ages = with pkgs; [ # find package names at search.nixos.org fw-ectool #unstable.whatsapp-electron zapzap libinput posy-cursors ollama ffmpeg maliit-keyboard gparted
+        https://discourse.nixos.org/t/None/69728/1
+    0|  0|  67668|@plopmenz      | ...[1]: cuda-test.service: Main process exited, code=exited, status=1/FAILURE (cuda devices is being reported as 1) My usecase is to run GPU accelerated ollama in a nixos-container, similar 
+        https://discourse.nixos.org/t/None/67668/1
+    0|  0|  59223|@uzi           | ...7k2bwasf72rz0mmy4dcvnhgrcp1icd-graphics-drivers.drv' failed to build error: 1 dependencies of derivation '/nix/store/rnqmkd85jsx7jqj35y5j9j7x2pq7yrx8-ollama-0.5.7.drv' failed to build err
+        https://discourse.nixos.org/t/None/59223/1
+    0|  0|  56421|@Gnidga        | ...true; allowBroken = true; cudaSupport = true; allowInsecure = false; packageOverrides = pkgs: {}; permittedInsecurePackages = [ ]; }; }; services = { ollama = { enable = true; acceleratio
+        https://discourse.nixos.org/t/None/56421/1
+    0|  0|  49174|@rikt          | I have a really simple nixos setup on a development server with Ollama, nvidia drivers, cuda and open-webui running via docker. Everything works great except if I haven’t logged into the ser
+        https://discourse.nixos.org/t/None/49174/1
+    0|  0|  68148|@Atharva-Varpe | ...y-source/modules/misc/fontconfig.nix': (stack trace truncated; use '--show-trace' to show the full, detailed trace) error: codeium-vim was renamed to windsurf-vim on 2025-04-09. Please up
+        https://discourse.nixos.org/t/None/68148/1
+    0|  0|  63995|@danielo515    | I'm currently using windsurf, and I indeed use the direnv plugin. So all I have to do is to have node+npx in the project flake.nix, and that will be just available for the whole...
+        https://discourse.nixos.org/t/None/63995/3
+    0|  0|  47742|@Sped0n        | just got chip-tool and chip-cert working on macos and nixos, leave it here for those who might need it works on 25.11 (daf6dc47aa4b44791372d6139ab7b25269184d55) Disclaimer : it is mostly vib
+        https://discourse.nixos.org/t/None/47742/5
+    0|  0|  55123|@NuclearBiscuit| I "vibe-coded" a derivation that works for installing the donation edition. Place this in a folder with your .run and .license files, then call it in your configuration.nix file like so: { c
+        https://discourse.nixos.org/t/None/55123/8
+    0|  0|  75579|@TornaxO7      | I'm thinking about creating a PR to include my project https://github.com/TornaxO7/vibe vibe (it's not vibecoded or includes any AI generated code) to the nixpkgs but I'm unsure if it "big e
+        https://discourse.nixos.org/t/None/75579/1
+    0|  0|  39858|@icodecauseiloveit| I don’t know what is happening. This setup only fails when I include langchain dependency. Any suggestion? { description = "Environment for LLM"; inputs.nixpkgs.url = "github:nixos/nixpkgs/n
+        https://discourse.nixos.org/t/None/39858/1
+    0|  0|  69176|@mio-19        | I am trying to package a golang gui package. It is the only gui frontend for Wireguard I could find. https://github.com/UnnoTed/wireguird content warning: llm generated nix expressions are i
+        https://discourse.nixos.org/t/None/69176/1
+    0|  0|  75788|@passenger     | The issue was not with my campus network. I was misled by the LLM. I ran nixos-rebuild and provided trusted substitutors to the command like this: sudo nixos-rebuild test --flake .#HOSTNAME 
+        https://discourse.nixos.org/t/None/75788/3
+    0|  0|  54658|@wintermute1   | I’m asking because I’m planning to index them with an LLM so I can ask questions in natural language; I’m pretty new to nix. Sources I know: http://nix.dev nix.dev Nix pills https://nixos.or
+        https://discourse.nixos.org/t/None/54658/1
+    0|  0|  76370|@rhd           | Hi everyone, I'm new working with NixOS , so please be kind to newbies… :wink: We are currently working on a scientific test setup using and connecting some llm and AI services. To ensure a 
+        https://discourse.nixos.org/t/None/76370/1
+    0|  0|  65686|@nixusr1       | I asked an LLM (one good at programming) for a solution, it gave me these snippets: to my vars.nix: getVarsForHost = hostname: let category = hostCategories.${hostname} or "desktop"; categor
+        https://discourse.nixos.org/t/None/65686/2
+    0|  0|  68477|@tejing        | This is… an absolute mess. There are so many things fundamentally wrong here I'm not even sure where to begin… was this code just generated by an LLM and never tested? Firstly, you're settin
+        https://discourse.nixos.org/t/None/68477/2

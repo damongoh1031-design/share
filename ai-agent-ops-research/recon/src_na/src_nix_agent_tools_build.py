@@ -1,0 +1,139 @@
+import os
+from pathlib import Path
+
+from nix_agent import hostattr, logparse, runner
+from nix_agent.target import (
+    Target,
+    TargetError,
+    attr_candidates,
+    config_attr,
+    current_hm_profile,
+    resolve_target,
+)
+
+
+def closure_installable(target: Target, candidate: str) -> str:
+    if target.mode == "nixos":
+        return f"{config_attr(target, candidate)}.config.system.build.toplevel"
+    return f"{config_attr(target, candidate)}.activationPackage"
+
+
+def build_closure(target: Target, dry_run: bool = False) -> dict[str, object]:
+    """Shared by build(), diff(), and check(level='dry-build')."""
+    pending = list(attr_candidates(target))
+    tried: list[str] = []
+    installable = ""
+    result = runner.RunResult(ok=False, command=[], stdout="", stderr="")
+    idx = 0
+    while idx < len(pending):
+        candidate = pending[idx]
+        tried.append(candidate)
+        installable = closure_installable(target, candidate)
+        argv = ["nix", "build", "--no-link"]
+        if dry_run:
+            argv.append("--dry-run")
+        else:
+            argv.append("--print-out-paths")
+        argv.append(installable)
+        result = runner.run(argv)
+        if result.ok:
+            if dry_run:
+                return runner.envelope("ok", installable, result)
+            lines = result.stdout.strip().splitlines()
+            if not lines:
+                return runner.envelope("failed", installable, result)
+            return runner.envelope("ok", installable, result, store_path=lines[-1])
+        if hostattr.missing_flake_attr(result.output):
+            if idx < len(pending) - 1:
+                idx += 1
+                continue
+            more, unknown = hostattr.extra_hosts_or_unknown(target, tried)
+            if more:
+                pending.extend(more)
+                idx += 1
+                continue
+            if unknown is not None:
+                return unknown
+        break
+    extra: dict[str, object] = {}
+    drv_info = runner.failed_derivation_info(result.output)
+    if drv_info is not None:
+        extra["failed_derivation"] = drv_info
+    return runner.envelope("failed", installable, result, **extra)
+
+
+def build(
+    flake_uri: str | None = None,
+    mode: str = "nixos",
+) -> dict[str, object]:
+    try:
+        target = resolve_target(flake_uri, mode)
+    except TargetError as exc:
+        return {"status": "no_target", "error": str(exc)}
+    return build_closure(target)
+
+
+def _current_closure(mode: str) -> str | None:
+    if mode == "nixos":
+        path = Path("/run/current-system")
+        return os.path.realpath(path) if path.exists() else None
+    return current_hm_profile()
+
+
+def closure_diff(
+    old_path: str, new_path: str
+) -> tuple[runner.RunResult, dict[str, list[dict[str, str]]] | None]:
+    """Diff two closures; structured packages when the output parses.
+    diff-closures prints nothing for identical closures, so whitespace-only
+    output counts as an empty diff rather than a parse failure. In practice
+    this rule only fires for diff-closures: nvd always prints at least a
+    header, so it never hits the whitespace-only path, and treating it the
+    same way is harmless."""
+    nvd = runner.resolve_binary("nvd")
+    if nvd:
+        argv = [nvd, "diff", old_path, new_path]
+        parse = logparse.parse_nvd
+    else:
+        argv = ["nix", "store", "diff-closures", old_path, new_path]
+        parse = logparse.parse_diff_closures
+    result = runner.run(argv)
+    if not result.ok:
+        return result, None
+    if not result.output.strip():
+        return result, {"added": [], "removed": [], "changed": []}
+    return result, parse(result.output)
+
+
+def diff(flake_uri: str | None = None, mode: str = "nixos") -> dict[str, object]:
+    """Diff the freshly built closure against the live system."""
+    try:
+        target = resolve_target(flake_uri, mode)
+    except TargetError as exc:
+        return {"status": "no_target", "error": str(exc)}
+
+    built = build_closure(target)
+    if built["status"] != "ok":
+        return built
+    new_path = str(built["store_path"])
+
+    current = _current_closure(mode)
+    if current is None:
+        return {
+            "status": "failed",
+            "resolved_target": built["resolved_target"],
+            "command": built["command"],
+            "output": built["output"],
+            "error": f"could not locate the current {mode} closure to diff against",
+            "store_path": new_path,
+        }
+
+    result, packages = closure_diff(current, new_path)
+    status = "ok" if result.ok else "failed"
+    extra: dict[str, object] = {
+        "diff": result.output,
+        "store_path": new_path,
+        "current_closure": current,
+    }
+    if packages is not None:
+        extra["packages"] = packages
+    return runner.envelope(status, str(built["resolved_target"]), result, **extra)

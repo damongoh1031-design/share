@@ -1,0 +1,46 @@
+OK 79736  posts=62  likes=352 Can we explicitly ban LLM-generated PR descriptions, commits?
+OK 77567  posts=4   likes=74  Nixpkgs core team update 2026-05-11 – automation/AI policy feedback an
+OK 64345  posts=13  likes=87  Nothing but Nix - reclaim 130GB for Nix in GitHub runners
+OK 66137  posts=13  likes=81  mkAIDerivation: generate a derivation on the fly from a prompt using a
+OK 71476  posts=29  likes=104 Radically improving Nix/NixOS security with Fil-C
+OK 79113  posts=27  likes=51  [no-LLM] `nix-weather-hs` - analyzing un-built derivation graphs for c
+OK 79501  posts=5   likes=25  Nix-housing: live inside a sandbox - better hygiene for your shell
+OK 65168  posts=19  likes=31  🚀 Introducing nixai: Your AI-Powered NixOS Companion
+OK 78627  posts=48  likes=419 Let's create skills for nixpkgs development
+OK 62640  posts=1   likes=17  MCP-NixOS - Because Your AI Assistant Shouldn't Hallucinate About Pack
+OK 79704  posts=27  likes=38  Nixos-telemetry flake
+OK 31246  posts=11  likes=44  Better why-depends (fill in the gaps)
+OK 79202  posts=8   likes=30  What are the differences between nix-bwrapper, nixpak, jail.nix and ni
+OK 18741  posts=116 likes=858 Nixpkgs's current development workflow is not sustainable
+OK 76810  posts=13  likes=40  Tix - A custom nix type checker/LSP
+OK 21832  posts=3   likes=20  "Eelco's Legacy"
+OK 79881  posts=24  likes=125 How to piss off your Nix friends
+OK 78964  posts=94  likes=788 LLMs in nixpkgs
+OK 76502  posts=19  likes=18  50$ bounty for Modelio
+OK 24341  posts=3   likes=11  A GPT3 Rant about NixOS
+OK 72028  posts=3   likes=11  Setting Deep learning Python project with CUDA support using uv2nix
+OK 80179  posts=59  likes=423 Documentation needs to be created towards agents
+OK 29018  posts=2   likes=16  Use of ChatGPT et al
+OK 25035  posts=23  likes=176 Nix-init - Generate Nix packages from URLs with hash prefetching, depe
+OK 72275  posts=9   likes=26  NixOS automation with AI
+OK 70332  posts=14  likes=38  Copilot in nixpkgs pull requests?
+OK 80177  posts=6   likes=22  Should we add AI tool Co-authored-by linting to CI?
+OK 78262  posts=93  likes=618 Call to ban AI commits
+OK 63546  posts=13  likes=27  A few annecdotal NixOS install UX issues
+OK 78143  posts=3   likes=9   PhoeNix: managing NixOS machines through templates, flakes, PXE and ni
+OK 46894  posts=1   likes=7   This month in Nix documentation - #6 - March to May 2024
+OK 3032   posts=7409 likes=322 PRs ready for review _
+OK 2617   posts=3222 likes=340 PRs already reviewed
+OK 61072  posts=9   likes=18  Packaging Claude Code on NixOS
+OK 80505  posts=11  likes=9   `gitlab:`-formatted flake inputs now blocked by Cloudflare
+OK 79802  posts=10  likes=33  Dynamic Derivations Working Group #2
+OK 25175  posts=7   likes=11  Add SSH key to agent at login using KWallet
+OK 28379  posts=3   likes=7   Packaging Open Policy Agent policies with Nix · Determinate Systems
+OK 60594  posts=1   likes=5   Getting Started with Local LLM on NixOS (CUDA, Ollama, Open WebUI)
+OK 78333  posts=135 likes=542 Init System freedom on NixOS
+OK 48382  posts=1   likes=5   Run local AI chatbot using Nix
+OK 4731   posts=10  likes=13  Updated after 3 week vacation. gnupg says "no pinentry"
+OK 76873  posts=5   likes=12  Coding Agent workflow for NixOS
+OK 80199  posts=6   likes=17  NixOs and Nix skill for LLM's
+OK 79124  posts=8   likes=16  Nix flake check + JUnit = Junix
+saved 49 topics total

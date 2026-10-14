@@ -1,0 +1,182 @@
+[
+ {
+  "author": "alexzenla",
+  "text": "When running on bare metal, the CPU performance is within 1%, so usually quite well! Hardest thing is I&#x2F;O, but we do a lot to help with that too.",
+  "created_at": "2026-02-09T05:45:45Z",
+  "objectID": "46941951"
+ },
+ {
+  "author": "alexzenla",
+  "text": "I'd say the limitation has been that sometimes we have to implement things by hand. But it has enabled us to do things that others can't achieve since KVM is a singular stack in many ways. For example, VFIO-PCI is largely the same across all VMMs, but we have true full control over the PCI passthrough on our platform which has allowed us to do things KVM VMMs can't.",
+  "created_at": "2026-02-09T05:44:51Z",
+  "objectID": "46941945"
+ },
+ {
+  "author": "alexzenla",
+  "text": "I was more specifically referring to the fact that to implement threads in gVisor, it calls to the go runtime, which does make calls to clone() (not fork()), but I see the pushback :) I think it's a small distinction. fork() itself isn't all that useful anyways. However, consider reading a file in gVisor. This passes through the IO layers, which ultimately will end up a read in the kernel, through one of the many interfaces to do so.",
+  "created_at": "2026-02-09T05:41:53Z",
+  "objectID": "46941933"
+ },
+ {
+  "author": "0x457",
+  "text": "Less about IaaS providers, more about PaaS providers that often abstract away image you're running and tell you \"just run pip&#x2F;apt&#x2F;gem install whatever\". Same with the CI platforms, instead of `setup-*` steps in GHA it could have just take flake in. Yes, I know I can build OCI image with nix, again, not the issue. My private CI runs on top of nix, all workers on the same host share &#x2F;nix&#x2F;store. My pipelines focused on running actual things rather than getting a worker ready to run things. If I didn't want output to be parsed by CI, I could have just reduced my pipeline to `nix flake check`. I share the exact same pipeline and worker image across multiple projects in multiple languages, all because everything is hidden behind devenv's tasks. When I switched project different rust and node versions, I didn't have to touch my CI at all. When I added a bunch of native deps that usually needed to be installed separately on GHA - again, didn't have to touch anything beyond my nix env once.",
+  "created_at": "2026-02-06T17:02:15Z",
+  "objectID": "46915309"
+ },
+ {
+  "author": "syzcowboy99",
+  "text": "> Ultimately, if you fork() in gVisor, that calls fork() on the host This isn't true. You can look at the code right here[1], there is no code path in gVisor that calls fork() on the host. In fact, the only syscalls gVisor is allowed to make to the host are listed right here in their seccomp filters[2]. [1] https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;gvisor&#x2F;blob&#x2F;master&#x2F;pkg&#x2F;sentry&#x2F;sysc... [2] https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;gvisor&#x2F;tree&#x2F;master&#x2F;runsc&#x2F;boot&#x2F;filt...",
+  "created_at": "2026-02-05T22:56:06Z",
+  "objectID": "46906598"
+ },
+ {
+  "author": "schmuhblaster",
+  "text": "Or try this: https:&#x2F;&#x2F;github.com&#x2F;deepclause&#x2F;agentvm , it's based on container2wasm, so the VM is fully defined by a Dockerfile.",
+  "created_at": "2026-02-05T05:37:21Z",
+  "objectID": "46896071"
+ },
+ {
+  "author": "yearolinuxdsktp",
+  "text": "How do you compete with Nitro-based VMs on AWS with 0.5% overhead?",
+  "created_at": "2026-02-05T05:00:30Z",
+  "objectID": "46895851"
+ },
+ {
+  "author": "Cyph0n",
+  "text": "Okay, so your idea is that cloud providers should make this even easier? $ nixos-rebuild build-image --flake .#myhost --image-variant amazon $ aws-cli image upload < result&#x2F;images&#x2F;image.ami $ aws-cli create vm --image={image}",
+  "created_at": "2026-02-05T03:48:51Z",
+  "objectID": "46895447"
+ },
+ {
+  "author": "esafak",
+  "text": "But that's what Anthropic uses; a sandbox. Now you can have your own.",
+  "created_at": "2026-02-05T03:08:08Z",
+  "objectID": "46895153"
+ },
+ {
+  "author": "0x457",
+  "text": "I know that part is easy, i just nix-anywhere just yesterday to reinstall one of my servers. It's not what I'm talking about.",
+  "created_at": "2026-02-05T02:19:35Z",
+  "objectID": "46894832"
+ },
+ {
+  "author": "indigodaddy",
+  "text": "I started this with same idea: https:&#x2F;&#x2F;github.com&#x2F;jgbrwn&#x2F;vibebin",
+  "created_at": "2026-02-05T01:38:49Z",
+  "objectID": "46894509"
+ },
+ {
+  "author": "indigodaddy",
+  "text": "I like using LXC containers, eg full persistent OS and you can do docker if you want etc. I started this and it works well for me to put on a server or VPS: https:&#x2F;&#x2F;github.com&#x2F;jgbrwn&#x2F;vibebin",
+  "created_at": "2026-02-05T01:37:05Z",
+  "objectID": "46894497"
+ },
+ {
+  "author": "groby_b",
+  "text": "If you believe \"costly autocomplete\" is all you get, you absolutely shouldn't bother. You're opting for \"sorry boss, it's going to take me 10 times as long, but it's going to be loving craftsmanship, not industrial production\" instead. You want different tools, for a different job.",
+  "created_at": "2026-02-04T23:56:26Z",
+  "objectID": "46893679"
+ },
+ {
+  "author": "ATechGuy",
+  "text": "I agree. However, how to define these permissions when agent behavior is undefined?",
+  "created_at": "2026-02-04T22:54:50Z",
+  "objectID": "46893067"
+ },
+ {
+  "author": "Cyph0n",
+  "text": "It’s fairly trivial to map your NixOS config into a VM image: https:&#x2F;&#x2F;nixos.org&#x2F;manual&#x2F;nixos&#x2F;stable&#x2F;#sec-image-nixos-rebui... An alternative is to “infect” a VM running in whatever cloud and convert it into a NixOS VM in-place: https:&#x2F;&#x2F;github.com&#x2F;nix-community&#x2F;nixos-anywhere In fact, it is a common practice to use the latter to install NixOS on new machines. You start off by booting into a live USB with SSH enabled, then use nixos-anywhere to install NixOS and partition disks via disko. Here is an example I used recently to provision a new gaming desktop: nix run github:nix-community&#x2F;nixos-anywhere -- \\ --flake .#myhost \\ --target-host user@192.168.0.100 \\ --generate-hardware-config nixos-generate-config .&#x2F;hosts&#x2F;myhost&#x2F;hardware-configuration.nix At the end of this invocation, you end up with a NixOS machine running your config partitioned based on your disk config. My disko config in this case (ZFS pool with 1 disk vdev): https:&#x2F;&#x2F;gist.github.com&#x2F;aksiksi&#x2F;7fed39f17037e9ae82c043457ed2...",
+  "created_at": "2026-02-04T21:06:41Z",
+  "objectID": "46891769"
+ },
+ {
+  "author": "Cyph0n",
+  "text": "Agreed, the learning curve is insane and docs are sparse. But it is truly worth it imo, even if you’re just using Nix as a build tool, or using Home Manager on Linux or macOS.",
+  "created_at": "2026-02-04T20:44:08Z",
+  "objectID": "46891456"
+ },
+ {
+  "author": "giancarlostoro",
+  "text": "This brings me back to my college days. We had Windows, and Deep Freeze. Students could do anything on the computer, we restart it and its all wiped and new. How long before Deep Freeze realizes they could sell their tool to Vibe Coders, they have Deep Freeze for Mac but not for Linux, funnily enough.",
+  "created_at": "2026-02-04T20:35:02Z",
+  "objectID": "46891306"
+ },
+ {
+  "author": "ghxst",
+  "text": "I'm working on a shared remote box for AI assisted development, will definitely look at this for some inspiration.",
+  "created_at": "2026-02-04T20:32:34Z",
+  "objectID": "46891273"
+ },
+ {
+  "author": "giancarlostoro",
+  "text": "If that's the goal, why not just have Claude Code do it all from your phone at that point? Test it when its done locally you pull down the branch. Not 100% frictionless, but if it messes up an OS it would be anthropic's not yours.",
+  "created_at": "2026-02-04T20:19:03Z",
+  "objectID": "46891057"
+ },
+ {
+  "author": "mystifyingpoi",
+  "text": "> not just contain the execution environment. See, my typical execution environment is a Linux vm or laptop, with a wide variety of SSH and AWS keys configured and ready to be stolen (even if they are temporary, it's enough to infiltrate prod, or do some sneaky lateral movement attack). On the other hand, typical application execution environment is an IAM user&#x2F;role with strictly scoped permissions.",
+  "created_at": "2026-02-04T19:33:18Z",
+  "objectID": "46890505"
+ },
+ {
+  "author": "souvik1997",
+  "text": "Edera looks very cool! Awesome team too. I read the thesis on arxiv. Do you see any limitations from using Xen instead of KVM? I think that was the biggest surprise for me as I have very rarely seen teams build on Xen.",
+  "created_at": "2026-02-04T19:27:38Z",
+  "objectID": "46890437"
+ },
+ {
+  "author": "NJL3000",
+  "text": "I was planning to have worktrees bind mounted systematically, but agree it’s not super clean atm at scale (yet)",
+  "created_at": "2026-02-04T19:27:23Z",
+  "objectID": "46890433"
+ },
+ {
+  "author": "nh2",
+  "text": "I find that a bit of a weird point. The goal of such sandboxing is that you can allow the agent to freely write&#x2F;execute&#x2F;test code during development, so that it can propose a solution&#x2F;commit without the human having to approve every dangerous step (\"write a Python file, then execute it\" is already a dangerous step). As the post says: \"To safely run a coding agent without review\". You would then review the code, and use it if it's good. Turning many small reviews where you need to be around and babysit every step into a single review at the end. What you seem to be asking for (shipping the generated code to production without review) is a completely different goal and probably a bad idea. If there really were a tool that can \"scan the generated code\" so reliably that it is safe to ship without human review, then that could just be part of the tool that generates the code in the first place so that no code scanning would be necessary. Sandboxing wouldn't be necessary either then. So then sandboxing wouldn't be \"half the picture\"; it would be unnecessary entirely, and your statement simplifies to \"if we could auto-generate perfect code, we wouldn't need any of this\".",
+  "created_at": "2026-02-04T19:00:34Z",
+  "objectID": "46890089"
+ },
+ {
+  "author": "alexzenla",
+  "text": "This is why you can't build these microVM systems to just do isolation, it has to provide more value than that. Observability, policy, etc.",
+  "created_at": "2026-02-04T18:56:49Z",
+  "objectID": "46890036"
+ },
+ {
+  "author": "alexzenla",
+  "text": "This is the thesis of our research paper here, a good middle ground is necessary: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2501.04580",
+  "created_at": "2026-02-04T18:53:40Z",
+  "objectID": "46889989"
+ },
+ {
+  "author": "alexzenla",
+  "text": "The reason why virtualization approaches with true Linux kernels is still important is what you do allow via syscalls ultimately does result in a syscall on the host system, even if through layers of indirection. Ultimately, if you fork() in gVisor, that calls fork() on the host (btw fork() execve() is expensive on gVisor still). The middle ground we've built is that a real Linux kernel interfaces with your application in the VM (we call it a zone), but that kernel then can make specialized and specific interface calls to the host system. For example with NVIDIA on gVisor, the ioctl()'s are passed through directly, with NVIDIA driver vulnerabilities that can cause memory corruption, it leads directly into corruption in the host kernel. With our platform at Edera ( https:&#x2F;&#x2F;edera.dev ), the NVIDIA driver runs in the VM itself, so a memory corruption bug doesn't percolate to other systems.",
+  "created_at": "2026-02-04T18:52:00Z",
+  "objectID": "46889967"
+ },
+ {
+  "author": "0x457",
+  "text": "It's also an answer to caching with &#x2F;nix&#x2F;store. I wish more cloud services supported \"give me your nixosConfiguration or something similar\" instead of providing api to build containers&#x2F;vms imperatively. Dockerfile and everything that mimics it is my least favorite way to do this.",
+  "created_at": "2026-02-04T18:47:14Z",
+  "objectID": "46889906"
+ },
+ {
+  "author": "alexzenla",
+  "text": "This is a big reason for our strategy at Edera ( https:&#x2F;&#x2F;edera.dev ) of building hypervisor technology that eliminates the standard x86&#x2F;ARM kernel overhead in favor of deep para-virtualization. The performance of gVisor is often a big limiting factor in deployment.",
+  "created_at": "2026-02-04T18:42:44Z",
+  "objectID": "46889842"
+ },
+ {
+  "author": "aquariusDue",
+  "text": "To provide another data point: I too use NixOS and oh boy that one-time is really costly. And while we're sharing Nix stuff for LLMs there's this piece of kit too: https:&#x2F;&#x2F;github.com&#x2F;YPares&#x2F;rigup.nix",
+  "created_at": "2026-02-04T18:42:03Z",
+  "objectID": "46889832"
+ },
+ {
+  "author": "mtlynch",
+  "text": "This is a similar macOS solution: https:&#x2F;&#x2F;github.com&#x2F;lynaghk&#x2F;vibe&#x2F;",
+  "created_at": "2026-02-04T18:41:49Z",
+  "objectID": "46889827"
+ }
+]

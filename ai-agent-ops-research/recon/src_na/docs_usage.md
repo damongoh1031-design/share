@@ -1,0 +1,375 @@
+# nix-agent usage
+
+`nix-agent` is a local stdio MCP server that gives AI agents composable
+NixOS / Home Manager operations: build, diff, switch, and generations for the
+operational core, plus eval, locate, and check for config introspection. It
+works alongside [`mcp-nixos`](https://github.com/utensils/mcp-nixos):
+nix-agent operates on your actual configuration; `mcp-nixos` handles package
+and option discovery. The documented default is high trust: unprompted
+activation and passwordless sudo narrowed to this machine's flake (see
+[agent-install.md](agent-install.md)). Lower trust is an opt-down.
+
+## What you get
+
+- a runnable stdio MCP server
+- a Nix flake package and app (wrapper bundles statix/deadnix/nixfmt/nvd)
+- a NixOS module at `nixosModules.default`
+- companion agent skills in `skills/nix-agent/` (workflow) and `skills/nix-agent-init/` (onboarding)
+- example MCP host configs in `examples/`
+
+The packaged wrapper supplies `statix`, `deadnix`, `nixfmt`, and `nvd`.
+
+The host must supply Nix and the commands needed by the operations it uses:
+`nixos-rebuild` for NixOS, `home-manager` for standalone Home Manager,
+`sudo` for privileged activation, and `systemctl`/`journalctl` for
+post-activation health reporting and logs.
+
+Commands time out after 30 minutes by default. Set
+`NIX_AGENT_COMMAND_TIMEOUT` to a positive number of seconds to override that
+limit; an unset, invalid or nonpositive value falls back to the 30-minute
+default.
+
+### Local usage log
+
+Off by default. Set `NIX_AGENT_USAGE_LOG=1` (also `true` / `yes` / `on`) in
+the MCP host's env for the nix-agent server to append one JSON line per tool
+call (no network) while dogfooding:
+
+```json
+{
+  "mcpServers": {
+    "nix-agent": {
+      "command": "nix-agent",
+      "args": [],
+      "env": {
+        "NIX_AGENT_USAGE_LOG": "1"
+      }
+    }
+  }
+}
+```
+
+- default path: `$XDG_STATE_HOME/nix-agent/usage.jsonl` (or
+  `~/.local/state/nix-agent/usage.jsonl`)
+- override path with `NIX_AGENT_USAGE_LOG_PATH`
+
+Each event records the tool name, UTC timestamp, duration, calling
+`client` (from `NIX_AGENT_CLIENT`, else inferred: opencode / claude-code /
+codex / cursor / parent process), `host`, `cwd`, and `session` when a known
+session env var is present, plus envelope `status`, `resolved_target` when
+present, `raw_bytes` / `returned_bytes` / `bytes_saved` when byte accounting
+ran, outcome details (`command` / `op`, `first_error`, `error_message`,
+`failed_drv`, `output_bytes`, `output_truncated`, `summary`), the full
+sanitized request `params`, and top-level copies of a few request fields
+(`mode`, `flake_uri`, `level`, `action`, `attr`). Write failures are
+swallowed so logging never breaks a tool call. Tag a custom client name
+with `NIX_AGENT_CLIENT=my-agent` alongside `NIX_AGENT_USAGE_LOG=1`.
+
+Summarize with:
+
+```bash
+nix-agent usage
+nix-agent usage --json
+nix-agent usage --compare-shell
+nix-agent usage --compare-shell --json
+```
+
+`--compare-shell` scans interactive shell histories (fish, bash, zsh)
+for direct nix commands (`nixos-rebuild`, `home-manager`, `nix
+build`/`eval`/`store`/`log`, `statix`, `deadnix`, `nixfmt`, `nvd`) and
+prints MCP tool calls vs shell commands with an MCP share. It only sees
+interactive shells, not agent Bash tool calls: it estimates *your* shell
+bypass. To measure *agent* bypass (agents shelling out instead of calling
+MCP tools), add a host-side hook that logs matching Bash invocations.
+Recipes: a Claude Code `PreToolUse` hook on `Bash` that appends matching
+commands to `$XDG_STATE_HOME/nix-agent/shell-bypass.jsonl`, a Codex
+`pre_tool_use` hook with the same match list, or an opencode
+`tool.execute.before` hook on `Bash`. Keep the match list identical to the
+`SHELL_PATTERNS` tuple in `src/nix_agent/metrics.py` so both sides count
+the same operations.
+
+## Install
+
+Add the flake input and module to your NixOS config:
+
+```nix
+{
+  inputs.nix-agent.url = "github:JEFF7712/nix-agent";
+
+  outputs = { nixpkgs, nix-agent, ... }: {
+    nixosConfigurations.my-host = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        nix-agent.nixosModules.default
+        ({ ... }: {
+          programs.nix-agent.enable = true;
+          programs.nix-agent.flake = /home/me/nixos;
+          programs.nix-agent.privilegedAutomation.enable = true;
+          programs.nix-agent.privilegedAutomation.user = "me";
+        })
+      ];
+    };
+  };
+}
+```
+
+Then rebuild:
+
+```bash
+sudo nixos-rebuild switch --flake .#my-host
+```
+
+That installs the `nix-agent` binary, pins `$NIX_AGENT_FLAKE`, and
+enables passwordless sudo for dry-activate / switch / rollback narrowed
+to that flake directory. That is the documented default. The pin is an
+anti-footgun, not a security boundary. To keep a sudo password or host
+prompts, omit `privilegedAutomation` and see
+[privileged-automation.md](privileged-automation.md) (lower trust).
+
+Prefer to let an agent do it? See [agent-install.md](agent-install.md) for the
+one-shot install prompt.
+
+## MCP host config
+
+Point your MCP host at:
+
+```json
+{
+  "mcpServers": {
+    "nix-agent": {
+      "command": "nix-agent",
+      "args": []
+    }
+  }
+}
+```
+
+See `examples/codex-config.toml`, `examples/claude-code-mcp.json`,
+`examples/cursor-cli-config.json`, and `examples/opencode-mcp.json`.
+
+## Companion skills
+
+The MCP exposes the tools; the skills teach the correct workflow. The
+installer copies every directory under `skills/` (the `nix-agent` workflow
+skill and the `nix-agent-init` onboarding skill) into your agent's skill
+directory:
+
+```bash
+./install-skill.sh codex
+./install-skill.sh opencode
+./install-skill.sh claude
+./install-skill.sh cursor
+```
+
+## Tool surface
+
+All tools auto-resolve the target when `flake_uri` is omitted. Resolution
+order: `$NIX_AGENT_FLAKE` (for Home Manager: `$NIX_AGENT_HM_FLAKE`, falling
+back to `$NIX_AGENT_FLAKE`), then the first existing `flake.nix` among
+`/etc/nixos`, `~/nixos`, `~/.config/nixos`, `~/nix-config`, `~/nixos-config`
+for NixOS (`~/.config/home-manager`, `~/.config/nixpkgs` for Home Manager).
+The hostname / `user@host` attribute is picked automatically, then a unique
+flake host or prefix/suffix match if needed; a mismatch is `unknown_host`
+with `hosts`. Explicit `flake_uri#attr` is never rewritten. Privileged
+ops accept `.` / `./` by resolving them to `$NIX_AGENT_FLAKE` when the pin
+is set. Single-command
+results echo back `resolved_target` and the exact `command` run. Exceptions:
+a batched `eval_config` folds its per-attr commands into `results`;
+`check("lint")` returns `commands` (the statix and deadnix argv list)
+instead of a single `command`.
+
+`mode` defaults to `"nixos"`. Use `"home-manager"` only for a **standalone** HM
+flake (its own `homeConfigurations`, applied with `home-manager switch`). When
+HM is integrated as a NixOS module (built into the system closure), keep
+`mode="nixos"` and switch the whole system, there is no separate HM switch. On
+a machine that has both a NixOS flake and a leftover `~/.config/home-manager`
+flake, pin the target with `$NIX_AGENT_FLAKE` or an explicit `flake_uri` so
+resolution can't pick the wrong one. See `skills/nix-agent/SKILL.md` for the
+full mode-selection guidance.
+
+The surface is two tiers. The **operational core** produces structured
+operational signal and rollback safety that ad-hoc shell cannot reproduce
+reliably. **Config introspection** tools earn their slot by capping or
+structuring Nix output the host would otherwise pay for in raw context,
+except `locate_option`, which earns it as the which-file answer rather
+than as a cap (the measured `environment.systemPackages` case is 24 KB →
+20 KB). nix-darwin is out of scope.
+
+Operational core:
+
+| Tool | What it does |
+|------|-------------|
+| `build(flake_uri?, mode?)` | Build the closure, no activation. A failed build carries `failed_derivation` (`{drv, log_tail}`). |
+| `diff(flake_uri?, mode?)` | What a switch would change (package adds/removes/version bumps). Also returns a structured `packages` object alongside the human-readable diff, when the diff output parses: `added` and `removed` entries are `{name, version}`, `changed` entries are `{name, old, new}`. Show this in the reply and switch unless the user asked only to preview or check. |
+| `switch(flake_uri?, mode?, validate?, full_log?)` | Activate. Records `rollback_generation`. Returns a structured `summary` (units changed, derivations built, a `packages` object with package-level changes vs the rollback generation, and a `health` object with systemd units that newly failed, resolved, or are still failing after activation) and trims the log to a tail on success (`full_log=True` for all of it). Activation with newly failed units returns `status: "degraded"` and a rollback hint. `validate=True` gates on `check("dry-build")` first; a sudo auth failure returns a `privilege` diagnosis. Privileged argv uses `sudo -n`. |
+| `generations(action="list"\|"rollback", mode?, generation?)` | List or roll back generations. NixOS list entries include `path` (realpath of the profile link) when that link exists. After `switch`, undo with `generations(action="rollback", generation=<rollback_generation or id>)`. Bare `generations(action="rollback")` is previous-generation only, and is only the right default when nothing else has switched since. A `generation` that matches nothing returns `unknown_generation` and runs no command. |
+
+Config introspection:
+
+| Tool | What it does |
+|------|-------------|
+| `eval_config(attr, flake_uri?, mode?)` | Final merged value of any config attribute on this machine (after all modules/overlays). `mcp-nixos` tells you what an option means; this tells you what it resolves to. `attr` also takes a list, evaluating each in one call and returning per-attr `results`. All attrs ok → `ok`; mixed results → `ok` with failures in `results`; every attr failed → `failed`, `results` unchanged, `first_error` from the first failed entry that has one. Values above ~2 KB degrade to attr names / length / a head slice with `truncated: true`. A missing hostname attr falls back to a unique flake host or returns `unknown_host` with `hosts`. In NixOS mode, a missing option is retried under `home-manager.users.<user>.…` (`hm_rewritten: true`). |
+| `locate_option(attr, flake_uri?, mode?)` | Which file sets an option: `declarations` (files declaring it) and `definitions` (`{file, value}` entries, one per file defining it; large values degrade under the same size guard as `eval_config`, marked `truncated: true` per entry). Earns its slot as that which-file answer, not as a firehose cap; the measured `environment.systemPackages` case is 24 KB → 20 KB. For non-options, `status` is `not_an_option`. For integrated Home Manager, spell the attr `home-manager.users.<user>.<attr>` with `mode="nixos"`; if you pass the unprefixed attr, the tool retries that spelling and sets `hm_rewritten: true`. A missing hostname attr is `unknown_host` with `hosts`. |
+| `check(level, flake_uri?, mode?)` | Validation ladder, fast to slow: `"lint"` (statix + deadnix, structured `findings` list), `"dry-build"`, `"dry-activate"` (NixOS only; same remote/pin classifier as `switch`, `privilege` on sudo auth failure). |
+
+Repo onboarding is a CLI subcommand, not a runtime tool: `nix-agent
+inspect-flake [flake_uri]` prints structured facts about a config repo as JSON
+(`hosts`, `home_configurations`, integrated-vs-standalone Home Manager
+(`hm_integration`), `module_dirs`, `auto_import` mechanism, `formatter`,
+`lint_tools`, and justfile/CI/`.mcp.json` presence). Evaluated facts become
+`null` or `"unknown"` when flake-show fails; repository layout, auto-import,
+and integrated Home Manager detection are best-effort presence/absence
+heuristics that may reflect unreadable or unmatched files as absence. The
+`skills/nix-agent-init/` skill invokes it during onboarding.
+
+The first privileged switch on a machine that does not yet have NOPASSWD
+is `nix-agent bootstrap-rebuild [flake_uri]`: `sudo -n` if a rule already
+matches, otherwise `status: "needs_bootstrap"` with `tty_command` (exit 2)
+to run once in a real terminal. After that generation, MCP `switch` uses
+`sudo -n` as usual.
+
+`summary.health` reports post-activation unit status. A switch that leaves
+units newly failed returns `status: "degraded"` (activation succeeded, the
+machine is not healthy) with a rollback hint; the failures are also in
+`summary.health.newly_failed`. Each newly failed unit
+carries a `log_tail` (last 20 journal lines); to stay compact under mass
+failures, only the first 5 newly failed units (sorted) include a tail, the
+rest list the unit name alone. When systemctl probing is unavailable, a
+top-level `health_note` replaces `summary.health`.
+
+## Basic workflow
+
+1. Discovery: query `mcp-nixos` for packages/options; use `eval_config` to see what the user's machine currently resolves.
+2. Edit `.nix` files with the agent's native file tools (Read/Edit/Write).
+3. Format with the flake's formatter (`nix fmt`, or `nixfmt` on the edited files) then `check("lint")`, fix findings worth fixing.
+4. `check("dry-build")`, catches eval/build errors cheaply.
+5. `diff()`, include the changeset in the reply and switch unless the
+   user asked only to preview or check.
+6. `switch()`, activate; reports `rollback_generation`. Keep that value.
+   `status: "degraded"` means units newly failed: roll back unless the
+   user asked to leave those units failed.
+7. On regret: `generations(action="rollback", generation=<that path or id>)`.
+   Bare `generations(action="rollback")` is previous generation only.
+
+Steps 3–5 are judgment calls, not gates. For a trivial change, going straight
+to `switch` is fine.
+
+### Onboarding a repo
+
+First time in an unfamiliar config? Run `nix-agent inspect-flake` once to get
+its hosts, HM mode, module layout, and tooling in one shot, then hand those
+facts to the `skills/nix-agent-init/` skill. It generates `AGENT_MAP.md`,
+`CLAUDE.md` (+ an `AGENTS.md` symlink), and a `.mcp.json`, all derived from
+what `inspect-flake` actually observed, never boilerplate. Re-runs only touch
+the marked sections it owns, and it refuses to clobber a hand-written file
+that lacks its marker, proposing a diff instead.
+
+### Failure envelopes
+
+On failure, the response carries the full log plus:
+
+- `first_error`: the first actionable error line from Nix's output. Present on failure envelopes produced through the standard path (most failures).
+- `error_detail`: `{message, file, line, column, trace}` when the output matched Nix's eval-error shape, a direct file:line:column edit target. Omitted otherwise.
+- `failed_derivation`: on a failed build, diff, or switch, `{drv, log_tail}` with the last 40 lines of the failing builder's `nix log` (or `{drv, note}` when the log is unavailable). Omitted when the failure has no failing derivation (a pure eval error or a sudo auth failure, for example).
+
+`switch(validate=True)` is a special case: if the dry-build preflight fails, the
+envelope status is `preflight_failed` (not `failed`), with the check result
+nested under `preflight` and no activation attempted. Remote flake refs and
+pin mismatches are rejected first (`remote_ref_rejected`, `target_locked`),
+so a rejected target does not pay for a dry-build. `check("dry-activate")`
+and NixOS rollback attach a `privilege` diagnosis on sudo auth failure,
+same object `switch` produces. Targeted NixOS rollback is two steps
+(profile `--switch-generation`, then profile `switch-to-configuration`);
+if the pointer moves and activation fails, the envelope includes
+`current_generation` and a `note`.
+
+The command runner truncates each stdout and stderr stream independently at
+64,000 Python characters. A successful `switch` is more compact: it returns a
+2,000-character tail of the activation log by default. Pass `full_log=True` to
+return the full successful switch log, still subject to the runner's
+per-stream limit.
+
+### Byte accounting
+
+Tool envelopes do not carry `raw_bytes` or `returned_bytes`. Those fields
+are usage-log diagnostics only (`NIX_AGENT_USAGE_LOG=1`, then
+`nix-agent usage`). When a command ran, the log event records:
+
+- `raw_bytes`: underlying command output size (combined stdout+stderr,
+  in bytes, before any truncation). Tools whose work is several co-equal
+  runs sum them: `check("lint")` sums statix+deadnix, batched
+  `eval_config` sums the per-attr evals. Tools with auxiliary probes
+  count only the primary operation: `switch`'s post-activation
+  health/diff probes are not included.
+- `returned_bytes`: serialized size of the envelope handed to the model
+  (no accounting fields on that envelope).
+- `bytes_saved`: `raw_bytes - returned_bytes`.
+
+Early-exit statuses (`no_target`, `invalid_attr`, `invalid_action`,
+`invalid_level`, `not_an_option`, `tool_missing`, `not_applicable`,
+`preflight_failed`, `unknown_generation`, `unknown_host`, `target_locked`,
+`remote_ref_rejected`) omit byte fields in the log as well, because no
+command output was produced.
+`target_locked` also includes `pin` (the env value).
+`unknown_generation` means the requested generation matched nothing;
+no command ran. `unknown_host` means the hostname (or explicit attr) did
+not match a flake configuration; the envelope lists `hosts`. `remote_ref_rejected` means clone locally and pin;
+`switch` and `check("dry-activate")` reject remote flake refs before
+any sudo or dry-build.
+
+### Measured on a real config
+
+The numbers below were captured 2026-07-07 on a NixOS laptop, Nix 2.34,
+running real read-only operations against a live config
+(`/home/rupan/nixos#laptop`). They describe usage-log accounting, not
+fields on the tool envelope:
+
+| Operation | raw bytes | returned bytes | note |
+|---|---|---|---|
+| `diff` | 338 | 1431 | the underlying package diff was tiny (one internal package removed); envelope metadata and the structured `packages` breakout dominate on a near-empty diff, the win grows with the diff |
+| `eval_config("environment.systemPackages")` | 13,500 | 394 | the raw value is a huge list of store paths; the size guard collapses it to a length + head slice instead of returning it whole |
+| `locate_option("environment.systemPackages")` | 24,066 | 20,396 | 95 defining files, each already close to its per-entry size guard; savings here are modest because the option is genuinely defined in many places |
+
+A successful `switch` trims the activation log to a tail, so its
+usage-log win tracks the same shape. The failure path is a different
+kind of win: building a scratch flake with a builder that does `exit 1`
+gave `raw_bytes: 7187`, `returned_bytes: 7975`, and a populated
+`failed_derivation: {drv: ".../boom.drv", log_tail: "failing to build\n"}`.
+That field is the actual saving: it names the one failing `.drv` and its
+last log line directly, instead of the agent running a separate `nix log`.
+
+## Design notes
+
+- The nix-agent MCP tools do no file editing or formatting. Use the host
+  agent's own file tools for reading and editing `.nix` files, and the flake's
+  formatter (`nix fmt` / `nixfmt`) to format them. The one reader is the
+  `nix-agent inspect-flake` CLI subcommand, which reads flake metadata and
+  repository layout for its best-effort onboarding inspection.
+- No in-MCP approval gate. Host MCP allowlists are tool-name-level and
+  cannot see `flake_uri`. The documented default is high trust: all seven
+  MCP tools plus narrowed passwordless sudo for this machine's flake
+  (see [agent-install.md](agent-install.md)). The workflow default is
+  apply: switch after `diff()` unless the user asked only to preview or
+  check. Lower trust — host prompts
+  on `switch` / `generations`, or a sudo password — is an opt-down.
+  Privileged tools (`switch`,
+  `check("dry-activate")`) reject remote flake refs and, when a pin is
+  set, honor `$NIX_AGENT_FLAKE` / `$NIX_AGENT_HM_FLAKE` as an
+  anti-footgun (not a security boundary; the HM lock does not fall back
+  to the NixOS pin). Sudoers must be narrowed to that directory; see
+  [privileged-automation.md](privileged-automation.md). After `switch`,
+  keep `rollback_generation` and undo with
+  `generations(action="rollback", generation=<that path or id>)`. Bare
+  `generations(action="rollback")` is previous-generation only.
+- Responses that resolve a target and run one command echo
+  `resolved_target` and the exact `command` run, so nothing is silently
+  implicit. Multi-command tools differ by design: a batched `eval_config`
+  reports the resolved target once with individual commands folded into
+  its per-attr `results`; `check("lint")` returns `commands` for the two
+  linters.
+- Do not write secret payloads into configs, reference secrets via
+  sops-nix or agenix.
+- Fully non-interactive NixOS dry-activate, switch, and rollback are the
+  documented default via `programs.nix-agent.privilegedAutomation`; see
+  [privileged-automation.md](privileged-automation.md). Standalone Home
+  Manager activation does not use sudo.

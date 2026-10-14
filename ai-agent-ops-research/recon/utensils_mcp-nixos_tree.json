@@ -1,0 +1,1021 @@
+{
+  "sha": "6a517811658c21f97bd7703b35546085117fc310",
+  "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/6a517811658c21f97bd7703b35546085117fc310",
+  "tree": [
+    {
+      "path": ".claude",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d9045d97d1cb72e026569e83a5cb90acc9eebda",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/8d9045d97d1cb72e026569e83a5cb90acc9eebda"
+    },
+    {
+      "path": ".claude/agents",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6d4be9cda5e2e01ff87dd827b892b434f3f16d5b",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/6d4be9cda5e2e01ff87dd827b892b434f3f16d5b"
+    },
+    {
+      "path": ".claude/agents/mcp-server-architect.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07592b35f8fb12730c82c07af3741a57a97570a1",
+      "size": 4322,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/07592b35f8fb12730c82c07af3741a57a97570a1"
+    },
+    {
+      "path": ".claude/agents/nix-expert.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65ad096d2f616d779e34fc0d7169a42dc95f5fbb",
+      "size": 5637,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/65ad096d2f616d779e34fc0d7169a42dc95f5fbb"
+    },
+    {
+      "path": ".claude/agents/python-expert.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d206bfb5abb3f9b8f3f9efd4f62546c83cb4466",
+      "size": 4698,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/7d206bfb5abb3f9b8f3f9efd4f62546c83cb4466"
+    },
+    {
+      "path": ".claude/commands",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "06e0fc8e2ed2d3d80e7efdfe87213f132909f43a",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/06e0fc8e2ed2d3d80e7efdfe87213f132909f43a"
+    },
+    {
+      "path": ".claude/commands/release.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b4ccaaee55bf9e3165a1f10e8357eccca85d600",
+      "size": 4399,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/5b4ccaaee55bf9e3165a1f10e8357eccca85d600"
+    },
+    {
+      "path": ".claude/commands/test-tools.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52159abcde6d8372c5f057efd15afef9f0044b3a",
+      "size": 15244,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/52159abcde6d8372c5f057efd15afef9f0044b3a"
+    },
+    {
+      "path": ".claude/settings.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f3162d57349a00d5cae0e22a91e2ca363b5558c",
+      "size": 346,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/7f3162d57349a00d5cae0e22a91e2ca363b5558c"
+    },
+    {
+      "path": ".envrc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c3daf143a85d5d30f4d2e4b77b31e38627014c8",
+      "size": 457,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/2c3daf143a85d5d30f4d2e4b77b31e38627014c8"
+    },
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f775a50136e24f44caed97f4c1f68d2c6f7d44b8",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/f775a50136e24f44caed97f4c1f68d2c6f7d44b8"
+    },
+    {
+      "path": ".github/copilot-instructions.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60ea548d57e2accc00c3d4a4b926197f9a7b83b4",
+      "size": 6091,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/60ea548d57e2accc00c3d4a4b926197f9a7b83b4"
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5491e283e8d2fe59d5ab57a56c6cd151facbaae1",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/5491e283e8d2fe59d5ab57a56c6cd151facbaae1"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10c21103e7eb7f998c4d05e8f350c0094fcec739",
+      "size": 3887,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/10c21103e7eb7f998c4d05e8f350c0094fcec739"
+    },
+    {
+      "path": ".github/workflows/deploy-flakehub.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e93b32eb5835ff441848bb2b2b0b42693a491981",
+      "size": 2505,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/e93b32eb5835ff441848bb2b2b0b42693a491981"
+    },
+    {
+      "path": ".github/workflows/deploy-website.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2644805a62ab911e0b51f3312261be4f7e21b7da",
+      "size": 2398,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/2644805a62ab911e0b51f3312261be4f7e21b7da"
+    },
+    {
+      "path": ".github/workflows/publish.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1918cb454b6c94c99d7331d73a31e0132fdecde6",
+      "size": 9276,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/1918cb454b6c94c99d7331d73a31e0132fdecde6"
+    },
+    {
+      "path": ".github/workflows/release-please.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "786adba0185c527dd07fe5e3aa77d2954b8166ca",
+      "size": 944,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/786adba0185c527dd07fe5e3aa77d2954b8166ca"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "211fc0a1249296943009ca2a2168d2fa834357e7",
+      "size": 1246,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/211fc0a1249296943009ca2a2168d2fa834357e7"
+    },
+    {
+      "path": ".mcp.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7653affc918d445b67279ce2fe131e2f00af45e",
+      "size": 131,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/d7653affc918d445b67279ce2fe131e2f00af45e"
+    },
+    {
+      "path": ".pi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ebba517400de0347d06140a211feb5290a4a3ee9",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/ebba517400de0347d06140a211feb5290a4a3ee9"
+    },
+    {
+      "path": ".pi/extensions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ce6b3e37f45a1843c705024ba4b2c645a888be86",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/ce6b3e37f45a1843c705024ba4b2c645a888be86"
+    },
+    {
+      "path": ".pi/extensions/mcp-nixos.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6370632be371a84e57bbae61ce5bdc4fef713899",
+      "size": 12295,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/6370632be371a84e57bbae61ce5bdc4fef713899"
+    },
+    {
+      "path": ".pi/package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ce2701b703e3f9e41f875b819bd102c2b6e6530",
+      "size": 483,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/8ce2701b703e3f9e41f875b819bd102c2b6e6530"
+    },
+    {
+      "path": ".pi/tsconfig.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6483f0d09a19681600bde27fe799904092dab1ab",
+      "size": 465,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/6483f0d09a19681600bde27fe799904092dab1ab"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d06ea8c52ea77fcc9d33f77c548a6b6611891846",
+      "size": 580,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/d06ea8c52ea77fcc9d33f77c548a6b6611891846"
+    },
+    {
+      "path": ".release-please-manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ada7355e0ba47ef3ed8b5b5907500490469bdf23",
+      "size": 19,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ada7355e0ba47ef3ed8b5b5907500490469bdf23"
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1d2f8e05197b86d90ad0f9ec40be33469a894b0",
+      "size": 10664,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b1d2f8e05197b86d90ad0f9ec40be33469a894b0"
+    },
+    {
+      "path": "CLAUDE.md",
+      "mode": "120000",
+      "type": "blob",
+      "sha": "47dc3e3d863cfb5727b87d785d09abf9743c0a72",
+      "size": 9,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/47dc3e3d863cfb5727b87d785d09abf9743c0a72"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0009e881f3e403d18aac41414605d456d981620",
+      "size": 1085,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/e0009e881f3e403d18aac41414605d456d981620"
+    },
+    {
+      "path": "MANIFEST.in",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87e35144dfc19b4470c078a106198b9f51f0b5e9",
+      "size": 105,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/87e35144dfc19b4470c078a106198b9f51f0b5e9"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b70abfd2accb9562af88bc4353bda8dd8b2eca30",
+      "size": 13065,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b70abfd2accb9562af88bc4353bda8dd8b2eca30"
+    },
+    {
+      "path": "RELEASE_NOTES.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b03ee83aff390129bcb8232df23e3534a6fbd18a",
+      "size": 50767,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b03ee83aff390129bcb8232df23e3534a6fbd18a"
+    },
+    {
+      "path": "flake.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c1a18f88a8ab41dfd872e9e0913ac5a8b9a09f4",
+      "size": 2050,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/1c1a18f88a8ab41dfd872e9e0913ac5a8b9a09f4"
+    },
+    {
+      "path": "flake.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1a1ce5233dc1688da2fb1819e020af33141dbe5",
+      "size": 17038,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b1a1ce5233dc1688da2fb1819e020af33141dbe5"
+    },
+    {
+      "path": "mcp_nixos",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "007a13cbdc36b0f11123a33c3f0fe69e743c11ee",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/007a13cbdc36b0f11123a33c3f0fe69e743c11ee"
+    },
+    {
+      "path": "mcp_nixos/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07b8055c742276a6bfec4955a6eefedaa2c6b0cd",
+      "size": 1486,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/07b8055c742276a6bfec4955a6eefedaa2c6b0cd"
+    },
+    {
+      "path": "mcp_nixos/caches.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "583a72e0c21766b50faaec205c568cc6fd563220",
+      "size": 24122,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/583a72e0c21766b50faaec205c568cc6fd563220"
+    },
+    {
+      "path": "mcp_nixos/config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "567bc162f5835351a2f1bd861c052ef5390fe90f",
+      "size": 3830,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/567bc162f5835351a2f1bd861c052ef5390fe90f"
+    },
+    {
+      "path": "mcp_nixos/server.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31439dadfce6efc98ba0406722012bb1bc30a891",
+      "size": 30246,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/31439dadfce6efc98ba0406722012bb1bc30a891"
+    },
+    {
+      "path": "mcp_nixos/sources",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "abf0e3d89ea4cbd7d7a7140b42bdd02bcad5c3ac",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/abf0e3d89ea4cbd7d7a7140b42bdd02bcad5c3ac"
+    },
+    {
+      "path": "mcp_nixos/sources/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6196f0143e6efbb6c9dc7c4ed542e6193e0db6cb",
+      "size": 3856,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/6196f0143e6efbb6c9dc7c4ed542e6193e0db6cb"
+    },
+    {
+      "path": "mcp_nixos/sources/base.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dec526a0e68113591e0d6c973cc2734ac5793722",
+      "size": 14219,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/dec526a0e68113591e0d6c973cc2734ac5793722"
+    },
+    {
+      "path": "mcp_nixos/sources/darwin.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9795e601744c5418aef255de922d5adfc4354eaf",
+      "size": 598,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/9795e601744c5418aef255de922d5adfc4354eaf"
+    },
+    {
+      "path": "mcp_nixos/sources/flake_inputs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6281ce23bcf7e123bc76893b44289fe9dd1cd02b",
+      "size": 11492,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/6281ce23bcf7e123bc76893b44289fe9dd1cd02b"
+    },
+    {
+      "path": "mcp_nixos/sources/flakehub.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8068a73022f842d1d4c87fa191770ad1e6331e23",
+      "size": 6194,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/8068a73022f842d1d4c87fa191770ad1e6331e23"
+    },
+    {
+      "path": "mcp_nixos/sources/flakes.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3ca659bde12b38b9ba267f74802057568d0241a",
+      "size": 6315,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/d3ca659bde12b38b9ba267f74802057568d0241a"
+    },
+    {
+      "path": "mcp_nixos/sources/home_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc66748be90a56e6054eed389aa6ea066dad4d42",
+      "size": 648,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/bc66748be90a56e6054eed389aa6ea066dad4d42"
+    },
+    {
+      "path": "mcp_nixos/sources/nixdev.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ecbe3c3cf9e1eb63f7203dda1716fff0b592f4bd",
+      "size": 8018,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ecbe3c3cf9e1eb63f7203dda1716fff0b592f4bd"
+    },
+    {
+      "path": "mcp_nixos/sources/nixhub.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cdf2b83c9dec50f2f85e5459b00be10558eb1d71",
+      "size": 15966,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/cdf2b83c9dec50f2f85e5459b00be10558eb1d71"
+    },
+    {
+      "path": "mcp_nixos/sources/nixos.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ecb40f467ae5335ec30c0285f432b67666476a73",
+      "size": 20100,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ecb40f467ae5335ec30c0285f432b67666476a73"
+    },
+    {
+      "path": "mcp_nixos/sources/nixvim.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e3d3626157cadd1d9f4b3aca9f7138a81964f45",
+      "size": 6462,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/1e3d3626157cadd1d9f4b3aca9f7138a81964f45"
+    },
+    {
+      "path": "mcp_nixos/sources/noogle.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0020735a468677f0912f6b338e97fe002e42e3cd",
+      "size": 12415,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/0020735a468677f0912f6b338e97fe002e42e3cd"
+    },
+    {
+      "path": "mcp_nixos/sources/nvf.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3cad932d441308a1694be6769041b1412a0847a",
+      "size": 10401,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/a3cad932d441308a1694be6769041b1412a0847a"
+    },
+    {
+      "path": "mcp_nixos/sources/store.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73f954ca9ee63af93d633c4f57b5d809260aed38",
+      "size": 6038,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/73f954ca9ee63af93d633c4f57b5d809260aed38"
+    },
+    {
+      "path": "mcp_nixos/sources/wiki.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d3ce71f63e5e4f5ada63f2ca670cf9a22be6cef",
+      "size": 5200,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/7d3ce71f63e5e4f5ada63f2ca670cf9a22be6cef"
+    },
+    {
+      "path": "mcp_nixos/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1174ee6ec7a73f4167ff3ab45598f9f3dc2acf23",
+      "size": 14053,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/1174ee6ec7a73f4167ff3ab45598f9f3dc2acf23"
+    },
+    {
+      "path": "nix",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "33f21eea3811d714a30bf0ffa9e4380aff89ad2e",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/33f21eea3811d714a30bf0ffa9e4380aff89ad2e"
+    },
+    {
+      "path": "nix/fastmcp-slim.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84414fa8fa2825b13b62632b9ff0f207a256c46f",
+      "size": 2047,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/84414fa8fa2825b13b62632b9ff0f207a256c46f"
+    },
+    {
+      "path": "nix/fastmcp.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73d5cdf087b975074f51fae9bcd6222c17308382",
+      "size": 805,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/73d5cdf087b975074f51fae9bcd6222c17308382"
+    },
+    {
+      "path": "nix/fastmcp4.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "59b5a7031947d9c3d42cf5f0df143047c0fe73b8",
+      "size": 4417,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/59b5a7031947d9c3d42cf5f0df143047c0fe73b8"
+    },
+    {
+      "path": "nix/griffelib.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e4d143891ddab4e223c735d3cfebb12acb7e05b",
+      "size": 525,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/0e4d143891ddab4e223c735d3cfebb12acb7e05b"
+    },
+    {
+      "path": "nix/httpcore2.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2958ad54716c67c815ceef75b5d30bb241640c0",
+      "size": 737,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/f2958ad54716c67c815ceef75b5d30bb241640c0"
+    },
+    {
+      "path": "nix/httpx2.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02c3ae265dc2df3eee34806cccfccdd220a94d37",
+      "size": 1043,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/02c3ae265dc2df3eee34806cccfccdd220a94d37"
+    },
+    {
+      "path": "nix/mcp-types.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "799bf5dcdd6be90fdc605fd20637e94e43196577",
+      "size": 699,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/799bf5dcdd6be90fdc605fd20637e94e43196577"
+    },
+    {
+      "path": "nix/mcp.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44762572ea9ffae6d3f334f00ff62b156be77b4f",
+      "size": 1250,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/44762572ea9ffae6d3f334f00ff62b156be77b4f"
+    },
+    {
+      "path": "nix/py-key-value-aio.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d3ce63f70d9103c29f9bded799bdfe358a15dba",
+      "size": 971,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/5d3ce63f70d9103c29f9bded799bdfe358a15dba"
+    },
+    {
+      "path": "nix/sse-starlette.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d355035a1647c56efa57af56c7dbd9be8a7ff10",
+      "size": 752,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/8d355035a1647c56efa57af56c7dbd9be8a7ff10"
+    },
+    {
+      "path": "nix/starlette.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe122d71ce057fd625328bd5188953d2338ef670",
+      "size": 951,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/fe122d71ce057fd625328bd5188953d2338ef670"
+    },
+    {
+      "path": "nix/uncalled-for.nix",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7628561a9b7002c3ac1d76e6fb62269f0b2b473",
+      "size": 571,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/d7628561a9b7002c3ac1d76e6fb62269f0b2b473"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11624dacd839d091bbda9695fdbac079dfbc0159",
+      "size": 2730,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/11624dacd839d091bbda9695fdbac079dfbc0159"
+    },
+    {
+      "path": "release-please-config.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e462d93a8c0339aad48ca0a3e0afec335663d00",
+      "size": 1199,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/7e462d93a8c0339aad48ca0a3e0afec335663d00"
+    },
+    {
+      "path": "tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "544e80dec1bc1e54c5b36dfc69a0bdacae2b2a8a",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/544e80dec1bc1e54c5b36dfc69a0bdacae2b2a8a"
+    },
+    {
+      "path": "tests/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b942c27c6021d2bb9fbd90c44a8cebec3d0d46d4",
+      "size": 180,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b942c27c6021d2bb9fbd90c44a8cebec3d0d46d4"
+    },
+    {
+      "path": "tests/conftest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "baae124229ed9a411097f933abd8957c7055b081",
+      "size": 798,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/baae124229ed9a411097f933abd8957c7055b081"
+    },
+    {
+      "path": "tests/test_env_file_safety.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bea434a3f318a13a25544994af0efdebdc2495be",
+      "size": 3843,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/bea434a3f318a13a25544994af0efdebdc2495be"
+    },
+    {
+      "path": "tests/test_fastmcp_version.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b75e35a38f0bec4011dc63c5704d72143db04b58",
+      "size": 1289,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b75e35a38f0bec4011dc63c5704d72143db04b58"
+    },
+    {
+      "path": "tests/test_flake_inputs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72d3a854b595f9ebf714f3e9e72d3e56d6222b10",
+      "size": 19725,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/72d3a854b595f9ebf714f3e9e72d3e56d6222b10"
+    },
+    {
+      "path": "tests/test_html_sources.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43e7f7702d7b67b5a53f4f6c276bfb645ee05a5b",
+      "size": 12260,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/43e7f7702d7b67b5a53f4f6c276bfb645ee05a5b"
+    },
+    {
+      "path": "tests/test_integration.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2c838d5ba127b9880826f2e14101ce8150c3d0c",
+      "size": 34644,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/f2c838d5ba127b9880826f2e14101ce8150c3d0c"
+    },
+    {
+      "path": "tests/test_main.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92625398a238963851a20ae89ea37ac9a3c3f8ed",
+      "size": 5601,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/92625398a238963851a20ae89ea37ac9a3c3f8ed"
+    },
+    {
+      "path": "tests/test_nvf.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d915bf0b73acc4af158ecf45ebaff866a1993807",
+      "size": 16574,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/d915bf0b73acc4af158ecf45ebaff866a1993807"
+    },
+    {
+      "path": "tests/test_search_query.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f1744dbf8fe174eaeea9e1aadebf85a6abc24b5",
+      "size": 11839,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/7f1744dbf8fe174eaeea9e1aadebf85a6abc24b5"
+    },
+    {
+      "path": "tests/test_server.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea8641e17caeae5ee39047cf64256cb1728a157c",
+      "size": 64818,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ea8641e17caeae5ee39047cf64256cb1728a157c"
+    },
+    {
+      "path": "tests/test_store.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "435cdfa0bf00e58a1728a15f0c8719e6ab380852",
+      "size": 14342,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/435cdfa0bf00e58a1728a15f0c8719e6ab380852"
+    },
+    {
+      "path": "tests/test_tools.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4d87b5c57aacb93039d2fa4c0bfb29fdca5bfba",
+      "size": 79737,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b4d87b5c57aacb93039d2fa4c0bfb29fdca5bfba"
+    },
+    {
+      "path": "website",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cf2d685d16dd7c33026517d8902db0bff4abc145",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/cf2d685d16dd7c33026517d8902db0bff4abc145"
+    },
+    {
+      "path": "website/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37eb90b68919381893005eb6d68657b3b358997e",
+      "size": 202,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/37eb90b68919381893005eb6d68657b3b358997e"
+    },
+    {
+      "path": "website/.vitepress",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8bfd4baca1877660264709a53a67ffb9d69c0035",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/8bfd4baca1877660264709a53a67ffb9d69c0035"
+    },
+    {
+      "path": "website/.vitepress/config.mts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe388fe34fcb3e32b22fa122cdab5283ef13e939",
+      "size": 4849,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/fe388fe34fcb3e32b22fa122cdab5283ef13e939"
+    },
+    {
+      "path": "website/.vitepress/env.d.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "802a9750e499ad51e57a1d65c77b381574ec997f",
+      "size": 186,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/802a9750e499ad51e57a1d65c77b381574ec997f"
+    },
+    {
+      "path": "website/.vitepress/theme",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3b7246a30edcb5f592d7117be586b0e8e7591787",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/3b7246a30edcb5f592d7117be586b0e8e7591787"
+    },
+    {
+      "path": "website/.vitepress/theme/Layout.vue",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b481ef4af4cfa2323e7c176f53ba9c492fff021",
+      "size": 802,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/7b481ef4af4cfa2323e7c176f53ba9c492fff021"
+    },
+    {
+      "path": "website/.vitepress/theme/components",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "873d7de8ea89ce016e104a17f6fdb2876aef7360",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/873d7de8ea89ce016e104a17f6fdb2876aef7360"
+    },
+    {
+      "path": "website/.vitepress/theme/components/AuthorCard.vue",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef334c7f32b79a5c344fc1685cf0fecaca230ec4",
+      "size": 750,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ef334c7f32b79a5c344fc1685cf0fecaca230ec4"
+    },
+    {
+      "path": "website/.vitepress/theme/components/UsageOption.vue",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b006120b9c36d9df46fcb85cdc153105520ba4eb",
+      "size": 305,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b006120b9c36d9df46fcb85cdc153105520ba4eb"
+    },
+    {
+      "path": "website/.vitepress/theme/index.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9a28957656c704d85a08f90f46f1e90dd000dc6",
+      "size": 444,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/a9a28957656c704d85a08f90f46f1e90dd000dc6"
+    },
+    {
+      "path": "website/.vitepress/theme/style.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad56a8930adb136d8933a520a16be64c086dec36",
+      "size": 4626,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ad56a8930adb136d8933a520a16be64c086dec36"
+    },
+    {
+      "path": "website/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8acddc777ed5b7d79cebdd155c095fe9a5eb5a2",
+      "size": 3325,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/a8acddc777ed5b7d79cebdd155c095fe9a5eb5a2"
+    },
+    {
+      "path": "website/about.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce0e508d06ebb8a6fe90f6397c2b781e01c78181",
+      "size": 8529,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ce0e508d06ebb8a6fe90f6397c2b781e01c78181"
+    },
+    {
+      "path": "website/index.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca9446045e9e6c24351cece7554f73f875b0ddf6",
+      "size": 4699,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ca9446045e9e6c24351cece7554f73f875b0ddf6"
+    },
+    {
+      "path": "website/netlify.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c813c9c179bc1d74ae631cf1fdd6654d152c9088",
+      "size": 229,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/c813c9c179bc1d74ae631cf1fdd6654d152c9088"
+    },
+    {
+      "path": "website/package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5bfafb6b793b470f4734118322a803199dc176e4",
+      "size": 95208,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/5bfafb6b793b470f4734118322a803199dc176e4"
+    },
+    {
+      "path": "website/package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8579a8670fd3dd76add5c67d9dca072ab5e8f92",
+      "size": 389,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/f8579a8670fd3dd76add5c67d9dca072ab5e8f92"
+    },
+    {
+      "path": "website/public",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cd6d99bdfb176e4c8c7438533b8a4a7cdd4427fe",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/cd6d99bdfb176e4c8c7438533b8a4a7cdd4427fe"
+    },
+    {
+      "path": "website/public/favicon",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e2493dfcd7ecf367a70d5c85ecea4dac695b3413",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/e2493dfcd7ecf367a70d5c85ecea4dac695b3413"
+    },
+    {
+      "path": "website/public/favicon/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3488387ffcde519dba8e508a23f88f4b10ad14c0",
+      "size": 1680,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/3488387ffcde519dba8e508a23f88f4b10ad14c0"
+    },
+    {
+      "path": "website/public/favicon/android-chrome-192x192.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09306c39de93c226470c869d652a131d74f81eba",
+      "size": 16414,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/09306c39de93c226470c869d652a131d74f81eba"
+    },
+    {
+      "path": "website/public/favicon/android-chrome-512x512.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3d6e84353a2e5b5cd4b1c3eb0de37548e197510",
+      "size": 51354,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/f3d6e84353a2e5b5cd4b1c3eb0de37548e197510"
+    },
+    {
+      "path": "website/public/favicon/apple-touch-icon.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83196df49b37f95e8cdee6b0263b1d21162e3b80",
+      "size": 15154,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/83196df49b37f95e8cdee6b0263b1d21162e3b80"
+    },
+    {
+      "path": "website/public/favicon/browserconfig.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e61951618fab56efc6340035776de708423de68",
+      "size": 253,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/3e61951618fab56efc6340035776de708423de68"
+    },
+    {
+      "path": "website/public/favicon/favicon-16x16.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce119bf2781f2115033b19bd869c5cd5e8e918d5",
+      "size": 1878,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ce119bf2781f2115033b19bd869c5cd5e8e918d5"
+    },
+    {
+      "path": "website/public/favicon/favicon-32x32.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fb5504d6727ab0cf175a7909ddb7e55d01ce4c1",
+      "size": 2602,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/2fb5504d6727ab0cf175a7909ddb7e55d01ce4c1"
+    },
+    {
+      "path": "website/public/favicon/favicon.ico",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49b45f24b6822c578f6cf4c8e204be7c8599df52",
+      "size": 5118,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/49b45f24b6822c578f6cf4c8e204be7c8599df52"
+    },
+    {
+      "path": "website/public/favicon/mstile-150x150.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4ca220d5e4cbdd8b47827261fadf756100433cd",
+      "size": 12267,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/f4ca220d5e4cbdd8b47827261fadf756100433cd"
+    },
+    {
+      "path": "website/public/favicon/site.webmanifest",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61e6830f3d02ce7f3fba53999d0b68d53eab7ccb",
+      "size": 393,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/61e6830f3d02ce7f3fba53999d0b68d53eab7ccb"
+    },
+    {
+      "path": "website/public/images",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "daeea12adf60da6fcecc021559dfd662cce0b16b",
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/trees/daeea12adf60da6fcecc021559dfd662cce0b16b"
+    },
+    {
+      "path": "website/public/images/.gitkeep",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "website/public/images/JamesBrink.jpeg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b065471ad08a7b8f9cef9401884ddefc8eb64dae",
+      "size": 191572,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b065471ad08a7b8f9cef9401884ddefc8eb64dae"
+    },
+    {
+      "path": "website/public/images/attribution.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d90b97546c1c2b0c4654bba2a7e0503be7a42ab7",
+      "size": 1705,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/d90b97546c1c2b0c4654bba2a7e0503be7a42ab7"
+    },
+    {
+      "path": "website/public/images/claude-logo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50571735811883c9aec82620f8e82448ad4adf42",
+      "size": 62828,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/50571735811883c9aec82620f8e82448ad4adf42"
+    },
+    {
+      "path": "website/public/images/mcp-nixos.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36afb32836a26d0edff6cc4d6b43271b99d6f5f3",
+      "size": 95572,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/36afb32836a26d0edff6cc4d6b43271b99d6f5f3"
+    },
+    {
+      "path": "website/public/images/nixos-snowflake-colour.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b94356c0f5e72723e01971f610edc5a4edf81140",
+      "size": 6566,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/b94356c0f5e72723e01971f610edc5a4edf81140"
+    },
+    {
+      "path": "website/public/images/og-image.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36afb32836a26d0edff6cc4d6b43271b99d6f5f3",
+      "size": 95572,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/36afb32836a26d0edff6cc4d6b43271b99d6f5f3"
+    },
+    {
+      "path": "website/public/images/sean-callan.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a748892c89c0a5922a637d43431dc27a4379c699",
+      "size": 24775,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/a748892c89c0a5922a637d43431dc27a4379c699"
+    },
+    {
+      "path": "website/public/images/utensils-logo.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10a3742c9bfde4ffa7d0ea081b0f327b432cadb1",
+      "size": 10326,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/10a3742c9bfde4ffa7d0ea081b0f327b432cadb1"
+    },
+    {
+      "path": "website/public/robots.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4317e8f904393cdd407a48601263ec4160b7047d",
+      "size": 66,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/4317e8f904393cdd407a48601263ec4160b7047d"
+    },
+    {
+      "path": "website/tsconfig.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1208b811c1bb93952cb8d96e2758afe2a9d7b6c1",
+      "size": 624,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/1208b811c1bb93952cb8d96e2758afe2a9d7b6c1"
+    },
+    {
+      "path": "website/usage.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebb9c2cbdff1d55bf2fc5936b19dcebd97dec407",
+      "size": 10558,
+      "url": "https://api.github.com/repos/utensils/mcp-nixos/git/blobs/ebb9c2cbdff1d55bf2fc5936b19dcebd97dec407"
+    }
+  ],
+  "truncated": false
+}

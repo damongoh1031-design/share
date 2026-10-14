@@ -1,0 +1,137 @@
+import functools
+import time
+from collections.abc import Callable
+from typing import Any
+
+from fastmcp import FastMCP
+from fastmcp.tools.tool import Tool
+
+from nix_agent import metrics
+from nix_agent.runner import strip_accounting
+from nix_agent.tools.build import build, diff
+from nix_agent.tools.check import check
+from nix_agent.tools.eval import eval_config
+from nix_agent.tools.locate import locate_option
+from nix_agent.tools.switch import generations, switch
+
+# Operational core: structured operational signal + rollback safety, the
+# work that can't be reproduced reliably from ad-hoc shell.
+# Config introspection: kept because each caps or structures Nix output the
+# host would otherwise pay for in raw context.
+_TOOLS = [
+    (
+        build,
+        "build",
+        "Build the full system/HM closure without activating it. "
+        "Returns the output store path; a failed build carries "
+        "failed_derivation{drv, log_tail}.",
+    ),
+    (
+        diff,
+        "diff",
+        "Build the new closure and diff it against the running system "
+        "(nvd, falling back to nix store diff-closures): package "
+        "additions, removals, version changes. Include the changeset in "
+        "the reply and switch unless the user asked only to preview or "
+        "check.",
+    ),
+    (
+        switch,
+        "switch",
+        "Activate the configuration (sudo -n nixos-rebuild switch / "
+        "home-manager switch). Records rollback_generation first. Returns a "
+        "structured 'summary' (units changed, derivations built, package "
+        "delta, systemd health) plus gen before/after; on success the raw "
+        "log is trimmed to a tail (pass full_log=True for all of it). Status "
+        "is 'degraded' when activation succeeded but units newly failed. No "
+        "implicit validation by default; pass validate=True to gate on "
+        "check('dry-build') first. On a sudo auth failure returns a "
+        "'privilege' diagnosis.",
+    ),
+    (
+        generations,
+        "generations",
+        "action='list': enumerate system/HM generations with dates and "
+        "current marker. NixOS entries include path when the profile link "
+        "exists. action='rollback': revert to the previous generation, or "
+        "pass generation=<id or path> to activate that generation. Bare "
+        "rollback is previous-only. Pass mode='home-manager' for HM "
+        "generations.",
+    ),
+    (
+        eval_config,
+        "eval_config",
+        "Evaluate the final merged value of an attribute in the user's "
+        "actual NixOS/Home Manager configuration via `nix eval` "
+        "(e.g. attr='services.openssh.enable'). flake_uri and mode "
+        "auto-resolve when omitted. Pass a list of attrs to batch several "
+        "evals into one call, returning per-attr results. Values above the "
+        "size guard degrade to attr names / length / a head slice "
+        "(truncated: true).",
+    ),
+    (
+        locate_option,
+        "locate_option",
+        "Where does this configuration set an option: files declaring it "
+        "and every file defining it, with each contributed value "
+        "(e.g. attr='services.openssh.enable'). The bridge from mcp-nixos "
+        "discovery to editing the right file. For integrated Home Manager, "
+        "query the NixOS config with attr='home-manager.users.<user>.<attr>'.",
+    ),
+    (
+        check,
+        "check",
+        "Validation ladder for the configuration, fast to slow: "
+        "level='lint' (statix+deadnix; returns a structured findings "
+        "list), 'dry-build' (evaluate and plan the closure build), "
+        "'dry-activate' (NixOS only, shows what activation would change).",
+    ),
+]
+
+
+def instrument(name: str, fn: Callable[..., Any]) -> Callable[..., Any]:
+    """Time a tool call, log usage, and strip byte accounting from the
+    envelope the model sees."""
+
+    @functools.wraps(fn)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        start = time.perf_counter()
+        error: str | None = None
+        result: Any = None
+        try:
+            result = fn(*args, **kwargs)
+            return result
+        except Exception as exc:
+            error = type(exc).__name__
+            raise
+        finally:
+            if isinstance(result, dict):
+                if metrics.enabled():
+                    metrics.record_call(
+                        tool=name,
+                        duration_ms=(time.perf_counter() - start) * 1000,
+                        response=result,
+                        error=error,
+                        kwargs=kwargs,
+                    )
+                strip_accounting(result)
+            elif metrics.enabled():
+                metrics.record_call(
+                    tool=name,
+                    duration_ms=(time.perf_counter() - start) * 1000,
+                    response=None,
+                    error=error,
+                    kwargs=kwargs,
+                )
+
+    return wrapper
+
+
+def build_server() -> FastMCP:
+    server = FastMCP("nix-agent")
+    for fn, name, description in _TOOLS:
+        instrumented = instrument(name, fn)
+        server.add_tool(
+            Tool.from_function(instrumented, name=name, description=description)
+        )
+    return server

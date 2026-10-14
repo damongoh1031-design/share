@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=65.5.1", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nix-agent"
+version = "0.12.0"
+description = "MCP server exposing composable NixOS/Home Manager operations: build, diff, switch, generations, plus eval, locate, and check for config introspection."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=2.14,<4",
+]
+
+[project.scripts]
+nix-agent = "nix_agent.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

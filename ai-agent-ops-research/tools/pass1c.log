@@ -1,0 +1,26 @@
+  !! [mojeek] site:reddit.com/r/NixOS ai off=0 -> HTTP Error 403: Forbidden
+[01][reddit ] site:reddit.com/r/NixOS ai                     +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS ai agent off=0 -> HTTP Error 403: Forbidden
+[02][reddit ] site:reddit.com/r/NixOS ai agent               +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS llm off=0 -> HTTP Error 403: Forbidden
+[03][reddit ] site:reddit.com/r/NixOS llm                    +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS claude off=0 -> HTTP Error 403: Forbidden
+[04][reddit ] site:reddit.com/r/NixOS claude                 +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS chatgpt off=0 -> HTTP Error 403: Forbidden
+[05][reddit ] site:reddit.com/r/NixOS chatgpt                +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS codex off=0 -> HTTP Error 403: Forbidden
+[06][reddit ] site:reddit.com/r/NixOS codex                  +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS copilot off=0 -> HTTP Error 403: Forbidden
+[07][reddit ] site:reddit.com/r/NixOS copilot                +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS mcp off=0 -> HTTP Error 403: Forbidden
+[08][reddit ] site:reddit.com/r/NixOS mcp                    +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS cursor off=0 -> HTTP Error 403: Forbidden
+[09][reddit ] site:reddit.com/r/NixOS cursor                 +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS cline aider off=0 -> HTTP Error 403: Forbidden
+[10][reddit ] site:reddit.com/r/NixOS cline aider            +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS nix flake ai off=0 -> HTTP Error 403: Forbidden
+[11][reddit ] site:reddit.com/r/NixOS nix flake ai           +0 (total 4)
+  !! [mojeek] site:reddit.com/r/NixOS vibe coding off=0 -> HTTP Error 403: Forbidden
+[12][reddit ] site:reddit.com/r/NixOS vibe coding            +0 (total 4)
+  !! [mojeek] site:reddit.com/r/nix ai off=0 -> HTTP Error 403: Forbidden
+[13][reddit ] site:reddit.com/r/nix ai                       +0 (total 4)

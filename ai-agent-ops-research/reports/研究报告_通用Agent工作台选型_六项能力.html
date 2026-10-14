@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>通用 Agent 工作台选型研究报告（Hermes Agent 之外）</title>
+<meta name="description" content="除 Hermes Agent 外通用 Agent 工作台选型的深度研究报告：周期任务 / sudo与systemd / 可视化输出 / 知识库 / MCP 与网络搜索六项能力 × 19 个候选 × 官方文档逐条取证。">
+<style>
+:root{
+  --bg:#f7f8fa; --panel:#ffffff; --ink:#1a1d24; --ink-2:#4a5262; --ink-3:#7b8494;
+  --line:#e3e6ec; --line-2:#eef1f5;
+  --accent:#1f5fd6; --accent-soft:#eaf1fd;
+  --code-bg:#f4f6f9; --code-ink:#243040;
+  --warn:#b45309; --warn-bg:#fef7e6;
+  --danger:#b91c1c; --danger-bg:#fdf0ef;
+  --ok:#15803d; --ok-bg:#eef8f1;
+  --gA:#15803d; --gB:#1f5fd6; --gC:#b45309; --gD:#7b8494;
+  --radius:10px; --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  font-size:15.5px; line-height:1.78; -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.layout{display:flex; gap:0; max-width:var(--maxw); margin:0 auto; align-items:flex-start}
+
+/* ── 侧栏目录 ── */
+.sidebar{
+  position:sticky; top:0; flex:0 0 292px; max-height:100vh; overflow-y:auto;
+  padding:26px 14px 40px 20px; font-size:13.2px; line-height:1.62;
+  border-right:1px solid var(--line);
+  scrollbar-width:thin;
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:#cfd5df; border-radius:3px}
+.sidebar .toc-title{
+  font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:700; margin:0 0 12px 4px;
+}
+.sidebar ul{list-style:none; margin:0; padding:0}
+.sidebar li{margin:1px 0}
+.sidebar a{
+  display:block; padding:3.5px 8px; border-radius:6px; color:var(--ink-2);
+  text-decoration:none; border-left:2px solid transparent; transition:background .12s,color .12s;
+}
+.sidebar a:hover{background:var(--accent-soft); color:var(--accent)}
+.sidebar ul ul{margin-left:0; padding-left:10px}
+.sidebar ul ul a{font-size:12.5px; color:var(--ink-3); padding:2.5px 8px}
+.sidebar ul ul a:hover{color:var(--accent)}
+
+/* ── 主体 ── */
+.main{flex:1 1 auto; min-width:0; padding:0 40px 90px}
+.hero{
+  padding:52px 0 30px; border-bottom:1px solid var(--line); margin-bottom:34px;
+}
+.hero h1{
+  font-size:31px; line-height:1.32; margin:0 0 18px; letter-spacing:-.4px; font-weight:800;
+}
+.hero .meta{display:flex; flex-direction:column; gap:7px; font-size:13.5px; color:var(--ink-2)}
+.hero .meta .row{display:flex; gap:9px; flex-wrap:wrap; align-items:baseline}
+.hero .meta .k{
+  flex:0 0 auto; font-weight:700; color:var(--ink-3); font-size:12px;
+  letter-spacing:.06em; padding-top:1px;
+}
+.hero .meta .v{flex:1 1 auto; min-width:0}
+.grades{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px}
+
+/* ── 排版 ── */
+h2{
+  font-size:23px; margin:56px 0 18px; padding:0 0 12px; font-weight:750;
+  border-bottom:2px solid var(--ink); letter-spacing:-.2px; scroll-margin-top:16px;
+}
+h3{
+  font-size:18px; margin:36px 0 13px; font-weight:700; color:var(--ink);
+  scroll-margin-top:16px;
+}
+h4{font-size:15.5px; margin:26px 0 10px; font-weight:700; color:var(--ink-2)}
+p{margin:0 0 15px}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+.anchor{
+  opacity:0; margin-left:9px; font-size:.72em; color:var(--ink-3);
+  font-weight:400; text-decoration:none; transition:opacity .12s;
+}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+hr{border:0; border-top:1px solid var(--line); margin:44px 0}
+
+/* ── 列表 ── */
+ul,ol{margin:0 0 16px; padding-left:25px}
+li{margin:5px 0}
+li>ul,li>ol{margin-top:5px; margin-bottom:6px}
+
+/* ── 引用块 ── */
+blockquote{
+  margin:20px 0; padding:14px 18px; background:var(--panel);
+  border-left:3px solid var(--accent); border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--ink-2); font-size:14.6px;
+}
+blockquote p:last-child{margin-bottom:0}
+
+/* ── 表格 ── */
+.table-wrap{
+  overflow-x:auto; margin:20px 0 26px; border:1px solid var(--line);
+  border-radius:var(--radius); background:var(--panel);
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+}
+table{border-collapse:collapse; width:100%; font-size:13.9px; min-width:520px}
+thead th{
+  background:#f0f3f8; text-align:left; font-weight:700; color:var(--ink);
+  padding:11px 14px; border-bottom:1.5px solid var(--line); white-space:nowrap;
+  font-size:13.2px; letter-spacing:.01em;
+}
+tbody td{padding:10px 14px; border-bottom:1px solid var(--line-2); vertical-align:top; line-height:1.65}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:#fbfcfe}
+tbody tr:hover{background:var(--accent-soft)}
+td code,th code{font-size:12.6px}
+
+/* ── 代码 ── */
+code{
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono","Cascadia Mono",Menlo,monospace;
+  font-size:13.2px; background:var(--code-bg); color:var(--code-ink);
+  padding:1.5px 5.5px; border-radius:5px; border:1px solid var(--line-2);
+  word-break:break-word;
+}
+pre{
+  background:var(--code-bg); border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px 18px; overflow-x:auto; margin:18px 0 24px; line-height:1.62;
+}
+pre code{
+  background:none; border:0; padding:0; font-size:13px; color:var(--code-ink);
+  white-space:pre; word-break:normal;
+}
+pre::-webkit-scrollbar{height:8px}
+pre::-webkit-scrollbar-thumb{background:#cfd5df; border-radius:4px}
+
+/* pygments 浅色配色（codehilite） */
+.hl .k,.hl .kd,.hl .kn,.hl .kc{color:#a626a4}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd{color:#0a7d3e}
+.hl .c,.hl .c1,.hl .cm{color:#8a93a3; font-style:italic}
+.hl .nf,.hl .fm{color:#1f5fd6}
+.hl .nc,.hl .nn{color:#b45309}
+.hl .mi,.hl .mf{color:#0b7285}
+.hl .nt{color:#1f5fd6}
+.hl .o,.hl .ow{color:#4a5262}
+
+/* ── 徽章 ── */
+.badge{
+  display:inline-block; min-width:19px; text-align:center;
+  font-size:11.5px; font-weight:800; line-height:17px; height:18px;
+  border-radius:5px; padding:0 5px; vertical-align:1.5px; margin:0 1px;
+}
+.badge.g-A{background:var(--ok-bg); color:var(--gA); border:1px solid #c9e6d4}
+.badge.g-B{background:var(--accent-soft); color:var(--gB); border:1px solid #c9dcf8}
+.badge.g-C{background:var(--warn-bg); color:var(--gC); border:1px solid #f2ddb0}
+.badge.g-D{background:#f1f3f6; color:var(--gD); border:1px solid #dde1e8}
+.star{color:#e0a800; font-size:.95em}
+
+/* 强调块：含"⚠"或"❗"的段落 */
+.warnbox{
+  background:var(--danger-bg); border:1px solid #f3d0cd; border-left:3px solid var(--danger);
+  border-radius:0 var(--radius) var(--radius) 0; padding:13px 17px; margin:20px 0;
+}
+
+/* ── 返回顶部 ── */
+#top{
+  position:fixed; right:26px; bottom:26px; width:42px; height:42px; border-radius:50%;
+  background:var(--panel); border:1px solid var(--line); color:var(--ink-2);
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+  cursor:pointer; box-shadow:0 3px 12px rgba(16,24,40,.13); text-decoration:none;
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}
+#top.show{opacity:1; pointer-events:auto}
+#top:hover{background:var(--accent); color:#fff; border-color:var(--accent)}
+
+/* ── 页脚 ── */
+.foot{
+  margin-top:60px; padding-top:22px; border-top:1px solid var(--line);
+  font-size:12.6px; color:var(--ink-3); text-align:center; line-height:1.9;
+}
+
+/* ── 移动端 ── */
+.mobile-toc{display:none}
+@media (max-width:1000px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .main{padding:0 20px 70px}
+  .hero{padding:34px 0 24px}
+  .hero h1{font-size:24px}
+  .mobile-toc{
+    display:block; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:10px 14px; margin:0 0 24px; font-size:14px;
+  }
+  .mobile-toc summary{cursor:pointer; font-weight:700; color:var(--ink-2); outline:none}
+  .mobile-toc .toc-inner{padding-top:10px}
+  .mobile-toc a{display:block; padding:3px 0; font-size:13.2px; color:var(--ink-2)}
+}
+
+/* ── 打印 ── */
+@media print{
+  body{background:#fff; font-size:10.5pt}
+  .sidebar,#top,.mobile-toc{display:none!important}
+  .layout{display:block; max-width:none}
+  .main{padding:0}
+  .hero{padding-top:0}
+  h2{page-break-after:avoid; font-size:15pt; margin-top:22pt}
+  h3{page-break-after:avoid; font-size:12.5pt}
+  .table-wrap,pre,blockquote{page-break-inside:avoid}
+  .table-wrap{box-shadow:none}
+  a{color:var(--ink)}
+  .anchor{display:none}
+}
+</style>
+</head>
+<body>
+<a id="top" href="#" title="返回顶部">↑</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="目录">
+  <div class="toc-title">目录</div>
+  <div class="toc">
+<ul>
+<li><a href="#_1">摘要</a><ul>
+<li><a href="#_2">分层结论</a></li>
+<li><a href="#_3">三条推荐组合</a></li>
+</ul>
+</li>
+<li><a href="#1">第 1 章 需求固化：把六句口语翻译成可判定的判据</a><ul>
+<li><a href="#11">1.1 判定表</a></li>
+<li><a href="#12-r3">1.2 R3 是全篇的分岔点：三条实现路径</a></li>
+<li><a href="#13">1.3 本报告不解决的问题</a></li>
+</ul>
+</li>
+<li><a href="#2">第 2 章 候选池与筛选</a><ul>
+<li><a href="#21">2.1 检索方法</a></li>
+<li><a href="#22">2.2 原始元数据（按星标降序）</a></li>
+<li><a href="#23">2.3 排除项与排除理由</a></li>
+<li><a href="#24-13">2.4 入围 13 个候选</a></li>
+</ul>
+</li>
+<li><a href="#3">第 3 章 六项能力总表</a></li>
+<li><a href="#4">第 4 章 逐候选取证</a><ul>
+<li><a href="#41-open-webui-open-webui-computer-open-terminal">4.1 Open WebUI（+ Open WebUI Computer + Open Terminal）</a></li>
+<li><a href="#42-agent-zero">4.2 Agent Zero</a></li>
+<li><a href="#43-n8n">4.3 n8n</a></li>
+<li><a href="#44-librechat">4.4 LibreChat</a></li>
+<li><a href="#45-anythingllm">4.5 AnythingLLM</a></li>
+<li><a href="#46-dify">4.6 Dify</a></li>
+<li><a href="#47-suna-kortix">4.7 Suna / Kortix</a></li>
+<li><a href="#48-openhands">4.8 OpenHands</a></li>
+<li><a href="#49">4.9 第二梯队速览</a></li>
+</ul>
+</li>
+<li><a href="#5-sudo-systemd">第 5 章 「sudo 或 systemd」专项</a><ul>
+<li><a href="#51">5.1 为什么没有工作台原生做这件事</a></li>
+<li><a href="#52">5.2 三条路径的实操</a></li>
+<li><a href="#53-sudo-systemd-polkit">5.3 sudo 与 systemd 的正确取舍：优先 polkit</a></li>
+<li><a href="#54">5.4 一张决策图</a></li>
+</ul>
+</li>
+<li><a href="#6">第 6 章 推荐组合（按场景）</a><ul>
+<li><a href="#a-sudo">场景 A：单人 / 单机 / 要真机 sudo</a></li>
+<li><a href="#b">场景 B：团队 / 多机 / 要审计（推荐）</a></li>
+<li><a href="#c">场景 C：偏编排 / 已有大量脚本</a></li>
+<li><a href="#d-mcp">场景 D：已有大量 MCP，要一个聊天工作台</a></li>
+<li><a href="#e-docker-agent">场景 E：要 Docker 隔离的自主 Agent</a></li>
+</ul>
+</li>
+<li><a href="#7">第 7 章 坑与反直觉</a></li>
+<li><a href="#8">第 8 章 未核实与覆盖边界</a><ul>
+<li><a href="#81">8.1 本轮未取得一手证据的项</a></li>
+<li><a href="#82">8.2 明确的方法论边界</a></li>
+<li><a href="#83">8.3 与前序报告的关系</a></li>
+</ul>
+</li>
+<li><a href="#a">附录 A 证据分级说明</a></li>
+<li><a href="#b_1">附录 B 可复现命令</a><ul>
+<li><a href="#b1">B.1 批量取候选元数据</a></li>
+<li><a href="#b2">B.2 查源码树里的调度器</a></li>
+<li><a href="#b3">B.3 取官方文档索引（比逐页抓更高效）</a></li>
+<li><a href="#b4-a">B.4 场景 A 的最小可行部署</a></li>
+<li><a href="#b5-b">B.5 场景 B 的最小可行部署</a></li>
+</ul>
+</li>
+<li><a href="#c_1">附录 C 参考链接</a><ul>
+<li><a href="#c1">C.1 工作台官方文档</a></li>
+<li><a href="#c2">C.2 前序报告（特权执行层）</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+</nav>
+
+<main class="main">
+  <header class="hero">
+    <h1>通用 Agent 工作台选型研究报告（Hermes Agent 之外）</h1>
+    <div class="meta">
+      <div class="row"><span class="k">版本</span><span class="v">v1.0</span></div>
+<div class="row"><span class="k">成稿日期</span><span class="v">2026-10-12</span></div>
+<div class="row"><span class="k">检索方式</span><span class="v">GitHub REST API 直读仓库元数据（30 个候选）+ 官方文档原文逐条取证</span></div>
+<div class="row"><span class="k">判定口径</span><span class="v">六项硬需求 × 默认开/关状态</span></div>
+      <div class="row"><span class="k">证据分级</span><span class="v"><div class="grades"><span class="badge g-A">A</span><span class="legend">官方文档原文 / 源码树直读，可复现</span><span class="badge g-B">B</span><span class="legend">项目 README / 官方功能页原文</span><span class="badge g-C">C</span><span class="legend">项目自述未独立复现</span><span class="badge g-D">D</span><span class="legend">本报告推断</span></div></span></div>
+    </div>
+  </header>
+
+  <details class="mobile-toc" open>
+    <summary>目录</summary>
+    <div class="toc-inner"><div class="toc">
+<ul>
+<li><a href="#_1">摘要</a><ul>
+<li><a href="#_2">分层结论</a></li>
+<li><a href="#_3">三条推荐组合</a></li>
+</ul>
+</li>
+<li><a href="#1">第 1 章 需求固化：把六句口语翻译成可判定的判据</a><ul>
+<li><a href="#11">1.1 判定表</a></li>
+<li><a href="#12-r3">1.2 R3 是全篇的分岔点：三条实现路径</a></li>
+<li><a href="#13">1.3 本报告不解决的问题</a></li>
+</ul>
+</li>
+<li><a href="#2">第 2 章 候选池与筛选</a><ul>
+<li><a href="#21">2.1 检索方法</a></li>
+<li><a href="#22">2.2 原始元数据（按星标降序）</a></li>
+<li><a href="#23">2.3 排除项与排除理由</a></li>
+<li><a href="#24-13">2.4 入围 13 个候选</a></li>
+</ul>
+</li>
+<li><a href="#3">第 3 章 六项能力总表</a></li>
+<li><a href="#4">第 4 章 逐候选取证</a><ul>
+<li><a href="#41-open-webui-open-webui-computer-open-terminal">4.1 Open WebUI（+ Open WebUI Computer + Open Terminal）</a></li>
+<li><a href="#42-agent-zero">4.2 Agent Zero</a></li>
+<li><a href="#43-n8n">4.3 n8n</a></li>
+<li><a href="#44-librechat">4.4 LibreChat</a></li>
+<li><a href="#45-anythingllm">4.5 AnythingLLM</a></li>
+<li><a href="#46-dify">4.6 Dify</a></li>
+<li><a href="#47-suna-kortix">4.7 Suna / Kortix</a></li>
+<li><a href="#48-openhands">4.8 OpenHands</a></li>
+<li><a href="#49">4.9 第二梯队速览</a></li>
+</ul>
+</li>
+<li><a href="#5-sudo-systemd">第 5 章 「sudo 或 systemd」专项</a><ul>
+<li><a href="#51">5.1 为什么没有工作台原生做这件事</a></li>
+<li><a href="#52">5.2 三条路径的实操</a></li>
+<li><a href="#53-sudo-systemd-polkit">5.3 sudo 与 systemd 的正确取舍：优先 polkit</a></li>
+<li><a href="#54">5.4 一张决策图</a></li>
+</ul>
+</li>
+<li><a href="#6">第 6 章 推荐组合（按场景）</a><ul>
+<li><a href="#a-sudo">场景 A：单人 / 单机 / 要真机 sudo</a></li>
+<li><a href="#b">场景 B：团队 / 多机 / 要审计（推荐）</a></li>
+<li><a href="#c">场景 C：偏编排 / 已有大量脚本</a></li>
+<li><a href="#d-mcp">场景 D：已有大量 MCP，要一个聊天工作台</a></li>
+<li><a href="#e-docker-agent">场景 E：要 Docker 隔离的自主 Agent</a></li>
+</ul>
+</li>
+<li><a href="#7">第 7 章 坑与反直觉</a></li>
+<li><a href="#8">第 8 章 未核实与覆盖边界</a><ul>
+<li><a href="#81">8.1 本轮未取得一手证据的项</a></li>
+<li><a href="#82">8.2 明确的方法论边界</a></li>
+<li><a href="#83">8.3 与前序报告的关系</a></li>
+</ul>
+</li>
+<li><a href="#a">附录 A 证据分级说明</a></li>
+<li><a href="#b_1">附录 B 可复现命令</a><ul>
+<li><a href="#b1">B.1 批量取候选元数据</a></li>
+<li><a href="#b2">B.2 查源码树里的调度器</a></li>
+<li><a href="#b3">B.3 取官方文档索引（比逐页抓更高效）</a></li>
+<li><a href="#b4-a">B.4 场景 A 的最小可行部署</a></li>
+<li><a href="#b5-b">B.5 场景 B 的最小可行部署</a></li>
+</ul>
+</li>
+<li><a href="#c_1">附录 C 参考链接</a><ul>
+<li><a href="#c1">C.1 工作台官方文档</a></li>
+<li><a href="#c2">C.2 前序报告（特权执行层）</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+  </details>
+
+  <blockquote>
+<p>本报告回答一个具体问题：<strong>除了 Hermes Agent，还有哪些通用 Agent 工作台能同时满足「周期任务 / 可执行 sudo 或 systemd / 可视化输出 / 知识库 / MCP + 网络搜索」这六项能力？</strong>
+全文按「先固化判据 → 再广度检索 → 再逐条取证 → 最后按场景给组合」的顺序组织。每一条能力断言都标注了证据等级与出处；凡是官方文档没有明确写的，一律标为「未发现」而不是「不支持」。</p>
+</blockquote>
+<h2 id="_1">摘要<a class="anchor" href="#_1" aria-label="锚点">#</a></h2>
+<p><strong>一句话结论：六项能力里，前五项都有多个成熟候选；唯独「执行 sudo 或 systemd」没有任何一个通用工作台是原生自带且默认安全的——它必须靠「宿主 shell 直通」或「MCP 桥接」两条路之一来补，而 MCP 桥接是唯一可审计、可限权的方案。</strong></p>
+<h3 id="_2">分层结论<a class="anchor" href="#_2" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>结论</th>
+<th>最强候选</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通用 Agent 工作台</td>
+<td>成熟，星标 1.5 万～20 万区间有 10+ 个可用项</td>
+<td>Open WebUI、Agent Zero、n8n、LibreChat</td>
+</tr>
+<tr>
+<td>周期任务</td>
+<td><strong>最被低估的一项</strong>：四个候选实现了生产级调度（RRULE / cron / 租约协调）</td>
+<td>Open WebUI Computer、LibreChat、Agent Zero、n8n</td>
+</tr>
+<tr>
+<td>执行 sudo / systemd</td>
+<td><strong>无原生方案</strong>。三种替代路径，推荐 MCP 桥接</td>
+<td><code>rhel-lightspeed/linux-mcp-server</code> + <code>openSUSE/systemd-mcp</code></td>
+</tr>
+<tr>
+<td>可视化输出</td>
+<td>普遍具备，但形态分三类：工件/画布/预览</td>
+<td>LibreChat Artifacts、Dify 画布、Open WebUI Computer 预览</td>
+</tr>
+<tr>
+<td>知识库</td>
+<td>分两派：RAG 派（向量检索）与内容平台派（文件/记忆）</td>
+<td>Open WebUI（13 种向量库）、AnythingLLM、Onyx</td>
+</tr>
+<tr>
+<td>MCP + 网络搜索</td>
+<td>MCP 已是标配；<strong>传输类型是关键差异点</strong></td>
+<td>LibreChat（4 种传输）、n8n（双向）、Agent Zero（含 A2A）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">三条推荐组合<a class="anchor" href="#_3" aria-label="锚点">#</a></h3>
+<ol>
+<li><strong>单人 / 单机 / 要真机 sudo</strong> → <code>Open WebUI Computer (cptr)</code> 裸装 + <code>sudoers</code> 窄授权。唯一一个「在你自己机器上、有 RRULE 定时任务、有终端、有 MCP stdio」的开源方案。</li>
+<li><strong>团队 / 多机 / 要审计</strong>（推荐） → <code>Open WebUI</code> 作控制层 + <code>Open Terminal</code> 作动作层 + <code>rhel-lightspeed/linux-mcp-server</code> 作特权执行层。三层分离，权限落在 MCP 服务端而不是 Agent 手里。</li>
+<li><strong>偏编排 / 已有大量脚本</strong> → <code>n8n</code>。Schedule Trigger + Execute Command + SSH + 双向 MCP + 向量库节点，是唯一把「定时」和「特权执行」都做成可视化节点的。</li>
+</ol>
+<blockquote>
+<p class="warnbox">⚠️ <strong>最重要的一条反直觉</strong>：Open WebUI 的 MCP 支持<strong>只有 Streamable HTTP，没有 stdio</strong>。这意味着所有本地 stdio MCP 服务器（包括本报告推荐的 <code>linux-mcp-server</code>）都需要一层桥接才能接进去。这条限制官方文档写得很明确，但绝大多数第三方横评都写错了。</p>
+</blockquote>
+<hr />
+<h2 id="1">第 1 章 需求固化：把六句口语翻译成可判定的判据<a class="anchor" href="#1" aria-label="锚点">#</a></h2>
+<h3 id="11">1.1 判定表<a class="anchor" href="#11" aria-label="锚点">#</a></h3>
+<p>原始需求是六句口语。口语不可判定，必须先翻译成「抽象单位 + 判定口径 + 权重」。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>口语需求</th>
+<th>抽象单位</th>
+<th>判定口径</th>
+<th>权重</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>通用 agent 工作台</td>
+<td>有 UI 的 Agent 运行时</td>
+<td>是否具备 Web/桌面 UI + Agent 循环 + 工具调用；排除纯框架（LangChain/AutoGen）与纯 CLI（Goose CLI 形态）</td>
+<td>必须</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>有周期任务</td>
+<td>调度器实现</td>
+<td>调度表达式类型（cron / RRULE / 可视化频率）· 时区处理 · 无人值守时的审批策略 · 是否支持 Webhook 触发</td>
+<td>必须</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>可以执行 sudo 或 systemd</td>
+<td>特权执行路径</td>
+<td>① 能否作用于<strong>目标宿主机</strong>（而非容器/沙箱内）② 是否有作用域约束（白名单/策略）③ 默认开还是默认关</td>
+<td><strong>必须（最高权重）</strong></td>
+</tr>
+<tr>
+<td>R4</td>
+<td>有可视化输出</td>
+<td>输出形态</td>
+<td>图表 / 工件（Artifacts）/ 画布 / 实时预览 / 文件产物 五类中覆盖几类</td>
+<td>高</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>有知识库</td>
+<td>检索实现</td>
+<td>RAG（向量/混合检索）还是内容平台（文件 + 记忆 + 提示词）；是否可完全离线自托管</td>
+<td>高</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>MCP 和网络搜索</td>
+<td>连接层</td>
+<td>MCP 传输类型（stdio / SSE / streamable-HTTP / websocket）· 是否双向（既能消费也能暴露）· 网络搜索是否内置</td>
+<td>必须</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="12-r3">1.2 R3 是全篇的分岔点：三条实现路径<a class="anchor" href="#12-r3" aria-label="锚点">#</a></h3>
+<p>这是整份报告最关键的澄清。「可以执行 sudo 或 systemd」在架构上有且只有三种落法，三者的安全性与可审计性差距巨大：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>路径</th>
+<th>机制</th>
+<th>代表</th>
+<th>安全性</th>
+<th>可审计性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 宿主 shell 直通</strong></td>
+<td>工作台本身就跑在目标机上，Agent 拿到的 shell 就是宿主 shell</td>
+<td>Open WebUI Computer（裸装）、Agent Zero + A0 CLI Connector、n8n Execute Command / SSH</td>
+<td>低（Agent 权限 = 你的权限）</td>
+<td>中（有运行日志，无策略层）</td>
+</tr>
+<tr>
+<td><strong>B. MCP 桥接</strong>（推荐）</td>
+<td>工作台保持非特权，由一个<strong>专用 MCP 服务器</strong>执行特权操作，策略写在服务端</td>
+<td><code>rhel-lightspeed/linux-mcp-server</code>、<code>openSUSE/systemd-mcp</code></td>
+<td><strong>高</strong>（命令白名单 + polkit/OAuth + 默认只读）</td>
+<td><strong>高</strong>（策略文件可版本化）</td>
+</tr>
+<tr>
+<td><strong>C. SSH 外发</strong></td>
+<td>工作台通过 SSH 连到目标机执行</td>
+<td>n8n SSH 节点、任意 SSH MCP</td>
+<td>中（取决于密钥权限）</td>
+<td>中</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>路径 A 有一个几乎必然踩到的坑</strong>：无人值守的定时任务里执行 <code>sudo</code>，如果该用户不是 <code>NOPASSWD</code>，sudo 会<strong>阻塞在密码提示上直到任务超时</strong>。这不是 bug，是 sudo 的设计。要么给窄范围的 <code>NOPASSWD</code> 白名单，要么走路径 B。</p>
+</blockquote>
+<h3 id="13">1.3 本报告不解决的问题<a class="anchor" href="#13" aria-label="锚点">#</a></h3>
+<ul>
+<li>不评估各工作台的模型能力（同一模型下差异很小）。</li>
+<li>不评估中文界面质量、许可证商业条款细节（只在关键处提示）。</li>
+<li>不评估 SaaS 版本的定价（只给自托管能力）。</li>
+</ul>
+<hr />
+<h2 id="2">第 2 章 候选池与筛选<a class="anchor" href="#2" aria-label="锚点">#</a></h2>
+<h3 id="21">2.1 检索方法<a class="anchor" href="#21" aria-label="锚点">#</a></h3>
+<p>用 GitHub REST API 直读 30 个候选仓库的元数据（<code>/repos/{owner}/{repo}</code>），字段含星标、fork、语言、许可证、创建/最后推送日期、是否归档。检索日期 <strong>2026-10-12</strong>。</p>
+<h3 id="22">2.2 原始元数据（按星标降序）<a class="anchor" href="#22" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th style="text-align: right;">★</th>
+<th style="text-align: right;">Fork</th>
+<th>语言</th>
+<th>许可证</th>
+<th>创建</th>
+<th>最后推送</th>
+<th>归档</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n8n-io/n8n</code></td>
+<td style="text-align: right;">207,043</td>
+<td style="text-align: right;">61,094</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2019-06-22</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Significant-Gravitas/AutoGPT</code></td>
+<td style="text-align: right;">187,525</td>
+<td style="text-align: right;">45,947</td>
+<td>Python</td>
+<td>NOASSERTION</td>
+<td>2023-03-16</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>langgenius/dify</code></td>
+<td style="text-align: right;">158,190</td>
+<td style="text-align: right;">25,007</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2023-04-12</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>langflow-ai/langflow</code></td>
+<td style="text-align: right;">155,524</td>
+<td style="text-align: right;">10,231</td>
+<td>Python</td>
+<td>MIT</td>
+<td>2023-02-08</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>open-webui/open-webui</code></td>
+<td style="text-align: right;">154,352</td>
+<td style="text-align: right;">22,607</td>
+<td>Python</td>
+<td>NOASSERTION</td>
+<td>2023-10-06</td>
+<td>2026-10-11</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>infiniflow/ragflow</code></td>
+<td style="text-align: right;">92,025</td>
+<td style="text-align: right;">10,958</td>
+<td>Go</td>
+<td>Apache-2.0</td>
+<td>2023-12-12</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>OpenHands/OpenHands</code></td>
+<td style="text-align: right;">90,642</td>
+<td style="text-align: right;">12,004</td>
+<td>TypeScript</td>
+<td>MIT</td>
+<td>2024-03-13</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>lobehub/lobehub</code></td>
+<td style="text-align: right;">83,152</td>
+<td style="text-align: right;">15,974</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2023-05-21</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>openinterpreter/openinterpreter</code></td>
+<td style="text-align: right;">68,554</td>
+<td style="text-align: right;">5,892</td>
+<td>Rust</td>
+<td>Apache-2.0</td>
+<td>2023-07-14</td>
+<td>2026-10-11</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Mintplex-Labs/anything-llm</code></td>
+<td style="text-align: right;">66,956</td>
+<td style="text-align: right;">7,472</td>
+<td>JavaScript</td>
+<td>MIT</td>
+<td>2023-06-04</td>
+<td>2026-10-09</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>microsoft/autogen</code></td>
+<td style="text-align: right;">61,365</td>
+<td style="text-align: right;">9,280</td>
+<td>Python</td>
+<td>CC-BY-4.0</td>
+<td>2023-08-18</td>
+<td>2026-04-15</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>FlowiseAI/Flowise</code></td>
+<td style="text-align: right;">55,494</td>
+<td style="text-align: right;">25,056</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2023-03-31</td>
+<td>2026-08-13</td>
+<td><strong>是</strong></td>
+</tr>
+<tr>
+<td><code>aaif-goose/goose</code></td>
+<td style="text-align: right;">55,174</td>
+<td style="text-align: right;">6,408</td>
+<td>Rust</td>
+<td>Apache-2.0</td>
+<td>2024-08-23</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>CherryHQ/cherry-studio</code></td>
+<td style="text-align: right;">52,549</td>
+<td style="text-align: right;">5,066</td>
+<td>TypeScript</td>
+<td>AGPL-3.0</td>
+<td>2024-05-24</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>LibreChat-AI/LibreChat</code></td>
+<td style="text-align: right;">45,550</td>
+<td style="text-align: right;">9,361</td>
+<td>TypeScript</td>
+<td>MIT</td>
+<td>2023-02-12</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>khoj-ai/khoj</code></td>
+<td style="text-align: right;">37,646</td>
+<td style="text-align: right;">2,508</td>
+<td>Python</td>
+<td>AGPL-3.0</td>
+<td>2021-08-16</td>
+<td>2026-08-02</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>reworkd/AgentGPT</code></td>
+<td style="text-align: right;">36,284</td>
+<td style="text-align: right;">9,223</td>
+<td>TypeScript</td>
+<td>GPL-3.0</td>
+<td>2023-04-07</td>
+<td>2025-04-29</td>
+<td><strong>是</strong></td>
+</tr>
+<tr>
+<td><code>onyx-dot-app/onyx</code></td>
+<td style="text-align: right;">32,409</td>
+<td style="text-align: right;">4,544</td>
+<td>Python</td>
+<td>NOASSERTION</td>
+<td>2023-04-27</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>simstudioai/sim</code></td>
+<td style="text-align: right;">29,807</td>
+<td style="text-align: right;">3,849</td>
+<td>TypeScript</td>
+<td>Apache-2.0</td>
+<td>2025-01-05</td>
+<td>2026-10-11</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>labring/FastGPT</code></td>
+<td style="text-align: right;">29,799</td>
+<td style="text-align: right;">7,326</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2023-02-23</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>letta-ai/letta</code></td>
+<td style="text-align: right;">25,113</td>
+<td style="text-align: right;">2,642</td>
+<td>—</td>
+<td>Apache-2.0</td>
+<td>2023-10-11</td>
+<td>2026-09-10</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>activepieces/activepieces</code></td>
+<td style="text-align: right;">25,012</td>
+<td style="text-align: right;">4,324</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2022-12-03</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>coze-dev/coze-studio</code></td>
+<td style="text-align: right;">21,699</td>
+<td style="text-align: right;">3,127</td>
+<td>TypeScript</td>
+<td>Apache-2.0</td>
+<td>2025-06-26</td>
+<td>2026-07-29</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>kortix-ai/suna</code></td>
+<td style="text-align: right;">20,267</td>
+<td style="text-align: right;">3,436</td>
+<td>TypeScript</td>
+<td>NOASSERTION</td>
+<td>2024-10-05</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>elizaOS/eliza</code></td>
+<td style="text-align: right;">19,574</td>
+<td style="text-align: right;">5,798</td>
+<td>TypeScript</td>
+<td>MIT</td>
+<td>2024-07-09</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>agent0ai/agent-zero</code></td>
+<td style="text-align: right;">19,429</td>
+<td style="text-align: right;">3,826</td>
+<td>Python</td>
+<td>NOASSERTION</td>
+<td>2024-06-10</td>
+<td>2026-10-11</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>windmill-labs/windmill</code></td>
+<td style="text-align: right;">18,161</td>
+<td style="text-align: right;">1,115</td>
+<td>Rust</td>
+<td>NOASSERTION</td>
+<td>2022-05-05</td>
+<td>2026-10-12</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TransformerOptimus/SuperAGI</code></td>
+<td style="text-align: right;">17,702</td>
+<td style="text-align: right;">2,225</td>
+<td>Python</td>
+<td>MIT</td>
+<td>2023-05-13</td>
+<td>2025-01-22</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>bytebot-ai/bytebot</code></td>
+<td style="text-align: right;">11,077</td>
+<td style="text-align: right;">1,512</td>
+<td>TypeScript</td>
+<td>Apache-2.0</td>
+<td>2025-02-03</td>
+<td>2025-09-12</td>
+<td><strong>是</strong></td>
+</tr>
+<tr>
+<td><code>agiresearch/AIOS</code></td>
+<td style="text-align: right;">6,466</td>
+<td style="text-align: right;">920</td>
+<td>Python</td>
+<td>NOASSERTION</td>
+<td>2024-01-15</td>
+<td>2026-07-20</td>
+<td>否</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>6 个仓库发生了改名/迁移</strong>，直接用旧名请求会返回 <code>301 Moved Permanently</code>，必须跟随重定向：<code>frdel/agent-zero</code>→<code>agent0ai/agent-zero</code>、<code>danny-avila/LibreChat</code>→<code>LibreChat-AI/LibreChat</code>、<code>lobehub/lobe-chat</code>→<code>lobehub/lobehub</code>、<code>block/goose</code>→<code>aaif-goose/goose</code>、<code>All-Hands-AI/OpenHands</code>→<code>OpenHands/OpenHands</code>、<code>OpenInterpreter/open-interpreter</code>→<code>openinterpreter/openinterpreter</code>。这是一个实际踩到的坑——第一轮批量请求里这 6 个全部返回 <code>Moved Permanently</code> 而不是数据。</p>
+</blockquote>
+<h3 id="23">2.3 排除项与排除理由<a class="anchor" href="#23" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>排除理由</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FlowiseAI/Flowise</code></td>
+<td><strong>已归档</strong>（<code>archived: true</code>），虽仍 5.5 万星</td>
+<td>API <code>archived</code> 字段</td>
+</tr>
+<tr>
+<td><code>reworkd/AgentGPT</code></td>
+<td>已归档，最后推送 2025-04-29</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>bytebot-ai/bytebot</code></td>
+<td>已归档，最后推送 2025-09-12</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>TransformerOptimus/SuperAGI</code></td>
+<td>最后推送 2025-01-22，停更约 21 个月</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>microsoft/autogen</code></td>
+<td>框架而非工作台；最后推送 2026-04-15，已滞后 6 个月</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>infiniflow/ragflow</code></td>
+<td>RAG 引擎，无 Agent 工作台形态与调度器</td>
+<td>README</td>
+</tr>
+<tr>
+<td><code>langflow-ai/langflow</code></td>
+<td>可视化 LLM 流程构建器，无「Agent 工作台 + 调度器」组合</td>
+<td>定位判断</td>
+</tr>
+<tr>
+<td><code>openinterpreter/openinterpreter</code></td>
+<td>定位已收窄为「coding agent for open models」，无调度器</td>
+<td>README 原文</td>
+</tr>
+<tr>
+<td><code>agiresearch/AIOS</code></td>
+<td>研究型「AIOS」内核，非可直接用的工作台</td>
+<td>README</td>
+</tr>
+<tr>
+<td><code>CherryHQ/cherry-studio</code></td>
+<td>桌面聊天客户端；有 MCP + 知识库 + 联网，但无调度器、无宿主 shell</td>
+<td>功能核对</td>
+</tr>
+<tr>
+<td><code>Significant-Gravitas/AutoGPT</code></td>
+<td>平台形态成立，但本轮未取得其调度器的一手文档，降为「未核实」</td>
+<td>见第 8 章</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="24-13">2.4 入围 13 个候选<a class="anchor" href="#24-13" aria-label="锚点">#</a></h3>
+<p>按「R1 工作台形态成立」+「未归档」+「近 90 天有推送」筛选：</p>
+<p><strong>第一梯队（六项基本齐全）</strong>：Open WebUI（+ Computer / Open Terminal）、Agent Zero、n8n、LibreChat、AnythingLLM、Dify、Suna/Kortix、OpenHands</p>
+<p><strong>第二梯队（缺 1–2 项或有硬限制）</strong>：Khoj、Onyx、Sim、LobeHub、Windmill、elizaOS、FastGPT、Coze Studio、Goose、Letta、Activepieces</p>
+<hr />
+<h2 id="3">第 3 章 六项能力总表<a class="anchor" href="#3" aria-label="锚点">#</a></h2>
+<p>图例：<strong>✅ 原生支持</strong> · <strong>⚠️ 有条件/需桥接</strong> · <strong>❌ 未发现</strong> · 括注为「默认开 / 默认关」· 括号内字母为证据等级</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>候选</th>
+<th style="text-align: right;">★</th>
+<th>R2 周期任务</th>
+<th>R3 sudo/systemd</th>
+<th>R4 可视化</th>
+<th>R5 知识库</th>
+<th>R6 MCP</th>
+<th>R6 网络搜索</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Open WebUI</strong></td>
+<td style="text-align: right;">154k</td>
+<td>✅ RRULE（默认开）(A)</td>
+<td>⚠️ 需 Computer 或 MCP (A)</td>
+<td>✅ 工件/图表/图像 (B)</td>
+<td>✅ 13 种向量库 (B)</td>
+<td>⚠️ <strong>仅 Streamable HTTP</strong>（默认关）(A)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td>↳ <strong>Open WebUI Computer</strong></td>
+<td style="text-align: right;">—</td>
+<td>✅ RRULE + Webhook (A)</td>
+<td>✅ <strong>宿主 shell（裸装）</strong>(A)</td>
+<td>✅ 文件/终端/git/预览 (A)</td>
+<td>✅ Skills + Memory (A)</td>
+<td>✅ <strong>stdio + HTTP + OpenAPI</strong>（默认关）(A)</td>
+<td>✅ 内置 (A)</td>
+</tr>
+<tr>
+<td><strong>Agent Zero</strong></td>
+<td style="text-align: right;">19.4k</td>
+<td>✅ 原生调度器 + crontab (A)</td>
+<td>⚠️ 容器内 root；宿主需 CLI 桥 (A)</td>
+<td>✅ Canvas + Linux 桌面 (B)</td>
+<td>✅ 项目级知识 + 记忆 (B)</td>
+<td>✅ MCP + A2A（默认关）(B)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>n8n</strong></td>
+<td style="text-align: right;">207k</td>
+<td>✅ Schedule Trigger（默认开）(A)</td>
+<td>⚠️ Execute Command（<strong>2.0 起默认禁用</strong>）/ SSH 节点 (A)</td>
+<td>✅ 画布 + 节点输出 (A)</td>
+<td>⚠️ 向量库节点，无内置 KB (A)</td>
+<td>✅ <strong>双向</strong> MCP（默认关）(A)</td>
+<td>⚠️ 需 HTTP/工具节点 (B)</td>
+</tr>
+<tr>
+<td><strong>LibreChat</strong></td>
+<td style="text-align: right;">45.6k</td>
+<td>✅ Scheduled Chats（默认关，实验性）(A)</td>
+<td>❌ 沙箱非宿主；需 MCP (A)</td>
+<td>✅ Artifacts + 代码解释器 (B)</td>
+<td>✅ RAG API + Memory (B)</td>
+<td>✅ <strong>4 种传输</strong>（默认关）(A)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>AnythingLLM</strong></td>
+<td style="text-align: right;">67k</td>
+<td>✅ Scheduled Jobs（<strong>仅单用户模式</strong>）(A)</td>
+<td>⚠️ File System Agent + MCP (B)</td>
+<td>✅ 生成文件（图表/文档）(A)</td>
+<td>✅ 向量库 + 文档管道 (B)</td>
+<td>✅ stdio（默认关）(A)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>Dify</strong></td>
+<td style="text-align: right;">158k</td>
+<td>✅ Schedule Trigger（<strong>每流程限 1 个</strong>）(A)</td>
+<td>❌ 代码节点禁系统命令 (A)</td>
+<td>✅ 工作流画布 (B)</td>
+<td>✅ 知识库 (B)</td>
+<td>✅ 可发布为 MCP Server (B)</td>
+<td>✅ 工具节点 (B)</td>
+</tr>
+<tr>
+<td><strong>Suna / Kortix</strong></td>
+<td style="text-align: right;">20.3k</td>
+<td>✅ cron + 签名 Webhook (B)</td>
+<td>⚠️ 云沙箱非宿主 (B)</td>
+<td>✅ 报告/Deck/代码 (B)</td>
+<td>✅ git 化公司记忆 + Skills (B)</td>
+<td>✅ MCP + OpenAPI + GraphQL (B)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>OpenHands</strong></td>
+<td style="text-align: right;">90.6k</td>
+<td>✅ Automations（调度 + Webhook）(B)</td>
+<td>⚠️ 沙箱运行时 (B)</td>
+<td>✅ Agent Canvas (B)</td>
+<td>⚠️ 依赖 MCP/工具 (C)</td>
+<td>✅ 支持 (B)</td>
+<td>⚠️ 未核实 (C)</td>
+</tr>
+<tr>
+<td><strong>Khoj</strong></td>
+<td style="text-align: right;">37.6k</td>
+<td>✅ Automations（cron + 邮件投递）(A)</td>
+<td>❌ 无宿主 shell (A)</td>
+<td>⚠️ 图像/文档 (B)</td>
+<td>✅ 文档索引 + Agent (B)</td>
+<td>✅ 有 MCP 实现 (A)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>Onyx</strong></td>
+<td style="text-align: right;">32.4k</td>
+<td>❌ 未发现 (B)</td>
+<td>⚠️ 沙箱 (B)</td>
+<td>✅ Artifacts（文档/图形）(B)</td>
+<td>✅ <strong>知识层本体</strong> (B)</td>
+<td>✅ 双向（消费 + 自身为 MCP Server）(B)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>Sim</strong></td>
+<td style="text-align: right;">29.8k</td>
+<td>✅ 有 schedules 监控页 (B)</td>
+<td>⚠️ 桌面端终端 (B)</td>
+<td>✅ 知识/表格/桌面 (B)</td>
+<td>✅ 同步式知识库 (B)</td>
+<td>✅ 支持 (B)</td>
+<td>⚠️ 未核实 (C)</td>
+</tr>
+<tr>
+<td><strong>LobeHub</strong></td>
+<td style="text-align: right;">83k</td>
+<td>⚠️ <strong>云端执行，无 cron</strong>（仅时/日/周）(B)</td>
+<td>❌ 无宿主 shell (B)</td>
+<td>✅ 生成式 UI (B)</td>
+<td>✅ 白盒记忆 (B)</td>
+<td>✅ 10000+ Skills / MCP 市场 (B)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+<tr>
+<td><strong>Windmill</strong></td>
+<td style="text-align: right;">18.2k</td>
+<td>✅ schedules + Webhook + Kafka 等 (A)</td>
+<td>✅ Bash/PowerShell/Ansible + nsjail（默认开）(A)</td>
+<td>✅ 自动生成 UI + 流程图 (B)</td>
+<td>⚠️ 资源/变量，非 RAG (B)</td>
+<td>✅ <strong>双向</strong>（可作 client）(A)</td>
+<td>⚠️ 需脚本实现 (C)</td>
+</tr>
+<tr>
+<td><strong>elizaOS</strong></td>
+<td style="text-align: right;">19.6k</td>
+<td>✅ scheduled workflows (B)</td>
+<td>⚠️ 插件（shell 插件）(B)</td>
+<td>⚠️ App views (B)</td>
+<td>✅ memory/knowledge (B)</td>
+<td>✅ 插件化 MCP (B)</td>
+<td>✅ 插件 (B)</td>
+</tr>
+<tr>
+<td><strong>Letta</strong></td>
+<td style="text-align: right;">25.1k</td>
+<td>✅ cron（<code>src/cron/</code> + CLI）(A)</td>
+<td>⚠️ 需 MCP 工具 (C)</td>
+<td>✅ ADE / 桌面 + Web (B)</td>
+<td>✅ 状态化记忆（核心卖点）(B)</td>
+<td>✅ 完整 MCP（含 OAuth）(A)</td>
+<td>⚠️ 需工具 (C)</td>
+</tr>
+<tr>
+<td><strong>FastGPT</strong></td>
+<td style="text-align: right;">29.8k</td>
+<td>⚠️ 未核实 (C)</td>
+<td>❌ 无 (C)</td>
+<td>✅ 工作流画布 (B)</td>
+<td>✅ RAG 为核心 (B)</td>
+<td>✅ <strong>双向 MCP</strong> (B)</td>
+<td>⚠️ 未核实 (C)</td>
+</tr>
+<tr>
+<td><strong>Coze Studio</strong></td>
+<td style="text-align: right;">21.7k</td>
+<td>❌ 未发现 (B)</td>
+<td>❌ 无 (B)</td>
+<td>✅ 可视化画布 (B)</td>
+<td>✅ 知识库 (B)</td>
+<td>⚠️ 插件机制 (B)</td>
+<td>⚠️ 插件 (B)</td>
+</tr>
+<tr>
+<td><strong>Goose</strong></td>
+<td style="text-align: right;">55.2k</td>
+<td>❌ 未发现（无调度器）(B)</td>
+<td>✅ <strong>本地 CLI 直通宿主</strong>（默认开）(B)</td>
+<td>⚠️ 桌面 App (B)</td>
+<td>❌ 无内置 KB (B)</td>
+<td>✅ <strong>70+ MCP 扩展</strong>（默认开）(B)</td>
+<td>✅ 内置 (B)</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>这张表里最容易误读的一格</strong>：n8n 的 Execute Command 节点自 <strong>n8n 2.0 起默认被禁用</strong>（官方原文："the node is disabled by default from n8n 2.0"），且<strong>仅在自托管版可用，n8n Cloud 上没有</strong>。看到「n8n 能跑 shell」就下结论是错的。</p>
+</blockquote>
+<hr />
+<h2 id="4">第 4 章 逐候选取证<a class="anchor" href="#4" aria-label="锚点">#</a></h2>
+<h3 id="41-open-webui-open-webui-computer-open-terminal">4.1 Open WebUI（+ Open WebUI Computer + Open Terminal）<a class="anchor" href="#41-open-webui-open-webui-computer-open-terminal" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>open-webui/open-webui</code> 154,352★，Python，2023-10-06 创建，2026-10-11 最后推送。它是「模型无关的 AI 控制层」——聊天、知识库、用户权限、工具、提示词都在这一层。</p>
+<p><strong>关键结构：Open WebUI 实际是三个产品，不是三个功能。</strong> 官方文档《Computer, Open WebUI, or Open Terminal?》把三者并列：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Open WebUI</th>
+<th>Open Terminal</th>
+<th>Open WebUI Computer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>重心</td>
+<td>对话与控制层</td>
+<td>动作层</td>
+<td><strong>你自己的机器</strong></td>
+</tr>
+<tr>
+<td>环境</td>
+<td>不适用</td>
+<td>全新隔离（Docker）或宿主</td>
+<td><strong>真实宿主：现有文件、状态、工具、在跑的 agent</strong></td>
+</tr>
+<tr>
+<td>用户</td>
+<td>一到多</td>
+<td>跟随 Open WebUI</td>
+<td><strong>一个受信任的所有者</strong></td>
+</tr>
+<tr>
+<td>AI 必需</td>
+<td>是</td>
+<td>是</td>
+<td>否（文件/终端/git 不用 AI 也能用）</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="411-r2">4.1.1 周期任务（R2）— 两套独立实现，别搞混<a class="anchor" href="#411-r2" aria-label="锚点">#</a></h4>
+<p><strong>（a）Open WebUI 主产品的 Automations</strong>（证据 A，官方文档）</p>
+<ul>
+<li>按小时/日/周/月或<strong>自定义 RRULE</strong> 调度提示词。</li>
+<li>每次运行创建一个真实聊天，走完整 chat completion 管线（模型默认值、工具、filter 都生效）。</li>
+<li>管理员可用 <code>ENABLE_AUTOMATIONS</code> 环境变量或后台开关全局启停；禁用时 worker 停止、API 返回 <strong>403</strong>、侧栏入口隐藏。</li>
+<li>权限门控：非管理员需 <code>Features &gt; Automations</code> 权限（<code>USER_PERMISSIONS_FEATURES_AUTOMATIONS</code>）。</li>
+<li><strong>自动化是创建者私有的</strong>：只有所有者能打开/编辑/运行/删除，"every other request, including one from an administrator, is answered as if the automation did not exist"。</li>
+<li>可手动 <code>Run Now</code>、暂停/恢复、查看执行历史、把生成的聊天归档到指定文件夹。</li>
+<li>可选：给运行配一个终端（"Give runs a terminal by configuring one on the model the automation uses"）——<strong>这一句是 R3 的接口</strong>。</li>
+</ul>
+<p><strong>（b）Open WebUI Computer 的 Scheduled tasks</strong>（证据 A，官方文档）</p>
+<ul>
+<li>调度表达式是<strong>标准 iCalendar RRULE</strong>，官方给出的示例：</li>
+</ul>
+<pre><code>Every day at 09:00     RRULE:FREQ=DAILY;BYHOUR=9;BYMINUTE=0
+Every Monday           RRULE:FREQ=WEEKLY;BYDAY=MO
+Every hour             RRULE:FREQ=HOURLY;INTERVAL=1
+Once, then never again RRULE:FREQ=DAILY;COUNT=1
+</code></pre>
+<ul>
+<li>可让 Agent 用工具自己建任务（"The agent has a tool for this; approve the tool call and the task exists"）。</li>
+<li>每次运行产生：① 所选工作区里的一个真实聊天（侧栏可见，含完整任务活动）；② 任务上的一条运行历史（成功/失败 + 错误文本）。</li>
+<li><strong>Webhook 触发</strong>：任务可生成含密钥 token 的 Webhook URL，外部 POST 即可立即运行；带 JSON body 时提示词可用 <code>{{webhook_payload}}</code> 占位符接住 CI 失败载荷。</li>
+<li>通知：可加通知目标，提示词里写「仅在失败时通知我」，Agent 自行决定是否调用 notify 工具。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ <strong>无人值守 = 全量审批放行</strong>。官方原文：<em>"Scheduled runs execute with full tool approval: nobody is there to click Allow."</em> 同一份文档的审批页也写：<em>"Unattended paths (the gateway API, messaging bots, and scheduled tasks) always run in full approval."</em> 定时任务必须配一个你完全放心的工作区。</p>
+</blockquote>
+<h4 id="412-sudo-systemdr3">4.1.2 执行 sudo / systemd（R3）<a class="anchor" href="#412-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<p>Open WebUI Computer 的定位文档写得极其直白（证据 A）：</p>
+<blockquote>
+<p><em>"a signed-in user has the same power as someone at the keyboard within the boundary you chose, meaning </em><em>full filesystem and shell access on a bare install</em><em>, or exactly the folders you mounted if you run it in Docker."</em></p>
+</blockquote>
+<p>即：
+- <strong>裸装</strong> → Agent 的 <code>run_command</code> 就是你自己的 shell，能 <code>systemctl</code>、能 <code>sudo</code>（前提见下）。
+- <strong>Docker 装</strong> → 只能看到挂载进去的目录，<code>systemctl</code> 没有意义（容器内没有你的 systemd）。</p>
+<p>安装方式（证据 A）：</p>
+<pre><code class="language-bash">pip install cptr
+cptr run
+# 或
+uvx cptr@latest run
+</code></pre>
+<p>Docker 方式（官方文档原文）：</p>
+<pre><code class="language-bash">docker run --rm -it \
+  -p 8000:8000 \
+  -v cptr-data:/data \
+  -v &quot;$PWD:/workspace&quot; \
+  -w /workspace \
+  ghcr.io/open-webui/computer:latest
+</code></pre>
+<blockquote>
+<p class="warnbox">⚠️ <strong>sudo 在无人值守任务里的真实行为</strong>：Agent 以启动 <code>cptr</code> 的那个用户身份执行命令。如果该用户执行 <code>sudo</code> 需要密码，定时任务会<strong>卡在密码提示直到超时</strong>。可行的修法是给一个极窄的 <code>NOPASSWD</code> 白名单，例如只放 <code>systemctl restart nginx</code>、<code>systemctl status *</code>，而不是 <code>ALL</code>。更稳的做法是走 MCP 桥接（第 5 章）。</p>
+</blockquote>
+<h4 id="413-r4">4.1.3 可视化输出（R4）<a class="anchor" href="#413-r4" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>Open WebUI 主产品</strong>：代码执行（浏览器内 Python 或经 Open Terminal）、图像生成（GPT-Image / Gemini / ComfyUI）、多模型并排对比、Artifacts、Mermaid 图。（证据 B）</li>
+<li><strong>Computer</strong>：全功能文件编辑器、终端、<strong>git 面板（状态/差异/暂存/提交/分支）</strong>、网站实时预览、"generated artifacts"、手机端同一工作区视图。（证据 A）</li>
+</ul>
+<h4 id="414-r5">4.1.4 知识库（R5）<a class="anchor" href="#414-r5" aria-label="锚点">#</a></h4>
+<p>Open WebUI 主产品（证据 B，官方功能页）：</p>
+<ul>
+<li><strong>13 种向量数据库</strong>，其中 ChromaDB 与 PGVector 官方维护，另含 Qdrant、Milvus、Elasticsearch 等。</li>
+<li><strong>混合检索</strong>：BM25 + 向量 + cross-encoder 重排。</li>
+<li><strong>8 种抽取引擎</strong>：Tika、Docling、Azure、Mistral OCR、Datalab Marker、MinerU、PaddleOCR、自定义 loader。</li>
+<li><strong>Agentic retrieval</strong>：模型自主检索并阅读文档。</li>
+<li><strong>Full context mode</strong>：整篇注入，不分块。</li>
+<li><strong>Notes</strong>：可挂到任意聊天做全保真上下文注入。</li>
+</ul>
+<p>Computer 侧的知识层（证据 A）：Skills（<code>SKILL.md</code>，遵循 <strong>agentskills.io 规范</strong>）、Memory（按用户，可查看/编辑/删除）、系统提示词解析链、自动加载 <code>MEMORY.md</code> / <code>AGENTS.md</code> / <code>AGENT.md</code> / <code>CLAUDE.md</code>（上限 32KB）。技能发现路径：工作区 <code>.cptr/skills</code>、<code>.agents/skills</code>、<code>.claude/skills</code>、<code>.codex/skills</code>；全局 <code>~/.cptr/skills</code>、<code>~/.agents/skills</code>——<strong>已有 Claude Code / Codex 的技能会被自动识别，无需复制</strong>。</p>
+<blockquote>
+<p class="warnbox">⚠️ <strong>知识库不互通</strong>。官方原文：<em>"Knowledge bases, prompts, and users don't transfer between the two"</em>（指 Open WebUI 与 Computer 之间）。两者要分别配置。</p>
+</blockquote>
+<h4 id="415-mcp-r6">4.1.5 MCP 与网络搜索（R6）<a class="anchor" href="#415-mcp-r6" aria-label="锚点">#</a></h4>
+<p><strong>主产品的 MCP（证据 A，官方文档）——这是全表最容易被写错的一条</strong>：</p>
+<ul>
+<li>原生支持 MCP，<strong>从 v0.6.31 起</strong>。</li>
+<li><strong>只支持 Streamable HTTP</strong>。官方原文：<em>"Open WebUI's own MCP support is Streamable HTTP only."</em></li>
+<li><strong>MCP 服务器仅管理员可添加</strong>：<em>"MCP servers can only be added by administrators, under Settings &gt; Admin &gt; Integrations. Regular users cannot register their own, by design."</em></li>
+<li>官方解释了为什么这么严：MCP 是<strong>有状态、能力丰富</strong>的（sampling、elicitation、持久会话、<strong>通过 stdio 传输的任意宿主命令执行</strong>），它跑在 Open WebUI 的信任边界内、带着连接用户的完整权限——<em>"a malicious or compromised MCP server could execute code and read or exfiltrate data with that user's access"</em>。</li>
+<li>认证选项：None / Bearer / OAuth / <strong>OAuth 2.1（DCR）</strong> / <strong>OAuth 2.1（Static）</strong>，含 RFC 8707 resource parameter 与 OAuth scopes 配置。</li>
+<li>配置陷阱（官方明示）：类型必须选 <code>MCP (Streamable HTTP)</code>，<strong>不是 <code>OpenAPI</code></strong>；把 <code>mcpServers</code> JSON 填进 OpenAPI 连接会导致 UI 崩溃或无限加载。</li>
+<li><strong>必须设 <code>WEBUI_SECRET_KEY</code></strong>，否则 OAuth 连接的 MCP 工具每次重启都要求重新认证（<code>Error decrypting tokens</code>）。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ <strong>因此：任何本地 stdio MCP 服务器（含 <code>linux-mcp-server</code>、<code>systemd-mcp</code>）都无法直接接入 Open WebUI 主产品</strong>，需要一层 HTTP 桥。反之 <strong>Computer 原生支持 stdio MCP</strong>（见下），这是一个关键的选型分水岭。</p>
+</blockquote>
+<p><strong>Computer 的 MCP（证据 A，官方文档）</strong>：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>配置</th>
+<th>运行方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAPI</td>
+<td>Spec URL + path（默认 <code>openapi.json</code>）</td>
+<td>Computer 调 HTTP API，每个带 <code>operationId</code> 的操作变成一个工具</td>
+</tr>
+<tr>
+<td>MCP (remote)</td>
+<td>Server URL</td>
+<td>Streamable-HTTP 传输到远程 MCP 服务器</td>
+</tr>
+<tr>
+<td><strong>MCP (stdio)</strong></td>
+<td>command、args、env、cwd</td>
+<td><strong>Computer 本地启动进程、保活、崩了自动重启</strong></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>需要可选依赖组：<code>pip install 'cptr[mcp]'</code>（Docker 镜像已含）。</li>
+<li>工具在模型侧显示为 <code>&lt;server_id&gt;_&lt;tool_name&gt;</code>。</li>
+<li>支持 Bearer key 与自定义 header；stdio 服务器的凭据走进程 env。</li>
+<li>保存前有 <code>Verify</code> 按钮，会连接并列出发现的工具。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 官方安全提示原文：<em>"A stdio MCP server is a real process running on the Computer host under the same account as Computer itself... Only connect servers you trust with your workspace context."</em></p>
+</blockquote>
+<p><strong>网络搜索</strong>：主产品与 Computer 均内置（Computer 侧还含浏览器操作：导航、点击、填表、截图）。（证据 B / A）</p>
+<h4 id="416">4.1.6 其他要点<a class="anchor" href="#416" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>Open Terminal</strong> 是独立项目，需要 Open WebUI Enterprise 许可才能在生产使用；代码在 <code>github.com/open-webui/terminals</code>。（证据 B）</li>
+<li>许可证字段是 <code>NOASSERTION</code>（非标准 SPDX 标识），商业使用前需自行读许可原文。</li>
+<li>部署：Docker/K8s/Helm/pip；无状态架构 + Redis 协调可横向扩展；支持 S3/GCS/Azure Blob 与 OpenTelemetry。（证据 B）</li>
+</ul>
+<hr />
+<h3 id="42-agent-zero">4.2 Agent Zero<a class="anchor" href="#42-agent-zero" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>agent0ai/agent-zero</code> 19,429★（原 <code>frdel/agent-zero</code>），Python，2024-06-10 创建，2026-10-11 最后推送。自我定位是 <em>"an open agent framework for work that needs more than chat: a Dockerized Linux desktop, a browser with DOM annotation, live document cowork, projects, skills, plugins, and a bridge back to your host machine."</em></p>
+<h4 id="421-r2">4.2.1 周期任务（R2）— 有原生调度器，这是它被严重低估的地方<a class="anchor" href="#421-r2" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-A">A</span>：直接读源码树得到的调度器文件清单：</p>
+<pre><code>helpers/task_scheduler.py
+api/scheduler_task_create.py    api/scheduler_task_run.py
+api/scheduler_tasks_list.py     api/scheduler_task_update.py
+api/scheduler_task_delete.py    api/scheduler_tick.py
+api/self_update_schedule.py
+</code></pre>
+<p>以及 UI 侧 <code>plugins/_sidebar_folders/extensions/webui/sidebar-tasks-list-view</code>。</p>
+<p>从 <code>helpers/task_scheduler.py.dox.md</code>（官方随源码维护的文档）读到的数据模型：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>类</th>
+<th>关键方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TaskSchedule</code></td>
+<td><code>to_crontab() -&gt; str</code></td>
+<td>调度表达式可序列化为 <strong>crontab</strong></td>
+</tr>
+<tr>
+<td><code>ScheduledTask</code></td>
+<td><code>create(name, system_prompt, prompt, schedule, attachments, context_id, timezone, project_name, project_color)</code></td>
+<td><strong>带时区</strong>的周期任务</td>
+</tr>
+<tr>
+<td><code>PlannedTask</code></td>
+<td><code>create(..., plan: TaskPlan)</code></td>
+<td>按计划时间点列表执行（<code>TaskPlan.add_todo/set_in_progress/set_done/get_next_launch_time</code>）</td>
+</tr>
+<tr>
+<td><code>AdHocTask</code></td>
+<td><code>create(name, system_prompt, prompt, token, ...)</code></td>
+<td>一次性/临时任务</td>
+</tr>
+<tr>
+<td><code>BaseTask</code></td>
+<td><code>check_schedule(frequency_seconds)</code>、<code>get_next_run()</code>、<code>on_run/on_finish/on_error</code></td>
+<td>调度检查与生命周期钩子</td>
+</tr>
+</tbody>
+</table></div>
+<p>也就是说，<strong>Agent Zero 的周期任务是核心功能，不是插件</strong>。README 里「Scheduled operations: run recurring checks and monitoring tasks with project-scoped context and credentials」与之一致。</p>
+<h4 id="422-sudo-systemdr3">4.2.2 执行 sudo / systemd（R3）— 注意容器的语义陷阱<a class="anchor" href="#422-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<ul>
+<li>Agent Zero <strong>默认跑在 Docker 里</strong>：<code>docker run -p 80:80 -v a0_usr:/a0/usr agent0ai/agent-zero</code>。（证据 B）</li>
+<li>README 描述：<em>"The agent can use real GUI software, terminals, files, and desktop apps inside the Canvas."</em>——这里的 terminal 是<strong>容器内的</strong> Linux 桌面终端。（证据 B）</li>
+<li>宿主访问的官方通道是 <strong>A0 CLI Connector</strong>：<em>"It connects to a running Agent Zero instance and gives that instance a terminal-native bridge to your host machine - so the same agent (with all its memory, projects, and skills) can also work on real files outside the Docker container."</em>（证据 B）</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ <strong>容器内是 root，但这不等于宿主 sudo</strong>。容器里的 root 只在容器命名空间内有效；它能碰到的只有挂载进去的卷。要操作宿主机的 systemd，必须走 A0 CLI Connector 或挂载宿主路径——而挂载宿主路径又等于把宿主的文件暴露给 Agent。</p>
+</blockquote>
+<h4 id="423-r4">4.2.3 可视化输出（R4）<a class="anchor" href="#423-r4" aria-label="锚点">#</a></h4>
+<ul>
+<li>Canvas 内的完整 Linux 桌面（可用真实 GUI 软件，README 举例：开 Blender 建模、跳进终端窗口、管理文件、跑无 API 的 GUI 工具）。</li>
+<li>浏览器带 <strong>DOM 注解</strong>：人可以在页面上标注意见，Agent 把视觉评论转成可执行的修复。</li>
+<li>浏览器历史保留关键步骤截图，旧对话仍能看到 Agent 当时看到的内容。</li>
+<li>支持 Chrome 扩展；也可通过 A0 CLI Connector 驱动<strong>你自己机器上的</strong> Chrome/Edge/Brave/Opera/Vivaldi/Chromium。
+（以上证据 B）</li>
+</ul>
+<h4 id="424-r5">4.2.4 知识库（R5）<a class="anchor" href="#424-r5" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>Projects</strong> 隔离工作区、指令、记忆、密钥、知识、仓库、模型预设——<em>"Keep files, instructions, secrets, memories, repositories, and model-preset choices isolated per project."</em></li>
+<li>记忆系统可替换后端（替代记忆后端、智能整合策略、向量召回插件）。
+（证据 B）</li>
+</ul>
+<h4 id="425-mcp-r6">4.2.5 MCP 与网络搜索（R6）<a class="anchor" href="#425-mcp-r6" aria-label="锚点">#</a></h4>
+<ul>
+<li>支持 <strong>插件、MCP、A2A、自定义工具、自定义提示词、项目级配置</strong>。（证据 B）</li>
+<li>官方插件索引 <code>agent0ai/a0-plugins</code> 是<strong>社区维护的索引仓库</strong>，每个插件一个目录、一个 <code>index.yaml</code> 指向插件自己的仓库。（证据 A）</li>
+<li>我拉取了完整插件名清单（<strong>200+ 个</strong>），与本需求相关的包括：
+  <code>agent0-terminal</code>、<code>docker_terminal</code>、<code>rg</code>（ripgrep）、<code>command_palette</code>、<code>commands</code>、<code>stop_process</code>、<code>seq_logs</code>、<code>sentrysearch</code>、<code>file_browser_ssh</code>、<code>file_browser_s3</code>、<code>file_browser_smb</code>、<code>file_browser_ftps</code>、<code>file_browser_webdav</code>、<code>tailscale_manager</code>、<code>human_in_the_loop</code>、<code>human_approval_gate</code>、<code>guard_system</code>、<code>mcp2cli</code>、<code>mcp_agent_access</code>、<code>a0_agent_skills</code>、<code>skill_creator</code>、<code>skill_slash_commands</code>、<code>skills_finder</code>、<code>skill_synthesizer</code>、<code>knowledge_upload</code>、<code>obsidian</code>、<code>notebooklm</code>、<code>open_notebook</code>、<code>memex</code>、<code>graph_memory</code>、<code>memory_hardening</code>、<code>tree_ring_memory</code>、<code>qmd_memory</code>、<code>autosave_memory</code>、<code>context_engine</code>、<code>autoresearch</code>、<code>autonomous_growth_engine</code>、<code>deep</code> 类研究插件、<code>slack</code>/<code>discord</code>/<code>telegram</code>/<code>whatsapp_automation</code>/<code>signal</code>/<code>matrix_chat</code> 等消息通道。（证据 A）</li>
+<li><strong>网络搜索</strong>：内置；另有 <code>a0_fauxplexica</code>（Perplexica 风格搜索）、<code>sentrysearch</code>、<code>qmd_search</code> 等搜索类插件。（证据 B）</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 插件索引里<strong>没有</strong>名为 scheduler/cron 的插件——因为调度器在核心（4.2.1），不在插件层。不要因为「插件市场里搜不到定时插件」就判断 Agent Zero 不能定时。</p>
+</blockquote>
+<hr />
+<h3 id="43-n8n">4.3 n8n<a class="anchor" href="#43-n8n" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>n8n-io/n8n</code> 207,043★，TypeScript，2019-06-22 创建，2026-10-12 最后推送。它是全表星标最高的候选，也是最接近「Linux 运维自动化」本行的候选——但它不是 Agent 工作台，是<strong>带 AI 节点的自动化平台</strong>。这个区别很重要。</p>
+<h4 id="431-r2-a">4.3.1 周期任务（R2）— 证据 A，官方文档<a class="anchor" href="#431-r2-a" aria-label="锚点">#</a></h4>
+<p><strong>Schedule Trigger 节点</strong>，官方原文：<em>"Use the Schedule Trigger node to run workflows at fixed intervals and times. This works in a similar way to the Cron software utility in Unix-like systems."</em></p>
+<ul>
+<li>触发间隔单位：秒 / 分 / 时 / 日 / 周 / 月 / <strong>Custom (Cron)</strong>。</li>
+<li>可加<strong>多条 Trigger Rules</strong>，一个节点跑多个不同排期。</li>
+<li>时区：优先用 workflow 时区，否则用实例时区；<strong>自托管默认 <code>America/New_York</code></strong>，n8n Cloud 注册时尝试探测所有者时区，回退 GMT。</li>
+<li>必须<strong>保存并发布</strong>工作流，Schedule 才会生效。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 自托管默认时区是 <code>America/New_York</code>，不是 UTC 也不是本地。做运维排期（比如「每天凌晨 3 点清理日志」）时必须显式设时区，否则会错 12 小时左右。这是一个非常容易踩的坑。</p>
+</blockquote>
+<h4 id="432-sudo-systemdr3-a">4.3.2 执行 sudo / systemd（R3）— 证据 A，官方文档<a class="anchor" href="#432-sudo-systemdr3-a" aria-label="锚点">#</a></h4>
+<p><strong>Execute Command 节点</strong>：</p>
+<blockquote>
+<p><em>"The Execute Command node runs shell commands on the host machine that runs n8n."</em></p>
+</blockquote>
+<ul>
+<li><strong>安全警告（官方原文）</strong>：<em>"The Execute Command node can introduce significant security risks in environments that operate with untrusted users. Because of this, the node is </em><em>disabled by default from n8n 2.0</em><em>."</em></li>
+<li><strong>可用范围</strong>：自托管全部版本可用；<strong>n8n Cloud 上没有这个节点</strong>。</li>
+<li>执行 shell：宿主默认 shell（Windows 是 <code>cmd</code>，macOS 是 <code>zsh</code>）。</li>
+<li><strong>Docker 部署时命令在 n8n 容器内执行，不在 Docker 宿主上</strong>。</li>
+<li>queue 模式下命令在生产环境跑在正在执行任务的 worker 上；手动执行跑在主实例上，除非设 <code>OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS=true</code>。</li>
+<li>多命令：用 <code>&amp;&amp;</code> 连接，或每行一条。</li>
+</ul>
+<p><strong>SSH 节点</strong>：核心节点里存在（<code>n8n-nodes-base.ssh</code>），可用于对远程主机执行操作——这是 n8n 做多机运维的正式路径。（证据 B）</p>
+<blockquote>
+<p class="warnbox">⚠️ 要恢复 Execute Command，需要在<strong>部署层</strong>显式把节点从禁用列表里移除（官方指向 <code>block-specific-nodes</code> 配置页）。这不是界面开关。</p>
+</blockquote>
+<h4 id="433-r4">4.3.3 可视化输出（R4）<a class="anchor" href="#433-r4" aria-label="锚点">#</a></h4>
+<p>工作流画布 + 每个节点的执行数据面板 + AI Agent 节点的中间步骤可视化。（证据 A/B）</p>
+<h4 id="434-r5-n8n">4.3.4 知识库（R5）— 这是 n8n 的短板<a class="anchor" href="#434-r5-n8n" aria-label="锚点">#</a></h4>
+<p>n8n 提供<strong>向量库节点</strong>而非知识库产品。官方文档索引中可见的向量库节点包括：PGVector、Milvus、MongoDB Atlas、Oracle Database、Azure AI Search、Simple (In-Memory) 等。（证据 A）</p>
+<p>也就是说：n8n 能做 RAG <strong>管线</strong>，但不提供「上传文档→自动切分→检索」的<strong>开箱知识库</strong>。要知识库得自己拼。判为 ⚠️。</p>
+<h4 id="435-mcp-r6-a">4.3.5 MCP 与网络搜索（R6）— 双向且完整，证据 A<a class="anchor" href="#435-mcp-r6-a" aria-label="锚点">#</a></h4>
+<p>从 n8n 官方文档索引 <code>llms.txt</code>（287,299 字节）中检索到的 MCP 相关页面：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>页面</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MCP Server Trigger</strong></td>
+<td><strong>n8n 作为 MCP 服务器</strong>，把 n8n 工具与工作流暴露给 MCP 客户端；支持 SSE 与 streamable HTTP</td>
+</tr>
+<tr>
+<td><strong>MCP Client</strong></td>
+<td>n8n 作为 MCP 客户端消费外部 MCP 服务器</td>
+</tr>
+<tr>
+<td><strong>MCP Client Tool</strong></td>
+<td>在 AI Agent 里把 MCP 服务器当工具用</td>
+</tr>
+<tr>
+<td><strong>MCP servers（registry）</strong></td>
+<td>一键连接 MCP 注册表服务器</td>
+</tr>
+<tr>
+<td><strong>MCP credentials</strong></td>
+<td>MCP 服务器认证</td>
+</tr>
+<tr>
+<td><strong>Connect to n8n MCP server</strong></td>
+<td>让 Claude Desktop / Claude Code / Codex / Gemini CLI / Cursor / VS Code / Windsurf / Lovable / Google ADK 等客户端连接 n8n</td>
+</tr>
+<tr>
+<td><strong>MCP server tools reference</strong></td>
+<td>n8n MCP 服务器暴露的全部工具（工作流管理、工作流构建器、Agent 管理、数据表）</td>
+</tr>
+</tbody>
+</table></div>
+<p>官方对 MCP Server Trigger 的描述：<em>"The MCP Server Trigger node acts as an entry point into n8n for MCP clients. It operates by exposing a URL that MCP clients can interact with to access n8n tools."</em> 并且可以挂 <strong>Custom n8n Workflow Tool</strong> 把整条工作流暴露成 MCP 工具。</p>
+<p><strong>网络搜索</strong>：无专用内置搜索节点，需用 HTTP Request 节点或社区节点实现。判为 ⚠️。</p>
+<h4 id="436-n8n">4.3.6 n8n 的定位警告<a class="anchor" href="#436-n8n" aria-label="锚点">#</a></h4>
+<p>n8n 的强项是<strong>固定流程的自动化</strong>。Suna 的对比文档给了一句很准确的判据（证据 B）：</p>
+<blockquote>
+<p><em>"n8n（workflow automation）：The job is a fixed flowchart: the same steps, in the same order, every time."</em></p>
+</blockquote>
+<p>如果你的运维任务有固定的步骤序列（巡检→收集→判断→通知），n8n 是最佳；如果需要开放式推理（「看看系统为什么慢」），n8n 的 AI Agent 节点能做但不如 Agent 原生工作台自然。</p>
+<hr />
+<h3 id="44-librechat">4.4 LibreChat<a class="anchor" href="#44-librechat" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>LibreChat-AI/LibreChat</code> 45,550★（原 <code>danny-avila/LibreChat</code>），TypeScript，<strong>MIT</strong>，2023-02-12 创建，2026-10-12 最后推送。自我定位：<em>"Enhanced ChatGPT Clone: Features Agents, MCP, Skills, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Ve..."</em></p>
+<h4 id="441-r2-scheduled-chats">4.4.1 周期任务（R2）— Scheduled Chats，实现质量全表最高<a class="anchor" href="#441-r2-scheduled-chats" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-A">A</span>，官方文档完整可读。这是一个<strong>生产级设计</strong>，不是玩具：</p>
+<p>配置（<code>librechat.yaml</code>）：</p>
+<pre><code class="language-yaml">interface:
+  schedules:
+    use: true
+    create: true
+    maxPerUser: 10          # 0 = 禁止创建
+    minIntervalMinutes: 60  # 最短允许间隔
+    autoDisableAfterFailures: 5
+    fireConcurrency: 5
+    requireProject: false
+    # projectId: '000000000000000000000000'
+</code></pre>
+<p>能力：</p>
+<ul>
+<li>节奏类型：<strong>Hourly / Daily / Weekdays / Weekly / Custom（五字段 cron）</strong>。Custom 支持 <code>0 9,17 * * 1-5</code> 这类表达式；<strong>拒绝秒字段与年字段</strong>，拒绝超过 256 字符、或没有未来发生时间的表达式。</li>
+<li><strong>IANA 时区</strong>，每条排期独立存储；改时区会重算下次发生时间并按部署最短间隔重新校验。</li>
+<li><strong>夏令时处理</strong>：不存在的本地时间前移到第一个有效时刻；重复的本地时间只跑一次；跨春季前移的间隔校验按真实时长计算。</li>
+<li>每次发生<strong>开一个新对话</strong>，用指定的已保存 Agent。</li>
+<li>运行中若暂停等待 Ask User 或工具审批，状态变为 <strong>Needs approval</strong>，可打开对话完成决策。</li>
+<li><strong>防重叠</strong>：LibreChat 阻止同一排期的重叠发生；有活跃运行或余额不足时可能跳过某次发生。</li>
+<li><strong>MCP 预检</strong>：消耗生成额度前，会检查该排期 Agent 及其可运行 Subagent 图所需的每一个 MCP 工具；缺工具/服务器不可用/权限被撤销/目录不完整/需要交互的认证流程都会<strong>阻止运行</strong>，并指明哪个 Agent 需要修复。</li>
+<li><strong>多副本部署</strong>：用 MongoDB 租约 + 幂等触发投递 + 防重叠来协调持久发生；多副本必须同时启用 <code>USE_REDIS_STREAMS=true</code>，否则排期写入<strong>fail closed</strong>。单进程无 Redis 的部署可显式 <code>SCHEDULES_SINGLE_PROCESS=true</code>。</li>
+<li><strong>全局急停</strong>：<code>SCHEDULES_DISABLED=true</code> 阻止自动发生与 Run now，但不删定义。</li>
+<li>权限：<code>SCHEDULES: USE</code> 控制能否列出/查看；<code>SCHEDULES: CREATE</code> 额外门控创建/编辑/启停/运行/删除；运行时还会重新检查 Agent 功能权限与查看权限。</li>
+<li>排期失败会自动禁用（连续失败达 <code>autoDisableAfterFailures</code>，或 Agent 被删、配置失效、访问被撤销、余额不足、必需项目缺失等）。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 官方明示：<em>"Scheduled Chats are in an early experimentation phase. Their behavior, configuration, and..."</em>（该句在文档中被截断）。功能设计很完整，但官方自己标为实验性，<strong>升级前要读变更日志</strong>。</p>
+</blockquote>
+<h4 id="442-sudo-systemdr3">4.4.2 执行 sudo / systemd（R3）— 沙箱，不是宿主<a class="anchor" href="#442-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<p>LibreChat 的 Code Interpreter <strong>不碰宿主机</strong>：</p>
+<ul>
+<li>由 <code>ClickHouse/code-interpreter</code> 驱动（Apache 2.0），是一个<strong>沙箱化代码执行服务</strong>，需自托管后把 LibreChat 指过去。</li>
+<li>支持语言：Python、Node.js（JS/TS）、Go、C/C++、Java、PHP、Rust、Fortran、Rscript。</li>
+<li><strong>沙箱没有通用网络访问</strong>。工具调用经 Code Interpreter Tool Call Server 代理；LibreChat 把实时调用方能力投影与其可信注册表取交集，因此只有该 Agent 已注册的活跃 programmatic 工具能被调用，请求<strong>无法自我扩权</strong>。</li>
+<li><strong>Programmatic Tool Calling</strong>：让 Agent 把选定的 MCP 工具经 Code Interpreter 沙箱编排——沙箱代码可以调用注册的工具桩、用循环与条件、处理中间结果。</li>
+<li><strong>Background execution</strong>：Agent 可派发长时间运行的<strong>代码或 shell 工作</strong>然后继续对话；需在 Agents endpoint capabilities 里加 <code>run_in_background</code>，并在 Agent 上开 Code Interpreter。</li>
+<li><strong>Stateful Code Sessions</strong>：可部署独立的有状态 Code Interpreter 路由。</li>
+</ul>
+<p>结论：<strong>R3 必须走 MCP</strong>。判为 ❌（沙箱非宿主）。（证据 A）</p>
+<h4 id="443-r4">4.4.3 可视化输出（R4）<a class="anchor" href="#443-r4" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>Artifacts（Generative UI）</strong></li>
+<li><strong>Code Interpreter</strong>（图表/文件产物）</li>
+<li>文档导航可见的还有：Conversation Pull Requests、Agent Plugins、Subagents、Agents API (Beta)。
+（证据 B）</li>
+</ul>
+<h4 id="444-r5">4.4.4 知识库（R5）<a class="anchor" href="#444-r5" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>RAG API（Chat with Files）</strong>——独立的 RAG 服务。</li>
+<li><strong>User Memory</strong>（用户记忆）</li>
+<li><strong>Message Search</strong>（消息检索）</li>
+<li><strong>Skills</strong>：可复用的 <code>SKILL.md</code> 指令，Agent 可手动、自动或每轮调用。
+（证据 B）</li>
+</ul>
+<h4 id="445-mcp-r6-a">4.4.5 MCP 与网络搜索（R6）— 传输类型全表最全，证据 A<a class="anchor" href="#445-mcp-r6-a" aria-label="锚点">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>传输类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stdio</code></td>
+<td><strong>必须在 <code>librechat.yaml</code> 配置</strong>；管理员配置 API 会拒绝进程型条目；数据库或按主体的覆盖无法替换/移除已有的进程型服务器</td>
+</tr>
+<tr>
+<td><code>websocket</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>streamable-http</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sse</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>配置字段：<code>type</code>、<code>command</code>、<code>args</code>、<code>url</code>、<code>env</code>、<code>stderr</code>（<code>pipe</code>/<code>ignore</code>/<code>inherit</code>/文件描述符，默认 <code>inherit</code>）。</li>
+<li>可通过 <code>smithery.ai</code> 找并安装 MCP 服务器到 <code>librechat.yaml</code>；也可在 UI 的 MCP Settings 面板创建（面板创建的服务器<strong>不需要重启</strong>，改 yaml 需要重启）。</li>
+<li><strong>OAuth 2.0/2.1</strong>：支持 Client Discovery（自动注册）与显式配置；回调 URL 形如 <code>${DOMAIN_SERVER}/api/mcp/&lt;server-name&gt;/oauth/callback</code>。</li>
+<li>用户信息占位符：MCP 服务器可通过 URL/header 里的占位符访问用户信息（SSE 与 Streamable HTTP）；<code>{{LIBRECHAT_OPENID_*}}</code>、<code>{{LIBRECHAT_GRAPH_*}}</code>、<code>{{LIBRECHAT_BODY_*}}</code>；<code>LIBRECHAT_BODY_*</code> 是请求作用域的，只在该次运行内复用。</li>
+<li>运维细节：Streamable HTTP 重连时可能短暂返回 <strong>HTTP 409</strong>（服务器仍持有旧会话的 SSE 流），LibreChat 视为瞬态并自动重建；响应类型按解析后的 Content-Type 媒体类型分类，而非子串匹配。</li>
+<li>取消传播：前台 Agent 工具调用按 Stop 时，对 Streamable HTTP 服务器发送 <code>notifications/cancelled</code>（<strong>服务器必须遵守该通知</strong>才会真正停止）。</li>
+</ul>
+<p><strong>网络搜索</strong>：内置。（证据 B）</p>
+<hr />
+<h3 id="45-anythingllm">4.5 AnythingLLM<a class="anchor" href="#45-anythingllm" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>Mintplex-Labs/anything-llm</code> 66,956★，JavaScript，<strong>MIT</strong>，2023-06-04 创建，2026-10-09 最后推送。定位是「一体化私有 ChatGPT」。</p>
+<h4 id="451-r2-scheduled-jobs">4.5.1 周期任务（R2）— Scheduled Jobs，但有硬限制<a class="anchor" href="#451-r2-scheduled-jobs" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-A">A</span>，官方文档完整。</p>
+<ul>
+<li>版本要求：<strong>v1.13.0 及以上</strong>。</li>
+<li><strong>硬限制（官方原文）</strong>：<em>"It is also only available in single-user mode — self-hosted instances running in multi-user mode will not see the Scheduled Jobs settings page."</em></li>
+<li>机制：<em>"Scheduled Jobs let you run an AI agent on a recurring schedule — unattended, with access to your agent tools, and with every result saved for you to review later."</em></li>
+<li>任务四要素：<strong>name、prompt、schedule、allowed tools</strong>。可随时启用/禁用。</li>
+<li>调度：<strong>cron 表达式</strong>，可用可视化构建器或直接输入。</li>
+<li>每次运行（Run）有状态（<code>queued</code>/<code>running</code>/<code>completed</code>/<code>failed</code>/<code>timed out</code>）、开始时间、时长，以及完整结果（Agent 的思考、工具调用、最终回复）。</li>
+<li><strong>工具范围</strong>：任务可用的工具是「agent skills、plugins、flows、MCP servers」的子集。</li>
+<li><strong>生成的文件</strong>（图表、文档、导出）随运行保存并可下载。</li>
+<li>自动创建 <strong>Scheduled Jobs 工作区</strong>存放结果，支撑「Continue in Thread」按钮。</li>
+<li><strong>推送通知</strong>：任务完成时可发浏览器通知。</li>
+<li><strong>对话式创建</strong>：启用 <code>Create Scheduled Jobs</code> agent skill 后可直接说「@agent every weekday at 9am, summarize my inbox and email me a digest」，Agent 会建好任务并给出可点击的卡片。<strong>该技能同样是单用户模式限定。</strong></li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 单用户模式限定意味着：<strong>AnythingLLM 的 Scheduled Jobs 无法用于多用户团队部署</strong>。这是它掉出第一梯队的主因。</p>
+</blockquote>
+<h4 id="452-sudo-systemdr3">4.5.2 执行 sudo / systemd（R3）<a class="anchor" href="#452-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<ul>
+<li>内置技能清单里有 <strong>File System Agent</strong>（文件系统 Agent），另有 Web Browsing、Web Scraper、Document Generation、SQL Agent、Gmail Agent、Google Calendar Agent、Outlook Agent。（证据 B）</li>
+<li>MCP 兼容（见下），因此可挂特权 MCP 服务器。</li>
+<li>未发现官方文档描述「宿主 shell / 系统命令」能力。判为 ⚠️（需 MCP）。（证据 B）</li>
+</ul>
+<h4 id="453-r4">4.5.3 可视化输出（R4）<a class="anchor" href="#453-r4" aria-label="锚点">#</a></h4>
+<ul>
+<li>生成的文件（<strong>图表</strong>、文档、导出）随运行保存，可下载。（证据 A）</li>
+<li>拖拽上传、来源引用、浏览器扩展、会议助手、桌面助手。（证据 B）</li>
+</ul>
+<h4 id="454-r5">4.5.4 知识库（R5）<a class="anchor" href="#454-r5" aria-label="锚点">#</a></h4>
+<ul>
+<li>内置 Agent、多用户、<strong>向量数据库</strong>、<strong>文档管道</strong>，开箱即用。</li>
+<li>支持的向量库包括 PGVector 等（README 有完整清单）。
+（证据 B）</li>
+</ul>
+<h4 id="455-mcp-r6">4.5.5 MCP 与网络搜索（R6）<a class="anchor" href="#455-mcp-r6" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>MCP 兼容</strong>，配置文件是 <code>mcpServers</code> JSON，使用 <strong>stdio</strong> 形态（<code>command</code> + <code>args</code>）。（证据 A）</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;face-generator&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;@dasheck0/face-generator&quot;],
+      &quot;anythingllm&quot;: { &quot;autoStart&quot;: false }
+    },
+    &quot;mcp-youtube&quot;: { &quot;command&quot;: &quot;mcp-youtube&quot;, &quot;args&quot;: [] }
+  }
+}
+</code></pre>
+<ul>
+<li><code>autoStart: false</code> 可让某个 MCP 服务器不随其他服务器自动启动（用于资源紧张或按需启动）。</li>
+<li><strong>网络搜索</strong>：内置（Web Browsing / Web Scraper 技能）。（证据 B）</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ AnythingLLM 的 MCP 是 <strong>stdio</strong>，而 Open WebUI 主产品只支持 <strong>Streamable HTTP</strong>——两者对同一批本地 MCP 服务器的适配方向相反。</p>
+</blockquote>
+<hr />
+<h3 id="46-dify">4.6 Dify<a class="anchor" href="#46-dify" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>langgenius/dify</code> 158,190★，TypeScript，2023-04-12 创建，2026-10-12 最后推送。LLM 应用开发平台，工作流画布为核心。</p>
+<h4 id="461-r2-schedule-trigger">4.6.1 周期任务（R2）— Schedule Trigger<a class="anchor" href="#461-r2-schedule-trigger" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-A">A</span>，官方文档完整。</p>
+<ul>
+<li><strong>仅 Workflow 应用可用</strong>；<strong>每个工作流最多一个 schedule trigger</strong>。</li>
+<li>触发方式：默认可视化选择器，或 <strong>cron 表达式</strong>。配置后能看到<strong>接下来 5 次</strong>执行时间。</li>
+<li>cron 为<strong>五字段</strong>（分 时 日 月 周），支持 <code>*</code>、<code>,</code>、<code>-</code>、<code>/</code>、<code>L</code>、<code>?</code>，以及 <code>@yearly</code>/<code>@monthly</code>/<code>@weekly</code>/<code>@daily</code>/<code>@hourly</code>。</li>
+<li><strong>当「日」与「周」字段同时指定时，匹配任一即触发</strong>（官方示例：<code>1 2 3 4 4</code> 会在 4 月 3 日<strong>以及</strong> 4 月的每个周四触发）。</li>
+<li>触发不产生输出变量，但会更新系统变量 <code>sys.timestamp</code>。</li>
+<li>自托管文档路径同样存在（<code>/self-host/use-dify/nodes/trigger/schedule-trigger</code>），说明非云版也可用。</li>
+<li>测试：「Run this step」立即忽略排期执行；「Test Run」等待下次排期时间。</li>
+</ul>
+<blockquote>
+<p class="warnbox">⚠️ 「每个工作流最多一个 schedule trigger」是个真实的架构约束——想在一个流程里做「每天 3 点」+「每小时」两种排期，必须拆成两个工作流。</p>
+</blockquote>
+<h4 id="462-sudo-systemdr3">4.6.2 执行 sudo / systemd（R3）— 明确不可能<a class="anchor" href="#462-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-A">A</span>，官方原文：</p>
+<blockquote>
+<p><em>"Code executes in a strict sandbox that prevents file system access, network requests, and system commands."</em></p>
+</blockquote>
+<ul>
+<li>Code 节点执行 Python 或 JavaScript，跑在<strong>独立容器</strong>里，与宿主和其他服务隔离。</li>
+<li>Python 可用标准库（<code>json</code>、<code>math</code>、<code>datetime</code>、<code>re</code>）；可导入 numpy、pandas、requests 等<strong>预装在沙箱里的</strong>依赖。</li>
+<li>网络：默认出站调用走 SSRF 代理；<code>SANDBOX_ENABLE_NETWORK=false</code> 可完全禁网。</li>
+<li>可调：<code>SANDBOX_*</code>（worker 超时、网络、端口）、<code>CODE_*</code>（输出限额）。</li>
+<li>输出按 API 容器上的限额校验。</li>
+</ul>
+<p>结论：<strong>Dify 的代码节点在设计上就排除了系统命令</strong>。R3 必须靠 MCP 工具或外部服务。判为 ❌。（证据 A）</p>
+<h4 id="463-r4">4.6.3 可视化输出（R4）<a class="anchor" href="#463-r4" aria-label="锚点">#</a></h4>
+<p>工作流画布（拖拽节点构建数据流与任务处理）。（证据 B）</p>
+<h4 id="464-r5">4.6.4 知识库（R5）<a class="anchor" href="#464-r5" aria-label="锚点">#</a></h4>
+<ul>
+<li>一等公民：知识库是核心资源类型之一，有独立的管理界面与检索配置。</li>
+<li>支持 RAG 全链路（切分、索引、检索、重排）。
+（证据 B）</li>
+</ul>
+<h4 id="465-mcp-r6">4.6.5 MCP 与网络搜索（R6）<a class="anchor" href="#465-mcp-r6" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>可把 Dify 应用发布为 MCP Server</strong>（文档路径 <code>/self-host/use-dify/publish/publish-mcp</code>），并可对接 Claude Desktop、Cursor 等客户端。（证据 B）</li>
+<li>插件机制 + 工具节点生态。（证据 B）</li>
+<li>网络搜索：通过工具节点实现。（证据 B）</li>
+</ul>
+<hr />
+<h3 id="47-suna-kortix">4.7 Suna / Kortix<a class="anchor" href="#47-suna-kortix" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>kortix-ai/suna</code> 20,267★，TypeScript，2024-10-05 创建，2026-10-12 最后推送。自我定位已明确对标 <em>"an open-source, self-hosted alternative to Claude Cowork or ChatGPT Work"</em>。</p>
+<h4 id="471-r2-cron-webhook">4.7.1 周期任务（R2）— cron + 签名 Webhook<a class="anchor" href="#471-r2-cron-webhook" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-B">B</span>（README 原文）：</p>
+<ul>
+<li><em>"A trigger starts a session on a cron schedule or a signed webhook, with nobody present."</em></li>
+<li>README 给出配置示例：</li>
+</ul>
+<pre><code class="language-yaml">type: cron
+cron: '0 0 9 * * 1-5'
+</code></pre>
+<ul>
+<li>触发层能力表：<em>"</em><em>Triggers</em><em> | Cron and signed webhooks that spawn sessions automatically — every morning, or the instant something happens."</em></li>
+</ul>
+<h4 id="472-sudo-systemdr3">4.7.2 执行 sudo / systemd（R3）— 云沙箱，不是你的机器<a class="anchor" href="#472-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<ul>
+<li><em>"The agents work on real </em><em>cloud computers</em><em> — an isolated sandbox per session, on its own branch"</em></li>
+<li><em>"Every </em><em>session</em><em> gets its own </em><em>cloud computer</em><em> — a disposable, isolated Linux sandbox"</em></li>
+<li><em>"Run thousands of sandboxes in parallel on the same config, each fully isolated"</em></li>
+</ul>
+<p>所以 sudo/systemd 作用的是<strong>会话沙箱</strong>，不是你的宿主机。要碰你的机器得靠 connector / MCP。（证据 B）</p>
+<h4 id="473-r4">4.7.3 可视化输出（R4）<a class="anchor" href="#473-r4" aria-label="锚点">#</a></h4>
+<p><em>"Agents run on real cloud computers and return finished work: </em><em>decks, reports, code and replies</em><em>."</em>（证据 B）</p>
+<h4 id="474-r5">4.7.4 知识库（R5）<a class="anchor" href="#474-r5" aria-label="锚点">#</a></h4>
+<p><em>"One repo is the company: agents, skills, memory, connectors and triggers are files, versioned and diffable."</em>
+<em>"</em><em>Memory</em><em> | A living company brain — plain files today, a system that compounds what it learns over time."</em>
+（证据 B）</p>
+<p>这是「知识库 = git 仓库里的纯文件」这一派，与 RAG 派不同：可 diff、可 code review、可回滚。</p>
+<h4 id="475-mcp-r6">4.7.5 MCP 与网络搜索（R6）<a class="anchor" href="#475-mcp-r6" aria-label="锚点">#</a></h4>
+<ul>
+<li><em>"The agent reaches 3,000+ apps through one scoped token, plus </em><em>MCP, OpenAPI, GraphQL and raw HTTP</em><em>."</em></li>
+<li><em>"</em><em>Connectors</em><em> | 3,000+ apps in a click — plus MCP, OpenAPI, GraphQL and raw HTTP. Credentials are brokered server-side through one scoped token and never enter the machine."</em>
+（证据 B）</li>
+</ul>
+<p>凭据由服务端代理、不进沙箱——这是本报告见到的较好的凭据隔离设计。</p>
+<h4 id="476">4.7.6 部署<a class="anchor" href="#476" aria-label="锚点">#</a></h4>
+<ul>
+<li><code>kortix self-host start</code> —— 一个 Docker Compose 栈；自托管免费。</li>
+<li>托管云 $40/seat/月 + 用量。</li>
+<li>可跑在 Kortix Cloud、你的 VPC、或你自己的内网。
+（证据 B）</li>
+</ul>
+<hr />
+<h3 id="48-openhands">4.8 OpenHands<a class="anchor" href="#48-openhands" aria-label="锚点">#</a></h3>
+<p><strong>定位</strong>：<code>OpenHands/OpenHands</code> 90,642★（原 <code>All-Hands-AI/OpenHands</code>），TypeScript，<strong>MIT</strong>，2024-03-13 创建，2026-10-12 最后推送。自我定位已从「AI-Driven Development」演进。</p>
+<h4 id="481-r2">4.8.1 周期任务（R2）<a class="anchor" href="#481-r2" aria-label="锚点">#</a></h4>
+<p>证据等级 <span class="badge g-B">B</span>，README 原文表格：</p>
+<blockquote>
+<p><em>"| </em><em>Create automations</em><em> | Create automations and workflows that integrate with Slack, GitHub, Linear, and more. Run on a schedule or in response to webhook events |"</em></p>
+</blockquote>
+<p>以及：</p>
+<blockquote>
+<p><em>"The Agent Server is often paired with an </em><em>Automation Server</em><em>, which lets you set up agents that run on a schedule or in response to events."</em></p>
+</blockquote>
+<p>配套仓库 <code>OpenHands/automation</code>（<strong>37★</strong>，Python，2026-03-13 创建，2026-10-12 最后推送，未归档），README 描述：<em>"Automation definitions, scheduling, webhooks, run history, and dispatching."</em></p>
+<blockquote>
+<p class="warnbox">⚠️ 注意配套仓库只有 <strong>37★</strong>、49 fork、2026-03 才创建。调度能力存在，但生态成熟度远低于主仓库。这是「主仓库 9 万星 ≠ 调度功能成熟」的典型案例。</p>
+</blockquote>
+<h4 id="482-sudo-systemdr3">4.8.2 执行 sudo / systemd（R3）<a class="anchor" href="#482-sudo-systemdr3" aria-label="锚点">#</a></h4>
+<p>OpenHands 的 Agent 跑在沙箱运行时里。README 未描述宿主特权执行。判为 ⚠️。（证据 B）</p>
+<h4 id="483">4.8.3 其余<a class="anchor" href="#483" aria-label="锚点">#</a></h4>
+<ul>
+<li>可视化：<strong>Agent Canvas</strong> + 预建自动化。（证据 B）</li>
+<li>知识库：README 未描述内置知识库，依赖 MCP/工具。判为 ⚠️。（证据 C）</li>
+<li>MCP：支持。（证据 B）</li>
+<li>网络搜索：未核实。（证据 C）</li>
+</ul>
+<hr />
+<h3 id="49">4.9 第二梯队速览<a class="anchor" href="#49" aria-label="锚点">#</a></h3>
+<h4 id="khoj37646agpl-30">Khoj（37,646★，AGPL-3.0）<a class="anchor" href="#khoj37646agpl-30" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>周期任务 ✅（证据 A）</strong>：Automations 页面调度重复任务，<strong>用本地时区</strong>，结果<strong>以邮件投递</strong>；自托管需配 Resend 与 Authentication 才能发信。定位举例：自定义 newsletter、新闻摘要、事件提醒。</li>
+<li><strong>MCP ✅（证据 A）</strong>：源码里存在 <code>src/khoj/processor/tools/mcp.py</code> 与数据库迁移 <code>src/khoj/database/migrations/0096_mcpserver.py</code>——说明 MCP 服务器是<strong>持久化实体</strong>，有数据模型。</li>
+<li><strong>知识库 ✅</strong>：<em>"Create agents with custom knowledge, persona, chat model and tools to take on any role."</em>（证据 B）</li>
+<li><strong>R3 ❌</strong>：无宿主 shell。邮件投递是它的动作出口，不是命令执行。</li>
+</ul>
+<h4 id="onyx32409">Onyx（32,409★）<a class="anchor" href="#onyx32409" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>知识库 ✅（本体）</strong>：<em>"the knowledge/context layer for your team and AI agents"</em>，连接 50+ 应用索引知识，自称比 MCP 检索「更可靠、更低延迟、更低成本」。<em>"Instead of an agent coordinating and iteratively searching dozens of MCP and burning many thousands of tokens, Onyx fetches the context across its internal representation instantly."</em></li>
+<li><strong>MCP ✅ 双向</strong>：既能 <em>"Let Onyx agents take actions in external applications"</em>，也能 <em>"</em><em>MCP server</em><em> - Point Claude Code, Open Code, Codex, or any MCP client at Onyx."</em></li>
+<li><strong>可视化 ✅</strong>：Artifacts（生成文档、图形与其他可下载工件）+ Secure Sandbox。</li>
+<li><strong>网络搜索 ✅</strong>：内置。</li>
+<li><strong>周期任务 ❌</strong>：README 未提及任何调度能力。这是它落选第一梯队的原因。</li>
+<li>技术栈：向量 + 关键词索引；后台容器跑任务队列与 worker 同步连接器；Redis + MinIO。Lite 模式 &lt;1GB 内存但不能索引文档。社区版 MIT。（证据 B）</li>
+</ul>
+<h4 id="sim29807apache-20">Sim（29,807★，Apache-2.0）<a class="anchor" href="#sim29807apache-20" aria-label="锚点">#</a></h4>
+<ul>
+<li><em>"Ingest files, knowledge bases, and structured table data"</em>、<em>"Monitor runs, logs, </em><em>schedules</em><em>, and workflow activity"</em>、<em>"Knowledge — your agents' memory"</em>。</li>
+<li>有 <strong>Desktop</strong> 形态（Mac，含浏览器与终端）。</li>
+<li>环境变量里有 <code>CRON_SECRET</code>，说明有定时基础设施。</li>
+<li>本地 AI 走 Ollama，需要 12GB+ 内存。（证据 B）</li>
+</ul>
+<h4 id="lobehub83152">LobeHub（83,152★）<a class="anchor" href="#lobehub83152" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>周期任务 ⚠️（有硬限制，证据 B）</strong>：定时任务文档明确 —— <strong>在云端执行</strong>；支持 <strong>Daily / Weekly / Hourly</strong>，<strong>不支持 Monthly 或自定义 cron</strong>；「Fixed interval」最短 10 分钟或 1 小时。</li>
+<li>路径：任务详情 → Automation → Scheduled。</li>
+<li><em>"10,000+ Skills"</em>、MCP Market、白盒记忆（structured, editable）、Docker/Vercel 自托管。</li>
+<li><strong>R3 ❌</strong>：无宿主 shell。</li>
+<li>仓库描述里的 "hiring, scheduling, and reporting on your entire AI team" 指的是<strong>云端</strong>的调度与汇报，不要理解为可以在你本机跑 cron。</li>
+</ul>
+<h4 id="windmill18161">Windmill（18,161★）<a class="anchor" href="#windmill18161" aria-label="锚点">#</a></h4>
+<ul>
+<li><strong>周期任务 ✅（证据 A）</strong>：<em>"Scripts and flows can be triggered by </em><em>schedules</em><em>, webhooks, HTTP routes, Kafka, WebSockets, emails, and more."</em></li>
+<li><strong>R3 ✅ 且是本表最完整的（证据 A/B）</strong>：支持 <strong>Python、TypeScript、Go、Bash、SQL、GraphQL、PowerShell、Rust、Ansible</strong>；沙箱用 <strong>nsjail</strong> 做文件系统/资源隔离，<strong>PID namespace 隔离默认开启</strong>。</li>
+<li><strong>MCP ✅ 双向（证据 A）</strong>：Windmill 可作 MCP 服务器（暴露 scripts/flows，含对 <strong>Schedules</strong> 的 CRUD）；官方原文 <em>"Windmill can also be the client rather than the server: an AI session chat calls the tools of the external MCP servers you connect to it"</em>。</li>
+<li><strong>知识库 ⚠️</strong>：Resources / Variables 机制，非 RAG 知识库。</li>
+<li>定位差异：Windmill 是<strong>脚本平台</strong>（<em>"Scripts are turned into sharable UIs automatically"</em>），不是 Agent 工作台。要 Agent 循环得用它的 AI sessions。</li>
+</ul>
+<h4 id="elizaos19574mit">elizaOS（19,574★，MIT）<a class="anchor" href="#elizaos19574mit" aria-label="锚点">#</a></h4>
+<ul>
+<li>README 提到 <em>"scheduled workflows, coding-agent orchestration, and installable app views"</em>、<em>"chat, voice, memory, knowledge, and document workflows"</em>、插件契约。</li>
+<li>生态偏 Web3/社交代理，但架构上具备六项要素。（证据 B）</li>
+</ul>
+<h4 id="letta25113apache-20">Letta（25,113★，Apache-2.0）<a class="anchor" href="#letta25113apache-20" aria-label="锚点">#</a></h4>
+<ul>
+<li>主仓库已迁至 <code>letta-ai/letta-code</code>（<em>"the agent harness, interactive terminal UI, App Server, channels, and the runtime used by the desktop and web apps"</em>）。</li>
+<li><strong>周期任务 ✅（证据 A）</strong>：源码含 <code>src/backend/api/schedules.ts</code>、<code>src/cron/</code>（<code>cron-file.ts</code>、<code>index.ts</code>）、CLI 子命令 <code>cron</code>、<code>cron-task-ref</code>、<code>cron-scope</code>。</li>
+<li><strong>MCP ✅ 完整（证据 A）</strong>：<code>src/backend/api/mcp-servers.ts</code>、<code>unified-mcp.ts</code>、<code>src/cli/commands/mcp.ts</code>、<code>src/cli/subcommands/mcp-connect.ts</code>，还有 <code>browser-device-mcp-oauth.ts</code>（浏览器设备码 OAuth）。</li>
+<li>核心卖点是<strong>状态化记忆</strong>（memory that can learn and improve over time）。（证据 B）</li>
+</ul>
+<h4 id="fastgpt29799">FastGPT（29,799★）<a class="anchor" href="#fastgpt29799" aria-label="锚点">#</a></h4>
+<ul>
+<li>README roadmap 勾选了 <strong>双向 MCP</strong>。</li>
+<li>RAG 为核心；有工作流画布。</li>
+<li>周期任务未核实。（证据 B/C）</li>
+</ul>
+<h4 id="coze-studio21699apache-20">Coze Studio（21,699★，Apache-2.0）<a class="anchor" href="#coze-studio21699apache-20" aria-label="锚点">#</a></h4>
+<ul>
+<li>来自「Coze 开发平台」的开源核心引擎，一站式可视化 AI Agent 开发工具。</li>
+<li>有 prompt、RAG、插件、工作流、知识库、数据库、记忆。</li>
+<li><strong>周期任务 ❌</strong>：README 未提及调度。（证据 B）</li>
+<li>最后推送 2026-07-29，落后主流行约 2.5 个月。</li>
+</ul>
+<h4 id="goose55174apache-20">Goose（55,174★，Apache-2.0）<a class="anchor" href="#goose55174apache-20" aria-label="锚点">#</a></h4>
+<ul>
+<li><em>"an open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM"</em></li>
+<li><strong>MCP ✅ 最强（证据 B）</strong>：<em>"Connect to </em><em>70+ extensions</em><em> via the Model Context Protocol open standard."</em></li>
+<li>形态：macOS/Linux/Windows 原生桌面 App + CLI + API；Rust。</li>
+<li><strong>R3 ✅</strong>：本地 CLI 形态直接跑在宿主上。</li>
+<li><strong>周期任务 ❌</strong>：README 未发现调度器。这是它落选的原因——<strong>它是最强的 MCP 宿主，但没有定时能力</strong>。</li>
+</ul>
+<hr />
+<h2 id="5-sudo-systemd">第 5 章 「sudo 或 systemd」专项<a class="anchor" href="#5-sudo-systemd" aria-label="锚点">#</a></h2>
+<p>这是六项需求里唯一没有开箱答案的一项。本章给出完整解法。</p>
+<h3 id="51">5.1 为什么没有工作台原生做这件事<a class="anchor" href="#51" aria-label="锚点">#</a></h3>
+<p>三个原因，都是设计选择而非疏漏：</p>
+<ol>
+<li><strong>容器化默认</strong>。现代工作台默认 Docker 部署，容器内没有宿主的 systemd，<code>sudo</code> 也没有意义（进程通常已是 root）。</li>
+<li><strong>多租户</strong>。一旦工作台支持多用户（Open WebUI、LibreChat、AnythingLLM 都是），把宿主 shell 开放给任意用户等于把机器交出去。Open WebUI 甚至因此<strong>禁止普通用户添加 MCP 服务器</strong>。</li>
+<li><strong>审计需求</strong>。<code>sudo bash -c "..."</code> 不可审计；<code>systemctl restart nginx</code> 可审计。工作台层面很难做这个区分，MCP 服务端可以。</li>
+</ol>
+<h3 id="52">5.2 三条路径的实操<a class="anchor" href="#52" aria-label="锚点">#</a></h3>
+<h4 id="a-shell">路径 A：宿主 shell 直通<a class="anchor" href="#a-shell" aria-label="锚点">#</a></h4>
+<p>适用：单机、单用户、你自己就是唯一操作者。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>工作台</th>
+<th>配置要点</th>
+<th>官方依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open WebUI Computer</td>
+<td><strong>裸装</strong>（<code>pip install cptr &amp;&amp; cptr run</code>），不用 Docker。Agent 的 <code>run_command</code> 即宿主 shell</td>
+<td><em>"full filesystem and shell access on a bare install"</em></td>
+</tr>
+<tr>
+<td>n8n</td>
+<td>恢复 Execute Command 节点（2.0 起默认禁用），或直接用 SSH 节点连目标机</td>
+<td><em>"runs shell commands on the host machine that runs n8n"</em></td>
+</tr>
+<tr>
+<td>Agent Zero</td>
+<td>用 A0 CLI Connector 建立到宿主的终端桥</td>
+<td><em>"a terminal-native bridge to your host machine"</em></td>
+</tr>
+<tr>
+<td>Goose</td>
+<td>本地 CLI 直接跑</td>
+<td>README</td>
+</tr>
+<tr>
+<td>Windmill</td>
+<td>Bash / PowerShell / Ansible 脚本</td>
+<td>README</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>必须处理的 sudo 密码问题</strong>。无人值守任务里 <code>sudo</code> 需要密码时会<strong>阻塞到超时</strong>。最小授权写法（不要用 <code>ALL</code>）：</p>
+</blockquote>
+<pre><code># /etc/sudoers.d/cptr-agent   —— 只放开必要命令，且限定参数
+cptr-agent ALL=(root) NOPASSWD: /usr/bin/systemctl restart nginx
+cptr-agent ALL=(root) NOPASSWD: /usr/bin/systemctl status *, /usr/bin/journalctl -u nginx *
+</code></pre>
+<p>配套要点：
+- <code>NOPASSWD</code> 条目里的命令<strong>必须写绝对路径</strong>。
+- 通配符 <code>*</code> 在 sudoers 里能匹配空格，<code>systemctl status *</code> 实际等价于允许任意参数——要更严就得用固定参数或包一层白名单脚本。
+- 用 <code>visudo -c -f /etc/sudoers.d/cptr-agent</code> 校验语法再生效。</p>
+<h4 id="bmcp">路径 B：MCP 桥接（推荐）<a class="anchor" href="#bmcp" aria-label="锚点">#</a></h4>
+<p>工作台保持非特权，特权操作交给专用 MCP 服务器。这份报告的前序调研（<code>研究报告_AI_Agent_Linux运维_全发行版.md</code>）已经找到了两个厂商级实现：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th style="text-align: right;">★</th>
+<th>语言</th>
+<th>许可证</th>
+<th>关键机制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>rhel-lightspeed/linux-mcp-server</code></strong></td>
+<td style="text-align: right;"><strong>317</strong></td>
+<td>Python</td>
+<td>Apache-2.0</td>
+<td><code>CommandSpec</code> 硬编码元组 + 具名占位符（<code>{service_name}</code>），<strong>不做 shell 插值</strong>；<code>MappingProxyType</code> 冻结；端口工具 <code>ss</code>→<code>netstat</code> 自动回退；<code>auth_policy.py</code> 的 <code>PolicyRule(host, tools, claims, action)</code>，<code>action ∈ {deny, ssh_key, ssh_default, local}</code>；默认<strong>失败即关闭</strong></td>
+</tr>
+<tr>
+<td><strong><code>openSUSE/systemd-mcp</code></strong></td>
+<td style="text-align: right;">10</td>
+<td>Go</td>
+<td>MIT</td>
+<td>直调 systemd C API（不拼 shell）；stdio 走 polkit、HTTP 走 OAuth2；<strong><code>--allow-write</code> 默认 false</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>选 <code>linux-mcp-server</code> 的三个理由：</p>
+<ol>
+<li><strong>命令是硬编码元组，不是字符串拼接</strong>。<code>CommandSpec</code> 用 <code>{service_name}</code> 这类具名占位符，从根上消除 shell 注入——这正是 CISA 归纳的那类漏洞（<em>"auth logic trusting a reconstructed path, a suffix match, or a fallback object instead of doing a hard check"</em>）的反面。</li>
+<li><strong>策略可版本化</strong>。<code>auth_policy.py</code> 读 YAML，规则是 <code>PolicyRule(host, tools, claims, action)</code>，工具模式支持 <code>*</code> / <code>-&lt;tool&gt;</code> / <code>@&lt;group&gt;</code> / <code>-@&lt;group&gt;</code>，还有 pydantic 语义校验器。这份 YAML 能进 git、能 code review。</li>
+<li><strong>默认失败即关闭</strong>。<code>LINUX_MCP_ALLOWED_LOG_PATHS</code> 未设时 <code>read_log_file</code> <strong>什么都读不到</strong>；SSH 只认密钥 + <code>LINUX_MCP_VERIFY_HOST_KEYS=True</code>。</li>
+</ol>
+<blockquote>
+<p class="warnbox">⚠️ <strong>两个必须知道的坑</strong>：
+1. <code>LINUX_MCP_TRANSPORT=http</code> <strong>没有认证</strong>。官方警告原文：<em>"should not be used in production or on untrusted networks."</em> 要用 HTTP 传输必须自己加一层反代 + 认证。
+2. <code>LINUX_MCP_TOOLSET=run_script|both</code> 会打开「受保护命令执行」。它的三道护栏是 Gatekeeper LLM + 人工介入 + OS 沙箱（官方自称 <em>"rudimentary"</em>），硬编码策略是 <strong>"No new repositories may be added"</strong>、<strong>"nothing may be downloaded from the internet"</strong>（除预配置仓库）。<strong>Gatekeeper 模型的评分表在官方文档里仍是 <code>??</code>（未公布）</strong>——不要把它当唯一防线。</p>
+</blockquote>
+<h4 id="cssh">路径 C：SSH 外发<a class="anchor" href="#cssh" aria-label="锚点">#</a></h4>
+<ul>
+<li>n8n <strong>SSH 节点</strong>（核心节点）→ 对多台目标机执行。</li>
+<li>任意 SSH MCP 服务器 → 挂到支持 MCP 的工作台上。</li>
+<li>优点：工作台与目标机解耦，一台工作台管 N 台机。</li>
+<li>缺点：密钥权限往往过宽；建议在目标机侧配 <code>command=</code> 限制（<code>authorized_keys</code> 的 forced command）或用 <code>restrict</code> 选项。</li>
+</ul>
+<h3 id="53-sudo-systemd-polkit">5.3 sudo 与 systemd 的正确取舍：优先 polkit<a class="anchor" href="#53-sudo-systemd-polkit" aria-label="锚点">#</a></h3>
+<p>如果目标是「让 Agent 能重启服务」，<strong>不要给 sudo，给 polkit 规则</strong>。理由：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>sudo + NOPASSWD</th>
+<th>polkit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>授权粒度</td>
+<td>命令 + 参数（正则/通配）</td>
+<td><strong>D-Bus 方法级</strong>（如 <code>org.freedesktop.systemd1.manage-units</code>）</td>
+</tr>
+<tr>
+<td>是否需要密码</td>
+<td>NOPASSWD 才能无人值守</td>
+<td>规则里 <code>auth_admin_keep</code> 或 <code>yes</code>，可按 subject 区分</td>
+</tr>
+<tr>
+<td>绕过面</td>
+<td>拿到该用户即可执行该命令</td>
+<td>只能触发被授权的 D-Bus 调用</td>
+</tr>
+<tr>
+<td>审计</td>
+<td>sudo 日志（可关）</td>
+<td>journal 里可见调用方与主体</td>
+</tr>
+<tr>
+<td>与 MCP 的契合</td>
+<td>需拼命令</td>
+<td><code>systemd-mcp</code> 已经这么做了</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>openSUSE/systemd-mcp</code> 走的就是 polkit（stdio 传输），这是它在架构上比「给 Agent 一个 sudo shell」更正确的地方。</p>
+<h3 id="54">5.4 一张决策图<a class="anchor" href="#54" aria-label="锚点">#</a></h3>
+<pre><code>需要 Agent 操作 systemd/sudo
+├─ 目标机就是工作台所在机？
+│   ├─ 是 → 单用户？
+│   │        ├─ 是 → 路径 A（Open WebUI Computer 裸装）+ sudoers 窄白名单
+│   │        └─ 否 → 路径 B（MCP）
+│   └─ 否 → 多台机？
+│            ├─ 是 → 路径 C（n8n SSH 节点）或 路径 B + SSH 策略
+│            └─ 否 → 路径 B（MCP，推荐）
+└─ 需要写操作还是只读？
+    ├─ 只读 → systemd-mcp 默认 --allow-write=false，零配置即安全
+    └─ 写 → linux-mcp-server 的 auth_policy.yaml + 最小 action
+</code></pre>
+<hr />
+<h2 id="6">第 6 章 推荐组合（按场景）<a class="anchor" href="#6" aria-label="锚点">#</a></h2>
+<h3 id="a-sudo">场景 A：单人 / 单机 / 要真机 sudo<a class="anchor" href="#a-sudo" aria-label="锚点">#</a></h3>
+<p><strong>组合</strong>：<code>Open WebUI Computer (cptr)</code> 裸装 + sudoers 窄白名单 + 可选接 <code>Open WebUI</code> 作前端。</p>
+<pre><code>pip install cptr
+cptr run
+# 浏览器打开输出的链接，建账号，打开工作目录
+</code></pre>
+<p>为什么选它：
+- 唯一一个「跑在你真机上 + 有 RRULE 定时任务 + 有终端 + 有 stdio MCP + 有 git 面板」的开源方案。
+- AI 可选：不配模型也能用文件/终端/git。
+- 可加 Codex / Claude Code / Cursor / Grok / OpenCode / Cline / Pi 作原生后端，复用你已有的订阅。
+- 可从手机访问，配合 Tailscale 保持私网。</p>
+<p>代价：
+- 官方明说 <em>"One trusted owner"</em>——<strong>不要多人共用</strong>。
+- 无审计层，权限 = 你的权限。
+- 许可证字段是 NOASSERTION，商用前读原文。</p>
+<h3 id="b">场景 B：团队 / 多机 / 要审计（推荐）<a class="anchor" href="#b" aria-label="锚点">#</a></h3>
+<p><strong>组合</strong>：<code>Open WebUI</code>（控制层）+ <code>Open Terminal</code>（动作层，需企业许可）+ <code>rhel-lightspeed/linux-mcp-server</code>（特权层）+ 任意 HTTP 桥（把 stdio MCP 转成 Streamable HTTP）。</p>
+<p>三层职责：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>层</th>
+<th>组件</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>控制层</td>
+<td>Open WebUI</td>
+<td>用户、权限、模型选择、提示词、知识库、Automations</td>
+</tr>
+<tr>
+<td>动作层</td>
+<td>Open Terminal / Terminals</td>
+<td>隔离工作区、文件、shell、包管理、预览；Terminals 做多用户编排与生命周期</td>
+</tr>
+<tr>
+<td>特权层</td>
+<td>linux-mcp-server</td>
+<td>命令白名单、SSH 策略、日志路径白名单、默认失败即关闭</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p class="warnbox">⚠️ <strong>必须补的一环</strong>：Open WebUI 主产品的 MCP <strong>只支持 Streamable HTTP</strong>，而 <code>linux-mcp-server</code> 默认是 stdio。你需要一层桥把 stdio 转成 HTTP。已知的桥包括 <code>mcpo</code>（MCP-to-OpenAPI 代理）一类工具；也可以用 Open Terminal 或 Computer 作为 stdio 宿主，再让 Open WebUI 通过 <code>cptr/&lt;workspace&gt;</code> 把 Computer 工作区当模型调用。</p>
+</blockquote>
+<p>为什么选它：<strong>权限落在 MCP 服务端，不在 Agent 手里</strong>。这是六项需求里唯一能同时满足「可用」与「可审计」的组合。</p>
+<h3 id="c">场景 C：偏编排 / 已有大量脚本<a class="anchor" href="#c" aria-label="锚点">#</a></h3>
+<p><strong>组合</strong>：<code>n8n</code> + SSH 节点 + MCP Client 节点。</p>
+<p>为什么选它：
+- Schedule Trigger + Execute Command + SSH 都在同一张画布上，排期与执行的关系一眼可见。
+- 双向 MCP：既能消费外部 MCP 服务器，也能把自己暴露给 Claude Code / Codex / Cursor。
+- 207k 星、7 年历史、生态最厚。</p>
+<p>代价：
+- Execute Command <strong>2.0 起默认禁用</strong>，要改部署配置。
+- 无内置知识库（只有向量库节点）。
+- 自托管默认时区是 <code>America/New_York</code>，排期必须显式设时区。
+- 定位是「固定流程图」，开放式推理不擅长。</p>
+<h3 id="d-mcp">场景 D：已有大量 MCP，要一个聊天工作台<a class="anchor" href="#d-mcp" aria-label="锚点">#</a></h3>
+<p><strong>组合</strong>：<code>LibreChat</code>。</p>
+<p>为什么选它：
+- <strong>MCP 传输类型最全</strong>：stdio / websocket / streamable-http / sse，四种全支持。
+- Scheduled Chats 的工程质量最高：MongoDB 租约、幂等投递、防重叠、MCP 预检、夏令时处理、多副本协调、全局急停。
+- MIT 许可证。
+- RAG API + Artifacts + Code Interpreter（9 种语言）+ Skills + Subagents。</p>
+<p>代价：
+- Scheduled Chats 官方标为<strong>实验性</strong>。
+- Code Interpreter 是沙箱，R3 仍需 MCP。
+- 多副本必须配 Redis + <code>USE_REDIS_STREAMS=true</code>，否则排期写入 fail closed。</p>
+<h3 id="e-docker-agent">场景 E：要 Docker 隔离的自主 Agent<a class="anchor" href="#e-docker-agent" aria-label="锚点">#</a></h3>
+<p><strong>组合</strong>：<code>Agent Zero</code>（+ A0 CLI Connector 按需开宿主访问）。</p>
+<p>为什么选它：
+- 核心自带调度器（crontab 序列化 + 时区 + PlannedTask/AdHocTask 三种任务形态）。
+- 200+ 插件索引，覆盖终端、SSH/S3/SMB/WebDAV 文件浏览、ripgrep、日志、Tailscale、人机审批门。
+- Canvas 内是真 Linux 桌面，可跑 GUI 软件。
+- 浏览器带 DOM 注解，能把视觉评论转成修复。</p>
+<p>代价：
+- 默认在 Docker 内，宿主 sudo 要额外开桥。
+- 插件索引里没有调度插件，容易误判为「不能定时」（其实在核心）。</p>
+<hr />
+<h2 id="7">第 7 章 坑与反直觉<a class="anchor" href="#7" aria-label="锚点">#</a></h2>
+<ol>
+<li>
+<p><strong>Open WebUI 的 MCP 只有 Streamable HTTP，没有 stdio</strong>。官方原文：<em>"Open WebUI's own MCP support is Streamable HTTP only."</em> 所有本地 stdio MCP 服务器都要桥接。反之 <strong>Computer 原生支持 stdio</strong>——同一家两个产品，MCP 传输能力相反。</p>
+</li>
+<li>
+<p><strong>Open WebUI 的 MCP 服务器只能管理员添加</strong>。<em>"Regular users cannot register their own, by design."</em> 非管理员的替代路径是管理员加一次 + 用 Access Control 按用户/组限权。</p>
+</li>
+<li>
+<p><strong>把 <code>mcpServers</code> JSON 填进 OpenAPI 类型的连接会让 UI 崩溃或无限加载</strong>。类型必须选 <code>MCP (Streamable HTTP)</code>。</p>
+</li>
+<li>
+<p><strong>不设 <code>WEBUI_SECRET_KEY</code>，OAuth 连接的 MCP 工具每次容器重启都要重新认证</strong>（<code>Error decrypting tokens</code>）。</p>
+</li>
+<li>
+<p><strong>Open WebUI 主产品和 Computer 的知识库不互通</strong>。<em>"Knowledge bases, prompts, and users don't transfer between the two."</em></p>
+</li>
+<li>
+<p><strong>Open WebUI 有两套定时任务</strong>：主产品的 <strong>Automations</strong>（RRULE、<code>ENABLE_AUTOMATIONS</code>、按用户私有）与 Computer 的 <strong>Scheduled tasks</strong>（RRULE + Webhook + <code>{{webhook_payload}}</code>）。它们不是同一套，配置位置也不同。</p>
+</li>
+<li>
+<p><strong>无人值守 = 全量审批放行</strong>。Open WebUI 原文：<em>"Scheduled runs execute with full tool approval: nobody is there to click Allow."</em> 定时任务的工作区边界必须先想清楚。</p>
+</li>
+<li>
+<p><strong>AnythingLLM 的 Scheduled Jobs 只在单用户模式可见</strong>。多用户自托管实例<strong>看不到这个设置页</strong>。</p>
+</li>
+<li>
+<p><strong>LobeHub 的定时任务在云端执行，且不支持 cron</strong>。仅 Daily / Weekly / Hourly；「Fixed interval」最短 10 分钟或 1 小时。仓库描述里的 "scheduling" 指的是云端调度。</p>
+</li>
+<li>
+<p><strong>n8n 的 Execute Command 自 2.0 起默认禁用</strong>，且 Cloud 版没有这个节点。看到「n8n 能跑 shell」直接下结论是错的。</p>
+</li>
+<li>
+<p><strong>n8n 自托管默认时区是 <code>America/New_York</code></strong>，不是 UTC 也不是本地。</p>
+</li>
+<li>
+<p><strong>Dify 的代码节点在设计上就禁止系统命令</strong>：<em>"prevents file system access, network requests, and system commands."</em> 且<strong>每个工作流最多一个 schedule trigger</strong>。</p>
+</li>
+<li>
+<p><strong>Dify 的 cron 在「日」与「周」同时指定时是「或」不是「与」</strong>。<code>1 2 3 4 4</code> 会在 4 月 3 日<strong>和</strong>每个周四触发。</p>
+</li>
+<li>
+<p><strong>LibreChat 的 Code Interpreter 是沙箱不是宿主</strong>，且沙箱<strong>没有通用网络访问</strong>。</p>
+</li>
+<li>
+<p><strong>LibreChat 的 stdio MCP 必须在 <code>librechat.yaml</code> 里配</strong>；管理员配置 API 会拒绝进程型条目，数据库覆盖也无法替换已有的进程型服务器。</p>
+</li>
+<li>
+<p><strong>Agent Zero 容器内是 root，但不等于宿主 sudo</strong>。容器 root 只在容器命名空间内有效。</p>
+</li>
+<li>
+<p><strong>Agent Zero 的插件市场里搜不到「定时」插件，因为调度器在核心</strong>（<code>helpers/task_scheduler.py</code>）。</p>
+</li>
+<li>
+<p><strong>Suna 的沙箱是云电脑，不是你的机器</strong>。sudo 作用在会话沙箱上。</p>
+</li>
+<li>
+<p><strong>Windmill 的 MCP 是双向的</strong>：既能作服务器暴露 scripts/flows（含 Schedules 的 CRUD），也能作客户端让 AI session 调用外部 MCP。</p>
+</li>
+<li>
+<p><strong>Goose 有 70+ MCP 扩展但没有调度器</strong>。MCP 最强 ≠ 六项齐全。</p>
+</li>
+<li>
+<p><strong>OpenHands 主仓库 9 万星，但它的调度能力在只有 37 星的 <code>OpenHands/automation</code> 里</strong>。主仓库星标不能代表子能力成熟度。</p>
+</li>
+<li>
+<p><strong>6 个候选仓库改过名</strong>，旧路径返回 301。批量检索必须跟随重定向。</p>
+</li>
+<li>
+<p><strong><code>sudo</code> 在无人值守任务里会阻塞在密码提示</strong>。不是 bug，是 sudo 的设计。要么窄 <code>NOPASSWD</code>，要么走 MCP。</p>
+</li>
+<li>
+<p><strong>sudoers 里的 <code>*</code> 能匹配空格</strong>，<code>systemctl status *</code> 实际允许任意参数。要更严必须固定参数或包一层白名单脚本。</p>
+</li>
+<li>
+<p><strong><code>LINUX_MCP_TRANSPORT=http</code> 没有认证</strong>，官方警告不要用于生产或不可信网络。</p>
+</li>
+<li>
+<p><strong><code>linux-mcp-server</code> 的 Gatekeeper 模型评分表在官方文档里仍是 <code>??</code></strong>，不要把它当唯一防线。</p>
+</li>
+<li>
+<p><strong>Flowise 虽 5.5 万星但已归档</strong>；AgentGPT、bytebot 同样已归档。星标高不等于活着。</p>
+</li>
+<li>
+<p><strong><code>github.com/api</code> 未认证配额是 60 次/小时（core）+ 10 次/分钟（search）</strong>。批量检索 30 个仓库刚好够，但搜索接口很快就打满——本次实测中 3 次 search 调用即触发 <code>API rate limit exceeded</code>。检索前先用 <code>/rate_limit</code> 确认配额。</p>
+</li>
+<li>
+<p><strong>Windmill 不是 Agent 工作台，是脚本平台</strong>；要 Agent 循环得用它的 AI sessions。同样，n8n 不是 Agent 工作台，是带 AI 节点的自动化平台。</p>
+</li>
+<li>
+<p><strong>「工作台」与「知识库」是两件事</strong>。Onyx 的知识层是本体但它没有调度器；n8n 有调度器但知识库要自己拼。六项齐全的候选比想象中少。</p>
+</li>
+</ol>
+<hr />
+<h2 id="8">第 8 章 未核实与覆盖边界<a class="anchor" href="#8" aria-label="锚点">#</a></h2>
+<h3 id="81">8.1 本轮未取得一手证据的项<a class="anchor" href="#81" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项</th>
+<th>状态</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Significant-Gravitas/AutoGPT</code> 的调度器</td>
+<td>未核实</td>
+<td>平台形态成立（187k★），但本轮未取得其 trigger 体系的官方文档</td>
+</tr>
+<tr>
+<td>OpenHands 的 MCP 细节与网络搜索</td>
+<td>未核实</td>
+<td>README 仅提及支持，未取得传输类型与配置文档</td>
+</tr>
+<tr>
+<td>Sim 的 MCP 传输类型与网络搜索</td>
+<td>未核实</td>
+<td><code>docs.sim.ai</code> 返回空内容，仅有 README 佐证</td>
+</tr>
+<tr>
+<td>FastGPT 的周期任务</td>
+<td>未核实</td>
+<td>README 未提及调度</td>
+</tr>
+<tr>
+<td>Letta 的宿主 shell 能力</td>
+<td>未核实</td>
+<td>仅有 MCP 通道，未找到直连宿主的文档</td>
+</tr>
+<tr>
+<td>elizaOS 的六项逐条核验</td>
+<td>部分</td>
+<td>仅 README 级别佐证，未逐项读官方文档</td>
+</tr>
+<tr>
+<td>Coze Studio 的插件/MCP 细节</td>
+<td>部分</td>
+<td>README 提及插件机制，未取得 MCP 传输文档</td>
+</tr>
+<tr>
+<td>Activepieces 的六项能力</td>
+<td>未核实</td>
+<td>本轮仅取元数据（25,012★，2026-10-12 推送），未取证</td>
+</tr>
+<tr>
+<td>各候选的许可证商业条款</td>
+<td>未核实</td>
+<td>多个仓库 <code>license.spdx_id</code> 为 <code>NOASSERTION</code>，需读许可原文</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="82">8.2 明确的方法论边界<a class="anchor" href="#82" aria-label="锚点">#</a></h3>
+<ol>
+<li><strong>星标不能代表子能力成熟度</strong>。本次实证：OpenHands 90k★ 主仓库 vs 37★ 的 automation 子仓库；n8n 207k★ 但 Execute Command 默认禁用。</li>
+<li><strong>「未发现」不等于「不支持」</strong>。表中所有 ❌ 均为「在官方 README/文档/源码树中未找到」，不等于该能力不存在于社区插件或未文档化的路径中。</li>
+<li><strong>本次未做端到端实测</strong>。所有能力断言均来自官方文档原文、README 原文或源码树文件名，未实际部署任一工作台执行 <code>sudo systemctl</code> 验证。</li>
+<li><strong>未覆盖 SaaS/闭源方案</strong>（Claude Cowork、ChatGPT Work、Coze 云版、LobeHub 云版等），用户需求是「工作台」且前序调研以自托管为主。</li>
+<li><strong>未覆盖中文社区生态</strong>（如国内厂商的 Agent 平台）。</li>
+</ol>
+<h3 id="83">8.3 与前序报告的关系<a class="anchor" href="#83" aria-label="锚点">#</a></h3>
+<p>本报告是前序《AI Agent Linux 运维全发行版深度研究报告》的<strong>横向补充</strong>：前序报告解决「用 Hermes Agent 管 Linux 需要什么 MCP/Skills/知识库方案」，本报告解决「除 Hermes Agent 外还有哪些工作台可用」。两份报告的<strong>执行层结论一致</strong>：<code>rhel-lightspeed/linux-mcp-server</code>（317★）+ <code>openSUSE/systemd-mcp</code>（10★）是厂商级的特权执行层，任何工作台都应通过 MCP 挂载它们，而不是给 Agent 一个 sudo shell。</p>
+<hr />
+<h2 id="a">附录 A 证据分级说明<a class="anchor" href="#a" aria-label="锚点">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>等级</th>
+<th>含义</th>
+<th>本报告的典型来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge g-A">A</span></td>
+<td>官方文档原文 / 源码树直读，可复现</td>
+<td>Open WebUI MCP 文档原文；Agent Zero 的 <code>helpers/task_scheduler.py</code> 类清单；LibreChat Scheduled Chats 配置项；n8n <code>llms.txt</code> 索引</td>
+</tr>
+<tr>
+<td><span class="badge g-B">B</span></td>
+<td>项目 README 原文 / 官方功能页</td>
+<td>Suna 的 cron 配置示例；Windmill 的触发方式列表；Onyx 的能力清单</td>
+</tr>
+<tr>
+<td><span class="badge g-C">C</span></td>
+<td>项目自述但未独立复现，或仅有间接证据</td>
+<td>OpenHands 的 automations 表格；elizaOS 的能力描述</td>
+</tr>
+<tr>
+<td><span class="badge g-D">D</span></td>
+<td>本报告推断</td>
+<td>路径 A 的 sudo 阻塞分析；polkit 与 sudo 的对比</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="b_1">附录 B 可复现命令<a class="anchor" href="#b_1" aria-label="锚点">#</a></h2>
+<h3 id="b1">B.1 批量取候选元数据<a class="anchor" href="#b1" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># 先确认配额（未认证：core 60/小时，search 10/分钟）
+curl -s &quot;https://api.github.com/rate_limit&quot;
+
+# 取单个仓库元数据（注意 -L 跟随 301，本次实测 6 个仓库已改名）
+curl -sL &quot;https://api.github.com/repos/agent0ai/agent-zero&quot; \
+  | python -c &quot;import sys,json;d=json.load(sys.stdin);print(d['full_name'],d['stargazers_count'],d['pushed_at'],d['archived'])&quot;
+</code></pre>
+<h3 id="b2">B.2 查源码树里的调度器<a class="anchor" href="#b2" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># Agent Zero 原生调度器
+curl -sL &quot;https://api.github.com/repos/agent0ai/agent-zero/git/trees/main?recursive=1&quot; \
+  | grep -oE '&quot;path&quot;: &quot;[^&quot;]+&quot;' | grep -Ei 'sched|cron|timer|task'
+
+# Letta 的 cron 与 MCP
+curl -sL &quot;https://api.github.com/repos/letta-ai/letta-code/git/trees/main?recursive=1&quot; \
+  | grep -oE '&quot;path&quot;: &quot;[^&quot;]+&quot;' | grep -Ei 'sched|cron|mcp'
+
+# Khoj 的 MCP 实现
+curl -sL &quot;https://api.github.com/repos/khoj-ai/khoj/git/trees/master?recursive=1&quot; \
+  | grep -oE '&quot;path&quot;: &quot;[^&quot;]*mcp[^&quot;]*&quot;'
+</code></pre>
+<h3 id="b3">B.3 取官方文档索引（比逐页抓更高效）<a class="anchor" href="#b3" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># n8n 文档索引（287 KB，可 grep MCP / SSH / vector store）
+curl -sL &quot;https://docs.n8n.io/llms.txt&quot; | grep -iE 'mcp|ssh|vector store'
+
+# Windmill 文档索引
+curl -sL &quot;https://www.windmill.dev/llms.txt&quot; | grep -iE 'mcp|schedul'
+
+# Open WebUI 文档 sitemap
+curl -sL &quot;https://docs.openwebui.com/sitemap.xml&quot; | grep -oE '&lt;loc&gt;[^&lt;]+&lt;/loc&gt;' | grep -Ei 'schedul|mcp|automation'
+</code></pre>
+<h3 id="b4-a">B.4 场景 A 的最小可行部署<a class="anchor" href="#b4-a" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># 1. 装 Open WebUI Computer（裸装，获得宿主 shell）
+pip install cptr &amp;&amp; cptr run
+# 浏览器打开日志里输出的 http://localhost:8000/?token=...，建账号，打开工作目录
+
+# 2. 窄授权 sudoers（不要用 ALL）
+sudo tee /etc/sudoers.d/cptr-agent &gt;/dev/null &lt;&lt;'EOF'
+cptr-agent ALL=(root) NOPASSWD: /usr/bin/systemctl restart nginx
+cptr-agent ALL=(root) NOPASSWD: /usr/bin/systemctl status nginx
+cptr-agent ALL=(root) NOPASSWD: /usr/bin/journalctl -u nginx -n 100
+EOF
+sudo visudo -c -f /etc/sudoers.d/cptr-agent   # 必须先校验语法
+
+# 3. 需要 stdio MCP 时补依赖
+pip install 'cptr[mcp]'
+
+# 4. 在 Settings → Admin → Tool Servers 加 MCP (stdio)，填 command/args/env/cwd
+</code></pre>
+<h3 id="b5-b">B.5 场景 B 的最小可行部署<a class="anchor" href="#b5-b" aria-label="锚点">#</a></h3>
+<pre><code class="language-bash"># 特权层：linux-mcp-server（stdio 默认）
+uv tool install linux-mcp-server
+
+# 关键：不设 ALLOWED_LOG_PATHS 时 read_log_file 什么都读不到（失败即关闭）
+export LINUX_MCP_ALLOWED_LOG_PATHS=/var/log/nginx,/var/log/syslog
+export LINUX_MCP_VERIFY_HOST_KEYS=True
+# 不要开 LINUX_MCP_TRANSPORT=http —— 该传输没有认证
+
+# 控制层：Open WebUI（MCP 只能加 Streamable HTTP）
+# 注意必须设 WEBUI_SECRET_KEY，否则 OAuth MCP 每次重启都要重认证
+export WEBUI_SECRET_KEY=&quot;$(openssl rand -hex 32)&quot;
+docker run -d -p 3000:8080 -e WEBUI_SECRET_KEY -v open-webui:/app/backend/data \
+  ghcr.io/open-webui/open-webui:main
+# 然后在 Settings → Admin → Integrations 里以 MCP (Streamable HTTP) 类型添加桥接后的地址
+</code></pre>
+<h2 id="c_1">附录 C 参考链接<a class="anchor" href="#c_1" aria-label="锚点">#</a></h2>
+<h3 id="c1">C.1 工作台官方文档<a class="anchor" href="#c1" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>文档入口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open WebUI</td>
+<td>https://docs.openwebui.com/features/</td>
+</tr>
+<tr>
+<td>Open WebUI MCP</td>
+<td>https://docs.openwebui.com/features/extensibility/mcp/</td>
+</tr>
+<tr>
+<td>Open WebUI Automations</td>
+<td>https://docs.openwebui.com/features/chat-conversations/chat-features/automations</td>
+</tr>
+<tr>
+<td>Open WebUI Computer</td>
+<td>https://docs.openwebui.com/ecosystem/computer/</td>
+</tr>
+<tr>
+<td>Computer 定时任务</td>
+<td>https://docs.openwebui.com/ecosystem/computer/automate/scheduled-tasks</td>
+</tr>
+<tr>
+<td>Computer MCP</td>
+<td>https://docs.openwebui.com/ecosystem/computer/automate/tool-servers</td>
+</tr>
+<tr>
+<td>Computer 技能与记忆</td>
+<td>https://docs.openwebui.com/ecosystem/computer/ai/skills-and-memory</td>
+</tr>
+<tr>
+<td>Computer 审批</td>
+<td>https://docs.openwebui.com/ecosystem/computer/ai/approvals-and-plan-mode</td>
+</tr>
+<tr>
+<td>Open Terminal</td>
+<td>https://docs.openwebui.com/ecosystem/open-terminal/</td>
+</tr>
+<tr>
+<td>Agent Zero</td>
+<td>https://github.com/agent0ai/agent-zero</td>
+</tr>
+<tr>
+<td>Agent Zero 插件索引</td>
+<td>https://github.com/agent0ai/a0-plugins</td>
+</tr>
+<tr>
+<td>n8n Schedule Trigger</td>
+<td>https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/</td>
+</tr>
+<tr>
+<td>n8n Execute Command</td>
+<td>https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.executecommand/</td>
+</tr>
+<tr>
+<td>n8n MCP Server Trigger</td>
+<td>https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger/</td>
+</tr>
+<tr>
+<td>n8n 文档索引</td>
+<td>https://docs.n8n.io/llms.txt</td>
+</tr>
+<tr>
+<td>LibreChat MCP</td>
+<td>https://www.librechat.ai/docs/features/mcp</td>
+</tr>
+<tr>
+<td>LibreChat Scheduled Chats</td>
+<td>https://www.librechat.ai/docs/features/scheduled_chats</td>
+</tr>
+<tr>
+<td>LibreChat Code Interpreter</td>
+<td>https://www.librechat.ai/docs/features/code_interpreter</td>
+</tr>
+<tr>
+<td>LibreChat MCP 配置</td>
+<td>https://www.librechat.ai/docs/configuration/librechat_yaml/object_structure/mcp_servers</td>
+</tr>
+<tr>
+<td>AnythingLLM Scheduled Jobs</td>
+<td>https://docs.anythingllm.com/scheduled-jobs/overview</td>
+</tr>
+<tr>
+<td>AnythingLLM MCP</td>
+<td>https://docs.anythingllm.com/mcp-compatibility/overview</td>
+</tr>
+<tr>
+<td>Dify Schedule Trigger</td>
+<td>https://docs.dify.ai/en/self-host/use-dify/nodes/trigger/schedule-trigger</td>
+</tr>
+<tr>
+<td>Dify Code 节点</td>
+<td>https://docs.dify.ai/en/self-host/use-dify/nodes/code</td>
+</tr>
+<tr>
+<td>Dify 发布为 MCP</td>
+<td>https://docs.dify.ai/en/self-host/use-dify/publish/publish-mcp</td>
+</tr>
+<tr>
+<td>Khoj Automations</td>
+<td>https://docs.khoj.dev/features/automations/</td>
+</tr>
+<tr>
+<td>LobeHub 定时任务</td>
+<td>https://lobehub.com/docs/usage/agent/scheduled-task</td>
+</tr>
+<tr>
+<td>Windmill MCP</td>
+<td>https://www.windmill.dev/docs/core_concepts/mcp</td>
+</tr>
+<tr>
+<td>Windmill 文档索引</td>
+<td>https://www.windmill.dev/llms.txt</td>
+</tr>
+<tr>
+<td>OpenHands Automations</td>
+<td>https://docs.openhands.dev/openhands/usage/agent-canvas/prebuilt-automations</td>
+</tr>
+<tr>
+<td>OpenHands Automation Server</td>
+<td>https://github.com/OpenHands/automation</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="c2">C.2 前序报告（特权执行层）<a class="anchor" href="#c2" aria-label="锚点">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全发行版研究报告（MD）</td>
+<td><code>研究报告_AI_Agent_Linux运维_全发行版.md</code></td>
+</tr>
+<tr>
+<td>全发行版研究报告（HTML）</td>
+<td><code>研究报告_AI_Agent_Linux运维_全发行版.html</code></td>
+</tr>
+<tr>
+<td>知识库条目</td>
+<td><code>kb/hermes-openclaw-linux-ops-agent-stack.md</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<p><em>报告完 · v1.0 · 2026-10-12 · 六项能力 × 19 个候选 × 官方文档逐条取证 · 证据分级见附录 A · 未核实项见第 8 章</em></p>
+
+  <div class="foot">
+    本报告由 WorkBuddy AI 生成 · 六项能力 × 19 个候选 × 官方文档逐条取证 · 成稿 2026-10-12<br>
+    所有事实均可通过「附录 B」中的命令复现 · 证据分级见「附录 A」· 未核实项见第 8 章
+  </div>
+</main>
+
+</div>
+<script>
+(function(){
+  var t=document.getElementById('top');
+  function onScroll(){ if(window.scrollY>520) t.classList.add('show'); else t.classList.remove('show'); }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  // 侧栏目录当前章节高亮
+  var links=[].slice.call(document.querySelectorAll('.sidebar a[href^="#"]'));
+  var map={};
+  links.forEach(function(a){ var el=document.getElementById(decodeURIComponent(a.hash.slice(1))); if(el) map[el.id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window && targets.length){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[e.target.id]; if(a){a.classList.add('active'); a.style.background='var(--accent-soft)'; a.style.color='var(--accent)';}
+        }
+      });
+    },{rootMargin:'-8% 0px -78% 0px'});
+    targets.forEach(function(t){io.observe(t);});
+  }
+})();
+</script>
+</body>
+</html>

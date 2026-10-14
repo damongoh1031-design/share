@@ -1,0 +1,150 @@
+===============================================================================================
+TOPIC 78964: LLMs in nixpkgs (94 posts, 788 likes, 4055 views)
+URL: https://discourse.nixos.org/t/llms-in-nixpkgs/78964
+===============================================================================================
+--- #1 @not-jack (+0) 2026-07-15
+   In every post I see about LLM usage in Nix/Nixpkgs/NixOS the community is divided. |  | Considering PR’s like https://github.com/NixOS/nixpkgs/pull/534657 exist, I would like to ask a few questions  |  | I am strongly against LLM usage | I am against LLM usage | I am neutral in regards to LLM usage | I am for LLM usage | I am strongly for LLM usage |  | 0 | voters |  | More LLM usage will drive me away from nixpkgs | More LLM usage will have no effect on me | More LLM usage will encourage me to contribute more |  | 0 | voters |  | I will review LLM assisted PR’s | I will not review LLM assisted PR’s |  | 0 | voters
+
+--- #2 @knoopx (+0) 2026-07-15
+   im not against llms as tools, im against the corporate circus and low effort contributions. i dont mind if contributors use llms as long as they review, test and communicate as humans. and i have same expectations from the nix maintainers side, i dont mind how many automations they setup as long as they dont merge malware into nixpkgs and keep nixos stable. |  | “a computer can never be held accountable, therefore a computer must never make a management decision.”
+
+--- #3 @Sigmanificient (+0) 2026-07-15
+   https://github.com/NixOS/nixpkgs/pull/534657 is the kind of prs that would “drive me away from nixpkgs”
+
+--- #4 @waffle8946 (+0) 2026-07-16
+   I can’t express how much I hope this useless bubble bursts. Forced to use it at work, shoved into every ad on youtube and co., and now even this project I participate in during free time is overrun with people trying to shove it in everyone’s faces. If even nixpkgs chooses to continue down this route, I’d rather cancel my internet plan and go back to actually enjoyable hobbies.
+
+--- #5 @nadir (+0) 2026-07-16
+   Couldn’t have said it better. |  | It’s also simply demeaning to see people I formerly held in very high esteem and looked up to, go full in and changing from people you can talk to to being indistinguishable from actual, real life cult members. |  | Always the same tired, sycophantic talking points. |  | It sucks the joy out of everything
+
+--- #6 @fzakaria (+0) 2026-07-16
+   Although it’s a different project, I liked Linus’s take: Making sure you're not a bot!
+
+--- #7 @coolcuber (+0) 2026-07-16
+   For me, this is a free software issue.  I’ve given up a lot of programs I used to enjoy and some I was never able to truly replace in the name of having a free-as-in-freedom user experience.  I can make small concessions for drivers and firmware and it doesn’t really bother me, but using proprietary LLMs to develop free software is too far for me.  Even if there are freely licensed LLMs out there (I’m not up-to-date on the current LLM scene), this conversation seems to revolve around unfree ones (mostly Claude).  Having an agents.md file in the root directory of Nixpkgs is not something I would ever use and even if it did irk me a little, if it’s what the community wished for, I could live it.  However, in the PR you linked, there is also a bit about adding a symlink called CLAUDE.md because Anthropic tools apparently don’t read the file that every(?) other agent reads by default.  This is too far for my taste.  It’s an indirect endorsement of unfree tooling right in the root directory of Nixpkgs, which is, to me, one of the most important free software projects in development.
+
+===============================================================================================
+TOPIC 78627: Let's create skills for nixpkgs development (48 posts, 419 likes, 3187 views)
+URL: https://discourse.nixos.org/t/lets-create-skills-for-nixpkgs-development/78627
+===============================================================================================
+--- #1 @lucasew (+0) 2026-06-28
+   Like it or not, AI agents are here to stay, and they automate a heck of a lot of the boring stuff. If you ask nicely, they can even do the whole flow of a PR without intervention and ship good code, taking into account gotchas that a human would spend a lot of time checking. |  | Today, Nixpkgs is heavily documented with well-written guidelines but lacks that LLM entry point. AGENTS would help? Would! |  | But for the details, it’s good to have a standard process, or checklist, that the LLM can quickly take a look at and do tasks more in line with the quality we expect. |  | I am not suggesting adding CodeRabbit or that Gemini review bot that brings a lot of noise. I am proposing formalizing the procedures in a way that works for them, or people would eventually contribute wrong, feeding this anger or just go away to another community that is more friendly to that. |  | Today, the skill location is standard; place them on .agents/skills, and all relevant agents can see them; no need to symlink those around. |  | The idea is to start with something and iterate on it over time as proce
+
+--- #2 @Sigmanificient (+0) 2026-06-28
+   This sound like a great way to have people starting to push AI generated prs with increasingly lower level of control. Having agents that shove pr to our backlog is not something i would like to see. |  | On a personal level, I entirely engage in nixpkgs to de-pressure from my internship which has required me to make use of LLM. I am sick of AI everywhere and constant push for automation of everything without letting breathing space to people.
+
+--- #3 @miangraham (+0) 2026-06-28
+   lucasew: |  | AI agents are here to stay |  | Where is “here”? It’s definitely not the NixOS project, and it sounds like a pretty terrible place to live.
+
+--- #4 @lucasew (+0) 2026-06-28
+   Those PRs will come anyway. With skills and AGENTS at least they can get the basics right. |  | Models are evolving fast. Today, any well contextualized model can do most of stuff with minor supervision.
+
+--- #5 @Sigmanificient (+0) 2026-06-28
+   Great. Who will deal with theses prs?
+
+--- #6 @lucasew (+0) 2026-06-28
+   Ill give examples of what kind of stuff we can achieve essentially oneshot from an issue or a build failure. |  | I am working on a private prototype of a nixpkgs skill and did these PRs. |  | First one started from a issue, the other two from that message that the Matrix bot sends when nixpkgs-update isn’t able to bump a package. |  | I didn’t actually write this code, only review. It dispatched the nixpkgs-review run via my Github Actions trick and took the hashes from the logs. |  | Do you think that any model would give this output on a uncontextualized prompt? Any blind spot that I didn’t spot on them? |  | Standardizing this process would give anyone the chance to do a good v1 without bothering anyone and without having to do silly changes because of a minor nitpick because the model did read every guideline and checklist while the person was doing something else. |  | It’s like recruiting a new maintainer, but this new maintainer can read really fast and doesn’t forget half the things on the way. If you don’t give it context it will mess up. |  |    |  |       github.com/NixOS
+
+--- #7 @samestep (+0) 2026-06-28
+   @lucasew I’m sorry for the overly hostile responses you’re receiving; obviously you mean well and are trying to contribute positively to the project. Unfortunately AI is quite a sore subject in this community; for instance you could look at this thread for some more recent context. In short, right now it’s simply difficult to have productive discussions about these topics. |  | My read on it is that right now there is a fairly large and vocal part of the community that feels quite strongly about AI. So I don’t see anything like this making its way into the Nixpkgs repo any time soon. In my personal experience, I’ve found that if you put in the effort to ensure your pull requests are of sufficient quality (which it sounds like you’ve been spending your effort on by developing these agent skills) then you can open these PRs according to the current policy and some of them will be merged. So from the perspective of making the project better, that’s a net positive. |  | Obviously it’s fairly thankless work, but that’s just how contributing to Nixpkgs is in general (especially for committ
+
+===============================================================================================
+TOPIC 78262: Call to ban AI commits (93 posts, 618 likes, 6821 views)
+URL: https://discourse.nixos.org/t/call-to-ban-ai-commits/78262
+===============================================================================================
+--- #1 @Grunty (+0) 2026-06-14
+   Frustration mounting, I steam like a kettle, |  | With the current direction Nix’s AI policy has settled. |  | In response to AI commits, I ask we show, |  | the extent to which this community says “NO”. |  | I want more lenient AI policy for commits to Nix! | I am happy with the “human in the loop” approach | I want NO AI commits to be accepted |  | 0 | voters
+
+--- #2 @theeasternfurry (+0) 2026-06-14
+   I’m the type of minor contributor who tends to live under a rock, less in touch with the community than sending PRs, reading chat and issues — this is probably only the second time I’ve actually talked to someone outside of a GitHub PR. So I often miss most things until after they’ve already happened in the NixOS space. |  | Honestly, I’d rather not pick a side if things get heated, but the core team has already made their decision and the policy looks pretty okay to me. Let’s move on.
+
+--- #3 @Grunty (+0) 2026-06-14
+   “Let’s move on”, I find amiss, |  | The point of this post, is orthogonal to this. |  | The judgement made gives me grief, |  | and I raise this point to display my belief. |  | If you do not respect my right to air my frustrations, |  | I shall in turn dismiss your negation. |  | AI commits are a risk intrinsically, |  | So I am not satisfied with “a committee approves of AI wittingly”.
+
+--- #4 @tejing (+0) 2026-06-14
+   Banning AI entirely is too unenforceable. At least with the given policy you can test someone’s understanding of the code by talking to them. It means something in practical terms. |  | AI isn’t the problem. Slop is the problem. I see no reason to use those tools myself, but I acknowledge that some workflows involving such tools can produce results of sufficient quality. Banning them entirely seems to me like an irrational, emotion-driven overreaction.
+
+--- #5 @waffle8946 (+0) 2026-06-14
+   tejing: |  | some workflows involving such tools can produce results of sufficient quality. |  | I’ve yet to see that in the last decade, unless you intentionally lower the standards so that slop passes.
+
+--- #6 @tejing (+0) 2026-06-14
+   I’m far less certain there are any such workflows that are actually gaining productivity from the tools while producing results of sufficient quality, but certainly the involvement of the tools doesn’t inherently make the result slop. |  | Also, it’s worthwhile to leave room for the future, given that this field is still rapidly changing.
+
+--- #7 @TLATER (+0) 2026-06-14
+   Given the upstream contributor base a full rejection is almost definitely impossible, even besides the fact that bans are unenforceable. This policy is probably the most sensible compromise possible. |  | I think it’s more important to see where lix goes. |  | Lix has always seemed like the fork that takes a step back and thinks critically instead of doing whatever commercial interests pay for. They’re probably the people who are more likely to see value in the creative process and its impact on how you think about and design software. |  | The fact that you need to go a little out of your way to find it also means that your average slop kiddie won’t try to contribute to it, so a ban on trust basis is likely more feasible. |  | Also, frankly, unless you contribute to nix itself, probably not your place to complain. If you do contribute to nix (or want to help out more actively) and you’re upset about this policy, see if you can pick up some issues on the lix repo.
+
+===============================================================================================
+TOPIC 79736: Can we explicitly ban LLM-generated PR descriptions, commits? (62 posts, 352 likes, 3380 views)
+URL: https://discourse.nixos.org/t/can-we-explicitly-ban-llm-generated-pr-descriptions-commits/79736
+===============================================================================================
+--- #1 @ethancedwards (+0) 2026-08-25
+   Today I came across these walls of text: |  | pnpmConfigHook: strip pnpm install state from outputs by ak2k · Pull Request #556271 · NixOS/nixpkgs · GitHub | auto-patchelf,autoPatchelfHook: index libraries in a deterministic order by ak2k · Pull Request #556272 · NixOS/nixpkgs · GitHub |  | The first PR description is 804 words according to https://wordcounter.net . The second is 660. The commit messages total 550 and 1027 words respectively. The PRs have single comments that are over 150 words long. |  | I don’t think it’s a wild take to assume that this contributor has not read or understood either of these PRs in their entirety. To be honest, I doubt they’ve read the code. If someone left a review, I think the review would go straight to the LLM and the response would be fed back into the GitHub UI. |  | While these PRs may be in compliance with the letter of our AI/Automation Policy given that there’s an Assisted-by footer, I strongly believe that they are in violation of the spirit of the policy and are inherently extractive contributions. |  | Obviously, the community is very d
+
+--- #2 @numinit (+0) 2026-08-25
+   The pull request template literally starts: |  | <!-- | ^ Please summarise the changes you have done and explain why they are necessary here ^ |  | For package updates please link to a changelog or describe changes, this helps your fellow maintainers discover breaking updates. | For new packages please briefly describe the package or provide a link to its homepage. | --> |  | Yeah, the idea is that it’s a summary. In other words, a short description of the change that describes why you feel the PR is worth merging. (Ironically, LLMs tend to be excellent at summarization, but people still use it to submit walls of text for some reason).
+
+--- #3 @ak2k (+0) 2026-08-25
+   I don’t think it’s a wild take to assume that this contributor has not read or understood either of these PRs in their entirety. To be honest, I doubt they’ve read the code. |  | As the author, I fully understand both. Happy to answer any questions you may have on their substance or merit. |  | I’ve actually read every line carefully and done multiple passes on the implementation. |  | As for the summary, the first paragraph is a TL;DR, and there are additional paragraphs of detail, LLM-drafted (as disclosed), that I included because I believed they would be helpful to a reviewer of a change of such scope (the number of packages affected).
+
+--- #4 @ethancedwards (+0) 2026-08-25
+   Thanks for commenting. I’m sorry if you feel singled out or attacked, because that’s not the point of the post or my intention (changing policy is). |  | I hope you can see how it’s hard for me, the reviewer, to trust any of those statements? If the prose was human written and the code LLM-generated, to some degree of certainty I can trust that you understand it at least enough to write the commit messages, PR description, etc. |  | But just with you telling me “I understand it. I promise. I worked on it a lot. I promise.” doesn’t really give me much to go with. Both of these things could still be true, but the PR could be really difficult to review simply because of all the excess text. IMO brevity is a virtue. I hope you can understand where I’m coming from! Thank you for responsibly disclosing.
+
+--- #5 @ak2k (+0) 2026-08-25
+   Understand you’re making the case for a policy change and that your intention wasn’t intended to be directed at me personally. |  | As I can only speak to the text I specifically included in those two contributions (which were nontrivial to prepare and test, with or without a coding agent), I tried to apply the standard of including text I believed would be of use to the reviewer. I reviewed every sentence of every paragraph, and they specifically cover the WHY the changes are structured the way they are, which the reviewer would need to recover from testing/tracing (something I assume is relatively expensive for reviewers) rather than something readily apparent from the implementation alone, or to defend the implementation choice versus alternatives (since it’s also work to ask a contributor why an alternative approach was not taken). In preparing it, I TRIED to include those details that a reviewer familiar with the code would find useful, and was fully conscious that it was double the typical PR body length; however, given the many thousands of packages affected by the change, it 
+
+--- #6 @numinit (+0) 2026-08-25
+   FWIW, my suggestion would be something like a human summary of the change up front and putting what the LLM outputs under the fold with a “this is what Opus says” or something. I appreciate the TL;DR, but maybe what’s making it hard to read is that it needs to be broken up a little (so people who want to engage with the toplevel human written piece can do so, and those who want the gory details can also do so).
+
+--- #7 @fricklerhandwerk (+0) 2026-08-25
+   ak2k: |  | If you have particular feedback on the details I included that you would rather I omit, I would welcome any specific feedback. |  | All this is really about is feeding maintainers with the amount of information they’re ready to process at a given time. How do you know? Talk with them first. |  | You won’t go to your city council and say “Look, I’ve written this 500 page dissertation on how to build a subway system, please review”. You’ll ask “What do you think, should we build a subway system?” and go from there.
+
+===============================================================================================
+TOPIC 80179: Documentation needs to be created towards agents (59 posts, 423 likes, 2153 views)
+URL: https://discourse.nixos.org/t/documentation-needs-to-be-created-towards-agents/80179
+===============================================================================================
+--- #1 @olafkfreund (+0) 2026-09-21
+   I know that what I’m about  to say will be unpopular here. I think documentation needs to be created towards agents more and more. Users will are using agents to gather information these days, llms.txt will be the hear and soul of Nixos documentation in the near future. This solve some of the problems and we can automate the updates of this easy. The Nix community should embrace and guide the usage of Ai in nixos. We can be the compass, already so many companies are combining nixos and AI. When it comes to different distro’s and Nix: I love NixOs. How about proper guides for users that want to create them based on Nix. When Omarchy came out it blew my mind how easy things can be. Most users that switch to Linux take long time to find apps and services they want to use, they are more amazed by what is already there … We could be like that. I have tried to copy that in my attempt to do this based on Omarchy spirit when I created Nixarchy for myself. Times have changed, user base is changing, if Nixos is to survive we need to change as well. The solutions is not gate keeping, and using 
+
+--- #2 @augu5te (+0) 2026-09-21
+   It’s not that simple. In France, for example, inciting hatred is illegal (history has taught us why), and this is not considered an infringement on freedom of expression. Regarding AI, a little reflection shows that the negative aspects cannot simply be ignored. That is the reality of the world today: we can either pretend not to see the implications or try to find other paths. Also, as a human, I like to understand software—including through its documentation—and when that documentation is well-crafted, it is a real pleasure.
+
+--- #3 @olafkfreund (+0) 2026-09-21
+   And I do agree with that.. but one thing does not exclude the other. Time and history has showed us time and time again that changes like this can not be stopped, you be part of the change and show new users what they can do and how with examples but excluding them and using politics does not work. You do not ignore nothing, you create a choice with value. We are doing the same thing that the other side have done to “us” again and again. Why do we not learn from the mistakes?? What I’m trying to say is include and not exclude, teach and embrace with changes, be better but with examples, if we want users to be better with AI let us show them how. If not Nix we be gone .. the money will be gone.. companies will not invest or support. Be pragmatic but keep the moral sense. anyway … tech is for fun and profit  we need more fun these days lets make it fun again.
+
+--- #4 @nadir (+0) 2026-09-21
+   I was about to give an actual answer but then I remember what thread we’re in. [Moderator’s note: this series of posts was moved from Omarchy and NixOS.] It’s all been addressed. Repeatedly. |  | Have you considered reading the thread and the arguments people have made? |  | Because honest engagement can’t be outsourced to a chatbot. |  | “Just do what I want” does not work that well on humans.
+
+--- #5 @mihaimaruseac (+0) 2026-09-22
+   I don’t agree. I work in AI, I use AI a lot, but relying on AIs for too long and reading their output is a sure way to ingest brain asbesthos. |  | Documentation should be for the users first, then for the developers, and only then for agents.
+
+--- #6 @tomberek (+0) 2026-09-22
+   I’ll take the first portion of the post as the main topic: how to make it easier for agents/AI to be better at managing/using/manipulating/working within the Nix and Nixpkgs ecosystem. As you know, this is a contentious topic. |  | It is not likely that we will resolve question of AI in this moment. So I’ll propose a way past this; reduce the contention. Create and start a project to make such documentation, skills, tools, guides, whatever, in an new repo. Make it usable as a sidecar or an easy reference point for agents to find and prove its usefulness over period of time. Find other collaborators and contributors for that effort. This means there isn’t an argument over what “makes it into Nixpkgs” and you have a chance to prove that it is useful and demonstrate it doesn’t devolve into an unmaintainable mess. People that want to opt-in can; and those that want to opt-out don’t need to do anything. |  | I do want to address a concern that was brought up to me, paraphrasing: “we cannot keep up”. That if AI is allowed to do to much in the ecosystem, non-AI users will get pushed out ove
+
+--- #7 @arcayr (+0) 2026-09-22
+   i’m unsure why you believe that a linux distribution almost exclusively centered around being able to manually put together exactly the system you want in a declarative fashion would be best served by throwing it into what is, for most people, a magic black box and simply hoping that what shakes out is shaped as you want. | i’m unsure why you believe that after literally billions of freedombucks have been poured into the natural language processing side of llms (given, you know, their name) that the best course of action is to throw all of the documentation in the bin and write up “specialised” versions of it that, generally speaking, are just extremely verbose versions of the “real” documentation - documentation that would better serve both parties if it was just the normal documentation, because then you have a way to counterbalance the “oracle”. |  | have you actually used these systems in depth? |  | the solution is not … using politics for every conflict |  | ah, another “keep politics out of tech”. many such cases. |  | this may surprise you, but code doesn’t just appear from n
+
+===============================================================================================
+TOPIC 66137: mkAIDerivation: generate a derivation on the fly from a prompt using an LLM (13 posts, 81 likes, 1431 views)
+URL: https://discourse.nixos.org/t/mkaiderivation-generate-a-derivation-on-the-fly-from-a-prompt-using-an-llm/66137
+===============================================================================================
+--- #1 @cdepillabout (+0) 2025-06-27
+   Are you tired of boring Nix derivations that “just work” every time? |  | Do you think reproducibility is for the birds? |  | Do you like horrible things? |  | If you answered “yes” to any of these questions, then mkAIDerivation is for you. |  |    |  |       github.com |    |  |    |      |    |  |   GitHub - cdepillabout/mkAIDerivation: Generate a Nix derivation on the fly using an LLM |  |     Generate a Nix derivation on the fly using an LLM |  |    |  |    |      |      |    |  |    |  | mkAIDerivation uses an LLM over the network to generate a derivation on the fly for the given prompt you’ve passed in: |  | mkAIDerivation '' |     Generate a derivation for building `xterm` | '' |  | See the README in the repo for more information on how to use this.
+
+--- #2 @llakala (+0) 2025-06-27
+   Here I was about to make a quip about IFD, when I scroll down and find this uses evil-nix too… |  | I motion that nixpkgs immediately allow AI-generated submissions, but ONLY if they use this project. |  | To be clear, this is a joke.
+
+--- #3 @numinit (+0) 2025-06-27
+   This is hilarious(ly awful). I <love/hate> it.
+
+--- #4 @robsliwi (+0) 2025-06-27
+   Does this need a RFC first or can it be directly added to nixpkgs?
+
+--- #5 @crertel (+0) 2025-06-27
+   image678×368 67.5 KB
+
+--- #6 @max (+0) 2025-06-27
+   Damn, you beat me to it! Good thing I have a patent, you will hear from my lawyer. |  | Really clever use of evil-nix. My original idea for mkAIDerivation was to run llama.cpp in CPU mode inside the build sandbox, with a model downloaded by Nix. Since both of these approaches are terribly slow and inefficient, I wonder which one is faster.
+
+--- #7 @cdepillabout (+0) 2025-06-27
+   max: |  | My original idea for mkAIDerivation was to run llama.cpp in CPU mode inside the build sandbox, with a model downloaded by Nix. Since both of these approaches are terribly slow and inefficient, I wonder which one is faster. |  | I didn’t really think of this when I was throwing together mkAIDerivation! |  | It’d be fun to see an approach just using llama.cpp and not having to go out to the network.
+

@@ -1,0 +1,2780 @@
+[
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5314753094,
+  "title": "gentle-ai install failed on nixos",
+  "author": "yswtrue",
+  "created_at": "2026-09-01T17:18:54Z",
+  "updated_at": "2026-10-01T09:08:08Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "Gentleman-Programming/gentle-shell",
+  "body": "``` ❯ pi npm error code 1 npm error path /home/yswtrue/.pi/agent/npm/node_modules/gentle-pi npm error command failed npm error command sh -c node scripts/install-gentle-ai.mjs npm error gentle-pi could not install its package-local Gentle AI v2.5.0 binary: Gentle AI installer requires a trusted system tar extractor npm error A complete log of this run can be found in: /home/yswtrue/.npm/_logs/2026-09-01T17_16_14_030Z-debug-0.log ... Error: npm install gentle-pi --prefix /home/yswtrue/.pi/agent/npm --legacy-peer-deps failed with code 1 at ChildProcess. (file:///nix/store/ndlj406rqfdy8bhzd5y09j1lq6p80j8x-pi-coding-agent-0.84.3/lib/node_modules/pi-monorepo/dist/bundle/chunks/chunk-E5KXRMZK.js:1",
+  "url": "https://github.com/Gentleman-Programming/gentle-shell/issues/548",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5822065520,
+  "title": "chore(pi-coding-agent): fix failed automatic update",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-12T23:49:34Z",
+  "updated_at": "2026-10-12T23:49:34Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "samirettali/nur",
+  "body": "The automatic updater for **pi-coding-agent** failed. Run: [38323884745](https://github.com/samirettali/nur/actions/runs/38323884745) Updater output ```text these 2 paths will be fetched (2.0 MiB download, 5.8 MiB unpacked): /nix/store/f4id9s3nydjrzxvgqfvhphsbql6ll26k-gnutar-1.35 /nix/store/x5hqgk8ia1r3q0b67nrbp28ylq7mq15c-prefetch-npm-deps-0.1.0 copying path '/nix/store/f4id9s3nydjrzxvgqfvhphsbql6ll26k-gnutar-1.35' from 'https://cache.nixos.org'... copying path '/nix/store/x5hqgk8ia1r3q0b67nrbp28ylq7mq15c-prefetch-npm-deps-0.1.0' from 'https://cache.nixos.org'... Fetching release information for earendil-works/pi... Updating pi-coding-agent from 1.1.0 to 1.2.0 Fetching source hash... Fetchi",
+  "url": "https://github.com/samirettali/nur/issues/515",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5782126715,
+  "title": "ctx-agent technical preview: NixOS service, GPU modes, media companion",
+  "author": "UltDstroyer",
+  "created_at": "2026-10-09T17:31:22Z",
+  "updated_at": "2026-10-11T01:46:05Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "UltDstroyer/local-ai-agent",
+  "body": "## Implemented - Background systemd worker with persistent SQLite queue and local Ollama tool loop - Untrusted project snapshots, Bubblewrap offline file edits and Python test tools - Review/apply CLI, sanitized project import, persistent project notes - AMD ROCm by default when enabling managed Ollama - GPU-aware quiet/balanced/maximum request modes - Explicit OBS recording companion, opt-in voice reference + F5-TTS synthesis, ffmpeg MP4 mixing - GitHub CI: Python tests, Nix package build, NixOS module evaluation ## Important release boundary This is a **technical preview**, not a security-audited unrestricted computer agent. The AI worker has no arbitrary host shell, full home access, desk",
+  "url": "https://github.com/UltDstroyer/local-ai-agent/pull/1",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5705418008,
+  "title": "Bump nixpkgs from `4975466` to `c59305b` in the nix-flake-inputs group",
+  "author": "dependabot[bot]",
+  "created_at": "2026-10-05T02:08:57Z",
+  "updated_at": "2026-10-12T05:37:25Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "hoprnet/notification-service",
+  "body": "Bumps the nix-flake-inputs group with 1 update: [nixpkgs](https://github.com/nixos/nixpkgs). Updates `nixpkgs` from `4975466` to `c59305b` Commits c59305b cosmic-applets: add missing runtime dependency ( #566040 ) 1e867c1 Cosmic stable 1.9.0 ( #566696 ) a042639 codex: 0.159.1 -> 0.159.3 ( #568819 ) 36004be pi-coding-agent: 0.99.1 -> 0.99.2 ( #568820 ) b68519a devbox: 0.17.5 -> 0.18.4 ( #553476 ) 72942e8 nixos/btrfs.autoScrub: disable \"E501 line too long\" python lint ( #564119 ) 9659022 pi-coding-agent: 0.99.1 -> 0.99.2 b9974fe codex: 0.159.1 -> 0.159.3 f2e1688 eksctl: modernize ( #568804 ) f0800f9 emacs: use PATH instead of exec-path to expose wrapped binaries ( #567551 ) Additional commits ",
+  "url": "https://github.com/hoprnet/notification-service/pull/40",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5788566656,
+  "title": "fix(ssh-tpm-agent): put the system agent socket in /run",
+  "author": "s-celles-bot",
+  "created_at": "2026-10-10T05:52:11Z",
+  "updated_at": "2026-10-10T05:52:12Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "cloud-gouv/securix",
+  "body": "> **Note:** written with the help of an AI agent; checked with the NixOS VM test below, on `main` and on this branch. Fixes #296. With `securix.ssh.tpm-agent.hostKeys`, the system `ssh-tpm-agent` socket lived in `/var/tmp`, which is world-writable and persists across reboots. That socket serves as sshd's `HostKeyAgent` and gives the update scripts git over SSH. It now lives in `/run/ssh-tpm-agent.sock`, which belongs to root and is cleared at boot. Every reference is updated: - the socket unit; - sshd's `HostKeyAgent`; - `automatic-pull` and `upgrade` (`SSH_AUTH_SOCK`); - the `upgrade` man page. New `tests/tpm-agent-socket.nix`, a VM with a TPM (`virtualisation.tpm.enable`) and `hostKeys` en",
+  "url": "https://github.com/cloud-gouv/securix/pull/300",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5761636112,
+  "title": "feat(ai): add autolith, prime-agent and pi",
+  "author": "DavSanchez",
+  "created_at": "2026-10-08T12:18:31Z",
+  "updated_at": "2026-10-08T14:03:53Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "DavSanchez/nix-dotfiles",
+  "body": "Adds [numtide/llm-agents.nix](https://github.com/numtide/llm-agents.nix) as a flake input and installs three agent CLIs to the darwin home configs: `autolith` and `prime-agent` from its own package set, plus `pi` from nixpkgs. Independent of #759 and #760 — no file overlap. ## Shape ```nix # home/modules/ai/default.nix let agents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; in ... (with pkgs; [ llm pi-coding-agent ]) ++ (with agents; [ autolith prime-agent ]); ``` - **No overlay.** The set is not re-exported as `pkgs.llm-agents.*`, and none of the three overlay consumers is touched. - **No `packages. ` union.** These are not this flake's packages, so `nix run .#autolith` ",
+  "url": "https://github.com/DavSanchez/nix-dotfiles/pull/761",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5778577988,
+  "title": "Add a headless browser CDP service for Hermes agents",
+  "author": "shikanime",
+  "created_at": "2026-10-09T13:05:59Z",
+  "updated_at": "2026-10-12T21:23:39Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "shikanime-labs/machines",
+  "body": "# Why Hermes doctor reports `browser-cdp: system dependency not met` on fleet AI hosts: the tool only registers when a CDP endpoint is configured and no host runs a browser exposing one, so the capability is effectively absent. ## What Adds a `services.browser-cdp` NixOS module (headless Chromium, CDP bound to 127.0.0.1, DynamicUser, state under /var/lib/browser-cdp), wires it into the AI profile hosts, and points `services.hermes-agent.settings.browser.cdp_url` at the endpoint so the browser_cdp tool registers declaratively. ## References - Hermes browser_cdp tool gates on a configured `browser.cdp_url` - CDP binds localhost only; Chrome offers no auth on the debug port Related: https://git",
+  "url": "https://github.com/shikanime-labs/machines/pull/1480",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5159889393,
+  "title": "feat(nixos): full hal0 NixOS deployment with nix-amd-ai integration",
+  "author": "purplnecropanda",
+  "created_at": "2026-08-15T14:50:40Z",
+  "updated_at": "2026-08-18T03:28:25Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "purplnecropanda/hal0",
+  "body": "## What this PR does This PR turns hal0 into a complete NixOS deployment rather than only packaging the GUI/API. ### Runtime graph - Native `pkgs.hal0` package and `services.hal0` NixOS module. - Full shipped hal0 Python/CLI surface plus dashboard/static assets. - Rootful Podman + Quadlet slot runtime and declarative `hal0-agent@ ` instances. - Writable `/etc/hal0` seed layer preserving operator edits and slot tombstones. - First-boot `hal0 setup --auto --no-pull --no-extensions` bootstrap. - Hardware-aware brain-model provisioning and optional Hermes agent-model provisioning. - Hindsight memory companion with persistent pg0/HF state and OpenAI-compatible extraction/reflection routing. - Ope",
+  "url": "https://github.com/purplnecropanda/hal0/pull/1",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5707933225,
+  "title": "chore(deps): bump nixpkgs in /",
+  "author": "dependabot[bot]",
+  "created_at": "2026-10-05T07:11:26Z",
+  "updated_at": "2026-10-13T01:59:54Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "hellas-ai/nix-strix-halo",
+  "body": "Bumps [nixpkgs](https://github.com/NixOS/nixpkgs) in `/` from `7a0f122` to `c59305b`. Updates `nixpkgs` from `7a0f122` to `c59305b` Commits c59305b cosmic-applets: add missing runtime dependency ( #566040 ) 1e867c1 Cosmic stable 1.9.0 ( #566696 ) a042639 codex: 0.159.1 -> 0.159.3 ( #568819 ) 36004be pi-coding-agent: 0.99.1 -> 0.99.2 ( #568820 ) b68519a devbox: 0.17.5 -> 0.18.4 ( #553476 ) 72942e8 nixos/btrfs.autoScrub: disable \"E501 line too long\" python lint ( #564119 ) 9659022 pi-coding-agent: 0.99.1 -> 0.99.2 b9974fe codex: 0.159.1 -> 0.159.3 f2e1688 eksctl: modernize ( #568804 ) f0800f9 emacs: use PATH instead of exec-path to expose wrapped binaries ( #567551 ) Additional commits viewabl",
+  "url": "https://github.com/hellas-ai/nix-strix-halo/pull/199",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5810622019,
+  "title": "nico-devbox-nixos: Cinnamon desktop VM on libvirt (proof of concept)",
+  "author": "welles",
+  "created_at": "2026-10-12T08:23:00Z",
+  "updated_at": "2026-10-12T10:28:47Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "welles/nixos-config",
+  "body": "Proof of concept: a full NixOS desktop as a libvirt/KVM guest on nico-schokoladenelch-nixos, running **in parallel** to the existing microvm devbox (`devbox.nix` is untouched). ## Guest: `hosts/nico-devbox-nixos` - Own `nixosConfigurations.nico-devbox-nixos` (unstable, like the other desktops); built and deployed independently, its Nix store lives on its own disk, not on the server - disko: GPT with ESP, swap and a ZFS pool `devbox` (root/nix/persist) on the virtio disk `/dev/disk/by-id/virtio-nico-devbox-nixos`; `postCreateHook` creates `devbox/root@blank` - Impermanence via `zfs-rollback.nix`, plus persistence for xrdp cert, keyrings, `~/workspace`, `~/.ssh` and the module-provided directo",
+  "url": "https://github.com/welles/nixos-config/pull/122",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5232145835,
+  "title": "nixos/step-agent init",
+  "author": "Srylax",
+  "created_at": "2026-08-24T07:22:31Z",
+  "updated_at": "2026-09-10T16:10:05Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "step-agent has been introduced in #521982 to use step-agent effectively a service needs to be used. ~~Currently, the agent.yaml is mutable. Until resolved this is a draft~~ ~~Blocked by #550650 ~~ Currently waits for 0.69.3 to land for the NetworkManager reload fix ## Things done - Built on platform: - [] x86_64-linux - [ ] aarch64-linux - [ ] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [ ] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [ ] Tested basic functionality of all binary files, usually in `./result/bin/`. - ",
+  "url": "https://github.com/NixOS/nixpkgs/pull/555971",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5646421968,
+  "title": "Document enrolling NixOS hosts",
+  "author": "lucasmrod",
+  "created_at": "2026-09-30T12:27:55Z",
+  "updated_at": "2026-10-02T04:16:54Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "fleetdm/fleet",
+  "body": "**Related issue:** Resolves #52320 Adds an \"Enroll NixOS hosts\" section to the Advanced section of the [enroll hosts guide](https://fleetdm.com/guides/enroll-hosts#advanced): prerequisites, the `services.orbit` NixOS configuration, the override for nixpkgs older than fleetd 1.63.0, Fleet Desktop on GNOME, upgrades, and features not supported on NixOS. Code changes: #54098, #54193, #54205. # Checklist for submitter ## Testing - [ ] QA'd all new/changed functionality manually ## AI **AI:** Claude Code (claude-opus-5-5)",
+  "url": "https://github.com/fleetdm/fleet/pull/54421",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5690252993,
+  "title": "feat: explicitly pair agent-box peers for direct messaging",
+  "author": "defangdevs",
+  "created_at": "2026-10-03T13:54:06Z",
+  "updated_at": "2026-10-03T16:14:31Z",
+  "state": "open",
+  "comments": 6,
+  "repo": "defangdevs/agent-box",
+  "body": "Closes #699. Adds agent-box-peer, a Linux-user-scoped pairing and direct-message producer that reuses the recipient's existing local-webhook router. - out-of-band invite/accept/confirm pairing with directional HKDF-derived HMAC keys - generic peer sources route received events as peer- : , preserving session subscriptions and standing subagent watches - signed HTTPS send, local labels/list/revoke, no GitHub identity or control plane - runtime packaging for NixOS and native Linux plus protocol/build tests V1 intentionally has no durable cross-box outbox; a failed remote ingress reports failure rather than claiming delivery.",
+  "url": "https://github.com/defangdevs/agent-box/pull/799",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5414745361,
+  "title": "Add AGENTS.md agent guidance",
+  "author": "tashian",
+  "created_at": "2026-09-10T16:25:04Z",
+  "updated_at": "2026-09-10T16:40:57Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "smallstep/nur",
+  "body": "Adds `AGENTS.md`, vendor-neutral guidance for AI coding agents working in this repository: the nix commands to build and check, what `build.yml` actually runs and why `flake.lock` is not part of it, how the package set is derived from `pkgs/` at evaluation time, how GoReleaser lands a new `step-agent` version, and the `services.step-agent` NixOS module. `.claude/CLAUDE.md` is a one-line `@../AGENTS.md` import so Claude Code picks up the same file. Tracks [EFF-787](https://linear.app/smallstep/issue/EFF-787/add-claudemd-agent-guidance-to-repos-that-lack-one). 🤖 Generated with [Claude Code](https://claude.com/claude-code) https://claude.ai/code/session_01JuSZFSx1cTEnqY55oquacV",
+  "url": "https://github.com/smallstep/nur/pull/21",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5787071287,
+  "title": "anssi-nixos-compliance-check shows unimplemented and failing rules as compliant",
+  "author": "s-celles-bot",
+  "created_at": "2026-10-10T02:00:25Z",
+  "updated_at": "2026-10-10T02:00:25Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "cloud-gouv/securix",
+  "body": "> **Note on how this report was made:** found during a code review done with the help of AI agents; every point below was checked by hand against the source (`main` 88f2d2e). ### Summary `anssi-nixos-compliance-check` colours each rule from the text its check prints and ignores the check's exit status. Unimplemented rules and failing checks can therefore be shown green, as compliant. ### Details `modules/anssi/options.nix`: ```sh result=$(bash -c \"${rule.checkScript}\") ... if [[ \"$result\" =~ .*TODO.* ]]; then # yellow elif [[ \"$result\" =~ (fail|WARNING|DIVERGENCE|UNSET|error|not\\ completed|incomplete) ]]; then # red else # green ``` The exit status of the check is never used. Examples in `mo",
+  "url": "https://github.com/cloud-gouv/securix/issues/293",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "I. 反对/怀疑 AI 用于 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5403481190,
+  "title": "nixos/intune: enable daemon socket and agent timer",
+  "author": "kahlstrm",
+  "created_at": "2026-09-09T18:52:22Z",
+  "updated_at": "2026-10-09T03:06:32Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "NixOS/nixpkgs",
+  "body": "Makes `services.intune.enable` enable the daemon socket and agent timer, like Microsoft's Debian package does. I've been setting these manually on my work laptop. Added startup checks to the existing VM test: fails before the fix, passes after. AI assistance: Codex (GPT-6) helped with the changes, tests, and PR text. ## Things done - Built on platform: - [x] x86_64-linux - [ ] aarch64-linux - [ ] aarch64-darwin - Tested, as applicable: - [x] [NixOS tests] in [nixos/tests]. - [x] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [ ] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [ ] Tested basic functionali",
+  "url": "https://github.com/NixOS/nixpkgs/pull/561698",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5794700300,
+  "title": "fix(nix): build web only on builders that advertise x86-64-v3",
+  "author": "UnstoppableMango",
+  "created_at": "2026-10-10T19:48:18Z",
+  "updated_at": "2026-10-11T23:48:59Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "UnstoppableMango/thecluster.lan",
+  "body": "_Requested by **Erik** · [project thread](https://claude.ai/code/project/chan_01KzG9voPzhAGxpxt4doP1QN?thread=cmsg_01KzG9voPzhAGxpxt4doP1QNC6p8hM5f9ebFcbPcwpzSvo)_ Before: when Hercules scheduled `packages.x86_64-linux.web` on zeus, `bun install` died with `Illegal instruction`, and `app` and `ctr` failed along with it. zeus is a Sandy Bridge Xeon without AVX2, and nixpkgs' bun needs AVX2. After: on x86_64, `web` requires the `gccarch-x86-64-v3` system feature, so only builders that advertise it take the build. The companion change in UnstoppableMango/nixos advertises the feature on gaea and hades but not on zeus. aarch64 builds are unchanged. How: `requiredSystemFeatures` on the bun2nix der",
+  "url": "https://github.com/UnstoppableMango/thecluster.lan/pull/57",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具",
+   "F. AI 生成配置的坑/翻车"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5674465215,
+  "title": "Unlock encrypted identities through systemd password agents",
+  "author": "ryantm",
+  "created_at": "2026-10-02T07:45:31Z",
+  "updated_at": "2026-10-02T07:45:31Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "ryantm/agenix",
+  "body": "Adds the optional `nixosModules.identityUnlock` module so encrypted identities can be unlocked through systemd password agents at boot or during a rebuild with no attached terminal. SSH identities use OpenSSH askpass; passphrase-encrypted native age identities use a pipe into age's batchpass plugin. The unlocked key stays on root-only ramfs and is removed on service stop or failure. The default uses systemd secret installation. Early Userborn/sysusers password secrets require the native age format, because OpenSSH needs a user record before unlocking an SSH key. Documentation covers console/remote password agents, timeouts, retries, source-key updates, and the stage-2 scope. Validation: thre",
+  "url": "https://github.com/ryantm/agenix/pull/448",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "E. AI 教学/答疑 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5068176577,
+  "title": "feat(nix): add native NixOS packaging",
+  "author": "Tr0sT",
+  "created_at": "2026-08-05T06:49:23Z",
+  "updated_at": "2026-10-12T21:50:58Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "paperclipai/paperclip",
+  "body": "## Thinking Path > - Paperclip is an open source app that manages AI agents for work > - Paperclip supports local and shared deployments > - NixOS users do not have a native package or declarative service module > - A native package must include the UI, server, CLI, adapters, and embedded database runtime > - A safe service module must keep secrets out of the Nix store and restrict unauthenticated access > - This pull request adds a flake package and a NixOS module with integration tests > - The benefit is a reproducible NixOS deployment without Docker ## Linked Issues or Issue Description **Problem or motivation** NixOS users cannot install and operate Paperclip as a native declarative serv",
+  "url": "https://github.com/paperclipai/paperclip/pull/10883",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5665270192,
+  "title": "Add skills for upstreaming and downstreaming commits / PRs",
+  "author": "edolstra",
+  "created_at": "2026-10-01T16:06:47Z",
+  "updated_at": "2026-10-07T12:24:42Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "DeterminateSystems/nix-src",
+  "body": "## Motivation This adds two Claude Code skills for moving changes between Determinate Nix and upstream Nix: * `/upstream ...` cherry-picks a Determinate Nix change onto a new branch based on `NixOS/nix` `master`, builds and tests it, and drafts a PR description. It only pushes the branch and opens the upstream PR after the draft has been reviewed and approved. * `/downstream ...` does the opposite: it cherry-picks an upstream change onto a new branch based on `main`, builds and tests it, and opens a PR against `DeterminateSystems/nix-src`. Both skills work in a separate worktree, resolve simple conflicts themselves, and stop to ask about anything bigger. If a downstreamed change turns out to",
+  "url": "https://github.com/DeterminateSystems/nix-src/pull/648",
+  "matched_q": "nixos ai agent",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5566958001,
+  "title": "nixos/t3code: init",
+  "author": "jakob1379",
+  "created_at": "2026-09-24T10:32:36Z",
+  "updated_at": "2026-10-09T15:55:25Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "NixOS/nixpkgs",
+  "body": "Adds a NixOS module for [T3 Code](https://t3.codes): ```nix services.t3code = { enable = true; user = \"alice\"; }; ``` Upstream ships `t3 service install`, which turns on linger, installs a pinned `t3` from npm into `~/.t3/runtime`, and runs it under a launcher that updates itself. Not quite what we want from a Nix-installation. This module runs `t3 serve` straight from the store as a system unit with `User=`, using the same kill and OOM settings as upstream's unit. Remote self-update requests are disabled, because the server isn't running under upstream's launcher. - `user` is required. Agents act with that user's repositories and provider credentials, so a dedicated system user makes no sen",
+  "url": "https://github.com/NixOS/nixpkgs/pull/566470",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5769169485,
+  "title": "nixos/polkit: service restarts unnecessarily",
+  "author": "baodrate",
+  "created_at": "2026-10-08T21:28:52Z",
+  "updated_at": "2026-10-09T17:21:41Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "NixOS/nixpkgs",
+  "body": "### Nixpkgs version - Unstable (26.11) ### Describe the bug The polkit service is restarted way too often. * polkit's authorizations aren't persisted, so on restart you have to reauth again, even when `ExpirationSeconds` (`polkitd.conf(5)`) hasn't passed * polkit prompts that are open might have to be restarted (I think this depends on how the auth agents are implemented) `config.system.path` is in `systemd.services.polkit.restartTriggers`. so polkit is restarted on nearly every switch. https://github.com/NixOS/nixpkgs/blob/a06310451a217d1557d029c82c8937ce1fc10a6c/nixos/modules/security/polkit.nix#L114-L118 ### Steps to reproduce - do something that requires polkit auth - e.g. `systemctl sta",
+  "url": "https://github.com/NixOS/nixpkgs/issues/571880",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5788393450,
+  "title": "docs: add an installation guide",
+  "author": "s-celles-bot",
+  "created_at": "2026-10-10T05:21:47Z",
+  "updated_at": "2026-10-10T05:21:47Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "cloud-gouv/bureautix-example",
+  "body": "> **Note:** written with the help of an AI agent. The steps come from an actual installation of `PC140V35` from an ISO in a UEFI virtual machine (Incus, NVMe, vTPM) and from reading the installer code. FIDO2 enrollment could not be exercised there, since there was no key. Closes #12. Adds `INSTALL.md` (linked from both READMEs), from a fork to a first boot: - describing machines (`inventory/machines/ .nix`, serial from `/sys/class/dmi/id/product_serial`, `hardwareSKU` from Sécurix's `hardware/`) and users (`u2f_keys` with `pamu2fcfg`, appid and origin to make your own); - admins and superadmins, including a warning to replace the example root password (`nixos`) and the users' `test` password",
+  "url": "https://github.com/cloud-gouv/bureautix-example/pull/23",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5790060067,
+  "title": "Set up Hermes + ROCm + Ollama + Qwen3.8-27B (unattended)",
+  "author": "bmazzarol-bunnings",
+  "created_at": "2026-10-10T09:41:52Z",
+  "updated_at": "2026-10-10T10:54:19Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "bmazzarol-bunnings/bmazzarol-bunnings",
+  "body": "Parent: #19 (Delivery map) Set up the software stack on the NixOS box: ROCm for the R9700, the inference engine, the Qwen3.8-27B GSQ-RCO model, and Hermes wired to it. Unattended, crash-recoverable, exposed over the LAN. ## Stack decision (resolved) - **Inference engine: Ollama** (primary). The target model is a **GGUF** (ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF) — Ollama consumes GGUF natively and is the simplest, most robust path for a single unattended box. - *vLLM is the alternative* if you later want higher sustained throughput / concurrency (it's faster for serving many concurrent requests), but it prefers safetensors and is more moving parts. For one agent on one box, Ollama is the right ",
+  "url": "https://github.com/bmazzarol-bunnings/bmazzarol-bunnings/issues/23",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5805838249,
+  "title": "chore(ai): drop the standalone Codex CLI install",
+  "author": "repparw",
+  "created_at": "2026-10-11T22:29:10Z",
+  "updated_at": "2026-10-11T23:12:26Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "repparw/nix",
+  "body": "## Why The standalone Codex CLI in the user profile is dead weight now that T3 Code's ChatGPT integration owns the OpenAI path: - T3 Code's \"Connect with ChatGPT\" still launches the **codex engine itself** (`CodexManagedRuntime` → `CodexInstallation.acquire()`, PATH-first, with `model_provider=\"openai_token_sharing\"`), so the `t3` wrappers keep carrying the nix-pinned codex — no managed-runtime download, no engine downgrade. - The auth in use is the integration's (`auth_mode: chatgpt`, refreshed by T3), not a CLI login. - Hermes' `openai-codex` provider talks to the OAuth backend directly and needs no CLI binary. - Nothing uses a user-facing `codex` binary any more. ## What - **Delete `modul",
+  "url": "https://github.com/repparw/nix/pull/214",
+  "matched_q": "nixos ai agent",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5815082587,
+  "title": "Fix broken config and simplify repo structure",
+  "author": "MaxfieldKassel",
+  "created_at": "2026-10-12T14:04:07Z",
+  "updated_at": "2026-10-12T20:39:41Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "MaxfieldKassel/nix-config",
+  "body": "The first two commits fix config that was broken. The rest restructure the repo to follow the layout most nix-darwin + NixOS configs use (e.g. mitchellh/nixos-config). The last two commits fix problems found when switching on the Mac. ## Fixes (`4bf8c07`, `968c1cd`) - **Git aliases:** written to `[alias]`. Git ignored the old `[aliases]` section, so the aliases never worked. - **Rectangle settings:** written as the primary user through `CustomUserPreferences`. The old activation script runs as root, so it only changed root's preferences. - **Colima:** runs with `--foreground`, so launchd's KeepAlive no longer relaunches it every ~10s. - **devShell:** allows unfree packages (`claude-code` bro",
+  "url": "https://github.com/MaxfieldKassel/nix-config/pull/1",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5690052283,
+  "title": "fix: honour ELASTICSEARCH_URL, harden caches and HTTP retries, fix flake-inputs and NVF URL",
+  "author": "olafkfreund",
+  "created_at": "2026-10-03T13:27:14Z",
+  "updated_at": "2026-10-03T13:30:01Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "utensils/mcp-nixos",
+  "body": "These are independent bug fixes found while running mcp-nixos as a long-lived server. There is one commit per fix, and each can be reviewed or reverted on its own. - **`ELASTICSEARCH_URL` was ignored.** `config.py` hard-coded the search.nixos.org backend, so the documented override never took effect. It is now read from the environment. The test runs in a subprocess, so it does not reload `config` and replace `APIError` for later tests. - **No connection reuse, and no retries.** Every call opened a new connection, and a transient 502, 503 or 504 from search.nixos.org or NixHub became a hard error. All calls now share one pooled `requests.Session` that retries those statuses twice. - Slow rea",
+  "url": "https://github.com/utensils/mcp-nixos/pull/217",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 4763712882,
+  "title": "Agentic Engineering for Bitcoin Developers",
+  "author": "vnprc",
+  "created_at": "2026-06-28T21:43:47Z",
+  "updated_at": "2026-10-09T05:20:41Z",
+  "state": "open",
+  "comments": 8,
+  "repo": "TABConf/8.tabconf.com",
+  "body": "| Day | Date | Start | End | |---|---|---|---| | Monday | Oct 12 | 11:30 AM | 12:30 PM | # Agentic Engineering for Bitcoin Developers **Format:** Workshop (talk + hands-on interactive session) **Length:** 60 minutes ## Summary Coding agents are no longer experimental tech; they are now indispensable software development tools. But most workflows are built around centralized infrastructure, proprietary services, and permissioned surveillance platforms masquerading as \"open\" and \"aligned\". Bitcoin developers have different priorities. We care about security, privacy, sovereignty, and reproducibility. We need tools that cater to our values. This session introduces Allod, a NixOS-based developme",
+  "url": "https://github.com/TABConf/8.tabconf.com/issues/11",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5788355974,
+  "title": "build(deps): bump the nix group across 1 directory with 9 updates",
+  "author": "dependabot[bot]",
+  "created_at": "2026-10-10T05:15:26Z",
+  "updated_at": "2026-10-10T05:15:30Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "dmipeck/nix",
+  "body": "Bumps the nix group with 9 updates in the / directory: | Package | From | To | | --- | --- | --- | | [caveman](https://github.com/JuliusBrussee/caveman) | ``2fd153c`` | ``1deb1bc`` | | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | ``e225b99`` | ``f6867df`` | | [flake-parts](https://github.com/hercules-ci/flake-parts) | ``31729ca`` | ``024633c`` | | [home-manager](https://github.com/nix-community/home-manager) | ``e3b0881`` | ``fae6e9e`` | | [mattpocock-skills](https://github.com/mattpocock/skills) | ``c55ee46`` | ``b645f47`` | | [nixified-ai](https://github.com/nixified-ai/flake) | ``6076af6`` | ``88fd904`` | | [nixpkgs](https://github.com/NixOS/nixpkgs) ",
+  "url": "https://github.com/dmipeck/nix/pull/167",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5570088089,
+  "title": "nixos/rancher: add containerdConfigTemplateV3 option",
+  "author": "danielcavalli",
+  "created_at": "2026-09-24T14:44:17Z",
+  "updated_at": "2026-09-25T10:30:39Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "K3s and RKE2 ship containerd 2. At startup they look for `/var/lib/rancher/ /agent/etc/containerd/config-v3.toml.tmpl` first. Only when that file is absent do they read `config.toml.tmpl`, and in that case they render containerd's legacy version 2 configuration ([K3s docs](https://docs.k3s.io/advanced#configuring-containerd), [RKE2 docs](https://docs.rke2.io/advanced#configuring-containerd), [K3s source](https://github.com/k3s-io/k3s/blob/v1.34.11%2Bk3s1/pkg/agent/containerd/config.go#L30-L64)). `services.{k3s,rke2}.containerdConfigTemplate` writes `config.toml.tmpl`. A template set through it therefore always produces the legacy format and has to use the version 2 plugin names, and there is",
+  "url": "https://github.com/NixOS/nixpkgs/pull/566534",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5817219028,
+  "title": "Migrate the old config into the toolbox",
+  "author": "Ciznia",
+  "created_at": "2026-10-12T16:39:25Z",
+  "updated_at": "2026-10-12T16:39:32Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "Ciznia/dotfiles",
+  "body": "_Requested by **ciznia** · [project thread](https://claude.ai/code/project/chan_01Mf2Y9p7qusUWyj3Emg7iXb?thread=cmsg_01Mf2Y9p7qusUWyj3Emg7iXb5qLypKoAkqxwdgQjmnUJLU)_ Before: great-reset only had the base: git/gpg, the agent timer, a minimal qtile with alacritty, the greeter, the lock and Secure Boot. The old `main` config (shell, nvim, apps, qtile setup, system bits) wasn't there. After: everything from `main` is ported into gated `ciznia.*` modules and switched on per host (table in docs/NIX.md). The old qtile config is back with kitty. Notifications stay in an unread list until marked read (Super+N, survives reboots), and Super+P / Super+Shift+P load and save screen profiles. Decisions fol",
+  "url": "https://github.com/Ciznia/dotfiles/pull/12",
+  "matched_q": "nixos ai agent",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5775029337,
+  "title": "Security notice: bundled agent skill contains offensive-security content (copy-pasted bundle)",
+  "author": "cursor[bot]",
+  "created_at": "2026-10-09T08:12:10Z",
+  "updated_at": "2026-10-09T08:12:10Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "Linuxury/nixos-config",
+  "body": "## Security notice: bundled agent skill contains offensive-security content Hi — while auditing the AI-agent skills ecosystem, I found that this repo carries a copy-pasted **offensive-security playbook** inside its agent skill bundle: - File: [`dotfiles/agents/skills/active-directory-attacks/SKILL.md:3`](https://github.com/Linuxury/nixos-config/blob/main/dotfiles/agents/skills/active-directory-attacks/SKILL.md#L3) - Content: `description: \"Provide comprehensive techniques for attacking...` This file (`active-directory-attacks/SKILL.md`) teaches an agent Kerberoasting, DCSync/ADSync DPAPI credential dumping, and password-spraying against Windows/Active Directory environments. It appears **byt",
+  "url": "https://github.com/Linuxury/nixos-config/issues/1",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "E. AI 教学/答疑 NixOS",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5647253450,
+  "title": "treewide: better activation, remote builds and generation handling  ",
+  "author": "strawbdelite",
+  "created_at": "2026-09-30T13:30:16Z",
+  "updated_at": "2026-10-05T05:57:57Z",
+  "state": "open",
+  "comments": 3,
+  "repo": "nix-community/nh",
+  "body": "Hello hello! Those are the combines changs @NotAShelf has been helping me get ready for the next release. Sorry for any and all reviewer trouble in advance :( AI usage disclaimer: I've asked Claude Opus 4.8 to review my changes post-hoc. I have not used AI assistance in writing code. raf told me to make separate commits for each for each \"semantic change\", so that's what I did. Each commit can be reviewed individually. Please let me know if anything else needs to change :D NH will now: - Run NixOS activation in a transient systemd unit when systemd is available. This is what nixos-rebuild does essentially and its a good change. - Keep the base boot closure distinct from the selected speciali",
+  "url": "https://github.com/nix-community/nh/pull/812",
+  "matched_q": "nixos ai agent",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5803018902,
+  "title": "Launch an OpenCode workload through Herdr",
+  "author": "blevinn",
+  "created_at": "2026-10-11T16:37:43Z",
+  "updated_at": "2026-10-12T05:27:40Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "blevinn/aginctus",
+  "body": "Parent release tracking: #118. ## Task Provide an OpenCode runtime and workspace under Herdr. Verify agent startup, tool execution, filesystem access, and clean termination. Ensure required Herdr infrastructure and development-resource connectivity. ## Acceptance - [ ] Reproducible validation on a NixOS host (**non-inference steps complete; tool execution pending gateway**) - [ ] Observed successful behavior and documented failure modes (**startup, shell access, and termination verified; model-driven tools pending**) - [x] No unnecessary public exposure or leaked secrets ## Partial end-to-end validation (2026-10-12) Using the managed Herdr SSH machine `aginctus-dev` registered by #120 / PR #",
+  "url": "https://github.com/blevinn/aginctus/issues/121",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5823045397,
+  "title": "Package official Claude Desktop for NixOS (aarch64 + x86_64) with Claude Code and Wayland",
+  "author": "Beammzz",
+  "created_at": "2026-10-13T01:41:12Z",
+  "updated_at": "2026-10-13T01:41:45Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "Beammzz/Claude-Nixos",
+  "body": "## Summary This PR packages Anthropic's **official Claude Desktop Linux build** as a Nix flake for NixOS. The source is the `claude-desktop` `.deb` from the apt repo at `downloads.claude.ai/claude-desktop/apt/stable`. The primary target is **aarch64-linux**, and x86_64-linux is built from the same repo. Current version: **claude-desktop 2.31226.1**, with the **Claude Code 2.1.295** that this release pins. ### What's included - **`claude-desktop`**, built from the official `.deb`: - The app's bundled Electron 44 is kept, and `autoPatchelf` links every binary against nixpkgs libraries. - Hardcoded Debian paths inside `app.asar` (`/bin/bash`, `/bin/ps`, `/usr/bin/busctl`, `secret-tool`, `update",
+  "url": "https://github.com/Beammzz/Claude-Nixos/pull/1",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822831686,
+  "title": "Casks (calendr, t3-code) and swiftbar_plugins bumps",
+  "author": "hodgesd",
+  "created_at": "2026-10-13T01:17:45Z",
+  "updated_at": "2026-10-13T01:26:35Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "hodgesd/nix-config",
+  "body": "## Summary - Declare the `calendr` and `t3-code` casks on workstations - Bump `swiftbar_plugins` to 19fe03f (deals plugin via Slickdeals, DeWalt replaces Kobalt) - Bump `swiftbar_plugins` to edefd6a (daily_news: curated Local & Agentic AI and Homelab/NixOS feeds) ## Test plan - [x] `nix build .#darwinConfigurations.mbp.system` succeeds - [x] Built home-manager files contain the new daily_news plugin - [ ] `darwin-rebuild switch --flake .#mbp` and refresh SwiftBar 🤖 Generated with [Claude Code](https://claude.com/claude-code)",
+  "url": "https://github.com/hodgesd/nix-config/pull/84",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822850878,
+  "title": "deepseek-harness: 0.2.0-rc.2 -> 0.2.1-alpha.2",
+  "author": "r-ryantm",
+  "created_at": "2026-10-13T01:20:04Z",
+  "updated_at": "2026-10-13T01:26:33Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "Automatic update generated by [nixpkgs-update](https://github.com/nix-community/nixpkgs-update) tools. This update was made based on information from passthru.updateScript. meta.description for deepseek-harness is: AI agent harness with a plugin-based architecture meta.homepage for deepseek-harness is: https://github.com/deepseek-ai/deepseek-harness ###### Updates performed - Ran passthru.UpdateScript ###### To inspect upstream changes ###### Impact Checks done --- - built on NixOS > [!CAUTION] > A test defined in `passthru.tests` did not pass. - found 0.2.1-alpha.2 with grep in /nix/store/j1hpvzs9gkd6lz3k2xwb7434c1b3qnb1-deepseek-harness-0.2.1-alpha.2 - found 0.2.1-alpha.2 in filename of fi",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573435",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822797165,
+  "title": "chore(deps): flake.lock を更新 (fast)",
+  "author": "gigun-dev",
+  "created_at": "2026-10-13T01:14:03Z",
+  "updated_at": "2026-10-13T01:16:56Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "gigun-dev/dotfiles",
+  "body": "mini-vm がこの lock で nixosConfigurations.mini-vm と homeConfigurations.gigun-x86_64-linux のビルドを確認済み。 ``` warning: ignoring untrusted flake configuration setting 'extra-substituters'. Pass '--accept-flake-config' to trust it warning: ignoring untrusted flake configuration setting 'extra-trusted-public-keys'. Pass '--accept-flake-config' to trust it unpacking 'github:numtide/llm-agents.nix/e9b8c5022e89624c801ca7aee49c0e9fb4966475' into the Git cache... warning: updating lock file \"/var/lib/dotfiles-lock-trial/fast/flake.lock\": • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/0080f911989ebe6385bffbd2d4f2b1259a16f4cf?narHash=sha256-52Zi0EPiYgzXHN3dBHROoYRqT6K9SZ4jES4H9jAQKZs%3D' (2026-1",
+  "url": "https://github.com/gigun-dev/dotfiles/pull/53",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5568226076,
+  "title": "feat(hermes): add missing mistral_api_key secret to sops and hermes-env",
+  "author": "T0PSH31F",
+  "created_at": "2026-09-24T12:22:32Z",
+  "updated_at": "2026-10-13T01:10:14Z",
+  "state": "closed",
+  "comments": 2,
+  "repo": "T0PSH31F/NFP",
+  "body": "Adds missing agent secret declarations (mistral_api_key) to sops extSecrets list and sops.templates.hermes-env template in hermes.nix, making secret management fully declarative across the fleet. --- *PR created automatically by Jules for task [14697678068002297541](https://jules.google.com/task/14697678068002297541) started by @T0PSH31F* ## Summary by CodeRabbit * **New Features** * Added a public repository status page. * Configured Hermes to use Mistral AI services.",
+  "url": "https://github.com/T0PSH31F/NFP/pull/10",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822606438,
+  "title": "feat(skills): add shebang-env-discipline skill",
+  "author": "fredclausen",
+  "created_at": "2026-10-13T00:51:29Z",
+  "updated_at": "2026-10-13T01:05:40Z",
+  "state": "closed",
+  "comments": 2,
+  "repo": "fredsystems/nixos",
+  "body": "## Summary - Add shared opencode skill `shebang-env-discipline`: every hand-written shebang must be `#!/usr/bin/env `; fixed paths (`/bin/bash`, `/bin/sh`, `/usr/bin/python3`, store paths, ...) are forbidden. - Covers rationale (NixOS/nix-darwin paths, dev-shell PATH), interpreter flags (`set -euo pipefail` / `env -S`), `nix-shell` scripts, Nix-generated scripts (`writeShellApplication`, `${pkgs.bash}` interpolation, `patchShebangs`), a verification one-liner, and stop-and-ask cases. - Register the skill in `agents.md`. ## Verification - Built `nixosConfigurations.Daytona.config.home-manager.users.fred.home-files`; the skill is present at `.config/opencode/skills/shared/shebang-env-disciplin",
+  "url": "https://github.com/fredsystems/nixos/pull/2564",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 3877675957,
+  "title": "Dependency Dashboard",
+  "author": "renovate[bot]",
+  "created_at": "2026-01-30T22:40:35Z",
+  "updated_at": "2026-10-13T00:57:11Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "clempat/ai-tools-flake",
+  "body": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more. [View this repository on the Mend.io Web Portal](https://developer.mend.io/github/clempat/ai-tools-flake). ## Deprecations / Replacements > [!WARNING] The following dependencies are either deprecated or have replacements available. | Datasource | Package | Replacement PR? | |------------|------|--------------| | regex | [@simonwjackson/opencode-direnv](https://redirect.github.com/simonwjackson/opencode-direnv) | ![Unavailable](https://img.shields.io/badge/unavailable-orange?style=flat-square) | ## Pending Approval The following",
+  "url": "https://github.com/clempat/ai-tools-flake/issues/1",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "I. 反对/怀疑 AI 用于 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5801658169,
+  "title": "firecrawl-cli: 1.24.6 -> 1.26.3",
+  "author": "r-ryantm",
+  "created_at": "2026-10-11T13:49:44Z",
+  "updated_at": "2026-10-13T00:55:26Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "NixOS/nixpkgs",
+  "body": "Automatic update generated by [nixpkgs-update](https://github.com/nix-community/nixpkgs-update) tools. This update was made based on information from passthru.updateScript. meta.description for firecrawl-cli is: CLI and Agent Skill for Firecrawl - Add scrape, search, and browsing capabilities to your AI agents meta.homepage for firecrawl-cli is: https://github.com/firecrawl/cli meta.changelog for firecrawl-cli is: https://github.com/firecrawl/cli/releases/tag/v1.26.3 ###### Updates performed - Ran passthru.UpdateScript ###### To inspect upstream changes ###### Impact Checks done --- - built on NixOS - The tests defined in `passthru.tests`, if any, passed - found 1.26.3 with grep in /nix/stor",
+  "url": "https://github.com/NixOS/nixpkgs/pull/572814",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822122681,
+  "title": "pi-coding-agent: 1.1.0 -> 1.2.0",
+  "author": "m0nhawk",
+  "created_at": "2026-10-12T23:56:31Z",
+  "updated_at": "2026-10-13T00:12:54Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "## Things done - Built on platform: - [x] x86_64-linux - [ ] aarch64-linux - [ ] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [ ] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [ ] Tested basic functionality of all binary files, usually in `./result/bin/`. - Nixpkgs Release Notes - [ ] Package update: when the change is major or breaking. - NixOS Release Notes - [ ] Module addition: when adding a new NixOS module. - [ ] Module update: when the change is significant. - [ ] Fits [CONTRIBUTING.md], [pkgs/README.md], [main",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573420",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5755834544,
+  "title": "pi-coding-agent: 1.0.4 -> 1.1.0",
+  "author": "m0nhawk",
+  "created_at": "2026-10-08T04:24:30Z",
+  "updated_at": "2026-10-12T23:44:17Z",
+  "state": "closed",
+  "comments": 3,
+  "repo": "NixOS/nixpkgs",
+  "body": "## Things done - Built on platform: - [x] x86_64-linux - [ ] aarch64-linux - [ ] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [x] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [x] Tested basic functionality of all binary files, usually in `./result/bin/`. - Nixpkgs Release Notes - [ ] Package update: when the change is major or breaking. - NixOS Release Notes - [ ] Module addition: when adding a new NixOS module. - [ ] Module update: when the change is significant. - [x] Fits [CONTRIBUTING.md], [pkgs/README.md], [main",
+  "url": "https://github.com/NixOS/nixpkgs/pull/571605",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5821105248,
+  "title": "Trust telsha as an A2A hub peer",
+  "author": "shikanime",
+  "created_at": "2026-10-12T22:07:21Z",
+  "updated_at": "2026-10-12T23:14:54Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "shikanime-labs/machines",
+  "body": "# Why automata's A2A trust list is generated from `hubPeers` (nishir only). telsha — the Hermes desktop workstation — is recognized but rejected (`peer 'telsha' not trusted`, HTTP 403), so the desktop cannot send tasks to the automata instance. nishir also no longer exists on the tailnet, leaving the hub trust list pointing at a ghost. ## What - add `telsha` (command, workstation, darwin) to `hubPeers` in `modules/nixos/profiles/ai.nix` - automata now trusts telsha's bearer token: `A2A_TRUSTED_PEERS=telsha,nishir`, and telsha's hermes-agent gains an `a2a_agents.automata` entry pointing at the A2A endpoint Verified live: card fetch and authenticated `message/send` from telsha reach automata (",
+  "url": "https://github.com/shikanime-labs/machines/pull/1522",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5821467536,
+  "title": "hermes: fix instant switch execution (systemd-run escape & ProtectSystem=false)",
+  "author": "ailex-agent",
+  "created_at": "2026-10-12T22:42:22Z",
+  "updated_at": "2026-10-12T22:52:13Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "apockill/nix-config",
+  "body": "### Problem When the agent executes `ai-box-switch`, `sudo` inherited `hermes-agent.service`'s private mount namespace, which has `ProtectSystem=strict` enabled by default. This mounted `/nix` as read-only, causing `nix-env` to fail with `Read-only file system` and forcing us to wait for the hourly `nixos-upgrade.service` root timer. ### Fix 1. **Mount Namespace Escape:** `ai-box-switch` and `ai-box-test` now run their worker scripts via `systemd-run --wait --collect` with `HOME=/root` and `WorkingDirectory=/root`. This executes directly in the host root namespace where `/nix` is read-write. 2. **Service Config Override:** Sets `services.hermes-agent.serviceConfig.ProtectSystem = lib.mkForce",
+  "url": "https://github.com/apockill/nix-config/pull/15",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5575079951,
+  "title": "fix(foundation-c): revert C6 mechanism-test activation to dormant",
+  "author": "MasterofNull",
+  "created_at": "2026-09-24T21:59:06Z",
+  "updated_at": "2026-10-12T22:37:45Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "MasterofNull/NixOS-Dev-Quick-Deploy",
+  "body": "Reconciles a LIVE C6 mechanism-test activation back toward dormant (the safe direction), neutralizing a standing integrity risk: an active throwaway owner key could sign a fleet-wide epoch bump and deny scheduled work. Changes (2 files): revoke owner-mechtest-2026-08 (status active -> revoked) + remove CAPABILITY_SCHEDULER_LEASE_GATE=1 / AQ_REVOCATION_EPOCH_SOCKET_PATH from switchboard.nix (gate defaults OFF). Takes effect on the next nixos-rebuild switch (a separate owner act). Independent review: PASS (non-author, claude-sonnet session sub-agent) — a revoked key cannot authorize a bump (checked every apply_bump, no bypass); gate genuinely OFF (both live consumers default closed); authority",
+  "url": "https://github.com/MasterofNull/NixOS-Dev-Quick-Deploy/pull/333",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820542199,
+  "title": "Add a local browser to automata's hermes-agent",
+  "author": "shikanime",
+  "created_at": "2026-10-12T21:16:51Z",
+  "updated_at": "2026-10-12T22:35:36Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "shikanime-labs/machines",
+  "body": "## What - `hosts/automata/configuration.nix`: set `AGENT_BROWSER_EXECUTABLE_PATH` to `${pkgs.chromium}/bin/chromium` and `AGENT_BROWSER_ARGS = \"--no-sandbox --disable-gpu --disable-dev-shm-usage\"` in `services.hermes-agent.environment`. ## Why automata's hermes-agent already ships the `agent-browser` CLI (`extraPackages` in `modules/nixos/profiles/ai.nix`), but the ephemeral KubeVirt VM provides no Chromium binary — agent-browser's launch path (`agent-browser install` → `~/.cache`) lives on the throwaway rootfs and dies on every containerdisk rebuild. Pointing the executable env at the nix store makes local browser mode declarative: the path is part of the image, nothing to persist or re-dow",
+  "url": "https://github.com/shikanime-labs/machines/pull/1520",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820336130,
+  "title": "fix(mesh): resolve QA 0.6.2 health path, gitignore runtime spools, fold PRDs and activation attestations",
+  "author": "MasterofNull",
+  "created_at": "2026-10-12T20:58:13Z",
+  "updated_at": "2026-10-12T22:34:08Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "MasterofNull/NixOS-Dev-Quick-Deploy",
+  "body": "## Summary Resolves QA check 0.6.2 live-state health check failure under systemd environments, gitignores all ephemeral coordination spools, receipts, audit snapshots, and temporary reports, folds legitimate system development PRDs, memory artifacts, and reviews, appends complete activation attestations, marks resolved RSI incident, and aligns flake.lock inputs. ### Material Changes 1. **Fix QA Check 0.6.2 & gemini-cli-health Path Resolution**: - `scripts/health/gemini-cli-health.sh`: Check `oauth-personal` delegation to `antigravity-health.sh` before requiring `gemini` binary; fallback `GEMINI_BIN` to `~/.local/bin/gemini` and `~/.local/bin/agy`. - `scripts/ai/_aq-qa-bash`: Add `${_primary_",
+  "url": "https://github.com/MasterofNull/NixOS-Dev-Quick-Deploy/pull/498",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5529655177,
+  "title": "chore(sandbox): bump docker_sandbox_integration for nix in coding sandbox",
+  "author": "tbscode",
+  "created_at": "2026-09-21T16:22:31Z",
+  "updated_at": "2026-10-12T22:00:28Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "msgmate-io/open-chat-go",
+  "body": "## Summary Bumps the `clients/integrations/docker_sandbox_integration` gitlink to the commit from msgmate-io/open-chat-go-docker-sandbox-integration#6. That change installs nix (with `nix-command` + `flakes`, `sandbox = false`) into the Alpine coding sandbox image, so NixOS-flake workspaces such as `tbscode/tims-nix` can run fast checks (`nix flake check` / `nix eval` / `nix develop`) from a coding agent. ## Depends on - msgmate-io/open-chat-go-docker-sandbox-integration#6 (merge first) ## Follow-up (not in this PR) After the new content-hashed `sandbox- ` image is published, the CI config's `default_sandbox_image` must be bumped and the `ci-test-sandbox` sandbox recreated to pick it up.",
+  "url": "https://github.com/msgmate-io/open-chat-go/pull/262",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5801756899,
+  "title": "fix(tui,coding-agent): enable kitty enhanced paste when the prepaint composer starts the TUI first",
+  "author": "LoneExile",
+  "created_at": "2026-10-11T14:02:13Z",
+  "updated_at": "2026-10-12T21:48:18Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "can1357/oh-my-pi",
+  "body": "## What I run omp on a headless NixOS VM and attach to it from Tern on my Mac; pasting a screenshot with ⌘V never worked there (`Image not found at /Users/...` or `Clipboard is empty`) although the same paste worked locally, and this change is what fixed it for me. The investigation, the fix, the tests and this description were done with an AI coding agent on my machine; I asked for the change and I am the one sending it. `TUI.addStartListener()` now also runs a hook at once when the TUI is already running (`stop()` clears that state, so a hook added while stopped still waits for the next `start()`). That makes omp write `ESC[?5522h` (kitty enhanced paste) at startup on a normal interactive ",
+  "url": "https://github.com/can1357/oh-my-pi/pull/15369",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820529440,
+  "title": "rotate hermes-agent-github-token",
+  "author": "shikanime",
+  "created_at": "2026-10-12T21:15:44Z",
+  "updated_at": "2026-10-12T21:19:40Z",
+  "state": "closed",
+  "comments": 2,
+  "repo": "shikanime-labs/machines",
+  "body": "## What Rotates `hermes-agent-github-token` in `secrets/machine.enc.yaml`; the previous value returns 401 Bad credentials against api.github.com (expired/revoked), leaving the automata VM without a working GitHub identity. ## Why - Wired into VMs via `modules/nixos/profiles/ai.nix:506` (`GITHUB_TOKEN` for `hermes-agent.service`), `restartUnits` bounces the service on activation. - Verified live: new token authenticates (scopes `admin:org, gist, project, repo, workflow`), admin/active in shikanime-labs and shikanime-studio. - MAC-valid edit: sops `--set`, decrypt roundtrip verified, diff = 3 lines (value/iv/tag). ## References - N/A",
+  "url": "https://github.com/shikanime-labs/machines/pull/1519",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "I. 反对/怀疑 AI 用于 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820560687,
+  "title": "rotate hermes-agent-github-token",
+  "author": "shikanime",
+  "created_at": "2026-10-12T21:18:24Z",
+  "updated_at": "2026-10-12T21:19:32Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "shikanime-labs/machines",
+  "body": "## What Rotates `hermes-agent-github-token` in `secrets/machine.enc.yaml`; the previous value returns 401 Bad credentials against api.github.com (expired/revoked), leaving the automata VM without a working GitHub identity. ## Why - Wired into VMs via `modules/nixos/profiles/ai.nix:506` (`GITHUB_TOKEN` for `hermes-agent.service`); `restartUnits` bounces the service on activation. - Verified live: new token authenticates (scopes `admin:org, gist, project, repo, workflow`), admin/active in shikanime-labs and shikanime-studio. - MAC-valid edit: sops `--set`, decrypt roundtrip verified, diff = 3 lines (value/iv/tag). ## References - Replaces #1519 (stale conflict from a dirty worktree)",
+  "url": "https://github.com/shikanime-labs/machines/pull/1521",
+  "matched_q": "nixos ai agent",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "I. 反对/怀疑 AI 用于 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5816743279,
+  "title": "gm01: NixOS gaming + local-LLM box",
+  "author": "dvmrry",
+  "created_at": "2026-10-12T16:02:47Z",
+  "updated_at": "2026-10-12T18:39:58Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "dvmrry/dotfiles",
+  "body": "Brings gm01 (7800X3D, RTX 4070 Ti Super) into the repo, as deployed today. Rebased onto main; the rebased branch evaluates to the exact system gm01 is running (`c9230w8i…-nixos-system-gm01`). - Headless NixOS for gaming: Punktfunk spawns gamescope per client and opens Steam Big Picture; no desktop. Sound and Bluetooth audio without a seat login; Wi-Fi prefers 5 GHz. - On-demand local LLMs on :8731, never at boot, one at a time (`conflicts`): - `llama`: Qwen3.8 27B on a tuned native llama.cpp (UD-IQ4_XS, MTP depth 3, 64K). - `podman-strata`: Qwen3.8 Flash Next IQ3_S on Strata 0.1.42 at the full 262K window. The server config is declared here (`strataConfig`) and copied in at start. Flash Next",
+  "url": "https://github.com/dvmrry/dotfiles/pull/13",
+  "matched_q": "nixos llm",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5805408463,
+  "title": "flake.lock: Update",
+  "author": "Dillonb",
+  "created_at": "2026-10-11T21:32:59Z",
+  "updated_at": "2026-10-13T00:43:58Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "Dillonb/.dotfiles",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'nixos-hardware': 'github:NixOS/nixos-hardware/4bc6315' (2026-10-07) → 'github:NixOS/nixos-hardware/60a6244' (2026-10-11) • Updated input 'nixos-unstable': 'github:NixOS/nixpkgs/6510408' (2026-10-10) → 'github:NixOS/nixpkgs/7fd4004' (2026-10-11) • Updated input 'slop': 'github:numtide/llm-agents.nix/fdd62d5' (2026-10-11) → 'github:numtide/llm-agents.nix/b8d947a' (2026-10-12) ``` ### Running GitHub Actions on this PR GitHub Actions will not run workflows on pull requests which are opened by a GitHub Action. **To run GitHub Actions wo",
+  "url": "https://github.com/Dillonb/.dotfiles/pull/61",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5823004006,
+  "title": "local-llm: remove vllm engine (ninfer-only)",
+  "author": "BJSummerfield",
+  "created_at": "2026-10-13T01:36:43Z",
+  "updated_at": "2026-10-13T01:51:40Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "BJSummerfield/nixcfg",
+  "body": "Drops vLLM from `modules/local-llm` per user decision (2026-10-13): Ninfer is preferred because it avoids running Podman on the host; if the engine choice ever flips back, the module will be rewritten then. ## What changed - `modules/local-llm/vllm-service.nix` — deleted (the host-side podman vLLM unit, health-wait scripts, image-pull service). - `modules/local-llm/nixos.nix` — removed the `cuda.engine` option entirely (it was `\"ninfer\"` | `\"vllm\"`, default `\"ninfer\"`), the pinned vLLM OCI image, the podman + nvidia-container-toolkit enablement, the `vllm` and `vllm-image-pull` systemd units, the `ve-local-llm` 5800 firewall rule, the vLLM assertion, the `/var/lib/local-llm/vllm-cache` dir, ",
+  "url": "https://github.com/BJSummerfield/nixcfg/pull/245",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5790059806,
+  "title": "Assemble + first-boot runbook (NixOS + R9700)",
+  "author": "bmazzarol-bunnings",
+  "created_at": "2026-10-10T09:41:49Z",
+  "updated_at": "2026-10-10T14:00:43Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "bmazzarol-bunnings/bmazzarol-bunnings",
+  "body": "Parent: #19 (Delivery map) Assemble and first-boot the headless LLM box (R9700 single-GPU build, #20). OS is **NixOS** with **Home Manager**; the LLM (Hermes) manages the box by editing Nix files, and I approve each `nixos-rebuild`. ## Prep the boot USB (on your Linux laptop — the box can't format media) - [ ] Grab a USB stick ≥8GB (contents get wiped). - [ ] Download latest stable NixOS ISO: `wget https://releases.nixos.org/nixos/25.05/nixos-25.05.*.iso` (or https://nixos.org/download/ → stable x86_64). - [ ] Identify the stick: `lsblk` (be careful — wrong device = data loss). - [ ] Write it: `sudo dd if=nixos-25.05.iso of=/dev/sdX bs=4M status=progress conv=fsync && sync` - [ ] Plug the US",
+  "url": "https://github.com/bmazzarol-bunnings/bmazzarol-bunnings/issues/22",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "G. 安全与信任边界",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820432787,
+  "title": "build(flake): update flake.lock",
+  "author": "nicobonada",
+  "created_at": "2026-10-12T21:06:54Z",
+  "updated_at": "2026-10-12T21:06:55Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "nicobonada/nix-config",
+  "body": "Automated `nix flake update` of every flake input. ``` Flake lock file updates: • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/fdd62d5' (2026-10-11) → 'github:numtide/llm-agents.nix/b8d947a' (2026-10-12) • Updated input 'llm-agents/nixpkgs': 'github:NixOS/nixpkgs/f45c6f0' (2026-09-28) → 'github:NixOS/nixpkgs/8edc0c7' (2026-10-08) • Updated input 'nixpkgs': 'github:nixos/nixpkgs/6510408' (2026-10-10) → 'github:nixos/nixpkgs/7fd4004' (2026-10-11) • Updated input 'noctalia': 'github:noctalia-dev/noctalia/45084cf' (2026-10-11) → 'github:noctalia-dev/noctalia/274c5b7' (2026-10-12) • Updated input 'noctalia-greeter': 'github:noctalia-dev/noctalia-greeter/f6714c9' (2026-10-11) → 'gith",
+  "url": "https://github.com/nicobonada/nix-config/pull/65",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5546856261,
+  "title": "Update flake.lock",
+  "author": "github-actions[bot]",
+  "created_at": "2026-09-23T00:07:15Z",
+  "updated_at": "2026-10-12T01:05:03Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "desheffer/nix-config",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'home-manager': 'github:nix-community/home-manager/ec17201' (2026-09-13) → 'github:nix-community/home-manager/db7d5e2' (2026-10-03) • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/dad23d4' (2026-09-22) → 'github:numtide/llm-agents.nix/0080f91' (2026-10-11) • Updated input 'llm-agents/flake-parts': 'github:hercules-ci/flake-parts/31729ca' (2026-09-03) → 'github:hercules-ci/flake-parts/024633c' (2026-10-01) • Updated input 'llm-agents/nixpkgs': 'github:NixOS/nixpkgs/b6c98e9' (2026-09-22) → 'github:NixOS/nixpkgs/f45c6f0' (",
+  "url": "https://github.com/desheffer/nix-config/pull/4",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5608849477,
+  "title": "Auto Update Nix flake inputs",
+  "author": "kashu-02",
+  "created_at": "2026-09-28T03:24:07Z",
+  "updated_at": "2026-10-12T04:07:29Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "kashu-02/dotfiles",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/ba24820' (2026-10-05) → 'github:numtide/llm-agents.nix/0080f91' (2026-10-11) • Updated input 'llm-agents/systems': 'github:nix-systems/default/da67096' (2023-04-09) → 'github:nix-systems/default/d36eeed' (2026-10-05) • Updated input 'llm-agents/treefmt-nix': 'github:numtide/treefmt-nix/27b3b12' (2026-08-16) → 'github:numtide/treefmt-nix/4cfe8d7' (2026-10-08) • Updated input 'mcp-servers-nix': 'github:natsukium/mcp-servers-nix/de243d9' (2026-10-04) → 'github:natsukium/mcp-servers-nix/1e69e",
+  "url": "https://github.com/kashu-02/dotfiles/pull/57",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "C. MCP × NixOS",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822626955,
+  "title": "Update flake lock",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-13T00:53:51Z",
+  "updated_at": "2026-10-13T00:53:52Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "eugencowie/dotfiles",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'cursor-plugins': 'github:cursor/plugins/1b6d44ff26d4e242f4e8f68c391e6d2f7ca16def?narHash=sha256-vKxN8rHgDvTod%2BAYKf9skFT5YJUzrpItrmnjP/dnPPs%3D' (2026-10-12) → 'github:cursor/plugins/fe53d9e9093dbb9ae298563b1a9d702dd6e2ca08?narHash=sha256-mECQrjNV01yNpPJrpagK7BbZ5NffUKlWuvoC7DjQ6Ys%3D' (2026-10-13) • Updated input 'den': 'github:vic/den/65c9fd40e958109f5a352c1a93ae8254bf1ed29f?narHash=sha256-Go2EElCGFAhy4KMPDpV%2BT2CAKQujlMpVieJ1cSSaW0c%3D' (2026-10-05) → 'github:vic/den/dd59a4c7aa7e2d6d2743814da6bf68ead985e793?narHash=sha256-a7E9",
+  "url": "https://github.com/eugencowie/dotfiles/pull/213",
+  "matched_q": "nixos llm",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5805498177,
+  "title": "Automated updates",
+  "author": "ryota2357-pr-action-app[bot]",
+  "created_at": "2026-10-11T21:44:42Z",
+  "updated_at": "2026-10-11T21:45:41Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "ryota2357/dotfiles",
+  "body": "## Automated update started at: Mon Oct 12 06:44:00 JST 2026 finished at: Mon Oct 12 06:44:39 JST 2026 ### nix flake update Mon Oct 12 06:44:00 JST 2026 ``` unpacking 'github:nix-community/home-manager/c58f54c733a7894d84fa2fdff26cc12088c4b78c' into the Git cache... unpacking 'github:numtide/llm-agents.nix/0855c1a133922a4bd6190e549d786e93d01ccd83' into the Git cache... unpacking 'github:nix-community/neovim-nightly-overlay/42252f1d108c3e2051539162e1fb79e76f645af3' into the Git cache... unpacking 'github:LnL7/nix-darwin/4cff07de74b50e64bdd68cd4e722ab5b6b35ee48' into the Git cache... unpacking 'github:nixos/nixpkgs/8edc0c72e3a38faf5434e40d1f19431125fe4b30' into the Git cache... unpacking 'githu",
+  "url": "https://github.com/ryota2357/dotfiles/pull/61",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5528723260,
+  "title": "chore(flake): flake lock update",
+  "author": "github-actions[bot]",
+  "created_at": "2026-09-21T15:01:53Z",
+  "updated_at": "2026-10-11T14:50:55Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "QF0xB/qnix-client",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/1f66efd' (2026-10-10) → 'github:numtide/llm-agents.nix/fdd62d5' (2026-10-11) • Updated input 'nixos-hardware': 'github:NixOS/nixos-hardware/4bc6315' (2026-10-07) → 'github:NixOS/nixos-hardware/60a6244' (2026-10-11) • Updated input 'sops-nix': 'github:Mic92/sops-nix/a8be3b1' (2026-10-10) → 'github:Mic92/sops-nix/ee48786' (2026-10-11) ``` ### Running GitHub Actions on this PR GitHub Actions will not run workflows on pull requests which are opened by a GitHub Action. **To run GitHub Actions ",
+  "url": "https://github.com/QF0xB/qnix-client/pull/11",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5804552692,
+  "title": "Update Nix flake inputs",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-11T19:47:21Z",
+  "updated_at": "2026-10-11T19:47:22Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "qianlitt/nixos-config",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'flake-file': 'github:denful/flake-file/91280a1' (2026-09-29) → 'github:denful/flake-file/4ccd0b9' (2026-10-11) • Updated input 'home-manager': 'github:nix-community/home-manager/8cfa9c9' (2026-10-04) → 'github:nix-community/home-manager/c58f54c' (2026-10-10) • Updated input 'hyprland': 'github:hyprwm/Hyprland/19fb395' (2026-10-04) → 'github:hyprwm/Hyprland/663b29b' (2026-10-09) • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/372f033' (2026-10-04) → 'github:numtide/llm-agents.nix/fdd62d5' (2026-10-11) • Updated input 'l",
+  "url": "https://github.com/qianlitt/nixos-config/pull/8",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5800946731,
+  "title": "Update flake.lock",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-11T12:14:07Z",
+  "updated_at": "2026-10-12T14:37:07Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "stefankeidel/nix-hosts",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'kev': 'github:jaredpalmer/kev/2ecafc4' (2026-10-10) → 'github:jaredpalmer/kev/85ccf56' (2026-10-12) • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/45773c4' (2026-10-11) → 'github:numtide/llm-agents.nix/493c34b' (2026-10-12) • Updated input 'nix-doom-emacs-unstraightened': 'github:marienz/nix-doom-emacs-unstraightened/6aee669' (2026-10-10) → 'github:marienz/nix-doom-emacs-unstraightened/939e187' (2026-10-11) • Updated input 'nix-doom-emacs-unstraightened/emacs-overlay': 'github:nix-community/emacs-overlay/ed1dcbd' (202",
+  "url": "https://github.com/stefankeidel/nix-hosts/pull/85",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5762379496,
+  "title": "mesh-llm, mesh-llm-native-runtime, mesh-llm-native-runtime-vulkan: init at 0.78.1; nixos/mesh-llm: init module",
+  "author": "kleinbem",
+  "created_at": "2026-10-08T13:10:10Z",
+  "updated_at": "2026-10-13T01:32:48Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "Adds [MeshLLM](https://github.com/Mesh-LLM/mesh-llm) 0.78.1, which pools spare GPU and CPU capacity to run LLMs across machines, its native inference runtime, and a NixOS module. **`mesh-llm-native-runtime`:** the llama.cpp build that mesh-llm loads at runtime. MeshLLM ships it as upstream llama.cpp at a pinned release tag plus its own patch queue (the Skippy ABI). - Its own derivation (no `overrideAttrs` of `llama-cpp`, per `pkgs/README.md`), with the same CMake setup and backend switches as `llama-cpp`. The MeshLLM release is an explicit `release` argument, so a package that embeds an older mesh-llm (buzz-desktop) uses `override`. - llama.cpp is fetched by its release tag (`bNNNNN`), which",
+  "url": "https://github.com/NixOS/nixpkgs/pull/571722",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5798031801,
+  "title": "chore: update flake.lock",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-11T04:42:10Z",
+  "updated_at": "2026-10-12T02:36:01Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "samjwillis97/nix-config",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'agent-sandbox': 'github:archie-judd/agent-sandbox.nix/ee9d60f' (2026-10-06) → 'github:archie-judd/agent-sandbox.nix/f27d1ff' (2026-10-09) • Updated input 'brew-api': 'github:BatteredBunny/brew-api/1cdc53d' (2026-10-06) → 'github:BatteredBunny/brew-api/c5510b3' (2026-10-11) • Updated input 'deploy-rs': 'github:serokell/deploy-rs/cf64c8c' (2026-09-28) → 'github:serokell/deploy-rs/45ba3f8' (2026-10-07) • Updated input 'direnv-instant': 'github:Mic92/direnv-instant/df858fd' (2026-10-01) → 'github:Mic92/direnv-instant/0e80153' (2026-10-",
+  "url": "https://github.com/samjwillis97/nix-config/pull/50",
+  "matched_q": "nixos llm",
+  "cats": [
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5815293619,
+  "title": "flake.lock: update",
+  "author": "abdullaev",
+  "created_at": "2026-10-12T14:18:51Z",
+  "updated_at": "2026-10-12T14:18:51Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "abdullaev/dotfiles",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'anthropic-skills': 'github:anthropics/skills/683bc88' (2026-10-05) → 'github:anthropics/skills/dbd4588' (2026-10-09) • Updated input 'catppuccin': 'github:catppuccin/nix/0c0335a' (2026-10-05) → 'github:catppuccin/nix/2e605f6' (2026-10-12) • Updated input 'firefox-addons': 'gitlab:rycee/nur-expressions/b7c7fd2?dir=pkgs/firefox-addons' (2026-10-07) → 'gitlab:rycee/nur-expressions/9c5dba3?dir=pkgs/firefox-addons' (2026-10-12) • Updated input 'home-manager': 'github:nix-community/home-manager/fae6e9e' (2026-10-06) → 'github:nix-communi",
+  "url": "https://github.com/abdullaev/dotfiles/pull/17",
+  "matched_q": "nixos llm",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5722005566,
+  "title": "Coordinating Buzz + mesh-llm packaging in nixpkgs",
+  "author": "kleinbem",
+  "created_at": "2026-10-06T02:35:46Z",
+  "updated_at": "2026-10-06T02:35:46Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "mulatta/buzz.nix",
+  "body": "Hi @mulatta, @sebfried, I'm working on bringing Buzz into nixpkgs. Here's where things stand: - Suite (buzz-cli update, buzz-agent, buzz-dev-mcp, git-credential-nostr, git-sign-nostr, etc.) working - Relay + NixOS module: working - Desktop + mesh-llm: built fully from source. The mesh-llm runtime builds on nixpkgs' llama-cpp (CPU variants, Vulkan, CUDA, ROCm, Metal), and the CPU runtime is already running in Buzz. I closed the earlier PRs because they had drifted too far, and I'm now testing everything end to end before opening fresh ones, hopefully tomorrow. All I have tested does work so far. I'd love your review as each part lands. Would you also like to co-maintain the Buzz and mesh-llm ",
+  "url": "https://github.com/mulatta/buzz.nix/issues/56",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "C. MCP × NixOS",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5162190379,
+  "title": "Update flake.lock",
+  "author": "github-actions[bot]",
+  "created_at": "2026-08-16T01:37:08Z",
+  "updated_at": "2026-10-11T04:58:34Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "mcwitt/nixos-config",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'asd-ste100': 'github:danyuchn/asd-ste100-skill/7d4a135a199a5d7447c4886bcd7ffe742a627bc9?narHash=sha256-1hHzKvxbTOnToMhlRVwnyOsekrYtZsY9Zk%2BZcc1otQg%3D' (2026-09-08) → 'github:danyuchn/asd-ste100-skill/32511c6992ecb5f1971e46a2943f2e6adceedafe?narHash=sha256-yzDFOZtjP1v0tG/64nvh%2BkP0b35%2BXNrwW5BCS%2B7KSus%3D' (2026-10-04) • Updated input 'claude-code': 'github:sadjow/claude-code-nix/eca59bb0000a0f3ebf7db73717ebd3838de940fe?narHash=sha256-99y6MBHLBNKhcUl4PprE5m4/ooopH8nuOCwxh8uKMCs%3D' (2026-10-01) → 'github:sadjow/claude-code-nix/",
+  "url": "https://github.com/mcwitt/nixos-config/pull/49",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820165376,
+  "title": "Remove embeddings, vector search and the reranker; search is FTS5 only",
+  "author": "claude-code-dev-box[bot]",
+  "created_at": "2026-10-12T20:43:00Z",
+  "updated_at": "2026-10-12T21:01:28Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "jonathanmoregard/aggregator",
+  "body": "## What Removes embeddings and vector search from the aggregator. Search is FTS5 only. The embed pipeline was already taken out of the deployment (nixos-config #346), because the llama-server backfill pinned ~12 cores. Since then every query logged `query embedding unavailable, answering from FTS5 alone`, and `aggregator_capabilities` still reported `vector_index: backfilling`. This PR removes the code that is left behind. ### Removed 1. The `aggregator embed` subcommand (`--catchup` / `--once` / `--seed-models` / `--reindex`) and the embed worker. 2. `core/embed.py` (the embed-server unix-socket client, plus the st/gguf backends) and `core/chunk.py`. 3. The query-embedding arm in `mcp.py`, ",
+  "url": "https://github.com/jonathanmoregard/aggregator/pull/23",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5577610990,
+  "title": "Add personal headless NixOS development host",
+  "author": "curtisjm",
+  "created_at": "2026-09-25T03:18:50Z",
+  "updated_at": "2026-09-25T03:19:10Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "curtisjm/nix",
+  "body": "## Summary Add Curtis's personal, headless Proxmox development VM using the existing native Nix modules. Separate desktop settings from the Linux base and reuse a shared terminal profile. No new dependencies or lockfile changes. ## Structure at a glance ```text hosts/curtis UEFI + QEMU + disk labels + SSH public key └── modules/nixos/profiles/headless-dev ├── base account, locale, Nix policy ├── llm-agents existing pinned agent packages ├── SSH + Tailscale key-only SSH on tailscale0 └── home/profiles/linux-headless ├── terminal shared shell, Git, tmux └── direnv + basic Neovim existing graphical Linux profiles → base + desktop + existing features existing Darwin profile → terminal + existing",
+  "url": "https://github.com/curtisjm/nix/pull/3",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5127912264,
+  "title": "Torrent RSS feed",
+  "author": "alydevs",
+  "created_at": "2026-08-12T06:30:12Z",
+  "updated_at": "2026-10-11T21:05:10Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "AnimMouse/NixOS-ISO-Torrents",
+  "body": "This addition to the release workflow generates a nixos-torrents.rss file containing the current release's expected URLs, and the previous nine releases as returned by github's API. This RSS feed would be available at https://github.com/AnimMouse/NixOS-ISO-Torrents/releases/download/latest/nixos-torrents.rss after the workflow's next run. Disclosure: Commit 4028bd0 (the initial draft of the RSS creation script) was authored by claude-sonnet-5. All subsequent commits are my own work authored without LLM assistance. closes #4",
+  "url": "https://github.com/AnimMouse/NixOS-ISO-Torrents/pull/17",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5721846294,
+  "title": "AGENTS.md: add instructions for LLMs",
+  "author": "81reap",
+  "created_at": "2026-10-06T02:16:23Z",
+  "updated_at": "2026-10-10T04:32:16Z",
+  "state": "open",
+  "comments": 8,
+  "repo": "NixOS/nixpkgs",
+  "body": "LLMs are pre-trained to look for a `AGENTS.md` when used in a coding harness. Nixpkgs has had an automation/AI policy but agents may or may not read it as they are not pre-trained to look for those files. `AGENTS.md` covers mostly all harnesses apart from Claude by Anthropic. For that we symlink the `AGENT.md` file to `CLAUDE.md`. This exception is not needed for any other major harness that I know of. ## Things done - Built on platform: - [n/a, but this one] x86_64-linux - [ ] aarch64-linux - [ ] aarch64-darwin - Tested, as applicable: - [n/a] [NixOS tests] in [nixos/tests]. - [n/a] [Package tests] at `passthru.tests`. - [n/a] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" fun",
+  "url": "https://github.com/NixOS/nixpkgs/pull/570711",
+  "matched_q": "nixos llm",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 4544715448,
+  "title": "Update flake.lock",
+  "author": "github-actions[bot]",
+  "created_at": "2026-05-29T00:23:45Z",
+  "updated_at": "2026-10-09T03:18:35Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "ajaxbits/macos-nix",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'home-manager': 'github:nix-community/home-manager/8335400' (2026-10-02) → 'github:nix-community/home-manager/dfadbe5' (2026-10-08) • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/54b915b' (2026-10-02) → 'github:numtide/llm-agents.nix/9b522ff' (2026-10-09) • Updated input 'llm-agents/systems': 'github:nix-systems/default/da67096' (2023-04-09) → 'github:nix-systems/default/d36eeed' (2026-10-05) • Updated input 'llm-agents/treefmt-nix': 'github:numtide/treefmt-nix/27b3b12' (2026-08-16) → 'github:numtide/treefmt-nix/4cfe8d",
+  "url": "https://github.com/ajaxbits/macos-nix/pull/20",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5480377228,
+  "title": "cluster: wire rugged's NPU-backed LLM into litellm",
+  "author": "agentydragon",
+  "created_at": "2026-09-16T21:58:47Z",
+  "updated_at": "2026-09-17T07:45:06Z",
+  "state": "open",
+  "comments": 5,
+  "repo": "agentydragon/ducktape",
+  "body": "## Summary Continues from #7107 (Docker-built `llama-openvino-server` image, merged) and #7127 (Nix-native OpenVINO/NPU packaging + rugged's on-device `llama-server` systemd service, merged). The Nix packaging was originally bundled in this PR too; per this repo's PR-splitting philosophy it landed separately as #7127 first, and this branch is now rebased on top of that merge — so this PR is just the litellm-side wiring. **Re-ported onto #7109's cdk8s migration (2026-09-17):** `litellm/app`'s manifests moved from hand-written YAML to cdk8s generation while this PR was open. The hand-written `proxy-config.yaml` and `rugged-npu-llm-endpoints.yaml` this PR originally added no longer exist — thei",
+  "url": "https://github.com/agentydragon/ducktape/pull/7112",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5481917648,
+  "title": "rugged NPU LLM: local agent CLI, litellm wiring, real hardware validation",
+  "author": "agentydragon",
+  "created_at": "2026-09-17T02:03:18Z",
+  "updated_at": "2026-09-17T02:03:18Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "agentydragon/ducktape",
+  "body": "## Context #7127 (merged) landed rugged's on-device NPU LLM stack: Nix-native OpenVINO+NPU packaging (`nix/packages/{npu-compiler-libs,openvino-npu,llama-cpp-openvino}.nix`) and the actual NixOS service (`nix/nixos/hosts/rugged/local_llm_npu.nix`) — `llama-server` in router mode serving `qwen3-4b` (Qwen3-4B-Instruct-2507) and `llama-3.2-1b` (Llama-3.2-1B-Instruct), both Q4_0, on the NPU, behind a bearer-checking nginx proxy on `:18080`. `local_llm_npu.nix`'s own TODO/comments cover the remaining pieces; this issue tracks them. ## Remaining work ### 1. Local LLM agent CLI on rugged Extend `nix/home/opencode/default.nix`'s existing rugged-local-provider pattern (see the commented-out example a",
+  "url": "https://github.com/agentydragon/ducktape/issues/7128",
+  "matched_q": "nixos llm",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5823040296,
+  "title": "Update flake.lock",
+  "author": "ccicnce113424",
+  "created_at": "2026-10-13T01:40:40Z",
+  "updated_at": "2026-10-13T01:54:42Z",
+  "state": "closed",
+  "comments": 1,
+  "repo": "ccicnce113424/nixos-config",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'gaze': 'github:GunduLabs/gaze/ce993edb939176f7b2c916c507537775ce144b23?narHash=sha256-bFxdHPldKGe6GOUo6IcJ5vrsK2lha4uOGc6APGiaI1s%3D' (2026-10-11) → 'github:GunduLabs/gaze/3b8ba3380433ae336bf6ee40229e73d38422f026?narHash=sha256-3v7seCD61BBn%2BQlQc9fkZ9EByb64IkrYpyzIzck0A9o%3D' (2026-10-13) • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/0080f911989ebe6385bffbd2d4f2b1259a16f4cf?narHash=sha256-52Zi0EPiYgzXHN3dBHROoYRqT6K9SZ4jES4H9jAQKZs%3D' (2026-10-11) → 'github:numtide/llm-agents.nix/e9b8c5022e89624c801ca7aee49c0e9fb49",
+  "url": "https://github.com/ccicnce113424/nixos-config/pull/1915",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822864475,
+  "title": "flake.lock: Update",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-13T01:21:42Z",
+  "updated_at": "2026-10-13T01:22:03Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "JamieMagee/nix-config",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/0080f91' (2026-10-11) → 'github:numtide/llm-agents.nix/e9b8c50' (2026-10-13) • Updated input 'llm-agents/nixpkgs': 'github:NixOS/nixpkgs/f45c6f0' (2026-09-28) → 'github:NixOS/nixpkgs/8edc0c7' (2026-10-08) • Updated input 'mcp-servers-nix': 'github:natsukium/mcp-servers-nix/1e69e55' (2026-10-09) → 'github:natsukium/mcp-servers-nix/150670f' (2026-10-13) • Updated input 'nixpkgs': 'https://releases.nixos.org/nixos/unstable/nixos-26.11pre1089111.6510408d147d/nixexprs.tar.zst' (2026-10-10) → '",
+  "url": "https://github.com/JamieMagee/nix-config/pull/1291",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "C. MCP × NixOS",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 2376366489,
+  "title": "Renovate Dashboard 🤖",
+  "author": "dextek-bot[bot]",
+  "created_at": "2024-06-26T22:17:33Z",
+  "updated_at": "2026-10-13T01:11:42Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "krezh/dotnix",
+  "body": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more. ## Awaiting Schedule The following updates are awaiting their schedule. To get an update now, click on a checkbox below. - [ ] chore(cargo) [chomp]: Lock file maintenance Cargo.lock - [ ] chore(cargo) [claude-usage-bar]: Lock file maintenance Cargo.lock - [ ] chore(cargo) [nix-changelog]: Lock file maintenance Cargo.lock - [ ] chore(cargo) [swix]: Lock file maintenance Cargo.lock - [ ] chore(nix): lock file maintenance flake.lock - [ ] 🔐 **Create all awaiting schedule PRs at once** 🔐 ## PR Closed (Blocked) The following updates",
+  "url": "https://github.com/krezh/dotnix/issues/123",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "E. AI 教学/答疑 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5819739947,
+  "title": "whichllm: 0.5.19 -> 0.5.20",
+  "author": "r-ryantm",
+  "created_at": "2026-10-12T20:05:41Z",
+  "updated_at": "2026-10-13T00:55:41Z",
+  "state": "closed",
+  "comments": 2,
+  "repo": "NixOS/nixpkgs",
+  "body": "Automatic update generated by [nixpkgs-update](https://github.com/nix-community/nixpkgs-update) tools. This update was made based on information from passthru.updateScript. meta.description for whichllm is: Find the local LLM that actually runs and performs best on your hardware meta.homepage for whichllm is: https://github.com/Andyyyy64/whichllm meta.changelog for whichllm is: https://github.com/Andyyyy64/whichllm/blob/v0.5.20/CHANGELOG.md ###### Updates performed - Ran passthru.UpdateScript ###### To inspect upstream changes ###### Impact Checks done --- - built on NixOS - The tests defined in `passthru.tests`, if any, passed - found 0.5.20 with grep in /nix/store/8dhvbdnq03pvfrxjz0q19fv9f",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573340",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822389083,
+  "title": "Update flake.lock",
+  "author": "ereslibre",
+  "created_at": "2026-10-13T00:26:57Z",
+  "updated_at": "2026-10-13T00:27:50Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "ereslibre/homelab",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'emacs-overlay': 'github:nix-community/emacs-overlay/b36abca' (2026-10-11) → 'github:nix-community/emacs-overlay/b7464e0' (2026-10-12) • Updated input 'llm-agents': 'github:numtide/llm-agents.nix/0080f91' (2026-10-11) → 'github:numtide/llm-agents.nix/74ec291' (2026-10-13) • Updated input 'nixpkgs': 'github:NixOS/nixpkgs/6510408' (2026-10-10) → 'github:NixOS/nixpkgs/7fd4004' (2026-10-11) ``` ### Running GitHub Actions on this PR GitHub Actions will not run workflows on pull requests which are opened by a GitHub Action. **To run GitHu",
+  "url": "https://github.com/ereslibre/homelab/pull/1198",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822030086,
+  "title": "chatgpt: prefer caller Git while retaining managed runtimes",
+  "author": "IanHollow",
+  "created_at": "2026-10-12T23:45:18Z",
+  "updated_at": "2026-10-13T00:25:24Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "## Summary Prefer the caller's configured Git, with gitMinimal as a fallback. Keep packaged Node, npm, npx, bubblewrap, coreutils, lsb-release and xdg-utils before the caller PATH. Preserve explicit browser and REPL Node overrides. The original draft moved every helper behind caller tools. The related reports below support narrowing that policy: internal runtimes and sandbox helpers need compatible versions, while caller Git can supply needed credential and transport support. ## Related discussion - [Linux package review on npm/npx requirements](https://github.com/NixOS/nixpkgs/pull/551713#issuecomment-5770852194) explains why these runtimes belong in the package. - [Caller Node 18 breaks no",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573415",
+  "matched_q": "nixos llm",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822024519,
+  "title": "chatgpt: preserve and verify the signed Darwin bundle",
+  "author": "IanHollow",
+  "created_at": "2026-10-12T23:44:36Z",
+  "updated_at": "2026-10-13T00:25:21Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "## Summary Keep the vendor-signed macOS bundle unchanged throughout installation and add `mainDarwinApp` metadata. Skip generic mutation phases on Darwin, compare the installed bundle with the unpacked source, and check its identity, version, architecture, and embedded executable signature without launching the app inside the build sandbox. ```diff - generic Darwin fixup, including stripping in Applications + unchanged vendor bundle and non-mutating install checks ``` ## Related discussion [llm-agents.nix's merged signature-preservation fix](https://github.com/numtide/llm-agents.nix/pull/9614) independently uses the same packaging approach. [Its Remote Control Keychain report](https://github",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573413",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5795622633,
+  "title": ".github/PULL_REQUEST_TEMPLATE: reorder checkboxes",
+  "author": "pbsds",
+  "created_at": "2026-10-10T21:55:27Z",
+  "updated_at": "2026-10-13T00:02:32Z",
+  "state": "open",
+  "comments": 6,
+  "repo": "NixOS/nixpkgs",
+  "body": "- **.github/PULL_REQUEST_TEMPLATE: order pkgs tests over nixos tests** - **.github/PULL_REQUEST_TEMPLATE: put contribution guidelines and llm policy first** - **.github/PULL_REQUEST_TEMPLATE: move \"tested basic functionality\" under Built** - **.github/PULL_REQUEST_TEMPLATE.md: move binary and nixpkgs-review testing under \"Tested\"** The first commit is for consistency and to accommodate frequency, should be non-controversial. The second commit is opinionated: The majority of the prs i come across do not tick either of the contribution guideline or llm policy checkboxes. If they tick any checkbox at all it is just whether the package was built or not. Clearly attention gravitates towards the t",
+  "url": "https://github.com/NixOS/nixpkgs/pull/572612",
+  "matched_q": "nixos llm",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5241462348,
+  "title": "Research: option shape for the multi-instance microserver module",
+  "author": "BJSummerfield",
+  "created_at": "2026-08-25T02:37:38Z",
+  "updated_at": "2026-10-12T23:51:11Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "BJSummerfield/nixcfg",
+  "body": "Part of #129 **Question.** How should a NixOS module idiomatically expose multiple instances of the same kind (a microserver) with per-instance role selection, given that the instances share a shape but differ in small ways? **Context.** Two modules today share the host-side shape — \"one or more services in a NixOS container (nspawn), tailnet-accessible via the container's own node\": `modules/devbox` (multi-instance: devbox, workbox; guest role = the coding-agent stack — seeded skills tree, `pi-cheap`/`pi-max` fan-out tiers, environment contract, per-instance git identity) and `modules/local-llm` (single instance; guest role = the LLM stack — models/weights, llama-swap, open-webui, optional ",
+  "url": "https://github.com/BJSummerfield/nixcfg/issues/131",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5241462197,
+  "title": "Research: nix-native veth address allocation for the microserver helper",
+  "author": "BJSummerfield",
+  "created_at": "2026-08-25T02:37:36Z",
+  "updated_at": "2026-10-12T23:51:10Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "BJSummerfield/nixcfg",
+  "body": "Part of #129 **Question.** Is there a nix-native solution for veth pair + NAT + address allocation that the microserver helper should adopt, instead of hand-rolling an allocator? Leading candidate to evaluate: nixpkgs `virtualisation.network-vm` (and anything else that exists: `lib.virtualisation` helpers, community modules). **Context.** A microserver (glossary: `CONTEXT.md`) is one or more services in a NixOS nspawn container, reached from anywhere on the tailnet via the container's own tailnet node. Host side today: per-instance veths with hardcoded address pairs in `hosts/redtruck/default.nix` — `mine.system.devboxes` (devbox 192.168.100.26/.27, workbox .28/.29) and `local-llm` (its own ",
+  "url": "https://github.com/BJSummerfield/nixcfg/issues/130",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5818547146,
+  "title": "python3Packages.lerobot: 0.6.0 -> 0.6.1",
+  "author": "GaetanLepage",
+  "created_at": "2026-10-12T18:27:07Z",
+  "updated_at": "2026-10-12T23:43:44Z",
+  "state": "closed",
+  "comments": 4,
+  "repo": "NixOS/nixpkgs",
+  "body": "- **python3Packages.draccus: 0.11.5 -> 0.11.6** - **python3Packages.lerobot: 0.6.0 -> 0.6.1** ([Diff](https://github.com/huggingface/lerobot/compare/v0.6.0...v0.6.1), [Changelog](https://github.com/huggingface/lerobot/releases/tag/v0.6.1)) **This PR was assisted by an LLM: Claude Opus 5.5** ## Things done - Built on platform: - [x] x86_64-linux - [x] aarch64-linux - [x] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [x] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [ ] Tested basic functionality of all binary files, usu",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573305",
+  "matched_q": "nixos llm",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 4542915370,
+  "title": "ghidra: various fixes for aarch64-darwin",
+  "author": "4evy",
+  "created_at": "2026-05-28T18:46:34Z",
+  "updated_at": "2026-10-12T22:53:49Z",
+  "state": "open",
+  "comments": 16,
+  "repo": "NixOS/nixpkgs",
+  "body": "Build `sevenzipjbinding` from source _(for `aarch64-darwin`)_, so Ghidra on `aarch64-darwin` doesn't need Rosetta 2 Disclosure: all commits that are not `ghidra: build sevenzipjbinding on aarch64-darwin` were done with assistance of LLM (GPT-5.5) Before: After: ## Things done - Built on platform: - [ ] x86_64-linux - [ ] aarch64-linux - [ ] x86_64-darwin - [x] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [ ] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [x] Tested basic functionality of all binary files, usually in `.",
+  "url": "https://github.com/NixOS/nixpkgs/pull/525313",
+  "matched_q": "nixos llm",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5820459232,
+  "title": "chore(flake): update inputs to their newest releases",
+  "author": "OmerFarukOruc",
+  "created_at": "2026-10-12T21:09:22Z",
+  "updated_at": "2026-10-12T21:09:29Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "OmerFarukOruc/nixos-config",
+  "body": "nixos-rog built and switched to this update. - llm-agents: dc285bf -> b8d947a - nixpkgs: e2ccecb -> 8edc0c7 System diff ```text >> /nix/store/qyg6y3m28h29mfy90d99gpfy0rvh9a04-nixos-system-nixos-rog-26.11.20261010.6510408 CHANGED [U.] agentsview 0.44.0 -> 0.45.0, -2.69 MiB [D.] chromium 154.0.8037.97-sandbox, 154.0.8037.97, -> [D.] chromium-unwrapped 154.0.8037.97-sandbox, 154.0.8037.97, -> , -703 MiB PATHS: 3098 -> 3094 (+15, -19) SIZE: 42.2 GiB -> 41.5 GiB DIFF: -706 MiB ```",
+  "url": "https://github.com/OmerFarukOruc/nixos-config/pull/15",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5814085028,
+  "title": "chore(flake): update inputs",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-12T12:55:00Z",
+  "updated_at": "2026-10-12T21:00:56Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "iainlane/dotfiles",
+  "body": "Automated relock of the flake inputs from the scheduled `flake-update` workflow (`nix flake update`). Updated inputs: - `catppuccin`: `ad8b2c6` → `2e605f6` - `fenix`: `2641a70` → `cf67bab` - `llm-agents`: `fdd62d5` → `493c34b` - `nixos-hardware`: `4bc6315` → `60a6244` - `system-manager`: `9ff7d0f` → `ac00967` After merging, the `cupboard` workflow attempts to build the requested deploy-profile outputs on main and publishes selected outputs and intermediates built during that run to the default cache. --- > [!NOTE] > **Low Risk** > Lockfile-only dependency bumps; behavior changes depend on upstream flakes and are mainly surfaced through CI/build failures rather than in-repo logic edits. > > *",
+  "url": "https://github.com/iainlane/dotfiles/pull/309",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 4110459265,
+  "title": "refactor: nix flake for build and dev",
+  "author": "karlskewes",
+  "created_at": "2026-03-20T22:45:37Z",
+  "updated_at": "2026-10-12T20:45:10Z",
+  "state": "closed",
+  "comments": 2,
+  "repo": "pop-os/cosmic-settings-daemon",
+  "body": "The existing flake didn't build for me. Refactored per: https://github.com/pop-os/cosmic-comp/pull/2219#issuecomment-4132686875 I used the refactored flake for `nix build` and `nix develop` of https://github.com/pop-os/cosmic-settings-daemon/pull/137. ### AI Disclosure - [x] I have disclosed use of any AI generated code in my commit messages. - If you are using an LLM, and do not fully understand the changes it is making to the code base, do not create a PR. - In our experience, AI generated code often results in overly complex code that lacks enough context for a proper fix or feature inclusion. This results in considerably longer code reviews. Due to this, AI authored or partially authored",
+  "url": "https://github.com/pop-os/cosmic-settings-daemon/pull/138",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5745068762,
+  "title": "Linux support",
+  "author": "sls",
+  "created_at": "2026-10-07T12:38:06Z",
+  "updated_at": "2026-10-12T20:09:41Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "LivingTwice/lumen",
+  "body": "Hello Ulysse, I have added Linux support, this is all working on my machine with the provided nix flake. I think the Linux-specific changes are pretty isolated, although there are some changes in checking the underlying system of course. Here is some more information in LLM-generated text summarizing the changes. Désolé que mon français ne soit pas assez bon pour le faire moi-même. # Linux (Wayland et X11) ## Ce que ça apporte Lumen tourne sous Linux — Wayland et X11 — avec tout ce qu'il sait faire ailleurs : l'IA locale (Qwen3.5 sur la carte graphique par Vulkan, ou sur le processeur), la transcription (Whisper, Qwen3-ASR), la voix naturelle (Supertonic, les 10 voix), l'audio et la vidéo de",
+  "url": "https://github.com/LivingTwice/lumen/pull/1",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5817576233,
+  "title": "scummvm: 2026.3.0 -> 2026.4.0, modernize, init games",
+  "author": "keenanweaver",
+  "created_at": "2026-10-12T17:08:19Z",
+  "updated_at": "2026-10-12T20:03:09Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "NixOS/nixpkgs",
+  "body": "- Changelog: https://github.com/scummvm/scummvm/releases/tag/v2026.4.0 - Diff: https://github.com/scummvm/scummvm/compare/v2026.3.0...v2026.4.0 # LLM DISCLAIMER I used Claude Code to help me. It helped find all the undeclared dependencies, assessing optional features, creating the test block, determining if the `configurePlatforms` and `NIX_CFLAGS_COMPILE` were still needed, and assembling all the untracked freeware games and wrapper changes there. I had it look through upstream CI and documentation, Flatpak manifest, and AUR script to see where nixpkgs differed and made calls on what made sense. The bump and 'modernization' commits are 100% unassisted. I've tested everything as I normally d",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573278",
+  "matched_q": "nixos llm",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5818939409,
+  "title": "chore(flake): update inputs to their newest releases",
+  "author": "OmerFarukOruc",
+  "created_at": "2026-10-12T18:59:04Z",
+  "updated_at": "2026-10-12T18:59:11Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "OmerFarukOruc/nixos-config",
+  "body": "nixos-rog built and switched to this update. - llm-agents: 493c34b -> dc285bf - nixpkgs: f45c6f0 -> e2ccecb - silent-sddm: d32ebc0 -> d477613 System diff ```text >> /nix/store/fj87imffn8hynw4184rm3s0yricja5hi-nixos-system-nixos-rog-26.11.20261010.6510408 CHANGED [D.] abseil-cpp 20260107.1, -> , -3.35 MiB [C.] adwaita-icon-theme 50.0 ×2 -> 50.0, -12.8 MiB [C.] agentsview +52.0 KiB [C.] alsa-lib 1.2.16.1 ×3 -> 1.2.16.1 ×2, -1.79 MiB [C.] alsa-topology-conf 1.2.5.1 ×3 -> 1.2.5.1 ×2, -336 KiB [C.] alsa-ucm-conf 1.2.16.1 ×3 -> 1.2.16.1 ×2, -915 KiB [C.] audit 4.2.1-lib ×2 -> 4.2.1-lib, -416 KiB [C*] bash-interactive 5.3p15 ×3, -> 5.3p15 ×2, , -7.07 MiB [C*] bluez 5.87 ×3 -> 5.87 ×2, -9.58 MiB [C.",
+  "url": "https://github.com/OmerFarukOruc/nixos-config/pull/3",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5737275428,
+  "title": "flake.lock: Update",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-07T00:24:11Z",
+  "updated_at": "2026-10-12T18:59:01Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "siraken/dotfiles",
+  "body": "Automated `nix flake update`. ``` unpacking 'github:hercules-ci/flake-parts/024633cd702b10285db5cb19b40ad48d2399ba60' into the Git cache... unpacking 'github:cachix/git-hooks.nix/a0e4241b51206fbcbf52fd322eb5f0cd80f153c4' into the Git cache... unpacking 'github:siraken/git-personas.nix/31bd711ca607c0f5c3456a5bce3779d4e49db1b3' into the Git cache... unpacking 'github:nix-community/home-manager/c58f54c733a7894d84fa2fdff26cc12088c4b78c' into the Git cache... unpacking 'github:numtide/llm-agents.nix/0080f911989ebe6385bffbd2d4f2b1259a16f4cf' into the Git cache... unpacking 'github:nix-darwin/nix-darwin/4cff07de74b50e64bdd68cd4e722ab5b6b35ee48' into the Git cache... unpacking 'github:nix-community/",
+  "url": "https://github.com/siraken/dotfiles/pull/188",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5818802654,
+  "title": "paseo-desktop: init at 0.11.2",
+  "author": "adamcstephens",
+  "created_at": "2026-10-12T18:47:55Z",
+  "updated_at": "2026-10-12T18:54:00Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "Based on prior art: - https://github.com/getpaseo/paseo/blob/9551b2cc11328170416b3d9753c7ec9a10ed35e7/nix/desktop-package.nix - https://github.com/numtide/llm-agents.nix/blob/dc285bfd94ec7a89118d17eb288728439876558c/packages/paseo-desktop/package.nix Assisted-By: OpenAI GPT-6.1 Sol high in omp/18.8.9 ## Things done - Built on platform: - [x] x86_64-linux - [ ] aarch64-linux - [x] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [ ] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [x] Tested basic functionality of all binary ",
+  "url": "https://github.com/NixOS/nixpkgs/pull/573312",
+  "matched_q": "nixos llm",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5786270791,
+  "title": "treewide: remove obsolete x86_64-darwin code",
+  "author": "booxter",
+  "created_at": "2026-10-10T00:09:36Z",
+  "updated_at": "2026-10-12T17:31:31Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "NixOS/nixpkgs",
+  "body": "26.11 no longer supports x86_64-darwin. Hence: - simplify: darwin && aarch64 -> darwin - remove: darwin && x86_64 Done with the help of an LLM (listed in the commit message). Result inspected by me. Most rebuilds come from `postPatch = lib.optionalString (...) ...;` removal on `orca` since it triggers a change (from `\"\"` to `null`). ## Things done - Built on platform: - [ ] x86_64-linux - [ ] aarch64-linux - [ ] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [ ] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [ ] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [ ] Tested b",
+  "url": "https://github.com/NixOS/nixpkgs/pull/572291",
+  "matched_q": "nixos llm",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5493001761,
+  "title": "python3Packages.openai: 2.53.0 -> 3.14.1",
+  "author": "sarahec",
+  "created_at": "2026-09-17T21:42:06Z",
+  "updated_at": "2026-10-12T17:24:41Z",
+  "state": "open",
+  "comments": 27,
+  "repo": "NixOS/nixpkgs",
+  "body": "Updates `python3Packages.jiter`, `python3Packages.openai`, `python3Packages.llm`, and `python3Packages.llm-anthropic`...and fixes downstream dependents. ~~Requires #564043~~ ## Things done - Built on platform: - [x] x86_64-linux - [ ] aarch64-linux - [x] aarch64-darwin - Tested, as applicable: - [ ] [NixOS tests] in [nixos/tests]. - [ ] [Package tests] at `passthru.tests`. - [x] Tests in [lib/tests] or [pkgs/test] for functions and \"core\" functionality. - [x] Ran `nixpkgs-review` on this PR. See [nixpkgs-review usage]. - [ ] Tested basic functionality of all binary files, usually in `./result/bin/`. - Nixpkgs Release Notes - [ ] Package update: when the change is major or breaking. - NixOS R",
+  "url": "https://github.com/NixOS/nixpkgs/pull/564353",
+  "matched_q": "nixos llm",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5815697987,
+  "title": "chore: weekly flake.lock update",
+  "author": "andrey-moor",
+  "created_at": "2026-10-12T14:48:00Z",
+  "updated_at": "2026-10-12T14:48:02Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "andrey-moor/dotfiles",
+  "body": "Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action. ``` Flake lock file updates: • Updated input 'catppuccin': 'github:catppuccin/nix/89b3eac' (2026-09-16) → 'github:catppuccin/nix/2e605f6' (2026-10-12) • Updated input 'catppuccin/nixpkgs': 'https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1070934.1927682e0d80/nixexprs.tar.xz' (2026-09-10) → 'https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1082290.b6c8664de9b6/nixexprs.tar.xz' (2026-09-29) • Updated input 'claude-code-nix': 'github:sadjow/claude-code-nix/b17e428' (2026-10-03) → 'github:sadjow/claude-code-nix/7a91b64' (2026-10-11) • Updated input 'claude-code-nix/systems': ",
+  "url": "https://github.com/andrey-moor/dotfiles/pull/13",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5806533081,
+  "title": "vscode: ASAR extraction loses executable permissions for bundled Copilot runtime",
+  "author": "sliedes",
+  "created_at": "2026-10-12T00:13:28Z",
+  "updated_at": "2026-10-12T00:13:28Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "### Nixpkgs version - Unstable (26.11) ### Describe the bug ## Symptom copilot-chat does not work, failing to launch its native runtime: ``` 2026-10-12 01:14:54.073 [info] [Copilot] Using bundled runtime path: /nix/store/bk3c6b88hgfk2jyi0wiaj31hp4r4lmn4-vscode-1.140.0/lib/vscode/resources/app/node_modules.asar.unpacked/@github/copilot-sdk-linux-x64/prebuilds/linux-x64/copilot-runtime 2026-10-12 01:14:54.080 [warning] [AgentService] provider initialization failed before Automations could refresh for copilotcli Cannot call write after a stream was destroyed ``` ## Immediate cause The binary is correctly present in the path, has even been `patchelf`'d, but lacks executable permissions: ``` $ ls",
+  "url": "https://github.com/NixOS/nixpkgs/issues/573021",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "F. AI 生成配置的坑/翻车",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5771514444,
+  "title": "The AI coding tools and editors, from nixpkgs, in the Store (#34)",
+  "author": "aareman",
+  "created_at": "2026-10-09T01:51:47Z",
+  "updated_at": "2026-10-09T16:26:46Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "aareman/KosherOS",
+  "body": "Part of #34 — the AI tools and the editors. Stacked on #65 (Nix on every machine); merge that first. ## What a family gets On the Store's **Developer tools** shelf, for any account an administrator approves them for: | App | nixpkgs package | | |---|---|---| | Claude Code | `claude-code` | unfree | | Codex | `codex` | | | OpenCode | `opencode` | | | Gemini CLI | `gemini-cli` | | | Copilot CLI, GitHub Copilot (desktop) | `github-copilot-cli`, `github-copilot-app` | unfree | | Aider | `aider-chat` | | | GitHub CLI | `gh` | | | Cursor, Cursor CLI | `code-cursor`, `cursor-cli` | unfree | | Antigravity, Antigravity CLI | `antigravity`, `antigravity-cli` | unfree | | Neovim | `neovim` | | VS Code,",
+  "url": "https://github.com/aareman/KosherOS/pull/66",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5819399302,
+  "title": "Add GitHub Copilot Chat and workspace agent tools to NvChad",
+  "author": "Copilot",
+  "created_at": "2026-10-12T19:36:23Z",
+  "updated_at": "2026-10-12T19:47:29Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "maltinapro/nixos",
+  "body": "Integrates GitHub Copilot Chat into NvChad with terminal execution and filesystem access capabilities modeled after the IntelliJ Copilot plugin, while requiring explicit approval for each tool action. ### Changes - **Copilot Integration (`home/modules/nvchad.nix`)**: - Added `zbirenbaum/copilot.lua` for authentication (`:Copilot auth`) and inline completions (` `). - Added `CopilotC-Nvim/CopilotChat.nvim` in a vertical sidebar layout (`width = 0.4`). - **Tool Execution & Safety Controls**: - Enabled the `@copilot` tool group (`bash`, `edit`, `file`, `glob`, `grep`, `gitdiff`) so the assistant can inspect files and run terminal commands. - Kept `trusted_tools = nil` to ensure all tool invocat",
+  "url": "https://github.com/maltinapro/nixos/pull/15",
+  "matched_q": "nix copilot",
+  "cats": [
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5346423558,
+  "title": "Fix failed flake.lock bump",
+  "author": "BCNelson",
+  "created_at": "2026-09-04T09:24:17Z",
+  "updated_at": "2026-10-12T09:38:18Z",
+  "state": "open",
+  "comments": 21,
+  "repo": "BCNelson/nix-config",
+  "body": "The scheduled flake.lock bump workflow failed. Run: https://github.com/BCNelson/nix-config/actions/runs/33857691091 Commit: 4d93d21a650ec2ac3a543699a1fc5d7760f53a18 Ref: refs/heads/main Copilot PR base branch: main Updated lock branch: copilot/flake-lock-bump Job results: - update: success - check-hosts: failure Please reproduce the failure using the updated lock branch when present, identify the smallest safe fix, and open a pull request against main. Failed log excerpt: ```text ``` Expected validation: - Run `nix flake update`. - Run `nix eval .#nixosConfigurations --apply builtins.attrNames --json`. - Run `nix build .#devShells.x86_64-linux.default --dry-run --show-trace`. - Run the faili",
+  "url": "https://github.com/BCNelson/nix-config/issues/123",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "F. AI 生成配置的坑/翻车",
+   "I. 反对/怀疑 AI 用于 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5562622763,
+  "title": "Rules/context fan-out: four delivery and reporting gaps for #1795 to settle",
+  "author": "higherorderfunctor",
+  "created_at": "2026-09-24T03:29:51Z",
+  "updated_at": "2026-09-24T03:29:51Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "higherorderfunctor/nix-agentic-tools",
+  "body": "Four defects in the rules/context fan-out. Each one either fails silently or reports unactionably. Filing together because #1795 replaces the per-runtime machinery with a single engine, and these are the cases that engine should be tested against. ## 1. Claude rules ship as `/nix/store` symlinks, and Claude silently refuses them `ai.rulesDir` / `ai. .rules` emit `.claude/rules/ .md` into the runtime files registry (`packages/claude-code/lib/mkClaude.nix:851` on hm, `:1023` on devenv), which lowers through `lib/ai/runtime-files.nix` to the backend sink. On devenv that is `files. `, whose `copyMode` defaults to `symlink`. Claude Code classifies a rule file whose symlink target is outside the w",
+  "url": "https://github.com/higherorderfunctor/nix-agentic-tools/issues/1934",
+  "matched_q": "nix copilot",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具",
+   "I. 反对/怀疑 AI 用于 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5749286805,
+  "title": "nix: update dev environment and instructions",
+  "author": "imincik",
+  "created_at": "2026-10-07T17:42:51Z",
+  "updated_at": "2026-10-10T06:33:02Z",
+  "state": "open",
+  "comments": 5,
+  "repo": "qgis/QGIS",
+  "body": "## Description 1. Update Nix provided QGIS development environment 2. Update Nix instructions - use new Rust installer which provides much better user experience and also provides working uninstaller. ## TODOs - [ ] add ccmake - [ ] enable 3D and PDAL ## AI tool usage - [ ] AI tool(s) (Copilot, Claude, or something similar) supported my development of this PR. See our [policy about AI tool use](https://github.com/qgis/QGIS-Enhancement-Proposals/blob/master/qep-408-ai-tool-policy.md). Use of AI tools *must* be indicated. Failure to be honest might result in banning.",
+  "url": "https://github.com/qgis/QGIS/pull/67696",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5789718143,
+  "title": "emacsPackages.copilot: 0.9.0 -> 0.10.0",
+  "author": "r-ryantm",
+  "created_at": "2026-10-10T08:50:18Z",
+  "updated_at": "2026-10-11T21:55:43Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "NixOS/nixpkgs",
+  "body": "Automatic update generated by [nixpkgs-update](https://github.com/nix-community/nixpkgs-update) tools. This update was made based on information from https://github.com/copilot-emacs/copilot.el/releases. meta.description for emacsPackages.copilot is: Unofficial copilot plugin for Emacs meta.homepage for emacsPackages.copilot is: https://github.com/copilot-emacs/copilot.el ###### Updates performed - Version update ###### To inspect upstream changes - [Release on GitHub](https://github.com/copilot-emacs/copilot.el/releases/tag/v0.10.0) - [Compare changes on GitHub](https://github.com/copilot-emacs/copilot.el/compare/v0.9.0...v0.10.0) ###### Impact Checks done --- - built on NixOS - The tests d",
+  "url": "https://github.com/NixOS/nixpkgs/pull/572423",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5468230869,
+  "title": "Fix Copilot setup workflow path filters",
+  "author": "sspeaks",
+  "created_at": "2026-09-15T23:00:08Z",
+  "updated_at": "2026-09-18T21:01:27Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "sspeaks/redis-client",
+  "body": "Closes #72 ## Summary - preserve the corrected push and pull-request path filters for the Copilot setup workflow - restore the reserved single job identifier `copilot-setup-steps` required for Copilot recognition - add a lightweight static contract test for the workflow path, sole job ID, runner/steps shape, and self-path triggers - run the contract test explicitly in Tests CI ## Validation - `python3 .github/tests/test_copilot_setup_workflow.py` - `python3 .github/tests/test_pull_request_template.py` - `nix-build --no-out-link` - `make test` reached the final Library E2E suite; earlier suites passed, but the fixed-name Docker cluster harness failed from stale/interfering node lifecycle stat",
+  "url": "https://github.com/sspeaks/redis-client/pull/171",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5746305864,
+  "title": "dev-container: Shared dev container for agent work",
+  "author": "turion",
+  "created_at": "2026-10-07T14:02:19Z",
+  "updated_at": "2026-10-07T14:02:19Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "turion/upkeep",
+  "body": "Goal: `.devcontainer/Dockerfile` in upkeep with Nix, Haskell, and tricorder. Spokes' `.github/workflows/copilot-setup-steps.yml` reference it. Acceptance: Agent and local developer can use the same environment; agent pre-checks before pushing. Blocks: intake.",
+  "url": "https://github.com/turion/upkeep/issues/19",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5804266659,
+  "title": "Remove legacy Pi wrappers and add pi-coding-agent",
+  "author": "Copilot",
+  "created_at": "2026-10-11T19:12:50Z",
+  "updated_at": "2026-10-11T19:41:40Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "mp-complete/nix-common",
+  "body": "Removes the legacy Pi wrapper implementation and exposes `pi-coding-agent` as an alias of the upstream-backed `pi-next` wrapper. - **Wrapper API** - Add identical `pi-next` and `pi-coding-agent` wrapper/module exports. - Share extensions, skills, runtime, and default configuration. - Prevent automatic standalone package exports. - **Legacy removal** - Remove `pi-desktop`, `pi-daemon`, their package overlay, and the unused `llm-agents` input. - Update related documentation and boundary assertions. - **Pi agent** - Migrate the daemon to a non-interactive `pi-coding-agent` derivative. - Exclude bundled packages and extensions that could block unattended jobs. ```nix flake.wrappers.pi-coding-age",
+  "url": "https://github.com/mp-complete/nix-common/pull/32",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "E. AI 教学/答疑 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5768352534,
+  "title": "Add Node/npm/pnpm packages (26) from PR #21",
+  "author": "jonringer",
+  "created_at": "2026-10-08T20:20:22Z",
+  "updated_at": "2026-10-08T20:20:22Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "ekala-project/ekapkgs",
+  "body": "## Summary Split from #21 — 26 Node.js packages using npm/pnpm build systems (`buildNpmPackage`, `buildNpmApplication`, `buildPnpmApplication`, `fetchPnpmDeps`). - claude-agent-acp, codegraph, context-hub, gitclaw, oh-my-claudecode, oh-my-codex, omo-ai, openskills, qwen-code (buildNpmPackage) - bb-app, codex-acp, command-code, copilot-language-server, dsh, openspecui, paperclip, sandbox-runtime (buildNpmApplication + importNpmLock) - happy-coder, kimi-code, minimax-code, openclaw, openspec, zcode (pnpm via fetchPnpmDeps) - pi (importNpmLock + fetchNpmDeps) - skills (buildPnpmApplication) ## Test plan - [ ] `nix-instantiate -A ` for each package - [ ] `nix-build -A ` for each package",
+  "url": "https://github.com/ekala-project/ekapkgs/pull/25",
+  "matched_q": "nix copilot",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5442074195,
+  "title": "chore(nix): use UnstoppableMango/nix-systems flake module",
+  "author": "UnstoppableMango",
+  "created_at": "2026-09-13T18:56:01Z",
+  "updated_at": "2026-10-01T01:01:55Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "UnstoppableMango/travel",
+  "body": "The `systems` input now points at UnstoppableMango/nix-systems instead of nix-systems/triplet. The flake imports its `flakeModule`, which sets `herculesCI.ciSystems` so Hercules CI builds only x86_64-linux. The previous input nix-systems/triplet lists the same systems as the pin, so the offered systems do not change. `nix flake check --no-build` passes, and `nix eval .#herculesCI.ciSystems --json` prints `[\"x86_64-linux\"]`. 🤖 Generated with [Claude Code](https://claude.com/claude-code) ## Summary by CodeRabbit - **Chores** - Updated system configuration inputs and formatting tooling integration to improve project setup consistency.",
+  "url": "https://github.com/UnstoppableMango/travel/pull/18",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5527609782,
+  "title": "ci: use unmango/actions setup-nix",
+  "author": "UnstoppableMango",
+  "created_at": "2026-09-21T13:26:03Z",
+  "updated_at": "2026-09-21T13:27:48Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "UnstoppableMango/travel",
+  "body": "Replace the inline Nix setup steps with the shared `unmango/actions/setup-nix` composite action. Pinned to `unmango/actions` v1.0.1 (`3ec4ed5`). ## Moved - `cachix/install-nix-action` + `cachix/cachix-action` (`unstoppablemango`, read-only) -> `unmango/actions/setup-nix`. Applies to both jobs in `ci.yml` and to `copilot-setup-steps.yml`. This also bumps `install-nix-action` from v31.10.6 to v31.11.1. - `skipPush: true` is dropped because `setup-nix` does not expose it. The steps pass no auth token, so `cachix-action` has nothing to push with and behaviour does not change. ## Stayed inline - Nothing Nix-related. Pulumi and artifact steps are unchanged. 🤖 Generated with [Claude Code](https://c",
+  "url": "https://github.com/UnstoppableMango/travel/pull/23",
+  "matched_q": "nix copilot",
+  "cats": [
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5527606623,
+  "title": "ci: use unmango/actions setup-nix",
+  "author": "UnstoppableMango",
+  "created_at": "2026-09-21T13:25:46Z",
+  "updated_at": "2026-09-21T13:32:18Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "UnstoppableMango/github",
+  "body": "Install Nix through the shared `unmango/actions/setup-nix` action, pinned to v1.0.1. ## Moved - `copilot-setup-steps.yml`: the `cachix/install-nix-action` and `cachix/cachix-action` pair became one setup-nix step. - `skipPush: true` is dropped; setup-nix passes no auth token here, so cachix-action does not push either way. - `ci.yml` `nix` job: `cachix/install-nix-action` replaced by setup-nix, which also bumps it from v31.10.6 to v31.11.1. - That job used no Cachix before, so it now also pulls read-only from the `unstoppablemango` cache. ## Stayed inline - Nothing Nix-related; the Pulumi job has no Nix steps. 🤖 Generated with [Claude Code](https://claude.com/claude-code) ## Summary by CodeR",
+  "url": "https://github.com/UnstoppableMango/github/pull/433",
+  "matched_q": "nix copilot",
+  "cats": [
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5645599312,
+  "title": "Auto-escalate failed scheduled/master builds and flake-lock updates to Copilot triage",
+  "author": "Copilot",
+  "created_at": "2026-09-30T11:19:39Z",
+  "updated_at": "2026-09-30T11:26:18Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "turion/rhine",
+  "body": "Failed scheduled/master CI runs and dependency-lockfile update workflows previously only surfaced as a red check, requiring a human to notice and investigate. This adds automatic escalation: on failure, an issue is opened and handed off to the Copilot coding agent for triage. ## Workflow - Added `.github/workflows/ci-failure-triage.yml`, triggered by `workflow_run` (`completed`) for the `build` (scheduled/master CI) and `update-flake-lock` workflows — the actual workflow names present in this repo. - Gated with `if: ... conclusion == 'failure'` so it only fires on real failures, never on success. - Also supports `workflow_dispatch` with a `run_id` input, so the workflow can be exercised manu",
+  "url": "https://github.com/turion/rhine/pull/457",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "F. AI 生成配置的坑/翻车"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5761664434,
+  "title": "chore!: 🐍 raise Python minimum to 3.12",
+  "author": "robertodr",
+  "created_at": "2026-10-08T12:20:36Z",
+  "updated_at": "2026-10-08T13:34:17Z",
+  "state": "open",
+  "comments": 4,
+  "repo": "Algorithmiq/monoprop",
+  "body": ":robot: _AI text below_ :robot: ## Summary Raise the minimum supported Python version to 3.12. This replaces #379, which was merged by mistake into the branch of #391. > [!NOTE] > This branch is built on top of #391 (`copilot/fix-nanobind-version-nix`) but targets `main`. Until #391 merges, the diff also shows its nix commit. Only `chore!: 🐍 raise Python minimum to 3.12` belongs to this PR. ## Changes - **Python 3.11 dropped:** removed from the package metadata, CMake, CI, the issue templates and the tooling configuration (ruff, pyright, sonar). `uv.lock` is regenerated; the only changes are dropping the separate 3.11 resolutions. - **Stable ABI:** `wheel.py-api` moves to `cp312`, so wheels ",
+  "url": "https://github.com/Algorithmiq/monoprop/pull/395",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5807990321,
+  "title": "docs: add dev environment setup plan",
+  "author": "thomashan",
+  "created_at": "2026-10-12T03:36:38Z",
+  "updated_at": "2026-10-12T03:36:38Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "thomashan/dev-env",
+  "body": "## Summary Adds `docs/plan.md`, a plan for the complete local dev environment setup. Covers: - Prerequisite checks (`make`, `git`, `curl`, compiler, etc.) via `bin/doctor.sh` - Nix-managed toolchains (`openssl`, `fzf`, ripgrep, etc.) via flakes - Conda (Miniforge) for Python version management, with `uv` for per-project envs - Neovim as the primary IDE (lazy.nvim-based config) - Cross-platform / cross-arch support: Linux + macOS, amd64 + arm64 - Phased milestones, each intended to land as its own follow-up PR No code changes yet — this is purely the planning document for review before implementation begins. Co-authored-by: Copilot",
+  "url": "https://github.com/thomashan/dev-env/pull/2",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5793941310,
+  "title": "[M5-25] run-server.sh: skip nix develop when AGDA_MCP_BIN and --agda-bin are given",
+  "author": "williamdemeo",
+  "created_at": "2026-10-10T18:09:36Z",
+  "updated_at": "2026-10-12T05:52:47Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "formalverification/agda-native-air",
+  "body": "## Context `scripts/run-server.sh` always enters `nix develop #backend` before it runs the server ([`exec nix develop`]), for `agda`, `cabal` and GHC. A registration that names a prebuilt server (`AGDA_MCP_BIN`) and its project's own Agda (`--agda-bin`, as claude-tooling's agda-algebras registration does) needs none of them, but still pays for the shell before the server can answer `initialize`. The cost varied from 5 s to 32 s on 2026-10-10 (the main checkout's tree was dirty, which makes `nix develop` re-evaluate the flake): | Client, run | Launch to server ready | |-------------|-----------------------:| | a hand-driven `initialize` through the agda-algebras registration | 32.4 s | | Copi",
+  "url": "https://github.com/formalverification/agda-native-air/issues/249",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5792219113,
+  "title": "feat(nix): add dtrans (deep-translate-shell CLI)",
+  "author": "tkoyama010",
+  "created_at": "2026-10-10T14:40:32Z",
+  "updated_at": "2026-10-10T14:41:46Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "tkoyama010/dotfiles",
+  "body": "## Summary Add `dtrans` (the [deep-translate-shell](https://github.com/kriss-spy/deep-translate-shell) CLI) as a home-manager package. - New derivation `pkgs/dtrans/default.nix` building dtrans 1.1.0 from PyPI with `buildPythonApplication` - Exposed via the overlay and `nix run .#dtrans` in `flake.nix` - Added to the home-manager package list in `modules/home-manager/home/default.nix` `dtrans` is a modern rewrite of translate-shell powered by LLMs (DeepSeek, Gemini, ChatGPT, or any OpenAI-compatible API such as Qwen via DashScope), so it will also serve as the CLI for the planned Qwen translation workflow. ## Test plan - [x] `nix build --impure --expr 'let pkgs = import {}; in pkgs.callPacka",
+  "url": "https://github.com/tkoyama010/dotfiles/pull/344",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5503887350,
+  "title": "feat: add clanker-cleanroom-copilot agent package and dev flake",
+  "author": "camara-tech-pro",
+  "created_at": "2026-09-18T19:29:57Z",
+  "updated_at": "2026-09-18T19:45:18Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "improving/agent-gwt",
+  "body": "Add a Copilot CLI agent binding for clanker-cleanroom following the existing claude/cursor sibling package pattern: Docker image, credential resolution (token envs with CLI precedence, or ~/.copilot mount), JSONL trajectory adapter, and GWT tests. Also add a nix flake dev environment including the Copilot CLI. part of #4",
+  "url": "https://github.com/improving/agent-gwt/pull/21",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5735873361,
+  "title": "[aw] CI Failure Doctor timed out",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-06T21:49:14Z",
+  "updated_at": "2026-10-06T21:49:14Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "MH0386/.dotfiles.nix",
+  "body": "### Workflow Failure **Workflow:** [CI Failure Doctor](https://github.com/githubnext/agentics/blob/dcdf09723d42ef9b6c75335e4612fd145d4ccdaa/workflows/ci-doctor.md) **Branch:** main **Run:** https://github.com/MH0386/.dotfiles.nix/actions/runs/37535034255 **Agent Timed Out**: The agent job exceeded the maximum allowed execution time (10 minutes). To increase the timeout, add or update the `timeout-minutes` setting in your workflow's frontmatter: ```yaml --- timeout-minutes: 20 --- ``` ### Action Required **Assign this issue to an agent** to debug and fix the issue. Optimize token consumption This failure was triggered by a guardrail limit (max-turns / timeout). Use this prompt with any coding",
+  "url": "https://github.com/MH0386/.dotfiles.nix/issues/1540",
+  "matched_q": "nix copilot",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5735736380,
+  "title": "[aw] Code Simplifier timed out",
+  "author": "github-actions[bot]",
+  "created_at": "2026-10-06T21:36:00Z",
+  "updated_at": "2026-10-06T21:36:00Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "MH0386/.dotfiles.nix",
+  "body": "### Workflow Failure **Workflow:** [Code Simplifier](https://github.com/githubnext/agentics/blob/1f672aef974f4246124860fc532f82fe8a93a57e/workflows/code-simplifier.md) **Branch:** main **Run:** https://github.com/MH0386/.dotfiles.nix/actions/runs/37531049892 **Agent Timed Out**: The agent job exceeded the maximum allowed execution time (30 minutes). To increase the timeout, add or update the `timeout-minutes` setting in your workflow's frontmatter: ```yaml --- timeout-minutes: 40 --- ``` ### Action Required **Assign this issue to an agent** to debug and fix the issue. Optimize token consumption This failure was triggered by a guardrail limit (max-turns / timeout). Use this prompt with any co",
+  "url": "https://github.com/MH0386/.dotfiles.nix/issues/1539",
+  "matched_q": "nix copilot",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5148890822,
+  "title": "fix(copilot): github.com Copilot and copilot-cli are two runtimes under one name; HM instructions/rules are never read",
+  "author": "higherorderfunctor",
+  "created_at": "2026-08-14T06:14:44Z",
+  "updated_at": "2026-08-15T21:43:39Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "higherorderfunctor/nix-agentic-tools",
+  "body": "## Problem `ai.copilot` targets **two different products under one name**, and the module treats them as one implementation differing only by config root. They are not. - **GitHub Copilot (github.com / IDE)** reads `.github/instructions/*.instructions.md` from the **repository**. That is a repo-relative convention. - **Copilot CLI** reads `~/.copilot/copilot-instructions.md` and `~/.copilot/instructions`, plus a process-wide `--additional-mcp-config`. Because the two were modelled as one runtime with a swappable root, the Home Manager backend emits the *repo* convention under `$HOME`, where nothing reads it. ## Concrete symptom — Copilot rules and named instructions are DEAD on Home Manager ",
+  "url": "https://github.com/higherorderfunctor/nix-agentic-tools/issues/920",
+  "matched_q": "nix copilot",
+  "cats": [
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5519935321,
+  "title": "Use the standalone headroom-kit package and keep Nix wrappers thin",
+  "author": "ruarfff",
+  "created_at": "2026-09-20T19:20:56Z",
+  "updated_at": "2026-09-20T19:20:56Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "ruarfff/headroom-kit-nix",
+  "body": "## Problem headroom-kit-nix currently owns the Python application as well as its Nix packaging. Once the standalone headroom-kit package exists, this repository should only manage installation, declarative configuration, and thin wrappers. Depends on [headroom-kit#1: Extract Headroom Kit into a standalone Python CLI package](https://github.com/ruarfff/headroom-kit/issues/1). That issue owns the public CLI and Python release contract. ## Ownership after migration ```text Nix / Home Manager installs Headroom and headroom-kit supplies non-secret integration defaults exposes existing wrapper commands -> headroom-kit CLI owns routing, auth integration, proxy lifetime, and agent adapters -> Headro",
+  "url": "https://github.com/ruarfff/headroom-kit-nix/issues/11",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5536927501,
+  "title": "Add Nix Agents to Session managers & parallel runners",
+  "author": "BTA-private",
+  "created_at": "2026-09-22T08:08:40Z",
+  "updated_at": "2026-09-22T08:10:30Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "bradAGI/awesome-cli-coding-agents",
+  "body": "Adds **Nix Agents** under *Session managers & parallel runners*. **What it is:** a desktop workspace that runs the coding-agent CLIs you already have (Claude Code, Codex, Gemini CLI, Copilot, Aider, opencode, … — 37 agents in the launcher) side by side, each in its own git worktree with a real terminal, per-worktree diff review and a merge queue. **Why the section fits:** it is a session manager / parallel runner, not an IDE — the unit it manages is a task with its own checkout and branch, which is the same shape as the other entries in that section (Orca, Multica, vibe-kanban). **Against the criteria:** - CLI/terminal interface: yes — ships `nix` and `nix-dev` alongside the desktop app - Re",
+  "url": "https://github.com/bradAGI/awesome-cli-coding-agents/pull/376",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5724635837,
+  "title": "Test/MCP UI module inspector search filters the table",
+  "author": "romanzac",
+  "created_at": "2026-10-06T07:24:40Z",
+  "updated_at": "2026-10-13T01:44:03Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "logos-co/logos-basecamp",
+  "body": "## Summary Adds test `module inspector: search filters the table` to MCP UI suite. ## Test plan - [x] `nix build .#app` succeeds - [x] `nix build .#smoke-test -L` passes - [x] `nix build .#integration-test -L` passes (if UI-visible) - [x] Doctests pass (`nix build .#doctests -L` if touched) ## Checklist - [x] Branch prefixed `fix/`, `feat/`, `chore/`, `docs/`, `test/`, or `ci/` - [x] No unrelated changes bundled in - [x] `CLAUDE.md` / `README.md` / `docs/` updated if behaviour or build steps changed - [x] Uncommitted binaries, screenshots, or `.DS_Store` files removed",
+  "url": "https://github.com/logos-co/logos-basecamp/pull/485",
+  "matched_q": "nix copilot",
+  "cats": [
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5725690970,
+  "title": "Test/MCP UI module inspector interface view lists methods/events and calls a method",
+  "author": "romanzac",
+  "created_at": "2026-10-06T08:53:46Z",
+  "updated_at": "2026-10-08T06:58:56Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "logos-co/logos-basecamp",
+  "body": "## Summary Adds test `module inspector interface view lists methods/events and calls a method` to MCP UI suite. ## Test plan - [x] `nix build .#app` succeeds - [x] `nix build .#smoke-test -L` passes - [x] `nix build .#integration-test -L` passes (if UI-visible) - [x] Doctests pass (`nix build .#doctests -L` if touched) ## Checklist - [x] Branch prefixed `fix/`, `feat/`, `chore/`, `docs/`, `test/`, or `ci/` - [x] No unrelated changes bundled in - [x] `CLAUDE.md` / `README.md` / `docs/` updated if behaviour or build steps changed - [x] Uncommitted binaries, screenshots, or `.DS_Store` files removed",
+  "url": "https://github.com/logos-co/logos-basecamp/pull/488",
+  "matched_q": "nix copilot",
+  "cats": [
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5640224213,
+  "title": "fix: pin Nix flake inputs to locked revisions",
+  "author": "hanthor-hive-agent[bot]",
+  "created_at": "2026-09-30T03:04:57Z",
+  "updated_at": "2026-10-07T21:14:20Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "tuna-os/PaperWM",
+  "body": "## Security Fix Pin the `nixpkgs` and GNOME staging flake input declarations to the exact revisions already recorded in `flake.lock`. This prevents a lock refresh from silently following moving upstream branches and keeps dependency updates reviewable. Closes #33 --- *Filed by sec-check agent (ACMM L6 — full mode)* — hive: agent=sec-check backend=pi model=kiro-api-key/gpt-5-6-luna:high pi=0.87.1",
+  "url": "https://github.com/tuna-os/PaperWM/pull/34",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5788148510,
+  "title": "Add prepomax-cmd package (PrePoMax command line via Wine)",
+  "author": "tkoyama010",
+  "created_at": "2026-10-10T04:41:23Z",
+  "updated_at": "2026-10-10T04:43:38Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "tkoyama010/dotfiles",
+  "body": "## What Add a `prepomax-cmd` package so that the [PrePoMax](https://prepomax.fs.um.si/) command-line executable (`PrePoMax.com`) is available in home-manager environments. - `pkgs/prepomax-cmd/default.nix` – new package. Downloads the official portable zip (PrePoMax v2.6.0) and wraps `PrePoMax.com` (console) and `PrePoMax.exe` (GUI) with Wine. A `prepomax-cmd` bin is exposed for scripting and AI-driven FEA workflows. - `flake.nix` – expose the package in the overlay and `packages` outputs, following the existing `istats` / `sbx` pattern. - `modules/home-manager/home/default.nix` – install `prepomax-cmd` on `x86_64-linux` only. ## Notes / limitations - PrePoMax is a Windows-only .NET Framewor",
+  "url": "https://github.com/tkoyama010/dotfiles/pull/342",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5479568398,
+  "title": "feat: package agentgateway as a nix flake",
+  "author": "markuskobler",
+  "created_at": "2026-09-16T20:27:34Z",
+  "updated_at": "2026-10-09T18:30:26Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "agentgateway/agentgateway",
+  "body": "Adds a Nix flake so `agentgateway` can be installed or run straight from the repo, without a toolchain setup or a release download. Structure follows as similar flakes setup to [openai/codex](https://github.com/openai/codex) and [jj-vcs/jj](https://github.com/jj-vcs/jj) using a thin `flake.nix` plus a `callPackage` compat `default.nix` for non-flake consumers. ```bash nix run github:agentgateway/agentgateway # run it nix shell github:agentgateway/agentgateway # throwaway shell nix profile install github:agentgateway/agentgateway # persistent or nix run github:agentgateway/agentgateway/v1.6.0 # run a released version ``` - [x] As required by the [Code of Conduct](https://github.com/agentgatew",
+  "url": "https://github.com/agentgateway/agentgateway/pull/3513",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5460777016,
+  "title": "Bump the actions group across 1 directory with 3 updates",
+  "author": "dependabot[bot]",
+  "created_at": "2026-09-15T10:35:42Z",
+  "updated_at": "2026-10-06T10:34:39Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "SeineEloquenz/ci",
+  "body": "Bumps the actions group with 3 updates in the / directory: [actions/setup-java](https://github.com/actions/setup-java), [DeterminateSystems/magic-nix-cache-action](https://github.com/determinatesystems/magic-nix-cache-action) and [cachix/cachix-action](https://github.com/cachix/cachix-action). Updates `actions/setup-java` from 5 to 6 Release notes Sourced from actions/setup-java's releases . v6.0.0 What's Changed dist: Migrate from Zulu Discovery API to Azul Metadata API by @​jameswald in actions/setup-java#1010 feat: add .mvn/extensions.xml to Maven cache key pattern by @​brunoborges with @​Copilot in actions/setup-java#1041 Migrate to ESM and upgrade dependencies by @​priyagupta108 in acti",
+  "url": "https://github.com/SeineEloquenz/ci/pull/12",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5755781211,
+  "title": "build: June dev image (june-dev) and a devcontainer",
+  "author": "linyiru",
+  "created_at": "2026-10-08T04:18:34Z",
+  "updated_at": "2026-10-08T04:25:54Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "junebuild/june",
+  "body": "> Stacked on #356. Its base is `scripts/agent-sandbox`; retarget to `main` once #356 merges, and before that branch is deleted. Two commits. ## 1. Rename the sandbox image to the June dev image \"Sandbox\" is reserved for the framework primitive (#348), where an agent built *with* June runs its shell commands and the harness and secrets stay outside. This image is named for what it holds, the June dev toolchain, so it can back a dev container now and a Sandbox environment later. | before | after | |---|---| | `.#sandbox-image` | `.#dev-image` | | `nix/sandbox-image.nix` | `nix/dev-image.nix` | | `scripts/smoke-sandbox-image.sh` | `scripts/smoke-dev-image.sh` | | `.github/workflows/sandbox-imag",
+  "url": "https://github.com/junebuild/june/pull/357",
+  "matched_q": "nix copilot",
+  "cats": [
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5725466269,
+  "title": "Test/MCP UI module inspector unloading a leaf module and reloading it",
+  "author": "romanzac",
+  "created_at": "2026-10-06T08:35:07Z",
+  "updated_at": "2026-10-08T06:58:32Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "logos-co/logos-basecamp",
+  "body": "## Summary Adds test `module inspector: unloading a leaf module and reloading it` to MCP UI suite. ## Test plan - [x] `nix build .#app` succeeds - [x] `nix build .#smoke-test -L` passes - [x] `nix build .#integration-test -L` passes (if UI-visible) - [x] Doctests pass (`nix build .#doctests -L` if touched) ## Checklist - [x] Branch prefixed `fix/`, `feat/`, `chore/`, `docs/`, `test/`, or `ci/` - [x] No unrelated changes bundled in - [x] `CLAUDE.md` / `README.md` / `docs/` updated if behaviour or build steps changed - [x] Uncommitted binaries, screenshots, or `.DS_Store` files removed",
+  "url": "https://github.com/logos-co/logos-basecamp/pull/487",
+  "matched_q": "nix copilot",
+  "cats": [
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 4367827279,
+  "title": "NixOS keychain support is broken",
+  "author": "queze1",
+  "created_at": "2026-05-02T03:59:36Z",
+  "updated_at": "2026-10-09T22:20:23Z",
+  "state": "open",
+  "comments": 2,
+  "repo": "github/copilot-cli",
+  "body": "### Describe the bug Copilot fails to access the system keychain despite libsecret, GNOME Keyring and Seahorse being installed. ``` $ copilot login To authenticate, visit https://github.com/login/device and enter code XXXX-XXXX. Waiting for authorization... System keychain unavailable. Store token in plaintext config file? (y/N) ``` ### Affected version GitHub Copilot CLI 1.0.32 ### Steps to reproduce the behavior 1. Install libsecret, GNOME Keyring, Seahorse, and Copilot CLI Home Manager: ``` home.packages = with pkgs; [ libsecret github-copilot-cli ] ``` NixOS: ``` services.gnome.gnome-keyring.enable = true; programs.seahorse.enable = true; ``` 2. `nixos-rebuild switch`, `reboot` 3. Run `c",
+  "url": "https://github.com/github/copilot-cli/issues/3081",
+  "matched_q": "nix copilot",
+  "cats": [
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "F. AI 生成配置的坑/翻车"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5754594319,
+  "title": "Bump the nix-inputs group across 1 directory with 2 updates",
+  "author": "dependabot[bot]",
+  "created_at": "2026-10-08T01:55:53Z",
+  "updated_at": "2026-10-08T01:55:54Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "fungi-protocol/post-range-diff-comment",
+  "body": "Bumps the nix-inputs group with 2 updates in the / directory: [nixpkgs](https://github.com/NixOS/nixpkgs) and [treefmt-nix](https://github.com/numtide/treefmt-nix). Updates `nixpkgs` from `b1b8759` to `b4fd65b` Commits b4fd65b openvino: forbid compiler references ( #568213 ) 045b121 uboot*: fix build ( #568125 ) 0f3e3d9 copilot-language-server: 1.547.0 -> 1.551.2 ( #568251 ) 99358e9 tree-sitter: fix riscv64-linux build ( #568076 ) 22daed5 dbcsr: cleanup, fix ( #568247 ) 621eab1 cook-cli: 0.36.0 -> 0.37.0 ( #568094 ) c135c53 copilot-language-server: 1.547.0 -> 1.551.2 a23feeb python3Packages.flare-capa: rename ( #568169 ) c092327 dbcsr: cleanup, fix 8b25d30 polysh: 1.0.4 -> 1.0.6 ( #568234 ) ",
+  "url": "https://github.com/fungi-protocol/post-range-diff-comment/pull/9",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5725200160,
+  "title": "Test/MCP UI seed a loadable core-module fixture into the integration-test instance",
+  "author": "romanzac",
+  "created_at": "2026-10-06T08:13:36Z",
+  "updated_at": "2026-10-12T02:22:31Z",
+  "state": "open",
+  "comments": 1,
+  "repo": "logos-co/logos-basecamp",
+  "body": "## Summary Seeds the loadable core-module fixture `depsvc` (tests/fixtures/depsvc, already built by the flake for the dependency-gate doc-test) into the integration suite's throwaway user dir as an installed, not-loaded module, so a follow-up test (A21) has a non-protected Module Inspector row to load and unload. ## Test plan - [x] `nix build .#app` succeeds - [x] `nix build .#smoke-test -L` passes - [x] `nix build .#integration-test -L` passes (if UI-visible) - [x] Doctests pass (`nix build .#doctests -L` if touched) ## Checklist - [x] Branch prefixed `fix/`, `feat/`, `chore/`, `docs/`, `test/`, or `ci/` - [x] No unrelated changes bundled in - [x] `CLAUDE.md` / `README.md` / `docs/` updated",
+  "url": "https://github.com/logos-co/logos-basecamp/pull/486",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "C. MCP × NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5790551889,
+  "title": "feat(skills): manage categorized agent skills with Home Manager",
+  "author": "hannoeru",
+  "created_at": "2026-10-10T10:53:57Z",
+  "updated_at": "2026-10-10T10:57:46Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "hannoeru/dotfiles",
+  "body": "## Why Manage portable agent skills through Home Manager instead of manual installs. Add `programs.skills.sources` and the requested catalogue of 11 sources, with exact category labels and selected skill names. ## Scope - Keep the catalogue in `modules/home/skills.nix` and the installer in `modules/home/programs/skills.nix`. - Add `dotfiles-skills-sync` for activation, manual retry, and dry-run inspection. - Stage installs with the pinned Skills CLI, validate selected files, and publish owned category links under `~/.agents/skills`. - Preserve manual files, Pi package skills, and referenced generations. Refuse category collisions. - Add documentation, source research, and native Linux and Da",
+  "url": "https://github.com/hannoeru/dotfiles/pull/19",
+  "matched_q": "nix copilot",
+  "cats": [
+   "E. AI 教学/答疑 NixOS"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5550890776,
+  "title": "build(nix): github-copilot-cli を 1.0.78 → 1.0.88 に更新する(/model で選択したモデルが元に戻る)",
+  "author": "music-brain88",
+  "created_at": "2026-09-23T08:35:26Z",
+  "updated_at": "2026-09-23T08:35:26Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "music-brain88/dotfiles",
+  "body": "## 不具合概要 - Copilot CLI の対話モードで `/model` からモデルを選んでも反映されず、フッター右下のモデル名が選択前のまま(元に戻る) - dotfiles 側の固定(config.json / `COPILOT_MODEL` / `--model` / 指示ファイルの model 指定)はすべて該当なしと確認済み。config.json の化石(#597)は無関係 ## 該当ライブラリ 及び 該当コード - github-copilot-cli 1.0.78(flake.nix の overlay で `copilotVersion = \"1.0.78\"` に固定、GitHub Release の linux-x64 tgz を fetchzip) - 上流最新は v1.0.88(2026-09-22)。10 リリース遅れ ## 発生環境 - 環境: native Arch Linux + Hyprland、herdr pane 内で起動 - 端末: Linux - アカウント: Enterprise プラン(セッションログにエンタープライズ向けエンドポイントへのエクスポート記録あり) ## 再現手順 1. `copilot` を対話モードで起動(`~/.copilot/settings.json` の model は `gpt-5.6-sol`) 2. `/model` で `grok-4.7` を選択(`gpt-5.6-sol` から切替) 3. フッターのモデル名が選択前のまま。`~/.copilot/logs/process-*.log` に",
+  "url": "https://github.com/music-brain88/dotfiles/issues/598",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5521295104,
+  "title": "[pegasus] Add official ChatGPT Linux preview desktop package via local derivation",
+  "author": "Copilot",
+  "created_at": "2026-09-21T00:02:17Z",
+  "updated_at": "2026-09-21T00:06:48Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "zjones-xyz/nixos-config",
+  "body": "This updates pegasus to install the ChatGPT Linux public preview as a desktop app, mirroring the existing “external desktop package via flake args” pattern used for Claude Desktop. The change introduces a repo-local package for OpenAI’s Linux `.deb` and wires it into Home Manager. - **What changed** - Added `pkgs/chatgpt-linux-preview.nix` to package OpenAI’s official Linux preview `.deb` (`amd64`/`arm64`), copy app assets, and expose a `chatgpt` launcher. - Wrapped launch with `steam-run` to provide the expected FHS runtime for upstream binaries on NixOS. - Registered the package in `flake.nix` as `chatgptLinuxPreview` via `home-manager.extraSpecialArgs`. - Added `chatgptLinuxPreview` to pe",
+  "url": "https://github.com/zjones-xyz/nixos-config/pull/144",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "D. 用 Nix 打包/运行 AI 工具",
+   "H. 本地推理 / GPU"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5341786874,
+  "title": "Fix setup workflow path filters",
+  "author": "sspeaks",
+  "created_at": "2026-09-03T21:45:48Z",
+  "updated_at": "2026-09-03T21:55:00Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "sspeaks/redis-client",
+  "body": "## Summary Fix the Copilot/setup workflow's path filters so changes to the tracked workflow actually trigger its validation. ## Evidence - The tracked workflow is `.github/workflows/copilot-setup-steps.yml`. - Its push and pull-request filters watch `.github/workflows/setup-agent.yml` at `.github/workflows/copilot-setup-steps.yml:3-10`, a path that is not the workflow being edited. - The workflow's purpose is to install Nix and run the bootstrap build at `.github/workflows/copilot-setup-steps.yml:12-27`, so skipping validation on changes directly undermines contributor/agent setup reliability. ## User impact A pull request can break the setup workflow without running it, leaving new contribu",
+  "url": "https://github.com/sspeaks/redis-client/issues/72",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5562623724,
+  "title": "AI app wrappers drop `meta`: lib.getExe resolves a nonexistent path, and profile installs collide at equal priority",
+  "author": "higherorderfunctor",
+  "created_at": "2026-09-24T03:29:57Z",
+  "updated_at": "2026-09-24T03:29:57Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "higherorderfunctor/nix-agentic-tools",
+  "body": "Five factories build their installed binary with `pkgs.symlinkJoin` + `wrapProgram` and attach no `meta`. Two consequences; the first is a live bug independent of any consumer mistake. ## Sites - `packages/kimchi/lib/mkKimchi.nix:63` - `packages/kiro-cli/lib/wrapPackage.nix:300` - `packages/chatgpt-codex/lib/wrapPackage.nix:46` - `packages/copilot-cli/lib/wrapPackage.nix:91` - `packages/semble/modules/common.nix:102` ## 1. `lib.getExe` on the installed package resolves a path that does not exist `wrapProgram` moves the real binary to `bin/. -wrapped` and writes a shell script in its place. With no `meta.mainProgram` propagated from the wrappee, `lib.getExe` falls back to the derivation name ",
+  "url": "https://github.com/higherorderfunctor/nix-agentic-tools/issues/1935",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5649806609,
+  "title": "ai: warn on inert launcher inputs for every runtime when package = null",
+  "author": "higherorderfunctor",
+  "created_at": "2026-09-30T16:36:45Z",
+  "updated_at": "2026-09-30T16:36:45Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "higherorderfunctor/nix-agentic-tools",
+  "body": "## Context PR #2091 makes `ai. .package = null` configure a runtime without installing it. Kiro warns when explicitly set wrapper-carried options go inert (the list is derived from `wrapPackage.nix`'s own argument set, so it is complete for Kiro). ## Gap Copilot, Kimchi and Codex also bake the builder's `launcherEnvironment` (and runtime-specific flags) into their install wrappers (`lib.ai.mkLauncher`, Kimchi's and Codex's wrappers). With `package = null` the callback is skipped, so those explicitly set entries go inert with no signal. ## Ask Apply the same rule everywhere: an inert launcher input warns only when the consumer defined it (option priority below the 1500 default); defaults stay",
+  "url": "https://github.com/higherorderfunctor/nix-agentic-tools/issues/2101",
+  "matched_q": "nix copilot",
+  "cats": [
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "issue",
+  "id": 5412297620,
+  "title": "Map: Sandboxed, credential-safe agents via docker-sbx",
+  "author": "dandyrow",
+  "created_at": "2026-09-10T12:41:23Z",
+  "updated_at": "2026-09-25T18:02:09Z",
+  "state": "open",
+  "comments": 0,
+  "repo": "dandyrow/dotfiles",
+  "body": "## Destination Every host runs agent CLIs (opencode, copilot, future CLIs) inside a docker-sbx microVM: permissionless execution (no prompts), credential-safe via host-side broker + SSH-agent forwarding, MCP available through the host gateway, corporate-CA aware on WSL, near-open networking behind a deny list, and delivery gated by deterministic checks. The end state is a decision plus Nix config any fresh host reproduces. ## Notes - Domain: NixOS dotfiles (`nix/home`, `nix/modules`, stow dirs). Git discipline: worktrees off `main`, feature branches, PRs, never touch main. - Skills every session consults: `nix-workflow` (any `.nix` edit), `nix-native-deps` (adding tools), `unslop` (all prose",
+  "url": "https://github.com/dandyrow/dotfiles/issues/198",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "B. AI Agent 运维 NixOS 服务器",
+   "C. MCP × NixOS",
+   "G. 安全与信任边界"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5823007098,
+  "title": "Prepare release v0.13.1",
+  "author": "robzolkos",
+  "created_at": "2026-10-13T01:37:03Z",
+  "updated_at": "2026-10-13T01:43:34Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "basecamp/basecamp-cli",
+  "body": "## Summary Release metadata generated by `GOWORK=off make release VERSION=0.13.1`: - set the Nix package version to 0.13.1 and verify the Nix build (dependencies changed since 0.13.0; vendorHash verified unchanged) - stamp the Claude and Codex plugin manifests as 0.13.1 The full release preflight (`make release-check`: check, replace-check, govulncheck, race tests, surface compatibility) passed before branch protection rejected the script's direct `main` push. No release tag has been created. After this PR merges, rerunning the release command from `main` creates and pushes the tag without another metadata change. ## What 0.13.1 ships (since v0.13.0) - Connect an agent in one flow: versions ",
+  "url": "https://github.com/basecamp/basecamp-cli/pull/892",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "D. 用 Nix 打包/运行 AI 工具"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822735950,
+  "title": "Fix runner image crash: stop exporting LD_LIBRARY_PATH from the nix-ld substrate",
+  "author": "agentydragon",
+  "created_at": "2026-10-13T01:06:39Z",
+  "updated_at": "2026-10-13T01:09:58Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "agentydragon/ducktape",
+  "body": "_Requested by **Rai** · [project thread](https://claude.ai/code/project/chan_01RbvEzrs8Yi8YhNnHoSLtMy?thread=cmsg_01RbvEzrs8Yi8YhNnHoSLtMy6o6AQdzPNRcxrZ8ShCsdJL)_ Before: since the \"Nix flake update\" commit, the `Runner Images` workflow on devel fails its smoke test: `docker run --help` prints `*** stack smashing detected ***: terminated` and exits 139. After: the entrypoint starts. `nix/lib/nix-ld-image.nix` no longer puts a plain `LD_LIBRARY_PATH` in the image environment. Cause: the runner's Python comes from nixos-unstable (glibc 2.44), but the substrate's `LD_LIBRARY_PATH` named nixos-26.05's glibc, libgcc and openssl. Until the flake update both channels shipped the same glibc; the upd",
+  "url": "https://github.com/agentydragon/ducktape/pull/10238",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置"
+  ]
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822584312,
+  "title": "Park the OpenClaw and devbox image CI workflows",
+  "author": "agentydragon",
+  "created_at": "2026-10-13T00:49:00Z",
+  "updated_at": "2026-10-13T00:59:11Z",
+  "state": "closed",
+  "comments": 3,
+  "repo": "agentydragon/ducktape",
+  "body": "_Requested by **Rai** · [project thread](https://claude.ai/code/project/chan_01RbvEzrs8Yi8YhNnHoSLtMy?thread=cmsg_01RbvEzrs8Yi8YhNnHoSLtMyH6Zw8pQ9k4rEC9YVGUU23K)_ Before: the OpenClaw instance is parked (#10219), but `openclaw-image.yml` and `public-coder-devbox-image.yml` still run a Nix image build on every push to their paths. After: both workflows and `smoke-openclaw-image.sh` (used only by the OpenClaw workflow) are parked in `cluster/parked/public-coder-agent/ci/` instead of deleted, so resuming is a move back. `AGENTS.md`, the `ci.yml` header, and the docs that pointed at them are updated. How: two commits. The first removes the workflows; the second restores them under `cluster/parke",
+  "url": "https://github.com/agentydragon/ducktape/pull/10233",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5822247757,
+  "title": "chore(deps): update",
+  "author": "mirkolenz-ci[bot]",
+  "created_at": "2026-10-13T00:10:29Z",
+  "updated_at": "2026-10-13T00:20:07Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "mirkolenz/infra",
+  "body": "## chore(deps/nix): update Flake lock file updates: • Updated input 'neovim-nightly-overlay': 'github:nix-community/neovim-nightly-overlay/4c528b1' (2026-10-12) → 'github:nix-community/neovim-nightly-overlay/2582a09' (2026-10-13) • Updated input 'neovim-nightly-overlay/neovim-src': 'github:neovim/neovim/64827e1' (2026-10-11) → 'github:neovim/neovim/e7cd0e4' (2026-10-12) • Updated input 'nixpkgs-linux-unstable': 'https://releases.nixos.org/nixos/unstable/nixos-26.11pre1089111.6510408d147d/nixexprs.tar.zst' (2026-10-10) → 'https://releases.nixos.org/nixos/unstable/nixos-26.11pre1090327.7fd4004d0511/nixexprs.tar.zst' (2026-10-11) ## chore(deps/pkgs): update Package updates: - [copilot-cli-bin: ",
+  "url": "https://github.com/mirkolenz/infra/pull/778",
+  "matched_q": "nix copilot",
+  "cats": []
+ },
+ {
+  "source": "github.com",
+  "kind": "pr",
+  "id": 5807483817,
+  "title": "feat(claude): install CLI-Anything plugin and fix ecc rename",
+  "author": "tkoyama010",
+  "created_at": "2026-10-12T02:26:49Z",
+  "updated_at": "2026-10-12T23:29:30Z",
+  "state": "closed",
+  "comments": 0,
+  "repo": "tkoyama010/dotfiles",
+  "body": "## Summary Add [HKUDS/CLI-Anything](https://github.com/HKUDS/CLI-Anything) (Apache-2.0) to `install-claude-plugins`. It is a Claude Code plugin that generates agent-native CLIs for GUI software, exploring CLIs as a lighter alternative to MCP servers for agent tooling. While verifying the installer, `install-claude-plugins` turned out to be broken: upstream renamed the everything-claude-code marketplace and plugin to `ecc`, so `claude plugin install everything-claude-code@everything-claude-code` fails and the script aborts before installing any later plugin. This PR fixes that as well. ## Changes - `apps/default.nix`: add the `HKUDS/CLI-Anything` marketplace and install `cli-anything@cli-anyt",
+  "url": "https://github.com/tkoyama010/dotfiles/pull/347",
+  "matched_q": "nix copilot",
+  "cats": [
+   "A. 用 AI 写/改 NixOS 配置",
+   "C. MCP × NixOS"
+  ]
+ }
+]

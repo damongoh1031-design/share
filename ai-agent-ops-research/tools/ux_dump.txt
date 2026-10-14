@@ -1,0 +1,70 @@
+===============================================================================================
+TOPIC 72275: NixOS automation with AI (9 posts, 26 likes)
+URL: https://discourse.nixos.org/t/nixos-automation-with-ai/72275
+===============================================================================================
+--- #1 @fieldempty (+0) 2025-11-18
+   Since NixOS is Unix-like system, with a text based interface, and configuration in one file, can LLM fully automate it? |  | I’m just a casual NixOS user (mid-level at best), and I don’t have any working prototype yet - only a very concrete idea that I can’t get out of my head. The thought is extremely simple: |  | Machine A (the “brain”): a beefy server/desktop that only runs a local LLM  (Llama, Qwen-2). |  | Machine B (the “body”): a completely separate NixOS machine that does all the real work. |  | The LLM on Machine A is the only administrator of Machine B. Interaction happens exclusively over SSH + a tiny privileged agent  that can: |  | Pull the current flake or configuration.nix |  | Pull recent journalctl / dmesg / failed units |  | Accept my natural-language request (“add Tailscale with exit-node”, “install Ollama and expose it via nginx with HTTPS”, “why is Docker not starting after the last reboot?”) |  | Generate only the diff/patch |  | Run nixos-rebuild dry-activate and show me exactly what will change |  | On my “yes, apply” - run nixos-rebuild switch |  | If anything fails or the health-check script reports problems in the next few minutes - automatic nixos-rebuild switch --rollback |  | Because it’s NixOS, the rollback is instantaneous and 100 % reliable — the worst thing that can happen is we lose one generation and are back exactly where we started. I believe that in 2025 this loop is already technically solvable today with zero exotic tech — just local L
+
+--- #2 @kiara (+0) 2025-11-18
+   there have been efforts to facilitate use of LLMs for Nix, at least. |  | for one recent example, you could check out 🚀 Introducing nixai: Your AI-Powered NixOS Companion.
+
+--- #3 @fieldempty (+0) 2025-11-19
+   Wow thats already looks like amazing project, I’m surely wanna try it. |  | Guix people been talking about that too: |  | https://www.reddit.com/r/GUIX/comments/1303uej/will_guix_be_the_first_fully_ai_powered_and/
+
+--- #4 @fieldempty (+0) 2025-11-19
+   Aw damn |  | nevermind469×114 37.7 KB
+
+--- #5 @7c6f434c (+0) 2025-11-19
+   Speaking of what can break the fully-safe ideal: some state management (cleaning up stale data of specific services) needs actually deleting things locally, and getting to do this management requires privileged access.
+
+--- #6 @cafkafk (+0) 2025-11-19
+   I’ve experimented lightly with things like this. LMs aren’t there yet for Nix/NixOS in my experience, but they’re getting there. |  | Seems the best way to make them sort of useful is to put a local copy of the manuals in RAG and give them access to a local checkout of nixpkgs for referncing. Generally, search tools just seem to make them hallucinate even more in my experience. |  | However, a word of caution: |  | The worst thing that can happen is we lose one generation and are back exactly where we started. |  | This is a bit of a lie we tell to kids. In reality, aside from just the config (which Nix gives you rollback for), there is also the state of databases and such, as well as distributed state (e.g., if you are running any distributed systems — think Matrix protocol, Fediverse, things like that). |  | Thus, the realistically best guarantee you can actually get is Nix + file-system snapshots for rollback of local-state and config. But there doesn’t seem to be any general purpose hammer that you can hit distributed state with yet to give you rollback: worth keeping in mind! |  | EDIT: Also my bar for “getting there” might be very high compared to what might constitute “good enough”, so I’d not discourage trying to make it work for you! |  | EDIT-2: And also, the real work is likely gonna be not in building out the LM part, but building out your own config to have strong enough testing (e.g VM tests of major modules and interactions) go let a LM run loose on it, more th
+
+--- #7 @7karni (+0) 2025-11-19
+   LMs aren’t there yet for Nix/NixOS in my experience |  | ChatGPT 5.1 sanity-checking a minor package.nix PR: |  | Screenshot 2025-11-15 at 3.01.41 AM1590×1442 136 KB
+
+--- #8 @7c6f434c (+0) 2025-11-19
+   I have seen (in PRs I have merged) an inexperienced user ask CoPilot for a review, very reasonably dismiss half (because it’s pointless and/or misguided) but also force-push with the rest of the CoPilot suggestions applied (and I agree those were useful reminders). But probably an ability to correct the diff manually is still needed…
+
+--- #9 @numinit (+0) 2025-11-19
+   It is right about one thing: imagemagick will be around forever whether we like it or not.
+
+===============================================================================================
+TOPIC 76873: Coding Agent workflow for NixOS (5 posts, 12 likes)
+URL: https://discourse.nixos.org/t/coding-agent-workflow-for-nixos/76873
+===============================================================================================
+--- #1 @arcstur (+0) 2026-04-06
+   Do you use coding agents within NixOS? If yes, what is your workflow? Which packages you use, services, etc? |  | I was hoping to prepare one using Ollama as backend. Do you have any suggestions?
+
+--- #2 @bitbloxhub (+0) 2026-04-07
+   UPDATE: My pi agent is managed with nix now through GitHub - numtide/llm-agents.nix: Nix packages for AI coding agents and development tools. Automatically updated daily. · GitHub and some custom HM setup, see nixos-config/modules/pi at main · bitbloxhub/nixos-config · GitHub |  | I run the Pi coding agent in a arch distrobox, it seems to work well. There are also some third-party flakes (GitHub - lukasl-dev/pi-mono.nix: Nix flake for pi, a terminal coding agent. · GitHub) for it, but I prefer the distrobox as Pi moves much faster than I update my flake inputs, and I am also unsure how well they work with extensions. It should work with Ollama and home-manager services.ollama. |  |    |        |  |       github.com |    |  |    |     nixos-config/modules/distrobox at main · bitbloxhub/nixos-config |  |   my nixos config. Contribute to bitbloxhub/nixos-config development by creating an account on GitHub. |  |    |  |    |      |      |    |  |    |  |    |        |  |       github.com |    |  |    |     GitHub - bitbloxhub/skills at pi |  |   My agent skills. Contribute to bitbloxhub/skills development by creating an account on GitHub.
+
+--- #3 @crertel (+0) 2026-04-07
+   I’ve got my own research project and framework, and giving it full access to NixOS to rebuild its VM has been really funny to watch. |  | I’m currently starting to play around with litellm (very early, just started looking into it today), and for a backend I personally use lmstudio (but a friend swears by vllm).
+
+--- #4 @LorenzBischof (+0) 2026-04-07
+   I would really like to play around with local models a bit more, but I am currently using claude-code wrapped in bwrap. I hooked up a NixOS test which loads my NixOS configuration and the coding agent uses it interactively to run commands and take screenshots etc. This useful for validating runtime behaviour that cannot be caught at eval time. I am still learning and experimenting, but I think NixOS is uniquely positioned for this kind of workflow. |  | The following repository packages quite a few llm tools, which are updated more regularly than the ones in nixpkgs. |  |    |  |       github.com |    |  |    |      |    |  |   GitHub - numtide/llm-agents.nix: Nix packages for AI coding agents and development... |  |     Nix packages for AI coding agents and development tools. Automatically updated daily.
+
+--- #5 @arcstur (+0) 2026-08-14
+   We now have pi-coding-agent, yay! NixOS Search
+
+===============================================================================================
+TOPIC 77272: The Nix moment: how LLMs, advances in hardware, big name adoption, and the supply chain are pushing Nix well past the inflection point (3 posts, 15 likes)
+URL: https://discourse.nixos.org/t/the-nix-moment-how-llms-advances-in-hardware-big-name-adoption-and-the-supply-chain-are-pushing-nix-well-past-the-inflection-point/77272
+===============================================================================================
+--- #1 @lucperkins (+0) 2026-04-27
+   determinate.systems |    |  |    |      |  | The Nix moment |  |   The stars are aligning in unmistakable ways for Nix and we are leading the charge.
+
+--- #2 @crertel (+0) 2026-04-27
+   NixOS has been very effective for giving certain types of agents (I call them gremlins, given some esoteric characteristics) power over how they organize their sandbox VMs. |  | LLMs have “solved” to a decent degree getting projects to build: I check out a repo, point Claude at it, say “figure out how to make this work as a flake”, and go do other things, occasionally checking back and tweaking its work and spotting mistakes. |  | It’s neat.
+
+--- #3 @mightyiam (+0) 2026-05-27
+   Totally The Nix Moment. If you are reading this then here’s my message for you: seize the moment. Learn Nix, contribute to it and position yourself as an expert in this growing and attractive ecosystem.
+
+===============================================================================================
+TOPIC 62640: MCP-NixOS - Because Your AI Assistant Shouldn't Hallucinate About Packages (1 posts, 17 likes)
+URL: https://discourse.nixos.org/t/mcp-nixos-because-your-ai-assistant-shouldnt-hallucinate-about-packages/62640
+===============================================================================================
+--- #1 @jamesbrink (+0) 2025-04-04
+   Wanted to share my mcp-nixos server with other who might find it helpful. I use AI editors / Agents and Claude a lot, this was a bit of a passion project for me as its a tool I really wanted. I hope it helps others. Any feedback, criticisms roasting etc is welcome  |  | TLDR is this tool keeps AI from hallucinating packages and options using up to date info. |  |    |        |  |       MCP-NixOS |    |  |    |      |  | MCP-NixOS | Model Context Protocol for NixOS |  |   MCP resources and tools for NixOS packages, system options, Home Manager configuration, and nix-darwin macOS configuration.
+
