@@ -1,0 +1,25 @@
+{
+  "name": "多引擎搜索",
+  "installedAt": 1791770710450,
+  "source": "marketplace",
+  "version": "2.1.3",
+  "skillId": "skill_2053082413554933760",
+  "pay_mode": 0,
+  "examples_zh": [
+    "同时搜索 Google、Bing 和 Perplexity 的公开资料",
+    "跨多个搜索源查找竞品 pricing 信息",
+    "用多个搜索引擎验证这个行业数据",
+    "查询技术文档并整理可引用来源"
+  ],
+  "examples_en": [
+    "Search public sources across Google, Bing, and Perplexity",
+    "Find competitor pricing information across multiple search sources",
+    "Validate this industry data with multiple search engines",
+    "Search technical docs and organize citable sources"
+  ],
+  "description_zh": "集成 17 个搜索引擎（8 国内 + 9 国际），无需 API",
+  "description_en": "Multi search engine integration with 16 engines (7 CN + 9 Global). Supports adva...",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082413554933760/455a79079362869f.png",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\multi-search-engine\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082413554933760/455a79079362869f.png"
+}

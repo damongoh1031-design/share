@@ -1,0 +1,25 @@
+{
+  "name": "Web Scraper",
+  "installedAt": 1791182117146,
+  "source": "marketplace",
+  "version": "0.1.1",
+  "skillId": "skill_2053083117870850048",
+  "examples_zh": [
+    "抓取公开竞品页面的 pricing 和 feature 表",
+    "提取 20 个公开客户案例的行业和公司规模",
+    "监控公开文档页面是否有更新",
+    "抓取前列出 robots、权限和风险检查项"
+  ],
+  "examples_en": [
+    "Extract pricing and feature tables from public competitor pages",
+    "Collect industry and company-size fields from 20 public case studies",
+    "Monitor public documentation pages for updates",
+    "List robots, permission, and risk checks before scraping"
+  ],
+  "description_zh": "多策略五阶段网页抓取管道（HTTP/解析/渲染/清洗/LLM提取）",
+  "description_en": "Multi-strategy 5-stage web scraping pipeline with cascade fallback",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053083117870850048/c1441b33bfbcfbe4.png",
+  "installedContentHash": "sha256:4b0a57572b6e16a3c047c73e8ed260b075c2a78534b5dba06b3602e9be903541",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\web-scraper\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053083117870850048/c1441b33bfbcfbe4.png"
+}

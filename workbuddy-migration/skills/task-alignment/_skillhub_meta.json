@@ -1,0 +1,25 @@
+{
+  "name": "任务对齐",
+  "installedAt": 1791182107733,
+  "source": "marketplace",
+  "version": "1.0.0",
+  "skillId": "skill_2053083178275758080",
+  "examples_zh": [
+    "把模糊想法整理成任务目标和验收标准",
+    "在交给 Agent 执行前对齐范围、输入和输出",
+    "把 Slack 讨论转成清晰任务合同",
+    "为研究请求补齐成功标准和限制条件"
+  ],
+  "examples_en": [
+    "Turn this fuzzy idea into objectives and acceptance criteria",
+    "Align scope, inputs, and outputs before handing this to an agent",
+    "Convert this Slack discussion into a clear task contract",
+    "Add success criteria and constraints to this research request"
+  ],
+  "description_zh": "把模糊想法对齐成可独立交付的任务契约",
+  "description_en": "Turn a rough idea into an alignment-grade task contract",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053083178275758080/15f12a204314cad6.png",
+  "installedContentHash": "sha256:09a05491901c0ed4b2d7970e6507caa4da18f7cc53450aa10135d73b697fd952",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\task-alignment\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053083178275758080/15f12a204314cad6.png"
+}

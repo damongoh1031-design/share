@@ -1,0 +1,39 @@
+##############################################################################
+# People Data Labs
+##############################################################################
+[401] person/enrich 无 key
+        https://api.peopledatalabs.com/v5/person/enrich?phone=60102261791
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request is missing an api key."}}
+[ERR ] person/enrich 假 key  -> TypeError: requests.api.request() got multiple values for keyword argument 'headers'
+[401] person/identify 无 key
+        https://api.peopledatalabs.com/v5/person/identify?phone=60102261791
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request is missing an api key."}}
+[401] person/search 无 key
+        https://api.peopledatalabs.com/v5/person/search
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request is missing an api key."}}
+[401] company/enrich 无 key
+        https://api.peopledatalabs.com/v5/company/enrich?website=maybank.com
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request is missing an api key."}}
+[404] 根路径
+        https://api.peopledatalabs.com/
+        {"status": 404, "error": {"type": ["not_found"], "message": "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again."}}
+
+##############################################################################
+# RocketReach
+##############################################################################
+[401] person/lookup 无 key
+        https://api.rocketreach.co/api/v2/person/lookup?phone=60102261791
+        {"detail":"Anonymous requests are not allowed. Please use the test API key.","error_code":"authentication_failed"}
+[ERR ] person/lookup 假 key  -> TypeError: requests.api.request() got multiple values for keyword argument 'headers'
+[401] person/search 无 key
+        https://api.rocketreach.co/api/v2/person/search
+        {"detail":"Anonymous requests are not allowed. Please use the test API key.","error_code":"authentication_failed"}
+[401] company/lookup 无 key
+        https://api.rocketreach.co/api/v2/company/lookup?domain=maybank.com
+        {"detail":"Anonymous requests are not allowed. Please use the test API key.","error_code":"authentication_failed"}
+[401] account 端点（查额度）
+        https://api.rocketreach.co/api/v2/account
+        {"detail":"Anonymous requests are not allowed. Please use the test API key.","error_code":"authentication_failed"}
+[200] 根路径
+        https://api.rocketreach.co/
+        <!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> <head> <link rel="preconnect" href="https://static.rocketreach.co" crossorigin> <link rel="preload" href="https://static.rocketreach.co/fonts/inter/InterVar

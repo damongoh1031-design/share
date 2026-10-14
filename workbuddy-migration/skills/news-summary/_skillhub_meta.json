@@ -1,0 +1,25 @@
+{
+  "name": "新闻摘要",
+  "installedAt": 1790673697497,
+  "source": "marketplace",
+  "version": "1.0.1",
+  "skillId": "skill_2053082438073974784",
+  "examples_zh": [
+    "总结今天全球 AI 产品新闻要点",
+    "获取 TechCrunch 和 The Verge 的最新 AI 新闻摘要",
+    "为团队生成一份本周 SaaS 行业简报",
+    "把 AI 领域新闻整理成 newsletter 草稿"
+  ],
+  "examples_en": [
+    "Summarize today’s global AI product news",
+    "Brief me on the latest AI news from TechCrunch and The Verge",
+    "Create a weekly SaaS industry brief for the team",
+    "Turn AI news into a newsletter draft"
+  ],
+  "description_zh": "从国际 RSS 源获取新闻并生成摘要和语音播报",
+  "description_en": "Fetch and summarize news from international RSS feeds with voice support",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082438073974784/da2588358d4d4cb7.png",
+  "installedContentHash": "sha256:22edbf79885eae10c15c53f8ba4a2b6cbd759baf145844a6e5edcd7c9fc2fd0d",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\news-summary\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082438073974784/da2588358d4d4cb7.png"
+}

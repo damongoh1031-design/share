@@ -1,0 +1,25 @@
+{
+  "name": "AI 热点日报",
+  "installedAt": 1791770714079,
+  "source": "marketplace",
+  "version": "1.0.0",
+  "skillId": "skill_2053079401717506048",
+  "pay_mode": 0,
+  "examples_zh": [
+    "今天 AI 圈有什么大新闻？",
+    "帮我看一下最近的 AI 日报",
+    "OpenAI 最近发布了什么？",
+    "最近一周有哪些 AI 论文值得关注？"
+  ],
+  "examples_en": [
+    "What's hot in AI today?",
+    "Show me the latest AI daily briefing",
+    "What has Anthropic released recently?",
+    "Any notable AI model releases this week?"
+  ],
+  "description_zh": "一句话查到 aihot.virxact.com 上每天精选的 AI 模型 / 产品 / 行业 / 论文动态，自动整理成中文简报，免配置 API Key。",
+  "description_en": "One-line access to today's curated AI models, products, industry news, and papers from aihot.virxact.com — auto-formatted as a Chinese briefing, no API key needed.",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/skills/icons/aihot.svg",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\aihot\\_icon.svg",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/skills/icons/aihot.svg"
+}

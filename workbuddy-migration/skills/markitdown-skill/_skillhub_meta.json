@@ -1,0 +1,25 @@
+{
+  "name": "MarkItDown",
+  "installedAt": 1791182100894,
+  "source": "marketplace",
+  "version": "1.0.1",
+  "skillId": "skill_2053083553754644480",
+  "examples_zh": [
+    "把这份 PDF 报告转成 Markdown",
+    "将 Word、PPT 和网页资料统一转成可索引文本",
+    "把客户访谈录音转成 Markdown 摘要",
+    "为知识库摄入准备干净的 Markdown 文件"
+  ],
+  "examples_en": [
+    "Convert this PDF report to Markdown",
+    "Turn Word, PPT, and webpage materials into indexable text",
+    "Convert this customer interview audio into a Markdown summary",
+    "Prepare clean Markdown files for knowledge-base ingestion"
+  ],
+  "description_zh": "文档转 Markdown(PDF/Word/PPT/图片OCR/音频转写/网页)",
+  "description_en": "Convert documents to Markdown (PDF, Word, PPT, images, audio, URLs)",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053083553754644480/5eadd92ef0067b14.png",
+  "installedContentHash": "sha256:410d7a8193d4da3af4ebd5e70d5657f01deed27ef1204572095b695f417768ca",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\markitdown-skill\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053083553754644480/5eadd92ef0067b14.png"
+}

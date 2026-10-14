@@ -1,0 +1,23 @@
+{
+  "name": "翻译与本地化助手",
+  "installedAt": 1791182104704,
+  "source": "marketplace",
+  "version": "1.0.1",
+  "skillId": "skill_2102329925377822720",
+  "examples_zh": [
+    "把这份合同翻译成英文并保留原有格式",
+    "先建术语表，再统一翻译这批产品文档",
+    "把这段落地页文案本地化给英国用户"
+  ],
+  "examples_en": [
+    "Translate this contract into English and keep the formatting",
+    "Build a glossary and translate these product docs consistently",
+    "Localize this landing page copy for a UK audience"
+  ],
+  "description_zh": "面向文档的中英互译与本地化：先建术语表保证全文一致，翻译时保留原文结构与格式，再做本地化适配（度量衡、日期格式、称谓、文化习惯），交付译文与术语表并附质量自检。不承接公证翻译、不承诺出版级署名。",
+  "description_en": "Professional Chinese-English document translation and localization that builds a terminology glossary first for consistency, preserves source structure and formatting, then adapts units, dates, forms of address and cultural conventions. Deliver translation, glossary and a quality self-check. Not certified translation, no publication-grade guarantee.",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2102329925377822720/94ab3c5db93cf775.png",
+  "installedContentHash": "sha256:be46a17ca1b9d57fa9a6437224b509e39b8db51d998963e05d272f8991e18836",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\fanyi-bendi\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2102329925377822720/94ab3c5db93cf775.png"
+}

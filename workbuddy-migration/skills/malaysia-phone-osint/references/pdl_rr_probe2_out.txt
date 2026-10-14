@@ -1,0 +1,33 @@
+##############################################################################
+# A. PDL —— 假 key 对照（关键组）
+##############################################################################
+[401] PDL person/enrich 假 key
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request contained an invalid api key"}}
+[401] PDL person/enrich 空 key
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request is missing an api key."}}
+[401] PDL person/enrich 格式合法假 key
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request contained an invalid api key"}}
+
+##############################################################################
+# B. RocketReach —— 假 key 对照 + test key 线索
+##############################################################################
+[401] RR person/lookup 假 key
+        {"detail":"Invalid API key","error_code":"authentication_failed"}
+[401] RR person/lookup 空 key
+        {"detail":"Anonymous requests are not allowed. Please use the test API key.","error_code":"authentication_failed"}
+[401] RR person/lookup test key='test'
+        {"detail":"Invalid API key","error_code":"authentication_failed"}
+[401] RR person/lookup test key='TEST_API_KEY'
+        {"detail":"Invalid API key","error_code":"authentication_failed"}
+[401] RR person/lookup test key='test_api_key'
+        {"detail":"Invalid API key","error_code":"authentication_failed"}
+[401] RR person/lookup test key='demo'
+        {"detail":"Invalid API key","error_code":"authentication_failed"}
+
+##############################################################################
+# C. 覆盖能力线索 —— 参数校验错误能否泄露 schema
+##############################################################################
+[401] PDL person/enrich 带假key+乱参数
+        {"status": 401, "error": {"type": ["authentication_error"], "message": "Your request contained an invalid api key"}}
+[401] RR person/lookup 带假key+乱参数
+        {"detail":"Invalid API key","error_code":"authentication_failed"}

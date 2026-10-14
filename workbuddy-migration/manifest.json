@@ -1,0 +1,18 @@
+{
+  "packed_at": "2026-10-14",
+  "source": "C:/Users/Admin/.workbuddy-ai/skills",
+  "skills_count": 48,
+  "skills_files": 690,
+  "skills_size": "13M",
+  "github_account": "damongoh1031-design",
+  "github_repo": "damongoh1031-design/share (public)",
+  "token": {
+    "type": "classic PAT, scope=repo",
+    "status": "valid (verified 2026-10-14)",
+    "created_at": "2026-10-12T09:51:03Z",
+    "expires_est": "2027-01-10 (90 days)",
+    "file": "secrets/github-pat.txt"
+  },
+  "excluded": ["github-sync/_work (107M git clone)"],
+  "notes": "secrets/ 含活 PAT，勿推 public 仓库"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "任务执行",
+  "installedAt": 1791182123589,
+  "source": "marketplace",
+  "version": "1.0.0",
+  "skillId": "skill_2053082987900493824",
+  "examples_zh": [
+    "执行竞品研究任务并附上来源",
+    "完成小型代码修复并跑测试",
+    "把模糊需求转成可交付结果",
+    "独立完成任务后给我验证记录"
+  ],
+  "examples_en": [
+    "Execute this competitor research task and include sources",
+    "Complete this small code fix and run tests",
+    "Turn this fuzzy request into a concrete deliverable",
+    "Finish the task independently and show verification notes"
+  ],
+  "description_zh": "作为用户代理自主执行任务并独立验收交付",
+  "description_en": "Run a task autonomously as the user's proxy with independent verification",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082987900493824/7ca62b93666bec68.png",
+  "installedContentHash": "sha256:14ab32e828cff4095459ffe5ea90795abbbbf0bc7ab7861e9404fd66beeda1dd",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\task-implement\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082987900493824/7ca62b93666bec68.png"
+}

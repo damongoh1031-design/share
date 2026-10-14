@@ -1,6 +1,5 @@
-# 知识库索引
+# KB 索引
 
-| 文档 | 主题 | 状态 | 更新 |
+| 文档 | 主题 | 版本 | 更新 |
 |---|---|---|---|
-| [malaysia-rv-motorhome-guide.md](malaysia-rv-motorhome-guide.md) | 马来西亚房车（RV）购买与使用：厕所+2人睡铺、JPJ 法规、驾照门槛、进口税、营地现实 | stable | 2026-10-13 |
-| [doomsday-rv-shelter.md](doomsday-rv-shelter.md) | 房车当末日避难所的可行性判定：5 类场景适配表、自持力硬数字、改装优先级 | stable | 2026-10-13 |
+| [workbuddy-user-skills-migration-bundle.md](workbuddy-user-skills-migration-bundle.md) | WorkBuddy skills + PAT 跨 IDE 迁移打包（含去密、_work 剔除、恢复 5 步） | 1.0.0 | 2026-10-14 |

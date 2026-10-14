@@ -1,0 +1,24 @@
+{
+  "repo": "damongoh1031-design/share",
+  "branch": "main",
+  "token_file": "token.txt",
+  "workdir": "_work",
+  "gitattributes": {
+    "*.csv": "-text",
+    "*.json": "text",
+    "*.md": "text",
+    "*.py": "text",
+    "*.html": "text"
+  },
+  "mappings": [
+    {
+      "src": "C:/Users/Admin/WorkBuddy AI/2026-10-08-11-47-53/kb",
+      "dest": "malaysiayp-phone-directory/kb"
+    },
+    {
+      "src": "C:/Users/Admin/WorkBuddy AI/2026-10-07-16-32-42/phone-directory/data/deliverable",
+      "dest": "malaysiayp-phone-directory/deliverable"
+    }
+  ],
+  "note": "mappings 为固定同步映射。dest 为仓库内相对路径。token 过期时用 scripts/mint_pat.py 续期。"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "市场调研",
+  "installedAt": 1791182073388,
+  "source": "marketplace",
+  "version": "1.0.0",
+  "skillId": "skill_2053082339107885056",
+  "examples_zh": [
+    "估算美国 AI sales automation 工具的市场规模",
+    "分析海外 founder 用户的痛点和购买触发点",
+    "对比三家全球竞品的定位和价格",
+    "生成一份面向欧美市场的调研报告框架"
+  ],
+  "examples_en": [
+    "Estimate the US market size for AI sales automation tools",
+    "Analyze pain points and buying triggers for overseas founder users",
+    "Compare positioning and pricing across three global competitors",
+    "Create a market research report outline for US and EU markets"
+  ],
+  "description_zh": "市场调研专家，提供市场分析、消费者洞察与机会评估",
+  "description_en": "Market research specialist for analysis, consumer insights, and sizing",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082339107885056/a30a6428f24d486a.png",
+  "installedContentHash": "sha256:2ee6a861fc3eee4eac6e29bff95948f22eaaeef3e3be6d71a275dd5fd9a7adb9",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\market-researcher\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082339107885056/a30a6428f24d486a.png"
+}

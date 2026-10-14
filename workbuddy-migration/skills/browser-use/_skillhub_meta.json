@@ -1,0 +1,25 @@
+{
+  "name": "浏览器自动化",
+  "installedAt": 1790673682717,
+  "source": "marketplace",
+  "version": "2.0.0",
+  "skillId": "skill_2053081792154468352",
+  "examples_zh": [
+    "打开竞品官网并截图 pricing 页面",
+    "在公开网站填写测试联系表单",
+    "登录我授权的后台并导出本月报表，操作前确认",
+    "从公开产品页提取功能名和价格信息"
+  ],
+  "examples_en": [
+    "Open a competitor website and screenshot the pricing page",
+    "Fill out a test contact form on a public website",
+    "Log into my authorized admin dashboard and export this month’s report after confirmation",
+    "Extract feature names and pricing details from a public product page"
+  ],
+  "description_zh": "浏览器自动化（导航、点击、截图、数据提取、多会话、云浏览器）",
+  "description_en": "Automates browser interactions for web testing, form filling, screenshots, and d...",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/skills/icons/browser-use.svg",
+  "installedContentHash": "sha256:bbe2e5bfbc0b697c1e40abb8f8481d34aefda3928ed9180825d2c288299f919a",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\browser-use\\_icon.svg",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/skills/icons/browser-use.svg"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Agent Browser Core",
+  "installedAt": 1791182112789,
+  "source": "marketplace",
+  "version": "1.0.1",
+  "skillId": "skill_2053078982015520768",
+  "examples_zh": [
+    "打开竞品官网并提取 pricing、集成和安全页要点",
+    "抓取一个公开网页的结构化摘要和截图",
+    "检查这个 onboarding 页面表单是否能正常提交",
+    "保存当前网页快照，供后续自动化任务复用"
+  ],
+  "examples_en": [
+    "Open a competitor site and extract pricing, integrations, and security-page highlights",
+    "Capture a structured summary and screenshot of this public webpage",
+    "Check whether this onboarding form can be completed successfully",
+    "Save a page snapshot so the automation can continue from stable refs"
+  ],
+  "description_zh": "基于 agent-browser CLI 的 AI 友好型网页自动化",
+  "description_en": "AI-friendly web automation via agent-browser CLI with snapshots & refs",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053078982015520768/bf5d7f03fddd0667.png",
+  "installedContentHash": "sha256:0063fc6354a3c1d3c184659733b4a09b5e35a88a7c9ababb145ca480b5a6edf9",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\agent-browser-core\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053078982015520768/bf5d7f03fddd0667.png"
+}

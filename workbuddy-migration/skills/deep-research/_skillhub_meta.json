@@ -1,0 +1,25 @@
+{
+  "name": "Deep Research",
+  "installedAt": 1790673673122,
+  "source": "marketplace",
+  "version": "1.0.0",
+  "skillId": "skill_2053082035566706688",
+  "examples_zh": [
+    "调研 AI agent workflow 产品的最新进展",
+    "对比三家海外竞品的定位、价格和集成",
+    "为客户行业生成带来源的研究报告",
+    "整理市场机会的证据、风险和建议"
+  ],
+  "examples_en": [
+    "Research recent progress in AI agent workflow products",
+    "Compare positioning, pricing, and integrations across three overseas competitors",
+    "Create a cited research report for a customer’s industry",
+    "Summarize evidence, risks, and recommendations for this market opportunity"
+  ],
+  "description_zh": "结构化深度调研工作流，支持大纲生成、并行搜索、报告输出",
+  "description_en": "Structured deep research workflow: outline, parallel search, report generation",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082035566706688/13692d15833dc28b.png",
+  "installedContentHash": "sha256:9a62664e7155e5d16f8a16d5d15ecc19a3945d32c8e004f15fedd5ca7e3c9955",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\deep-research\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082035566706688/13692d15833dc28b.png"
+}

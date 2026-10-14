@@ -1,0 +1,25 @@
+{
+  "name": "Playwright Browser Automation",
+  "installedAt": 1791182115381,
+  "source": "marketplace",
+  "version": "2.0.0",
+  "skillId": "skill_2053082580726448128",
+  "examples_zh": [
+    "用 Playwright 检查 signup flow 是否正常",
+    "截图公开 pricing 页面并保存 PDF",
+    "自动测试这个表单的错误提示",
+    "在测试环境运行浏览器回归检查"
+  ],
+  "examples_en": [
+    "Use Playwright to check whether the signup flow works",
+    "Screenshot a public pricing page and save a PDF",
+    "Test error messages for this form automatically",
+    "Run browser regression checks in the test environment"
+  ],
+  "description_zh": "直接调用 Playwright API 实现浏览器自动化（无需 MCP）",
+  "description_en": "Direct Playwright API browser automation: navigate, interact, screenshot, PDF",
+  "iconSource": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082580726448128/281d22f1789baaba.png",
+  "installedContentHash": "sha256:32176781e15e5bfcf053f2f2eeb2b99a19342aa68f38d0d560c1a2ebfe403747",
+  "iconLocalPath": "C:\\Users\\Admin\\.workbuddy-ai\\skills\\playwright-browser-automation\\_icon.png",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.ai/public/operation-platform/skill-icons/skill_2053082580726448128/281d22f1789baaba.png"
+}
