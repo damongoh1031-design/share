@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSeek Harness (dsh) 设置与配置完全指南</title>
+<style>
+  :root{
+    --bg:#0e1116; --bg2:#151a21; --bg3:#1b2129; --line:#272e38;
+    --tx:#e6eaf0; --tx2:#9aa4b2; --tx3:#6b7684;
+    --accent:#4c8dff; --accent2:#3a6fd8;
+    --green:#3fb950; --amber:#d29922; --red:#f85149; --purple:#a371f7; --teal:#2dd4bf;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:48px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:40px}
+  h1{font-size:28px;font-weight:600;margin:0 0 10px;letter-spacing:-.3px}
+  .sub{color:var(--tx2);font-size:14px}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:var(--bg3);border:1px solid var(--line);border-radius:999px;
+    padding:3px 12px;font-size:12px;color:var(--tx2)}
+  .pill b{color:var(--tx);font-weight:500}
+  h2{font-size:20px;font-weight:600;margin:52px 0 16px;padding-left:12px;
+    border-left:3px solid var(--accent);letter-spacing:-.2px}
+  h3{font-size:16px;font-weight:600;margin:30px 0 10px;color:var(--tx)}
+  h4{font-size:14px;font-weight:600;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:var(--tx)}
+  ul,ol{margin:10px 0;padding-left:22px}
+  li{margin:6px 0}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--bg3);
+    border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:#8ec9ff}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;overflow-x:auto;margin:14px 0}
+  pre code{background:none;border:none;padding:0;color:#cdd6e0;font-size:12.5px;line-height:1.7}
+  .k{color:#ff7b72} .s{color:#a5d6ff} .c{color:#5c6773;font-style:italic}
+  .n{color:#79c0ff} .v{color:#ffa657}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
+  th{text-align:left;background:var(--bg3);color:var(--tx);font-weight:600;
+    padding:10px 12px;border:1px solid var(--line);white-space:nowrap}
+  td{padding:9px 12px;border:1px solid var(--line);color:var(--tx2);vertical-align:top}
+  td code{font-size:12px}
+  tr:hover td{background:rgba(76,141,255,.04)}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;margin:16px 0}
+  .card.accent{border-left:3px solid var(--accent)}
+  .card.green{border-left:3px solid var(--green)}
+  .card.amber{border-left:3px solid var(--amber)}
+  .card.red{border-left:3px solid var(--red)}
+  .card h4{margin-top:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:700px){.grid2{grid-template-columns:1fr}}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;
+    font-weight:500;vertical-align:middle;margin-left:6px}
+  .tag.rec{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+  .tag.win{background:rgba(76,141,255,.15);color:var(--accent);border:1px solid rgba(76,141,255,.35)}
+  .tag.warn{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+  .tag.new{background:rgba(163,113,247,.15);color:var(--purple);border:1px solid rgba(163,113,247,.35)}
+  .toc{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 24px}
+  .toc ol{margin:0;padding-left:20px;columns:2;column-gap:32px}
+  @media(max-width:700px){.toc ol{columns:1}}
+  .toc a{color:var(--tx2);text-decoration:none;font-size:13.5px}
+  .toc a:hover{color:var(--accent)}
+  .toc li{margin:4px 0;break-inside:avoid}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
+    color:var(--tx3);font-size:12.5px}
+  .src{font-size:12.5px;color:var(--tx3)}
+  .src a{color:var(--tx2);text-decoration:none;border-bottom:1px dotted var(--line)}
+  .src a:hover{color:var(--accent)}
+  .note{font-size:12.5px;color:var(--tx3);margin-top:6px}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0;font-size:13px}
+  .flow .step{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+  .flow .ar{color:var(--tx3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>DeepSeek Harness（dsh）设置与配置完全指南</h1>
+  <div class="sub">从安装、目录结构、模型接入到插件管理的一站式配置手册 · 含本机实测现状</div>
+  <div class="meta">
+    <span class="pill">实测版本 <b>dsh 0.1.7-rc.2</b></span>
+    <span class="pill">内核 <b>Cordis</b></span>
+    <span class="pill">默认端口 <b>127.0.0.1:3080</b></span>
+    <span class="pill">调研日期 <b>2026-10-14</b></span>
+  </div>
+</header>
+
+<div class="toc">
+  <ol>
+    <li><a href="#what">DSH 是什么</a></li>
+    <li><a href="#install">安装与启动</a></li>
+    <li><a href="#dir">DSH_HOME 目录结构</a></li>
+    <li><a href="#profile">Profile 机制</a></li>
+    <li><a href="#model">模型接入（核心）</a></li>
+    <li><a href="#yaml">settings.yaml 全字段</a></li>
+    <li><a href="#plugin">插件管理</a></li>
+    <li><a href="#preset">Agent 预设与技能</a></li>
+    <li><a href="#local">本机现状与建议</a></li>
+    <li><a href="#debug">排错对照表</a></li>
+  </ol>
+</div>
+
+<h2 id="what">一、DSH 是什么</h2>
+<p><b>DeepSeek Harness（简称 dsh）</b>是 DeepSeek AI 于 2026 年 8 月开源的 Agent Harness（智能体运行框架）。命令行名为 <code>dsh</code>，自带 Web 界面，底层由 <b>Cordis</b> 插件框架驱动。</p>
+<p>它的核心设计哲学是 <b>「一切皆插件」</b>：官方只提供一个基础外壳，模型适配、文件编辑、命令执行、任务看板、知识库等能力全部以插件形式挂载，可自由替换。因此「设置 dsh」本质上就是三件事——<b>装好运行时、接上模型、挂上插件</b>。</p>
+<div class="card accent">
+  <h4>三个必须先建立的概念</h4>
+  <ul>
+    <li><b>DSH_HOME</b>：配置根目录，默认 <code>~/.dsh</code>（Windows 为 <code>C:\Users\&lt;你&gt;\.dsh</code>），可用环境变量 <code>DSH_HOME</code> 覆盖。所有配置、凭据、插件、会话都在这。</li>
+    <li><b>Profile</b>：一套独立的插件组合 + 依赖树。官方内置 <code>web</code>（浏览器界面）和 <code>desktop</code>（桌面客户端）两套，互不干扰。</li>
+    <li><b>模型适配器</b>：<code>@deepseek-ai/dsh-llm-deepseek</code> 只管 DeepSeek 官方 API；<code>@deepseek-ai/dsh-llm-pi-ai</code> 承载其他所有提供方（Anthropic / OpenAI / Azure / Ollama / 自建网关…）。两者可同时挂载。</li>
+  </ul>
+</div>
+
+<h2 id="install">二、安装与启动</h2>
+<h3>前置环境</h3>
+<table>
+  <tr><th>项目</th><th>要求</th><th>校验</th></tr>
+  <tr><td>Node.js</td><td><code>^22.19.0 || &gt;=24.0.0</code>（硬性约束，写在 package.json 的 engines 里）</td><td><code>node -v</code></td></tr>
+  <tr><td>包管理器</td><td>npm（npx 方式）；源码构建需 pnpm</td><td><code>npm -v</code></td></tr>
+  <tr><td>网络</td><td>国内建议先切镜像</td><td><code>npm config set registry https://registry.npmmirror.com</code></td></tr>
+</table>
+<p class="note">Node 版本不够会直接启动报错（旧版 Node 16/18 一律不行）。用 nvm-windows 可多版本共存切换。</p>
+
+<h3>方式 A：npx 一键启动 <span class="tag rec">最快</span></h3>
+<pre><code><span class="c"># 首次执行会自动拉取 dsh 依赖</span>
+npx @deepseek-ai/dsh web
+
+<span class="c"># 启动成功后浏览器访问</span>
+http://127.0.0.1:3080</code></pre>
+<p class="note">换端口加 <code>--port</code>。此方式包缓存在 npx 缓存里，升级/清理不够干净，适合快速试用。</p>
+
+<h3>方式 B：独立目录本地安装 <span class="tag win">Windows 推荐</span></h3>
+<p>不污染全局 npm（全局默认堆在 C 盘），在专用目录本地安装，删除即卸载。</p>
+<pre><code><span class="c"># 1) 建目录并进入</span>
+mkdir D:\dsh-bin &amp;&amp; cd /d D:\dsh-bin
+
+<span class="c"># 2) 本地安装（关键：--allow-scripts 后的包名必须原样带全）</span>
+npm install @deepseek-ai/dsh --allow-scripts=...
+
+<span class="c"># 3) 把 D:\dsh-bin\node_modules\.bin 加进用户环境变量 Path，重开终端</span>
+where dsh        <span class="c"># 应只返回一条，指向 D:\dsh-bin\node_modules\.bin\dsh</span>
+dsh --version</code></pre>
+<div class="card amber">
+  <h4>两个高频坑</h4>
+  <ul>
+    <li><b>漏掉 <code>--allow-scripts</code></b>：安装看着成功，但 dsh 的<b>终端与子进程能力会缺失</b>，启动后大量功能不可用。必须重装并带全包名。</li>
+    <li><b>满屏红字不是失败</b>：安装过程会刷大量 <code>npm warn</code> / <code>cleanup failed</code>，只要最后一行有 <code>added ... packages</code> 就是成功的。</li>
+  </ul>
+</div>
+
+<h3>方式 C：源码构建 <span class="tag new">可改源码</span></h3>
+<pre><code>git clone https://github.com/deepseek-ai/deepseek-harness.git
+cd deepseek-harness
+npm install -g pnpm
+pnpm install
+pnpm run build      <span class="c"># 不可省略，跳过会导致 Web 界面异常</span>
+pnpm dsh web        <span class="c"># 源码模式下命令前都要加 pnpm</span></code></pre>
+<p class="note">国内克隆慢可在 git 链接前拼 <code>https://gh-proxy.com/</code> 代理。</p>
+
+<h2 id="dir">三、DSH_HOME 目录结构</h2>
+<p>理解这个目录 = 理解 dsh 的全部设置入口。以本机 <code>C:\Users\Admin\.dsh</code> 实测为例：</p>
+<table>
+  <tr><th>路径</th><th>作用</th><th>要不要手改</th></tr>
+  <tr><td><code>settings.yaml</code></td><td><b>配置真源</b>。模型 provider、路由、兼容开关都写在这（首次可能不存在，由界面操作自动生成）</td><td class="v">✅ 手动编辑（进阶）</td></tr>
+  <tr><td><code>.credentials.yaml</code></td><td><b>凭据存储</b>。Web UI 保存的 API Key / 登录 token 落在这里，只写不回显明文</td><td>❌ 不要手改</td></tr>
+  <tr><td><code>profiles/web/</code></td><td>Web 端 profile：<code>package.json</code>（插件依赖 + bundles 清单）、<code>cordis.yml</code>、<code>cordis.patch.yml</code>、<code>node_modules/</code></td><td>⚠️ 只改 <code>cordis.patch.yml</code></td></tr>
+  <tr><td><code>profiles/desktop/</code></td><td>桌面端 profile，结构同上，插件集合独立</td><td>⚠️ 同上</td></tr>
+  <tr><td><code>.agent-presets/</code></td><td>Agent 预设（标准 / Code / 极简 / 创作 + 自定义），含 <code>preset.yml</code>、<code>prompt.md</code></td><td class="v">✅ 可放自定义预设</td></tr>
+  <tr><td><code>sessions/</code></td><td>会话日志</td><td>❌</td></tr>
+  <tr><td><code>skills/</code> · <code>kb/</code> · <code>knowledge-base/</code></td><td>技能、知识库数据</td><td>视插件而定</td></tr>
+  <tr><td><code>dsh-runtimes/</code></td><td>dsh 自带的 node / pnpm / python 运行时</td><td>❌</td></tr>
+  <tr><td><code>storages/</code></td><td>插件持久化存储（如 better-sqlite3 数据库）</td><td>❌</td></tr>
+</table>
+<div class="card red">
+  <h4>关于 cordis.yml —— 别改错文件</h4>
+  <p>每个 profile 下的 <code>cordis.yml</code> 内容是<b>一个空数组</b>（注释里写明了原因）：插件树由 <code>package.json</code> 的 <code>dsh.profile.bundles</code> → <code>cordis.patch.yml</code> → <code>--patch</code> 覆盖层<b>逐层叠加</b>组合而成。</p>
+  <p>所以<b>要覆盖配置、禁用某个插件、插入新条目，都写在 <code>cordis.patch.yml</code> 里，而不是 <code>cordis.yml</code></b>。例如本机 web profile 的 patch 文件：</p>
+<pre><code>- id: ui-theme
+  name: "@deepseek-ai/dsh-client-ui-theme"
+  config:
+    preference: dark        <span class="c"># 强制深色主题</span>
+- id: skills-management
+  disabled: true            <span class="c"># 禁用某个插件</span></code></pre>
+</div>
+
+<h2 id="profile">四、Profile 机制</h2>
+<p>Profile 让「Web 端」和「桌面端」各用一套插件、各存一份依赖，互不污染。管理命令统一带 <code>--profile</code> 参数：</p>
+<pre><code>dsh plugin --profile web list       <span class="c"># 列出 web profile 已装插件</span>
+dsh plugin --profile desktop list   <span class="c"># 列出 desktop profile 已装插件</span></code></pre>
+<p>每个 profile 的 <code>package.json</code> 里有两块关键内容：<code>dependencies</code>（装了哪些插件包）和 <code>dsh.profile.bundles</code>（<b>哪些插件实际被挂载进运行时</b>）。装了但没进 bundles 的插件不会生效。</p>
+
+<h2 id="model">五、模型接入（核心设置）</h2>
+<p>dsh 不强制绑定 DeepSeek 自家模型，原生支持 OpenAI 兼容协议。接入分三条路径，由易到难：</p>
+
+<h3>路径 1：Web UI 添加「目录提供方」 <span class="tag rec">新手首选</span></h3>
+<p>Anthropic、OpenAI、Google、Azure、Bedrock、Mistral、Groq、xAI、OpenRouter、<b>Ollama</b> 等 15+ 提供方已内置于 pi-ai 目录，端点/协议/模型列表都由目录提供，<b>只需填 Key</b>。</p>
+<div class="flow">
+  <span class="step">启动 dsh</span><span class="ar">→</span>
+  <span class="step">设置 → 模型</span><span class="ar">→</span>
+  <span class="step">添加提供方</span><span class="ar">→</span>
+  <span class="step">选目标 + 填 API Key</span><span class="ar">→</span>
+  <span class="step">保存，回会话页选中模型</span>
+</div>
+<p class="note">例外：Bedrock / Vertex / Azure / Codex 走原生认证，只填 Key 不够（需 AWS 凭据+区域、ADC 项目、api-version、OAuth 登录流程）。</p>
+
+<h3>路径 2：Web UI 添加「自定义提供方」</h3>
+<p>公司网关、国内多模型平台、自建 vLLM / Ollama 都走这里。必填五项：</p>
+<table>
+  <tr><th>字段</th><th>填什么</th><th>注意</th></tr>
+  <tr><td>Provider ID</td><td>小写连字符标识，如 <code>my-gateway</code></td><td><b>创建后永久不可改</b>，会话记录/凭据引用都绑定它</td></tr>
+  <tr><td>显示名称</td><td>选择器里的标签</td><td>可随时改</td></tr>
+  <tr><td>基础 URL</td><td>网关地址，如 <code>https://xxx/v1</code></td><td>可随时改</td></tr>
+  <tr><td>API 协议</td><td><code>openai-completions</code> / <code>openai-responses</code> / <code>anthropic-messages</code></td><td>源码只有这三种，每条路由只能选一种</td></tr>
+  <tr><td>凭据</td><td>API Key</td><td>存入凭据存储</td></tr>
+  <tr><td>模型</td><td>至少一个模型 ID</td><td>可点「获取可用模型」自动拉 <code>GET /models</code>，401 说明 Key 错</td></tr>
+</table>
+
+<h3>路径 3：直接写 settings.yaml <span class="tag new">完整真源</span></h3>
+<p>Web UI 只是 <code>settings.yaml</code> 的子集。<b>表单里没有的字段</b>（图片模态、兼容开关、推理等级重命名）必须手写文件才能配。</p>
+<p>两种写法的差别（很关键，别用错）：</p>
+<table>
+  <tr><th>写法</th><th>效果</th><th>适用</th></tr>
+  <tr><td><code>models: [...]</code></td><td><b>整体替换</b>路由的模型目录，未列出的模型消失</td><td>把路由收窄到两三个模型，或加目录里没有的新模型</td></tr>
+  <tr><td><code>modelOverrides: {id:{...}}</code></td><td>只改点名的模型，其余原样保留</td><td>「修正一个，保留其余三十七个」</td></tr>
+</table>
+
+<h2 id="yaml">六、settings.yaml 全字段参考</h2>
+<p>模型配置的完整真源在 <code>$DSH_HOME/settings.yaml</code> 的 <code>llm-pi-ai</code> 分节。一条自定义路由的完整写法：</p>
+<pre><code><span class="k">llm-pi-ai</span>:
+  <span class="k">providers</span>:
+    <span class="k">my-gateway</span>:
+      <span class="n">displayName</span>: <span class="s">My Gateway</span>
+      <span class="n">apiKeyEnv</span>: <span class="s">GATEWAY_API_KEY</span>        <span class="c"># 引用环境变量，绝不写明文</span>
+      <span class="n">api</span>: <span class="s">openai-completions</span>
+      <span class="n">baseURL</span>: <span class="s">https://gateway.example/v1</span>
+      <span class="n">defaultContextWindow</span>: <span class="v">262144</span>
+      <span class="n">defaultMaxTokens</span>: <span class="v">32768</span>
+      <span class="k">compat</span>:
+        <span class="n">supportsDeveloperRole</span>: <span class="v">false</span>     <span class="c"># 系统提示不用 developer 角色</span>
+        <span class="n">maxTokensField</span>: <span class="s">max_tokens</span>          <span class="c"># 输出上限字段名</span>
+      <span class="k">models</span>:
+        - <span class="n">id</span>: <span class="s">chat-model</span>
+          <span class="n">name</span>: <span class="s">Chat Model</span>
+          <span class="n">contextWindow</span>: <span class="v">131072</span>
+        - <span class="n">id</span>: <span class="s">vision-model</span>
+          <span class="n">input</span>: <span class="s">[text, image]</span>              <span class="c"># 显式声明视觉能力</span>
+        - <span class="n">id</span>: <span class="s">reasoner</span>
+          <span class="k">compat</span>:
+            <span class="n">thinkingFormat</span>: <span class="s">deepseek</span>
+          <span class="k">reasoningEfforts</span>:
+            <span class="n">off</span>: <span class="s">low</span>
+            <span class="n">high</span>: <span class="s">high</span></code></pre>
+
+<h4>字段速查</h4>
+<table>
+  <tr><th>字段</th><th>默认值</th><th>含义</th></tr>
+  <tr><td><code>apiKeyEnv</code></td><td>无</td><td>凭据引用（环境变量名）；省略则交给 pi-ai 环境发现</td></tr>
+  <tr><td><code>api</code></td><td>目录协议</td><td>协议格式，目录外路由必填</td></tr>
+  <tr><td><code>baseURL</code></td><td>目录端点</td><td>路由上所有模型共用</td></tr>
+  <tr><td><code>models</code></td><td>已安装目录</td><td><b>整体替换</b>模型目录</td></tr>
+  <tr><td><code>modelOverrides</code></td><td>无</td><td>只改个别模型；<b>不能与 models 并存</b></td></tr>
+  <tr><td><code>compat</code></td><td>目录检测</td><td>请求形状兼容开关</td></tr>
+  <tr><td><code>defaultContextWindow</code></td><td>262144</td><td>未声明容量模型回退值</td></tr>
+  <tr><td><code>defaultMaxTokens</code></td><td>32768</td><td>未声明输出上限回退值</td></tr>
+  <tr><td><code>defaultInput</code></td><td><code>[text]</code></td><td>未声明模态回退值</td></tr>
+  <tr><td><code>headers</code></td><td>无</td><td>附加请求头</td></tr>
+  <tr><td><code>retryPolicy</code></td><td>normal，5 次</td><td>重试策略</td></tr>
+</table>
+
+<div class="card green">
+  <h4>改完不用重启</h4>
+  <p>配置文件按操作重新读取，<b>全部在下一个请求生效</b>。写错的分节会在写入处被拒绝并保留上一个有效值。注意：<b>插件的增删需要重启</b>，模型配置不需要。</p>
+</div>
+
+<h4>网关拒绝请求？先加这两行</h4>
+<p>Key 和 URL 都对但请求全被拒，几乎都是「请求形状」问题——pi-ai 对认不出的地址一律按 OpenAI 本身处理，而多数兼容网关会拒绝 OpenAI 接受的某样东西：</p>
+<pre><code><span class="k">compat</span>:
+  <span class="n">supportsDeveloperRole</span>: <span class="v">false</span>    <span class="c"># 大多数国产网关要设 false</span>
+  <span class="n">maxTokensField</span>: <span class="s">max_tokens</span>      <span class="c"># 只认 max_tokens 的服务端</span></code></pre>
+<p>其他常用开关：<code>supportsReasoningEffort</code>、<code>thinkingFormat</code>、<code>chatTemplateKwargs</code>、<code>supportsUsageInStreaming</code>、<code>requiresToolResultName</code>、<code>cacheControlFormat</code>。三条硬规则：<b>开关归属协议</b>（用错协议会被拒）、<b>写了就要给值</b>（冒号后留空会被拒）、<b>模型级逐字段胜出路由级</b>。</p>
+
+<h4>接入本地模型（Ollama / vLLM）</h4>
+<pre><code><span class="k">local-vllm</span>:
+  <span class="n">apiKeyEnv</span>: <span class="s">LOCAL_PLACEHOLDER_KEY</span>   <span class="c"># 无密钥服务也要给占位值</span>
+  <span class="n">api</span>: <span class="s">openai-completions</span>
+  <span class="n">baseURL</span>: <span class="s">http://127.0.0.1:8000/v1</span>
+  <span class="n">defaultContextWindow</span>: <span class="v">32768</span>        <span class="c"># 本地小模型务必改小！</span>
+  <span class="k">compat</span>:
+    <span class="n">supportsDeveloperRole</span>: <span class="v">false</span>
+    <span class="n">maxTokensField</span>: <span class="s">max_tokens</span>
+  <span class="k">models</span>:
+    - <span class="n">id</span>: <span class="s">&lt;本地模型名&gt;</span>
+      <span class="n">reasoningEfforts</span>: <span class="v">false</span>          <span class="c"># 非推理模型显式关掉</span></code></pre>
+<p class="note">Ollama 在 pi-ai 目录内，可直接当目录提供方添加；vLLM 等自建服务按上面手工声明。无密钥服务需要占位凭据，否则 pi-ai 的 OpenAI 兼容实现会报错。</p>
+
+<h4>复用官方路由接第三方（有前提）</h4>
+<pre><code><span class="c"># 仅当第三方模型 ID 与 DeepSeek 官方命名完全一致时可用</span>
+export DEEPSEEK_API_KEY=sk-你的密钥
+export DEEPSEEK_BASE_URL=https://服务商域名/v1
+npx @deepseek-ai/dsh web</code></pre>
+<p class="note">否则会报 <code>UNKNOWN_MODEL</code>，请改用路径 1/2/3。</p>
+
+<h2 id="plugin">七、插件管理</h2>
+<p>dsh 的功能扩展全靠插件。<b>装插件 = 往 profile 里加依赖 + 重启</b>。</p>
+<pre><code><span class="c"># 从 npm 装</span>
+dsh plugin --profile web add &lt;npm包名&gt;
+
+<span class="c"># 从 GitHub 装</span>
+dsh plugin --profile web add git+https://github.com/&lt;作者&gt;/&lt;仓库&gt;.git
+
+<span class="c"># 从 tarball / 发布包装</span>
+dsh plugin --profile web add https://.../dsh-xxx-skin-0.1.4.tgz
+
+<span class="c"># 查看已装</span>
+dsh plugin --profile web list</code></pre>
+<div class="card amber">
+  <h4>插件三坑</h4>
+  <ul>
+    <li><b>必须重启</b> <code>dsh web</code> 并刷新页面才生效。</li>
+    <li>包名<b>含 <code>#</code> 时要用双引号包裹</b>（如 <code>"github:owner/repo#packages/xxx"</code>），否则被 shell 截断。</li>
+    <li>插件启动失败多半是上次异常退出留下的 <code>.lock</code> 锁文件，删掉 <code>%USERPROFILE%\.dsh\**\*.lock</code> 再启动。</li>
+  </ul>
+</div>
+<p>官方插件市场：<b>dshmarket.com</b>（4000+ 插件），站内可查安装命令；对应插件 <code>dshmarket</code> 装上后可直接在界面内浏览安装。</p>
+
+<h2 id="preset">八、Agent 预设与技能</h2>
+<p><code>~/.dsh/.agent-presets/</code> 存放 Agent 预设。官方内置四套：<b>标准模式 / Code 模式 / 极简模式 / 创作模式</b>。每个预设目录含 <code>preset.yml</code>（元数据）和 <code>prompt.md</code>（系统提示）。</p>
+<p><b>Agent 预设类插件的安装方式和普通 Web 插件不同</b>：要把插件目录完整复制到 <code>%USERPROFILE%\.dsh\.agent-presets\</code>，重启后生效——不能用 <code>dsh plugin add</code>。</p>
+
+<h2 id="local">九、你这台机器的现状与建议</h2>
+<div class="card accent">
+  <h4>实测扫描结果（<code>C:\Users\Admin\.dsh</code>）</h4>
+  <table>
+    <tr><th>检查项</th><th>现状</th></tr>
+    <tr><td>DSH_HOME</td><td>未设置环境变量，走默认 <code>~/.dsh</code></td></tr>
+    <tr><td>Profile</td><td><code>web</code> + <code>desktop</code> 两套，均已装插件</td></tr>
+    <tr><td><code>settings.yaml</code></td><td><b>不存在</b> —— 说明模型配置目前完全靠 Web UI，未手写过文件</td></tr>
+    <tr><td><code>.credentials.yaml</code></td><td>存在。含 <code>deepseek-account-platform/default</code> 的登录 token（issuer: platform.deepseek.com）+ <code>browser-session</code> 授权记录</td></tr>
+    <tr><td>登录方式</td><td><b>DeepSeek 账号登录（OAuth 设备流）</b>，不是裸 API Key</td></tr>
+    <tr><td>web 插件（14 个）</td><td><code>dshmarket</code>、<code>dsh-better-sidebar</code>、<code>dsh-bill</code>、<code>dsh-library</code>、<code>dsh-knowledge-base</code>、<code>dsh-knj-prompts</code>、<code>dsh-soul-md</code>、<code>dsh-plugin-masterprompt</code>、<code>dsh-zagens-office</code>、<code>@weibaohui/dsh-kb</code>、<code>@yangdcm/dsh-expert-team</code>、<code>billion-context</code>、<code>@linxin666/...skill-explorer</code>、<code>@weibaohui/skills-management</code></td></tr>
+    <tr><td>desktop 插件（7 个）</td><td><code>dshmarket</code>、<code>dsh-agent-persona</code>、<code>dsh-better-sidebar</code>、<code>dsh-custom-mode</code>、<code>dsh-input-list</code>、<code>dsh-kb-manager</code>、<code>dsh-plugin-masterprompt</code></td></tr>
+    <tr><td>主题</td><td>已在 <code>cordis.patch.yml</code> 里强制 <code>dark</code></td></tr>
+    <tr><td>Agent 预设</td><td><code>custom</code> + <code>expert-team</code></td></tr>
+  </table>
+</div>
+<h4>给你的三条建议</h4>
+<ol>
+  <li><b>想接第三方 / 本地模型</b>：现在没有 <code>settings.yaml</code>，最省事的是在 Web UI「设置 → 模型」加自定义提供方；要配视觉模态或兼容开关，再手动建 <code>~/.dsh/settings.yaml</code> 写 <code>llm-pi-ai</code> 分节。</li>
+  <li><b>web 和 desktop 插件不同步</b>：两套 profile 各自独立。如果桌面端缺 <code>dsh-library</code>、<code>dsh-knowledge-base</code> 等，需要在 desktop profile 下单独装一遍。</li>
+  <li><b>保持版本一致</b>：<code>where dsh</code> 若返回多条，说明 npx 缓存里还有旧副本，清掉避免版本混乱。</li>
+</ol>
+
+<h2 id="debug">十、排错对照表</h2>
+<table>
+  <tr><th>现象 / 错误码</th><th>原因</th><th>处理</th></tr>
+  <tr><td><code>MISSING_CREDENTIAL</code></td><td><code>apiKeyEnv</code> 解析为空</td><td>在模型页存密钥，或设对应环境变量</td></tr>
+  <tr><td><code>INVALID_CREDENTIAL</code></td><td>凭据无法使用</td><td>报错会点名路由与引用，更换密钥</td></tr>
+  <tr><td><code>UNKNOWN_MODEL</code></td><td>请求的模型未配置</td><td>选已配置模型，或加进自定义路由的 <code>models</code></td></tr>
+  <tr><td>获取可用模型返回 401</td><td>Key 错 / 无 <code>/models</code> 端点</td><td>检查密钥；手动填模型 ID</td></tr>
+  <tr><td>Key、URL 都对但全部拒绝</td><td>请求形状与 OpenAI 不同</td><td>加 <code>supportsDeveloperRole: false</code> + <code>maxTokensField: max_tokens</code></td></tr>
+  <tr><td>只有推理模型失败</td><td>系统提示以 developer 角色发出被拒</td><td><code>supportsDeveloperRole: false</code></td></tr>
+  <tr><td>compat 开关被拒绝</td><td>冒号后没写值，或开关不属于该协议</td><td>给值或删键，按报错列出的可用开关改</td></tr>
+  <tr><td>图片发送前被拒</td><td>模型未声明图片模态</td><td>加 <code>input: [text, image]</code></td></tr>
+  <tr><td>提供方拒绝带图请求</td><td>声明了端点不支持的图片能力</td><td>移除 <code>image</code> 并<b>开新会话</b>（旧图留在日志里会持续失败）</td></tr>
+  <tr><td><code>UNSTORABLE_PROVIDER_ID</code></td><td>路由键不是小写连字符标识</td><td>改用 <code>apiKeyEnv</code></td></tr>
+  <tr><td><code>DUPLICATE_ADAPTER</code></td><td>两个适配器注册了同名路由</td><td>改路由名；<code>deepseek-official</code> 只属于官方适配器</td></tr>
+  <tr><td><code>QUOTA</code> / <code>RATE_LIMIT</code></td><td>配额耗尽 / 暂时限流</td><td>换 Key 或充值 / 等待重试</td></tr>
+  <tr><td>命令「不是内部或外部命令」</td><td>PATH 没配</td><td>把 <code>node_modules\.bin</code> 加进 Path，重开终端</td></tr>
+  <tr><td>插件启动失败（task-board 等）</td><td>残留锁文件 / Node shim 冲突</td><td>清 <code>.lock</code> 文件后重启</td></tr>
+  <tr><td>打开设置页 403</td><td>浏览器装了 Page Assist 之类插件</td><td>禁用该扩展</td></tr>
+</table>
+
+<footer>
+  <p><b>信息来源</b></p>
+  <p class="src">
+    · 腾讯云开发者社区《DeepSeek Harness 完整上手指南》<br>
+    · 腾讯云开发者社区《dsh 配置第三方兼容 API 完整教程》<br>
+    · 腾讯云开发者社区《用 WorkBuddy 在 Windows 部署 DeepSeek Harness：完整安装与避坑实录》<br>
+    · 脚本之家《DeepSeek Harness 接入其他模型：目录提供方、自定义网关与 settings.yaml 配置全解》<br>
+    · 阿里云开发者社区《DeepSeek Harness 安装、运行、管理插件》<br>
+    · 本机 <code>C:\Users\Admin\.dsh</code> 实测扫描
+  </p>
+  <p class="note">DSH 项目处于开发者预览阶段，官方明确「未来将出现破坏兼容性的变更」，字段名请以配置目录最新版为准。本报告基于 2026-10-14 调研。</p>
+</footer>
+
+</div>
+</body>
+</html>
