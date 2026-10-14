@@ -4,7 +4,7 @@ title: Hermes Agent 设置技巧汇总(官方最佳实践 + Reddit 社区实证 
 tags: [hermes-agent, nousresearch, ai-agent, settings, reddit, cli, memory, skills, mcp, cron]
 created: 2026-10-14
 updated: 2026-10-14
-version: 3
+version: 4
 status: active
 source: 官方文档 hermes-agent.nousresearch.com + Reddit 社区(r/openclaw、r/better_claw、r/hermesagent、r/LocalLLaMA、r/AI_Agents,经 cnblogs/百家号转引)+ 中文实战社区 + 本机安装实测(2026-10-14)
 confidence: high(官方文档、本机实测已核实;Reddit 观点为社区转引,个别数字未能独立复核)
@@ -266,7 +266,53 @@ hermes skills install anysearch                    # 免费,含百度源,支持 
 3. **Skill**:5 步以上重复流程让 Hermes 固化为 skill(学习循环:打分→改写→择优;离线进化走轨迹压缩);或手动 `hermes skills install`。
 4. 学习循环会把失败经验自动沉淀(MEMORY.md 存事实、SKILL 存流程),这是"越用越聪明"的兑现路径。
 
-## 16. 未核实项(v1 原有,v2/v3 续)
+## 17. 深度研究技能栈(v4 补充,2026-10-14)
+
+### 17.1 三层栈:搜索底座 → 研究编排 → 知识沉淀
+
+| 层 | 技能 | 来源/热度 | 作用 |
+|---|---|---|---|
+| 搜索底座 | `sn-search`(聚合 arXiv/Semantic Scholar/PubMed/GitHub/SO/HN/HuggingFace/**Reddit/Twitter/YouTube/B站/知乎/抖音**,学术+开发者+中英文社交) | SenseNova-Skills,开源 MIT,4 位数 star | 一套打通多源检索,替代反复切搜索引擎 |
+| 搜索底座 | `anysearch` | 社区(免费,含百度源) | 免 key 搜索+extract,batch_search |
+| 搜索底座 | 内置 `web_search` + Firecrawl/Parallel/Tavily/Exa 四提取后端 | 官方 | Bing 免 key;Firecrawl 默认 |
+| 搜索底座 | `last30days` | 社区 skill | 拉 Reddit/X/YouTube/TikTok 近 30 天真实讨论,配免 key 源+扫浏览器 cookie(X) |
+| **研究编排** | **`autoresearch`**(爆款 9.8/10) | 社区 | 深度联网搜索,自动访问数十个数据源,整合多源信息生成结构化研究报告,引用标注+来源追溯 |
+| **研究编排** | **`sn-deep-research`** | SenseNova(GitHub) | 6 子 skill:规划→分维度取证→综合→成稿→格式发现→HTML 转换;中间产物持久化,**断点可续** |
+| 研究编排 | `agent-team-orchestration`(9.7) | 社区 | 多 agent 角色(项目经理/研究员等)并行+汇总 |
+| 学术 | `arxiv` / `arxiv-reader`(9.5) | 本机已装 arxiv | 按领域/关键词/作者搜 arXiv,自动摘要+核心要点+图表结论+多篇对比+文献综述 |
+| 学术 | Hermes `skills/research/`、`mlops/ml-paper-writing`(模板+引用管理) | 源码内置 | 文献综述、论文写作 |
+| 知识沉淀 | `grounded-citations`(本机已装) | 内置 | 结论强制带引用 |
+| 知识沉淀 | `llm-wiki`(本机已装) | 内置 | 构建/查询 Markdown 个人知识库(Karpathy 式) |
+| 知识沉淀 | `competitor-news-monitor`(本机已装) | 内置 | 持续监控竞品/主题动态 |
+| 知识沉淀 | `blocked-page-recovery`(web 类,本机已装) | 内置 | 抓取被拦时的恢复流程(配合 15 章反爬) |
+
+### 17.2 安装方式
+
+```bash
+# 社区 skill(agentskills.io hub)
+hermes skills install anysearch
+hermes skills search deep-research       # 检索更多
+
+# SenseNova-Skills(MIT):让 Hermes 自己装,或克隆后拷入 ~/.hermes/skills/
+# 对话里说:"请帮我把 https://github.com/OpenSenseNova/SenseNova-Skills 安装到你的 Skills 目录"
+# 或用官搭 agent_pack(Hermes+OpenClaw+全套 Skills)
+```
+
+skill 是 SKILL.md 声明触发条件(何时用/何时不用),agent 自动选择编排,无需手动指定。渐进式加载,装多不卡。
+
+### 17.3 本机现状与缺口(2026-10-14 实测)
+
+已装:`research/{arxiv, competitor-news-monitor, grounded-citations, llm-wiki}`、`web/blocked-page-recovery`、productivity 全家桶。
+缺口(按杠杆排序):①多源聚合搜索(sn-search/anysearch,免 key 起步);②研究编排(autoresearch 或 sn-deep-research,断点续研对长任务关键);③社区实时观点源(last30days)。
+
+### 17.4 配套调教(衔接第 13/15 章)
+
+- SOUL.md 加研究规范:"每个结论必须带来源;区分事实/推断/未核实;不确定就说不确定"(本机 SOUL 已有相关基因,补一句引用要求即可)。
+- MEMORY.md 记:"搜索顺序 sn-search > anysearch > bing;研究任务用 sn-deep-research 断点续跑"。
+- 多 profile 分工:研究 profile(排队列长任务+cron 晨报)+ 日常 profile,或单 profile 用 `/personality` 切研究模式。
+- 长研究用 cron + 主频道投递:每天定时跑 arXiv 新论文摘要/竞品监控,结果发 Telegram/飞书。
+
+## 18. 未核实项(v1 原有,续 v2/v3/v4)
 
 - Reddit 具体帖子链接未能直接抓取(reddit.com 与 redlib 镜像均被网络策略拦截),社区引述经 cnblogs/百家号 2026-05-08 汇总转引,原帖用户名/票数以该汇总为准。
 - "Reddit 7 月汇总 276 用例"来自知乎文章(含明显营销内容),仅作背景参考,未逐条核实。
