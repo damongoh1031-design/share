@@ -1,0 +1,14 @@
+{
+  "experts": {
+    "manifestName": "experts",
+    "type": "directory",
+    "source": {
+      "source": "directory",
+      "path": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\marketplaces\\experts"
+    },
+    "installLocation": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\marketplaces\\experts",
+    "description": "Marketplace from C:\\Users\\Admin\\.workbuddy-ai\\plugins\\marketplaces\\experts",
+    "lastUpdated": "2026-09-24T04:19:09.173Z",
+    "autoUpdate": false
+  }
+}
