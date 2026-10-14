@@ -1,12 +1,12 @@
 ---
 id: nixos-amd-teaching-guide
-title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——25 章配置实录
-tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run]
+title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——35 章配置实录
+tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, nixos-manual-2605, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, var-lib-nixos, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, build-image, system-autoUpgrade]
 created: 2026-10-12
 updated: 2026-10-12
-version: 1.8
+version: 1.9
 status: stable
-source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）**）
+source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）** + **第八轮：NixOS Manual stable（= 26.05）整站拉取 + 脚本骨架统计 + 8 组锚点原文提取（官方手册骨架重构）**）
 confidence: 已核实
 ---
 
@@ -917,6 +917,116 @@ Aeon 的判据是**风险**（*"every extra package in the host incurs extra ris
 
 **详版**：`nixos-amd-guide.md` 第二十五章（11 节）+ 附录 B.15。
 
+## 17. 第八轮（v1.9）：以官方手册结构为骨架重构 + 第二十六～三十五章
+
+### 17.1 本轮做了什么（与前三轮性质不同）
+
+| | 第二～七轮 | **第八轮** |
+|---|---|---|
+| 驱动 | 按你的提问补内容 | **按官方手册的结构系统性找缺口** |
+| 方法 | 查源码 / 查上游 README | **整站拉官方手册 → 脚本统计骨架 → 双向对照 → 补缺口** |
+| 产出 | 按主题的章节 | **骨架导航章 + 10 个「按官方章节」组织的章节** |
+| 风险 | 无 | **物理重排全文会破坏 §x.y 交叉引用** → 已避免（你选的「骨架导航 + 补齐缺口」） |
+
+### 17.2 官方手册 stable 骨架（实测数字）
+
+**核实方法**（可复现）：
+
+```bash
+curl -sL https://nixos.org/manual/nixos/stable/ -o manual.html   # 1,200,007 字节
+node -e '
+const t=require("fs").readFileSync("manual.html","utf8").replace(/<script[\s\S]*?<\/script>/gi,"").replace(/<style[\s\S]*?<\/style>/gi,"");
+const g=tag=>[...t.matchAll(new RegExp(`<${tag}[^>]*id="([^"]*)"`,"gi"))].map(m=>m[1]);
+for(const tag of ["h1","h2","h3","h4"]){
+  const a=g(tag), auto=a.filter(x=>/^module-|^opt-/.test(x));
+  console.log(tag, a.length, "auto", auto.length, "narrative", a.length-auto.length);
+}'
+```
+
+| 层级 | 总数（带 `id`） | 自动生成（`module-*` / `opt-*`） | **叙事章节** |
+|---|---|---|---|
+| H1 | 11 | 0 | **10**（含「NixOS Manual」总标题） |
+| H2 | 491 | 314 | **177** |
+| H3 | 147 | 67 | **80** |
+| H4 | 44 | 10 | **34** |
+
+> **关键**：`module-*` / `opt-*` 是 `meta.doc` 自动生成的选项参考（314 个 H2），**不是叙事骨架**。统计骨架必须排除它们，否则会误以为官方有 491 个章节。
+
+**官方 5 个 Part 锚点**：
+
+| Part | 锚点 | 叙事 H2 |
+|---|---|---|
+| Preface | `preface` | 1 |
+| I · Installation | `ch-installation` | 17 |
+| II · Configuration | `ch-configuration` | 100+ |
+| III · Administration | `ch-running` | 26 |
+| IV · Development | `ch-development` | 30 |
+| V · Contributing（5 个 H1） | — | 5 |
+
+### 17.3 新增的 10 章与它们的核心结论
+
+| 章 | 官方对应 | 本轮最高价值的结论 |
+|---|---|---|
+| **二十六** 配置语法/抽象/模块化/Profiles | Part II 基础 | `''...''` **剥掉整体最小缩进**；`let` **只能出现在「值」位置**；官方 **11 个 profile** |
+| **二十七** 文件系统与存储 | `ch-file-systems` | **`fileSystems` 挂不上 = 掉 emergency shell**（不是警告）；`neededForBoot` 忘了会启动失败；**LUKS + systemd-boot 下 `/boot` 必须未加密 vfat** |
+| **二十八** 用户与账户安全 | `sec-user-management` | **`users.mutableUsers = false` 时 `useradd` 完全不可用**；**`hashedPassword` 明文进 `/nix/store`（全局可读）**；**`/var/lib/nixos` 存 uid 分配记录，丢了属主乱**；官方**推荐 `services.userborn.enable`** |
+| **二十九** systemd/systemctl/日志/cgroup | Part III 前半 | **不要用 `systemctl enable/disable`**（store 只读 + GC 死链）；**`systemctl --user enable` 会因 GC 变死链 → 服务静默不自启**；`journalctl -x` 被低估；**cgroup 默认无内存限制 → 用 `MemoryMax` 治 nix-daemon OOM** |
+| **三十** 系统状态/GC/故障排查 | Part III 后半 | **`nix-collect-garbage -d` 删掉所有 roots → 失去回滚**；**`/boot` 满了要「删 generation + 再 rebuild」两步**；**`nixos-enter --root /mnt --system <path>` 救援**；**回滚三法**（含易忽略的 `/run/current-system/bin/switch-to-configuration boot`） |
+| **三十一** 容器 | `ch-containers` | **官方警告容器「not perfectly isolated」—— 容器 root 能影响宿主，不可给不受信任用户 root**；**声明式删容器不删数据目录**；**默认不能出网，需 `networking.nat.internalInterfaces`** |
+| **三十二** 图形栈 | `sec-wayland` / `sec-gpu-accel` | **OpenCL AMD = `rocmPackages.clr.icd`**；**Vulkan 的 RADV 在 Mesa 里，什么都不用装**；**VA-API 的 `VAEntrypointVLD` = 硬件解码**；**★ ICD 混版本静默失败** |
+| **三十三** 内核与系统切换内部 | Part II + Part IV | **非 longterm 内核会被从 nixpkgs 删除，即使在 stable 分支**；**`nixos-rebuild switch` 的 12 步固定动作顺序**；**`X-StopIfChanged` 默认 true**；**activation script 每次启动都跑 → 不要塞重活** |
+| **三十四** 写模块与测试 | Part IV | **覆盖优先级精确数字**；**顺序优先级是另一套**；**`types.externalPath` 挡不住 `${}` 插值**；**官方明确不推荐 overlay 换包**；**`mkIf` vs 裸 `if`** |
+| **三十五** 构建镜像 | Part I 缺口 | **三类频道**（stable/unstable/small）；**`nixos-rebuild build-image` 不加参数列全部变体**；**`image.repart` 的 `nixStorePrefix`**；**appliance 不适合 generation 更新 → 换整镜像或 A/B（官方点名 Chrome OS）** |
+
+### 17.4 本轮对既有章节的一处修正
+
+**第二十章（flake 进阶）原建议「只滚 `mesa`」** —— 依据官方 `sec-gpu-accel-common-issues` 的警告**修正为**：
+
+- 只滚**内核 + Flatpak 应用**（Flatpak 自带 runtime，不受 nixpkgs glibc 影响）
+- 或把 **`mesa` 连同 `vulkan-loader`、`libdrm` 一起滚**（保持 ICD 链同版本）
+
+**原因**（官方原文）：*"the loader and the runtime may come from different nixpkgs … the loader will not report an error"* —— 只滚一个组件会产生「看起来正常但硬件加速失效」的**静默故障**。
+
+### 17.5 优先级精确数字（本轮最实用的一张表）
+
+**覆盖优先级**（数字小 = 优先级高 = 赢）：
+
+| 构造 | 数字 | 说明 |
+|---|---|---|
+| `mkOverride 10` | 10 | 最高（几乎不用） |
+| **`mkForce`** | **50** | 强制覆盖 |
+| **普通赋值** | **100** | 默认 |
+| `mkOverride 500` | 500 | 介于普通与 mkDefault |
+| **`mkDefault`** | **1000** | 「我的值可以被别人覆盖」 |
+| **选项的 `default`** | **1500** | 模块作者给的默认值 |
+
+**顺序优先级**（**另一套，只影响顺序不影响保留**）：
+
+| 构造 | 数字 |
+|---|---|
+| **`mkBefore`** | **500** |
+| 普通 | 1000 |
+| **`mkAfter`** | **1500** |
+
+> **官方原文的读法陷阱**：*"All option definitions that do not have the lowest priority value are discarded"* —— 这里的 **"lowest priority value" = 「数字最小」**（数字小 = 优先级高）。**容易读反。**
+
+### 17.6 一页速查
+
+| 问题 | 一行答案 |
+|---|---|
+| 怎么查官方手册某节 | 下载整站后按 `id` 抽取；锚点名形如 `sec-*` / `ch-*` |
+| 官方到底有多少章 | **177 个叙事 H2**（不是 491 —— 那含 314 个自动生成的 `module-*`） |
+| `nixos-rebuild switch` 干了什么 | **12 步固定动作**（§33.5），可用 `dry-activate` 预演 |
+| 改存储/引导前怎么验证 | `nixos-rebuild dry-build` → `nixos-rebuild test`；或 **QEMU 里跑**（§34.11） |
+| 开不了机 | `Alt+ArrowUp` 进 rescue；或启动菜单选旧 generation；或 Live USB + `nixos-enter --root /mnt` |
+| GC 后不能回滚了 | 你用了 `-d`（删了 roots）→ 以后用不带 `-d` 的 `nix-collect-garbage` |
+| `/boot` 满了 | 删 generation **之后必须再 `nixos-rebuild boot`**（两步） |
+| 用户服务不自启 | 检查是不是 `systemctl --user enable` 链到了 `/nix/store`（GC 后死链） |
+| 硬件加速失效但没报错 | 怀疑 **ICD 混版本** → `LD_DEBUG=files clinfo` |
+| `mkForce` 数字是多少 | **50**（普通 100，`mkDefault` 1000，选项 default 1500） |
+
+**详版**：`nixos-amd-guide.md` 「官方手册骨架导航」章 + 第二十六～三十五章 + 附录 B.16。
+
 ## 可复用操作
 
 ```bash
@@ -1062,6 +1172,46 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 76. **`programs.appimage` 只有 `enable` / `package` / `binfmt` 三个选项** —— **没有 `extraPkgs`**（网上有教程这么写）。binfmt 注册的 magic 是 `AI\x01` / `AI\x02`
 77. **nix-ld 修不了内核模块和 setuid 程序** —— 前者在用户态够不到内核（用 `boot.extraModulePackages`），后者 Nix store 是只读的不能 setuid（用 `security.wrappers`，且二进制必须已在 store 里）
 78. **`GLIBC_2.xx not found` 不要试图用 nix-ld / FHS 修** —— 换 loader 不够，需要整套配套 glibc。**唯一现实解是容器（Distrobox）**
+79. **★ 非 longterm 内核会从 nixpkgs 删除，即使在 stable 分支** —— 官方硬规则：在**第一批新稳定内核发布时**移除。**所以不要在配置里写死内核小版本号**（`pkgs.linuxPackages_6_18`），用 `pkgs.linuxPackages_latest` / `_zen` / 默认
+80. **`boot.kernelPackages` 会连带替换「内核相关包」** —— NVIDIA 驱动、树外模块都在内。换内核前先想清这一点
+81. **`nix-collect-garbage -d` 与不带 `-d` 是两件事** —— `-d` 会**删掉所有 generation 的 roots**，**失去回滚能力**。日常用不带 `-d`
+82. **`/boot` 满了要两步** —— 「删 generation」+「**再 `nixos-rebuild boot`/`switch`**」。官方整节只有一句，**漏第二步不生效**。预防：`boot.loader.systemd-boot.configurationLimit = 10`
+83. **不要用 `systemctl enable` / `disable`** —— NixOS 的 unit 在只读 store 里；命令式链接会在 GC 后变成死链
+84. **★ `systemctl --user enable` 会链到 `/nix/store/...` → GC 后死链 → 用户服务静默不自启** —— 官方专段。正确做法是链到 **`/run/current-system/sw/lib/systemd/user/`**
+85. **`environment.systemPackages` 不会让包自带的服务可用** —— 必须 `systemd.packages = [ pkgs.xxx ];`
+86. **模板单元实例必须 `overrideStrategy = "asDropin"`** —— 否则 `nixos-rebuild` 的变更检测会失效（`base-unit@instance.service` 形式）
+87. **`X-StopIfChanged` 默认为 `true`** —— 官方理由是「新 unit **绝不**在旧环境里运行」。这是正确性设计，不是性能取舍
+88. **`activation script`（`$out/activate`）在每次启动和每次 switch 都跑** —— **不要塞重活**。替代优先级：`StateDirectory`/`CacheDirectory` → `preStart` → `tmpfiles` → `activationScripts`
+89. **cgroup 默认对服务无内存限制** —— 任何服务都能吃光内存。**治 nix-daemon OOM 用 `MemoryMax`**（cgroup v2；`MemoryLimit` 是旧名）
+90. **`users.mutableUsers = false` 时 `useradd` 完全不可用** —— 且「删配置即删用户」。反过来 `true`（默认）时配置只是**初始值**
+91. **`hashedPassword` 会明文进 `/nix/store`（全局可读）** —— 可离线爆破。敏感场景用 `passwordFile` / sops-nix / agenix
+92. **`/var/lib/nixos` 存「声明式用户的 uid/gid 分配记录」** —— **丢了会导致 uid 重排 → 文件属主乱**。它属于「必须持久化」清单
+93. **`fileSystems.*` 挂不上 = 掉 emergency shell**（不是警告）—— 改存储配置前先 `nixos-rebuild dry-build` + `test`
+94. **`types.externalPath` 只校验「当前不在 store」** —— **挡不住后续被 `${}` 插值复制进 store**
+95. **官方明确不推荐用 overlay 换包** —— *"they slow down nixpkgs evaluation significantly and are harder to debug"*。用模块的 `package` 选项
+96. **★ ICD 混版本静默失败** —— OpenCL/Vulkan 用 **`dlopen`** 加载 runtime，**不受 Nix 构建期依赖追踪保护**。loader 与 runtime 来自不同 nixpkgs → glibc 符号缺失 → **loader 不报错**。诊断：`LD_DEBUG=files clinfo`
+97. **只滚一个图形组件是危险的** —— 要滚就滚整套（`mesa` + `vulkan-loader` + `libdrm`），否则用 Flatpak 版应用绕过
+98. **`mkForce` = 50 / 普通 = 100 / `mkDefault` = 1000 / 选项 default = 1500** —— 官方原文 *"lowest priority value"* = **数字最小**（容易读反）
+99. **`mkBefore` = 500 / 普通 = 1000 / `mkAfter` = 1500** —— 这是**另一套**（顺序优先级），**只影响顺序不影响保留**，不要和覆盖优先级混用
+100. **`mkIf` vs 裸 `if`** —— 裸 `if` 在模块里会 **infinite recursion**；`mkIf` 把条件「下推」到各个定义
+101. **`warnings` 打印后继续构建；`assertions` 失败拒绝构建** —— 官方明确不用 `abort` / `builtins.trace`
+102. **`disabledModules` 只覆盖「模块定义」，不会自动换包** —— 模块与包要**分别**指定
+103. **`freeformType` 会「nullifies name checking」** —— 这解释了「为什么有些选项写错名字不报错」。官方只推荐在 submodule 里用
+104. **`system.switch.enable = false` 砍掉 `switch-to-configuration`** —— 这就是官方 `image-based-appliance` profile 的实现。**桌面用户不要开**（失去 generation 切换）
+105. **`/etc` via overlay（实验性）最重要的行为差异：已修改的文件不会被覆盖** —— 残留的旧文件会**盖住新配置**。开它时建议同时 `mutable = false`
+106. **NixOS 容器「not perfectly isolated」** —— 官方警告：**容器 root 能影响宿主，不可给不受信任用户 root**。**只能 root 管理**
+107. **声明式容器删掉不删数据目录** —— `/var/lib/nixos-containers/<name>` 会留下
+108. **容器默认不能出网** —— 需 `networking.nat.internalInterfaces = [ "ve-+" ]`；NetworkManager 需 `networking.networkmanager.unmanaged = [ "interface-name:ve-*" ]`（**注意两种通配符语法不同**）
+109. **回滚有三法，第三种最容易被忽略** —— ① 启动菜单选旧 generation ② `nixos-rebuild switch --rollback` ③ **`/run/current-system/bin/switch-to-configuration boot`**（把当前运行的设为默认）
+110. **systemd-boot 的旧 generation 是「平铺在主菜单」，不是 GRUB 的子菜单** —— 找「NixOS - All configurations」在 GRUB 下才有
+111. **appliance 镜像不适合 generation 更新机制** —— 官方原文。更新靠**换整个镜像**或 **A/B 分区**（官方点名 Chrome OS 流程）
+112. **`image.repart` 里 `Label` 与 `fileSystems.*.device` 必须逐字一致** —— 不一致 → 挂不上 → 掉 shell。`nixos-rebuild build-image` **不会检查这个对应关系**
+113. **`nixStorePrefix = "/"` 的语义是「剥掉 `/nix/store` 前缀」** —— 因为挂载点已经决定了 `/nix/store` 这一段。不设会变成 `/nix/store/nix/store/...`
+114. **`repartConfig` 是 `systemd-repart` 的**整个**接口透传** —— 官方手册**不列全集**，要查 `man systemd-repart`
+115. **`SizeMinBytes` 是字符串（`"96M"`）不是数字** —— `systemd-repart` 接受带单位的值
+116. **`nix-channel --add` 末尾的 `nixos` 参数不能省** —— 且**频道是按用户设置的**，不加 `sudo` 只影响你自己的用户频道
+117. **频道来回切换只有一个不可逆例外** —— 新版 NixOS 可能带更新版 Nix → **数据库 schema 升级不能撤销** → **回不到原频道**
+118. **`system.autoUpgrade.allowReboot = true` 会在内核/initrd 变化时自动重启** —— 桌面用户建议设 `false`
 
 ## 未核实 / 存疑
 
@@ -1138,6 +1288,19 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 | **`dpkg`/`rpm` 解包 `.deb`/`.rpm` 的完整流程** | 推断（逻辑成立，未端到端实测真实 `.deb`） |
 | **`boot.binfmt.emulatedSystems` 的性能代价** | 官方（机制）+ 未核实（倍率未测；需要 JIT 的程序可能直接不工作） |
 | **`programs.nix-ld` 与 `programs.appimage` 同时开启是否冲突** | 未核实（机制不同，理论不冲突，未实测共存） |
+| **26.05 默认 stage 1 是 scripted 还是 systemd** | **官方措辞有歧义**（`sec-boot-problems` 同时给了两套调试图参数，未明说默认） |
+| **NixOS 容器「not perfectly isolated」的具体缺失项** | 官方结论 + 推断（未列举是哪几项隔离缺失） |
+| **`image.repart` 的 `repartConfig` 完整键表** | 官方（机制）+ 未核实（手册不列全集，查 `man systemd-repart`） |
+| **`sec-building-image` 里「强制设定」的确切清单** | 推断（官方未列具体选项） |
+| **`nixos-rebuild build-image` 在 26.05 的可用变体清单** | 官方（命令存在）+ 未核实（清单未实测输出） |
+| **UKI Appliance 例子的实际可引导性** | 官方示例 + **未在 QEMU 实测** |
+| **`image.modules` 的「extendable」具体机制** | 官方措辞 + 未核实（无「如何加自己变体」的例子） |
+| **`specialisations` 与 `image.modules` 的求值时机是否真一致** | 官方类比 + 未核实 |
+| **`nixStorePrefix` 的完整取值语义** | 官方示例（两种）+ 推断（「默认不重写」那一行） |
+| **`system.autoUpgrade` 在 flake 模式下的确切行为** | 推断（从 `system.autoUpgrade.flake` 选项存在反推） |
+| **small 频道「更少更新但关键补丁更快」的准确语义** | 官方原文自相矛盾，本指南的解释是推断 |
+| **`services.userborn.enable` 在 26.05 的稳定性** | 官方标注「实验性」+ 官方推荐 —— **两个信号方向不同**，未实测 |
+| **`system.etc.overlay` 的「已修改文件不被覆盖」实际影响面** | 官方明确 + 未核实（长期使用中会积累多少残留） |
 
 ## 出处（主要）
 
@@ -1218,4 +1381,26 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 - **nix-alien**：https://github.com/thiagokokada/nix-alien —— `nix-alien` / `nix-alien-ld` / `nix-alien-find-libs` 三个命令、`-l`/`-p` 参数、dlopen 局限、**不在 nixpkgs**、`follows` 不受支持
 - **nix-index**：https://github.com/nix-community/nix-index —— `nix-locate --top-level` 的用法与「需先 `nix-index` 建库」的前置条件
 
-- 完整逐条出处见交付物 `nixos-amd-guide.md` 附录 B（含 **B.15 二进位包与依赖专节**）
+**官方手册（第八轮，NixOS Manual stable = 26.05）**
+
+- **整站**：<https://nixos.org/manual/nixos/stable/> —— 下载为本地副本（1,200,007 字节）后脚本统计骨架
+- **骨架实测**：H1 11 / H2 491（叙事 **177**）/ H3 147（叙事 **80**）/ H4 44（叙事 34）；排除 314 个 `module-*`/`opt-*` 自动生成章节
+- **Part 锚点**：`ch-installation`(17) / `ch-configuration`(100+) / `ch-running`(26) / `ch-development`(30)
+- **提取的 8 组官方原文**（约 4,700 行，存于交付物仓库 `.build/official/`）：
+  - `01-config.txt`：`sec-configuration-syntax` / `sec-configuration-file` / `sec-module-abstractions` / `sec-modularity` / `sec-package-management` / `sec-declarative-package-mgmt` / `sec-ad-hoc-packages`
+  - `02-fs-user.txt`：`ch-file-systems` / `sec-luks-file-systems` / `sec-sshfs-file-systems` / `sec-overlayfs` / `sec-user-management` / `sec-systemd-sysusers` / `sec-userborn` / `sec-restrict-usage-time`
+  - `03-admin.txt`：`sec-systemctl` / `sect-nixos-systemd-*` / `sec-rebooting` / `sec-user-sessions` / `sec-cgroups` / `sec-logging` / `ch-system-state` / `sec-nixos-state` / `sec-systemd-state` / `sec-nix-gc` / `sect-nixos-gc-boot-entries`
+  - `04-containers.txt`：`ch-containers` / `sec-imperative-containers` / `sec-declarative-containers` / `sec-container-networking` / `ch-troubleshooting` 五节（`sec-boot-problems` / `sec-maintenance-mode` / `sec-rollback` / `sec-nix-store-corruption` / `sec-nix-network-issues`）
+  - `05-graphics.txt`：`sec-wayland` / `sec-gpu-accel` 及 OpenCL·Vulkan·VA-API·常见问题 / `ch-profiles` + 8 个 profile 子节
+  - `06-kernel-boot.txt`：`sec-kernel-config` / `sec-linux-config-customizing` / `sec-linux-config-developing-modules` / `sec-switching-systems` / `sec-unit-handling` / `sec-activation-script` / `sec-etc-overlay` / `sec-non-switchable-system` / `sec-bootspec`
+  - `07-install.txt`：`sec-obtaining` …… `sec-image-repart-appliance`（17 个安装相关章节）
+  - `08-modules.txt`：`sec-writing-modules` …… `sec-settings-options` / `sec-nixos-tests` / `sec-writing-nixos-tests` / `sec-running-nixos-tests`
+
+**第八轮新增的可复现工具**（存于交付物仓库 `.build/`）
+
+- `extract-sec.mjs` —— 按 `id` 从本地官方手册 HTML 抽取正文（`<pre>` 转围栏、`<li>` 转列表项）
+- `validate.mjs` / `validate-main.mjs` / `validate-html.mjs` —— 围栏偶数 / 无缩进 callout / callout 分类计数 / toc↔sec-id 对齐
+- `splice-26-35.mjs` —— 双锚点幂等拼接（含「已存在则中止」断言）
+- `count2.mjs` —— 统计官方手册叙事 H2/H3/H4（排除 `module-*` / `opt-*`）
+
+- 完整逐条出处见交付物 `nixos-amd-guide.md` 附录 B（含 **B.15 二进位包与依赖专节**、**B.16 官方手册骨架核实专节**）

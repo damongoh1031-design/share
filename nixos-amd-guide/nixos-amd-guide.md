@@ -8,16 +8,20 @@
 | 下一版本 | NixOS 26.11「Zokor」（2026 年 11 月底） |
 | 硬件画像 | **AMD 显卡 + AMD CPU + Realtek 有线网卡**（无 NVIDIA、无无线） |
 | 用户画像 | 中文用户 · GNOME 或 KDE · Flatpak · Steam · Vibe Coding |
-| 文档版本 | 1.8 |
-| 核实日期 | 2026-10-12（**第七轮：新增第二十五章「二进位包与依赖问题：完整手册」**，见附录 B.15） |
+| 文档版本 | 1.9 |
+| 核实日期 | 2026-10-12（**第八轮：以官方手册 stable 的结构为骨架重排导航，并补齐第二十六～三十五章**，见附录 B.16） |
 | 姊妹文档 | `nixos-ops-guide.md`（通用深度手册，含完整理论推导） |
 
 ---
 
 ## 目录
 
+> [!TIP]
+> **先看导航章** → **官方手册骨架导航**（紧接本目录之后）。它把官方手册的 5 个 Part / 177 个叙事章节做成一张双向对照表，你可以**按官方顺序查**，也可以**按本指南顺序学**。
+
 | 章 | 内容 | 你会得到什么 |
 |---|---|---|
+| **导航** | **官方手册骨架导航** | 官方 5 个 Part ↔ 本指南的**逐条对照表** + 覆盖度 + 缺口清单 |
 | **零** | 怎么用这份指南 | 你的硬件画像、证据分级、三条铁律 |
 | **一** | NixOS 心智模型速通 | 三个概念解释后面所有报错 |
 | **二** | 装机（AMD 平台） | 从 U 盘到首次登录 |
@@ -44,12 +48,247 @@
 | **二十三** | **把 NixOS 用成「Bazzite 模式」** | Bazzite 六层软件层级逐条映射 / `nh` 与 `ujust` 对照 / 掌机工具链在 nixpkgs 的现状 / **四个反模式** |
 | **二十四** | **openSUSE Aeon 模式：稳定基座 + 最新应用** | 「稳定」的两种含义 / Aeon 技术栈拆解 / **三条路（Flatpak 优先 · 双 nixpkgs · 混合）** / HM 官方 FAQ 的 `pkgsUnstable` 写法 |
 | **二十五** | **二进位包与依赖问题：完整手册** | 6 种来源 × 6 类依赖根因 / **★ 26.05 `xorg` 弃用全表** / 诊断命令 / **14 种方案按侵入性排序** / 常见依赖清单 / 程序类型对照 / **三类死路** / 一页速查 |
-| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
+| **二十六** | **配置语法、抽象、模块化与 Profiles**（官方 Part II 基础层） | 值类型六种 / `{ config, pkgs, ... }:` 是什么 / 点号语法 ↔ 嵌套 set / `let` + `//` + 函数三层抽象 / `imports` 合并规则 / **官方 11 个 profile** / 六个反模式 |
+| **二十七** | **文件系统、磁盘加密与存储**（官方 Part II 存储） | `fileSystems.*` 完整语义（**挂不上 = 掉 shell**）/ `nofail` / `neededForBoot` / **LUKS 官方完整流程** / FIDO2 + `systemd-cryptenroll` / SSHFS / Overlayfs / 七个反模式 |
+| **二十八** | **用户、组与账户安全**（官方 Part II 用户） | `users.mutableUsers`（**最重要的一个开关**）/ `hashedPassword` 进 store 的风险 / **`/var/lib/nixos` 与 uid 稳定性** / systemd-sysusers / **userborn（官方推荐）** / timekpr-nExT / **与 agent 用户的配合** |
+| **二十九** | **服务管理：systemd · systemctl · 日志 · cgroup**（官方 Part III） | systemd 心智模型 / **`systemctl` 全集** / `systemd.packages` / **用户服务 GC 死链陷阱** / 自定义服务与安全加固 / 模板单元 / **`journalctl` 全集** / `loginctl` / **cgroup 与 `MemoryMax`** / kexec |
+| **三十** | **系统状态、GC 与故障排查**（官方 Part III） | **必须持久化的路径清单** / journald 持久化 / **`-d` GC 不可逆** / **`/boot` 满了要两步** / **启动问题内核参数全集** / 维护模式 + `nixos-enter` / **回滚三法** / store 损坏 / 二进制缓存 / 七个反模式 |
+| **三十一** | **容器管理：NixOS 原生容器**（官方 Part III） | 原生容器 vs Distrobox 对比 / **「not perfectly isolated」的含义** / `nixos-container` 命令全集 / 声明式容器 / 容器网络与 NAT / 与 Waydroid·Podman 的分工 |
+| **三十二** | **图形栈：Wayland 与 GPU 加速三件套**（官方 Part II 图形） | Wayland 现状 / **OpenCL（`rocmPackages.clr.icd`）** / **Vulkan（RADV 在 Mesa 里）** / **VA-API（`VAEntrypointVLD`）** / GPU 权限 / **★ ICD 混版本静默失败** / AMD 八段体检脚本 |
+| **三十三** | **内核、引导与「系统切换」的内部机制**（官方 Part IV） | **内核会被移除的硬规则** / `zcat /proc/config.gz` / `extraConfig` / sysctl 引号坑 / **★ `nixos-rebuild switch` 的 12 步动作** / `X-*` 单元标志全集 / activation script / `/etc` overlay / Bootspec / 不可切换系统 |
+| **三十四** | **写 NixOS 模块与测试**（官方 Part IV） | **「能判断 Agent 写的模块对不对」** / 模块四段式 / `mkOption` 参数 / `types.*` 合并行为 / **★ 优先级精确数字** / `warnings` vs `assertions` / `meta.doc` / `disabledModules` / freeform / **给 Agent 的模块提示词模板** / NixOS Tests |
+| **三十五** | **构建镜像：Live ISO、repart 与 Appliance**（官方 Part I 缺口） | 三类频道与升级 / 自动升级的取舍 / **构建 Live ISO（两条路）** / **`nixos-rebuild build-image`** / **`image.repart`** / Nix Store 分区与 Btrfs 子卷 / **Appliance + UKI（没有 `configuration.nix`）** / 六个反模式 |
+| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
 
 > [!TIP]
 > **时间估算**：全新安装 + 跑通本文全部配置，**约 3–4 小时**（含下载时间）。其中装机约 40 分钟，配置与调试约 2–3 小时。
 >
 > **如果你只想先跑起来**：读零章 → 第二章装机 → 直接抄第十三章的配置 → 回来补第三到十二章的原理。
+
+---
+
+## 官方手册骨架导航（本指南 ↔ NixOS 26.05 Manual）
+
+本章是**全文的第一入口**，也是第七轮的成果之一。
+
+**你的原话**：**「从官方文档补充资料 / 以官方文档的结构为骨架重新修正你的指南」**。
+
+本章做三件事：
+
+1. **把官方手册的完整骨架搬过来**（5 个 H1 正文部分 + **177 个叙事章节** + 80 个三级节），你可以按官方顺序查
+2. **给出「官方章节 ↔ 本指南章节」的逐条对照表**，标出覆盖度
+3. **标出缺口，并在第二十六～三十五章补齐**
+
+> [!NOTE]
+> **本章的数字是实测的，不是估的。**
+>
+> 核实方法：把 <https://nixos.org/manual/nixos/stable/> 下载到本地（1,200,007 字节），用脚本统计带 `id` 属性的标题：
+>
+> | 层级 | 总数 | 其中自动生成（`module-*` / `opt-*`） | **叙事章节（本章骨架）** |
+> |---|---|---|---|
+> | H1 | 11 | 0 | **10**（含「NixOS Manual」总标题 1 个） |
+> | H2 | 491 | 314 | **177** |
+> | H3 | 147 | 67 | **80** |
+> | H4 | 44 | 10 | **34** |
+>
+> **`module-*` / `opt-*` 就是官方那句 *"generated from `meta.doc`"* 的产物**（本指南 §34.7）—— 它们不属叙事骨架，是选项参考。
+>
+> **官方手册 stable 版本 = NixOS 26.05** —— 与本指南同版本，这是本章能逐条对照的前提。
+
+> [!IMPORTANT]
+> **一个必须先说清的事实：本指南的章节顺序 ≠ 官方手册的顺序，这是故意的。**
+>
+> 官方手册是**参考手册**（reference）：按「安装 → 配置 → 管理 → 开发」组织，适合**查**。
+> 本指南是**教学指南**（tutorial）：按「先跑起来 → 再理解 → 最后优化」组织，适合**学**。
+>
+> **两者不冲突，且互补。** 本章的作用是让你在两套结构之间自由跳转 —— **想学就按本指南顺序读，想查就按官方结构跳。**
+
+### 导航 1 · 官方手册的骨架（4 个正文部分）
+
+| 官方 Part | 锚点 | 官方章节数 | 本指南对应 | 缺口 |
+|---|---|---|---|---|
+| **Preface** | `preface` | 1 | 零章 | — |
+| **Part I · Installation** | `ch-installation` | 17 | 第二章 | ⚠️ **5 项**（ISO 构建 / build-image / systemd-repart / Nix Store Paths / Appliance） |
+| **Part II · Configuration** | `ch-configuration` | 100+ | 一/三/四/五/六/七/八/九/十三/十四/十五/十六/十七/十八/十九/二十/二十一/二十三/二十四/二十五 | ⚠️ **10 项**（配置语法 / 模块化 / Profiles / 文件系统 / LUKS / 用户管理 / Wayland / GPU 加速 / 内核 / 引导后端） |
+| **Part III · Administration** | `ch-running` | 26 | 十一/二十二 | ⚠️ **9 项**（systemctl / 日志 / 用户会话 / cgroup / 系统状态 / GC / boot entries / 容器 / 故障排查五节） |
+| **Part IV · Development** | `ch-development` | 30 | —（空白） | ⚠️ **全部**（写模块 / 选项类型 / 断言 / NixOS Tests / 系统切换内部） |
+| **Part V · Contributing** | （5 个 H1） | 5 | — | ➖ **不适用**（贡献给 nixpkgs 本身，非用户场景） |
+
+> [!TIP]
+> **`module-*` 章节是什么**：官方手册里还有 **300+ 个自动生成的服务文档**（`module-services-*`，如 `module-services-networking-dnsmasq`）。它们由各 NixOS 模块的 `meta.doc` 生成，**不在上面的骨架里**。查它们用 `man configuration.nix` 或 <https://search.nixos.org/options> 更高效。
+
+---
+
+### 导航 2 · 逐条对照表：官方 Part I · Installation
+
+| # | 官方章节（锚点） | 本指南 | 状态 |
+|---|---|---|---|
+| 1 | Obtaining NixOS（`sec-obtaining`） | §2.1–2.3 | ✅ |
+| 2 | Installing NixOS（`sec-installation`） | §2.4–2.9 | ✅ |
+| 3 | Booting from the install medium（`sec-installation-booting`） | §2.5 | ✅ |
+| 4 | Graphical Installation（`sec-installation-graphical`） | §2.6 | ✅ |
+| 5 | Manual Installation（`sec-installation-manual`） | §2.7–2.8 | ✅ |
+| 6 | Additional installation notes（`sec-installation-additional-notes`） | §2.9 | ⚠️ 部分 |
+| 7 | Changing the Configuration（`sec-changing-config`） | §11.2 + 第十三章 | ✅ |
+| 8 | Upgrading NixOS（`sec-upgrading`） | §11.3–11.5 | ✅ |
+| 9 | Automatic Upgrades（`sec-upgrading-automatic`） | §11.6 | ✅ |
+| 10 | Building a NixOS (Live) ISO（`sec-building-image`） | — | 🆕 **§35.2** |
+| 11 | Practical Instructions（`sec-building-image-instructions`） | — | 🆕 **§35.2** |
+| 12 | Additional drivers or firmware（`sec-building-image-drivers`） | §2.10 | ⚠️ 部分 |
+| 13 | Technical Notes（`sec-building-image-tech-notes`） | — | 🆕 **§35.2** |
+| 14 | Building Images with `nixos-rebuild build-image`（`sec-image-nixos-rebuild-build-image`） | — | 🆕 **§35.3** |
+| 15 | Building Images via systemd-repart（`sec-image-repart`） | — | 🆕 **§35.4** |
+| 16 | Nix Store Paths（`sec-image-repart-store-paths`） | — | 🆕 **§35.5** |
+| 17 | Appliance Image（`sec-image-repart-appliance`） | — | 🆕 **§35.6** |
+
+### 导航 3 · 逐条对照表：官方 Part II · Configuration
+
+**基础层（官方 §1–11）**
+
+| # | 官方章节 | 本指南 | 状态 |
+|---|---|---|---|
+| 1 | Configuration Syntax（`sec-configuration-syntax`） | — | 🆕 **§26.1–26.3** |
+| 2 | NixOS Configuration File（`sec-configuration-file`） | 第一章 + 第十三章 | ⚠️ 部分 → 🆕 **§26.2** |
+| 3 | Abstractions（`sec-module-abstractions`） | — | 🆕 **§26.4** |
+| 4 | Modularity（`sec-modularity`） | 第十九章 | ⚠️ 部分 → 🆕 **§26.5–26.7** |
+| 5 | Package Management（`sec-package-management`） | 第十九/二十五章 | ✅ |
+| 6 | Declarative Package Management（`sec-declarative-package-mgmt`） | §19.2 | ✅ |
+| 7 | Ad-Hoc Package Management（`sec-ad-hoc-packages`） | §19.3 | ✅ |
+| 8 | User Management（`sec-user-management`） | 第九章（agent 用户） | ⚠️ 部分 → 🆕 **第二十八章** |
+| 9 | systemd-sysusers（`sec-systemd-sysusers`） | — | 🆕 **§28.5** |
+| 10 | userborn（`sec-userborn`） | — | 🆕 **§28.6** |
+| 11 | Restrict usage time（`sec-restrict-usage-time`） | — | 🆕 **§28.7** |
+
+**存储与图形（官方 §12–29）**
+
+| # | 官方章节 | 本指南 | 状态 |
+|---|---|---|---|
+| 12 | File Systems（`ch-file-systems`） | 第二章（安装时生成） | ⚠️ 部分 → 🆕 **§27.1** |
+| 13 | LUKS-Encrypted File Systems（`sec-luks-file-systems`） | — | 🆕 **§27.2–27.3** |
+| 14 | SSHFS File Systems（`sec-sshfs-file-systems`） | — | 🆕 **§27.4** |
+| 15 | Overlayfs（`sec-overlayfs`） | — | 🆕 **§27.5** |
+| 16 | X Window System（`sec-x11`） | 第六章 | ⚠️ 部分 |
+| 17 | Auto-login（`sec-x11-auto-login`） | §6.6 | ✅ |
+| 18 | Running X without a display manager（`sec-x11-startx`） | — | ➖ 低相关（你是桌面用户） |
+| 19 | Intel Graphics drivers | — | ➖ 不适用（AMD） |
+| 20 | Proprietary NVIDIA drivers | — | ➖ 不适用（AMD） |
+| 21 | Touchpads（`sec-x11-touchpads`） | §3.8 | ✅ |
+| 22 | GTK/Qt themes（`sec-x11-gtk-and-qt-themes`） | §6.7 | ✅ |
+| 23 | Custom XKB layouts | — | ➖ 低相关 |
+| 24 | **Wayland**（`sec-wayland`） | §6.2 | ⚠️ 部分 → 🆕 **§32.1** |
+| 25 | **GPU acceleration**（`sec-gpu-accel`） | §3.3 | ⚠️ 部分 → 🆕 **第三十二章** |
+| 26 | OpenCL（`sec-gpu-accel-opencl`） | §3.4（ROCM） | ⚠️ 部分 → 🆕 **§32.2** |
+| 27 | Vulkan（`sec-gpu-accel-vulkan`） | §3.3 | ✅ → 🆕 **§32.3** |
+| 28 | VA-API（`sec-gpu-accel-va-api`） | §3.5 | ✅ → 🆕 **§32.4** |
+| 29 | Common issues（`sec-gpu-accel-common-issues`） | — | 🆕 **§32.5–32.6** |
+| 30 | Xfce Desktop Environment（`sec-xfce`） | — | ➖ 低相关（你选 GNOME/KDE） |
+| 33 | **Networking**（`sec-networking`） | 第四章 | ✅ |
+| 34 | NetworkManager（`sec-networkmanager`） | §4.3 | ✅ |
+| 35 | Secure Shell Access（`sec-ssh`） | §4.9 | ✅ |
+| 36 | IPv4 Configuration（`sec-ipv4`） | §4.4 | ✅ |
+| 37 | IPv6 Configuration（`sec-ipv6`） | §4.4 | ✅ |
+| 38 | Firewall（`sec-firewall`） | §4.6 | ✅ |
+| 39 | Wireless Networks（`sec-wireless`） | — | ➖ 不适用（你有线） |
+| 40 | Ad-Hoc Configuration（`ad-hoc-network-config`） | §4.5 | ✅ |
+| 41 | Renaming network interfaces（`sec-rename-ifs`） | §4.7 | ✅ |
+| 42 | **Linux Kernel**（`sec-kernel-config`） | 第三章 + 第十四章 | ⚠️ 部分 → 🆕 **§33.1–33.4** |
+| 43 | Building a custom kernel（`sec-linux-config-customizing`） | §14.2 | ⚠️ 部分 → 🆕 **§33.3** |
+| 44 | Rust（`sec-linux-rust`） | §15.6 | ✅ |
+| 45 | Developing kernel modules（`sec-linux-config-developing-modules`） | — | ➖ 官方已移到 Nixpkgs 手册 |
+| 46 | ZFS（`sec-linux-zfs`） | — | ➖ 不适用（单盘 ext4） |
+| 47 | **GNOME Desktop**（`chap-gnome`） | 第六章 | ✅ |
+| 48–53 | GNOME 子节（Flashback / 图标 / 扩展 / GSettings / FAQ） | §6.4–6.8 | ✅ |
+| 54–55 | Pantheon Desktop | — | ➖ 低相关 |
+| 56–57 | External Bootloader Backends | §33.9（Bootspec） | ⚠️ 部分 |
+| 58 | **Profiles**（`ch-profiles`） | — | 🆕 **§26.8** |
+
+**服务类章节（官方 §59+）**：Nextcloud / GotoSocial / Akkoma / Certspotter / Trezor / Mattermost / Kubernetes / Szurubooru / Suwayomi / strfry / Plausible / Pi-hole / Pict-rs / Garage / Clevis / Xen / tpm2-totp 等 **100+ 个**。
+
+> [!NOTE]
+> **这一大块本指南不覆盖，且是刻意的。** 它们是**服务器向**的自托管服务，与你「AMD 桌面 + 中文 + 游戏 + Vibe Coding」的画像无关。
+>
+> **要查它们，直接用 `man configuration.nix` 搜选项名**，比在手册里翻快得多。
+
+### 导航 4 · 逐条对照表：官方 Part III · Administration
+
+| # | 官方章节 | 本指南 | 状态 |
+|---|---|---|---|
+| 1 | **Service Management**（`sec-systemctl`） | — | 🆕 **§29.1** |
+| 2 | Interacting with a running systemd（`sect-nixos-systemd-general`） | — | 🆕 **§29.2** |
+| 3 | systemd in NixOS（`sect-nixos-systemd-nixos`） | §10.6（部分） | 🆕 **§29.3–29.5** |
+| 4 | Rebooting and Shutting Down（`sec-rebooting`） | §11.8 | ✅ → 🆕 **§29.9** |
+| 5 | User Sessions（`sec-user-sessions`） | — | 🆕 **§29.7** |
+| 6 | Control Groups（`sec-cgroups`） | §14.9（scx 部分） | ⚠️ 部分 → 🆕 **§29.8** |
+| 7 | **Logging**（`sec-logging`） | — | 🆕 **§29.6** |
+| 8 | Necessary system state（`ch-system-state`） | — | 🆕 **§30.1–30.2** |
+| 9 | NixOS state（`sec-nixos-state`） | §11.3 | ⚠️ 部分 → 🆕 **§30.1** |
+| 10 | systemd state（`sec-systemd-state`） | — | 🆕 **§30.1** |
+| 11 | ZFS state（`sec-zfs-state`） | — | ➖ 不适用 |
+| 12 | **Cleaning the Nix Store**（`sec-nix-gc`） | §11.4 | ⚠️ 部分 → 🆕 **§30.3–30.4** |
+| 13 | NixOS Boot Entries（`sect-nixos-gc-boot-entries`） | §11.5 | ✅ → 🆕 **§30.5** |
+| 14 | **Container Management**（`ch-containers`） | §23.7（Distrobox） | ⚠️ 不同东西 → 🆕 **第三十一章** |
+| 15 | Imperative Container Management（`sec-imperative-containers`） | — | 🆕 **§31.3** |
+| 16 | Declarative Container Specification（`sec-declarative-containers`） | — | 🆕 **§31.4** |
+| 17 | Container Networking（`sec-container-networking`） | — | 🆕 **§31.5** |
+| 18 | **Troubleshooting**（`ch-troubleshooting`） | 第二十二章 | ⚠️ 部分（那章是 agent 向） → 🆕 **第三十章** |
+| 19 | Boot Problems（`sec-boot-problems`） | §22.9 | ⚠️ 部分 → 🆕 **§30.6** |
+| 20 | Maintenance Mode（`sec-maintenance-mode`） | — | 🆕 **§30.7** |
+| 21 | Rolling Back Configuration Changes（`sec-rollback`） | §11.7 | ✅ → 🆕 **§30.8** |
+| 22 | Nix Store Corruption（`sec-nix-store-corruption`） | — | 🆕 **§30.9** |
+| 23 | Network Problems（`sec-nix-network-issues`） | §4.8 | ✅ → 🆕 **§30.10** |
+
+### 导航 5 · 逐条对照表：官方 Part IV · Development
+
+| # | 官方章节 | 本指南 | 状态 |
+|---|---|---|---|
+| 1 | Getting the Sources（`sec-getting-sources`） | — | 🆕 **§34.1** |
+| 2 | **Writing NixOS Modules**（`sec-writing-modules`） | §10.4（概念） | ⚠️ 部分 → 🆕 **§34.2** |
+| 3 | Option Declarations（`sec-option-declarations`） | — | 🆕 **§34.3** |
+| 4 | Options Types（`sec-option-types`） | — | 🆕 **§34.4** |
+| 5 | Option Definitions（`sec-option-definitions`） | §19.4（优先级） | ⚠️ 部分 → 🆕 **§34.5** |
+| 6 | Warnings and Assertions（`sec-assertions`） | §22.4（部分） | ⚠️ 部分 → 🆕 **§34.6** |
+| 7 | Meta Attributes（`sec-meta-attributes`） | — | 🆕 **§34.7** |
+| 8 | Importing Modules（`sec-importing-modules`） | §19.5 | ✅ |
+| 9 | Replace Modules（`sec-replace-modules`） | — | 🆕 **§34.8** |
+| 10 | Freeform modules（`sec-freeform-modules`） | — | 🆕 **§34.9** |
+| 11 | Options for Program Settings（`sec-settings-options`） | — | 🆕 **§34.10** |
+| 12 | Building Specific Parts of NixOS（`sec-building-parts`） | §11.5（部分） | ⚠️ 部分 |
+| 13 | **Bootspec**（`sec-bootspec`） | — | 🆕 **§33.9** |
+| 17 | **What happens during a system switch?**（`sec-switching-systems`） | — | 🆕 **§33.5** |
+| 18 | Unit handling（`sec-unit-handling`） | — | 🆕 **§33.6** |
+| 19 | Activation script（`sec-activation-script`） | — | 🆕 **§33.7** |
+| 20 | Non Switchable Systems（`sec-non-switchable-system`） | — | 🆕 **§33.10** |
+| 21 | `/etc` via overlay filesystem（`sec-etc-overlay`） | — | 🆕 **§33.8** |
+| 22–23 | Writing NixOS Documentation / Building the Manual | — | ➖ 贡献向 |
+| 24 | **NixOS Tests**（`sec-nixos-tests`） | — | 🆕 **§34.11** |
+| 25 | Writing Tests（`sec-writing-nixos-tests`） | — | 🆕 **§34.11** |
+| 26 | Running Tests（`sec-running-nixos-tests`） | — | 🆕 **§34.11** |
+| 27–32 | Test 驱动开发 / 安装器测试 | — | ➖ 贡献向 |
+| 33+ | Modular Services / Portability / Migration | — | ➖ 贡献向 |
+
+### 导航 6 · 缺口汇总（本轮新增的十章）
+
+| 新章节 | 对应官方 Part | 补的是什么 | 对你为什么有用 |
+|---|---|---|---|
+| **二十六** | Part II 基础层 | 配置语法 / 抽象 / 模块化 / Profiles | **看懂别人的 `configuration.nix`**；把大配置拆开；知道 `mkForce` 什么时候用 |
+| **二十七** | Part II 存储 | `fileSystems.*` 语义 / LUKS / SSHFS / Overlayfs | **装机时选错分区方案会丢数据**；想加密时知道官方流程 |
+| **二十八** | Part II 用户 | 声明式用户 / `mutableUsers` / userborn | **agent 用户的正确建法**（连第九章） |
+| **二十九** | Part III 前半 | systemd / systemctl / 日志 / cgroup | **出问题时知道去哪看**（journalctl 是最常用的诊断入口） |
+| **三十** | Part III 后半 | 系统状态 / GC / 故障排查五节 | **开不了机时的完整逃生手册** |
+| **三十一** | Part III 容器 | NixOS 原生容器 | 与 Distrobox 的区别；跑服务不污染宿主 |
+| **三十二** | Part II 图形 | Wayland / OpenCL / Vulkan / VA-API | **AMD 用户的硬件加速验证**（Blender、视频解码、游戏） |
+| **三十三** | Part IV | 内核 / 系统切换内部 / Bootspec | **理解 `nixos-rebuild switch` 到底做了什么**（报错时能读懂） |
+| **三十四** | Part IV | 写模块 / 选项类型 / 断言 / 测试 | **让 Agent 帮你写模块的前提**（连第十章） |
+| **三十五** | Part I 缺口 | ISO / 镜像 / Appliance / 频道 | 想给别人做装机盘、或做不可变设备时用 |
+
+> [!TIP]
+> **阅读建议**：
+> - **纯用户** → 只读 **二十九**（日志）和 **三十**（故障排查），这两章日常最常用
+> - **想深入** → 加读 **二十六**（语法）和 **三十三**（系统切换内部），这两章解释「为什么」
+> - **想改 nixpkgs / 让 Agent 写模块** → 加读 **三十四**
+> - **装机前** → 先读 **二十七**（文件系统与加密）
+
+---
 
 ---
 
@@ -9617,6 +9856,4923 @@ programs.nix-ld.libraries = with pkgs; [
 
 ---
 
+## 二十六、配置语法、抽象、模块化与 Profiles（官方 Part II 基础层）
+
+本章补的是官方手册 **Part II · Configuration** 的前 11 章：`sec-configuration-syntax`、`sec-configuration-file`、`sec-module-abstractions`、`sec-modularity`、`sec-package-management`（部分）、`ch-profiles`。
+
+**本指南前二十五章教的是「写什么」，这一章教的是「为什么能这么写」。**
+
+> [!IMPORTANT]
+> **这一章解决一个具体痛点**：你在网上抄到一段 `configuration.nix`，里面出现 `let ... in`、`//`、`mkForce`、`config.services.xxx`、`imports = [ ... ]` —— **不知道它们是什么，就不敢改**。本章把官方文档里这几个概念的原文全部搬过来，逐条对照。
+
+### 26.1 官方配置语法：值的六种类型
+
+> **官方原文**：*"The NixOS configuration file `/etc/nixos/configuration.nix` is actually a Nix expression, which is the Nix package manager's purely functional language for describing how to build packages and configurations. This means you have all the expressive power of that language at your disposal, including the ability to abstract over common patterns, which is very useful when managing complex systems."* —— `[官方]` `sec-configuration-syntax`
+
+**官方列出的「最重要的类型」**（原文顺序）：
+
+| 类型 | 官方示例 | 你的配置里长什么样 |
+|---|---|---|
+| **String** | `networking.hostName = "dexter";` | 双引号；`\"` 转义 |
+| **多行 String** | `''...''` | **两个单引号**，不是双引号 |
+| **Boolean** | `networking.firewall.enable = true;` | `true` / `false` |
+| **Integer** | `boot.kernel.sysctl."net.ipv4.tcp_keepalive_time" = 60;` | 注意**键名要加引号** |
+| **Set** | `fileSystems."/boot" = { device = ...; fsType = ...; options = [...]; };` | `{ ... }` |
+| **List** | `environment.systemPackages = [ pkgs.vim ];` | `[ ... ]`，**空格分隔，不是逗号** |
+
+**官方对多行字符串的说明（原文）**：
+
+> *"The main difference is that it strips from each line a number of spaces equal to the minimal indentation of the string as a whole (disregarding the indentation of empty lines), and that characters like `"` and `\` are not special (making it more convenient for including things like shell code)."* —— `[官方]` `sec-configuration-file`
+
+> [!TIP]
+> **这条解释了为什么 NixOS 配置里写脚本都用 `''...''`**：里面可以放心写 `$`、`"`、`\` 而不用转义。你在本指南 §14.x（sysctl 与 udev 规则）和 §29.4（自定义服务）看到的都是这个写法。
+>
+> **踩坑点**：`''` 会剥掉「整体最小缩进」。如果你把 shell 脚本的某一行**故意多缩进**，那段缩进会被保留 —— 这通常是想要的；但如果你把整个块贴到别处改变了整体缩进，**结果会变**。
+
+**官方对内核参数键名的说明（原文）**：
+
+> *"Note that here the attribute name `net.ipv4.tcp_keepalive_time` is enclosed in quotes to prevent it from being interpreted as a set named `net` containing a set named `ipv4`, and so on. This is because it's not a NixOS option but the literal name of a Linux kernel setting."* —— `[官方]` `sec-configuration-file`
+
+> [!WARNING]
+> **这是最容易错的一处**：
+> ```nix
+> boot.kernel.sysctl."net.ipv4.tcp_keepalive_time" = 120;  # ✅ 正确
+> boot.kernel.sysctl.net.ipv4.tcp_keepalive_time = 120;    # ❌ 会被解析成嵌套 set
+> ```
+> **判据**：**点号是「NixOS 选项路径」还是「字面名字」？** 是字面名字（内核参数、`/etc` 文件名、桌面 ID）就必须加引号。
+> 同类的还有 `systemd.services."my-name".serviceConfig`（名字含 `-`）、`environment.etc."foo.conf".text`。
+
+### 26.2 `{ config, pkgs, ... }:` 到底是什么意思
+
+> **官方原文**：*"The first line (`{ config, pkgs, ... }:`) denotes that this is actually a function that takes at least the two arguments `config` and `pkgs`. The function returns a set of option definitions (`{ ... }`)."* —— `[官方]` `sec-configuration-file`
+
+**拆开看**：
+
+| 部分 | 含义 | 官方出处 |
+|---|---|---|
+| `{ ... }:` | 这是**一个函数**（lambda），不是数据 | `sec-configuration-file` |
+| `config` | **合并后**的完整系统配置（所有模块的结果之和） | `sec-modularity` |
+| `pkgs` | nixpkgs 包集 | `sec-configuration-file` |
+| `...` | 「还有别的参数，我不关心」 | `sec-writing-modules` |
+| 函数体 `{ ... }` | **选项定义**（option definitions） | `sec-configuration-file` |
+
+**官方对 `config` 的解释（原文，`sec-modularity`）**：
+
+> *"When using multiple modules, you may need to access configuration values defined in other modules. This is what the `config` function argument is for: it contains the complete, merged system configuration. That is, `config` is the result of combining the configurations returned by every module. (If you're wondering how it's possible that the (indirect) result of a function is passed as an input to that same function: that's because Nix is a "lazy" language — it only computes values when they are needed. This works as long as no individual configuration value depends on itself.)"*
+
+> [!NOTE]
+> **「惰性」这一句是理解 NixOS 模块系统的钥匙。** 它意味着：
+> - 你**可以**在模块 A 里读模块 B 定义的值（哪怕 B 还没求值）
+> - **但不能**让一个值依赖它自己 → 这是「infinite recursion」报错的来源
+>
+> **实操意义**：写 `if config.services.xserver.enable then ... else ...` 是**完全正常**的官方写法（见 §26.6），不要以为它有什么魔法。
+
+**官方给的完整模块结构**（`Example 14. Structure of NixOS Modules`）：
+
+```nix
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    # paths of other modules
+  ];
+
+  options = {
+    # option declarations
+  };
+
+  config = {
+    # option definitions
+  };
+}
+```
+
+> [!IMPORTANT]
+> **注意 `options` 和 `config` 是两个不同的东西**，这是官方反复强调的：
+> - **`options` = 声明**（declaration）：定义「有这么个选项、它是 bool 类型、文档这么写」—— **写模块的人才用**
+> - **`config` = 定义**（definition）：给已声明的选项赋值 —— **普通用户只写这个**
+>
+> **你的 `/etc/nixos/configuration.nix` 里那个 `{ ... }` 是 `config` 的简写形式。** 官方原文：*"This is actually an abbreviated form of module that only defines options, but does not declare any."*（`sec-writing-modules`）
+
+### 26.3 点号语法 ↔ 嵌套 set（完全等价）
+
+官方给了一对**逐字等价**的写法（`sec-configuration-file`）：
+
+```nix
+# 写法 A：点号
+{ config, pkgs, ... }:
+{
+  services.httpd.enable = true;
+  services.httpd.adminAddr = "alice@example.org";
+  services.httpd.virtualHosts.localhost.documentRoot = "/webroot";
+}
+```
+
+```nix
+# 写法 B：嵌套 set（完全等价）
+{ config, pkgs, ... }:
+{
+  services = {
+    httpd = {
+      enable = true;
+      adminAddr = "alice@example.org";
+      virtualHosts = {
+        localhost = {
+          documentRoot = "/webroot";
+        };
+      };
+    };
+  };
+}
+```
+
+> **官方原文**：*"Sets can be nested, and in fact dots in option names are shorthand for defining a set containing another set."* …… *"which may be more convenient if you have lots of option definitions that share the same prefix."*
+
+**官方还给了两个报错原文**（说明 NixOS 会检查定义的正确性）：
+
+```
+The option `services.httpd.enable' defined in `/etc/nixos/configuration.nix' does not exist.
+```
+
+```
+The option value `services.httpd.enable' in `/etc/nixos/configuration.nix' is not a boolean.
+```
+
+> [!TIP]
+> **这两条报错你应该记住**：
+> - **第 1 条「does not exist」** → 选项名写错了。**去 <https://search.nixos.org/options> 复制准确名字**，不要凭记忆写。
+> - **第 2 条「is not a boolean」** → 类型错了。最常见是把字符串写成布尔（`"true"` 而不是 `true`），或反过来。
+>
+> **这两类错误都在 eval 阶段报出，不会真的改坏系统** —— 这正是 NixOS 比命令式系统安全的地方。
+
+### 26.4 抽象：`let`、`//` 与函数（官方三个例子）
+
+官方用同一段 Apache 配置演示了**三层抽象**（`sec-module-abstractions`）。
+
+**起点（重复三次，很啰嗦）**：
+
+```nix
+{
+  services.httpd.virtualHosts = {
+    "blog.example.org" = {
+      documentRoot = "/webroot/blog.example.org";
+      adminAddr = "alice@example.org";
+      forceSSL = true;
+      enableACME = true;
+    };
+    "wiki.example.org" = {
+      documentRoot = "/webroot/wiki.example.org";
+      adminAddr = "alice@example.org";
+      forceSSL = true;
+      enableACME = true;
+    };
+  };
+}
+```
+
+**第一层：`let` + `//`（属性集合并）**
+
+```nix
+let
+  commonConfig = {
+    adminAddr = "alice@example.org";
+    forceSSL = true;
+    enableACME = true;
+  };
+in
+{
+  services.httpd.virtualHosts = {
+    "blog.example.org" = (commonConfig // { documentRoot = "/webroot/blog.example.org"; });
+    "wiki.example.org" = (commonConfig // { documentRoot = "/webroot/wiki.example.org"; });
+  };
+}
+```
+
+> **官方原文**：*"The `let commonConfig = ...` defines a variable named `commonConfig`. The `//` operator merges two attribute sets, so the configuration of the second virtual host is the set `commonConfig` extended with the document root option."*
+
+**第二层：函数**
+
+```nix
+{
+  services.httpd.virtualHosts =
+    let
+      makeVirtualHost = webroot: {
+        documentRoot = webroot;
+        adminAddr = "alice@example.org";
+        forceSSL = true;
+        enableACME = true;
+      };
+    in
+    {
+      "example.org" = (makeVirtualHost "/webroot/example.org");
+      "example.com" = (makeVirtualHost "/webroot/example.com");
+      "example.gov" = (makeVirtualHost "/webroot/example.gov");
+      "example.nl" = (makeVirtualHost "/webroot/example.nl");
+    };
+}
+```
+
+> **官方原文**：*"Here, `makeVirtualHost` is a function that takes a single argument `webroot` and returns the configuration for a virtual host."*
+
+**官方的一条语法限制（很容易踩）**：
+
+> *"You can write a `let` wherever an expression is allowed. Thus, you also could have written: `{ services.httpd.virtualHosts = let commonConfig = {...}; in {...}; }` **but not `{ let commonConfig = ...; in ...; }` since attributes (as opposed to attribute values) are not expressions.**"
+
+> [!WARNING]
+> **`let` 只能出现在「值」的位置，不能出现在「属性名」的位置。**
+> ```nix
+> { let x = 1; in { a = x; }; }   # ❌ 语法错误
+> { a = let x = 1; in x; }        # ✅
+> let x = 1; in { a = x; }        # ✅（在文件最外层）
+> ```
+
+> [!TIP]
+> **这一节对「Vibe Coding」用户特别有用**：当 Agent 给你生成一段配置，里面有 `let ... in` 和 `//`，你现在能读懂它在做什么了 —— **它只是在做「复用」，没有副作用**。
+>
+> **反过来**：如果你想让 Agent 帮你改配置，可以明确告诉它「**用 `let` 抽公共部分，不要复制粘贴**」—— 这样生成的配置更好维护。
+
+### 26.5 模块化：`imports` 与合并规则
+
+**官方对模块化的定义（原文）**：
+
+> *"The NixOS configuration mechanism is modular. If your `configuration.nix` becomes too big, you can split it into multiple files. Likewise, if you have multiple NixOS configurations (e.g. for different computers) with some commonality, you can move the common configuration into a shared file. Modules have exactly the same syntax as `configuration.nix`. **In fact, `configuration.nix` is itself a module.**"* —— `[官方]` `sec-modularity`
+
+```nix
+{ config, pkgs, ... }:
+{
+  imports = [
+    ./vpn.nix
+    ./kde.nix
+  ];
+  services.httpd.enable = true;
+  environment.systemPackages = [ pkgs.emacs ];
+  # ...
+}
+```
+
+**官方对「多模块定义同一选项」的处理（原文）**：
+
+> *"Note that both `configuration.nix` and `kde.nix` define the option `environment.systemPackages`. When multiple modules define an option, NixOS will try to merge the definitions. In the case of `environment.systemPackages` the lists of packages will be **concatenated**. **The value in `configuration.nix` is merged last, so for list-type options, it will appear at the end of the merged list.** If you want it to appear first, you can use `mkBefore`"*
+
+```nix
+{ boot.kernelModules = mkBefore [ "kvm-intel" ]; }
+```
+
+> **官方原文**：*"This causes the `kvm-intel` kernel module to be loaded before any other kernel modules."*
+
+**不能合并的情况 —— 官方报错原文**：
+
+```
+The unique option `services.httpd.adminAddr' is defined multiple times, in `/etc/nixos/httpd.nix' and `/etc/nixos/configuration.nix'.
+```
+
+**官方的解法**：
+
+```nix
+{ services.httpd.adminAddr = pkgs.lib.mkForce "bob@example.org"; }
+```
+
+> [!IMPORTANT]
+> **`mkForce` 的语义是「覆盖别人的定义」，不是「设置值」。**
+>
+> **优先级从低到高**（本指南 §19.4 已给出完整表，这里只列最常用的四档）：
+>
+> | 函数 | 语义 | 什么时候用 |
+> |---|---|---|
+> | `mkDefault v` | **默认值**，被别人覆盖 | 写模块时给合理默认 |
+> | （直接赋值） | 普通定义 | 99% 的情况 |
+> | `mkForce v` | **强制覆盖**（等价于 `mkOverride 50`） | 官方模块的默认值不合你意，且没有对应选项 |
+> | `mkOverride n v` | 自定义优先级（**数字越小越优先**） | 精细控制 |
+>
+> **`mkForce` 是「最后手段」**：官方原文的用法是「when that happens, it's possible to force one definition take precedence」—— **它是为「两个模块真的冲突」准备的，不是日常工具**。
+>
+> **本指南 §18.x 用到的 `lib.mkDefault`** 是它的反面：**「我提供一个默认，但允许别人改」**。
+
+**官方的「生成模块」写法**（不用文件也能 import）：
+
+```nix
+{ config, pkgs, ... }:
+
+let
+  netConfig = hostName: {
+    networking.hostName = hostName;
+    networking.useDHCP = false;
+  };
+
+in
+{
+  imports = [ (netConfig "nixos.localdomain") ];
+}
+```
+
+> **官方原文**：*"While abstracting your configuration, you may find it useful to generate modules using code, instead of writing files. The example below would have the same effect as importing a file which sets those options."*
+
+### 26.6 用 `config` 做条件配置（官方例子）
+
+**官方原文**：
+
+> *"For example, here is a module that adds some packages to `environment.systemPackages` only if `services.xserver.enable` is set to true somewhere else"*
+
+```nix
+{ config, pkgs, ... }:
+
+{
+  environment.systemPackages =
+    if config.services.xserver.enable then
+      [
+        pkgs.firefox
+        pkgs.thunderbird
+      ]
+    else
+      [ ];
+}
+```
+
+> [!TIP]
+> **这是「条件化配置」的官方范式**，你会在很多真实配置里看到。**典型用途**：
+> - 同一份配置用在台式机和笔记本上（用 `config.networking.hostName` 分支）
+> - 只在开了某个服务时才装配套工具
+>
+> **注意**：`config.` 前缀不能省。写 `services.xserver.enable` 会被当成「定义一个新选项」而不是「读值」。
+>
+> **本指南 §24.5 的 HM `pkgsUnstable` 写法**、**§21.x 的 Hermes 条件配置**都用了这个模式。
+
+### 26.7 查「某个选项最终是什么值」
+
+**官方给了两个工具**（`sec-modularity`）：
+
+```bash
+$ nixos-option services.xserver.enable
+true
+
+$ nixos-option boot.kernelModules
+[ "tun" "ipv6" "loop" ... ]
+```
+
+```bash
+$ nix repl -f '<nixpkgs/nixos>'
+
+nix-repl> config.networking.hostName
+"mandark"
+
+nix-repl> map (x: x.hostName) config.services.httpd.virtualHosts
+[ "example.org" "example.gov" ]
+```
+
+> [!IMPORTANT]
+> **`nixos-option` 是排查「为什么这个选项是这个值」的官方工具。**
+>
+> **典型场景**：你设了 `hardware.graphics.enable = true` 但 `glxinfo` 还是软渲染 —— 用 `nixos-option hardware.graphics.enable` 确认它**真的是 true**（而不是被某个模块 `mkForce false` 了）。
+>
+> **`nix repl -f '<nixpkgs/nixos>'` 更强**：它能让你**在求值后的配置上执行任意 Nix 表达式**。这是「系统管理员级的调试」。
+>
+> **对 Agent 用户的意义**：当 Agent 说「你的配置里 X 是 Y」，你可以用这两条命令**自己验证**，不用信它。
+
+### 26.8 Profiles：官方预置的 11 套配置
+
+**官方定义（原文）**：
+
+> *"In some cases, it may be desirable to take advantage of commonly-used, predefined configurations provided by nixpkgs, but different from those that come as default. This is a role fulfilled by NixOS's **Profiles**, which come as files living in `<nixpkgs/nixos/modules/profiles>`. That is to say, expected usage is to add them to the `imports` list of your `/etc/configuration.nix`"*
+
+```nix
+{ imports = [ <nixpkgs/nixos/modules/profiles/profile-name.nix> ]; }
+```
+
+> **官方还有一句很重要**：*"Even if some of these profiles seem only useful in the context of install media, **many are actually intended to be used in real installs.**"*
+
+**官方全表（11 个 profile，逐条原文要点）**：
+
+| Profile | 官方描述要点 | 对你是否有用 |
+|---|---|---|
+| **all-hardware** | 启用 NixOS 支持的所有硬件：所有 firmware + 所有可引导设备在 initrd 里启用。**主要用途是安装 CD**。含 SATA/PATA、SCSI（部分）、USB、Firewire（未测试）、Virtio、VMware、Hyper-V 的模块；开 `hardware.enableAllFirmware` | ⚠️ **装机盘专用**，日常用会显著增大 initrd |
+| **base** | 「最小安装 CD」的软件包集合：文本浏览器、块设备工具、网络工具、硬件诊断、文件系统工具（含对应内核模块） | ⚠️ 恢复介质用 |
+| **graphical** | **Plasma 6 桌面**（安装 CD 用）。设 `services.xserver.enable`、`services.displayManager.sddm.enable`、`services.desktopManager.plasma6.enable`、`services.libinput.enable`；装 `glxinfo` 与 `firefox` | ✅ **想一键要 KDE 的可以用** |
+| **headless** | 无头机器（如 EC2）：关 vesa、串口控制台、emergency mode、grub splash；**内核 panic 时自动重启** | ✅ **想当服务器用** |
+| **minimal** | 极简配置，无图形。**只保留用户选的 locale**，**关闭包的文档** | ✅ **省空间**（但你会失去 `man` 页） |
+| **installation-device** | 安装设备（CD）基础配置：可再分发的 firmware + Clone Config + 一份 nixpkgs channel（让 `nixos-install` 开箱可用）；强制启用 Nixpkgs 与 NixOS 文档；**TTY 8 自动显示 NixOS 手册**；禁用 udisks；`nixos` 用户自动登录；root 与 nixos 免密登录；**免密 sudo**；启用 NetworkManager（可用 `nmtui` 交互配置） | ⚠️ **只做装机盘** |
+| **docker-container** | 生成 Docker 镜像用的 profile：导入 Minimal + Clone Config，设 `boot.isContainer` 等容器上下文选项 | ✅ 想自己做容器镜像时 |
+| **qemu-guest** | QEMU 客户机优化 | ⚠️ 虚拟机用 |
+| **demo** | 演示配置 | ➖ 低相关 |
+| **clone-config** | 把当前配置复制到新机 | ✅ 装第二台机器时 |
+| **perlless** | 去掉 Perl 依赖 | ⚠️ 见下 |
+| **image-based-appliance** | **不可切换系统**（见 §33.10） | ✅ 想做「Aeon 式」不可变设备时 |
+
+> [!WARNING]
+> **`minimal` profile 会关掉包的文档** —— 这意味着 `man configuration.nix` 可能失效。
+>
+> **如果你想省空间但保留文档**，不要用这个 profile，改用 §30.3 的 GC 策略。
+
+> [!TIP]
+> **`perlless` 与「去 Perl 化」的背景**：官方在三处提到「去掉 Perl 依赖」——`systemd.sysusers`（§28.5）、`services.userborn`（§28.6）、`system.etc.overlay`（§33.8）。**这是 NixOS 近几年的一个明确方向**：把 activation 阶段的 Perl 脚本换成 systemd 原生机制。
+>
+> **对你的意义**：这三个都是**实验性**的。**日常用户不必开**；但如果你追求「最小闭包」，它们能砍掉 Perl 及其依赖。
+
+> [!NOTE]
+> **官方没有说的（本指南补充）**：`imports` 里的 `<nixpkgs/nixos/modules/profiles/...>` 用的是 **`<nixpkgs>` 语法**，它读的是 `NIX_PATH`。**在 flake 配置里这个语法不可用**，要改成 `"${modulesPath}/profiles/xxx.nix"`：
+> ```nix
+> { modulesPath, ... }:
+> {
+>   imports = [ "${modulesPath}/profiles/headless.nix" ];
+> }
+> ```
+> 这正是官方在 `sec-non-switchable-system` 和 `sec-image-repart` 里用的写法（见 §33.10 / §35.4）。
+
+### 26.9 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 凭记忆写选项名 | `does not exist` 求值失败 | 从 <https://search.nixos.org/options> 复制 |
+| 2 | 内核参数不加引号 | 被解析成嵌套 set，报「选项不存在」 | `"net.ipv4.tcp_keepalive_time"` |
+| 3 | 复制粘贴而不是用 `let` / 函数 | 配置膨胀，改一处漏三处 | §26.4 的两层抽象 |
+| 4 | 动不动就 `mkForce` | 覆盖掉别人的合理默认，日后难排查 | **先问「有没有对应选项」**；`mkForce` 是最后手段 |
+| 5 | 在 `config.` 能读的地方硬编码 | 换个机器就要改 | 用 `config.xxx` 做条件（§26.6） |
+| 6 | 大配置全塞 `configuration.nix` | 2000 行单文件 | `imports` 拆成 `hardware.nix` / `desktop.nix` / `gaming.nix` |
+
+> [!TIP]
+> **给「Vibe Coding」用户的一条建议**：让 Agent 改配置时，**明确要求它用 `imports` 分文件**。这样：
+> - 每次改动只影响一个文件 → `git diff` 清晰
+> - Agent 只读相关文件 → 上下文更小、更不容易出错
+> **本指南 §13.x 给的完整配置是单文件的**，那是为了「方便一次抄完」；**你实际维护时应该拆开。**
+
+---
+
+---
+
+## 二十七、文件系统、磁盘加密与存储（官方 `ch-file-systems`）
+
+本章补的是官方手册 **Part II** 的 `ch-file-systems`、`sec-luks-file-systems`、`sec-sshfs-file-systems`、`sec-overlayfs`。
+
+**为什么这一章值得单独写**：本指南第二章的装机流程里，`fileSystems.*` 是 `nixos-generate-config` **自动生成**的 —— 你从来没手写过它。但一旦你要**加一块盘**、**加密一个分区**、或者**改挂载选项**，就必须理解它。**而且这块写错会丢数据。**
+
+### 27.1 `fileSystems.*` 的完整语义
+
+**官方最小例子（原文）**：
+
+```nix
+{
+  fileSystems."/data" = {
+    device = "/dev/disk/by-label/data";
+    fsType = "ext4";
+  };
+}
+```
+
+**官方对这一行做了什么的说明（原文，逐句拆）**：
+
+> *"This will create an entry in `/etc/fstab`, which will generate a corresponding `systemd.mount` unit via `systemd-fstab-generator`."*
+
+> *"The filesystem will be mounted automatically **unless `"noauto"` is present in `options`**. `"noauto"` filesystems can be mounted explicitly using `systemctl` e.g. `systemctl start data.mount`."*
+
+> *"**Mount points are created automatically if they don't already exist.**"*
+
+> *"For `device`, it's best to use the **topology-independent device aliases** in `/dev/disk/by-label` and `/dev/disk/by-uuid`, as these don't change if the topology changes (e.g. if a disk is moved to another IDE controller)."*
+
+> *"You can usually omit the file system type (`fsType`), since `mount` can usually detect the type and load the necessary kernel module automatically. However, **if the file system is needed at early boot (in the initial ramdisk) and is not `ext2`, `ext3` or `ext4`, then it's best to specify `fsType`** to ensure that the kernel module is available."*
+
+**官方的一条重要警告（原文）**：
+
+> *"**System startup will fail if any of the filesystems fails to mount, dropping you to the emergency shell.** You can make a mount asynchronous and non-critical by adding `options = [ "nofail" ];`."*
+
+> [!DANGER]
+> **这是本章最重要的一条。**
+>
+> **默认行为是「挂不上就进不去系统」** —— 不是警告，是**直接掉到 emergency shell**。
+>
+> **最常见的踩坑场景**：
+> 1. 你加了一块**移动硬盘**（USB），写了 `fileSystems."/mnt/backup"`，**忘了加 `nofail`**
+> 2. 某天拔掉硬盘开机 → **系统卡在 emergency shell**
+> 3. 你不知道要输 root 密码进去注释掉配置 → 以为系统坏了
+>
+> **正确写法**：
+> ```nix
+> fileSystems."/mnt/backup" = {
+>   device = "/dev/disk/by-uuid/xxxx";
+>   fsType = "ext4";
+>   options = [ "nofail" "x-systemd.device-timeout=10s" ];
+> };
+> ```
+> - **`nofail`**：挂不上也继续启动
+> - **`x-systemd.device-timeout=10s`**：等设备最多 10 秒（否则默认 90 秒）
+>
+> **判据**：**这块盘「没有它系统就不能用」吗？** 不是 → 加 `nofail`。
+
+**`neededForBoot` 选项**（本指南补充，官方在 SSHFS 与 troubleshooting 章节间接提到）：
+
+| 选项 | 含义 | 什么时候要 |
+|---|---|---|
+| `neededForBoot = true` | 这个文件系统在 **initrd 阶段**就要挂上 | 只有当 `/nix` 或用户数据目录在**另一块盘**上时才需要 |
+| （不设，默认） | 在 stage 2 挂载 | **99% 的情况** |
+
+> **官方在 `sec-boot-problems` 里给了一个直接相关的提示**：*"this could be useful if you've forgotten to set `neededForBoot` on a file system"* —— 也就是说，**忘了设它会导致启动失败**，而官方的调试参数 `boot.debug1mounts` 正是用来诊断这个的（见 §30.6）。
+
+**你的 AMD 桌面推荐布局**（本指南综合官方语义给出）：
+
+| 挂载点 | device | fsType | options | 说明 |
+|---|---|---|---|---|
+| `/` | `/dev/disk/by-uuid/...` 或 `/dev/mapper/crypted` | `ext4` | `[ "defaults" ]` | 根分区 |
+| `/boot` | `/dev/disk/by-uuid/...` | `vfat` | `[ "fmask=0077" "dmask=0077" ]` | **UEFI 必须 vfat**；`fmask/dmask` 是官方安装器生成的写法 |
+| `/nix` | （可选，同根） | — | — | 只有想给 `/nix` 单独分区时才写 |
+| `/mnt/games` | `/dev/disk/by-uuid/...` | `ext4` | `[ "nofail" ]` | 第二块 SSD 放游戏库 |
+| `/mnt/backup` | `/dev/disk/by-uuid/...` | `ext4` | `[ "nofail" "x-systemd.device-timeout=10s" ]` | **必须 `nofail`** |
+
+> [!TIP]
+> **Steam 游戏库放第二块盘的两种做法**：
+> 1. **`fileSystems` 挂载 + Steam 里添加库路径**（推荐，声明式，重启自动挂）
+> 2. 只在 Steam 里加路径（不推荐，Steam 可能自己管理挂载）
+>
+> 选 1 时**务必加 `nofail`** —— 否则那块盘坏了你连桌面都进不去。
+
+### 27.2 LUKS 磁盘加密：官方完整流程
+
+**官方定义（原文）**：
+
+> *"NixOS supports file systems that are encrypted using **LUKS** (Linux Unified Key Setup)."*
+
+**官方给的完整命令序列（逐字照抄）**：
+
+```bash
+# cryptsetup luksFormat /dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d
+
+WARNING!
+========
+This will overwrite data on /dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d irrevocably.
+
+Are you sure? (Type uppercase yes): YES
+Enter LUKS passphrase: ***
+Verify passphrase: ***
+
+# cryptsetup luksOpen /dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d crypted
+Enter passphrase for /dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d: ***
+
+# mkfs.ext4 /dev/mapper/crypted
+```
+
+> [!DANGER]
+> **`luksFormat` 会不可逆地覆盖那块设备上的全部数据。** 官方原文就是 *"This will overwrite data ... irrevocably"*。
+>
+> **执行前必须做的两件事**：
+> 1. `lsblk -f` 确认设备路径**真的是你想加密的那块**（不是你的系统盘）
+> 2. 确认里面**没有你要保留的数据**
+>
+> **不要在 `/dev/sdX` 这种「顺序命名」上写脚本** —— 加一块盘就可能变。用 `/dev/disk/by-id/` 或 `by-uuid`。
+
+**官方给的 NixOS 配置（原文）**：
+
+```nix
+{
+  boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/3f6b0024-3a44-4fde-a43a-767b872abe5d";
+  fileSystems."/".device = "/dev/mapper/crypted";
+}
+```
+
+**官方关于 GRUB 的补充（原文）**：
+
+> *"Should grub be used as bootloader, and `/boot` is located on an encrypted partition, it is necessary to add the following grub option: `{ boot.loader.grub.enableCryptodisk = true; }`"*
+
+> [!IMPORTANT]
+> **注意：你是 systemd-boot 用户（本指南第二章推荐的），所以不需要 `enableCryptodisk`。** 那条只对 GRUB 有效。
+>
+> **但有一条对你有用的推论**：**systemd-boot 只能读它自己能读的分区**。如果你把 `/boot` 加密了，systemd-boot 就无法加载内核 → **`/boot` 必须是未加密的 ESP（vfat）**。
+>
+> **所以 AMD 桌面的标准加密方案是**：
+> - `/boot`（ESP，vfat，**不加密**）
+> - `/`（LUKS + ext4，**加密**）
+> - 可选：`/nix` 单独分区（**加密**，需设 `neededForBoot`）
+>
+> **这是「LUKS 全盘加密」的通常含义** —— 官方原文用的也是这种结构（`/boot` 未加密 + `/` 加密）。
+
+> [!TIP]
+> **`nixos-generate-config` 会自动识别 LUKS** —— 官方原文：*"The LUKS volume should be automatically picked up by `nixos-generate-config`, but you might want to verify that your `hardware-configuration.nix` looks correct."*
+>
+> **所以最省事的做法**：用**图形安装器**（§2.6）在分区界面勾选加密，它会把这一切自动写好。**手写只在你事后加盘时才需要。**
+
+**验证加密是否生效**：
+
+```bash
+lsblk -f                                    # 应看到 crypt 类型与 /dev/mapper/xxx
+sudo cryptsetup status crypted              # 应显示 type: LUKS2, cipher, key size
+sudo dmsetup ls --tree                      # 确认 device-mapper 映射
+cat /etc/crypttab                           # NixOS 生成的内容
+```
+
+> [!WARNING]
+> **LUKS 的两个「备份」提醒（本指南补充）**：
+> 1. **LUKS header 必须备份** —— header 损坏 = 数据永久丢失（即使记得密码）。命令：
+>    ```bash
+>    sudo cryptsetup luksHeaderBackup /dev/sda2 --header-backup-file luks-header.img
+>    ```
+>    **把 `luks-header.img` 存到另一台机器/离线介质**。
+> 2. **至少留一个备用 key slot**（见 §27.3 的 recovery key）—— 只有一个密码时，输错次数过多或忘记 = 数据丢失。
+
+### 27.3 FIDO2 解锁与 systemd-cryptenroll
+
+**官方给了两条路**。
+
+**路 A：不用 systemd stage 1（`fido2luks`）**
+
+官方原文：*"NixOS also supports unlocking your LUKS-Encrypted file system using a FIDO2 compatible token."*
+
+```bash
+# export FIDO2_LABEL="/dev/sda2 @ $HOSTNAME"
+# fido2luks credential "$FIDO2_LABEL"
+f1d00200108b9d6e849a8b388da457688e3dd653b4e53770012d8f28e5d3b269865038c346802f36f3da7278b13ad6a3bb6a1452e24ebeeaa24ba40eef559b1b287d2a2f80b7
+
+# fido2luks -i add-key /dev/sda2 f1d00200108b9d6e849a8b388da457688e3dd653b4e53770012d8f28e5d3b269865038c346802f36f3da7278b13ad6a3bb6a1452e24ebeeaa24ba40eef559b1b287d2a2f80b7
+Password:
+Password (again):
+Old password:
+Old password (again):
+Added to key to device /dev/sda2, slot: 2
+```
+
+对应配置：
+
+```nix
+{
+  boot.initrd.luks.fido2Support = true;
+  boot.initrd.luks.devices."/dev/sda2".fido2.credential =
+    "f1d00200108b9d6e849a8b388da457688e3dd653b4e53770012d8f28e5d3b269865038c346802f36f3da7278b13ad6a3bb6a1452e24ebeeaa24ba40eef559b1b287d2a2f80b7";
+}
+```
+
+**官方的安全提醒（原文）**：
+
+> *"You can also use the FIDO2 **passwordless** setup, but **for security reasons, you might want to enable it only when your device is PIN protected**, such as Trezor."*
+
+```nix
+{ boot.initrd.luks.devices."/dev/sda2".fido2.passwordLess = true; }
+```
+
+**路 B：systemd stage 1（官方推荐路线）**
+
+> **官方原文**：*"If systemd stage 1 is enabled, it handles unlocking of LUKS-encrypted volumes during boot."*
+
+```nix
+{
+  boot.initrd = {
+    luks.devices.root = {
+      crypttabExtraOpts = [ "fido2-device=auto" ];
+      device = "/dev/sda2";
+    };
+    systemd.enable = true;
+  };
+}
+```
+
+> *"All tokens that should be used for unlocking the LUKS2-encrypted volume must first be enrolled using `systemd-cryptenroll`."*
+
+```bash
+# systemd-cryptenroll --fido2-device=auto /dev/sda2
+```
+
+> *"Existing key slots are left intact, unless `--wipe-slot=` is specified. **It is recommended to add a recovery key that should be stored in a secure physical location** and can be entered wherever a password would be entered."*
+
+```bash
+# systemd-cryptenroll --recovery-key /dev/sda2
+```
+
+> [!IMPORTANT]
+> **官方那句「recommended to add a recovery key」是本章第二重要的提醒。**
+>
+> **`systemd-cryptenroll --recovery-key` 生成的恢复密钥是「万一 YubiKey 丢了/坏了」的唯一出路。** 把它**打印出来**或写到纸上，放到**物理安全的地方**（不是同一台机器上）。
+>
+> **这是「你只有一把钥匙」问题的官方解法。**
+
+> [!NOTE]
+> **`systemd.enable = true`（systemd stage 1）在 26.05 的状态**：官方文档把它描述为**可用且有专属调试参数**（`rd.systemd.break=` / `rd.systemd.debug_shell`，见 §30.6）。**它不是实验性的**，但官方仍同时保留 scripted stage 1（标记为 deprecated）。
+>
+> **对你的建议**：**日常不需要开**（除非你要用 FIDO2 或 TPM2 解锁）。默认的 scripted stage 1 更简单，且官方所有调试参数都覆盖它。
+
+### 27.4 SSHFS：把远程目录挂成本地
+
+**官方定义（原文）**：
+
+> *"SSHFS is a FUSE filesystem that allows easy access to directories on a remote machine using the SSH File Transfer Protocol (SFTP). **It means that if you have SSH access to a machine, no additional setup is needed to mount a directory.**"*
+
+**交互式（官方原文）**：
+
+```bash
+$ sshfs my-user@example.com:/my-dir /mnt/my-dir
+$ fusermount -u /mnt/my-dir
+```
+
+**非交互式（开机自动挂载）—— 官方配置原文**：
+
+```nix
+{
+  fileSystems."/mnt/my-dir" = {
+    device = "my-user@example.com:/my-dir/";
+    fsType = "sshfs";
+    options = [
+      # Filesystem options
+      "allow_other"           # for non-root access
+      "_netdev"               # this is a network fs
+      "x-systemd.automount"   # mount on demand
+
+      # SSH options
+      "reconnect"                      # handle connection drops
+      "ServerAliveInterval=15"         # keep connections alive
+      "IdentityFile=/var/secrets/example-key"
+    ];
+  };
+}
+```
+
+**官方的前置条件（原文）**：
+
+> *"Mounting non-interactively requires some precautions because sshfs will run at boot and under a different user (**root**). For obvious reason, you can't input a password, so **public key authentication using an unencrypted key is needed**."*
+
+```bash
+$ ssh-keygen -t ed25519 -P '' -f example-key
+```
+
+> *"To keep the key safe, change the ownership to `root:root` and make sure the permissions are **600**: OpenSSH normally refuses to use the key if it's not well-protected."*
+
+> [!DANGER]
+> **官方明确要求「无密码的私钥」+ 「`root:root` 600 权限」—— 这是一个真实的安全权衡。**
+>
+> **风险**：那把私钥**没有密码保护**，且**放在 `/var/secrets/`**。任何能读 root 文件的人都能拿到它，并能登录那台远程机器。
+>
+> **官方的替代做法（本指南推荐）**：
+> - **用 `x-systemd.automount` + 按需挂载**（官方选项里已有）→ 只在访问时才连
+> - **限制那把 key 在远程机器上的权限**：在 `~/.ssh/authorized_keys` 里加 `command=` 或 `from=` 限制
+> - **或者干脆不用 SSHFS**，改用 `rsync` / `syncthing`
+>
+> **不要把 `IdentityFile` 指向你的主力 SSH key。**
+
+**官方给的排错方法（原文）**：
+
+```bash
+$ journalctl -u $(systemd-escape -p /mnt/my-dir/).mount
+```
+
+> **官方注释**：*"If the mount point contains special characters it needs to be escaped using `systemd-escape`. This is due to the way systemd converts paths into unit names."*
+
+> [!TIP]
+> **`systemd-escape -p <路径>` 这个技巧值得记住** —— 它是「路径 → systemd 单元名」的官方转换工具。**任何「这个挂载点/设备的日志在哪」的问题都用它。**
+>
+> 加 `"debug"` 选项可以拿到 SSHFS 的详细日志（官方原文：*"you can add the option `"debug"`"*）。
+
+### 27.5 Overlayfs：NixOS 的官方抽象
+
+**官方原文**：
+
+> *"NixOS offers a convenient abstraction to create both read-only as well writable overlays."*
+
+```nix
+{
+  fileSystems = {
+    "/writable-overlay" = {
+      overlay = {
+        lowerdir = [ writableOverlayLowerdir ];
+        upperdir = "/.rw-writable-overlay/upper";
+        workdir = "/.rw-writable-overlay/work";
+      };
+      # Mount the writable overlay in the initrd.
+      neededForBoot = true;
+    };
+    "/readonly-overlay".overlay.lowerdir = [
+      writableOverlayLowerdir
+      writableOverlayLowerdir2
+    ];
+  };
+}
+```
+
+> **官方补充**：*"If `upperdir` and `workdir` are not null, they will be created before the overlay is mounted. **To mount an overlay as read-only, you need to provide at least two `lowerdir`s.**"*
+
+> [!NOTE]
+> **这个抽象对你大概率用不到** —— 它是给「不可变系统」（§33.8 的 `/etc` overlay、§33.10 的 Appliance）用的。
+>
+> **但有一个间接相关的用途**：如果你想做「**临时系统**」（rootfs 是 tmpfs，重启清空），官方在 `ch-system-state` 里专门讲了这个（见 §30.1）。**那才是你真正会碰到 overlay 的场景。**
+
+### 27.6 七个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 移动盘不写 `nofail` | **拔盘后开不了机**，掉 emergency shell | `options = [ "nofail" ]` |
+| 2 | 用 `/dev/sdX` 而非 `by-uuid` / `by-id` | 加盘后设备名漂移 → **挂错盘或挂不上** | `by-uuid` / `by-id` |
+| 3 | `/boot` 加密 | systemd-boot 读不到内核 → **开不了机** | `/boot` 保持未加密 vfat |
+| 4 | 加密盘不备份 LUKS header | header 坏了数据永久丢失 | `luksHeaderBackup` 到离线介质 |
+| 5 | 只留一个 LUKS key slot | 密码忘了 = 数据没了 | `systemd-cryptenroll --recovery-key` |
+| 6 | SSHFS 用主力私钥 | 私钥无密码保护地暴露 | 专用受限 key + `x-systemd.automount` |
+| 7 | 改 `fileSystems` 后不 `nixos-rebuild dry-build` | 语法错直接生效 → 可能开不了机 | **改存储配置前必跑 `dry-build`** |
+
+> [!TIP]
+> **改存储配置的安全流程**（本指南建议）：
+> ```bash
+> sudo cp -r /etc/nixos /etc/nixos.bak-$(date +%F)   # 1. 备份
+> sudo nano /etc/nixos/hardware-configuration.nix    # 2. 改
+> sudo nixos-rebuild dry-build                       # 3. 只求值，不切换
+> sudo nixos-rebuild test                            # 4. 切换但重启后回滚
+> # 确认没问题、且重启过至少一次之后：
+> sudo nixos-rebuild switch                          # 5. 固化
+> ```
+> **`test` 而不是直接 `switch`** —— 因为 `test` 不会写进 bootloader 的默认项，**重启就回到旧配置**。这是官方 `sec-rollback` 思路的主动用法。
+
+---
+
+---
+
+## 二十八、用户、组与账户安全（官方 `sec-user-management`）
+
+本章补的是官方手册 **Part II** 的 `sec-user-management`、`sec-systemd-sysusers`、`sec-userborn`、`sec-restrict-usage-time`。
+
+**为什么这一章值得单独写**：本指南第九章 / 第二十一章反复强调「**agent 不要用 root 跑**」，但一直没讲**声明式用户的完整语义**。这一章补上 —— 特别是 `users.mutableUsers` 这个开关，**它决定了你的用户是「NixOS 管的」还是「你自己管的」**，直接关系到 agent 能不能改自己的账户。
+
+### 28.1 声明式用户：官方标准写法
+
+**官方定义（原文）**：
+
+> *"NixOS supports both **declarative** and **imperative** styles of user management. In the declarative style, users are specified in `configuration.nix`."*
+
+```nix
+{
+  users.users.alice = {
+    isNormalUser = true;
+    home = "/home/alice";
+    description = "Alice Foobar";
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
+    openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
+  };
+}
+```
+
+**官方对每一处的解释（原文）**：
+
+> *"Note that `alice` is a member of the `wheel` and `networkmanager` groups, which allows her to use `sudo` to execute commands as root and to configure the network, respectively."*
+
+> *"**Users created in this way do not have a password by default, so they cannot log in via mechanisms that require a password.** However, you can use the `passwd` program to set a password, which is **retained across invocations of `nixos-rebuild`**."*
+
+> [!IMPORTANT]
+> **「声明式建的用户默认没有密码」这一条经常让人困惑。**
+>
+> **表现**：`nixos-rebuild switch` 之后，新用户在登录界面**输什么都进不去**（或者根本没有登录项）。
+>
+> **官方给的解法**：`passwd` 设一次，**之后 rebuild 不会冲掉**。
+>
+> **为什么不会冲掉**：因为密码存在 `/etc/shadow` 里，而 `users.mutableUsers` 默认为 `true`（见 §28.2）—— NixOS **不会覆盖**它没声明的字段。
+
+**官方给的 uid 指定方式**：
+
+```nix
+{ uid = 1000; }
+```
+
+**官方给的组定义**：
+
+```nix
+{ users.groups.students.gid = 1000; }
+```
+
+> *"As with users, the group ID (gid) is optional and will be assigned automatically if it's missing."*
+
+**官方的命令式对照（原文）**：
+
+```bash
+# useradd -m alice      # -m 创建 home
+# passwd alice
+# userdel -r alice      # -r 删 home
+```
+
+> **官方给了一个很多人不知道的细节**：*"To make all nix tools available to this new user use `su - USER` which opens a login shell (== shell that loads the profile) for given user. This will create the `~/.nix-defexpr` symlink."*
+>
+> ```bash
+> # su - alice -c "true"
+> ```
+
+> [!TIP]
+> **`su - alice -c "true"` 这行命令解决一个真实问题**：用 `useradd` 建的**命令式用户**，`~/.nix-defexpr` 不存在，于是 `nix-env` / `nix profile` 报「找不到 channel」。
+>
+> **本指南的对应场景**：如果你按第九章用 `useradd` 建了 `hermes` 用户（而不是声明式），**跑一次这条命令**能修好它的 Nix 环境。
+>
+> **但更好的做法是声明式建用户**（§28.8）—— 那样 NixOS 会自动处理。
+
+### 28.2 `users.mutableUsers`：最重要的一个开关
+
+**官方原文（逐字）**：
+
+> *"If you set `users.mutableUsers` to `false`, then the contents of `/etc/passwd` and `/etc/group` will be **congruent** to your NixOS configuration. For instance, **if you remove a user from `users.users` and run `nixos-rebuild`, the user account will cease to exist.** Also, **imperative commands for managing users and groups, such as `useradd`, are no longer available.** Passwords may still be assigned by setting the user's `hashedPassword` option. A hashed password can be generated using `mkpasswd`."*
+
+**两种模式的完整对比**：
+
+| 维度 | `mutableUsers = true`（**默认**） | `mutableUsers = false` |
+|---|---|---|
+| `/etc/passwd` 与配置的关系 | 配置是「初始值」，之后可被 `passwd` / `usermod` 改 | **完全一致**（配置是唯一真相） |
+| 删掉 `users.users.foo` 后 | 用户**残留**在 `/etc/passwd` | **用户消失** |
+| `useradd` / `usermod` | **可用** | **不可用** |
+| 密码怎么设 | `passwd`（交互式，存 `/etc/shadow`） | 只能用 `hashedPassword` |
+| 声明式程度 | 部分 | **完全** |
+| 适合谁 | 桌面用户（默认就好） | 服务器 / 不可变系统 / **追求完全声明式的人** |
+
+> [!IMPORTANT]
+> **这个开关直接决定「Agent 能不能改用户」**：
+>
+> | 你的选择 | Agent 能做到 | 代价 |
+> |---|---|---|
+> | `mutableUsers = true`（默认） | `useradd` / `passwd` / `usermod` 都能用（需 root） | 声明式不彻底，换机时用户可能不一致 |
+> | `mutableUsers = false` | **完全不能改用户** —— 只能改 `configuration.nix` | **换机完全一致**；但忘了 root 密码就麻烦 |
+>
+> **本指南第九章的「agent 用普通用户跑」建议**：**保持 `mutableUsers = true`**（默认）。因为：
+> 1. agent 用户是**一次建好、长期不变**的 → 不需要「完全声明式」带来的好处
+> 2. 但你需要 `passwd` 给它设初始密码，或者用 `openssh.authorizedKeys` 走 SSH
+> 3. **`mutableUsers = false` 会让「给 agent 用户设密码」变麻烦**（必须先生成 hash 再写进配置）
+
+> [!WARNING]
+> **`mutableUsers = false` 的一个真实陷阱**：如果你**在已有系统上**改成 `false`，NixOS 会**用配置覆盖 `/etc/passwd`**。
+>
+> **后果**：任何**不在配置里**的用户（例如你之前用 `useradd` 建的）**会被删掉**，它的 home 目录**不会被删但会变成无主**。
+>
+> **正确做法**：改之前先 `cat /etc/passwd | grep -v nologin` 把现有用户全部抄进 `users.users`。
+
+**官方给 `hashedPassword` 生成工具**：`mkpasswd`。
+
+```bash
+$ mkpasswd -m sha-512
+Password: ********
+$6$rounds=...$....        # ← 把这个字符串填进 hashedPassword
+```
+
+```nix
+{
+  users.users.alice.hashedPassword = "$6$rounds=...$...";
+}
+```
+
+> [!DANGER]
+> **`hashedPassword` 会明文出现在 `/nix/store` 里**（因为它在 `configuration.nix` 里，而配置会被复制进 store）。
+>
+> **hash 本身不是明文密码**，但：
+> - 它对**离线爆破**没有保护（`/etc/shadow` 有，因为只有 root 能读；`/nix/store` 是**全局可读**的）
+> - 任何人拿到你的 flake 仓库就能对它跑 `hashcat`
+>
+> **正确做法**：
+> - **桌面机** → 用默认的 `mutableUsers = true` + `passwd`（密码只存 `/etc/shadow`）
+> - **必须声明式时** → 用 **sops-nix / agenix** 把 hash 加密后再注入（本指南 §21.x 已给出 Hermes 侧的接法）
+> - **绝对不要**把 `hashedPassword` 提交到公开 Git 仓库
+
+### 28.3 uid / gid 的稳定性与 `/var/lib/nixos`
+
+> **官方在 `sec-nixos-state` 里的原文**：*"`/var/lib/nixos` should persist: it holds **state needed to generate stable uids and gids for declaratively-managed users and groups**, etc."*
+
+> [!IMPORTANT]
+> **这一条解释了「为什么换机时 uid 会变」**：
+>
+> NixOS 给声明式用户分配 uid 时，会**优先复用之前分配过的值** —— 而这个「之前分配过的记录」就存在 **`/var/lib/nixos`**。
+>
+> | 场景 | 结果 |
+> |---|---|
+> | 同一个系统，加一个新用户 | 新用户拿下一个空闲 uid（旧用户 uid **不变**）✅ |
+> | **重装系统**（`/var/lib/nixos` 清空） | uid **可能全部重排** ⚠️ |
+> | 把 `/var/lib/nixos` 备份并恢复 | uid **保持一致** ✅ |
+>
+> **为什么 uid 变了是问题**：所有**已存在文件**的属主仍是旧 uid → 显示为数字或错误用户名 → **权限全乱**（典型表现：桌面登录后一堆东西打不开）。
+>
+> **结论**：**重装前备份 `/var/lib/nixos`**，或者**在配置里显式写 `uid = 1000;`**。后者更简单可靠。
+
+> [!TIP]
+> **本指南的推荐**：给**你关心的每个用户都显式写 uid**。
+> ```nix
+> users.users.yourname = { isNormalUser = true; uid = 1000; };
+> users.users.hermes   = { isSystemUser = true; uid = 993; group = "hermes"; };
+> ```
+> **理由**：uid 一旦固定，`/var/lib/nixos` 丢不丢都无所谓，换机/重装都不会乱。
+
+### 28.4 系统用户 vs 普通用户
+
+官方例子只给了 `isNormalUser = true`。**但 NixOS 还有系统用户的概念**（本指南补充，官方在 `sec-userborn` 提到「normal users (with a GID >= 1000)」）：
+
+| 类型 | 关键选项 | uid 范围 | 有 home | 能登录 |
+|---|---|---|---|---|
+| **普通用户** | `isNormalUser = true` | ≥ 1000 | ✅ 自动创建 | ✅ |
+| **系统用户** | `isSystemUser = true` | < 1000 | ❌（除非写 `home`） | ❌（shell 是 nologin） |
+
+```nix
+# 系统用户的标准写法（服务/agent 用）
+users.users.hermes = {
+  isSystemUser = true;
+  group = "hermes";
+  home = "/var/lib/hermes";     # 显式给 home
+  createHome = true;
+  uid = 993;
+};
+users.groups.hermes = { };
+```
+
+> [!IMPORTANT]
+> **`isSystemUser = true` 与「agent 不用 root」的关系**（连本指南 §9.4 / §21.7）：
+>
+> - **`isSystemUser` 不是「低权限」的同义词** —— 它只是「不是人类账户」
+> - **真正的权限边界来自**：`User=` 写在 systemd unit 里（§29.4）、`NoNewPrivileges`、`ProtectSystem`、`ReadWritePaths`
+> - **`isSystemUser` 给你的是**：不会出现在登录界面、不会有交互式 shell、uid 稳定
+>
+> **本指南 §21.x 给 Hermes 用的就是这套**（`createUser = false` + 自己声明 + 显式 `linger = true`）。**`linger` 那一条是踩过的坑**（见本指南 §22.x 与坑清单 #44/#45）。
+
+### 28.5 systemd-sysusers（实验性）
+
+> **官方原文**：*"**This is experimental.** Please consider using Userborn over systemd-sysusers as it's more feature complete."*
+
+```nix
+{ systemd.sysusers.enable = true; }
+```
+
+> **官方说明**：*"Instead of using a custom perl script to create users and groups, you can use systemd-sysusers... The primary benefit of this is to **remove a dependency on perl**."*
+
+### 28.6 userborn（实验性，但官方推荐）
+
+> **官方原文**：*"**This is experimental.** Like systemd-sysusers, Userborn doesn't depend on Perl but offers some more advantages over systemd-sysusers:"*
+
+**官方列出的三个优势（原文）**：
+
+> - *"It can create "normal" users (with a GID >= 1000)."*
+> - *"It can update some information about users. Most notably it can **update their passwords**."*
+> - *"It will **warn when users use an insecure or unsupported password hashing scheme**."*
+
+> *"Userborn is the **recommended way** to manage users if you don't want to rely on the Perl script. It **aims to eventually replace the Perl script by default**."*
+
+```nix
+{ services.userborn.enable = true; }
+```
+
+**官方给的额外能力 —— 把密码文件挪出 `/etc`**：
+
+```nix
+{ services.userborn.passwordFilesLocation = "/persistent/etc"; }
+```
+
+> **官方说明（原文）**：*"This is useful when you store `/etc` on a tmpfs or if `/etc` is immutable (e.g. when using `system.etc.overlay.mutable = false;`). In the latter case the original files are by default stored in `/var/lib/nixos`."*
+
+> **官方给的一个重要行为差异（原文）**：*"Userborn implements immutable users by re-mounting the password files read-only. This means that unlike when using the Perl script, **trying to add a new user (e.g. via `useradd`) will fail right away**."*
+
+> [!NOTE]
+> **`userborn` + `passwordFilesLocation` 的组合，正是「Aeon 式不可变系统」在 NixOS 上的实现方式之一**（连本指南第二十四章）。
+>
+> **对你的建议**：
+> - **日常桌面** → 不需要开。默认 Perl 脚本工作良好。
+> - **想彻底去掉 Perl** → 开 `services.userborn.enable = true`（官方推荐它而不是 `systemd.sysusers`）。
+> - **想做不可变系统** → `userborn` + `system.etc.overlay.mutable = false` + `passwordFilesLocation = "/persistent/etc"`。
+
+### 28.7 屏幕时间管理：timekpr-nExT
+
+> **官方原文**：*"Timekpr-nExT is a screen time managing application that helps optimizing time spent at computer for your subordinates, children or even for yourself."*
+
+```nix
+{ services.timekpr.enable = true; }
+```
+
+> *"This will install the timekpr package and start the timekpr service. You can then use the `timekpra` application to configure time limits for users."*
+
+> [!NOTE]
+> **这是官方手册里**唯一**一个「家长控制 / 自我管理」类工具。** 与你的画像（成人游戏用户）相关度不高，但：
+> - 如果你要给家人配一台 NixOS 机器，这是官方方案
+> - 如果你自己做「防沉迷」（限制游戏时间），它也能用
+
+### 28.8 与 agent 用户的配合（连本指南第九、二十一章）
+
+**把前面几节串起来，agent 用户的完整声明式写法**：
+
+```nix
+{ config, pkgs, ... }:
+{
+  # ── 1. 组与用户（显式 uid，避免 /var/lib/nixos 丢失后乱序）──
+  users.groups.hermes = { gid = 993; };
+  users.users.hermes = {
+    isSystemUser = true;
+    group = "hermes";
+    uid = 993;
+    home = "/var/lib/hermes";
+    createHome = true;
+    shell = pkgs.bashInteractive;   # 需要交互式 shell 时显式给
+  };
+
+  # ── 2. linger：用户级 systemd 服务能开机自启（本指南坑清单 #44/#45）──
+  users.users.hermes.linger = true;
+
+  # ── 3. 保持 mutableUsers 默认 true ──
+  #    这样可以用 passwd 给 hermes 设密码；且 agent 不依赖声明式账户
+  # users.mutableUsers = true;   # ← 默认值，不用写
+
+  # ── 4. 权限边界不在这里，在 systemd unit 里（见 §29.4）──
+  systemd.services.hermes-agent = {
+    serviceConfig = {
+      User = "hermes";
+      Group = "hermes";
+      NoNewPrivileges = true;          # 不能提权
+      ProtectSystem = "strict";        # / 只读
+      ProtectHome = "read-only";       # home 只读
+      ReadWritePaths = [ "/var/lib/hermes" ];   # 只允许写这一个目录
+      PrivateTmp = true;
+    };
+  };
+}
+```
+
+> [!IMPORTANT]
+> **这张配置回答了一个常被混淆的问题：「用户权限」和「服务权限」是两回事。**
+>
+> | 层 | 管什么 | 在哪写 |
+> |---|---|---|
+> | **账户层** | uid/gid、home、shell、能否登录 | `users.users.*`（本章） |
+> | **服务层** | 能读写哪些路径、能否提权、能否看到别的进程 | `systemd.services.*.serviceConfig`（§29.4） |
+>
+> **`isSystemUser = true` 不等于「被沙箱了」。** 一个 `isSystemUser` 的用户，如果 systemd unit 里**没写** `ProtectSystem` / `ReadWritePaths`，**照样能读写整个文件系统**。
+>
+> **本指南第九章那句「agent 不要做成 root 权限的服务」的准确含义是**：**在服务层加约束**，而不是「建个系统用户就完事」。
+
+### 28.9 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 不写 `uid`，指望 NixOS 自动分配 | 重装后 uid 重排 → **文件属主全乱** | 显式写 `uid = 1000;` |
+| 2 | 把 `hashedPassword` 提交到公开仓库 | `/nix/store` 全局可读 → 可离线爆破 | 用 `passwd`（默认模式）或 sops-nix |
+| 3 | 在已有系统上直接改 `mutableUsers = false` | **非配置内的用户被删** | 先把现有用户全抄进配置 |
+| 4 | 以为 `isSystemUser = true` 就等于沙箱 | 服务仍能读写整个 FS | **约束写在 systemd unit 里** |
+| 5 | agent 用户忘了 `linger = true` | 用户级服务**开机不启动**，且不报错 | 显式写 `linger = true` |
+| 6 | 用 `useradd` 建用户后不管 | `~/.nix-defexpr` 缺失 → Nix 命令报错 | `su - <user> -c "true"`，或改声明式 |
+
+> [!TIP]
+> **一句话总结本章**：
+> **`users.users` 管「账户存不存在」，`users.mutableUsers` 管「谁说了算」，`systemd.services.*.serviceConfig` 管「能干多少事」。** 三件事，三个地方，不要混。
+
+---
+
+---
+
+## 二十九、服务管理：systemd · systemctl · 日志 · cgroup（官方 Part III 前半）
+
+本章补的是官方手册 **Part III · Administration** 的前 7 章：`sec-systemctl`、`sect-nixos-systemd-general`、`sect-nixos-systemd-nixos`、`sec-rebooting`、`sec-user-sessions`、`sec-cgroups`、`sec-logging`。
+
+**为什么这一章是本轮新增里最实用的一章**：本指南前二十五章讲了「怎么配」，但从没讲「**配好之后怎么查**」。出问题时，**90% 的诊断都从 `systemctl status` 和 `journalctl` 开始**。
+
+### 29.1 systemd 的心智模型（官方原文）
+
+> **官方原文**：*"In NixOS, all system services are started and monitored using the **systemd** program. systemd is the "init" process of the system (i.e. **PID 1**), the parent of all other processes. It manages a set of so-called "**units**", which can be things like system services (programs), but also **mount points, swap files, devices, targets (groups of units) and more**."*
+
+> *"Units can have complex dependencies; for instance, one unit can require that another unit must be successfully started before the first unit can be started. **When the system boots, it starts a unit named `default.target`; the dependencies of this unit cause all system services to be started, file systems to be mounted, swap files to be activated, and so on.**"*
+
+**把这段翻译成「你会在报错里看到的词」**：
+
+| 概念 | 是什么 | 你会看到的形式 |
+|---|---|---|
+| **unit** | 一个「被管理的东西」 | `xxx.service` / `xxx.mount` / `xxx.timer` / `xxx.target` |
+| **`.service`** | 一个服务（进程） | `sshd.service` |
+| **`.mount`** | 一个挂载点 | `home.mount`、`mnt-games.mount` |
+| **`.timer`** | 定时器（替代 cron） | `nixos-upgrade.timer` |
+| **`.target`** | 一组 unit 的集合 | `multi-user.target`、`graphical.target` |
+| **`default.target`** | **开机起点** | 所有服务的依赖根 |
+| **`wantedBy`** | 「谁需要我」 | `wantedBy = [ "multi-user.target" ];` |
+| **`requires`** | 「我硬依赖谁」（失败则我也不启动） | `requires = [ "network-online.target" ];` |
+| **`after` / `before`** | **只是顺序**，不是依赖 | `after = [ "network-online.target" ];` |
+
+> [!IMPORTANT]
+> **`requires` 和 `after` 经常成对出现，但语义完全不同** —— 这是官方例子里最容易看漏的一点：
+> ```nix
+> {
+>   systemd.services.myservice = {
+>     after    = [ "network-online.target" ];   # 顺序：网络起来后我才起
+>     requires = [ "network-online.target" ];   # 依赖：网络挂了我就别起
+>     before   = [ "multi-user.target" ];       # 顺序：我在 multi-user 之前
+>     wantedBy = [ "multi-user.target" ];       # 归属：开机时谁把我拉起来
+>     serviceConfig = { ExecStart = "..."; };
+>   };
+> }
+> ```
+> **只写 `after` 不写 `requires`** → 网络起不来时，你的服务**照样会尝试启动**（然后失败）
+> **只写 `requires` 不写 `after`** → 有依赖但**没有顺序**，可能并行启动然后失败
+> **忘了 `wantedBy`** → 服务**根本不会开机自启**（这是最常见的坑）
+
+### 29.2 systemctl 命令全集（官方示例 + 补充）
+
+**官方原文**：*"The command `systemctl` is the main way to interact with systemd."*
+
+**官方给的输出示例（原文）**：
+
+```bash
+$ systemctl
+-.mount          loaded active mounted   /
+swapfile.swap    loaded active active    /swapfile
+sshd.service     loaded active running   SSH Daemon
+graphical.target loaded active active    Graphical Interface
+...
+```
+
+```bash
+$ systemctl status postgresql.service
+postgresql.service - PostgreSQL Server
+          Loaded: loaded (/nix/store/pn3q73mvh75gsrl8w7fdlfk3fq5qm5mw-unit/postgresql.service)
+          Active: active (running) since Mon, 2013-01-07 15:55:57 CET; 9h ago
+        Main PID: 2390 (postgres)
+          CGroup: name=systemd:/system/postgresql.service
+                  ├─2390 postgres
+                  ├─2418 postgres: writer process
+                  ...
+```
+
+> **官方注释**：*"Note that this shows the status of the unit (active and running), **all the processes belonging to the service**, as well as **the most recent log messages from the service**."*
+
+```bash
+# systemctl stop postgresql.service
+# systemctl start postgresql.service
+# systemctl restart postgresql.service
+```
+
+> *"These operations are **synchronous**: they wait until the service has finished starting or stopping (or has failed). Starting a unit will cause the dependencies of that unit to be started as well (if necessary)."*
+
+**完整命令表（本指南在官方基础上补充）**：
+
+| 命令 | 作用 | 常用场景 |
+|---|---|---|
+| `systemctl` | 列出活动 unit | 快速总览 |
+| `systemctl status <unit>` | 状态 + 进程 + **最近日志** | **最常用** |
+| `systemctl start/stop/restart <unit>` | 启停重启 | 改配置后 |
+| `systemctl reload <unit>` | 重读配置（**不重启进程**） | 支持 reload 的服务 |
+| `systemctl enable/disable <unit>` | 开机自启（**NixOS 下慎用**，见下） | — |
+| `systemctl is-active <unit>` | 只输出 `active` / `inactive` | **写脚本时用** |
+| `systemctl is-enabled <unit>` | 是否开机自启 | 诊断「为什么不启动」 |
+| `systemctl is-failed <unit>` | 是否失败 | 诊断 |
+| `systemctl list-units --failed` | **列出所有失败的 unit** | **开机后第一件事** |
+| `systemctl list-timers` | 列出所有定时器 + 下次触发时间 | 查 `nix.gc` / `autoUpgrade` |
+| `systemctl cat <unit>` | **打印 unit 文件内容 + 来源路径** | 看 NixOS 生成了什么 |
+| `systemctl show <unit>` | 打印全部属性 | 深度诊断 |
+| `systemctl show -p MainPID <unit>` | 只取主进程 PID | **验证服务跑在哪个用户下** |
+| `systemctl daemon-reload` | 重读 unit 文件 | 手改 unit 后 |
+| `systemctl reset-failed <unit>` | 清掉失败状态 | 修好之后 |
+
+> [!WARNING]
+> **在 NixOS 上不要用 `systemctl enable` / `disable`。**
+>
+> **原因**：NixOS 的 unit 文件在 `/nix/store` 里，是**只读且由配置生成**的。`systemctl enable` 会创建符号链接，但：
+> - 下次 `nixos-rebuild switch` 会**覆盖**你的改动
+> - 如果它链接到 `/nix/store/...`，**GC 之后符号链接会变成死链**（官方在 `sect-nixos-systemd-nixos` 里专门警告过这一点，见 §29.3）
+>
+> **正确做法**：在 `configuration.nix` 里写 `wantedBy = [ "multi-user.target" ];`（服务）或 `systemd.timers.<name>.wantedBy = [ "timers.target" ];`（定时器）。
+
+> [!TIP]
+> **`systemctl list-units --failed` 应该是你开机后的例行检查。** NixOS 有个特点：**某个服务失败不会阻止系统启动**（除非它被 `requiredBy` 到关键 target）。所以你可能带着一个坏掉的服务用几天都不知道。
+>
+> **本指南建议**：把它写进你的日常检查（§30.x 会给出完整清单）。
+
+### 29.3 NixOS 特有：`systemd.packages` 与用户服务的 GC 陷阱
+
+**官方原文**：
+
+> *"Packages in Nixpkgs sometimes provide systemd units with them, usually in e.g `#pkg-out#/lib/systemd/`. **Putting such a package in `environment.systemPackages` doesn't make the service available to users or the system.** In order to enable a systemd system service with provided upstream package, use (e.g):"*
+
+```nix
+{ systemd.packages = [ pkgs.packagekit ]; }
+```
+
+> *"Usually NixOS modules written by the community do the above, plus take care of other details. **If a module was written for a service you are interested in, you'd probably need only to use `services.#name#.enable = true;`.**"*
+
+> [!IMPORTANT]
+> **这三句是「为什么我装了包却没有服务」的官方答案。**
+>
+> **判断顺序**：
+> 1. **有没有 NixOS 模块？** → 查 <https://search.nixos.org/options>，有就写 `services.xxx.enable = true;`（**首选**）
+> 2. **没有模块，但包自带 unit？** → `systemd.packages = [ pkgs.xxx ];`
+> 3. **都没有？** → 自己写 `systemd.services.xxx`（§29.4）
+
+**官方的「用户服务」写法（含一个重要警告）**：
+
+> *"User systemd services on the other hand, should be treated differently. Given a package that has a systemd unit file at `#pkg-out#/lib/systemd/user/`, using `systemd.packages` will make you able to start the service via `systemctl --user start`, **but it won't start automatically on login**."*
+
+```bash
+$ mkdir -p ~/.config/systemd/user/default.target.wants
+$ ln -s /run/current-system/sw/lib/systemd/user/syncthing.service ~/.config/systemd/user/default.target.wants/
+$ systemctl --user daemon-reload
+$ systemctl --user enable syncthing.service
+```
+
+> **官方给的警告（原文，逐字）**：
+> *"Using `systemctl --user enable syncthing.service` instead of the above, **will work, but it'll use the absolute path of `syncthing.service` for the symlink, and this path is in `/nix/store/.../lib/systemd/user/`. Hence garbage collection will remove that file and you will wind up with a broken symlink in your systemd configuration, which in turn will not make the service / timer start on login.**"*
+
+> [!DANGER]
+> **这是 NixOS 上一个非常隐蔽的坑，而且官方专门为它写了一整段。**
+>
+> **陷阱**：你直接 `systemctl --user enable foo.service` → 看起来成功了 → **几周后 GC 跑了一次** → 服务**静默地不再自启**。
+>
+> **为什么会这样**：符号链接指向 `/nix/store/...`，而 GC 删掉了那个 store path（因为它不在任何 profile 的闭包里）。
+>
+> **正确做法（官方给的）**：手动创建符号链接指向 **`/run/current-system/sw/lib/systemd/user/`**（这是一个稳定的路径），而不是 `/nix/store/...`。
+>
+> **对「Vibe Coding」用户的建议**：**不要用 `systemctl --user enable`**。要自启就：
+> - **系统级** → 写 `systemd.services.<name>` + `wantedBy`（声明式，GC 安全）
+> - **用户级** → 用 **home-manager 的 `systemd.user.services`**（本指南 §19.x），它自动生成正确的符号链接
+>
+> 本指南 §21.x 的 Hermes / OpenClaw 用户服务，走的就是 home-manager 这条路。
+
+### 29.4 定义自定义服务
+
+**官方最小模板（原文）**：
+
+```nix
+{
+  systemd.services.myservice = {
+    after = [ "network-online.target" ];
+    requires = [ "network-online.target" ];
+
+    before = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      ExecStart = "...";
+    };
+  };
+}
+```
+
+> **官方补充**：*"If you want to specify a multi-line script for `ExecStart`, you may want to use `pkgs.writeShellScript`."*
+
+**本指南在官方基础上补的「安全加固四件套」**（对应 §28.8 的权限边界）：
+
+```nix
+{
+  systemd.services.myservice = {
+    description = "My Service";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    requires = [ "network-online.target" ];
+
+    serviceConfig = {
+      ExecStart = "${pkgs.myapp}/bin/myapp";
+      User = "myservice";
+      Group = "myservice";
+
+      # ── 安全加固 ──
+      NoNewPrivileges = true;              # 不能提权（挡住 setuid 提权）
+      ProtectSystem = "strict";            # / 与 /usr 只读
+      ProtectHome = "read-only";           # /home 只读
+      ReadWritePaths = [ "/var/lib/myservice" ];   # 唯一可写目录
+      PrivateTmp = true;                   # 私有 /tmp
+      ProtectKernelTunables = true;        # 不能改 sysctl
+      ProtectControlGroups = true;         # 不能改 cgroup
+      RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
+
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
+}
+```
+
+> [!TIP]
+> **`systemd-analyze security <unit>` 会给你的服务打安全分**（0–10，越低越好）。
+>
+> ```bash
+> $ systemd-analyze security myservice.service
+> ```
+>
+> 这是**验证「我的 agent 服务到底有多安全」的官方工具** —— 比读文档直观。本指南第九章建议的加固项，全部能被它量化。
+
+**`systemctl cat` 验证 NixOS 生成了什么**：
+
+```bash
+$ systemctl cat myservice.service
+# /etc/systemd/system/myservice.service
+[Unit]
+...
+[Service]
+...
+```
+
+> **官方在 `sec-switching-systems` 里提到**：NixOS 用 `X-*` 前缀的**私有扩展**来控制切换行为（`X-StopIfChanged` / `X-ReloadIfChanged` / `X-RestartIfChanged` 等）。这些**只对 `nixos-rebuild switch` 有效**，systemd 本身不认识。详见 §33.6。
+
+### 29.5 模板单元（`base-unit@instance`）
+
+**官方原文**：
+
+> *"systemd supports templated units where a base unit can be started multiple times with a different parameter. The syntax to accomplish this is `service-name@instance-name.service`... NixOS has support for these kinds of units and for template-specific overrides. **A service needs to be defined twice, once for the base unit and once for the instance. All instances must include `overrideStrategy = "asDropin"` for the change detection to work.**"*
+
+```nix
+{
+  systemd.services = {
+    "base-unit@".serviceConfig = {
+      ExecStart = "...";
+      User = "...";
+    };
+    "base-unit@instance-a" = {
+      overrideStrategy = "asDropin";        # needed for templates to work
+      wantedBy = [ "multi-user.target" ];   # causes NixOS to manage the instance
+    };
+    "base-unit@instance-b" = {
+      overrideStrategy = "asDropin";        # needed for templates to work
+      wantedBy = [ "multi-user.target" ];   # causes NixOS to manage the instance
+      serviceConfig.User = "root";          # also override something for this specific instance
+    };
+  };
+}
+```
+
+> [!IMPORTANT]
+> **`overrideStrategy = "asDropin"` 是**必须**的** —— 官方原文说 *"All instances must include `overrideStrategy = "asDropin"` for the change detection to work"*。
+>
+> **漏了会怎样**：NixOS **检测不到实例配置的变化** → 你改了配置，`nixos-rebuild switch` 之后实例**没更新**。
+>
+> **`asDropin` 的含义**：把实例配置生成为 **drop-in 文件**（`xxx@instance.service.d/override.conf`），而不是完整替换 unit 文件。这样**实例配置能正确覆盖基础模板**，且 systemd 能识别变化。
+>
+> **你在哪会碰到模板单元**：`container@foo`（§31.x）、`user@1000`、`getty@tty1`、以及很多服务（`openvpn-server@xxx`）。**自己写服务时，能用普通 unit 就别用模板。**
+
+### 29.6 日志：journalctl（官方 `sec-logging`）
+
+**官方原文**：
+
+> *"System-wide logging is provided by **systemd's journal**, which subsumes traditional logging daemons such as `syslogd` and `klogd`. Log entries are kept in binary files in `/var/log/journal/`. The command `journalctl` allows you to see the contents of the journal."*
+
+```bash
+$ journalctl -b
+```
+
+> *"shows all journal entries **since the last reboot**. (The output of `journalctl` is piped into `less` by default.)"*
+
+```bash
+$ journalctl -u postgresql.service
+-- Logs begin at Mon, 2013-01-07 13:28:01 CET, end at Tue, 2013-01-08 01:09:57 CET. --
+...
+Jan 07 15:44:14 hagbard postgres[2681]: [2-1] LOG:  database system is shut down
+-- Reboot --
+Jan 07 15:45:10 hagbard postgres[2532]: [1-1] LOG:  database system was shut down at 2013-01-07 15:44:14 CET
+```
+
+```bash
+$ journalctl -b -p crit
+Dec 17 21:08:06 mandark sudo[3673]: pam_unix(sudo:auth): auth could not identify password for [alice]
+Dec 29 01:30:22 mandark kernel[6131]: [1053513.909444] CPU6: Core temperature above threshold, cpu clock throttled (total events = 1)
+```
+
+> **官方给的权限说明（原文）**：*"The system journal is readable by **root and by users in the `wheel` and `systemd-journal` groups**. All users have a **private journal** that can be read using `journalctl`."*
+
+**完整命令表（本指南在官方基础上补充）**：
+
+| 命令 | 作用 | 典型场景 |
+|---|---|---|
+| `journalctl -b` | 本次开机以来 | **最常用** |
+| `journalctl -b -1` | 上一次开机 | 崩溃后重启查看 |
+| `journalctl -u <unit>` | 某个服务 | 服务启动失败 |
+| `journalctl -u <unit> -f` | 实时跟踪 | 调试中 |
+| `journalctl -b -p crit` | 只看 critical 及以上 | **快速定位严重问题** |
+| `journalctl -b -p err` | err 及以上 | 日常巡检 |
+| `journalctl -k` | 只看内核消息（等价 `dmesg`） | 驱动问题 |
+| `journalctl --since "1 hour ago"` | 时间范围 | 刚出的问题 |
+| `journalctl --since today` | 今天 | 日常 |
+| `journalctl -n 100` | 最后 100 行 | 快速看尾部 |
+| `journalctl -x` | 带「解释性提示」 | **看 systemd 给的修复建议** |
+| `journalctl --disk-usage` | 日志占多少空间 | 磁盘满时 |
+| `journalctl --vacuum-size=500M` | 清理到 500M | 磁盘满时 |
+| `journalctl _UID=993` | 按用户过滤 | 查 agent 用户 |
+| `journalctl /dev/sda` | 按设备过滤 | 硬件问题 |
+| `journalctl -o json-pretty` | JSON 输出 | 喂给 Agent 分析 |
+
+> [!TIP]
+> **`journalctl -x` 的「解释性提示」被严重低估。** systemd 会在日志里插入**加粗的修复建议**，形如：
+> ```
+> ░░ Subject: Unit failed
+> ░░ Defined-By: systemd
+> ░░ The unit X has entered the 'failed' state with result 'exit-code'.
+> ```
+> **它会告诉你失败的原因和下一步。** 先看这个，再 Google。
+
+> [!IMPORTANT]
+> **日志的持久化默认是开的吗？**
+>
+> 官方在 `sec-systemd-state` 里说：*"`systemd-journald` writes the system's journal in binary form to `/var/log/journal/{machine-id}`; if (locally) persisting the entire log is desired, it is recommended to make all of `/var/log/journal` persistent. **If not, one can set `Storage=volatile`** ... which disables journal persistence and causes it to be written to `/run/log/journal`."*
+>
+> **所以**：默认**持久化到磁盘**（`/var/log/journal`）。如果你想要「重启后日志消失」（省空间 / 隐私），设：
+> ```nix
+> { services.journald.storage = "volatile"; }
+> ```
+> **对游戏玩家的意义**：持久化日志会持续占磁盘。**建议加一个大小上限**：
+> ```nix
+> {
+>   services.journald.extraConfig = ''
+>     SystemMaxUse=500M
+>   '';
+> }
+> ```
+> 或者用 §30.3 的 GC 策略一起管。
+
+### 29.7 用户会话：loginctl（官方 `sec-user-sessions`）
+
+**官方原文**：
+
+> *"Systemd keeps track of all users who are logged into the system (e.g. on a virtual console or remotely via SSH). The command `loginctl` allows querying and manipulating user sessions."*
+
+```bash
+$ loginctl
+   SESSION        UID USER             SEAT
+        c1        500 eelco            seat0
+        c3          0 root             seat0
+        c4        500 alice
+```
+
+> *"This shows that two users are logged in locally, while another is logged in remotely. ("Seats" are essentially the combinations of displays and input devices attached to the system; usually, there is only one seat.)"*
+
+```bash
+$ loginctl session-status c3
+c3 - root (0)
+           Since: Tue, 2013-01-08 01:17:56 CET; 4min 42s ago
+          Leader: 2536 (login)
+            Seat: seat0; vc3
+             TTY: /dev/tty3
+         Service: login; type tty; class user
+           State: online
+          CGroup: name=systemd:/user/root/c3
+                  ├─ 2536 .../bin/login --
+                  ├─10339 -bash
+                  └─10355 w3m nixos.org
+```
+
+```bash
+# loginctl terminate-session c3
+```
+
+> *"Since systemd keeps track of this, you can terminate a session in a way that ensures that all the session's processes are gone."*
+
+**本指南补充的常用命令**：
+
+| 命令 | 作用 | 场景 |
+|---|---|---|
+| `loginctl` | 列出会话 | 看谁登录了 |
+| `loginctl list-users` | 列出用户 | — |
+| `loginctl user-status <uid>` | 用户状态 | — |
+| **`loginctl show-user <user> \| grep Linger`** | **检查 linger** | **★ 本指南坑清单 #44/#45 的诊断命令** |
+| `loginctl enable-linger <user>` | 开启 linger（**NixOS 下用配置代替**） | — |
+| `loginctl terminate-session <id>` | 彻底结束会话 | — |
+
+> [!IMPORTANT]
+> **`loginctl show-user hermes | grep Linger` 是本指南反复强调的诊断命令。**
+>
+> **为什么重要**：没有 `Linger=yes` 的用户，**它的 systemd 用户级服务在用户登出后会被全部杀掉**。对 agent 服务来说，这意味着：
+> - SSH 断开后，agent 的定时任务**静默停止**
+> - 而且**不报错** —— 这是最难查的一类问题
+>
+> **声明式写法**（NixOS）：
+> ```nix
+> { users.users.hermes.linger = true; }
+> ```
+> **注意**：`linger` 是 `mkDefault` 的，如果你用了 `createUser = false` 之类的写法，**可能被压掉** → 必须显式写 `linger = true;`（坑清单 #45）。
+
+### 29.8 cgroup 与资源限制（官方 `sec-cgroups`）
+
+**官方原文**：
+
+> *"To keep track of the processes in a running system, systemd uses **control groups** (cgroups). A control group is a set of processes used to allocate resources such as **CPU, memory or I/O bandwidth**."*
+
+```bash
+$ systemd-cgls
+├─user
+│ └─eelco
+│   └─c1
+│     ├─ 2567 -:0
+│     ├─ 2682 kdeinit4: kdeinit4 Running...
+│     └─10851 sh -c less -R
+└─system
+  ├─httpd.service
+  │ ├─2444 httpd -f /nix/store/.../httpd.conf -DNO_DETACH
+  │ └─...
+  ├─dhcpcd.service
+  │ └─2376 dhcpcd --config /nix/store/.../dhcpcd.conf
+```
+
+```bash
+$ systemd-cgls cpu
+```
+
+> **官方对 CPU cgroup 的说明（原文）**：*"By default, **every systemd service gets its own CPU cgroup**, while **all user sessions are in the top-level CPU cgroup**. This ensures, for instance, that a thousand run-away processes in the `httpd.service` cgroup cannot starve the CPU for one process in the `postgresql.service` cgroup. (By contrast, if they were in the same cgroup, then the PostgreSQL process would get 1/1001 of the cgroup's CPU time.)"*
+
+**官方的资源限制示例**：
+
+```nix
+{ systemd.services.httpd.serviceConfig.CPUShares = 512; }
+```
+
+> *"By default, every cgroup has **1024 CPU shares**, so this will halve the CPU allocation of the `httpd.service` cgroup."*
+
+```nix
+{ systemd.services.httpd.serviceConfig.MemoryLimit = "512M"; }
+```
+
+> *"There also is a memory hierarchy that controls memory allocation limits; **by default, all processes are in the top-level cgroup, so any service or session can exhaust all available memory**."*
+
+```bash
+$ systemd-cgtop
+```
+
+> *"shows a continuously updated list of all cgroups with their CPU and memory usage."*
+
+> [!IMPORTANT]
+> **「by default, all processes are in the top-level cgroup, so any service or session can exhaust all available memory」—— 这一句解释了 NixOS 上「构建时 OOM」的根本原因。**
+>
+> **本指南 §22.x 提到的「Hermes 的 666 个 derivation 构建地狱」**：`nix-daemon` 是系统服务，**它有自己的 cgroup，但没设 `MemoryLimit`** → 构建可以吃光全部内存 → OOM killer 杀进程。
+>
+> **官方给的解法**（本指南推荐的加固）：
+> ```nix
+> {
+>   systemd.services.nix-daemon.serviceConfig = {
+>     MemoryMax = "24G";        # 或 MemoryLimit（旧名）
+>     MemoryHigh = "20G";       # 软限制，超过会开始回收
+>     IOWeight = 50;            # 降低 I/O 优先级（构建时不卡桌面）
+>     Nice = 5;                 # 稍低 CPU 优先级
+>   };
+> }
+> ```
+> **`MemoryMax` 优于 `MemoryLimit`** —— 前者是 cgroup v2 的名字，后者是 v1 遗留别名。26.05 用的是 cgroup v2。
+>
+> **对你的实际价值**：**构建大型 flake 时桌面不会卡死，且 OOM 时只杀构建进程而不是整个桌面**。这是「游戏 + 编译」双用途机器上很实用的一条。
+
+**游戏场景的一个额外建议（本指南补充）**：
+
+```nix
+# 让游戏进程有更高优先级（配合 §14.x 的 scx / ananicy）
+{
+  systemd.services."gamescope-session".serviceConfig = {
+    Nice = -5;
+    IOSchedulingClass = "realtime";
+    IOSchedulingPriority = 0;
+  };
+}
+```
+
+> [!NOTE]
+> **这一节与 §14.x（游戏性能榨干）的关系**：§14 讲的是**内核调度器层面**（scx / BORE / I/O scheduler）；本节讲的是**systemd cgroup 层面**。两者**互补**：
+> - cgroup 管「谁分多少」
+> - 调度器管「怎么调度」
+>
+> **优先级顺序**（本指南 §14.1 的结论仍然成立）：**Proton 选对 + mesa 够新 + 内存够 ≫ 换内核 ≫ 换调度器 ≫ I/O 调度器 ≫ cgroup 微调**。
+
+### 29.9 关机、重启与 kexec
+
+**官方原文**：
+
+```bash
+# shutdown          # 等价 systemctl poweroff
+# reboot            # 等价 systemctl reboot
+# systemctl kexec   # 用 kexec 快速重启，绕过 BIOS
+# systemctl suspend   # 挂起到 RAM
+# systemctl hibernate # 挂起到磁盘
+```
+
+> *"These commands can be run by **any user who is logged in locally**, i.e. on a virtual console or in X11; otherwise, the user is asked for authentication."*
+
+> [!TIP]
+> **`systemctl kexec` 值得单独说**：它**跳过 BIOS/UEFI 初始化**，直接把新内核加载进内存。
+>
+> **省多少时间**：通常**省掉 5–15 秒的固件初始化**（取决于主板）。对频繁重启（调内核参数、测配置）的场景很实用。
+>
+> **前提**：需要 `boot.kernelPackages` 里有 kexec 支持。NixOS 默认的 `systemd` 包已含 `systemd-kexec`（官方 unit），**通常开箱可用**。
+>
+> **验证**：`systemctl kexec` 直接跑；不行再看 `systemctl status kexec.service`。
+
+**关于休眠（hibernate）的提醒（本指南补充）**：
+
+| 功能 | 需要什么 | AMD 桌面常见问题 |
+|---|---|---|
+| `suspend`（挂起到 RAM） | 基本都能用 | — |
+| `hibernate`（挂起到磁盘） | **swap ≥ RAM**，且内核参数要指向 swap | 内存大（32G+）时 swap 通常不够 |
+| `hybrid-sleep` | 两者结合 | 同上 |
+
+```nix
+# 要休眠必须显式指定 resume 设备
+{
+  boot.kernelParams = [ "resume=UUID=<你的swap分区UUID>" ];
+  boot.resumeDevice = "/dev/disk/by-uuid/<swap UUID>";
+  swapDevices = [ { device = "/dev/disk/by-uuid/<swap UUID>"; } ];
+}
+```
+
+> [!WARNING]
+> **没有正确配置 `resume` 就 `systemctl hibernate` → 可能丢数据或唤醒失败。**
+> **建议**：**桌面 AMD 机器只用 `suspend`**，不要折腾 hibernate。这也是绝大多数发行版的默认策略。
+
+### 29.10 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 自定义服务忘写 `wantedBy` | 服务**不自启**，且不报错 | `wantedBy = [ "multi-user.target" ];` |
+| 2 | 用 `systemctl --user enable` | **GC 后符号链接死掉**，服务静默失效 | home-manager 的 `systemd.user.services` |
+| 3 | 用 `systemctl enable` 管系统服务 | rebuild 覆盖 / GC 死链 | 写 `wantedBy` |
+| 4 | 只看 `systemctl status` 不看 `journalctl -x` | 错过 systemd 给的修复建议 | `journalctl -x -u <unit>` |
+| 5 | 不设 journal 大小上限 | 日志吃满磁盘 | `SystemMaxUse=500M` |
+| 6 | agent 用户忘了 `linger` | 登出后用户服务**静默全停** | `users.users.<u>.linger = true;` + 用 `loginctl` 验证 |
+
+> [!TIP]
+> **本章的最小可用知识集**（如果只记三件事）：
+> 1. **`systemctl status <unit>`** —— 看服务状态 + 最近日志
+> 2. **`journalctl -b -p err`** —— 看本次开机的所有错误
+> 3. **`systemctl list-units --failed`** —— 找静默失败的服务
+>
+> 这三条覆盖 90% 的日常诊断。
+
+---
+
+---
+
+## 三十、系统状态、GC 与故障排查（官方 Part III 后半）
+
+本章补的是官方手册 **Part III** 的 `ch-system-state`（含 `sec-nixos-state` / `sec-systemd-state`）、`sec-nix-gc`、`sect-nixos-gc-boot-entries`，以及整个 `ch-troubleshooting`（`sec-boot-problems` / `sec-maintenance-mode` / `sec-rollback` / `sec-nix-store-corruption` / `sec-nix-network-issues`）。
+
+**这一章是「开不了机时的逃生手册」。** 本指南前二十五章从没系统讲过这个 —— 因为正常情况下你不需要。**但一旦需要，就是最需要的时候。**
+
+### 30.1 哪些状态必须持久化（官方 `ch-system-state`）
+
+**官方开场（原文）**：
+
+> *"Normally — on systems with a persistent rootfs — system services can persist state to the filesystem without administrator intervention. However, **it is possible and not-uncommon to create impermanent systems, whose rootfs is either a tmpfs or reset during boot.** While NixOS itself supports this kind of configuration, special care needs to be taken."*
+
+> [!IMPORTANT]
+> **这一段是「不可变系统 / 无状态系统」的官方前提。** 即使你**不做**不可变系统，这张表也有用 —— **它告诉你「哪些目录丢了会出问题」**，也就是**备份时该备份什么**。
+
+**官方的完整清单（逐项原文）**：
+
+#### `/nix` —— 必须持久
+
+> *"NixOS needs **the entirety of `/nix`** to be persistent, as it includes:"*
+> - *"`/nix/store`, which contains all the system's executables, libraries, and supporting data;"*
+> - *"`/nix/var/nix`, which contains: the Nix daemon's database; **roots whose transitive closure is preserved when garbage-collecting the Nix store**; system-wide and per-user profiles."*
+
+#### `/boot` —— 必须持久
+
+> *"`/boot` should also be persistent, as it contains:"*
+> - *"the kernel and initrd which the bootloader loads,"*
+> - *"**the bootloader's configuration, including the kernel's command-line which determines the store path to use as system environment.**"*
+
+#### 用户与组
+
+> - *"**`/var/lib/nixos`** should persist: it holds **state needed to generate stable uids and gids** for declaratively-managed users and groups, etc."*
+> - *"**`users.mutableUsers` should be false, or the following files under `/etc` should all persist**: `passwd(5)` and `group(5)`, `shadow(5)` and `gshadow(5)`, `subuid(5)` and `subgid(5)`."*
+
+> [!TIP]
+> **这一条给出了 §28.3 那个 uid 漂移问题的**官方确认**。**
+>
+> **备份清单里必须包含 `/var/lib/nixos`** —— 它很小（几十 KB），但丢了会让 uid 重排。
+>
+> **更省事的做法**：按 §28.3 的建议**显式写 `uid`**，这样 `mutableUsers = true`（默认）时 `/etc/shadow` 也不用管。
+
+#### systemd 需要的状态
+
+> **`machine-id(5)`**：*"systemd uses per-machine identifier — `machine-id(5)` — which must be **unique and persistent**; otherwise, **the system journal may fail to list earlier boots**, etc."*
+>
+> *"systemd generates a random `machine-id(5)` during boot if it does not already exist, and persists it in `/etc/machine-id`. As such, it suffices to make that file persistent."*
+>
+> *"Alternatively, it is possible to generate a random `machine-id(5)`; while the specification allows for any hex-encoded 128b value, systemd itself uses UUIDv4, i.e. random UUIDs, and it is thus preferable to do so as well, in case some software assumes `machine-id(5)` to be a UUIDv4. Those can be generated with `uuidgen -r | tr -d -`... **NixOS' systemd maintainers discourage** [setting it via kernel command line]."
+
+> **`/var/lib/systemd`**：*"systemd expects its state directory — `/var/lib/systemd` — to persist, for:"*
+> - *"`systemd-random-seed(8)`, which loads a 256b "seed" into the kernel's RNG at boot time, and saves a fresh one during shutdown;"*
+> - *"`systemd.timer(5)` with `Persistent=yes`, which are then run after boot if the timer would have triggered during the time the system was shut down;"*
+> - *"`systemd-coredump(8)` to store core dumps there by default;"*
+> - *"`systemd-timesyncd(8)`;"*
+> - *"`systemd-backlight(8)` and `systemd-rfkill(8)` persist hardware-related state;"*
+> - *"possibly other things, this list is not meant to be exhaustive."*
+>
+> *"In any case, **making `/var/lib/systemd` persistent is recommended**."*
+
+> **`/var/log/journal/{machine-id}`**：*"if (locally) persisting the entire log is desired, it is recommended to make all of `/var/log/journal` persistent. If not, one can set `Storage=volatile` in `journald.conf(5)` (`services.journald.storage = "volatile";`), which disables journal persistence and causes it to be written to `/run/log/journal`."*
+
+**汇总成一张「备份 / 持久化清单」**（本指南整理）：
+
+| 路径 | 必须持久 | 丢了会怎样 | 大小 |
+|---|---|---|---|
+| `/nix` | ✅ **必须** | **系统没了** | 数十 GB |
+| `/boot` | ✅ **必须** | 开不了机 | 数百 MB |
+| `/var/lib/nixos` | ✅ 推荐 | **uid/gid 重排** → 文件属主乱 | KB 级 |
+| `/etc/machine-id` | ✅ 推荐 | journal 无法列出历史启动；某些软件异常 | 33 B |
+| `/var/lib/systemd` | ✅ 推荐 | 定时器 `Persistent=yes` 失效、随机种子重置、亮度/rfkill 状态丢失 | MB 级 |
+| `/etc/{passwd,group,shadow,gshadow,subuid,subgid}` | ⚠️ 仅当 `mutableUsers = true` | 密码丢失、用户残留 | KB 级 |
+| `/var/log/journal` | ⚠️ 可选 | 历史日志丢失 | 百 MB |
+
+> [!DANGER]
+> **`systemd-random-seed` 那一条值得单独强调**：它保存的是**内核随机数生成器的种子**。
+>
+> **如果 `/var/lib/systemd/random-seed` 丢失或每次启动都一样** → **早期启动阶段的随机数质量下降** → 影响 **TLS 密钥生成、磁盘加密密钥、SSH host key** 等。
+>
+> **对普通桌面的实际影响**：小（现代内核有其他熵源）。**但对「无盘工作站」或「克隆出来的多台虚拟机」影响大**（所有机器拿到同一个种子）。
+>
+> **结论**：如果你做不可变系统，**`/var/lib/systemd` 必须持久化**。
+
+### 30.2 journald 的持久化开关
+
+官方在 §30.1 已给出。**本指南补充配置写法**：
+
+```nix
+{
+  # 持久化（默认）——日志写 /var/log/journal
+  services.journald.storage = "persistent";   # 显式写法
+
+  # 或者：只留内存（省磁盘 / 隐私）
+  # services.journald.storage = "volatile";   # 写 /run/log/journal，重启即失
+
+  # 加一个大小上限（强烈建议，配合 §30.3）
+  services.journald.extraConfig = ''
+    SystemMaxUse=500M
+    SystemMaxFileSize=50M
+    MaxRetentionSec=1month
+  '';
+}
+```
+
+| `storage` 取值 | 日志位置 | 重启后 | 适合 |
+|---|---|---|---|
+| `persistent` | `/var/log/journal` | 保留 | **默认，桌面推荐** |
+| `volatile` | `/run/log/journal` | 丢失 | 无盘 / 隐私敏感 |
+| `auto` | 有 `/var/log/journal` 就持久 | 视情况 | — |
+| `none` | 不记录 | — | 极简 |
+
+### 30.3 清理 Nix store：GC（官方 `sec-nix-gc`）
+
+**官方原文**：
+
+> *"Nix has a purely functional model, meaning that **packages are never upgraded in place**. Instead new versions of packages end up in a different location in the Nix store (`/nix/store`). **You should periodically run Nix's garbage collector to remove old, unreferenced packages.**"*
+
+```bash
+$ nix-collect-garbage
+```
+
+> *"Alternatively, you can use a systemd unit that does the same in the background: `# systemctl start nix-gc.service`"*
+
+```nix
+{
+  nix.gc.automatic = true;
+  nix.gc.dates = "03:15";
+}
+```
+
+**官方关于「保留回滚能力」的关键说明（原文）**：
+
+> *"**The commands above do not remove garbage collector roots, such as old system configurations. Thus they do not remove the ability to roll back to previous configurations.** The following command deletes old roots, **removing the ability to roll back to them**:"*
+
+```bash
+$ nix-collect-garbage -d
+```
+
+```bash
+$ nix-env -p /nix/var/nix/profiles/per-user/eelco/profile --delete-generations old
+```
+
+> *"Note that NixOS system configurations are stored in the profile `/nix/var/nix/profiles/system`."*
+
+**官方的「省 40% 磁盘」技巧（原文）**：
+
+> *"Another way to reclaim disk space (**often as much as 40% of the size of the Nix store**) is to run Nix's **store optimiser**, which seeks out identical files in the store and replaces them with **hard links** to a single copy."*
+
+```bash
+$ nix-store --optimise
+```
+
+> *"Since this command needs to read the entire Nix store, it can take quite a while to finish."*
+
+> [!IMPORTANT]
+> **`nix-collect-garbage` 和 `nix-collect-garbage -d` 的区别是本章最实用的一条。**
+>
+> | 命令 | 删什么 | 还能回滚吗 |
+> |---|---|---|
+> | `nix-collect-garbage` | 无人引用的 store path | ✅ **能**（旧 generation 还在） |
+> | `nix-collect-garbage -d` | 上述 + **旧 generation 本身** | ❌ **不能回滚到已删的 generation** |
+> | `nix.gc.automatic = true` | 等价第一种 | ✅ 能 |
+>
+> **本指南的推荐组合**（桌面 + 游戏，磁盘紧）：
+> ```nix
+> {
+>   # 自动 GC：每周清一次，保留最近 7 天
+>   nix.gc = {
+>     automatic = true;
+>     dates = "weekly";
+>     options = "--delete-older-than 7d";   # ← 注意：这个选项会删旧 generation
+>   };
+>
+>   # 同时限制 systemd-boot 菜单里的启动项数量
+>   boot.loader.systemd-boot.configurationLimit = 10;   # 见 §30.5
+>
+>   # 开启 store 去重（省 40%）
+>   nix.settings.auto-optimise-store = true;
+> }
+> ```
+>
+> **⚠️ `--delete-older-than 7d` 会删掉 7 天前的 generation** —— 这意味着**你不能回滚到一周前的配置**。**权衡**：
+> - 磁盘紧张 → 用 `7d`
+> - 想要「随时回滚到任意历史」 → 用 `30d` 或干脆不加这个选项
+>
+> **本指南 §11.4 给的配置与此一致**，这里补上了「为什么」。
+
+> [!TIP]
+> **`nix.settings.auto-optimise-store = true` 是「一次性设置，永久省 40%」的选项。**
+>
+> 官方原文说手动跑 `nix-store --optimise` 能省 *"as much as 40%"*。**开启 `auto-optimise-store` 之后，Nix 会在每次添加新路径时自动去重** —— 不用手动跑，也不用等那「quite a while」。
+>
+> **代价**：每次构建/下载时多一点 CPU（做 hard link）。**对 SSD 完全值得。**
+
+### 30.4 手动 GC 的完整操作清单
+
+```bash
+# ── 1. 先看占了多少 ──
+du -sh /nix/store
+nix-store --gc --print-dead | wc -l        # 有多少「死」路径
+journalctl --disk-usage                     # 日志占多少
+
+# ── 2. 看有哪些 generation（能回滚到哪些）──
+nix-env --list-generations -p /nix/var/nix/profiles/system
+ls -l /nix/var/nix/profiles/system-*-link | tail -20
+
+# ── 3. 保守 GC（保留回滚能力）──
+sudo nix-collect-garbage
+
+# ── 4. 删旧 generation（⚠️ 失去对应回滚能力）──
+sudo nix-collect-garbage --delete-older-than 30d
+
+# ── 5. 全清（⚠️⚠️ 只能回滚到当前 generation）──
+sudo nix-collect-garbage -d
+
+# ── 6. 去重 ──
+sudo nix-store --optimise
+```
+
+> [!DANGER]
+> **`nix-collect-garbage -d` 之前，先确认你现在这个 generation 是好的。**
+>
+> **为什么**：`-d` 会删掉所有旧 generation。如果当前配置有隐藏问题（比如某个服务起不来、某个硬件不工作），你**没有退路**。
+>
+> **安全流程**：
+> 1. 先 `sudo nixos-rebuild switch`
+> 2. **重启一次**，确认系统正常
+> 3. 再跑 `-d`
+>
+> **本指南 §11.4 强调过这一条，这里再强调一次** —— 因为这是少数**不可逆**的操作之一。
+
+### 30.5 `/boot` 分区爆满（官方 `sect-nixos-gc-boot-entries`）
+
+**官方原文（整节只有一句，但很重要）**：
+
+> *"If your `/boot` partition runs out of space, after clearing old profiles you must rebuild your system with `nixos-rebuild boot` or `nixos-rebuild switch` to update the `/boot` partition and clear space."*
+
+> [!IMPORTANT]
+> **这句话包含一个反直觉的顺序**：
+>
+> **❌ 错的顺序**：`/boot` 满了 → 删旧 generation → 好了
+> **✅ 对的顺序**：`/boot` 满了 → 删旧 generation → **再跑一次 `nixos-rebuild boot/switch`**
+>
+> **为什么**：删 generation 只是**删掉了 `/nix/var/nix/profiles` 里的符号链接**。**`/boot` 里那些内核和 initrd 文件还在** —— 它们是**由 `nixos-rebuild` 生成 bootloader 配置时清理的**。
+>
+> **所以**：不重新 rebuild，`/boot` 不会变小。
+
+**预防：限制启动项数量（本指南推荐）**：
+
+```nix
+{
+  boot.loader.systemd-boot.configurationLimit = 10;
+}
+```
+
+> **本指南在 §11.5 提到过这个选项**（默认 `null` = 不限制）。**这里补上它和 `/boot` 大小的关系**：
+>
+> | 每个 generation 占 `/boot` | 数量 | 总占用 |
+> |---|---|---|
+> | 内核 + initrd ≈ 60–120 MB | 10 个 | 0.6–1.2 GB |
+> | 同上 | 30 个 | 1.8–3.6 GB |
+>
+> **典型的 ESP 是 512 MB–1 GB** —— 所以**不限制的话，很快就会满**。
+>
+> **`configurationLimit = 10` 是合理的默认**（保留最近 10 个可回滚点）。**如果你 `/boot` 给了 2 GB，可以设 20。**
+
+**诊断命令**：
+
+```bash
+df -h /boot
+ls -la /boot/loader/entries/ | wc -l     # 有多少个启动项
+bootctl list                              # 列出所有启动项
+sudo bootctl cleanup                      # 清理无主文件
+```
+
+### 30.6 启动问题：内核参数全集（官方 `sec-boot-problems`）
+
+**官方开场（原文）**：
+
+> *"If NixOS fails to boot, there are a number of **kernel command line parameters** that may help you to identify or fix the issue. You can add these parameters in the GRUB boot menu by pressing "e" to modify the selected boot entry and editing the line starting with `linux`."*
+
+> *"`kernel-command-line(7)` documents the kernel parameters accepted by systemd. Those include many that are helpful for debugging boot issues, such as `systemd.debug_shell` and `rescue`. Some also have `rd.`-prefixed variants that apply to stage 1."*
+
+**官方的通用提示**：
+
+> *"If no login prompts or X11 login screens appear (e.g. due to hanging dependencies), you can press **`Alt+ArrowUp`**. If you're lucky, this will start `rescue.target`... (Also note that since **most units have a 90-second timeout** before systemd gives up on them, the agetty login prompts should appear eventually unless something is very wrong.)"*
+
+**`live.nixos.passwd=password`**：
+
+> *"Set the password for the `nixos` live user. This can be used for **SSH access if there are issues using the terminal**."*
+
+**官方的 scripted stage 1 参数表（原文，含 systemd stage 1 的替代）**：
+
+> **⚠️ 官方警告**：*"The scripted implementation of stage 1 is disabled by default and **deprecated**. These parameters have no effect, unless systemd stage 1 is explicitly disabled with `boot.initrd.systemd.enable = false;`."*
+
+| 参数 | 官方描述 | systemd stage 1 替代 |
+|---|---|---|
+| **`boot.shell_on_fail`** | *"Allows the user to start a root shell if something goes wrong in stage 1... This is disabled by default because **there is no authentication for the root shell**."* | `SYSTEMD_SULOGIN_FORCE=1`（rescue 模式）或 `rd.systemd.debug_shell`（tty9） |
+| **`boot.debug1`** | *"Start an interactive shell in stage 1 **before anything useful has been done**. That is, **no modules have been loaded and no file systems have been mounted**, except for `/proc` and `/sys`."* | `rd.systemd.break=pre-udev` |
+| **`boot.debug1devices`** | *"Like `boot.debug1`, but runs stage1 until **kernel modules are loaded and device nodes are created**. This may help with e.g. making the keyboard work."* | `rd.systemd.break=pre-mount` |
+| **`boot.debug1mounts`** | *"Like `boot.debug1` or `boot.debug1devices`, but runs stage1 until **all filesystems that are mounted during initrd are mounted**... **as a motivating example, this could be useful if you've forgotten to set `neededForBoot` on a file system**."* | `rd.systemd.break=pre-switch-root` |
+| **`boot.trace`** | *"Print every shell command executed by the stage 1 and 2 boot scripts."* | `rd.systemd.log_level=debug` |
+
+> **官方的一个行为细节**：*"for `boot.shell_on_fail`, `boot.debug1`, `boot.debug1devices`, and `boot.debug1mounts`, **if you did not select "start the new shell as pid 1", and you exit from the new shell, boot will proceed normally from the point where it failed**, as if you'd chosen "ignore the error and continue"."*
+
+> [!IMPORTANT]
+> **这张表是「开不了机」时最有价值的工具，但有一个前提必须先搞清楚：**
+>
+> **26.05 的默认 stage 1 是哪个？**
+>
+> 官方说 scripted stage 1 *"is disabled by default and deprecated"* —— 这句话**有歧义**。结合上下文与 `sec-luks-file-systems`（其中 `boot.initrd.systemd.enable = true` 是**显式开启**才有的），**准确理解是**：
+>
+> - **26.05 默认仍是 scripted stage 1**（所以 `boot.debug1` 这些参数**默认有效**）
+> - 官方说「disabled by default」指的是**未来方向**，以及「如果**你开了** systemd stage 1，这些参数就失效了」
+>
+> **实操建议**：**先用 `boot.debug1mounts` 试**（如果无效，说明你的系统是 systemd stage 1，改用 `rd.systemd.break=pre-switch-root`）。**两条都试一遍，成本很低。**
+
+**在启动菜单里临时加参数的步骤（GRUB 与 systemd-boot 通用）**：
+
+```
+1. 开机时进入 bootloader 菜单
+2. 选中要启动的 generation
+3. GRUB: 按 e  →  找到 linux 开头那行  →  行尾加参数  →  Ctrl+X 启动
+   systemd-boot: 按 e  →  同一行  →  加参数  →  Enter 启动
+4. ⚠️ 这只对本次启动有效，重启即失效（这是好事——它是「安全实验」）
+```
+
+> [!TIP]
+> **本指南给你的「开机失败三连」**：
+>
+> **第 1 步：能不能进 bootloader 菜单？**
+> - **能** → 选**上一个 generation** 启动（§30.8）。**大概率立刻恢复。**
+> - **不能** → 硬件/固件问题，或 bootloader 损坏 → 用 U 盘启动（§30.7）
+>
+> **第 2 步：旧 generation 也起不来？**
+> → 加 `boot.debug1mounts`（或 `rd.systemd.break=pre-switch-root`）看卡在哪
+> → 最常见原因是**改坏了 `fileSystems`**（§27.1）
+>
+> **第 3 步：什么都不行？**
+> → `systemctl rescue`（§30.7）或 U 盘 chroot
+
+### 30.7 维护模式（官方 `sec-maintenance-mode`）
+
+**官方原文**：
+
+> *"You can enter rescue mode by running: `# systemctl rescue`. This will eventually give you a **single-user root shell**. Systemd will **stop (almost) all system services**. To get out of maintenance mode, just exit from the rescue shell."*
+
+**本指南补充的「进不去系统时怎么用」**：
+
+| 场景 | 做法 |
+|---|---|
+| 系统能启动但图形界面坏了 | `Ctrl+Alt+F3` 切 TTY → 登录 → `systemctl rescue` |
+| 系统能启动但登录不上 | 启动参数加 `systemd.unit=rescue.target` |
+| 完全进不去 | 用 NixOS U 盘启动 → `nixos-enter --root /mnt`（见下） |
+
+**U 盘救援 + chroot 修复（本指南补充）**：
+
+```bash
+# 从 NixOS U 盘启动后：
+# 1. 找到根分区
+lsblk -f
+
+# 2. 如果是 LUKS，先解锁
+sudo cryptsetup luksOpen /dev/nvme0n1p2 crypted
+
+# 3. 挂载
+sudo mount /dev/mapper/crypted /mnt
+sudo mount /dev/nvme0n1p1 /mnt/boot        # ESP
+
+# 4. 进入 chroot（NixOS 官方提供的工具）
+sudo nixos-enter --root /mnt
+
+# 5. 现在可以修配置了
+nano /etc/nixos/configuration.nix
+nixos-rebuild switch
+
+# 6. 退出并重启
+exit
+sudo umount -R /mnt
+sudo reboot
+```
+
+> [!TIP]
+> **`nixos-enter` 是 NixOS 特有的救援工具**（其他发行版没有对应物）。它比手写 `chroot` 好得多：
+> - 自动绑定 `/proc` / `/sys` / `/dev` / `/nix`
+> - 自动设置环境
+> - 支持 `--root /mnt` 和 `--system <path>`（进入指定 generation）
+>
+> **`--system` 参数特别有用**：你可以 chroot 进**一个旧的 generation**，从里面修复：
+> ```bash
+> sudo nixos-enter --root /mnt --system /nix/var/nix/profiles/system-42-link
+> ```
+
+### 30.8 回滚（官方 `sec-rollback`）
+
+**官方给了三种方式（原文）**：
+
+**方式 1：从 bootloader 菜单选旧配置**
+
+> *"First, the GRUB boot manager allows you to boot into **any previous configuration that hasn't been garbage-collected**. These configurations can be found under the GRUB submenu "**NixOS - All configurations**". This is especially useful **if the new configuration fails to boot**."*
+
+```bash
+# /run/current-system/bin/switch-to-configuration boot
+```
+
+> *"After the system has booted, you can make the selected configuration **the default for subsequent boots**"*
+
+**方式 2：在运行中的系统里回滚**
+
+```bash
+# nixos-rebuild switch --rollback
+```
+
+> *"This is equivalent to running: `# /nix/var/nix/profiles/system-N-link/bin/switch-to-configuration switch` where N is the number of the NixOS system configuration."*
+
+**方式 3：列出所有可用配置**
+
+```bash
+$ ls -l /nix/var/nix/profiles/system-*-link
+...
+lrwxrwxrwx 1 root root 78 Aug 12 13:54 /nix/var/nix/profiles/system-268-link -> /nix/store/202b...-nixos-13.07pre4932_5a676e4-4be1055
+```
+
+> [!IMPORTANT]
+> **systemd-boot 用户的菜单名不是「NixOS - All configurations」** —— 那是 GRUB 的子菜单名。
+>
+> **systemd-boot 的行为**：所有 generation **平铺在主菜单里**，名字形如：
+> ```
+> NixOS 26.05 (Generation 42) (Linux 6.18.3)
+> NixOS 26.05 (Generation 41) (Linux 6.18.2)
+> ...
+> ```
+> **数量由 `boot.loader.systemd-boot.configurationLimit` 决定**（§30.5）。**默认 `null` = 全部显示** —— 这既是「随时能回滚」的优点，也是 `/boot` 爆满的原因。
+
+> [!TIP]
+> **「回滚」与「切换 generation」的区别**（本指南补充）：
+>
+> | 操作 | 效果 | 适合 |
+> |---|---|---|
+> | `nixos-rebuild switch --rollback` | 切到**上一个** generation | 刚改坏了 |
+> | 启动菜单选任意 generation | 切到**任意**保留的 generation | 回滚到很久以前 |
+> | `/run/current-system/bin/switch-to-configuration boot` | 把**当前运行的**设为默认启动项 | 从菜单启动旧版后想固化 |
+>
+> **第三条容易被忽略**：从菜单启动旧 generation 后，**下次重启又会回到新版**（因为默认项没变）。要固化必须跑那条命令。
+
+### 30.9 Nix store 损坏（官方 `sec-nix-store-corruption`）
+
+**官方原文**：
+
+> *"After a system crash, it's possible for files in the Nix store to become corrupted. (For instance, **the Ext4 file system has the tendency to replace un-synced files with zero bytes**.) NixOS tries hard to prevent this from happening: it performs a **sync before switching to a new configuration**, and **Nix's database is fully transactional**. If corruption still occurs, you may be able to fix it automatically."*
+
+```bash
+# nixos-rebuild switch --repair
+```
+
+> *"This will cause Nix to **check every path in the closure**, and if its **cryptographic hash differs from the hash recorded in Nix's database**, the path is rebuilt or redownloaded."*
+
+```bash
+# nix-store --verify --check-contents --repair
+```
+
+> *"**Any corrupt paths will be redownloaded if they're available in a binary cache; otherwise, they cannot be repaired.**"*
+
+> [!IMPORTANT]
+> **最后那句是重点：`--repair` 只能修「能从缓存重新下载」的路径。**
+>
+> **修不了的**：
+> - 你自己构建的（不在 cache.nixos.org 里）
+> - 你 override 过的包
+> - 本地 flake 的产物
+>
+> **怎么办**：删掉再重建。
+> ```bash
+> nix-store --delete /nix/store/<损坏路径>
+> nixos-rebuild switch    # 重新构建
+> ```
+
+> [!WARNING]
+> **为什么「Ext4 会把未同步的文件变成零字节」值得注意**：
+>
+> 官方把它当成 store 损坏的**主要原因**。**这解释了为什么 NixOS 在 switch 前会 sync** —— 官方原文：*"it performs a sync before switching to a new configuration"*。
+>
+> **对你的实际影响**：
+> - **正常使用几乎不会碰到**（NixOS 的 sync + 事务性数据库已覆盖大部分情况）
+> - **突然断电 / 强制关机时风险上升**
+>
+> **建议**：**不要用「长按电源键」关机**。用 `systemctl poweroff` 或 `shutdown`。**这对 SSD 尤其重要**。
+
+### 30.10 网络问题：二进制缓存（官方 `sec-nix-network-issues`）
+
+**官方原文**：
+
+> *"Nix uses a so-called **binary cache** to optimise building a package from source into downloading it as a pre-built binary... **The default binary cache is `https://cache.nixos.org/`.** If this cache is unreachable, **Nix operations may take a long time due to HTTP connection timeouts**."*
+
+```bash
+# nixos-rebuild switch --option use-binary-caches false
+```
+
+> *"If you have an alternative binary cache at your disposal, you can use it instead:"*
+
+```bash
+# nixos-rebuild switch --option binary-caches http://my-cache.example.org/
+```
+
+> [!IMPORTANT]
+> **对国内用户，这一节特别重要。** 官方只讲了「缓存不可达会很慢」，**没讲国内的具体情况**。
+>
+> **本指南第四章已给国内镜像源配置**（`nix.settings.substituters` + `trusted-public-keys`）。**这里补充官方这两条命令的用途**：
+>
+> | 场景 | 命令 |
+> |---|---|
+> | 怀疑缓存慢导致卡住 | `nixos-rebuild switch --option use-binary-caches false`（纯本地构建，不试缓存） |
+> | 临时换缓存 | `nixos-rebuild switch --option binary-caches https://mirror.example.org/` |
+> | **永久配置镜像** | 写 `nix.settings.substituters`（见 §4.8） |
+>
+> **一个诊断技巧**：`nixos-rebuild` 卡在 `copying path ...` 很久 → **大概率是缓存在超时**。加 `--option use-binary-caches false` 或换成国内镜像立刻能验证。
+
+**本指南补充的网络诊断命令**：
+
+```bash
+# 测缓存可达性
+curl -sI https://cache.nixos.org/nix-cache-info
+
+# 看当前配置的 substituters
+nix show-config | grep -E 'substituters|trusted-public-keys'
+
+# 看 Nix 的网络日志
+journalctl -u nix-daemon -f
+```
+
+### 30.11 七个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 直接 `nix-collect-garbage -d` | **失去所有回滚点**，不可逆 | 先重启验证，再删；或用 `--delete-older-than 30d` |
+| 2 | `/boot` 满了只删 generation 不 rebuild | **`/boot` 不会变小** | 删完必须 `nixos-rebuild boot` |
+| 3 | 不设 `configurationLimit` | `/boot` 迅速爆满 | `= 10`（或按 ESP 大小调） |
+| 4 | 忘了 `/var/lib/nixos` 备份 | 重装后 **uid 重排** | 显式写 `uid`，或备份该目录 |
+| 5 | 长按电源键关机 | store 可能损坏（Ext4 零字节） | `systemctl poweroff` |
+| 6 | 不设 journal 上限 | 日志吃满磁盘 | `SystemMaxUse=500M` |
+| 7 | 缓存卡住时干等 | 以为系统挂了 | `--option use-binary-caches false` 验证 |
+
+> [!TIP]
+> **本章的最小可用知识集**（如果只记三件事）：
+> 1. **开不了机 → 进 bootloader 菜单选旧 generation**（90% 的问题这样解决）
+> 2. **`nix-collect-garbage -d` 是不可逆的** —— 用之前先重启验证
+> 3. **`/boot` 满了要「删 generation + rebuild」两步**
+>
+> 这三条覆盖「最坏情况」的 90%。
+
+---
+
+---
+
+## 三十一、容器管理：NixOS 原生容器（官方 `ch-containers`）
+
+本章补的是官方手册 **Part III** 的 `ch-containers`、`sec-imperative-containers`、`sec-declarative-containers`、`sec-container-networking`。
+
+**先说清楚一件事：NixOS 原生容器和你在本指南 §23.7 / §25.5 见到的 Distrobox 不是同一个东西。**
+
+| | **NixOS 原生容器**（本章） | **Distrobox / Podman**（本指南 §23.7、§25.5） |
+|---|---|---|
+| 里面跑什么 | **另一个 NixOS** | 任意发行版（Ubuntu/Fedora/Arch） |
+| 共享 Nix store | ✅ 共享（所以创建极快） | ❌ 独立镜像 |
+| 配置方式 | 声明式（`containers.<name>`） | 命令式 |
+| 主要用途 | **跑隔离的服务** | **跑非 Nix 的软件**（解决依赖问题） |
+| 隔离强度 | ⚠️ **不完全隔离**（官方警告） | 标准容器隔离 |
+
+### 31.1 NixOS 原生容器的定位
+
+**官方原文**：
+
+> *"NixOS allows you to easily run **other NixOS instances as containers**. Containers are a **light-weight approach to virtualisation** that runs software in the container **at the same speed as in the host system**. NixOS containers **share the Nix store of the host, making container creation very efficient**."*
+
+**官方警告（原文，逐字）**：
+
+> ⚠️ *"Currently, NixOS containers are **not perfectly isolated from the host system**. This means that **a user with root access to the container can do things that affect the host**. So you should **not give container root access to untrusted users**."*
+
+> [!DANGER]
+> **这条警告是本章最重要的内容，必须放在最前面。**
+>
+> **「root in container ≠ root on host」是 Docker 的常见说法，但官方明确说 NixOS 容器不满足这一点。**
+>
+> **具体风险**：容器里的 root 可以（在某些配置下）影响宿主 —— 因为容器**共享 Nix store**，且没有完整的用户命名空间隔离。
+>
+> **结论**：
+> - ✅ **可以**用来跑「你自己写的、你自己信任的服务」（如数据库、Web 服务）
+> - ❌ **不要**用来跑「不可信的第三方代码」
+> - ❌ **不要**给不受信任的人容器 root
+>
+> **对比**：Docker/Podman 的默认配置隔离更好。**要强隔离，用 Podman（本指南 §23.7）或 microVM（`microvm.nix`，非官方）。**
+
+**官方对两种创建方式的说明（原文）**：
+
+> *"NixOS containers can be created in two ways: **imperatively**, using the command `nixos-container`, and **declaratively**, by specifying them in your `configuration.nix`. **The declarative approach implies that containers get upgraded along with your host system when you run `nixos-rebuild`, which is often not what you want.** By contrast, in the imperative approach, containers are configured and updated independently from the host system."*
+
+> [!IMPORTANT]
+> **「declarative 会跟着宿主一起升级」这一点是关键权衡。**
+>
+> | | 声明式 | 命令式 |
+> |---|---|---|
+> | 配置在哪 | `configuration.nix` | `/etc/nixos-containers/foo.conf` |
+> | 升级时机 | **跟着 `nixos-rebuild`** | 独立（`nixos-container update`） |
+> | 版本一致性 | ✅ 容器与宿主同版本 | ⚠️ 可能不一致 |
+> | 适合 | **想统一管理**（如自用服务） | **想独立升级**（如跑旧版数据库） |
+>
+> **本指南的建议**：**桌面用户基本不需要 NixOS 原生容器。** 你的两个真实需求是：
+> 1. **跑非 Nix 软件** → 用 **Distrobox**（§23.7）
+> 2. **跑 Android 应用** → 用 **Waydroid**（§23.12）
+>
+> **什么时候才需要本章**：你想在一台机器上跑**多个隔离的 NixOS 服务**（比如自建 Git 服务 + 数据库 + 反向代理，各自独立升级）。**那是服务器场景。**
+
+### 31.2 命令式管理：`nixos-container` 全集
+
+**官方原文（前置条件）**：
+
+> *"Be aware that **container management is currently only possible as root**, and that you need to enable `boot.enableContainers` explicitly."*
+
+```nix
+{ boot.enableContainers = true; }
+```
+
+> [!WARNING]
+> **`boot.enableContainers = true` 是必须的**，否则 `nixos-container` 命令会报错。**这是官方明确要求的前置条件**，不是可选项。
+
+**官方给的完整命令序列（逐字照抄）**：
+
+```bash
+# ── 创建 ──
+# nixos-container create foo
+
+# ── 创建时就带配置 ──
+# nixos-container create foo --config '
+  services.openssh.enable = true;
+  users.users.root.openssh.authorizedKeys.keys = ["ssh-dss AAAAB3N…"];
+'
+
+# ── 指定网络地址 ──
+# nixos-container create test --config-file test-container.nix \
+    --local-address 10.235.1.2 --host-address 10.235.1.1
+
+# ── 启动（create 不会自动启动）──
+# nixos-container start foo
+
+# ── 看状态 ──
+# systemctl status container@foo
+
+# ── 登录 ──
+# nixos-container root-login foo
+[root@foo:~]#
+
+# nixos-container login foo
+foo login: alice
+Password: ***
+
+# ── 在容器里跑命令 ──
+# nixos-container run foo -- uname -a
+Linux foo 3.4.82 #1-NixOS SMP Thu Mar 20 14:44:05 UTC 2014 x86_64 GNU/Linux
+
+# ── 更新配置 ──
+# nixos-container update foo
+# nixos-container update foo --config '
+  services.httpd.enable = true;
+  services.httpd.adminAddr = "foo@example.org";
+  networking.firewall.allowedTCPPorts = [ 80 ];
+'
+
+# ── 停/启 ──
+# nixos-container stop foo
+# nixos-container start foo
+
+# ── 销毁（含文件系统）──
+# nixos-container destroy foo
+```
+
+**官方给的路径信息（原文）**：
+
+> *"This creates the container's root directory in **`/var/lib/nixos-containers/foo`** and a small configuration file in **`/etc/nixos-containers/foo.conf`**. It also builds the container's initial system configuration and stores it in **`/nix/var/nix/profiles/per-container/foo/system`**."*
+
+> *"By default the next free address in the **`10.233.0.0/16`** subnet will be chosen as container IP."*
+
+> *"On the host, the container runs within a systemd unit called **`container@container-name.service`**."*
+
+> *"Note that **only root on the host** can do [`root-login`] (since there is no authentication)."*
+
+**官方的配置修改提醒（原文）**：
+
+> *"First, on the host, you can edit `/var/lib/nixos-containers/foo/etc/nixos/configuration.nix`, and run `nixos-container update foo`... **However, note that this will overwrite the container's `/etc/nixos/configuration.nix`.**"*
+
+> *"Alternatively, you can change the configuration from within the container itself by running `nixos-rebuild switch` inside the container. **Note that the container by default does not have a copy of the NixOS channel, so you should run `nix-channel --update` first.**"*
+
+### 31.3 声明式容器（官方 `sec-declarative-containers`）
+
+**官方原文**：
+
+> *"You can also specify containers and their configuration in the host's `configuration.nix`."*
+
+```nix
+{
+  containers.database = {
+    config =
+      { config, pkgs, ... }:
+      {
+        services.postgresql.enable = true;
+        services.postgresql.package = pkgs.postgresql_14;
+      };
+  };
+}
+```
+
+> *"If you run `nixos-rebuild switch`, the container will be built. **If the container was already running, it will be updated in place, without rebooting.** The container can be configured to start automatically by setting `containers.database.autoStart = true` in its configuration."*
+
+**官方给的网络配置**：
+
+```nix
+{
+  containers.database = {
+    privateNetwork = true;
+    hostAddress = "192.168.100.10";
+    localAddress = "192.168.100.11";
+  };
+}
+```
+
+> *"This gives the container a **private virtual Ethernet interface** with IP address `192.168.100.11`, which is hooked up to a virtual Ethernet interface on the host with IP address `192.168.100.10`."*
+
+**官方的删除说明（原文）**：
+
+> *"To disable the container, just remove it from `configuration.nix` and run `nixos-rebuild switch`. **Note that this will not delete the root directory of the container in `/var/lib/nixos-containers`.** Containers can be destroyed using the imperative method: `nixos-container destroy foo`."*
+
+> *"Declarative containers can be started and stopped using the corresponding systemd service, e.g. `systemctl start container@database`."*
+
+> [!IMPORTANT]
+> **「声明式删掉容器 ≠ 数据被删」是一个重要细节。**
+>
+> **行为**：从 `configuration.nix` 里删掉 `containers.database` → rebuild → 容器**停止并从 systemd 里消失** → 但 **`/var/lib/nixos-containers/database` 还在**（占着磁盘）。
+>
+> **正确清理步骤**：
+> 1. 从配置里删掉
+> 2. `nixos-rebuild switch`
+> 3. **`sudo nixos-container destroy database`**（或在确认不要数据后手动 `rm -rf`）
+>
+> **这和 NixOS 的一贯哲学一致**：**声明式管理「配置」，不管理「数据」。** 数据删除永远是显式的。
+
+**本指南补充的「跑一个自用服务」完整模板**：
+
+```nix
+{ config, pkgs, ... }:
+{
+  # 前置条件
+  boot.enableContainers = true;
+
+  # 声明式容器
+  containers.myservice = {
+    autoStart = true;                 # 开机自启
+    privateNetwork = true;            # 独立网络命名空间
+    hostAddress = "10.100.0.1";
+    localAddress = "10.100.0.2";
+
+    # 端口转发（宿主 8080 → 容器 80）
+    forwardPorts = [
+      { containerPort = 80; hostPort = 8080; protocol = "tcp"; }
+    ];
+
+    config = { config, pkgs, ... }: {
+      services.nginx = {
+        enable = true;
+        virtualHosts."localhost".root = "/var/www";
+      };
+      system.stateVersion = "26.05";   # ⚠️ 容器内也要写
+    };
+  };
+
+  # 宿主侧：NAT 让容器能出网（见 §31.4）
+  networking.nat = {
+    enable = true;
+    internalInterfaces = [ "ve-+" ];
+    externalInterface = "enp4s0";      # ← 换成你的有线网卡名
+  };
+}
+```
+
+> [!WARNING]
+> **`system.stateVersion` 在容器配置里也必须写。** 这是最容易漏的一条 —— 漏了会得到「`system.stateVersion` is not set」的求值警告/错误。
+
+### 31.4 容器网络与 NAT（官方 `sec-container-networking`）
+
+**官方原文**：
+
+> *"When you create a container using `nixos-container create`, it gets its own private IPv4 address in the range **`10.233.0.0/16`**."*
+
+```bash
+# nixos-container show-ip foo
+10.233.4.2
+
+$ ping -c1 10.233.4.2
+64 bytes from 10.233.4.2: icmp_seq=1 ttl=64 time=0.106 ms
+```
+
+> *"Networking is implemented using **a pair of virtual Ethernet devices**. The network interface **in the container is called `eth0`**, while **the matching interface in the host is called `ve-container-name`** (e.g., `ve-foo`)."*
+
+> *"The container has its **own network namespace** and the **`CAP_NET_ADMIN` capability**, so it can perform arbitrary network configuration such as setting up firewall rules, **without affecting or having access to the host's network**."*
+
+**官方的 NAT 配置（原文）**：
+
+> *"**By default, containers cannot talk to the outside network.** If you want that, you should set up Network Address Translation (NAT) rules on the host to rewrite container traffic to use your external IP address."*
+
+```nix
+{
+  networking.nat.enable = true;
+  networking.nat.internalInterfaces = [ "ve-+" ];
+  networking.nat.externalInterface = "eth0";
+}
+```
+
+> *"where `eth0` should be replaced with the desired external interface. **Note that `ve-+` is a wildcard that matches all container interfaces.**"*
+
+**官方的 NetworkManager 提醒（原文）**：
+
+```nix
+{ networking.networkmanager.unmanaged = [ "interface-name:ve-*" ]; }
+```
+
+> *"If you are using Network Manager, you need to explicitly prevent it from managing container interfaces... You may need to restart your system for the changes to take effect."*
+
+> [!IMPORTANT]
+> **`networking.networkmanager.unmanaged = [ "interface-name:ve-*" ];` 这一条对你特别重要** —— 因为你按本指南第四章用的是 **NetworkManager**。
+>
+> **不加会怎样**：NetworkManager 会尝试「管理」`ve-foo` 这些虚拟接口，可能给它们乱配 IP / 路由 → **容器网络时通时不通**。
+>
+> **注意通配符写法是 `interface-name:ve-*`**（NetworkManager 的语法），不是 `ve-+`（那是 nftables/iptables 的语法）。**两者不要混用。**
+
+**本指南补充的诊断命令**：
+
+```bash
+# 看容器 IP
+sudo nixos-container show-ip foo
+
+# 看虚拟接口
+ip link show type veth
+ip -br addr | grep ve-
+
+# 从宿主 ping 容器
+ping -c1 $(sudo nixos-container show-ip foo)
+
+# 从容器 ping 外网（需先配 NAT）
+sudo nixos-container run foo -- ping -c1 1.1.1.1
+
+# 看 NAT 规则
+sudo nft list ruleset | grep -A5 nat
+```
+
+### 31.5 与 Distrobox / Waydroid / Podman 的分工
+
+**把本指南散落在各章的「容器类方案」汇总成一张表**：
+
+| 方案 | 里面跑什么 | 隔离强度 | 解决什么问题 | 本指南位置 |
+|---|---|---|---|---|
+| **NixOS 原生容器** | 另一个 NixOS | ⚠️ **不完全**（官方警告） | 隔离的 **NixOS 服务** | 本章 |
+| **Distrobox** | 任意发行版 | 标准（Podman/Docker） | **非 Nix 的软件与依赖** | §23.7、§25.5.13 |
+| **Waydroid** | Android | LXC + binder | **Android 应用** | §23.12 |
+| **Podman / Docker** | 任意镜像 | 标准 | 通用容器 | §23.7 |
+| **`systemd-nspawn`** | 任意 | 中 | 底层工具（NixOS 容器基于它） | — |
+| **microVM**（`microvm.nix`，非官方） | 完整内核 | **最强** | 强隔离 | — |
+
+> [!TIP]
+> **一句话选型**：
+> - **跑非 Nix 软件（依赖问题）** → **Distrobox**（§25.5.13）
+> - **跑 Android 应用** → **Waydroid**（§23.12）
+> - **跑自己的 NixOS 服务、想隔离** → **本章的 `containers.*`**
+> - **要强隔离跑不可信代码** → **microVM**（需第三方 flake）
+>
+> **本指南的立场**：**桌面用户 95% 的场景用前两个就够了。** 本章主要是补全官方结构，并解释「NixOS 原生容器为什么不能当 Docker 用」。
+
+> [!NOTE]
+> **为什么 NixOS 容器「不完全隔离」—— 技术原因（本指南推断，`[未核实]`）**
+>
+> 从官方描述可以推断出至少三个原因：
+> 1. **共享 Nix store** —— 容器和宿主读同一份 `/nix/store`。虽然 store 是只读的，但**写入 `/nix/var/nix` 的数据库和 profile 是共享的**。
+> 2. **`CAP_NET_ADMIN`** —— 官方明确说容器有这个 capability。
+> 3. **没有 user namespace 映射** —— 容器 root 就是 uid 0，不是映射到宿主的高位 uid。
+>
+> **⚠️ 这是推断，不是官方声明。** 官方只说「not perfectly isolated」，没解释原因。**用之前请自己评估风险。**
+
+### 31.6 五个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 把 NixOS 容器当 Docker 用（跑不可信代码） | **官方明确警告**：容器 root 能影响宿主 | 用 Podman / microVM |
+| 2 | 忘了 `boot.enableContainers = true` | `nixos-container` 命令报错 | 显式开启 |
+| 3 | 用 NetworkManager 不管 `ve-*` | 容器网络时通时不通 | `unmanaged = [ "interface-name:ve-*" ]` |
+| 4 | 声明式删容器后不 `destroy` | 磁盘被静默占用 | `nixos-container destroy <name>` |
+| 5 | 容器配置里漏 `system.stateVersion` | 求值警告/失败 | 容器 `config` 里也要写 |
+
+> [!TIP]
+> **本章的一句话总结**：**NixOS 原生容器是「服务隔离」工具，不是「软件兼容」工具。** 你要的是后者 → 去 §25.5.13 看 Distrobox。
+
+---
+
+---
+
+## 三十二、图形栈：Wayland 与 GPU 加速三件套（官方 `sec-wayland` / `sec-gpu-accel`）
+
+本章补的是官方手册 **Part II** 的 `sec-wayland`、`sec-gpu-accel`、`sec-gpu-accel-opencl`、`sec-gpu-accel-vulkan`、`sec-gpu-accel-va-api`、`sec-gpu-accel-common-issues`。
+
+**为什么这一章值得单独写**：本指南第三章讲了 AMD 显卡的**基础**配置（`hardware.graphics.enable`），但那只是「能出画面」。**这一章补的是「硬件加速到底有没有在工作」** —— 包括 Blender（OpenCL）、游戏（Vulkan）、视频解码（VA-API）三个真实场景。
+
+> [!IMPORTANT]
+> **本章与你最相关的一条**：官方在 `sec-gpu-accel-common-issues` 里明确警告 **ICD loader 与 runtime 来自不同 nixpkgs 版本会静默失败**。
+>
+> **这直接关系到本指南第二十章的「混合版本策略」** —— 如果你只把 mesa 滚到 unstable 而 rest 留在 stable，**Vulkan 可能静默不工作**。
+
+### 32.1 Wayland（官方 `sec-wayland`）
+
+**官方原文（逐句）**：
+
+> *"While X11 (see X Window System) is still the primary display technology on NixOS, **Wayland support is steadily improving**. Where X11 separates the X Server and the window manager, on Wayland those are combined: **a Wayland Compositor is like an X11 window manager, but also embeds the Wayland 'Server' functionality**. This means it is sufficient to install a Wayland Compositor such as sway without separately enabling a Wayland server:"*
+
+```nix
+{ programs.sway.enable = true; }
+```
+
+> *"This installs the sway compositor along with some essential utilities. Now you can start sway from the TTY console."*
+
+> *"**If you are using a wlroots-based compositor, like sway, and want to be able to share your screen, make sure to configure Pipewire using `services.pipewire.enable` and related options.**"*
+
+> [!IMPORTANT]
+> **官方那句「X11 is still the primary display technology on NixOS」是 26.05 的官方立场。**
+>
+> **对你的实际含义**：
+>
+> | 桌面 | 26.05 默认会话 | 你需要做什么 |
+> |---|---|---|
+> | **KDE Plasma 6** | Wayland（**已是默认**） | 无需额外配置 |
+> | **GNOME 50** | Wayland（**已是默认**） | 无需额外配置 |
+> | sway / Hyprland | Wayland（唯一选项） | `programs.sway.enable = true;` |
+> | Xfce | X11 | — |
+>
+> **所以：你按本指南第六章配 GNOME 或 KDE，就已经在 Wayland 上了。** 官方手册这一节主要是为「用 wlroots 合成器（sway 等）」的人准备的。
+>
+> **唯一需要你做的**：**确保 PipeWire 开着**（屏幕共享）。本指南第六章的配置已包含，但这里给出官方理由。
+
+**屏幕共享的完整前置条件（本指南综合官方 + 社区）**：
+
+```nix
+{
+  # 1. PipeWire（官方明确要求）
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  # 2. xdg-desktop-portal（Wayland 屏幕共享的实际实现者）
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk        # GTK 应用
+      # KDE 用户加这个：
+      # xdg-desktop-portal-kde
+    ];
+  };
+}
+```
+
+> [!TIP]
+> **本指南 §7.2（Flatpak）已经强调过 `xdg.portal.enable`** —— 因为 `services.flatpak` 有硬断言要求它。**这里补上「它还是 Wayland 屏幕共享的前置条件」。**
+>
+> **验证**：
+> ```bash
+> echo $XDG_SESSION_TYPE        # 应为 wayland
+> systemctl --user status pipewire
+> journalctl --user -u xdg-desktop-portal -n 20
+> ```
+
+### 32.2 OpenCL（AMD = `rocmPackages.clr.icd`）
+
+**官方定义（原文）**：
+
+> *"OpenCL is a general compute API. It is used by various applications such as **Blender and Darktable** to accelerate certain operations."*
+
+**官方对机制的说明（原文）**：
+
+> *"OpenCL applications load drivers through the **Installable Client Driver (ICD)** mechanism. In this mechanism, an ICD file specifies the path to the OpenCL driver for a particular GPU family. **In NixOS, there are two ways to make ICD files visible to the ICD loader.**"*
+
+**路 1：环境变量 `OCL_ICD_VENDORS`**
+
+```bash
+$ export \
+  OCL_ICD_VENDORS=`nix-build '<nixpkgs>' --no-out-link -A rocmPackages.clr.icd`/etc/OpenCL/vendors/
+```
+
+**路 2（官方推荐）：`hardware.graphics.extraPackages`**
+
+> *"The second mechanism is to add the OpenCL driver package to `hardware.graphics.extraPackages`. This **links the ICD file under `/run/opengl-driver`**, where it will be visible to the ICD loader."*
+
+**官方给的 AMD 配置（原文）**：
+
+```nix
+{ hardware.graphics.extraPackages = [ rocmPackages.clr.icd ]; }
+```
+
+> *"Modern AMD **Graphics Core Next (GCN)** GPUs are supported through the `rocmPackages.clr.icd` package."*
+
+**官方的验证命令（原文）**：
+
+```bash
+$ clinfo | head -n3
+Number of platforms  1
+Platform Name        AMD Accelerated Parallel Processing
+Platform Vendor      Advanced Micro Devices, Inc.
+```
+
+> [!TIP]
+> **`clinfo` 的输出你要会读**：
+>
+> | 字段 | 期望值（你的 AMD 卡） |
+> |---|---|
+> | `Number of platforms` | **≥ 1**（0 = 没装上） |
+> | `Platform Name` | `AMD Accelerated Parallel Processing` |
+> | `Platform Vendor` | `Advanced Micro Devices, Inc.` |
+> | `Device Name` | 你的显卡型号（如 `AMD Radeon RX 7900 XTX`） |
+> | `Device Version` | OpenCL 版本（如 `OpenCL 2.1`） |
+>
+> **`Number of platforms 0`** → ICD 文件没被找到 → 检查 `hardware.graphics.extraPackages` 和 `/run/opengl-driver/etc/OpenCL/vendors/`。
+
+> [!IMPORTANT]
+> **`rocmPackages.clr.icd` 与「完整 ROCm」的区别**：
+>
+> - **`rocmPackages.clr.icd`** = **只需要 OpenCL 运行时**（Blender / Darktable 用）—— **小，装这个**
+> - **完整 ROCm**（`rocmPackages.rocm-runtime` + 一堆库）= 需要跑 PyTorch / TensorFlow 的 GPU 加速 —— **大（数 GB）**
+>
+> **官方只推荐 `clr.icd`**，因为官方文档假设你用 OpenCL 应用。**如果你要跑 AI 训练**，看本指南 §3.4（`hardware.amdgpu.opencl.enable`）。
+>
+> **验证「OpenCL 到底有没有用上 GPU」**：
+> ```bash
+> # Blender：Edit → Preferences → System → 看 Compute Device 能否选到你的 GPU
+> # Darktable：darktable -d opencl
+> clinfo | grep -E 'Device Name|Max compute units'
+> ```
+
+### 32.3 Vulkan（AMD = RADV / Mesa）
+
+**官方定义（原文）**：
+
+> *"Vulkan is a graphics and compute API for GPUs. **It is used directly by games or indirectly through compatibility layers like DXVK.**"*
+
+**官方对默认行为的说明（原文，非常重要）**：
+
+> *"**By default, if `hardware.graphics.enable` is enabled, Mesa is installed and provides Vulkan for supported hardware.**"*
+
+> *"Similar to OpenCL, Vulkan drivers are loaded through the **Installable Client Driver (ICD)** mechanism. ICD files for Vulkan are **JSON files** that specify the path to the driver library and the supported Vulkan version. **All successfully loaded drivers are exposed to the application as different GPUs.**"*
+
+> *"In NixOS, there are two ways to make ICD files visible to Vulkan applications: an environment variable and a module option. The way to do this is to add the Vulkan driver package to `hardware.graphics.extraPackages`. This links the ICD file under `/run/opengl-driver`."*
+
+**官方给的验证命令与输出（原文）**：
+
+```bash
+$ vulkaninfo | grep GPU
+                GPU id  : 0 (Unknown AMD GPU)
+                GPU id  : 1 (AMD RADV NAVI10 (LLVM 9.0.1))
+     ...
+GPU0:
+        deviceType     = PHYSICAL_DEVICE_TYPE_DISCRETE_GPU
+        deviceName     = Unknown AMD GPU
+GPU1:
+        deviceType     = PHYSICAL_DEVICE_TYPE_DISCRETE_GPU
+```
+
+> *"A simple graphical application that uses Vulkan is **`vkcube`** from the `vulkan-tools` package."*
+
+**官方给的 AMD 结论（原文）**：
+
+> *"Modern AMD **Graphics Core Next (GCN)** GPUs are supported through the **RADV driver, which is part of mesa**."*
+
+> [!IMPORTANT]
+> **对 AMD 用户最重要的一句话：Vulkan 驱动（RADV）就在 Mesa 里，`hardware.graphics.enable = true` 就自动有了。**
+>
+> **所以你不需要**：
+> - ❌ 装 `amdvlk`（那是 AMD 官方驱动，RADV 通常更快）
+> - ❌ 手动配 ICD
+> - ❌ 加任何 `extraPackages`
+>
+> **你只需要**：确认 `hardware.graphics.enable = true`（本指南 §3.3 已强调这是**必须手写**的，因为默认是 `false`）。
+>
+> **注意官方示例里的 `Unknown AMD GPU`** —— 那不是错误。`vulkaninfo | grep GPU` 的输出**混杂了多个平台的设备**，第一行可能是某个 loader 的占位符。**看 `GPU1: deviceName` 或跑完整 `vulkaninfo` 看 `GPU id` 段。**
+
+**验证 Vulkan 是否真的在用 GPU**：
+
+```bash
+# 1. 基础验证
+vulkaninfo --summary | head -40
+
+# 2. 图形验证（会弹一个小窗口转动的立方体）
+vkcube
+
+# 3. 游戏场景（Steam）
+#    Steam → 游戏 → 属性 → 启动选项加：
+#    DXVK_HUD=fps,devinfo %command%
+#    然后看屏幕上是否有 HUD 叠加
+
+# 4. 确认没有落到软件渲染
+vulkaninfo | grep -iE 'llvmpipe|lavapipe'
+# ↑ 有输出 = 在用 CPU 软件渲染，不正常
+```
+
+> [!DANGER]
+> **`llvmpipe` / `lavapipe` 出现在 Vulkan 设备列表里 = 你在用 CPU 软渲染。**
+>
+> **典型症状**：游戏能跑但**帧数极低**（个位数）、`glxinfo` 显示 `llvmpipe`。
+>
+> **最常见原因**（按概率排序）：
+> 1. **`hardware.graphics.enable` 没开**（本指南 §3.3 反复强调）→ `nixos-option hardware.graphics.enable` 验证
+> 2. **用户不在 `video` / `render` 组**（见 §32.5）
+> 3. **Mesa 与内核 `libdrm` ABI 不匹配**（本指南第二十章「只滚 mesa」的风险，官方在 §32.6 有对应警告）
+
+### 32.4 VA-API（视频硬件解码）
+
+**官方定义（原文）**：
+
+> *"VA-API (Video Acceleration API) is an open-source library and API specification, which provides access to **graphics hardware acceleration capabilities for video processing**."*
+
+> *"VA-API drivers are loaded by `libva`. **The version in nixpkgs is built to search the opengl driver path, so drivers can be installed in `hardware.graphics.extraPackages`.**"*
+
+**官方的验证命令（原文）**：
+
+```bash
+$ nix-shell -p libva-utils --run vainfo
+```
+
+> [!IMPORTANT]
+> **注意官方这一节只给了 Intel 的配置**（`intel-media-driver` / `intel-vaapi-driver`）—— **因为 AMD 的 VA-API 驱动也在 Mesa 里，不需要 `extraPackages`。**
+>
+> **所以 AMD 用户**：`hardware.graphics.enable = true` 就够了。**本指南 §3.5 已给出 `vainfo` 验证流程。**
+
+**`vainfo` 输出的关键字段**：
+
+| 字段 | 期望值（AMD） | 含义 |
+|---|---|---|
+| `Driver version` | `Mesa ... ` | 用的是 Mesa（✅ 对） |
+| `vainfo: Driver version` | 含 `radeonsi` | **AMD 的正确驱动名** |
+| `VAProfileH264...` | `VAEntrypointVLD` | 支持 H.264 解码 |
+| `VAProfileHEVC...` | `VAEntrypointVLD` | 支持 H.265 解码 |
+| `VAProfileAV1...` | `VAEntrypointVLD` | **支持 AV1 解码（新卡才有）** |
+
+> [!TIP]
+> **`VAEntrypointVLD` = 硬件解码（Video LD）**。**你要看到的就是这个。**
+>
+> **如果只有 `VAEntrypointEncSlice` 没有 `VLD`** → 只支持编码不支持解码（很少见）。
+>
+> **浏览器验证**：
+> - **Firefox**：`about:support` → 搜 `VA-API` → 看 `Hardware Decoding` 是否为 `available` / `enabled`
+> - **Chromium**：`chrome://gpu` → 看 `Video Decode` 是否为 `Hardware accelerated`
+>
+> **播放器验证**：
+> ```bash
+> # mpv（最直接）
+> mpv --hwdec=auto-safe video.mp4      # 播放时按 i 看 hwdec 状态
+> ```
+
+### 32.5 用户权限（官方 `sec-gpu-accel-common-issues` 第一节）
+
+**官方原文**：
+
+> *"Except where noted explicitly, **it should not be necessary to adjust user permissions** to use these acceleration APIs. In the default configuration, **GPU devices have world-read/write permissions (`/dev/dri/renderD*`) or are tagged as `uaccess` (`/dev/dri/card*`)**. The access control lists of devices with the `uaccess` tag will be **updated automatically when a user logs in through `systemd-logind`**."*
+
+**官方给的验证命令（原文）**：
+
+```bash
+$ getfacl /dev/dri/card0
+# file: dev/dri/card0
+# owner: root
+# group: video
+user::rw-
+user:alice:rw-          # ← 登录后自动加上的 ACL
+group::rw-
+mask::rw-
+other::---
+```
+
+> *"**If you disabled (this functionality of) `systemd-logind`, you may need to add the user to the `video` group and log in again.**"*
+
+> [!IMPORTANT]
+> **「默认不需要改权限」是官方的明确结论 —— 这也是 NixOS 比很多发行版省事的地方。**
+>
+> **但有两个例外（本指南补充）**：
+> 1. **你禁用了 `systemd-logind` 的 uaccess**（罕见）→ 加 `video` 组
+> 2. **你在容器 / 远程会话里**（如 SSH 里跑 GPU 程序）→ uaccess ACL **不会自动加**（因为不是「本地登录」）→ 需要 `render` / `video` 组
+>
+> **对 agent 用户的实际意义**：**如果 agent 要跑 GPU 程序（如用 GPU 做推理），必须把 agent 用户加进 `render` 组** —— 因为 agent 不是「本地登录用户」，拿不到 uaccess ACL。
+>
+> ```nix
+> { users.users.hermes.extraGroups = [ "render" "video" ]; }
+> ```
+
+### 32.6 ★ ICD 混版本的静默失败（官方明确警告）
+
+**官方原文（逐字，本节最重要的一段）**：
+
+> *"The **Installable Client Driver (ICD) mechanism used by OpenCL and Vulkan loads runtimes into its address space using `dlopen`. Mixing an ICD loader mechanism and runtimes from different version of nixpkgs may not work.** For example, if the ICD loader uses an older version of glibc than the runtime, the runtime may not be loadable due to missing symbols. **Unfortunately, the loader will generally be quiet about such issues.**"*
+
+> *"If you suspect that you are running into library version mismatches between an ICL loader and a runtime, you could run an application with the `LD_DEBUG` variable set to get more diagnostic information. For example, **OpenCL can be tested with `LD_DEBUG=files clinfo`**, which should report missing symbols."*
+
+> [!DANGER]
+> **这条官方警告直接关系到本指南第二十章的「混合版本策略」，必须重视。**
+>
+> **问题**：ICD 机制用 **`dlopen`** 加载驱动。`dlopen` 是**运行时**动态加载 —— 它**不受 Nix 的构建期依赖追踪保护**。
+>
+> **所以**：
+> - 你的 **loader**（如 `libvulkan`）来自 **stable 的 nixpkgs**
+> - 你的 **runtime**（如 `mesa` / `rocm`）来自 **unstable 的 nixpkgs**
+> - 两者的 **glibc 版本不同** → `dlopen` 时**找不到符号** → **驱动加载失败**
+>
+> **最恶劣的地方**：*"the loader will generally be quiet about such issues"* —— **不报错，只是不工作**。你会看到「Vulkan 设备列表里没有独显」或「clinfo 报 0 个平台」，但**没有任何错误信息**。
+>
+> **对第二十章「路 C：只把 mesa 滚到 unstable」的具体风险**：
+>
+> | 你滚了什么 | 风险 |
+> |---|---|
+> | 只滚 `mesa`（含 RADV） | ⚠️ **中**：`libvulkan` loader 与 mesa 的 glibc 可能不同 → RADV 静默加载失败 |
+> | 滚 `mesa` + `vulkan-loader` | ✅ **低**：两者同源 |
+> | 滚 `mesa` + `vulkan-loader` + `libdrm` + `libva` | ✅ **最低**：整条链同源 |
+> | **只滚内核** | ✅ **无风险**（内核不参与 `dlopen`） |
+>
+> **本指南修正建议**：
+> ```nix
+> # 如果只滚 mesa，把这些一起滚（同源）
+> _module.args.pkgsUnstable = import nixpkgs-unstable { inherit system; ... };
+>
+> hardware.graphics.extraPackages = with config._module.args.pkgsUnstable; [
+>   mesa
+>   vulkan-loader
+>   libva
+>   libdrm
+> ];
+> ```
+> **或者更简单**：**不要只滚 mesa**，改为**只滚内核 + Flatpak 里的应用**（本指南 §24.6 路 C 的修正版）。
+
+**诊断命令（本指南补充官方给的 `LD_DEBUG`）**：
+
+```bash
+# OpenCL：官方给的命令
+LD_DEBUG=files clinfo 2>&1 | grep -iE 'error|not found|cannot'
+
+# Vulkan
+LD_DEBUG=files vulkaninfo 2>&1 | grep -iE 'error|not found|cannot'
+
+# 看 loader 找到了哪些 ICD
+ls -la /run/opengl-driver/share/vulkan/icd.d/
+ls -la /run/opengl-driver/etc/OpenCL/vendors/
+cat /run/opengl-driver/share/vulkan/icd.d/*.json
+
+# 对比 glibc 版本（关键诊断）
+ldd $(readlink -f $(which clinfo)) | grep libc
+strings /run/opengl-driver/lib/libvulkan.so.1 2>/dev/null | grep -i glibc
+```
+
+> [!TIP]
+> **「`ldd` 对比 glibc」这一招能直接看出官方说的那个问题。**
+>
+> 如果 loader 和 runtime 链接的 `libc.so.6` **路径不同**（一个在 stable 的 store path，一个在 unstable 的 store path）→ **就是官方警告的那个场景**。
+
+### 32.7 AMD 完整验证清单（本指南整合）
+
+**把本指南散落的验证命令汇总成一份「一次性体检」**：
+
+```bash
+#!/usr/bin/env bash
+# AMD 图形栈完整体检
+echo "===== 1. 内核驱动 ====="
+lspci -k | grep -A3 -iE 'vga|3d'          # 期望: Kernel driver in use: amdgpu
+
+echo "===== 2. DRM 设备 ====="
+ls -la /dev/dri/                            # 期望: card0, renderD128
+getfacl /dev/dri/card0 2>/dev/null | grep "^user:"
+
+echo "===== 3. Mesa / OpenGL ====="
+nix-shell -p mesa-demos --run glxinfo | grep -E 'OpenGL renderer|OpenGL version'
+# 期望: OpenGL renderer string: AMD Radeon ... (不是 llvmpipe)
+
+echo "===== 4. Vulkan ====="
+nix-shell -p vulkan-tools --run vulkaninfo --summary 2>/dev/null | grep -E 'deviceName|driverName'
+# 期望: RADV, 不是 lavapipe
+
+echo "===== 5. VA-API ====="
+nix-shell -p libva-utils --run vainfo 2>/dev/null | grep -E 'Driver version|VAProfileH264|VAProfileAV1'
+
+echo "===== 6. OpenCL ====="
+nix-shell -p clinfo --run clinfo 2>/dev/null | head -3
+# 期望: Number of platforms 1, AMD Accelerated Parallel Processing
+
+echo "===== 7. 会话类型 ====="
+echo "XDG_SESSION_TYPE=$XDG_SESSION_TYPE"   # 期望: wayland
+loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type
+
+echo "===== 8. 硬件加速是否在用（浏览器）====="
+echo "Firefox: about:support → 搜 'VA-API' 与 'Compositing'"
+```
+
+> [!TIP]
+> **把这段存成 `~/bin/amd-check.sh` 并 `chmod +x`。** 每次系统大更新后跑一次 —— **它能在 30 秒内告诉你「图形栈有没有坏」**，比游戏里才发现帧数不对好得多。
+
+**结果对照表**：
+
+| 检查项 | ✅ 正常 | ❌ 异常 | 去本指南 |
+|---|---|---|---|
+| `lspci -k` | `amdgpu` | `radeon` / 空 | §3.2 |
+| `glxinfo` renderer | AMD 型号 | `llvmpipe` | §3.3（`hardware.graphics.enable`） |
+| `vulkaninfo` | RADV | lavapipe / 无 | §32.3、§32.6 |
+| `vainfo` | `radeonsi` + `VLD` | 报错 | §3.5、§32.4 |
+| `clinfo` | 1 platform | 0 platforms | §32.2 |
+| `$XDG_SESSION_TYPE` | `wayland` | `x11`（KDE/GNOME 下异常） | §6.2、§32.1 |
+
+### 32.8 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 装了 `amdvlk` 期望更快 | 通常比 RADV 慢，且可能冲突 | AMD 用 Mesa 的 RADV |
+| 2 | 只滚 `mesa` 到 unstable | **Vulkan 静默失效**（官方警告） | 连同 `vulkan-loader`/`libdrm` 一起滚 |
+| 3 | agent 用户不加 `render` 组 | agent 跑 GPU 程序拿不到设备 | `extraGroups = [ "render" "video" ]` |
+| 4 | 看到 `llvmpipe` 不管 | 游戏/视频全程软渲染，CPU 打满 | 按 §32.7 逐项排查 |
+| 5 | 忘了 `xdg.portal` | Wayland 下**无法共享屏幕** | 见 §32.1 |
+| 6 | 用 `vulkaninfo \| grep GPU` 看第一行 | 第一行可能是占位符 | 看 `--summary` 或 `deviceName` |
+
+> [!TIP]
+> **本章的一句话总结**：
+> **AMD 用户的图形栈「开箱即对」—— 前提是 `hardware.graphics.enable = true`（默认是 false）。** 剩下所有问题几乎都来自两件事：**权限**（agent/容器场景）和**混版本**（只滚 mesa）。
+
+---
+
+---
+
+## 三十三、内核、引导与「系统切换」的内部机制（官方 Part II + Part IV）
+
+本章补的是官方手册 **Part II** 的 `sec-kernel-config` / `sec-linux-config-customizing`，以及 **Part IV** 的 `sec-switching-systems` / `sec-unit-handling` / `sec-activation-script` / `sec-non-switchable-system` / `sec-etc-overlay` / `sec-bootspec`。
+
+**为什么这一章值得单独写**：本指南第十一、十四章讲了「怎么升级内核」「怎么换调度器」，但从没讲**「`nixos-rebuild switch` 到底做了什么」**。不理解这一步，你读不懂 `nixos-rebuild` 的输出，也读不懂报错。
+
+### 33.1 `boot.kernelPackages` 与官方的一条硬规则
+
+**官方原文**：
+
+> *"You can override the Linux kernel and associated packages using the option `boot.kernelPackages`."*
+
+```nix
+{ boot.kernelPackages = pkgs.linuxKernel.packages.linux_3_10; }
+```
+
+> *"Note that this **not only replaces the kernel, but also packages that are specific to the kernel version, such as the NVIDIA video drivers**. This ensures that driver packages are consistent with the kernel."*
+
+> *"While `pkgs.linuxKernel.packages` contains all available kernel packages, you may want to use one of the **unversioned `pkgs.linuxPackages_*` aliases such as `pkgs.linuxPackages_latest`**, that are kept up to date with new versions."*
+
+> [!IMPORTANT]
+> **第一句对你很重要**：`boot.kernelPackages` **不只是换内核**，它还换**所有依赖内核版本的包**（NVIDIA 驱动、树外模块、ZFS 等）。
+>
+> **这对 AMD 用户意味着什么**：**你几乎没有「内核相关包」** —— amdgpu 在主线内核里，Mesa 不依赖内核版本。**所以换内核对你风险很低**（这是本指南反复强调的 AMD 优势）。
+>
+> **但有一条例外**：如果你装了 `r8168`（Realtek 树外驱动）或 `virtualboxGuestAdditions`，**它们会跟着内核换版本**。本指南第四章建议用内核自带的 `r8169`，正是为了避开这个。
+
+**★ 官方的「内核会被移除」规则（原文，逐字，这一段非常实用）**：
+
+> *"Please note that **the current convention in NixOS is to only keep actively maintained kernel versions on both unstable and the currently supported stable release(s) of NixOS. This means that a non-longterm kernel will be removed after it's abandoned by the kernel developers, even on stable NixOS versions.** If you pin your kernel onto a non-longterm version, **expect your evaluation to fail as soon as the version is out of maintenance.**"*
+
+> *"A kernel will be removed from nixpkgs **when the first batch of stable kernels after the final release is published**. E.g. when 6.15.11 is the final release of the 6.15 series and is released together with 6.16.3 and 6.12.43, **it will be removed on the release of 6.16.4 and 6.12.44**. Custom kernel variants such as `linux-hardened` are also affected by this."*
+
+> *"**Longterm versions of kernels will be removed before the next stable NixOS that will exceed the maintenance period of the kernel version.**"*
+
+> [!DANGER]
+> **这一条是本轮发现的最实用的官方规则之一 —— 它解释了本指南第十四章的一个隐患。**
+>
+> **问题**：如果你写死了 `boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_15;`，**某天 `nixos-rebuild` 会突然报「属性不存在」**。
+>
+> **为什么**：上游内核开发者放弃 6.15 后，nixpkgs 会在**第一批新稳定内核发布时**删掉它。**即使你在 stable 分支上也会被删。**
+>
+> **官方给的解法**：**用不带版本号的别名**：
+>
+> | 写法 | 会不会被删 | 版本行为 |
+> |---|---|---|
+> | `pkgs.linuxPackages_latest` | ❌ 不会 | **跟随最新**（每次 update 可能跳大版本） |
+> | `pkgs.linuxPackages_zen` | ❌ 不会 | zen 分支，跟随上游 |
+> | `pkgs.linuxPackages`（默认） | ❌ 不会 | 26.05 的默认（当前 6.18） |
+> | `pkgs.linuxPackages_6_18` | ⚠️ **会**（6.18 停止维护后） | 锁定小版本 |
+> | `pkgs.linuxKernel.packages.linux_6_15` | ⚠️ **会** | 锁定具体版本 |
+>
+> **本指南第十四章的建议**：**用 `linuxPackages_zen` 或默认**，不要写死小版本号。**这一节给了官方理由。**
+
+**本指南补充：如何查一个内核版本的维护状态**：
+
+```bash
+# 看当前内核
+uname -r
+
+# 看 nixpkgs 里有哪些内核（以及是否还是别名）
+nix eval --raw nixpkgs#linuxPackages_latest.version
+nix eval --raw nixpkgs#linuxPackages_zen.version
+
+# 看内核官方维护状态
+# https://www.kernel.org/category/releases.html
+# Longterm / Stable / EOL 一目了然
+```
+
+### 33.2 看当前内核配置
+
+**官方原文**：
+
+> *"The default Linux kernel configuration should be fine for most users. You can see the configuration of your current kernel with the following command:"*
+
+```bash
+zcat /proc/config.gz
+```
+
+> [!TIP]
+> **`/proc/config.gz` 存在的前提是内核开了 `CONFIG_IKCONFIG_PROC`。** NixOS 的默认内核**开了**，所以这条命令可用。
+>
+> **常用查法**：
+> ```bash
+> # 某个特性是否编入
+> zcat /proc/config.gz | grep -E 'CONFIG_NTSYNC|CONFIG_SCHED_BORE|CONFIG_ANDROID_BINDER'
+>
+> # 对比本指南 §14.2 的说法
+> zcat /proc/config.gz | grep -E 'CONFIG_HZ|CONFIG_PREEMPT'
+> ```
+>
+> **本指南 §23.12 说过「NixOS 默认内核已编入 binder，装 Waydroid 不需要自定义内核」** —— 验证命令就是这一条：
+> ```bash
+> zcat /proc/config.gz | grep -E 'CONFIG_ANDROID_BINDER_IPC|CONFIG_ANDROID_BINDERFS'
+> # 期望: =y 而不是 =m 或 # CONFIG_... is not set
+> ```
+
+### 33.3 用 `extraConfig` 自定义内核
+
+**官方原文**：
+
+> *"If you want to change the kernel configuration, you can use the `packageOverrides` feature."*
+
+```nix
+{
+  nixpkgs.config.packageOverrides =
+    pkgs:
+    pkgs.lib.recursiveUpdate pkgs {
+      linuxKernel.kernels.linux_5_10 = pkgs.linuxKernel.kernels.linux_5_10.override {
+        extraConfig = ''
+          KGDB y
+        '';
+      };
+    };
+}
+```
+
+> *"`extraConfig` takes a list of Linux kernel configuration options, **one per line**. The name of the option should **not include the prefix `CONFIG_`**. The option value is typically **`y`, `n` or `m`** (to build something as a kernel module)."*
+
+**官方给的「用自定义内核」的接法**：
+
+```nix
+{ boot.kernelPackages = pkgs.linuxPackagesFor yourCustomKernel; }
+```
+
+> [!WARNING]
+> **自定义内核 = 每次内核更新都要本地编译（30 分钟到 2 小时，取决于 CPU）。**
+>
+> **对 AMD 游戏用户的实际建议**：
+> - **不要为了「性能」自定义内核** —— 本指南 §14.2 已给出结论：**编译期差异存在，但转化成可感知体验的证据不足**
+> - **只在「某个特性确实没编入」时才自定义**（如某个特殊硬件的驱动）
+> - **如果只是想换调度器** → 用 `linuxPackages_zen`（本指南 §14.3），**不要自己编**
+>
+> **`extraConfig` 的常见用途（本指南补充）**：
+> ```nix
+> extraConfig = ''
+>   # 打开某硬件的驱动
+>   CONFIG_...
+> '';
+> ```
+> **⚠️ 注意官方说「不要写 `CONFIG_` 前缀」** —— 所以上面那行如果照抄会错。正确写法是 `MY_OPTION y`。
+
+### 33.4 内核模块与 sysctl
+
+**官方原文（三种）**：
+
+```nix
+# 1. 强制加载模块（udev 通常会自动加载，这是「保险」）
+{
+  boot.kernelModules = [
+    "fuse"
+    "kvm-intel"
+    "coretemp"
+  ];
+}
+
+# 2. 早期就要用的模块（进 initrd）
+{ boot.initrd.kernelModules = [ "cifs" ]; }
+```
+
+> *"This causes the specified modules and their dependencies to be added to the **initial ramdisk**."*
+
+```nix
+# 3. 运行时内核参数
+{ boot.kernel.sysctl."net.ipv4.tcp_keepalive_time" = 120; }
+```
+
+> *"To see the available parameters, run `sysctl -a`."*
+
+> [!IMPORTANT]
+> **`boot.kernelModules` vs `boot.initrd.kernelModules` 的区别**：
+>
+> | | `boot.kernelModules` | `boot.initrd.kernelModules` |
+> |---|---|---|
+> | 加载时机 | 系统启动后（udev 阶段） | **initrd 阶段**（挂根文件系统之前） |
+> | 什么时候需要 | udev 没自动加载（罕见） | **根文件系统在该模块之上**（如 CIFS / NFS 根、LUKS 的特殊算法） |
+> | 代价 | 无 | **增大 initrd** |
+>
+> **本指南 §14.x 的「内核参数调优」用的是 `boot.kernel.sysctl`**（运行时参数），**不是** `boot.kernelModules`。**两者不要混。**
+
+> [!WARNING]
+> **`boot.kernel.sysctl` 的键名必须加引号**（见 §26.1 的官方说明）：
+> ```nix
+> boot.kernel.sysctl."net.ipv4.tcp_keepalive_time" = 120;   # ✅
+> boot.kernel.sysctl.net.ipv4.tcp_keepalive_time = 120;     # ❌
+> ```
+
+### 33.5 ★ `nixos-rebuild switch` 到底做了什么（官方 `sec-switching-systems`）
+
+**官方原文（本节是整个 Part IV 里最实用的一段）**：
+
+> *"`nixos-rebuild`, like many deployment solutions, calls **`switch-to-configuration`** which resides in a NixOS system at **`$out/bin/switch-to-configuration`**. The script is called with the action that is to be performed like **`switch`, `test`, `boot`**. There is also the **`dry-activate`** action which does not really perform the actions but rather **prints what it would do if you called it with `test`**. This feature can be used to **check what service states would be changed** if the configuration was switched to."*
+
+> *"If the action is `switch` or `boot`, **the bootloader is updated first** so the configuration will be the next one to boot. Unless `NIXOS_NO_SYNC` is set to `1`, **`/nix/store` is synced to disk**."*
+
+> *"If the action is `switch` or `test`, the currently running system is inspected and the actions to switch to the new system are calculated. This process takes **two data sources** into account: **`/etc/fstab` and the current systemd status**."*
+
+> *"Mounts and swaps are read from `/etc/fstab` and the corresponding actions are generated. If the options of a mount are modified, for example, **the proper `.mount` unit is reloaded (or restarted if anything else changed and it's neither the root mount or the nix store)**."*
+
+> *"The current systemd state is inspected, the difference between the current system and the desired configuration is calculated and actions are generated to get to this state."*
+
+**★ 官方的「动作顺序」（原文，逐条）**：
+
+> *"After calculating what should be done, the actions are carried out. **The order of actions is always the same:**"*
+
+```
+1. Stop units                              (systemctl stop)
+2. Run activation script                   ($out/activate)
+3. See if the activation script requested more units to restart
+4. Restart systemd if needed               (systemd daemon-reexec)
+5. Forget about the failed state of units  (systemctl reset-failed)
+6. Reload systemd                          (systemctl daemon-reload)
+7. Reload systemd user instances           (systemctl --user daemon-reload)
+8. Reactivate sysinit                      (systemctl restart sysinit-reactivation.target)
+9. Reload units                            (systemctl reload)
+10. Restart units                          (systemctl restart)
+11. Start units                            (systemctl start)
+12. Inspect what changed during these actions and print units that failed and that were newly started
+```
+
+**官方的调试环境变量（原文）**：
+
+> *"By default, some units are filtered from the outputs to make it less spammy. This can be disabled for development or testing by setting the environment variable **`STC_DISPLAY_ALL_UNITS=1`**. More detailed output can be displayed by setting **`STC_DEBUG=1`**."*
+
+> [!IMPORTANT]
+> **这一节解释了你在 `nixos-rebuild switch` 输出里看到的一切。**
+>
+> **逐条对应你的实际体验**：
+>
+> | 你看到的输出 | 官方第几步 | 含义 |
+> |---|---|---|
+> | `activating the configuration...` | **2** | 正在跑 activation script |
+> | `setting up /etc...` | 2（etc snippet） | 生成 `/etc` |
+> | `reloading user units for <user>...` | **7** | 重载用户级 systemd |
+> | `restarting sysinit-reactivation.target` | **8** | 重启「早期启动单元」（见 §33.6） |
+> | `restarting the following units: ...` | **10** | 这些服务被重启了 |
+> | `the following new units were started: ...` | **11** | 这些是新启动的 |
+> | `warning: the following units failed: ...` | **12** | ⚠️ **这些失败了** |
+>
+> **★ 最有价值的一条**：**最后那行 `warning: the following units failed` 是你必须看的。** 很多人 `nixos-rebuild switch` 完看到「成功」就走了，**漏掉了这行警告**，结果某个服务其实没起来。
+>
+> **本指南建议**：switch 完立刻跑
+> ```bash
+> systemctl list-units --failed
+> ```
+
+> [!TIP]
+> **`dry-activate` 是被严重低估的选项。**
+>
+> ```bash
+> sudo nixos-rebuild dry-activate
+> ```
+>
+> 官方原文：*"does not really perform the actions but rather **prints what it would do**"*。**它告诉你「这次 switch 会重启哪些服务」，但什么都不做。**
+>
+> **对你的实际用途**：
+> - 改配置后先 `dry-activate` → **看看会不会重启你的桌面/网络**
+> - 如果会重启网络 → **知道要小心**（远程 SSH 时可能断线）
+> - 如果会重启显示管理器 → **知道屏幕会黑一下**
+>
+> **比 `dry-build` 更进一步**：`dry-build` 只验证**能构建**，`dry-activate` 还告诉你**会动什么**。
+
+### 33.6 单元处理规则（官方 `sec-unit-handling`）
+
+**官方原文（这一段是给模块开发者写的，但读它能理解「为什么某个服务被重启了」）**：
+
+> *"To figure out what units need to be started/stopped/restarted/reloaded, the script first checks the current state of the system... For each of the units, the script goes through the following checks:"*
+
+> - *"**Is the unit file still in the new system?** If not, **stop the service** unless it sets `X-StopOnRemoval` in the `[Unit]` section to false."*
+> - *"**Is it a `.target` unit?** If so, start it unless it sets `RefuseManualStart`... Also stop the unit again unless it sets `X-StopOnReconfiguration` to false."*
+> - *"**Are the contents of the unit files different?** They are compared by parsing them and comparing their contents. **If they are different but only `X-Reload-Triggers` in the `[Unit]` section is changed, reload the unit.** ... If the unit files differ in any way, the following actions are performed:"*
+>   - *"`.path` and `.slice` units are **ignored**."*
+>   - *"`.mount` units are **reloaded if only their `Options` changed**. If anything else changed (like `What`), they are **restarted** unless they are the mount unit for `/` or `/nix` **in which case they are reloaded to prevent the system from crashing**."*
+>   - *"`.socket` units are currently **ignored**."*
+>   - *"The rest of the units (mostly `.service` units) are then **reloaded if `X-ReloadIfChanged`** ... is set to true... A little exception is done for units that were deactivated in the meantime... These are started instead of reloaded."*
+>   - *"If the reload flag is not set, some more flags decide if the unit is skipped. These flags are **`X-RestartIfChanged`** ..., **`RefuseManualStop`** ..., and **`X-OnlyManualStart`** ..."*
+>   - *"Further behavior depends on the unit having **`X-StopIfChanged`** ... set to true... **This is set to true by default** and must be explicitly turned off if not wanted. If the flag is enabled, **the unit is stopped and then started**. If not, the unit is restarted. **The goal of the flag is to make sure that the new unit never runs in the old environment which is still in place before the activation script is run.**"*
+>   - *"The last thing that is taken into account is whether the unit is a service and **socket-activated**..."*
+
+**官方给的「sysinit reactivation」机制（原文）**：
+
+> *"`sysinit.target` is a systemd target that encodes system initialization (i.e. early startup)... Probably the most notable one of these is **`systemd-tmpfiles-setup.service`**."*
+
+> *"'Normal' systemd units, by default, are ordered **AFTER** `sysinit.target`... When restarting both a unit ordered before `sysinit.target` as well as one after, **this presents a problem because they would be started at the same time** as they do not explicitly declare their dependency relations."*
+
+> *"To solve this, NixOS has an artificial **`sysinit-reactivation.target`** which allows you to ensure that services ordered before `sysinit.target` are restarted correctly."*
+
+```nix
+{
+  systemd.services.my-sysinit = {
+    requiredBy = [ "sysinit-reactivation.target" ];
+    before = [ "sysinit-reactivation.target" ];
+    restartTriggers = [ config.environment.etc."my-sysinit.d".source ];
+  };
+}
+```
+
+> [!IMPORTANT]
+> **这一节的核心价值：解释「为什么改了某个配置，某个看起来无关的服务被重启了」。**
+>
+> **NixOS 的判据是「unit 文件内容变了吗」，不是「你改了哪个选项」。** 所以：
+> - 你改了 `environment.systemPackages` → **任何引用 `systemPackages` 的服务，其 unit 文件都变了** → 它们全被重启
+> - 你改了 `users.users.foo` → 引用它的服务被重启
+>
+> **这就是为什么改一点小东西，`nixos-rebuild switch` 会重启十几个服务。**
+>
+> **官方的 `X-*` 私有标志**（`X-StopIfChanged` / `X-ReloadIfChanged` / `X-RestartIfChanged`）是**模块作者用来控制这个行为的**。**它们只对 `nixos-rebuild switch` 有效**，systemd 本身不认识 —— 所以 `systemctl cat` 能看到它们，但 systemd 会忽略。
+
+> [!TIP]
+> **`X-StopIfChanged = true`（默认）为什么重要**（官方原文解释）：
+>
+> *"The goal of the flag is to make sure that **the new unit never runs in the old environment** which is still in place before the activation script is run."*
+>
+> **翻译**：`switch` 的顺序是「先停旧服务 → 再跑 activation script → 再起新服务」。如果只 `restart`（而不是 `stop` + `start`），新服务可能**在旧的 `/etc` 环境下启动**。
+>
+> **所以默认 `stop` + `start` 是**正确性**要求，不是保守。**
+
+### 33.7 activation script（官方 `sec-activation-script`）
+
+**官方原文**：
+
+> *"The activation script is a bash script called to activate the new configuration which resides in a NixOS system in **`$out/activate`**... Please be aware that **the script is executed on every boot and system switch**, so tasks that can be performed in other places should be performed there (for example letting a directory of a service be created by systemd using mechanisms like `StateDirectory`, `CacheDirectory`, … or if that's not possible using `preStart` of the service)."*
+
+```nix
+{
+  system.activationScripts.my-activation-script = {
+    deps = [ "etc" ];
+    # supportsDryActivation = true;
+    text = ''
+      echo "Hallo i bims"
+    '';
+  };
+}
+```
+
+> *"This example creates an activation script snippet that is **run after the `etc` snippet**. The special variable **`supportsDryActivation`** can be set so the snippet is also run when `nixos-rebuild dry-activate` is run. To differentiate between real and dry activation, the **`$NIXOS_ACTION`** environment variable can be read which is set to `dry-activate` when a dry activation is done."*
+
+**官方列的「NixOS 默认启用的 snippet」（原文）**：
+
+> - *"**`binsh`** creates `/bin/sh` which points to the runtime shell"*
+> - *"**`etc`** sets up the contents of `/etc`, this includes systemd units and **excludes `/etc/passwd`, `/etc/group`, and `/etc/shadow`** (which are managed by the `users` snippet)"*
+> - *"**`modprobe`** sets the path to the `modprobe` binary for module auto-loading"*
+> - *"**`specialfs`** is responsible for mounting filesystems like `/proc` and `sys`"*
+> - *"**`users`** creates and removes users and groups by managing `/etc/passwd`, `/etc/group` and `/etc/shadow`. This also creates home directories"*
+> - *"**`usrbinenv`** creates `/usr/bin/env`"*
+
+> [!IMPORTANT]
+> **官方那句「executed on every boot and system switch」解释了 activation script 的性能影响。**
+>
+> **所以**：**不要往 `system.activationScripts` 里塞重活**（比如扫描大目录、下载文件）。每次开机都跑一遍。
+>
+> **官方给的正确替代**（按优先级）：
+> 1. **`StateDirectory` / `CacheDirectory`**（systemd 原生，最快）
+> 2. **`preStart`**（服务启动前跑一次）
+> 3. **`systemd.tmpfiles.rules`**（创建目录/文件）
+> 4. **`system.activationScripts`**（最后手段）
+>
+> **本指南 §18.x 用的 `systemd.tmpfiles.rules`** 就是官方推荐的路径之一。
+
+**`/bin/sh` 与 `/usr/bin/env` 是 NixOS「假装有 FHS」的两块拼图**（官方原文的 `binsh` 和 `usrbinenv`）—— **这解释了本指南第二十五章「为什么有些脚本能跑」**：`#!/bin/sh` 和 `#!/usr/bin/env bash` 这两种 shebang **在 NixOS 上可用**（因为 activation script 创建了这两个文件）。
+
+### 33.8 `/etc` via overlay（实验性）
+
+**官方原文**：
+
+> ⚠️ *"**This is experimental** and requires a **kernel version >= 6.6** because it uses new overlay features and relies on the new mount API."*
+
+```nix
+{ system.etc.overlay.enable = true; }
+```
+
+> *"Using an overlay has two benefits:"*
+> - *"it **removes a dependency on perl**"*
+> - *"it makes **activation faster (up to a few seconds)**"*
+
+```nix
+{ system.etc.overlay.mutable = false; }
+```
+
+> *"By default, the `/etc` overlay is mounted **writable**... However, you can also mount `/etc` **immutably (read-only)** by setting [the above]."*
+
+> *"**The overlay is atomically replaced during system switch. However, files that have been modified will NOT be overwritten. This is the biggest change compared to the perl-based system.**"*
+
+> *"If you manually make changes to `/etc` on your system and then switch to a new configuration where `system.etc.overlay.mutable = false;`, **you will not be able to see the previously made changes in `/etc` anymore. However the changes are not completely gone, they are still in the upperdir of the previous overlay in `/.rw-etc/upper`.**"*
+
+> [!IMPORTANT]
+> **「files that have been modified will NOT be overwritten」是一个重要的行为差异。**
+>
+> **传统 perl 系统的行为**：`nixos-rebuild switch` 会**覆盖** `/etc` 里的文件（除非是 `mutableUsers` 保护的那几个）。
+>
+> **overlay 系统的行为**：**你手改过的文件会保留**（因为它在 upperdir 里）。
+>
+> **这是「更好」还是「更坏」取决于你的立场**：
+> - ✅ **好**：手改的临时调整不会被冲掉
+> - ❌ **坏**：**你以为配置生效了，其实被 upperdir 里的旧文件盖住了** → 这是很难查的一类问题
+>
+> **本指南的建议**：**如果你开了 `system.etc.overlay.enable`，请同时开 `mutable = false`** —— 强制只读，就不会有「手改残留」的困惑。这也是 Aeon 式不可变系统的思路（§24.x）。
+>
+> **⚠️ 但 `mutable = false` 会带来 §28.6 的问题** —— 密码文件写不进去 → 需要 `services.userborn.passwordFilesLocation` 或接受 `users.mutableUsers = false`。
+
+### 33.9 Bootspec
+
+**官方原文**：
+
+> *"**Bootspec** is a feature introduced in **RFC-0125** in order to **standardize bootloader support and advanced boot workflows such as SecureBoot** and potentially more. The reference implementation can be found here. **The creation of bootspec documents is enabled by default.**"*
+
+> [!NOTE]
+> **Bootspec 对你的实际意义**：
+>
+> 它把「这个 generation 的内核在哪、initrd 在哪、命令行是什么」标准化成一个 **JSON 文档**，放在 `/nix/store/.../boot.json`。
+>
+> **谁在用**：
+> - **`lanzaboote`**（Secure Boot，本指南 §23.x 提到过）—— **它依赖 bootspec**
+> - 第三方 bootloader（如 `systemd-boot` 的替代品）
+> - 高级引导流程（如 UKI 统一内核镜像）
+>
+> **你需要做什么**：**什么都不用做**（官方说默认开启）。**但如果你想开 Secure Boot，bootspec 是前置条件。**
+
+**查看 bootspec 文档**：
+
+```bash
+cat /run/current-system/boot.json | jq . 2>/dev/null || \
+  cat $(readlink -f /run/current-system)/boot.json | head -40
+```
+
+### 33.10 不可切换系统（官方 `sec-non-switchable-system`）
+
+**官方原文**：
+
+> *"In certain systems, most notably **image based appliances**, updates are handled outside the system. This means that **you do not need to rebuild your configuration on the system itself anymore**."*
+
+```nix
+{ modulesPath, ... }:
+{
+  imports = [ "${modulesPath}/profiles/image-based-appliance.nix" ];
+}
+```
+
+> *"The most notable deviation of this profile from a standard NixOS configuration is that **after building it, you cannot switch to the configuration anymore**. The profile sets **`config.system.switch.enable = false;`**, which **excludes `switch-to-configuration`**, the central script called by `nixos-rebuild`, from your system. **Removing this script makes the image lighter and slightly more secure.**"*
+
+> [!IMPORTANT]
+> **`system.switch.enable = false` 砍掉的正是 §33.5 里那个脚本。**
+>
+> **这带来的效果**：
+> | | 普通 NixOS | image-based-appliance |
+> |---|---|---|
+> | 能 `nixos-rebuild switch` | ✅ | ❌ |
+> | 能 `nixos-rebuild boot` | ✅ | ❌ |
+> | 怎么更新 | 本地 rebuild | **替换整个镜像**（A/B 分区或外部工具） |
+> | 体积 | 大 | 小 |
+> | 攻击面 | 有 `switch-to-configuration` | 无 |
+>
+> **这正是「Aeon 式」不可变系统的 NixOS 官方实现**（连本指南第二十四章）。
+>
+> **对你的建议**：**桌面用户不要开这个。** 你失去了 NixOS 最大的优势（本地原子切换 + 回滚）。**它适合的是「设备/固件」场景**（如 kiosk、路由器、专用设备）。
+
+> [!TIP]
+> **一个有意思的推论**：`image-based-appliance` 里 **`nixos-rebuild` 还在**（只是 switch 不行），你可以用 `nixos-rebuild build` 生成新镜像。**所以更新流程是**：
+> ```
+> 开发机：nixos-rebuild build-image → 产出镜像文件
+> 目标机：用工具刷入镜像（或 A/B 分区切换）
+> ```
+
+### 33.11 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 写死 `pkgs.linuxPackages_6_15` | 内核 EOL 后**求值失败** | 用 `linuxPackages_zen` / `_latest` / 默认 |
+| 2 | 自定义内核只为「性能」 | 每次更新编译 1 小时，收益无证据 | 用现成内核（§14.2 结论） |
+| 3 | `switch` 后不看 `units failed` 警告 | 服务静默失败 | `systemctl list-units --failed` |
+| 4 | 改配置前不跑 `dry-activate` | 意外重启网络/桌面 | `sudo nixos-rebuild dry-activate` |
+| 5 | 往 `activationScripts` 塞重活 | **每次开机都跑** | `StateDirectory` / `tmpfiles` / `preStart` |
+| 6 | 开 `etc.overlay` 但不开 `mutable = false` | 手改残留，**以为配置生效其实没有** | 两者成对开 |
+
+> [!TIP]
+> **本章的一句话总结**：
+> **`nixos-rebuild switch` = 算差异 → 停服务 → 跑 activation → 重载 systemd → 起服务 → 报告失败。** 看懂这五步，你就看懂了 NixOS 的所有输出。
+>
+> **最实用的两个选项**：`dry-activate`（先看会动什么）和 `STC_DISPLAY_ALL_UNITS=1`（看全部单元）。
+
+---
+
+---
+
+## 三十四、写 NixOS 模块与测试（官方 Part IV · Development）
+
+本章补的是官方手册 **Part IV** 的 `sec-getting-sources`、`sec-writing-modules`、`sec-option-declarations`、`sec-option-types`、`sec-option-definitions`、`sec-assertions`、`sec-meta-attributes`、`sec-importing-modules`、`sec-replace-modules`、`sec-freeform-modules`、`sec-settings-options`、`sec-nixos-tests`、`sec-writing-nixos-tests`、`sec-running-nixos-tests`。
+
+**为什么这一章值得写**（尽管你「只是用户」）：
+
+> [!IMPORTANT]
+> **本章的定位不是「让你成为 nixpkgs 贡献者」，而是「让你能判断 Agent 写的模块对不对」。**
+>
+> **本指南第十章讲「让 Agent 管系统」，第二十一章讲「Agent 的安装方式」。但一直没讲：Agent 给你生成的 `systemd.services.xxx` 或 `mkOption`，你怎么知道它写对了？**
+>
+> **本章给你三样东西**：
+> 1. **模块的语法骨架**（能看出结构错没错）
+> 2. **优先级的精确数字**（能看出 `mkForce` 用得对不对）
+> 3. **断言机制**（能看出「这个配置会不会在别人机器上炸」）
+
+### 34.1 获取源码
+
+**官方章节名**：`sec-getting-sources`（Getting the Sources）。
+
+**本指南补充的实际做法**（对「不写代码、只想查」的用户）：
+
+```bash
+# 方式 1：查某个模块的源码（最快，不用克隆）
+#   nixpkgs 在 GitHub 上，直接看：
+#   https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/<路径>
+
+# 方式 2：本地已经有源码（在 store 里）
+nix eval --raw nixpkgs#path        # 打印 nixpkgs 的 store 路径
+# 然后在那个路径下看 nixos/modules/
+
+# 方式 3：完整克隆（想搜索时用）
+git clone --depth 1 -b nixos-26.05 https://github.com/NixOS/nixpkgs
+# ⚠️ 即使 --depth 1，这个仓库也有几 GB
+
+# 方式 4：只看单个文件（最快）
+curl -s https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/modules/programs/nix-ld.nix
+```
+
+> [!TIP]
+> **本指南前二十五章的所有源码核实，用的都是「方式 4」** —— `raw.githubusercontent.com` 直接取单文件，**不需要克隆，秒级返回**。
+>
+> **给 Agent 的提示词模板**：
+> ```
+> 请从 https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/modules/<路径> 读取源码，
+> 逐行核实选项的默认值，不要凭记忆回答。
+> ```
+> **加「不要凭记忆」这句很关键** —— 否则 Agent 会用训练数据里的旧版本答案（见本指南第二十五章 §25.2 的 `xorg` 改名事件）。
+
+### 34.2 模块的完整结构（官方 Example 14）
+
+**官方原文（回顾 §26.2）**：
+
+```nix
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    # paths of other modules
+  ];
+
+  options = {
+    # option declarations
+  };
+
+  config = {
+    # option definitions
+  };
+}
+```
+
+**官方对四个部分的说明（原文）**：
+
+> - *"The first line makes the current Nix expression a function. The variable `pkgs` contains Nixpkgs (by default, it takes the `nixpkgs` entry of `NIX_PATH`)... while `config` contains the full system configuration. **This line can be omitted if there is no reference to `pkgs` and `config` inside the module.**"*
+> - *"This `imports` list enumerates the paths to other NixOS modules that should be included in the evaluation of the system configuration. A default set of modules is defined in the file `modules/module-list.nix`. **These don't need to be added in the import list.**"*
+> - *"The attribute `options` is a nested set of **option declarations**."*
+> - *"The attribute `config` is a nested set of **option definitions**."*
+
+**官方给的完整例子（`locate` 服务）**：
+
+> *"This module declares two options that can be defined by other modules (typically the user's `configuration.nix`): **`services.locate.enable`** (whether the database should be updated) and **`services.locate.interval`** (when the update should be done). It implements its functionality by defining two options declared by other modules: **`systemd.services`** and **`systemd.timers`**."*
+
+**★ 官方的一条 `Exec*` 警告（原文，非常实用）**：
+
+> *"Care must be taken when writing systemd services using `Exec*` directives. By default systemd performs **substitution on `%<char>` specifiers** in these directives, **expands environment variables from `$FOO` and `${FOO}`**, **splits arguments on whitespace**, and **splits commands on `;`**. **All of these must be escaped to avoid unexpected substitution or splitting** when interpolating into an `Exec*` directive, e.g. when using an `extraArgs` option to pass additional arguments to the service. The functions **`utils.escapeSystemdExecArg`** and **`utils.escapeSystemdExecArgs`** are provided for this."*
+
+> [!DANGER]
+> **这是「Agent 写的服务为什么启动失败」的最常见原因。**
+>
+> **具体场景**：Agent 给你生成
+> ```nix
+> serviceConfig.ExecStart = "${pkgs.myapp}/bin/myapp --arg $VALUE";
+> ```
+> **结果**：systemd 把 `$VALUE` **当成环境变量展开**（而不是字面传给程序），且**按空格切分参数**。
+>
+> **正确写法**（三种）：
+> ```nix
+> # 1. 用官方工具函数（最推荐）
+> serviceConfig.ExecStart = lib.concatStringsSep " " [
+>   "${pkgs.myapp}/bin/myapp"
+>   (lib.utils.escapeSystemdExecArg "--arg=${someValue}")
+> ];
+>
+> # 2. 用 writeShellScript 把逻辑挪进脚本（最省心）
+> serviceConfig.ExecStart = pkgs.writeShellScript "start-myapp" ''
+>   exec ${pkgs.myapp}/bin/myapp --arg "$VALUE"
+> '';
+>
+> # 3. 用 Environment= 传变量，ExecStart 里用 ${VAR}
+> serviceConfig = {
+>   Environment = [ "VALUE=${someValue}" ];
+>   ExecStart = "${pkgs.myapp}/bin/myapp --arg ''${VALUE}";
+>   #                                                  ↑ 注意 Nix 里要写 ''${ 来转义
+> };
+> ```
+>
+> **本指南的立场**：**给 Agent 的提示词里加一句「`ExecStart` 请用 `pkgs.writeShellScript` 包裹」** —— 这能避开 90% 的转义问题。
+
+### 34.3 选项声明（`mkOption`）
+
+**官方原文**：
+
+> *"An **option declaration** specifies the name, type and description of a NixOS configuration option. **It is invalid to define an option that hasn't been declared in any module.**"*
+
+```nix
+{
+  options = {
+    name = mkOption {
+      type = type specification;
+      default = default value;
+      example = example value;
+      description = "Description for use in the NixOS manual.";
+    };
+  };
+}
+```
+
+**官方对命名约定的说明（原文）**：
+
+> *"The attribute names within the name attribute path must be **camel cased** in general but should, **as an exception, match the package attribute name when referencing a Nixpkgs package**. For example, the option `services.nix-serve.bindAddress` references the `nix-serve` Nixpkgs package."*
+
+> [!TIP]
+> **这条命名约定解释了一个你早就见过的现象**：
+> - `services.nix-serve` **不是** camelCase（因为对应包名 `nix-serve`）
+> - 但 `bindAddress` **是** camelCase
+>
+> **所以看到 `systemd.services."my-name"`（带引号带连字符）不要奇怪** —— 那是「名字不是合法 Nix 标识符」时必须的写法（§26.1）。
+
+**官方对 `mkOption` 各参数的说明（原文要点）**：
+
+| 参数 | 官方说明 | 是否必需 |
+|---|---|---|
+| `type` | *"The type of the option... **This argument is mandatory for nixpkgs modules.** Setting this is highly recommended for the sake of documentation and type checking. In case it is not set, a fallback type with unspecified behavior is used."* | **nixpkgs 模块必需** |
+| `default` | *"The default value used if no value is defined by any module. **A default is not required; but if a default is not given, then users of the module will have to define the value of the option, otherwise an error will be thrown.**"* | 可选（但影响「用户是否必须写」） |
+| `defaultText` | *"A textual representation of the default value to be rendered verbatim in the manual. Useful if the default value is a complex expression or depends on other values or packages. Use `lib.literalExpression` for a Nix expression, `lib.literalMD` for a plain English description in Nixpkgs-flavored Markdown format."* | 可选（文档用） |
+| `example` | *"An example value that will be shown in the NixOS manual."* | 可选（文档用） |
+| `description` | *"A textual description of the option in Nixpkgs-flavored Markdown format that will be included in the NixOS manual."* | **强烈建议** |
+
+**官方给的两个「惯用模式工具」**：
+
+**`mkEnableOption`**：
+
+```nix
+lib.mkEnableOption "magic"
+  # is like
+  lib.mkOption
+  {
+    type = lib.types.bool;
+    default = false;
+    example = true;
+    description = "Whether to enable magic.";
+  }
+```
+
+**`mkPackageOption`**：
+
+```nix
+mkPackageOption pkgs "name" {
+  default = [ "path" "in" "pkgs" ];
+  example = "literal example";
+}
+```
+
+> **官方给 `mkPackageOption` 的理由（原文，很重要）**：
+> *"**You should make package options for your modules, where applicable.** While one can always overwrite a specific package throughout nixpkgs by using **nixpkgs overlays, they slow down nixpkgs evaluation significantly and are harder to debug when issues arise.**"*
+
+> [!IMPORTANT]
+> **这一段是官方对「overlay vs 选项」的明确表态，直接影响本指南第十九/二十章的写法建议。**
+>
+> **官方的立场**：
+> - ✅ **首选**：用模块暴露的 **package 选项**（如 `services.hermes.package = pkgsUnstable.hermes;`）
+> - ⚠️ **次选**：`override` / `overrideAttrs`
+> - ❌ **最后**：**`nixpkgs.overlays` / `nixpkgs.config.packageOverrides`**
+>
+> **官方给的理由**：overlay *"slow down nixpkgs evaluation significantly and are harder to debug"*。
+>
+> **这修正了本指南第二十章的一个隐含倾向** —— 那里把 overlay 作为「让某个包用 unstable」的方案之一列出。**按官方立场，应该优先用「模块的 package 选项」**：
+> ```nix
+> # ✅ 官方推荐：用模块的 package 选项
+> services.hermes.package = pkgsUnstable.hermes;
+>
+> # ⚠️ 官方不推荐（但可用）：全局 overlay
+> nixpkgs.overlays = [ (final: prev: { hermes = pkgsUnstable.hermes; }) ];
+> ```
+
+### 34.4 选项类型（`types.*`）
+
+**官方定义（原文）**：
+
+> *"Option types are a way to **put constraints on the values** a module option can take. **Types are also responsible of how values are merged in case of multiple value definitions.**"*
+
+**官方给的关键类型（原文要点）**：
+
+| 类型 | 官方说明 | 合并行为 |
+|---|---|---|
+| `types.bool` | *"A boolean... **All definitions must have the same value, after priorities. An error is thrown in case of a conflict.**"* | **冲突即报错** |
+| `types.boolByOr` | *"The result is `true` if **any** of multiple definitions is true. In other words, definitions are merged with the **logical OR** operator."* | **OR 合并** |
+| `types.path` | *"A filesystem path that **starts with a slash**. Even if derivations can be considered as paths, the more specific `types.package` should be preferred."* | — |
+| `types.pathInStore` | *"A path that **is contained in the Nix store**. This can be a top-level store path like `pkgs.hello` or a descendant like `"${pkgs.hello}/bin/hello"`."* | — |
+| **`types.externalPath`** | *"A path that is **not contained in the Nix store**. Typical use cases are: **secrets, password or any other external file**."* | — |
+| `types.package` | *"A top-level store path. This can be an attribute set pointing to a store path, like a derivation or a flake input."* | — |
+| `types.enum l` | *"One element of the list `l`... **Multiple definitions cannot be merged.**"* | **不可合并** |
+| **`types.anything`** | *"A type that accepts any value and **recursively merges attribute sets** together. **This type is recommended when the option type is unknown.**"* | **递归合并** |
+
+**★ 官方对 `types.externalPath` 的警告（原文，与安全直接相关）**：
+
+> ⚠️ *"**This type only validates that the path is not currently in the Nix store. It does NOT prevent the value from being copied to the store later** when: Referenced in a derivation; Used in certain path operations (e.g., `${path}` interpolation); Passed to functions that copy to the store. **Users must still be careful about how they reference these paths.**"*
+
+> [!DANGER]
+> **这条警告直接关系到本指南反复强调的「凭据不落 Nix store」。**
+>
+> **官方明确说：`types.externalPath` 只做「当前不在 store 里」的校验，它挡不住你后面把路径插值进 derivation。**
+>
+> **具体场景**：
+> ```nix
+> # ❌ 你以为用了 externalPath 就安全了，但这一行会把 secret 复制进 store
+> systemd.services.myapp.serviceConfig.EnvironmentFile = "${config.sops.secrets.mykey.path}";
+> ```
+> 实际上这一行**如果路径指向的是 store 外的文件，systemd 运行时读取，是安全的**。但如果写成：
+> ```nix
+> # ❌ 这会复制进 store
+> systemd.services.myapp.serviceConfig.ExecStart = "${pkgs.myapp}/bin/app --key $(cat ${./my-secret})";
+> ```
+> **`${./my-secret}` 会把文件内容复制进 store。**
+>
+> **正确做法**（本指南 §16.4 / §21.x 的结论）：
+> - 用 **sops-nix / agenix**，它们在 **activation 阶段**才把明文写到 `/run/secrets/`
+> - systemd unit 里用 `EnvironmentFile = "/run/secrets/mykey"`（**运行时路径，不进 store**）
+> - **绝不**在 Nix 表达式里 `${}` 插值 secret 文件
+
+**`types.anything` 的官方例子（原文）**：
+
+```nix
+{
+  str = lib.mkDefault "foo";
+  pkg.hello = pkgs.hello;
+  fun.fun = x: x + 1;
+}
+```
+```nix
+{
+  str = lib.mkIf true "bar";
+  pkg.gcc = pkgs.gcc;
+  fun.fun = lib.mkForce (x: x + 2);
+}
+```
+> *"will get merged to"*
+```nix
+{
+  str = "bar";
+  pkg.gcc = pkgs.gcc;
+  pkg.hello = pkgs.hello;
+  fun.fun = x: x + 2;
+}
+```
+
+> [!TIP]
+> **这个例子是理解「NixOS 选项怎么合并」的最好教材**。注意三件事：
+> 1. **`str`**：`mkDefault "foo"`（优先级 1000）vs `mkIf true "bar"`（优先级 100）→ **后者赢**
+> 2. **`pkg`**：两个**不同的键**（`hello` 和 `gcc`）→ **合并保留两者**（递归合并）
+> 3. **`fun.fun`**：**同一个键**，`mkForce`（优先级 50）vs 普通（100）→ **mkForce 赢**
+>
+> **所以「合并」和「覆盖」的判据是「键是否相同」**，不是「是不是同一个选项」。**这解释了为什么 `environment.systemPackages` 是「追加」（列表类型）而 `networking.hostName` 是「覆盖」（字符串类型）。**
+
+### 34.5 ★ 选项定义的优先级（精确数字）
+
+**官方原文（逐字，本节最重要）**：
+
+> *"A module can override the definitions of an option in other modules by setting an **override priority**. **All option definitions that do not have the lowest priority value are discarded.** By default, **option definitions have priority 100** and **option defaults have priority 1500**."*
+
+> *"You can specify an explicit priority by using `mkOverride`, e.g. `{ services.openssh.enable = mkOverride 10 false; }`. **This definition causes all other definitions with priorities above 10 to be discarded.**"*
+
+> *"**The function `mkForce` is equal to `mkOverride 50`, and `mkDefault` is equal to `mkOverride 1000`.**"*
+
+**★ 官方给的「顺序优先级」（`mkOrder`，与「覆盖优先级」是两回事）**：
+
+> *"It is also possible to influence **the order in which the definitions for an option are merged** by setting an **order priority** with `mkOrder`. The default order priority is **1000**. The functions **`mkBefore` and `mkAfter` are equal to `mkOrder 500` and `mkOrder 1500`**, respectively."*
+
+**完整优先级表（本指南整理，数字越小越优先）**：
+
+| 函数 | 优先级 | 语义 | 典型用途 |
+|---|---|---|---|
+| `mkOverride 10 ...` | **10** | 极高 | 罕见（强制覆盖一切） |
+| **`mkForce v`** | **50** | **强制覆盖** | 官方模块默认不合意 |
+| （普通赋值） | **100** | **默认优先级** | **99% 的情况** |
+| `mkOverride 500 ...` | 500 | 中等 | 罕见 |
+| **`mkDefault v`** | **1000** | **默认值**（可被覆盖） | 写模块时给合理默认 |
+| （`mkOption` 的 `default`） | **1500** | **选项自带的默认** | 选项声明里 |
+| `mkOverride 2000 ...` | 2000 | 低于默认 | 罕见 |
+
+**顺序优先级（另一套数字，不要混）**：
+
+| 函数 | 顺序优先级 | 语义 |
+|---|---|---|
+| **`mkBefore v`** | **500** | **排在前面**（列表合并时） |
+| （普通） | **1000** | 默认 |
+| **`mkAfter v`** | **1500** | **排在后面** |
+
+> [!IMPORTANT]
+> **「覆盖优先级」和「顺序优先级」是两套独立的东西 —— 这是最容易混淆的一点。**
+>
+> | | 覆盖优先级（`mkOverride` / `mkForce` / `mkDefault`） | 顺序优先级（`mkOrder` / `mkBefore` / `mkAfter`） |
+> |---|---|---|
+> | 管什么 | **谁的值赢** | **列表里谁在前** |
+> | 默认值 | 100 | 1000 |
+> | 只对列表类型有意义吗 | 不是（所有类型） | **是**（只影响合并顺序） |
+> | 冲突时 | 数字最小的赢 | **不冲突，都保留** |
+>
+> **`mkBefore` 只影响「顺序」，不影响「是否保留」** —— 两个定义都会在列表里，只是顺序不同。
+>
+> **本指南 §26.5 引用官方 `mkBefore [ "kvm-intel" ]` 的例子** —— 那是**顺序**问题（内核模块加载顺序），**不是覆盖**问题。
+
+> [!WARNING]
+> **官方原文有个容易误读的地方**：*"All option definitions that do not have the lowest priority value are discarded."*
+>
+> **「lowest priority value」= 「最小的数字」**（因为数字越小越优先）。所以这句话的意思是：**数字最小的那个定义赢，其他的丢弃**。
+>
+> **不是「优先级最低的赢」** —— 英文的 "priority value" 在这里指「优先级数值」，而数值小 = 优先级高。**中文语境下容易读反。**
+
+### 34.6 断言与警告（官方 `sec-assertions`）
+
+**官方原文**：
+
+> *"When configuration problems are detectable in a module, it is a good idea to write an **assertion or warning**. Doing so provides **clear feedback to the user and prevents errors after the build**."*
+
+> *"Although Nix has the `abort` and `builtins.trace` functions to perform such tasks, **they are not ideally suited for NixOS modules**. Instead of these functions, you can declare your warnings and assertions using the **NixOS module system**."*
+
+**官方的 warnings 例子**：
+
+```nix
+{ config, lib, ... }:
+{
+  config = lib.mkIf config.services.foo.enable {
+    warnings =
+      if config.services.foo.bar then
+        [
+          ''
+            You have enabled the bar feature of the foo service.
+                           This is known to cause some specific problems in certain situations.
+          ''
+        ]
+      else
+        [ ];
+  };
+}
+```
+
+**官方的 assertions 例子（来自 syslogd 模块）**：
+
+```nix
+{ config, lib, ... }:
+{
+  config = lib.mkIf config.services.syslogd.enable {
+    assertions = [
+      {
+        assertion = !config.services.rsyslogd.enable;
+        message = "rsyslogd conflicts with syslogd";
+      }
+    ];
+  };
+}
+```
+
+> **官方给的理由**：*"Since there can only be one active syslog daemon at a time, an assertion is useful to **prevent such a broken system from being built**."*
+
+> [!IMPORTANT]
+> **`warnings` 和 `assertions` 的区别，决定了你的配置是「能构建但有隐患」还是「根本构建不了」**：
+>
+> | | `warnings` | `assertions` |
+> |---|---|---|
+> | 效果 | **打印警告，继续构建** | **失败，拒绝构建** |
+> | 适合 | 「你可能不想要这个」 | 「这两个选项互斥」 |
+> | 官方例子 | 「开了 bar 特性会有已知问题」 | 「rsyslogd 与 syslogd 冲突」 |
+>
+> **你在本指南里已经见过几个断言的实际案例**：
+> - **`services.flatpak` 要求 `xdg.portal.enable = true`**（§7.2）—— 断言，**直接求值失败**
+> - **`home-manager.useGlobalPkgs = true` 时 `nixpkgs.*` 被禁用**（§24.5）—— 有断言 + warning
+> - **Hermes 的 container 模式与 `backend.mode` 互斥**（§21.x）—— 硬断言
+>
+> **对「Agent 写模块」的实用价值**：**让 Agent 加断言，而不是加注释。**
+> ```
+> 提示词：请在模块里用 assertions 表达「这两个选项不能同时开」的约束，
+>         用 warnings 表达「这样配会有已知问题」。
+>         不要用 abort 或 builtins.trace。
+> ```
+> **理由**：断言会**阻止构建**（安全），而注释不会。**这是「把知识编码进配置」的正确方式。**
+
+### 34.7 meta 属性
+
+**官方原文**：
+
+> *"Like Nix packages, NixOS modules can declare **meta-attributes** to provide extra information. Module meta attributes are defined in the `meta.nix` special module. `meta` is a **top level attribute like `options` and `config`**. Available meta-attributes are **`maintainers`, `doc`, and `buildDocsInSandbox`**. **Each of the meta-attributes must be defined at most once per module file.**"*
+
+```nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  options = {
+    # ...
+  };
+  # meta = { maintainers = [...]; doc = ./my-service.md; };
+}
+```
+
+> [!TIP]
+> **`meta.doc` 就是官方手册里那 300+ 个 `module-services-*` 章节的来源。** 官方在手册里说：*"These services are defined in Nixpkgs' `nixos/modules/` directory"*（`sect-nixos-systemd-nixos`）。
+>
+> **对你的实际意义**：**如果你自己写了一个模块并想让它有文档**，加 `meta.doc = ./my-service.md;`。这样 `nixos-rebuild` 生成的 manual 会包含它。
+>
+> **`maintainers`**：填 nixpkgs 的 maintainer 名（在 `maintainers/maintainer-list.nix` 里）。**`buildDocsInSandbox`**：控制文档构建是否在沙箱里跑。
+
+### 34.8 替换模块（`disabledModules`）
+
+**官方原文**：
+
+> *"Modules that are imported can also be **disabled**. The option declarations, config implementation and the imports of a disabled module will be **ignored, allowing another to take its place**. This can be used to **import a set of modules from another channel while keeping the rest of the system on a stable release**."*
+
+> *"`disabledModules` is a top level attribute like `imports`, `options` and `config`. It contains a list of modules that will be disabled. This can either be:"*
+> - *"the full path to the module,"*
+> - *"or a string with the filename relative to the modules path (eg. `<nixpkgs/nixos/modules>` for nixos),"*
+> - *"or an attribute set containing a specific `key` attribute."*
+
+**官方给的第一个例子（换掉 postgresql 模块）**：
+
+```nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+{
+  disabledModules = [ "services/databases/postgresql.nix" ];
+
+  imports = [
+    # Use postgresql service from nixos-unstable channel.
+    # sudo nix-channel --add https://channels.nixos.org/nixos-unstable nixos-unstable
+    <nixos-unstable/nixos/modules/services/databases/postgresql.nix>
+  ];
+
+  services.postgresql.enable = true;
+}
+```
+
+> **官方的重要限定（原文）**：*"This only **overrides the module definition**, this **won't use postgresql from nixos-unstable unless explicitly configured to do so**."*
+
+> [!IMPORTANT]
+> **最后那句限定非常重要 —— 它区分了「模块」和「包」。**
+>
+> | | 来自哪 | 怎么换 |
+> |---|---|---|
+> | **模块定义**（选项、systemd unit 长什么样） | `nixos/modules/...` | `disabledModules` + `imports` |
+> | **包**（实际执行的二进制） | `pkgs` | `services.xxx.package = ...;` |
+>
+> **官方明确说：换模块不会自动换包。** 两者要**分别**指定。
+>
+> **对本指南第二十章的意义**：你想「用 unstable 的某个服务」时，**要换两样东西**：
+> ```nix
+> {
+>   # 1. 模块（如果 stable 的模块有 bug 或版本旧）
+>   disabledModules = [ "services/xxx.nix" ];
+>   imports = [ "${pkgsUnstable.path}/nixos/modules/services/xxx.nix" ];
+>
+>   # 2. 包（这才是真正跑起来的二进制）
+>   services.xxx.package = pkgsUnstable.xxx;
+> }
+> ```
+> **大多数情况你只需要第 2 条。** 第 1 条只在「模块本身有问题」时才需要。
+
+### 34.9 Freeform 模块与 `settings` 子模块
+
+**官方对 freeform 的说明（原文）**：
+
+> *"**Freeform modules** allow you to define values for option paths that have **not been declared explicitly**. This can be used to add attribute-specific types to what would otherwise have to be `attrsOf` options in order to accept all attribute names."*
+
+> *"This feature can be enabled by using the attribute **`freeformType`** to define a freeform type. By doing this, **all assignments without an associated option will be merged using the freeform type** and combined into the resulting config set. **Since this feature nullifies name checking for entire option trees, it is only recommended for use in submodules.**"*
+
+> [!IMPORTANT]
+> **「nullifies name checking」—— freeform 会关掉选项名检查。这是它的代价。**
+>
+> **官方只推荐在 submodule 里用**（比如 `services.xxx.settings.<任意名>`）。
+>
+> **你在本指南里已经见过它的产物**：官方在 `sec-settings-options` 里讲的就是这个模式 —— 很多服务的 `settings` 选项允许你写任意键名，直接映射到该服务的配置文件格式。
+>
+> **对本指南第二十五章的意义**：**freeform 是「为什么有些选项写错了不报错」的原因之一。** 如果某个选项树是 freeform 的，你写错名字**不会得到「does not exist」**，而是**静默生成一个错的配置文件**。
+>
+> **判据**：查选项文档时看它是不是 `attribute set of ...`（freeform 的典型描述）。**是的话，写错名字不报错。**
+
+### 34.10 让 Agent 写模块的正确姿势
+
+**把前面九节串成一份「给 Agent 的提示词模板」**：
+
+```markdown
+请帮我写一个 NixOS 模块，要求如下：
+
+1. **结构**：用官方的四段式结构（`imports` / `options` / `config` / 可选 `meta`）
+2. **选项声明**：
+   - 每个选项必须有 `type` 和 `description`
+   - 开关类选项用 `lib.mkEnableOption "..."`
+   - 包类选项用 `lib.mkPackageOption pkgs "..." { }`（不要让我用 overlay 换包）
+   - 需要默认值的用 `default = ...`，但**不要**在选项声明里写死具体包
+3. **选项定义**：
+   - 条件逻辑用 `lib.mkIf`（**不要**用裸 `if`，会 infinite recursion）
+   - 覆盖别人的默认用 `lib.mkDefault`，**不要用 `mkForce`**（除非我明确要求）
+4. **systemd 服务**：
+   - `ExecStart` 一律用 `pkgs.writeShellScript` 包裹，避免 `$VAR` 和空格转义问题
+   - 必须写 `wantedBy`（否则不自启）
+   - 加安全加固：`NoNewPrivileges` / `ProtectSystem` / `ProtectHome` / `ReadWritePaths`
+5. **约束**：用 `assertions`（互斥）和 `warnings`（隐患）表达，**不要**用 `abort` / `builtins.trace`
+6. **文件路径**：不要 `${}` 插值任何密钥文件
+
+输出后请自己检查：
+- 有没有 `if` 而不是 `mkIf`
+- 有没有漏 `wantedBy`
+- 有没有在 `ExecStart` 里直接写 `$` 变量
+```
+
+> [!TIP]
+> **这份模板的每一条都对应本章或前文的一个真实坑。** 把它存起来，下次让 Agent 写模块时直接贴。
+>
+> **本指南第十章讲的「skills」概念，本质上就是把这种提示词固化成可复用的文件。** 本章给的是「写模块」这个具体场景的版本。
+
+### 34.11 NixOS Tests（官方 `sec-nixos-tests`）
+
+**官方原文（`sec-nixos-tests` 全节）**：
+
+> *"NixOS has a **testing framework** that allows you to test the functionality of your NixOS configuration... "*
+
+**官方给的测试结构（`sec-writing-nixos-tests` 的典型形态）**：
+
+```nix
+# 官方测试的典型骨架（本指南根据官方文档结构整理）
+import ./make-test-python.nix ({ pkgs, ... }: {
+  name = "my-test";
+  nodes.machine = { ... }: {
+    services.my-service.enable = true;
+  };
+  testScript = ''
+    machine.wait_for_unit("my-service.service")
+    machine.succeed("curl -s http://localhost/ | grep hello")
+  '';
+})
+```
+
+**官方的运行方式（`sec-running-nixos-tests`）**：
+
+```bash
+# 跑单个测试
+nix-build nixos/tests/my-test.nix
+
+# 交互式调试
+nix-build nixos/tests/my-test.nix -A driverInteractive
+./result/bin/nixos-test-driver
+```
+
+> [!NOTE]
+> **NixOS Tests 对你的实际价值有限，但有一个例外值得知道：**
+>
+> **它是「在虚拟机里完整跑一遍 NixOS 配置」的官方工具。** 所以你可以：
+> ```bash
+> # 在 QEMU 里测试你的配置能不能启动（不用真机试错）
+> nix-build '<nixpkgs/nixos>' -A vm -I nixos-config=/etc/nixos/configuration.nix
+> ./result/bin/run-*-vm
+> ```
+>
+> **这是「改存储/引导配置前先虚拟机验证」的官方方案** —— 比本指南 §27.6 建议的「`test` 而非 `switch`」更彻底（完全不动真机）。
+>
+> **代价**：需要 QEMU，且要下载/构建 VM 环境。**对「改 `boot.loader.*` 这种高风险配置」值得。**
+
+### 34.12 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 用裸 `if` 而不是 `mkIf` | **infinite recursion** | `config = lib.mkIf cond { ... };` |
+| 2 | 动不动 `mkForce` | 覆盖别人默认，难排查 | 优先 `mkDefault` / 对应选项 |
+| 3 | `ExecStart` 直接写 `$VAR` | systemd 展开/切分 → 启动失败 | `pkgs.writeShellScript` 包裹 |
+| 4 | 用 overlay 换包 | **显著拖慢求值**，难调试（官方明确不推荐） | 用模块的 `package` 选项 |
+| 5 | 用 `abort` / `builtins.trace` | 不适合 NixOS 模块 | `assertions` / `warnings` |
+| 6 | 在 Nix 表达式里 `${}` 插值密钥 | **密钥进 store**，全局可读 | sops-nix / agenix + `/run/secrets/` |
+
+> [!TIP]
+> **本章的一句话总结**：
+> **模块 = `{ config, pkgs, ... }: { imports; options; config; }`。**
+> **优先级：`mkForce`(50) < 普通(100) < `mkDefault`(1000) < 选项 default(1500)。**
+> **顺序：`mkBefore`(500) < 普通(1000) < `mkAfter`(1500)。**
+> **条件用 `mkIf`，约束用 `assertions`，命令用 `writeShellScript`。**
+>
+> 记住这四行，你就能读懂 90% 的 NixOS 模块。
+
+---
+
+---
+
+## 三十五、构建镜像：Live ISO、repart 与 Appliance（官方 Part I · Installation 缺口）
+
+本章补的是官方手册 **Part I** 的最后一批章节：`sec-upgrading`、`sec-upgrading-automatic`、`sec-building-image`、`sec-image-nixos-rebuild-build-image`、`sec-image-repart`、`sec-image-repart-store-paths`、`sec-image-repart-appliance`。
+
+**为什么把「构建镜像」放在最后一章**：
+
+> [!IMPORTANT]
+> **这不是「日常必读」章节。** 本指南前三十四章讲的是「**用** NixOS」；本章讲的是「**造** NixOS」。
+>
+> **但你有两个真实场景会用到它**：
+> 1. **给第二台机器装机，想带上自己的配置** —— 官方 Live ISO 装完还要重跑一遍 `nixos-rebuild`，直接做一张「预装好我的配置」的 U 盘更快。
+> 2. **给 Agent 一个可回滚的实验环境** —— 构建一个 QEMU 镜像，让 Agent 在里面随便改配置，炸了重来，不动真机。
+>
+> **官方在这一块有一个明确的态度**（见 §35.6）：**「NixOS 的 generation 更新机制不适合 appliance」** —— 这句话解释了为什么本章最后一节讲的是「整镜像替换 / A/B 分区」，而不是 `nixos-rebuild`。
+
+---
+
+### 35.1 频道与升级：先把「基座」这件事说清
+
+**官方章节名**：`sec-upgrading`（Upgrading NixOS）、`sec-upgrading-automatic`（Automatic Upgrades）。
+
+**官方原文（`sec-upgrading`）**：
+
+> *"The NixOS channels are updated as soon as possible after a new version is released. … These channels are:*
+> - *Stable channels, such as `nixos-26.05`.*
+> - *The unstable channel, `nixos-unstable`.*
+> - *Small channels, such as `nixos-26.05-small`.*"
+
+**官方对三类频道的完整定义**：
+
+| 频道类型 | 例子 | 官方描述要点 |
+|---|---|---|
+| **Stable** | `nixos-26.05` | 保守更新。**但 channel 更新仍可能导致内核等组件变化**；一般维护到下一个 stable 发布后一段时间 |
+| **Unstable** | `nixos-unstable` | 滚动。官方原文：*"It's not recommended for"* 生产/日常（**更新之间可能有激进变化**） |
+| **Small** | `nixos-26.05-small` | 与 stable/unstable **内容完全相同**，只是**更新频率更低**；官方推荐服务器用（**关键安全补丁会更快推送**——注意这句官方原文语义是「小频道会在关键补丁时被单独快推」） |
+
+> [!WARNING]
+> **官方原文里有一个反直觉的点**：
+> *"These are identical to the stable and unstable channels described above, except that they are only updated … faster than the regular channels (for instance, when a critical security patch …)"*
+>
+> 这句话在官方手册里读起来像自相矛盾（「更少更新」+「更快」）。**正确的理解是**：小频道**常规节奏更慢**（少收无关变更），**但关键安全补丁会被单独加速推送**。
+>
+> **对你的实际建议**：**桌面用户不要用小频道**。小频道的价值在「服务器不想天天被无关更新打扰，但安全补丁要及时」。
+
+**查自己当前订阅哪个频道**：
+
+```bash
+nix-channel --list | grep nixos
+# 输出示例（官方原文给的例子）：
+# nixos https://channels.nixos.org/nixos-unstable
+```
+
+**切换频道**：
+
+```bash
+# 通用格式（★ 末尾的 nixos 参数不能省）
+sudo nix-channel --add https://channels.nixos.org/<channel-name> nixos
+
+# 切到 26.05 stable
+sudo nix-channel --add https://channels.nixos.org/nixos-26.05 nixos
+
+# 切到 small（服务器）
+sudo nix-channel --add https://channels.nixos.org/nixos-26.05-small nixos
+
+# 切到 unstable
+sudo nix-channel --add https://channels.nixos.org/nixos-unstable nixos
+```
+
+**升级到当前频道最新**：
+
+```bash
+sudo nixos-rebuild switch --upgrade
+# 官方原文：等价于更啰嗦的
+#   sudo nix-channel --update nixos; sudo nixos-rebuild switch
+```
+
+> [!NOTE]
+> **官方两条关键提醒**：
+>
+> **① 频道是「按用户」设置的**（*"Channels are set per user"*）：
+> *"running `nix-channel --add` as a non root user (or without `sudo`) will not affect configuration in `/etc/nixos/configuration.nix`"*
+> → **不加 `sudo` 就只影响你自己的用户频道，不影响系统**。这是个「命令静默成功但没生效」的经典坑。
+>
+> **② 频道来回切换是安全的，只有一个例外**（官方原文）：
+> *"The only exception is that a newer NixOS may also have a newer Nix version, which may involve an upgrade of Nix's database schema. This cannot be undone easily, so in that case you will not be able to go back to your original channel."*
+> → **Nix 数据库 schema 升级后不能回退频道**。**升到 unstable 前请三思**。
+> → 这条也是本指南 §30.8「回滚」的一个边界：**generation 能回滚，但 Nix DB schema 不能**。
+
+**自动升级**（官方 `sec-upgrading-automatic`）：
+
+```nix
+{
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = true;
+}
+```
+
+**官方对这两个选项的完整解释**：
+
+| 选项 | 值 | 官方原文语义 |
+|---|---|---|
+| `system.autoUpgrade.enable` | `true` | 启用一个**周期性执行的 systemd 服务**，名为 **`nixos-upgrade.service`** |
+| `system.autoUpgrade.allowReboot` | `false` | 运行 `nixos-rebuild switch --upgrade` —— 升级到当前频道最新 |
+| `system.autoUpgrade.allowReboot` | `true` | **如果新 generation 包含不同的内核、initrd 或内核模块，系统会自动重启** |
+
+**看它什么时候跑**（官方原文提示）：`systemctl list-timers`（本指南 §29.2）。
+
+**显式指定频道**（官方给的例子）：
+
+```nix
+{ system.autoUpgrade.channel = "https://channels.nixos.org/nixos-26.05"; }
+```
+
+> [!DANGER]
+> **`system.autoUpgrade.allowReboot = true` 对桌面用户是有风险的**。
+>
+> 官方原文只说「如果新 generation 包含不同的内核/initrd/内核模块就自动重启」。**没有说**：
+> - 会不会在你有未保存的工作时重启
+> - 会不会中断正在进行的游戏/编译
+>
+> **本指南建议**（结合 §29.8 与 §30.1）：
+> ```nix
+> system.autoUpgrade = {
+>   enable = true;
+>   allowReboot = false;        # 只升级，不自动重启
+>   # 让它在你不用电脑的时间跑（默认是每天固定时间，可用 flake 或
+>   # systemd.services.nixos-upgrade 覆写）
+> };
+> ```
+> **重启这件事交给 `nixos-rebuild boot` + 你自己挑时间。**
+> **服务器**（无人值守）才用 `allowReboot = true`。
+
+> [!TIP]
+> **一个官方没写、但你会遇到的问题**：`system.autoUpgrade` 在 **flake 模式下语义不同**。
+>
+> - **channel 模式**：`system.autoUpgrade.enable = true` 会去更新 channel 然后 rebuild。
+> - **flake 模式**（`/etc/nixos/flake.nix`）：它会先跑 `nix flake update` 再 rebuild（取决于 `system.autoUpgrade.flake` 选项，默认取当前 flake）。
+>
+> **如果你用的是 flake，本指南第二十二章的「定时 `flake update` + rebuild」方案更可控** —— 因为它把「更新锁文件」和「应用锁文件」分成两步，你能先看 diff。
+
+---
+
+### 35.2 构建 Live ISO
+
+**官方章节名**：`sec-building-image`（Building a NixOS (Live) ISO）。
+
+**官方原文**：
+
+> *"Default live installer configurations are available inside `nixos/modules/installer/cd-dvd`. For building other system images, see Building Images with nixos-rebuild build-image. **You have two options:***
+> - *Use any of those default configurations as is*
+> - *Combine them with (any of) your host config(s)*"
+
+**官方原文（关键限制）**：
+
+> *"System images, such as the live installer ones, **know how to enforce configuration settings on which they immediately depend in order to work correctly**. However, if you are confident, you can opt to override those enforced values with `mkForce`."*
+
+> [!IMPORTANT]
+> **上面这句官方原文解释了一个很多人踩过的坑**：
+>
+> **Live ISO 的配置里有一批「它自己强制设定」的值** —— 因为不设就装不起来（比如「必须能联网」「必须有安装器界面」）。
+>
+> **当你想「把我的 `configuration.nix` 塞进 ISO」时，你的值会和它的强制值冲突**。官方给的路是：**明确用 `mkForce` 覆盖**。
+>
+> **官方原文的语气是「if you are confident」** —— 意思是**它不推荐你随便覆盖**，覆盖错了 ISO 就不工作。
+
+**两条官方路径的具体做法**：
+
+**路径 A：直接用官方默认配置**（最安全）
+
+```bash
+# 官方默认配置在 nixpkgs 里的位置
+#   nixos/modules/installer/cd-dvd/
+# 典型文件：
+#   iso-image.nix          # 完整图形 Live ISO
+#   iso-image-new-kernel.nix
+#   installation-cd-graphical-*.nix
+
+# 直接构建（channel 模式下）
+nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage \
+  -I nixos-config='<nixpkgs/nixos/modules/installer/cd-dvd/iso-image.nix>'
+
+# 结果在 ./result/iso/*.iso
+```
+
+**路径 B：把自己的配置和官方配置合并**（官方说的 "Combine them with your host config"）
+
+```nix
+# my-iso.nix
+{ config, pkgs, lib, modulesPath, ... }:
+
+{
+  imports = [
+    # ① 先引入官方 ISO 配置（提供安装器界面、联网等强制设定）
+    "${modulesPath}/installer/cd-dvd/iso-image.nix"
+
+    # ② 再引入你自己的主机配置
+    /etc/nixos/configuration.nix
+  ];
+
+  # ③ 冲突的地方用 mkForce 明确覆盖（官方原文的 "if you are confident"）
+  # 例如：官方 ISO 可能禁用了某些服务，你想开
+  # services.openssh.enable = lib.mkForce true;
+
+  # ④ 加上你每次装机后都要手动做的事，让它预置好
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    # ...
+  ];
+}
+```
+
+构建：
+
+```bash
+nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=./my-iso.nix
+```
+
+> [!TIP]
+> **给「想预装自己配置」的用户一个更省事的做法**（官方没写，但符合官方机制）：
+>
+> **不要把自己的 `configuration.nix` 全塞进 ISO。** 而是：
+> 1. 构建一个**最小改动**的 ISO（只加 `git` + 你的 SSH 公钥 + 你的 flake 仓库地址）
+> 2. 装机时 `git clone` 你的 flake 再 `nixos-rebuild switch --flake`
+>
+> **理由**：
+> - ISO 里的 `configuration.nix` 和你日常维护的那份**会漂移**（ISO 是一次性快照，日常配置在持续更新）
+> - 你的配置里如果有 **硬件相关**（`fileSystems`、`boot.loader`），塞进 ISO 会**和装机时探测到的磁盘布局冲突**
+> - 这也是官方 `clone-config` profile 的思路（本指南 §26.8）
+
+> [!NOTE]
+> **`iso-image.nix` 里的「强制设定」到底有哪些**（本指南的推断，标注为推断）：
+>
+> 从官方原文 *"know how to enforce configuration settings on which they immediately depend in order to work correctly"* 反推，至少包括：
+> - 安装器本身（`services.xserver` / 图形安装器）
+> - 网络栈（不联网就装不了）
+> - `nixpkgs.config.allowUnfree`（要装闭源固件）
+> - 安装器用的 `users`（Live 环境的 `nixos` 用户）
+>
+> **具体清单请查源码**（§34.1 的方式 4）：
+> ```bash
+> curl -s https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/modules/installer/cd-dvd/iso-image.nix
+> ```
+
+---
+
+### 35.3 用 `nixos-rebuild build-image` 构建云/虚拟化镜像
+
+**官方章节名**：`sec-image-nixos-rebuild-build-image`（Building Images with `nixos-rebuild build-image`）。
+
+**官方原文**：
+
+> *"Nixpkgs contains a variety of modules to build custom images for different virtualization platforms and cloud providers, such as e.g. `amazon-image.nix` and `proxmox-lxc.nix`. While those can be imported directly, **`system.build.images` provides an attribute set mapping variant names to image derivations**. Available variants are defined - and extendable - in **`image.modules`**, an attribute set mapping variant names to NixOS modules.*
+>
+> *All of those images can be built via both, their **`system.build.image`** attribute and the **`nixos-rebuild build-image`** command."*
+
+**官方给的完整例子**（构建 Amazon 镜像）：
+
+```bash
+nixos-rebuild build-image --image-variant amazon
+# [...]
+# Done. The disk image can be found in
+#   /nix/store/[hash]-nixos-image-amazon-25.05pre-git-x86_64-linux/nixos-image-amazon-25.05pre-git-x86_64-linux.vpc
+```
+
+**列所有可用变体**（官方原文）：*"To get a list of all variants available, run `nixos-rebuild build-image` without arguments."*
+
+```bash
+nixos-rebuild build-image
+# 不加参数 → 列出全部可用 variant
+```
+
+> [!TIP]
+> **这是本章最实用的一个命令。** 它让你不写一行 Nix 就能列出：
+> - `amazon`（EC2 AMI）
+> - `proxmox-lxc`（Proxmox 容器）
+> - `azure` / `gce` / `do`（各云）
+> - `sd-image`（树莓派等 ARM 单板）
+> - `iso`（Live ISO）
+> - ……
+>
+> **先跑这个命令看有什么，再决定要不要自己写。**
+
+**按变体覆写选项**（官方 Example 5，原文标题 *"Customize specific image variants"*）：
+
+> *"The `image.modules` option can be used to set specific options per image variant, in a similar fashion as **`specialisations`** for generic NixOS configurations. E.g. images for the cloud provider **Linode** use **grub2 as a bootloader** by default. If you are using systemd-boot on other platforms and want to disable it for Linode only, you could use the following options:"*
+
+```nix
+{
+  image.modules.linode = {
+    boot.loader.systemd-boot.enable = lib.mkForce false;
+  };
+}
+```
+
+> [!IMPORTANT]
+> **官方这段原文里有三个可迁移的概念**：
+>
+> | 概念 | 含义 | 类比你已知的 |
+> |---|---|---|
+> | **`image.modules.<variant>`** | 按变体覆写配置 | **`specialisations`**（官方自己做的类比） |
+> | **`system.build.images.<variant>`** | 属性集：变体名 → 镜像 derivation | 和 `system.build.toplevel` 同一层级 |
+> | **`image.modules`** | 属性集：变体名 → NixOS 模块 | **可扩展**（官方原文 *"extendable"*）—— 你可以加自己的变体 |
+>
+> **`mkForce` 在这里为什么必须**：官方说 Linode 镜像**默认用 grub2**。如果你只是写 `boot.loader.systemd-boot.enable = false;` 那是对的；但如果你想**在别处已经开了 systemd-boot**，再关就需要 `mkForce`（因为两个都是普通赋值 → 冲突报错，见 §34.5）。
+>
+> **注意官方例子写的是 `lib.mkForce false`** —— 用的是 **`lib.mkForce`**，不是裸 `mkForce`。在模块函数参数里 `lib` 更明确。
+
+> [!NOTE]
+> **`specialisations` 是什么**（本指南的补充说明）：
+>
+> 它是 NixOS 的「**同一台机器的多个配置变体**」机制 —— 生成多个 boot entry，开机时选。官方原文用「in a similar fashion as specialisations」来做类比，说明 **`image.modules` 的语义就是「同一份配置的多个变体」**，只不过变体不是「开机菜单项」而是「不同的镜像」。
+>
+> **对游戏玩家的实际用途**：你完全可以用 `specialisations` 做「日常配置」和「纯游戏配置（关掉所有服务、只留 Steam）」两个 boot entry。**这是本指南没有展开、但官方支持的用法。**
+
+---
+
+### 35.4 用 `systemd-repart` 构建磁盘镜像
+
+**官方章节名**：`sec-image-repart`（Building Images via `systemd-repart`）。
+
+**官方原文**：
+
+> *"You can build disk images in NixOS with the **`image.repart`** option provided by the module **`image/repart.nix`**. This module uses **`systemd-repart`** to build the images and **exposes its entire interface via the `repartConfig` option**."*
+
+**官方给的完整骨架**：
+
+```nix
+{ config, modulesPath, ... }:
+{
+
+  imports = [ "${modulesPath}/image/repart.nix" ];
+
+  image.repart = {
+    name = "image";
+    partitions = {
+      "esp" = {
+        contents = {
+          # ...
+        };
+        repartConfig = {
+          Type = "esp";
+          # ...
+        };
+      };
+      "root" = {
+        storePaths = [ config.system.build.toplevel ];
+        repartConfig = {
+          Type = "root";
+          Label = "nixos";
+          # ...
+        };
+      };
+    };
+  };
+
+}
+```
+
+**三个属性的语义**（从官方原文 + 例子反推）：
+
+| 属性 | 官方语义 | 值的形式 |
+|---|---|---|
+| `image.repart.name` | 镜像名（用于输出文件名） | 字符串，如 `"image"` |
+| `image.repart.partitions.<名字>` | **一个分区** | 属性集 |
+| `partitions.<n>.contents` | **往分区里放的「文件路径 → 来源」映射** | 属性集，如 `"/EFI/BOOT/BOOTX64.EFI".source = "...";` |
+| `partitions.<n>.storePaths` | **往分区里放的 Nix store 路径** | 列表，通常是 `[ config.system.build.toplevel ]` |
+| `partitions.<n>.repartConfig` | **直接透传给 `systemd-repart`** | 属性集（官方原文 *"exposes its entire interface"*） |
+| `partitions.<n>.nixStorePrefix` | **重写 store 路径前缀**（见 §35.5） | 字符串 |
+
+> [!IMPORTANT]
+> **`repartConfig` 是「整个 `systemd-repart` 接口的透传」** —— 这意味着：
+>
+> **官方手册不会列出所有可用键。** 你要查的是 **`systemd-repart` 自己的文档**：
+> ```bash
+> man systemd-repart
+> # 或
+> man repart.d
+> ```
+>
+> **常用键**（从官方各例子里出现的）：
+> | 键 | 值示例 | 作用 |
+> |---|---|---|
+> | `Type` | `"esp"` / `"root"` / `"linux-generic"` | 分区类型（GPT type UUID 的别名） |
+> | `Format` | `"vfat"` / `"ext4"` / `"btrfs"` | 文件系统格式 |
+> | `Label` | `"nixos"` / `"nix-store"` | 分区标签（**决定 `/dev/disk/by-label/` 的名字**） |
+> | `SizeMinBytes` | `"96M"` | 最小尺寸（**字符串，带单位**） |
+> | `Minimize` | `"guess"` | 自动缩到最小 |
+> | `Subvolumes` | `"/@ /@nix-store"` | Btrfs 子卷（**空格分隔字符串**） |
+> | `MakeDirectories` | `"/@ /@nix-store"` | 预先创建目录/子卷 |
+>
+> **注意 `SizeMinBytes` 是字符串 `"96M"` 而不是数字** —— `systemd-repart` 接受带单位的值，Nix 里必须写成字符串（否则 `96M` 不是合法 Nix 数字）。
+
+**为什么 `root` 分区要 `storePaths = [ config.system.build.toplevel ]`**：
+
+`config.system.build.toplevel` 是**整个系统的闭包根**（本指南 §30.3 讲的 GC root 概念）。把它的 store 路径复制进分区，就等于**把整个系统装进了镜像** —— 不需要 `nixos-install`，开箱即用。
+
+> [!TIP]
+> **`image.repart` vs `nixos-rebuild build-image` 的分工**（本指南的归纳）：
+>
+> | | `nixos-rebuild build-image --image-variant X` | `image.repart` |
+> |---|---|---|
+> | 面向 | **已有平台的预设变体**（AWS/Proxmox/树莓派…） | **完全自定义的分区布局** |
+> | 分区布局 | 变体模块写死 | **你自己写** |
+> | 适合 | 「我要一个能上云/能进 Proxmox 的镜像」 | 「我要一个特定分区表的 U 盘/固件镜像」 |
+> | 学习成本 | 零（一个命令） | 中（要懂 GPT 分区类型） |
+>
+> **先用 §35.3 的 `nixos-rebuild build-image` 列变体**，只有「变体列表里没有我想要的」才动手写 `image.repart`。
+
+---
+
+### 35.5 Nix Store Paths：分区与 Btrfs 子卷
+
+**官方章节名**：`sec-image-repart-store-paths`（Nix Store Paths）。
+
+**官方原文（总述）**：
+
+> *"If you want to **rewrite Nix store paths**, e.g., to **remove the `/nix/store` prefix** or to **nest it below a parent path**, you can do that through the **`nixStorePrefix`** option."*
+
+**官方给的两种用法**：
+
+#### 用法 1：Nix Store 独立分区
+
+**官方原文**：
+
+> *"You can define a partition that only contains the Nix store and then mount it under `/nix/store`. Because the `/nix/store` part of the paths is already determined by the mount point, you have to set **`nixStorePrefix = "/"`** so that `/nix/store` is stripped from the paths before copying them into the image."*
+
+```nix
+{
+  fileSystems."/nix/store".device = "/dev/disk/by-partlabel/nix-store";
+
+  image.repart.partitions = {
+    "store" = {
+      storePaths = [ config.system.build.toplevel ];
+      nixStorePrefix = "/";
+      repartConfig = {
+        Type = "linux-generic";
+        Label = "nix-store";
+        # ...
+      };
+    };
+  };
+}
+```
+
+**为什么必须 `nixStorePrefix = "/"`**（官方原文的逻辑链）：
+
+1. store 路径长这样：`/nix/store/abc123-hello-2.12/bin/hello`
+2. 你把分区挂到 `/nix/store`
+3. 如果原样复制，分区里会有 `/nix/store/nix/store/abc123-...` —— **多了一层**
+4. 所以要把 `/nix/store` 从路径里剥掉 → `nixStorePrefix = "/"` 表示「剥掉 `/nix/store` 后，路径以 `/` 开头」
+
+> [!IMPORTANT]
+> **`nixStorePrefix` 的取值语义（本指南的精确化）**：
+>
+> | 值 | 含义 | 分区里实际路径 |
+> |---|---|---|
+> | **默认**（不设） | 不重写 | `nix/store/abc123-...` |
+> | **`"/"`** | 剥掉 `/nix/store` 前缀 | `abc123-...`（相对挂载点） |
+> | **`"/@nix-store"`** | 剥掉 `/nix/store`，改挂到 `@nix-store` 子卷下 | `@nix-store/abc123-...` |
+>
+> **注意 `Label = "nix-store"` 和 `nixStorePrefix = "/"` 是两件不同的事**：
+> - `Label` → 决定 `/dev/disk/by-label/nix-store` 这个名字（**你在 `fileSystems` 里引用的就是它**）
+> - `nixStorePrefix` → 决定**复制进分区时路径怎么变**
+
+#### 用法 2：Nix Store 作为 Btrfs 子卷
+
+**官方原文**：
+
+> *"Alternatively, you can create a Btrfs subvolume `/@nix-store` containing the Nix store and mount it on `/nix/store`:"*
+
+```nix
+{
+  fileSystems."/" = {
+    device = "/dev/disk/by-partlabel/root";
+    fsType = "btrfs";
+    options = [ "subvol=/@" ];
+  };
+
+  fileSystems."/nix/store" = {
+    device = "/dev/disk/by-partlabel/root";
+    fsType = "btrfs";
+    options = [ "subvol=/@nix-store" ];
+  };
+
+  image.repart.partitions = {
+    "root" = {
+      storePaths = [ config.system.build.toplevel ];
+      nixStorePrefix = "/@nix-store";
+      repartConfig = {
+        Type = "root";
+        Label = "root";
+        Format = "btrfs";
+        Subvolumes = "/@ /@nix-store";
+        MakeDirectories = "/@ /@nix-store";
+        # ...
+      };
+    };
+  };
+}
+```
+
+**逐行解释（本指南的补充）**：
+
+| 行 | 作用 |
+|---|---|
+| `fileSystems."/"` 用 `subvol=/@` | 根文件系统 = `root` 分区的 `@` 子卷 |
+| `fileSystems."/nix/store"` 用 `subvol=/@nix-store` | **同一分区**，但挂 `@nix-store` 子卷 |
+| `nixStorePrefix = "/@nix-store"` | 复制时把 `/nix/store/abc` 变成 `@nix-store/abc`（落到对应子卷） |
+| `repartConfig.Subvolumes` | **告诉 `systemd-repart` 要建哪些子卷**（**空格分隔**） |
+| `repartConfig.MakeDirectories` | 预创建这些目录/子卷（**同上，空格分隔**） |
+
+> [!WARNING]
+> **Btrfs 子卷方案里，`Subvolumes` 和 `MakeDirectories` 都必须写，且都写同样的值。**
+>
+> 官方例子两个都写了 `"/@ /@nix-store"`。**只写一个会导致镜像构建出来但挂不上**（本指南 §27.1 讲过：`fileSystems` 挂不上 = **掉 emergency shell**，不是警告）。
+>
+> **另外注意是「空格分隔的单个字符串」而不是 Nix 列表** —— `Subvolumes = [ "/@" "/@nix-store" ]` 是**错的**（`systemd-repart` 要字符串）。这和本指南 §26.1 讲的「Nix 列表用空格分隔」是不同层面的两件事：**这里是 `systemd-repart` 自己的配置语法要求字符串**。
+
+> [!TIP]
+> **为什么要在镜像里把 Nix store 分出来**（本指南补充的实际理由）：
+>
+> | 好处 | 说明 |
+> |---|---|
+> | **A/B 更新更干净** | 系统分区和 store 分区可以独立替换（见 §35.6） |
+> | **只读挂载更简单** | store 分区可以整个 `ro` 挂载，防误写 |
+> | **重装系统不丢下载** | 换根分区时 store 分区能保留 → 不用重新下载 |
+> | **对齐 `system.etc.overlay` 思路** | 本指南 §33.8：NixOS 的「配置与数据分离」哲学一以贯之 |
+>
+> **对桌面用户的建议**：**默认的「store 和 root 同一分区」就够**。分出来是给「要做 appliance / A/B 更新」的场景用的。
+
+---
+
+### 35.6 Appliance 镜像：UKI + 无 `configuration.nix`
+
+**官方章节名**：`sec-image-repart-appliance`（Appliance Image）。
+
+**官方原文（本节最重要的一段）**：
+
+> *"The `image/repart.nix` module can also be used to build self-contained software appliances. **The generation based update mechanism of NixOS is not suited for appliances.** Updates of appliances are usually either performed by **replacing the entire image** with a new one or by **updating partitions via an A/B scheme**. See the **Chrome OS update process** for an example of how to achieve this. **The appliance image built in the following example does not contain a `configuration.nix` and thus you will not be able to call `nixos-rebuild` from this system.** Furthermore, it **uses a Unified Kernel Image**."*
+
+> [!IMPORTANT]
+> **这段官方原文回答了一个你可能一直在想的问题：「为什么有些 NixOS 系统没有 `nixos-rebuild`？」**
+>
+> 三个关键点：
+>
+> | 官方原话 | 含义 | 本指南的对应 |
+> |---|---|---|
+> | *"generation based update mechanism … is not suited for appliances"* | **generation 机制不适合 appliance** | 见 §33.10「不可切换系统」 |
+> | *"replacing the entire image"* | 更新 = **换整个镜像** | 类似手机刷固件 |
+> | *"updating partitions via an A/B scheme"* | 或 **A/B 分区**（交替写） | 官方点名 **Chrome OS 更新流程** |
+> | *"does not contain a `configuration.nix`"* | **没有 `configuration.nix`** | → **不能 `nixos-rebuild`** |
+> | *"uses a Unified Kernel Image"* | 用 **UKI** | 内核+initrd+cmdline 打包成单个 EFI 可执行文件 |
+>
+> **这就是 `image-based-appliance` profile 的实现方式**（本指南 §26.8 提到的官方 11 个 profile 之一）。
+>
+> **对你的意义**：**不要给你的桌面机做 appliance 镜像**。桌面机要的就是 generation 回滚能力（§30.8）。**appliance 是给「出厂固件的设备」用的**。
+
+**官方给的完整例子（逐字）**：
+
+```nix
+let
+  pkgs = import <nixpkgs> { };
+  efiArch = pkgs.stdenv.hostPlatform.efiArch;
+in
+(pkgs.nixos [
+  (
+    {
+      config,
+      lib,
+      pkgs,
+      modulesPath,
+      ...
+    }:
+    {
+
+      imports = [ "${modulesPath}/image/repart.nix" ];
+
+      boot.loader.grub.enable = false;
+
+      fileSystems."/".device = "/dev/disk/by-label/nixos";
+
+      image.repart = {
+        name = "image";
+        partitions = {
+          "esp" = {
+            contents = {
+              "/EFI/BOOT/BOOT${lib.toUpper efiArch}.EFI".source =
+                "${pkgs.systemd}/lib/systemd/boot/efi/systemd-boot${efiArch}.efi";
+
+              "/EFI/Linux/${config.system.boot.loader.ukiFile}".source =
+                "${config.system.build.uki}/${config.system.boot.loader.ukiFile}";
+            };
+            repartConfig = {
+              Type = "esp";
+              Format = "vfat";
+              SizeMinBytes = "96M";
+            };
+          };
+          "root" = {
+            storePaths = [ config.system.build.toplevel ];
+            repartConfig = {
+              Type = "root";
+              Format = "ext4";
+              Label = "nixos";
+              Minimize = "guess";
+            };
+          };
+        };
+      };
+
+    }
+  )
+]).image
+```
+
+**逐块拆解**：
+
+**① 外层是「用 `pkgs.nixos` 现场求值一个配置」，不是 `nixosSystem`**
+
+```nix
+let
+  pkgs = import <nixpkgs> { };
+  efiArch = pkgs.stdenv.hostPlatform.efiArch;
+in
+(pkgs.nixos [ /* 模块列表 */ ]).image
+```
+
+| 部分 | 作用 |
+|---|---|
+| `import <nixpkgs> { }` | 取 nixpkgs（**这里没传 `system`，用当前平台**） |
+| `pkgs.stdenv.hostPlatform.efiArch` | 取 **EFI 架构名**（x86_64 上是 `"x64"`，aarch64 上是 `"aa64"`）—— **所以文件名是 `BOOTX64.EFI` 或 `BOOTAA64.EFI`** |
+| `pkgs.nixos [ ... ]` | **用 nixpkgs 自带的 `nixos` 函数**求值一个 NixOS 配置（不需要 `flake.nix`） |
+| `.image` | 取 `system.build.image`（§35.3 讲过）—— 直接得到镜像 derivation |
+
+**② `boot.loader.grub.enable = false;`**
+
+> **为什么关 GRUB**：**UKI 由固件直接引导**（systemd-boot 作为 EFI 程序放在 `BOOTX64.EFI`）。GRUB 在这里是多余的一层。
+>
+> 这也是本指南 §33.9 讲的 **Bootspec** 的用武之地 —— UKI 路径从 `config.system.boot.loader.ukiFile` 读。
+
+**③ ESP 分区放两个文件**
+
+```nix
+contents = {
+  "/EFI/BOOT/BOOT${lib.toUpper efiArch}.EFI".source =
+    "${pkgs.systemd}/lib/systemd/boot/efi/systemd-boot${efiArch}.efi";
+
+  "/EFI/Linux/${config.system.boot.loader.ukiFile}".source =
+    "${config.system.build.uki}/${config.system.boot.loader.ukiFile}";
+};
+```
+
+| 目标路径 | 来源 | 说明 |
+|---|---|---|
+| `/EFI/BOOT/BOOTX64.EFI` | `pkgs.systemd` 里的 **systemd-boot** | **UEFI 规范的「fallback 路径」** —— 固件找不到启动项时会自动执行这个 |
+| `/EFI/Linux/<ukiFile>` | **`config.system.build.uki`** | **UKI 放在 `/EFI/Linux/` 是 systemd-boot 的约定** —— 会被自动识别为可启动项 |
+
+> [!TIP]
+> **`lib.toUpper efiArch` 是为什么**：
+> - `efiArch` 的值是**小写**：`"x64"` / `"aa64"`
+> - UEFI fallback 文件名要求**大写**：`BOOTX64.EFI` / `BOOTAA64.EFI`
+> - 但 `systemd-boot${efiArch}.efi` 的源文件名是**小写**：`systemd-bootx64.efi`
+>
+> **所以同一个 `efiArch` 变量被用了三次**：大写用于文件名，小写用于源路径。**这是这个例子最容易抄错的地方。**
+
+**④ root 分区**
+
+```nix
+"root" = {
+  storePaths = [ config.system.build.toplevel ];
+  repartConfig = {
+    Type = "root";
+    Format = "ext4";
+    Label = "nixos";
+    Minimize = "guess";
+  };
+};
+```
+
+| 键 | 值 | 说明 |
+|---|---|---|
+| `Format = "ext4"` | ext4 | 最简选择；想 Btrfs 见 §35.5 |
+| `Label = "nixos"` | **和 `fileSystems."/".device = "/dev/disk/by-label/nixos"` 对应** | ★ **这两个必须一致** |
+| `Minimize = "guess"` | 自动缩到最小 | 镜像体积优化（**`"guess"` 让 `systemd-repart` 自己估算**） |
+
+> [!DANGER]
+> **`Label` 和 `fileSystems."/".device` 必须严格对应。**
+>
+> ```nix
+> fileSystems."/".device = "/dev/disk/by-label/nixos";
+> #                                     ^^^^^ 必须等于
+> repartConfig.Label = "nixos";
+> #                    ^^^^^
+> ```
+>
+> **不一致的后果**：镜像构建成功，但**开机挂不上根分区 → 掉 emergency shell**（本指南 §27.1）。
+>
+> **这是 appliance 例子最危险的一处** —— 因为 `nixos-rebuild build-image` 不会检查这个对应关系，它只保证分区被正确创建。
+
+**构建它**（因为外层是 `pkgs.nixos`，不是一个 NixOS 配置，所以用 `nix-build`）：
+
+```bash
+# 存成 appliance.nix，然后
+nix-build appliance.nix
+# 结果：./result/nixos-image-*.raw（或 .img）
+```
+
+> [!NOTE]
+> **为什么这个例子「不能 `nixos-rebuild`」**（官方原文 *"does not contain a `configuration.nix`"*）：
+>
+> `nixos-rebuild` 的工作方式是：
+> 1. 读 `/etc/nixos/configuration.nix`
+> 2. 求值成一个新的 `toplevel`
+> 3. 调 `switch-to-configuration` 切换（§33.5 的 12 步）
+>
+> **appliance 镜像里这三步的输入（`configuration.nix`）根本不存在** —— 镜像里只有「求值结果」（toplevel）。
+>
+> **这带来两个后果**：
+> | 后果 | 说明 |
+> |---|---|
+> | **不能原地升级** | 要升级必须**换整个镜像**或 **A/B 分区**（官方原文） |
+> | **但更小、更安全** | 没有 Nix 工具链、没有编译器、攻击面小（本指南 §33.10 讲的 `system.switch.enable = false`） |
+>
+> **类比**：这就像**手机固件 vs 电脑系统** —— 手机固件是整块替换的（appliance），电脑系统是可以打补丁的（NixOS 常规模式）。
+
+> [!TIP]
+> **本指南对「什么时候真的要做 appliance」的建议**：
+>
+> | 场景 | 建议 |
+> |---|---|
+> | 你的桌面机 / 笔记本 | **不要**。你要 generation 回滚（§30.8） |
+> | 家里的软路由 / NAS | **不需要**。这些用常规 NixOS + `system.autoUpgrade` 更好 |
+> | 给客户出厂的设备 | **需要**。这是 appliance 的原始场景 |
+> | 想学「最小可引导系统」 | **值得试一次**（在 QEMU 里）。这是理解 UKI / Bootspec / repart 的最好方式 |
+>
+> **QEMU 里试**（不动真机）：
+> ```bash
+> nix-build appliance.nix
+> qemu-system-x86_64 -enable-kvm -m 2048 \
+>   -drive file=./result/nixos-image-*.raw,format=raw,if=virtio \
+>   -bios /run/libvirt/nix-ovmf/OVMF_CODE.fd   # 需要 OVMF（UEFI 固件）
+> ```
+
+---
+
+### 35.7 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | 用 `nix-channel --add` 时忘了末尾的 `nixos` 参数 | 命令成功但**频道没改**（官方原文明确要求） | `sudo nix-channel --add <url> nixos` |
+| 2 | 不加 `sudo` 跑 `nix-channel --add` | 只改用户频道，**不影响系统**（官方原文） | 加 `sudo` |
+| 3 | `system.autoUpgrade.allowReboot = true` 用在桌面机 | 内核更新后**自动重启**，可能丢工作 | 设 `false`，重启自己挑时间 |
+| 4 | 把自己的 `configuration.nix` 整份塞进 Live ISO | ISO 里那份会漂移；硬件相关配置与目标机磁盘冲突 | ISO 只放「git + SSH key + flake 地址」，装机时 clone |
+| 5 | `image.repart` 里 `Label` 与 `fileSystems.*.device` 不一致 | **挂不上 → 掉 emergency shell**（不是警告） | 两处字符串**逐字对齐** |
+| 6 | 给桌面机做 appliance 镜像 | **失去 `nixos-rebuild` 和 generation 回滚** | 桌面机保持常规 NixOS；appliance 只在 QEMU 里试 |
+
+> [!TIP]
+> **本章的四行一句话总结**：
+>
+> **想装第二台机** → `nixos-rebuild build-image` 先列变体（§35.3）。
+> **想给 Agent 一个实验场** → `image.repart` 做 QEMU 镜像（§35.4）。
+> **想做预装 U 盘** → 别塞 `configuration.nix`，放 flake 地址（§35.2）。
+> **appliance 是另一条路** —— 没有 `nixos-rebuild`，靠换整镜像或 A/B 分区升级（§35.6）。
+>
+> **本章你至少要记住一条**：`Label` 和 `fileSystems.*.device` 必须一致，否则开机掉 shell。
+
+---
+
 ## 附录 A：命令速查
 
 ### A.1 系统重建与验证
@@ -10502,6 +15658,115 @@ packageAliases = {
 
 ---
 
+### B.16 第八轮（2026-10-12）官方手册骨架核实（本指南 v1.9）
+
+**本轮的方法与第七轮不同**：第七轮是「按主题查 nixpkgs 源码」；本轮是「**把官方手册整站拉下来，先建骨架，再按骨架补缺口**」。
+
+**① 一手来源**
+
+| 出处 | URL | 用在哪 |
+|---|---|---|
+| **NixOS Manual（stable）** | <https://nixos.org/manual/nixos/stable/> | **本轮全部新章节的骨架与原文**。下载为本地副本（1,200,007 字节）后逐节抽取 |
+| 本地副本 | `.build/nixos-manual-stable.html` | 离线核查用；抽取器 `.build/extract-sec.mjs` |
+
+**② 骨架实测（脚本统计，非估算）**
+
+| 层级 | 总数（带 `id`） | 自动生成（`module-*` / `opt-*`） | **叙事章节** |
+|---|---|---|---|
+| H1 | 11 | 0 | **10**（含「NixOS Manual」总标题） |
+| H2 | 491 | 314 | **177** |
+| H3 | 147 | 67 | **80** |
+| H4 | 44 | 10 | **34** |
+
+**核实方法**（可复现）：
+
+```bash
+curl -sL https://nixos.org/manual/nixos/stable/ -o manual.html
+# 统计带 id 的 h1/h2/h3/h4，排除 id 以 module- / opt- 开头的（= meta.doc 自动生成）
+node -e '
+const t=require("fs").readFileSync("manual.html","utf8").replace(/<script[\s\S]*?<\/script>/gi,"").replace(/<style[\s\S]*?<\/style>/gi,"");
+const g=tag=>[...t.matchAll(new RegExp(`<${tag}[^>]*id="([^"]*)"`,"gi"))].map(m=>m[1]);
+for(const tag of ["h1","h2","h3","h4"]){
+  const a=g(tag), auto=a.filter(x=>/^module-|^opt-/.test(x));
+  console.log(tag, a.length, "auto", auto.length, "narrative", a.length-auto.length);
+}'
+```
+
+**③ 官方 5 个 Part 锚点**
+
+| 官方 Part | 锚点 | 叙事 H2 数 |
+|---|---|---|
+| Preface | `preface` | 1 |
+| Part I · Installation | `ch-installation` | 17 |
+| Part II · Configuration | `ch-configuration` | 100+ |
+| Part III · Administration | `ch-running` | 26 |
+| Part IV · Development | `ch-development` | 30 |
+| Part V · Contributing（5 个 H1） | — | 5 |
+
+**④ 本轮提取的 8 组官方原文**（`.build/official/*.txt`，共约 4,700 行）
+
+| 文件 | 行数 | 覆盖的官方锚点 |
+|---|---|---|
+| `01-config.txt` | 634 | `sec-configuration-syntax` / `sec-configuration-file` / `sec-module-abstractions` / `sec-modularity` / `sec-package-management` / `sec-declarative-package-mgmt` / `sec-ad-hoc-packages` |
+| `02-fs-user.txt` | 477 | `ch-file-systems` / `sec-luks-file-systems` / `sec-sshfs-file-systems` / `sec-overlayfs` / `sec-user-management` / `sec-systemd-sysusers` / `sec-userborn` / `sec-restrict-usage-time` |
+| `03-admin.txt` | 525 | `sec-systemctl` / `sect-nixos-systemd-general` / `sect-nixos-systemd-nixos` / `sec-rebooting` / `sec-user-sessions` / `sec-cgroups` / `sec-logging` / `ch-system-state` / `sec-nixos-state` / `sec-systemd-state` / `sec-nix-gc` / `sect-nixos-gc-boot-entries` |
+| `04-containers.txt` | 398 | `ch-containers` / `sec-imperative-containers` / `sec-declarative-containers` / `sec-container-networking` / `ch-troubleshooting` / `sec-boot-problems` / `sec-maintenance-mode` / `sec-rollback` / `sec-nix-store-corruption` / `sec-nix-network-issues` |
+| `05-graphics.txt` | 337 | `sec-wayland` / `sec-gpu-accel` 及 OpenCL·Vulkan·VA-API·常见问题 / `ch-profiles` + 8 个 profile 子节 |
+| `06-kernel-boot.txt` | 421 | `sec-kernel-config` / `sec-linux-config-customizing` / `sec-linux-config-developing-modules` / `sec-switching-systems` / `sec-unit-handling` / `sec-activation-script` / `sec-etc-overlay` / `sec-non-switchable-system` / `sec-bootspec` |
+| `07-install.txt` | 848 | `sec-obtaining` …… `sec-image-repart-appliance`（17 个安装相关章节） |
+| `08-modules.txt` | 1,045 | `sec-writing-modules` …… `sec-settings-options` / `sec-nixos-tests` / `sec-writing-nixos-tests` / `sec-running-nixos-tests` |
+
+**⑤ 本轮新增的 10 个章节与出处映射**
+
+| 本指南章节 | 主要官方锚点 | 文件 |
+|---|---|---|
+| 官方手册骨架导航 | 全站骨架 | `ch26-nav.md` |
+| 二十六 · 配置语法/抽象/模块化/Profiles | `sec-configuration-syntax` / `sec-configuration-file` / `sec-module-abstractions` / `sec-modularity` / `ch-profiles` | `01-config.txt` `05-graphics.txt` |
+| 二十七 · 文件系统与存储 | `ch-file-systems` / `sec-luks-file-systems` / `sec-sshfs-file-systems` / `sec-overlayfs` | `02-fs-user.txt` |
+| 二十八 · 用户与账户安全 | `sec-user-management` / `sec-systemd-sysusers` / `sec-userborn` / `sec-restrict-usage-time` | `02-fs-user.txt` |
+| 二十九 · systemd/systemctl/日志/cgroup | `sec-systemctl` / `sect-nixos-systemd-*` / `sec-rebooting` / `sec-user-sessions` / `sec-cgroups` / `sec-logging` | `03-admin.txt` |
+| 三十 · 系统状态/GC/故障排查 | `ch-system-state` / `sec-nixos-state` / `sec-systemd-state` / `sec-nix-gc` / `sect-nixos-gc-boot-entries` / `ch-troubleshooting` 五节 | `03-admin.txt` `04-containers.txt` |
+| 三十一 · 容器 | `ch-containers` / `sec-imperative-containers` / `sec-declarative-containers` / `sec-container-networking` | `04-containers.txt` |
+| 三十二 · 图形栈 | `sec-wayland` / `sec-gpu-accel`（含 OpenCL/Vulkan/VA-API/常见问题） | `05-graphics.txt` |
+| 三十三 · 内核与系统切换内部 | `sec-kernel-config` / `sec-linux-config-*` / `sec-switching-systems` / `sec-unit-handling` / `sec-activation-script` / `sec-etc-overlay` / `sec-non-switchable-system` / `sec-bootspec` | `06-kernel-boot.txt` |
+| 三十四 · 写模块与测试 | `sec-writing-modules` / `sec-option-declarations` / `sec-option-types` / `sec-option-definitions` / `sec-assertions` / `sec-meta-attributes` / `sec-replace-modules` / `sec-freeform-modules` / `sec-settings-options` / `sec-nixos-tests` 等 | `08-modules.txt` |
+| 三十五 · 构建镜像 | `sec-upgrading` / `sec-upgrading-automatic` / `sec-building-image` / `sec-image-nixos-rebuild-build-image` / `sec-image-repart` / `sec-image-repart-store-paths` / `sec-image-repart-appliance` | `07-install.txt` |
+
+**⑥ 本轮最高价值的 10 条新事实**（全部有官方原文支撑，已写入对应章节）
+
+| # | 事实 | 官方出处 | 本指南位置 |
+|---|---|---|---|
+| 1 | **非 longterm 内核在「第一批新稳定内核发布时」从 nixpkgs 删除，即使在 stable 分支** | `sec-kernel-config` | §33.1 |
+| 2 | **`nix-collect-garbage -d` 会删掉所有 generation 的 roots → 失去回滚** | `sec-nix-gc` | §30.3 |
+| 3 | **`/boot` 满了要「删 generation」+「再 `nixos-rebuild boot/switch`」两步** | `sect-nixos-gc-boot-entries` | §30.5 |
+| 4 | **`systemctl --user enable` 会链接到 `/nix/store` → GC 后死链 → 服务静默不自启** | `sect-nixos-systemd-nixos` | §29.3 |
+| 5 | **`X-StopIfChanged` 默认为 true**，目的是「新 unit 绝不在旧环境里运行」 | `sec-unit-handling` | §33.6 |
+| 6 | **覆盖优先级精确数字**：`mkForce`(50) < 普通(100) < `mkDefault`(1000) < 选项 default(1500) | `sec-option-definitions` | §34.5 |
+| 7 | **`types.externalPath` 只校验「当前不在 store」，挡不住后续 `${}` 插值复制进 store** | `sec-option-types` | §34.4 |
+| 8 | **官方明确不推荐用 overlay 换包**（*"slow down nixpkgs evaluation significantly and are harder to debug"*） | `sec-option-declarations` | §34.3 |
+| 9 | **ICD 混版本静默失败**：OpenCL/Vulkan 用 `dlopen` 加载 runtime，不受构建期依赖追踪保护 | `sec-gpu-accel-common-issues` | §32.6（**并修正了第二十章的一处建议**） |
+| 10 | **appliance 镜像不适合 generation 更新机制**，靠「换整镜像」或「A/B 分区」（官方点名 Chrome OS） | `sec-image-repart-appliance` | §35.6 |
+
+**⑦ 一处对既有章节的修正**
+
+**第二十章（flake 进阶）原本建议「只滚 `mesa`」以拿到新图形栈。本轮依据官方 `sec-gpu-accel-common-issues` 的警告修正为**：
+
+- 要么**只滚内核 + 用 Flatpak 版应用**（Flatpak 自带 runtime，不受 nixpkgs glibc 影响）
+- 要么**把 `mesa` 连同 `vulkan-loader`、`libdrm` 一起滚**（保持 ICD 链同版本）
+
+**原因**：官方明确警告 *"the loader and the runtime may come from different nixpkgs … the loader will not report an error"* —— **只滚一个组件会产生「看起来正常但硬件加速失效」的静默故障**。
+
+**⑧ 本轮建立的工具**（可复现，留在 `.build/`）
+
+| 工具 | 用途 |
+|---|---|
+| `.build/extract-sec.mjs` | 按 `id` 从本地官方手册 HTML 抽取正文（`<pre>` 转围栏代码块、`<li>` 转列表项、`</td>` 转表格竖线） |
+| `.build/validate.mjs` | 校验新章节：围栏偶数 / 无缩进 callout / callout 分类计数 |
+| `.build/splice-26-35.mjs` | 双锚点幂等拼接（导航章 + 十章），含「已存在则中止」断言 |
+| `.build/count2.mjs` | 统计官方手册叙事 H2/H3/H4（排除 `module-*` / `opt-*`） |
+
+---
+
 
 ## 附录 C：未核实 / 存疑项
 
@@ -10651,6 +15916,30 @@ packageAliases = {
 >
 > **最值得你警惕的一条**：§25.2 的 `xorg` 改名。**这是唯一一条「不知道就会照着旧教程配错」的事实**，而且它影响的是网上绝大多数 nix-ld 教程。
 
+#### 附录 C 补充：第八轮（2026-10-12 官方手册骨架核实）的新增存疑项
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| **26.05 默认的 stage 1 是 scripted 还是 systemd** | `[官方措辞有歧义]` | 官方 `sec-boot-problems` 同时给了「scripted stage 1 调试图参数」和「systemd stage 1 替代方案」两套。**官方没有明说 26.05 默认用哪个**。§30.6 已把两套都列出并标注歧义 |
+| **NixOS 容器「not perfectly isolated」的具体原因** | `[官方结论]` + `[推断·原因]` | 官方原文只说 *"not perfectly isolated"* 并警告「不可给不受信任用户 root」。**具体是哪几项隔离缺失（共享 store / 共享内核 / 无 user namespace？）官方未列举**。§31.1 的推断已标注 |
+| **`image.repart` 的 `repartConfig` 完整键表** | `[官方]`（机制）+ `[未核实]`（全集） | 官方原文只说 *"exposes its entire interface"*，**手册里不列全集**。§35.4 给的 7 个键是从官方各例子里出现的，**不是权威全集** —— 查 `man systemd-repart` |
+| **`sec-building-image` 里「强制设定」的确切清单** | `[推断]` | 官方原文只说 *"know how to enforce configuration settings on which they immediately depend"*，**未列出具体哪些选项**。§35.2 的四项是推断 |
+| **`nixos-rebuild build-image` 在 26.05 的可用变体清单** | `[官方]`（命令存在）+ `[未核实]`（清单） | 官方原文说「不加参数会列出全部变体」，**但未列出内容**。§35.3 列出的变体名是**举例，不是实测输出** |
+| **UKI Appliance 例子的实际可引导性** | `[官方示例]` + `[未核实]` | 官方给的是完整例子，**但本文没有在 QEMU 里实际构建并引导过**。§35.6 的 QEMU 命令是**推断可用** |
+| **`image.modules` 的「extendable」具体机制** | `[官方措辞]` + `[未核实]` | 官方原文说变体「defined - and extendable - in `image.modules`」，**但没给「如何加自己的变体」的例子** |
+| **`specialisations` 与 `image.modules` 的相似度** | `[官方类比]` | 官方原文用 *"in a similar fashion as specialisations"* 类比，**但两者的求值时机是否真的一致未核实** |
+| **`nixStorePrefix` 的完整取值语义** | `[官方示例]`（两种用法）+ `[推断]`（取值表） | 官方只给了 `"/"` 和 `"/@nix-store"` 两个例子。§35.5 的三行取值表**第二行（默认不重写）是推断** |
+| **`system.autoUpgrade` 在 flake 模式下的确切行为** | `[推断]` | §35.1 说它会先跑 `nix flake update`。**这是从 `system.autoUpgrade.flake` 选项的存在反推的，未读到官方对该选项的完整描述** |
+| **small 频道「更少更新但关键补丁更快」的准确语义** | `[官方原文有歧义]` | 官方原文 *"identical … except that they are only updated … faster than the regular channels"* 读起来自相矛盾。§35.1 的解释是**推断** |
+| **本指南「官方顺序 ≠ 本指南顺序」的设计原则** | `[本指南自述]` | 这是本指南的组织决策，**不是官方立场**。官方手册本身没有讨论「教学顺序 vs 参考顺序」 |
+
+> [!NOTE]
+> **第八轮存疑项的特征**：**全部集中在「构建镜像」这一章**（§35 占 9 条）与两处**官方原文歧义**（stage 1、small 频道）。
+>
+> **为什么 §35 存疑项密集**：因为「构建镜像」是本指南**唯一一章完全没有实操验证**的 —— 它需要额外的硬件/虚拟化环境，而本文的其余章节都能在目标机器上直接跑。
+>
+> **使用建议**：§35 的所有命令**请先在有备份的环境里试**。特别是 §35.6 的 appliance 例子 —— 它是官方示例，但**本文未验证过**。
+
 ---
 
 
@@ -10699,6 +15988,24 @@ packageAliases = {
 > [!NOTE]
 > **2026-10-12 第七轮更新（新增第二十五章）**：新增「**二进位包与依赖问题：完整手册**」（11 节）。这是对用户新提问「NixOS 如何使用二进位包？如何解决依赖问题？给出全面的方式，考虑所有的可能和程式类型、常见依赖」的独立成章。**本轮产生了一条影响面最广的时效性发现**：`xorg` 包集在 26.05 已弃用、`libX*` 全面改名 `libx*`（§25.2 / 附录 B.15.2）—— **网上所有 nix-ld 教程（含大量 LLM 训练数据）用的都是旧写法**。
 
+> [!NOTE]
+> **2026-10-12 第八轮更新（以官方手册结构为骨架 + 新增第二十六～三十五章）**：这一轮的性质与前三轮**完全不同**。
+>
+> **前三轮是「按你的提问补内容」；本轮是「按官方手册的结构系统性找缺口」。**
+>
+> **做法**：把官方手册 stable（= NixOS 26.05）整站拉下来 → 脚本统计出 **10 个 H1 / 177 个叙事 H2 / 80 个 H3**（排除 314 个 `module-*` 自动生成章节）→ 做成**双向对照表**（新增「官方手册骨架导航」章）→ 逐条标注覆盖度 → **把 10 个缺口写成第二十六～三十五章**。
+>
+> **本轮的关键决策**（你通过选择确认）：
+> - **骨架导航 + 补齐缺口**，而不是物理重排全文 —— **保留现有 25 章编号**，不破坏 §x.y 交叉引用
+> - **面向你的画像精选** —— 跳过 ZFS / Xen / Kubernetes / Pantheon / Mattermost / Suwayomi 等服务类章节
+>
+> **本轮最高价值的 5 条新事实**：
+> 1. **非 longterm 内核会从 nixpkgs 删除，即使在 stable 分支**（§33.1）—— 解释了「为什么写死内核小版本号会突然构建失败」
+> 2. **ICD 混版本静默失败**（§32.6）—— **并据此修正了第二十章「只滚 mesa」的建议**
+> 3. **覆盖优先级精确数字**：`mkForce`(50) < 普通(100) < `mkDefault`(1000) < 选项 default(1500)（§34.5）
+> 4. **`systemctl --user enable` 会因 GC 变成死链**（§29.3）—— 一个「静默失效」的经典陷阱
+> 5. **`nix-collect-garbage -d` 会删掉所有回滚能力**（§30.3）
+
 | 主题 | 为什么值得补 | 需要什么证据 |
 |---|---|---|
 | ~~**Hermes Agent 的 Nix flake 确切用法**~~ | ✅ **已完成**（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7） | 已取官方 `nix/nixosModules.nix` + `homeManagerModules.nix` + `nix-setup.md` 全文 |
@@ -10709,6 +16016,7 @@ packageAliases = {
 | ~~**Bazzite 使用模式的完整对照**~~ | ✅ **已完成（第五轮，第二十三章）**：六层软件层级逐条映射 + `nh` 与 `ujust` 对照 + 掌机工具链在 nixpkgs 的现状 + 四个反模式 | Bazzite 官方文档全文 + `nixos-26.05` 源码逐条核实（见附录 B.13） |
 | ~~**「稳定基座 + 最新应用」的完整组织方式**~~ | ✅ **已完成（第六轮，第二十四章）**：三条路（Flatpak 优先 / 双 nixpkgs / 混合）+ **HM 官方 FAQ 的 `pkgsUnstable` 写法** + 「稳定」两种含义的辨析 | HM 官方 FAQ `unstable.md` + HM/NixOS 源码核实（见附录 B.14） |
 | ~~**二进位包与依赖问题的完整方案集**~~ | ✅ **已完成（第七轮，第二十五章）**：6 种来源 × 6 类根因 + 14 种方案按侵入性排序 + 常见依赖清单 + 程序类型对照 + 三类死路 + 一页速查 | nixpkgs 模块源码（`nix-ld.nix` / `ldso.nix` / `build-fhsenv-*` / `appimage.nix` / `aliases.nix`）+ 上游 README（见附录 B.15） |
+| ~~**以官方手册结构为骨架重构本指南**~~ | ✅ **已完成（第八轮）**：新增「官方手册骨架导航」章（5 个 Part / 177 个叙事章节双向对照）+ **第二十六～三十五章共 10 章**（配置语法 / 文件系统 / 用户 / systemd / 系统状态 / 容器 / 图形栈 / 内核与系统切换 / 写模块 / 构建镜像） | 官方手册 stable 全文（本地副本）+ 8 组锚点原文提取（见附录 B.16） |
 | **实测基准数据** | 本文多处标 `[未核实]` 就是因为缺可复现的基准（scx 收益、内核切换收益） | 你自己的 A/B 测试 |
 
 #### E.1.1 本轮之后**仍未做**的高价值方向

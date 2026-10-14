@@ -4,7 +4,7 @@
 
 | id | 标题 | 版本 | 状态 | 更新 | 标签 |
 |---|---|---|---|---|---|
-| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——25 章配置实录 | 1.8 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run |
+| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——35 章配置实录 | 1.9 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image |
 | [nixos-operations-guide](./nixos-operations-guide.md) | NixOS 运维指南（26.05）——配置路线、游戏、非 Nix 二进制、混合版本策略、查询工具链、LLM 辅助 | 1.5 | stable | 2026-10-12 | nixos, nix, flakes, home-manager, gaming, steam, appimage, nix-ld, llm-ops, mcp, rolling-release, nixpkgs-unstable, nixhub, flakehub, noogle, systemd-user-service, linger, hermes-agent, openclaw |
 | [distro-ai-collaborative-management](./distro-ai-collaborative-management.md) | 发行版「AI 协同管理」实践全景——哪些发行版真的有 MCP / Skills / AI 运维方案 | 1.0 | stable | 2026-10-12 | linux-distro, mcp, agent-skills, ai-ops, redhat, nixos, opensuse, omarchy, bluefin, clawhub, skills-sh |
 
@@ -48,6 +48,22 @@
 > 3. **`programs.nix-ld` 自带 14 个基础库**（不是「默认空」）+ **nixpkgs 的 python / node 不走 nix-ld** → **pip / npm 原生模块失败时开 nix-ld 没用**，要用官方 wrapper 设 `LD_LIBRARY_PATH`。
 >
 > 另有：**14 种方案按侵入性排序**（从「直接用 nixpkgs 版」到「Distrobox 容器」）；**`buildFHSEnv` = `buildFHSEnvBubblewrap`**（chroot 版已弃用），其 `/etc` 是从宿主 `--ro-bind` 的 **30 项**（解释了「为什么在里面改字体不生效」）；**三类死路**（内核模块 / setuid / glibc 硬冲突）。
+>
+> **v1.9（2026-10-12 第八轮：以官方手册结构为骨架重构 + 第二十六～三十五章）**：`nixos-amd-teaching-guide.md` 升到 **1.9**（25 章 → 35 章），新增第 17 节。**本轮性质与前三轮完全不同** —— 前三轮是「按提问补内容」，本轮是「**把官方手册整站拉下来，脚本统计骨架，系统性找缺口**」。问题原话：「https://nixos.org/manual/nixos/stable/ / 从官方文档补充资料 / 以官方文档的结构为骨架重新修正你的指南」。
+>
+> **方法**（全部可复现）：`curl -sL` 拉整站（1,200,007 字节）→ Node 脚本统计带 `id` 的标题 → 排除 `module-*` / `opt-*` 自动生成章节 → 得到**真实骨架：H1 11 / 叙事 H2 177 / 叙事 H3 80** → 做成双向对照表 → 逐条标注覆盖度 → 把 10 个缺口写成新章节。
+>
+> **两个关键决策**（用户通过选项确认）：① **「骨架导航 + 补齐缺口」**，而不是物理重排全文 —— **保留现有 25 章编号，不破坏 §x.y 交叉引用**；② **面向 AMD / 中文 / 游戏 / Vibe Coding 画像精选** —— 跳过 ZFS / Xen / Kubernetes / Pantheon / Mattermost / Suwayomi 等服务类章节。
+>
+> 五条最高价值结论：
+>
+> 1. **★ 非 longterm 内核会从 nixpkgs 删除，即使在 stable 分支** —— 官方硬规则：在**第一批新稳定内核发布时**移除。**这解释了「为什么写死内核小版本号会突然构建失败」**，正确写法是 `pkgs.linuxPackages_latest` / `_zen` / 默认。
+> 2. **★ ICD 混版本静默失败** —— OpenCL/Vulkan 用 **`dlopen`** 加载 runtime，**不受 Nix 构建期依赖追踪保护**。loader 与 runtime 来自不同 nixpkgs → glibc 符号缺失 → **loader 不报错**。**据此修正了第二十章「只滚 mesa」的建议**。
+> 3. **覆盖优先级精确数字**：`mkForce`(**50**) < 普通(**100**) < `mkDefault`(**1000**) < 选项 `default`(**1500**)。**顺序优先级是另一套**：`mkBefore`(500) < 普通(1000) < `mkAfter`(1500)，只影响顺序不影响保留。**官方原文 *"lowest priority value"* = 数字最小，容易读反。**
+> 4. **`systemctl --user enable` 会链到 `/nix/store/...` → GC 后死链 → 服务静默不自启** —— 官方专段。正确做法是链到 `/run/current-system/sw/lib/systemd/user/`。
+> 5. **`nix-collect-garbage -d` 会删掉所有 generation 的 roots → 失去回滚能力**；且 **`/boot` 满了要「删 generation」+「再 rebuild」两步**（漏第二步不生效）。
+>
+> 另有：**`nixos-rebuild switch` 的 12 步固定动作顺序**；**`X-StopIfChanged` 默认 true**（「新 unit 绝不在旧环境里运行」）；**activation script 每次启动都跑 → 不要塞重活**；**cgroup 默认无内存限制 → `MemoryMax` 治 nix-daemon OOM**；**`users.mutableUsers = false` 时 `useradd` 完全不可用**；**`hashedPassword` 明文进 `/nix/store`**；**`/var/lib/nixos` 存 uid 分配记录，丢了属主乱**；**NixOS 容器「not perfectly isolated」，容器 root 能影响宿主**；**`image.repart` 里 `Label` 与 `fileSystems.*.device` 不一致 → 掉 shell**；**appliance 不适合 generation 更新 → 换整镜像或 A/B（官方点名 Chrome OS）**。
 
 ## 约定
 
