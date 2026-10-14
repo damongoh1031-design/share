@@ -11,9 +11,9 @@ tags:
   - osint
 created: 2026-10-14
 updated: 2026-10-14
-version: 1.3
+version: 1.4
 status: stable
-source: 本次会话（GitHub 实测 + README 抓取 + Messages-Searcher 实测 + LLM 工具形态深挖 + Discord 登录态/CDP 实测）
+source: 本次会话（GitHub 实测 + README 抓取 + Messages-Searcher 实测 + LLM 工具形态深挖 + Discord 登录态/CDP 实测 + 官方搜索端点实测跑通）
 confidence: 已核实
 ---
 
@@ -145,6 +145,13 @@ node tools/cdp-discord-search.mjs "关键词" 0
 node tools/cdp-cookie-check.mjs
 #    临时启用 CDP（关掉所有 Chrome 后）：
 #    "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222
+
+# 7) 完整可用的「Discord 官方搜索」工具链（2026-10-14 在本人账号实测跑通）
+#    附着已登录 Chrome → 点侧边栏捕获 Authorization → GET 搜索端点
+node tools/cdp-click-capture.mjs "harmony" 0   # "关键词" + 服务器序号(0=第一个)
+#    标签页丢了时：先 PUT 开标签，再 cdp-shot.mjs 导航过去，最后跑搜索
+curl -X PUT "http://127.0.0.1:9222/json/new?url=https%3A%2F%2Fdiscord.com%2Fapp"
+node tools/cdp-shot.mjs                          # 导航最新标签到 discord.com/app + 截图 + 存储诊断
 ```
 
 ```text
@@ -172,6 +179,10 @@ pinned:            只看置顶
 9. **Discord 网页登录态不在 cookie 里** —— 2026-10-14 实测：导出的 discord.com cookie 罐（12 个：`_cfuvid`/`__dcfduid`/`_ga`/`OptanonConsent`/`dbind`/`__cf_bm` 等）打 `GET /api/v9/users/@me` 全部 **401**。登录态在 discord.com 域的 `localStorage.token`，导出 cookie 零鉴权价值。
 10. **「有 cookie」≠「已登录」** —— 只要访问过 discord.com 就会留下 Cloudflare/设备 cookie；判断真实登录只能打 `/users/@me` 或查 localStorage。用 CDP `Network.getCookies` 旁路比对两个浏览器是否同一配置文件，比对 `_ga` 设备 ID 最稳（本轮实测：导出的 `_ga=GA1.1.830215638.1791862591` 与 9222 Chrome 罐内一致 → 同一配置文件，但该浏览器未登录网页版）。
 11. **CDP 9222 端点未必是你日常的 profile** —— 端口属于哪个 Chrome 实例要用 `netstat -ano` 查 PID 归属；挂着的调试端口也可能属于工具拉起的无头实例（其页内 `/users/@me` 同样 401）。
+12. **官方搜索端点是 GET + query 参数，不是 POST** —— 2026-10-14 实测：`POST /api/v9/guilds/{id}/messages/search` → **405**；`POST .../messages-search` → 404；正确姿势是 `GET /api/v9/guilds/{id}/messages/search?content=X&include_nsfw=true&sort_by=timestamp&sort_order=desc&offset=0&limit=25`（200，返回 `total_results` + `messages` 分组）。社区教程（含 CSDN 多篇）普遍写成 POST，是错的。
+13. **Discord 2026 网页版已不把 token 放 localStorage** —— 实测该页面上下文 `typeof localStorage/sessionStorage === 'undefined'`，而 `indexedDB/caches` 正常（object）。老教程「DevTools 里 localStorage.getItem('token')」已失效；token 取不到的根因是客户端改存 IndexedDB + 该标签存储受限。
+14. **页面内裸 fetch 不带 Authorization 头** —— 客户端靠拦截器注入；自己 fetch 必须显式加 `authorization` header。取 header 的可靠办法：CDP `Network.requestWillBeSent(ExtraInfo)` 监听真实流量，用 `Input.dispatchMouseEvent` 点一下侧边栏（好友/商店）即可触发带鉴权的 API 请求。
+15. **CDP 工程细节三连坑** —— ① `await Page.reload()` 的 CDP 响应可能永不到达，要用发后不管；② `PUT /json/new?url=...` 开的标签可能停在 `about:blank`，需 `Page.navigate` 补刀；③ `Runtime.evaluate` + `awaitPromise` 的页面 fetch 可能挂起，必须 `Promise.race` 包 12s 超时。
 
 ## 未核实 / 存疑
 
@@ -186,6 +197,7 @@ pinned:            只看置顶
 
 ## 修订记录
 
+- **1.4**（2026-10-14）：官方搜索端点实测跑通（GET + query 参数，POST 会 405）；token 经 CDP 流量捕获（点击侧边栏触发）；Discord 2026 网页版 localStorage/sessionStorage 消失、IndexedDB 正常；坑 #12–#15；tools/cdp-click-capture.mjs 交付。
 - **1.3**（2026-10-14）：新增 Discord 登录态实测结论（cookie 导出 401、localStorage token 机制、CDP `Network.getCookies` 身份比对）与「驱动已登录 Chrome 零 token 搜索」可复用操作（tools/cdp-discord-search.mjs）；坑 #9–#11。
 - **1.2**（2026-10-14）：新增第 7 节「让 LLM 搜索 Discord 内容的软件形态」深挖结果（MCP/Skill/CLI/浏览器/RAG 五形态 + 选型结论）。
 - **1.1**（2026-10-14）：新增第 6 节 Messages-Searcher 本机实测纪要（双重 TypeError + cgi 模块缺失 + re.match 锚定/静默跳频道实测）；坑 #5/#8 更新为实测结论。
@@ -200,3 +212,4 @@ pinned:            只看置顶
 - Messages-Searcher 源码与实测：https://github.com/KanekiWeb/Messages-Searcher （克隆于 2026-10-14，Python 3.13.12 / discord.py 2.7.1 与 1.7.3 双路冒烟）
 - LLM 工具形态深挖（2026-10-14，GitHub Search API 四路查询 + 8 个仓库 README 抓取）：SaseQ/discord-mcp、v-3/discordmcp、hanweg/mcp-discord、cappyeo/discord-mcp、mastra-ai/discord-mcp-server、banodoco/hivemind、Nice-Wolf-Studio/agent-discord-skills、quangdang46/discord_cli、youngsecurity/discord_vector_db、sandraschi/discord-mcp、jackwener/opencli（20k★ 报道见 https://hub.baai.ac.cn/view/54747 ）
 - Discord 登录态与 CDP 实测（2026-10-14）：用户 cookie 导出打 `/api/v9/users/@me` → 401；`netstat -ano` 确认 9222 属主 Chrome PID；CDP `Network.getCookies` 比对 `_ga` 证实同一配置文件但未登录网页版；`tools/cdp-discord-search.mjs` 零 token 驱动方案
+- 官方搜索端点与 token 捕获实测（2026-10-14，本人账号 jsng0819）：`GET /api/v9/guilds/{id}/messages/search` → 200（`harmony` 在 RimWorld 服 total_results 36023）；POST → 405；`messages-search` → 404；localStorage/sessionStorage typeof undefined + IndexedDB 正常；CDP `Input.dispatchMouseEvent` 点击侧边栏触发流量 → `Network.requestWillBeSentExtraInfo` 捕获 72 字符 Authorization

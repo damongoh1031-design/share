@@ -4,4 +4,4 @@
 
 | slug | 标题 | tags | version | updated | status |
 |---|---|---|---|---|---|
-| [`discord-content-search-methods`](./discord-content-search-methods.md) | 搜索 Discord 内容的所有方式 | discord, search, discord-cli, sqlite, ripgrep, github-search, osint | 1.3 | 2026-10-14 | stable |
+| [`discord-content-search-methods`](./discord-content-search-methods.md) | 搜索 Discord 内容的所有方式 | discord, search, discord-cli, sqlite, ripgrep, github-search, osint | 1.4 | 2026-10-14 | stable |

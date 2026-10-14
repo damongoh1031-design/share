@@ -33,13 +33,20 @@ if (!/discord\.com/.test(target.url)) {
 }
 const ev = async (expr) => (await send('Runtime.evaluate', { expression: expr, awaitPromise: true, returnByValue: true })).result?.value;
 
+// 关键坑：discord.com 页面里的原生 fetch 不会自动带 Authorization 头（客户端用拦截器加），
+// 必须从 localStorage 显式取出 token 放进 header。token 全程只留在页面内存，不打印、不外传。
+const TOKEN = await ev(`(()=>{const k=['token',...Object.keys(localStorage)].find(x=>localStorage.getItem(x)&&/^token/i.test(x));return k?localStorage.getItem(k):null})()`);
+if (!TOKEN) { console.log('NO_TOKEN_IN_LOCALSTORAGE: 该浏览器未登录 Discord 网页版（或 token 键名异常）'); process.exit(2); }
+const AUTH = JSON.stringify(TOKEN);
+console.log('session: token 已从页面 localStorage 取得（长度 ' + TOKEN.length + '，内容不显示）');
+
 // 1) 登录态校验
-const me = await ev(`fetch('/api/v9/users/@me',{headers:{accept:'*/*'}}).then(async r=>({status:r.status, body: r.status===200? await r.json(): await r.text()}))`);
+const me = await ev(`fetch('/api/v9/users/@me',{headers:{authorization: ${AUTH}, accept:'*/*'}}).then(async r=>({status:r.status, body: r.status===200? await r.json(): await r.text()}))`);
 if (me?.status !== 200) { console.log('LOGIN_CHECK_FAILED:', JSON.stringify(me).slice(0, 200), '\n=> 该 9222 浏览器未登录 Discord。需用你常用的 Chrome 配置文件重启（见交付说明）。'); process.exit(2); }
 console.log('LOGIN_OK as:', me.body.username, '| id:', me.body.id);
 
 // 2) 拉取服务器列表
-const guilds = await ev(`fetch('/api/v9/users/@me/guilds',{headers:{accept:'*/*'}}).then(r=>r.json())`);
+const guilds = await ev(`fetch('/api/v9/users/@me/guilds',{headers:{authorization: ${AUTH}, accept:'*/*'}}).then(r=>r.json())`);
 if (!Array.isArray(guilds) || !guilds.length) { console.log('NO_GUILDS'); process.exit(3); }
 console.log('GUILDS(' + guilds.length + '):');
 guilds.slice(0, 10).forEach((g, i) => console.log('  [' + i + ']', g.name, '(' + g.id + ')'));
@@ -48,7 +55,7 @@ guilds.slice(0, 10).forEach((g, i) => console.log('  [' + i + ']', g.name, '(' +
 const q = process.argv[2] || 'a';
 const gi = Number(process.argv[3] || 0);
 const g = guilds[gi] || guilds[0];
-const search = await ev(`fetch('/api/v9/guilds/${g.id}/messages/search',{method:'POST',headers:{accept:'*/*','content-type':'application/json'},body:JSON.stringify({content:${JSON.stringify(q)},include_nsfw:true,sort_by:'timestamp',sort_order:'desc',offset:0,limit:25})}).then(async r=>({status:r.status, body: r.status===200? await r.json(): await r.text()}))`);
+const search = await ev(`fetch('/api/v9/guilds/${g.id}/messages/search',{method:'POST',headers:{authorization: ${AUTH}, accept:'*/*','content-type':'application/json'},body:JSON.stringify({content:${JSON.stringify(q)},include_nsfw:true,sort_by:'timestamp',sort_order:'desc',offset:0,limit:25})}).then(async r=>({status:r.status, body: r.status===200? await r.json(): await r.text()}))`);
 if (search.status === 200) {
   const raw = search.body.messages || [];
   const flat = raw.flat ? raw.flat().filter(Boolean) : raw;
