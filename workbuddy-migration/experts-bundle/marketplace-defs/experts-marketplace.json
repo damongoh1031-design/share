@@ -1,0 +1,76 @@
+{
+  "name": "experts",
+  "description": "experts marketplace (auto-generated)",
+  "plugins": [
+    {
+      "name": "malaysia-hr-admin",
+      "source": "./plugins/malaysia-hr-admin",
+      "description": "Amelia — Malaysia HR & Admin compliance expert. Corpus-first engine (52 Reference_Texts: Employment Act/PDPA/Companies Act + DuckDB 77 tables + 8 official data sources) covering labor law, payroll, foreign worker management, office admin and corporate compliance."
+    },
+    {
+      "name": "customer-reply",
+      "source": "./plugins/customer-reply",
+      "description": "Customer service scriptwriter built on one insight: most complaints escalate not because of the problem itself, but because the first reply was wrong. Generates copy-paste-ready replies for all four scenarios - pre-sales inquiries, after-sales support, complaints, and returns & refunds - each with a five-level emotion-soothing strategy matched to the customer's state (calm / anxious / unhappy / furious / disappointed). Every plan includes first reply, follow-up and escalation scripts; complaints get an extra contingency plan for further escalation. Golden rules enforced: feelings before facts, specific commitments (time, plan, owner) instead of vague promises, and banned phrases ('no idea', 'can't help', 'not my job', 'policy says no') auto-replaced with positive phrasing. Tone adapts by channel (casual for live chat, formal for email, warm for social media) and industry vocabulary (e-commerce, SaaS, F&B, education, finance) is woven in automatically. Batch generation supported for multi-scenario script libraries."
+    },
+    {
+      "name": "sales-experts",
+      "source": "./plugins/sales-experts",
+      "description": "Sales coaching, deal strategy, enterprise accounts, presales experts"
+    },
+    {
+      "name": "llm-wiki",
+      "source": "./plugins/llm-wiki",
+      "description": "LLM Wiki Knowledge Management Expert"
+    },
+    {
+      "name": "malaysia-legal",
+      "source": "./plugins/malaysia-legal",
+      "description": "Malaysia Legal Compliance Expert — Corpus-first engine (Companies Act 2016/PDPA 2010/SSM + e-Kehakiman/MyIPO search) covering company registration, IP, data protection, litigation, industry licensing & corporate compliance."
+    },
+    {
+      "name": "devops-security-experts",
+      "source": "./plugins/devops-security-experts",
+      "description": "DevOps, security, SRE, incident response, embedded engineering experts"
+    },
+    {
+      "name": "frontend-backend-experts",
+      "source": "./plugins/frontend-backend-experts",
+      "description": "Frontend, backend, full-stack, mobile development experts"
+    },
+    {
+      "name": "operations-customer-experts",
+      "source": "./plugins/operations-customer-experts",
+      "description": "Customer support, platform operations, infrastructure operations experts"
+    },
+    {
+      "name": "kdocs-knowledge-collector",
+      "source": "./plugins/kdocs-knowledge-collector",
+      "description": "知识收藏专家：网页剪藏、碎片笔记整理、文档总结与内容生成。"
+    },
+    {
+      "name": "engineering-tools-experts",
+      "source": "./plugins/engineering-tools-experts",
+      "description": "Code review, Git workflow, MCP, LSP engineering tools experts"
+    },
+    {
+      "name": "quality-testing-experts",
+      "source": "./plugins/quality-testing-experts",
+      "description": "QA, performance testing, API testing, accessibility audit experts"
+    },
+    {
+      "name": "education-training-experts",
+      "source": "./plugins/education-training-experts",
+      "description": "Corporate training, study abroad, technical documentation experts"
+    },
+    {
+      "name": "gpt-researcher-team",
+      "source": "./plugins/gpt-researcher-team",
+      "description": "Deep Research Team: 7 specialist roles orchestrate a 5-phase workflow (initial scouting → outline planning → per-chapter deep research with review-revise loop → report assembly → final publishing) to aggregate multi-source data into professional research reports with inline hyperlink citations."
+    },
+    {
+      "name": "deep-research",
+      "source": "./plugins/deep-research",
+      "description": "Deep research plugin that enables comprehensive web research, information synthesis, and knowledge discovery. Supports multi-source research, fact verification, and structured report generation."
+    }
+  ]
+}

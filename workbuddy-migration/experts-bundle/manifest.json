@@ -59,11 +59,13 @@
       }
     ]
   },
-  "files": 679,
+  "files": 350,
   "size_uncompressed": "14M",
   "excluded": [
-    ".in_use/<pid> runtime markers"
+    ".in_use/<pid> runtime markers",
+    "marketplaces/experts/plugins (208M app-seeded catalog + long-path dotnet sources)"
   ],
   "secret_scan": "clean (2026-10-14, only doc placeholders found)",
-  "push_safe": true
+  "push_safe": true,
+  "marketplace_defs_extra": "experts-marketplace.json (catalog root metadata)"
 }
