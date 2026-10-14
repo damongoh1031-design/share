@@ -8,8 +8,8 @@
 | 下一版本 | NixOS 26.11「Zokor」（2026 年 11 月底） |
 | 硬件画像 | **AMD 显卡 + AMD CPU + Realtek 有线网卡**（无 NVIDIA、无无线） |
 | 用户画像 | 中文用户 · GNOME 或 KDE · Flatpak · Steam · Vibe Coding |
-| 文档版本 | 2.1 |
-| 核实日期 | 2026-10-14（**第十轮：用 mcp-nixos（实时 nixpkgs 索引）交叉核实前 37 章，新增第三十八章，并就地修正 §14 / §36.6 / §B.17.3 共 3 处**，见附录 B.18） |
+| 文档版本 | 2.2 |
+| 核实日期 | 2026-10-14（**第十一轮：补全 mcp-nixos 的完整能力面 —— home-manager 侧核实（第十轮完全没查）· 数据源辨析（search.nixos.org vs NixHub.io 两套后端）· `cache`/`browse`/其余 9 个 source 实测；新增第三十九章，并就地修正 §6.5、补充 §11.3 / §19.6 / §22.2 / §38.7 / §29 unit 表共 6 处**，见附录 B.19） |
 | 姊妹文档 | `nixos-ops-guide.md`（通用深度手册，含完整理论推导） |
 
 ---
@@ -61,7 +61,8 @@
 | **三十六** | **nix.dev 官方指南精华**（Best Practices · Troubleshooting · FAQ · Recipes） | **★ 官方最佳实践七条（给 Agent 的代码审查清单）** / **`system.nix`（26.05 新增，不用 channel 也不用 flake）** / npins / **五个报错的官方修法** / **二进位包的官方答案（含两条本指南之前缺的 `nix-ld` 细节）** / 二进制缓存 / post-build-hook / Cachix / direnv / **`mkShellNoCC`** / Python 环境 |
 | **三十七** | **NixOS 26.05 破坏性变更与新增特性总表**（官方 release notes 逐条） | **★ 升级前必查 16 项** / **`fsType` 不再有默认值（官方手册正文已过时）** / **Stage 1 默认改为 systemd** / **Switch inhibitors** / `profiles/hardened` 移除 / `wineWowPackages` 改名（游戏必读） / 网络与桌面变更 / **26.05 变更速查表** |
 | **三十八** | **mcp-nixos 交叉核实：26.05 版本与选项实测对照表** | **★ 用实时索引反向核对前 37 章** / **26.05 vs 25.11 选项默认值实测对照** / **内核包实测（`linux_7_0`/`linux_7_1` 消失的实物证据）** / **★ 修正 3 处** / **★★ `NOT_FOUND` ≠ 不存在（四类假阴性）** |
-| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes · B.18 mcp-nixos 交叉核实**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
+| **三十九** | **mcp-nixos 的完整能力面：home-manager 侧核实 · 数据源辨析 · 二进制缓存查询** | **★★ 11 个 source × 8 个 action（第十轮只用 1 个和 4 个）** / **★★★ 内部有两套后端（search.nixos.org vs NixHub.io），会对同一个包给出不同版本号** / **★ HM 侧索引三特性（无默认值 / 描述截断 / 忽略 channel）** / **★ HM 侧 25 条选项逐条实测** / **★★ `action=cache`：查「这包在不在缓存」** / **★★ HM 内建 `services.home-manager.autoUpgrade` / `autoExpire`（补 §11.3 / §19.6 的缺口）** / **`browse` + `Similar:` 发现未知选项** / **假阴性第⑤⑥类** |
+| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes · B.18 mcp-nixos 交叉核实 · B.19 mcp-nixos 完整能力面**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
 
 > [!TIP]
 > **时间估算**：全新安装 + 跑通本文全部配置，**约 3–4 小时**（含下载时间）。其中装机约 40 分钟，配置与调试约 2–3 小时。
@@ -269,7 +270,7 @@
 | 27–32 | Test 驱动开发 / 安装器测试 | — | ➖ 贡献向 |
 | 33+ | Modular Services / Portability / Migration | — | ➖ 贡献向 |
 
-### 导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章）
+### 导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章 + 第十一轮 1 章）
 
 | 新章节 | 对应官方 Part | 补的是什么 | 对你为什么有用 |
 |---|---|---|---|
@@ -286,6 +287,7 @@
 | **三十六** | **nix.dev（guides）** | 官方最佳实践 / 排错 / FAQ / Recipes | **给 Agent 的代码审查清单**；不用 channel 也不用 flake 的第四条路 |
 | **三十七** | **release notes 26.05** | 破坏性变更与新增特性总表 | **升级前逐条检查单**；解释「老教程为什么失效」 |
 | **三十八** | **mcp-nixos（实时索引）** | 26.05 版本与选项实测对照 | **反向核对前 37 章的结论**；**`NOT_FOUND` ≠ 不存在** |
+| **三十九** | **mcp-nixos（完整能力面）** | HM 侧核实 / 两套后端辨析 / `cache` 缓存查询 | **查「这包在不在缓存、装它要多久」**；**查 HM 侧选项**；**发现未知选项**；**搞清楚工具什么时候会骗你** |
 
 > [!TIP]
 > **阅读建议**：
@@ -295,6 +297,7 @@
 > - **装机前** → 先读 **二十七**（文件系统与加密）
 > - **升级 / 别人教程不管用时** → 先读 **三十七**（26.05 变更总表）
 > - **想自己核实某个包/选项存不存在** → 读 **三十八**（mcp-nixos 用法 + 四类假阴性）
+> - **想知道「这个包装起来要多久」「HM 选项怎么写」** → 读 **三十九**（`cache` 查缓存 + HM 侧核实 + 两套后端辨析）
 
 ---
 
@@ -1425,7 +1428,7 @@ gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffe
 | `programs.gnome-extensions` | **不存在**。要用「装包 + dconf 启用 extensionUuid」 | `[Wiki]` |
 | Nix 装的 GNOME 扩展不激活 | 必须用 dconf 显式列进 `enabled-extensions` | `[Wiki]` |
 | GNOME 分数缩放 | **无 NixOS 选项**，只能 gsettings | `[社区]` |
-| `qt.platformTheme = "gnome"` | ⚠️ **26.05 下深色模式是坏的**。改用 `qadwaitadecorations` / `qgnomeplatform` | `[Wiki]` |
+| `qt.platformTheme = "gnome"` | ⚠️ **两个坑叠在一起**：① **HM 侧该选项已弃用** —— 官方描述原文 *"Deprecated. Use `qt.platformTheme.name` instead."*（`[mcp-nixos 实测 2026-10-14]`，见 §39.9）→ 先改用 `qt.platformTheme.name`；② **26.05 下深色模式是坏的** → 再用 `qadwaitadecorations` / `qgnomeplatform` 绕过 | `[Wiki]` + `[mcp-nixos]` |
 | Plasma 里 Qt 应用段错误 | 陈旧 QML 缓存导致。删掉 `**/qmlcache` 即可 | `[Wiki]` |
 | GNOME 精简软件 | 用 `services.gnome.core-apps.enable = false` + `environment.gnome.excludePackages` | `[仓库]` |
 | `services.xserver.*` 前缀 | 都还是**别名**（`mkRenamedOptionModule`），可用但已非推荐写法 | `[仓库]` |
@@ -2522,6 +2525,34 @@ systemd.services.nixos-upgrade = {
 > **`--update-input` 参数已废弃**（nixpkgs #349734）。老教程里的自动升级配置如果用了它，会导致**自动升级静默失败** —— 不报错，但什么也没更新。改用上面的写法。
 >
 > 出处：[github.com/NixOS/nixpkgs/issues/349734](https://github.com/NixOS/nixpkgs/issues/349734) `[仓库]`
+
+**层次 5：Home Manager 侧的内建自动更新（用户层，不需要 root）** `[mcp-nixos 实测 2026-10-14]`
+
+上面四个层次**全部是系统层的**。**Home Manager 自己就内建了用户侧的自动升级与自动清理** —— 这一条第十轮之前本指南完全没写，见第三十九章 §39.6：
+
+```nix
+# 放在 home.nix（HM 侧，不需要 root）
+services.home-manager.autoUpgrade = {
+  enable = true;
+  useFlake = true;
+  flakeDir = "/home/你的用户名/nix-config";
+  frequency = "weekly";          # 传给 systemd timer 的 OnCalendar
+  flags = [ "--commit-lock-file" ];
+};
+
+services.home-manager.autoExpire = {
+  enable = true;
+  frequency = "weekly";
+  timestamp = "-30 days";        # 删掉 30 天前的 HM generation
+  store.cleanup = true;          # 顺带 nix-collect-garbage
+};
+```
+
+> [!TIP]
+> **这两组选项补上了本指南的一个真实缺口。** 系统层的 `nix.gc.automatic`（§11.x）**管不到 HM 的 generation 链** —— 因为 HM 的 generation 是用户层的、由 HM 自己维护。长期下来 HM 的 generation 会独自膨胀。**`services.home-manager.autoExpire` 就是官方给这个问题的答案。**
+
+> [!DANGER]
+> **⚠️ 不要同时让系统层与用户层都「自动 switch」。** 两者会各自触发一次 rebuild，而用户层可能先跑、拿到旧的 `pkgs`（尤其在 `home-manager.useGlobalPkgs = true` 时）。**安全组合：系统层负责 upgrade，用户层只负责 expire。**
 
 **另外两个必踩的坑**：
 
@@ -6291,6 +6322,35 @@ home.sessionPath = [ "$HOME/.npm-global/bin" ];      # ★ 第十五章的 npm p
 > [!IMPORTANT]
 > **第 2 条和 5 条是真正的隐藏税。** 第 2 条会慢慢吃掉磁盘，第 5 条会在某次 `nix flake update` 后突然让你整个 home 配置打不开（因为 HM 的模块签名变了）。**对策：HM input 与 nixpkgs input 用同一个 ref，且 Hermes 的 HM follow 你的 HM**（§21.4 给了具体写法）。
 
+#### HM 侧的自动升级与自动清理（第三十九章新增）`[mcp-nixos 实测 2026-10-14]`
+
+**HM 内建了两个服务，正好对应系统层 `system.autoUpgrade` / `nix.gc` 的用户层版本：**
+
+| HM 侧选项 | 对应的系统层选项 | 作用 |
+|---|---|---|
+| `services.home-manager.autoUpgrade.enable` | `system.autoUpgrade.enable` | 周期性跑 `home-manager switch` |
+| `services.home-manager.autoUpgrade.useFlake` | `system.autoUpgrade.flake` | 用 flake 模式（需在 `homeConfigurations` 配 `user@host` 键） |
+| `services.home-manager.autoUpgrade.flakeDir` | `system.autoUpgrade.flake`（路径部分） | `flake.nix` 所在目录 |
+| `services.home-manager.autoUpgrade.frequency` | `system.autoUpgrade.dates` | 间隔（`OnCalendar` 格式） |
+| `services.home-manager.autoUpgrade.flags` | `system.autoUpgrade.flags` | 传给 `home-manager switch` 的参数 |
+| `services.home-manager.autoUpgrade.preSwitchCommands` | — | switch 前执行的 shell 命令 |
+| `services.home-manager.autoExpire.enable` | `nix.gc.automatic` | 周期性清理**旧 HM generation** |
+| `services.home-manager.autoExpire.timestamp` | `nix.gc.options`（`--delete-older-than`） | 删除比 TIMESTAMP 更旧的 generation |
+| `services.home-manager.autoExpire.store.cleanup` | `nix.gc.automatic`（store 部分） | 同时跑 `nix-collect-garbage` |
+| `services.home-manager.autoExpire.store.options` | `nix.gc.options` | 传给 `nix-collect-garbage` 的参数 |
+
+> [!TIP]
+> **★ 为什么这两组选项对你特别重要。**
+>
+> 本指南 §21 的硬约束是「Hermes / OpenClaw 不做 root 服务」。**它们的运行态、配置、generation 全在用户层。**
+>
+> 而 §11.x 与 §23.14 讲的 `system.autoUpgrade` / `nix.gc` **全是系统层的** —— 系统层的 GC **看不见也清不掉** HM 的用户 generation 链。**长期跑下来，HM 的 generation 会独自膨胀**（每个 generation 还带一份 `home-path`）。
+>
+> **`services.home-manager.autoExpire` 就是官方给这个问题的答案。** 具体配置见 §11.3 的「层次 5」。
+
+> [!DANGER]
+> **⚠️ 两层都开「自动 switch」时要串顺序。** 用户层的 `home-manager switch` 如果先于系统层 `nixos-rebuild` 跑，且你用了 `home-manager.useGlobalPkgs = true`，用户层会拿到**旧的 `pkgs`**。**安全组合：系统层 upgrade，用户层只 expire。**
+
 ### 19.7 一页裁决表
 
 | 我想…… | 用哪个 |
@@ -7260,6 +7320,48 @@ programs.nix-ld.libraries = with pkgs; [ libGL libxkbcommon gtk3 ];  # 按报错
 > - **构建时给 `nix-daemon` 限内存 + 加 swap**（报告里限到 9 GB 后不再 OOM）。
 > - **在强机器上构建，然后推到你自己的 Cachix**（如果你有多个 NixOS 节点，这是唯一真正解决问题的办法）。
 > - **或者干脆不用 flake**，走 §21.11 的 `nix profile install` 路——`nix profile install github:...` 同样要构建，但**它只构建一次并进 profile**，不会因为你的 `nixos-rebuild` 而重算。
+
+#### 动手查：哪些包在缓存里？（第三十九章新增）`[mcp-nixos 实测 2026-10-14]`
+
+**上面讲的是「怎么缓解」。在动手之前，先花 30 秒问一句「到底哪些包不在缓存里」——mcp-nixos 的 `cache` action 就是干这个的。**
+
+```jsonc
+// {"action": "cache", "query": "mesa"}
+Binary Cache Status: mesa@26.2.1
+System: x86_64-linux
+  Store path: /nix/store/v5c40hysv678q0yjwvdi0q97rdmxr9r4-mesa-26.2.1
+  Status: CACHED
+  Download size: 58.7 MB
+  Unpacked size: 272.4 MB
+  Compression: zstd
+```
+
+**本轮实测（26.05 / x86_64-linux）**：
+
+| 包 | 缓存状态 | 说明 |
+|---|---|---|
+| `mesa` 26.2.1 | ✅ CACHED（58.7 MB） | 正常，官方缓存里有 |
+| `proton-ge-bin` | ✅ CACHED（162 B） | 体积极小 —— 真正的 GE-Proton 包由 `fetchurl` 拉 |
+| `firefox` 154.0.1 | ✅ CACHED | x86_64-linux + aarch64-linux；aarch64-darwin ❌ |
+| **`steam`** 1.0.0.87 | ❌ **NOT CACHED** | **因为它是 `unfreeRedistributable`** |
+
+> [!TIP]
+> **★ 这条直接解释了一个你会遇到的日常现象：「为什么我装 Steam 那么慢？」**
+>
+> 实测 `steam` 的 license 是 **`unfreeRedistributable`**。**`cache.nixos.org` 不缓存 unfree 包。** 所以任何需要 `allowUnfree` 的包，大概率都要本地构建，或从别的 substituter 拿。
+>
+> **这不是你配置错了。**
+>
+> **推论**：判断一个包会不会慢，可以先看它的 license —— **`unfree*` 开头的基本都不在官方缓存里**。
+
+> [!WARNING]
+> **`cache` 只认 NixHub 快照里的版本（第三十九章 §39.2），且不索引内核包名。** 实测 `{"action": "cache", "query": "linux_6_18"}` → `NOT_FOUND`。
+>
+> **它是「快速体检」，不是「精确验证」。** 精确验证要用本机命令行（装完系统后可用）：
+>
+> ```bash
+> nix path-info --store https://cache.nixos.org -r ./result   # 查整个 closure 是否全在缓存
+> ```
 
 ### 22.3 【NixOS 环境类】stub-ld：预编译动态 ELF 跑不起来，工具闭包永远"不同步"
 
@@ -11148,7 +11250,7 @@ users.groups.hermes = { };
 |---|---|---|
 | **unit** | 一个「被管理的东西」 | `xxx.service` / `xxx.mount` / `xxx.timer` / `xxx.target` |
 | **`.service`** | 一个服务（进程） | `sshd.service` |
-| **`.mount`** | 一个挂载点 | `home.mount`、`mnt-games.mount` |
+| **`.mount`** | 一个挂载点 | `home.mount`、`mnt-games.mount`（⚠️ 这里的 `home.mount` 是 **systemd 的 `.mount` unit 名**，**不是 Home Manager 选项** —— HM 侧 `info home.mount` 返回 `NOT_FOUND` 是正确的，见 §39.9 与 §39.4） |
 | **`.timer`** | 定时器（替代 cron） | `nixos-upgrade.timer` |
 | **`.target`** | 一组 unit 的集合 | `multi-user.target`、`graphical.target` |
 | **`default.target`** | **开机起点** | 所有服务的依赖根 |
@@ -17701,7 +17803,7 @@ nix_versions(package, version, limit)
 > [!IMPORTANT]
 > **mcp-nixos 的索引来自 search.nixos.org 的 Elasticsearch** —— 它记的是**「实际存在的包与选项」**。
 >
-> **以下四类名字查不到，但完全可能是对的**：
+> **以下六类名字查不到，但完全可能是对的**（**第⑤⑥类为第三十九章 §39.8 新增**）：
 
 | 类别 | 例子 | 为什么查不到 | 正确做法 |
 |---|---|---|---|
@@ -17709,6 +17811,8 @@ nix_versions(package, version, limit)
 | **② attrset（不是叶子选项）** | `services.lact`、`services.scx`、`hardware.nvidia`、`users.users` | `info` 要求**精确路径** | 查叶子：`services.lact.enable` |
 | **③ 派生 attrset** | `linuxPackages`、`linuxPackages_latest`、`rocmPackages.clr.icd` | 索引记**派生源头** | 查 `linuxKernel.kernels.linux_6_18` |
 | **④ freeform 键（nix.conf 键）** | `extra-substituters`、`post-build-hook`、`nix.settings.secret-key-files` | 它们是 **`nix.settings` 自由格式子模块的键**，不是选项 | 查 `man nix.conf` 或模块源码 |
+| **⑤ 第三方模块选项** | `home-manager.users`、`home-manager.useGlobalPkgs`、`home-manager.useUserPackages` | **它们不在 nixpkgs 里** —— 是 Home Manager 仓库自带的 NixOS 模块提供的 | 读 HM 仓库源码；**mcp-nixos 两套 source 都查不到**（第三十九章 §39.8） |
+| **⑥ freeform 子键（选项树深处）** | `xdg.portal.config.common.default`、`xdg.portal.config.<desktop>.*` | 它们是 `xdg.portal.config` 这个 attrset 的子键，不是独立选项 | 查父选项，**它的 `Example:` 字段里就写着子键**（第三十九章 §39.8） |
 
 > [!DANGER]
 > **⚠️ 本轮核实中最容易踩的坑：把 `xorg.libX11` 的 `NOT_FOUND` 当成「这个名字不存在」。**
@@ -17735,6 +17839,8 @@ nix_versions(package, version, limit)
 > 4. **它是不是「内核/包集派生」？** → 是 → 换 `linuxKernel.kernels.*` / `rocmPackages.*` 这类源头名再查
 >
 > **四步都不命中，才判定为「真的不存在」。**
+>
+> **⚠️ 第三十九章 §39.8 已把这条判据升级为「六步 + 一次 `search`」** —— 因为本轮实测出第⑤⑥类假阴性，且发现 `search`（带 `type=options`）能查到很多 `info` 查不到的东西。**以 §39.8 的版本为准。**
 
 ---
 
@@ -17830,6 +17936,661 @@ python .build/mcp-nixos-driver.py .build/mcp-batch-XX.json
 > **本章你至少要记住一条**：**`NOT_FOUND` ≠ 不存在** —— 别名、attrset、派生集、freeform 键**四类都查不到，但四类都可能是对的**。
 
 ---
+
+
+## 三十九、mcp-nixos 的完整能力面：home-manager 侧核实 · 数据源辨析 · 二进制缓存查询
+
+第三十八章用 mcp-nixos **反向核对**了本指南前 37 章的**包名与选项名**，修了 3 处错。但那一轮**只用了这个工具的一小部分**：
+
+| 第十轮实际用了 | 实际存在的 |
+|---|---|
+| **1 个 source**（`nixos`） | **11 个** |
+| **4 个 action**（`info` / `search` / `channels` / `stats`） | **8 个** |
+| `nix_versions` 只跑通、未深究 | 它走的是**另一套后端** |
+
+本章补上三个盲区：**① home-manager 侧**（本指南有 91 处提到 HM，第十轮**一条都没查**）；**② 其他 9 个 source**；**③ `cache` / `browse` / `flake-inputs` 等没碰过的 action**。
+
+> [!IMPORTANT]
+> **本章定位：补盲 + 辨析数据源，不是重复第三十八章。**
+>
+> 第三十八章回答「**我写的包名/选项名对不对**」。本章回答「**这个工具还能查什么、它什么时候会骗我**」。
+>
+> **本章最重要的一节是 §39.2** —— mcp-nixos 内部有**两套互不相通的后端**，它们**会对同一个包给出不同版本号**。不知道这件事，你会被自己的工具误导。
+
+> [!NOTE]
+> **本章全部数字为 2026-10-14 实测**（mcp-nixos v3.1.0，`uvx mcp-nixos@latest`）。方法与工具同第三十八章 §38.2：`.build/mcp-nixos-driver.py` + `.build/mcp-batch-12.json` … `-20.json`。
+
+---
+
+### 39.1 ★★ 完整能力面：11 个 source × 8 个 action
+
+**出处**：<https://github.com/utensils/mcp-nixos> README `[仓库]`（MIT，作者 James Brink，release 3.1.0 / 2026-09-05）
+
+**8 个 action**（`nix` 工具的第一个参数）：
+
+| action | 作用 | 第十轮用过？ |
+|---|---|---|
+| `search` | 搜包 / 选项 / 程序 / flake | ✅ |
+| `info` | 查单个包或选项的详情 | ✅ |
+| `stats` | 数量与分类统计 | ✅ |
+| `channels` | 列出可用 NixOS channel + 索引 commit | ✅ |
+| **`cache`** | **查某包在 cache.nixos.org 的缓存状态 + 下载体积** | ❌ **没用过** |
+| **`browse`** | **按前缀浏览 HM / darwin / nixvim / NVF / Noogle 选项树** | ❌ **没用过** |
+| `flake-inputs` | 读本地 flake 的 input（**需要本机装 Nix**） | ❌ 本机无 Nix |
+| `store` | 读 `/nix/store` 里的文件（**需要本机装 Nix**） | ❌ 本机无 Nix |
+
+**11 个 source**（`nix` 工具的 `source` 参数）：
+
+| source | 查什么 | 第十轮用过？ |
+|---|---|---|
+| `nixos` | NixOS 包 + 选项 + 程序 | ✅ |
+| **`home-manager`** | **HM 选项（26.05 实测 5,661 条）** | ❌ **完全没用** |
+| `darwin` | nix-darwin 选项（26.05 实测 1,165 条） | ❌ |
+| `flakes` | 社区 flake（走 search.nixos.org） | ❌ |
+| `flakehub` | FlakeHub 注册表 | ❌ |
+| `nixvim` | Nixvim 选项（走 NuschtOS search） | ❌ |
+| `nvf` | NVF 选项 | ❌ |
+| `noogle` | Nix 函数签名与文档 | ❌ |
+| `wiki` | NixOS Wiki 全文 | ❌ |
+| `nix-dev` | nix.dev 官方教程 | ❌ |
+| **`nixhub`** | **NixHub.io 的包元数据 + store path** | ❌ |
+
+> [!TIP]
+> **这张表对你的实际意义**：本指南第十二章列了「五个查询站的分工」，而 mcp-nixos **把它们全部收进了一个接口**。你不必再分别去 `search.nixos.org` / `noogle.dev` / `wiki.nixos.org` / `nixhub.io` / `flakehub.com` 各开一个网页 —— **一句话就能查**，而且 agent 可以直接读结果。
+>
+> **这也是为什么本章值得单独写一章**：把工具的真实覆盖面写清楚，agent 才会用对。
+
+**实测 `stats` 全景**（2026-10-14）：
+
+| source | 规模 | 备注 |
+|---|---|---|
+| NixOS `26.05` | **144,332 包 / 24,658 选项** | `stats` 计数 |
+| NixOS `25.11` | **132,579 包 / 23,244 选项** | 对比用 |
+| NixOS `unstable` | 150,810 包 / 25,773 选项 | 第三十八章已测 |
+| **Home Manager** `26.05` | **5,661 选项 / 28 分类** | 前三：`programs` 3,330 / `services` 1,089 / `accounts` 295 |
+| **nix-darwin** `26.05` | **1,165 选项 / 16 分类** | 前三：`services` 305 / `system` 252 / `launchd` 249 |
+
+> [!NOTE]
+> **`channels` 说 26.05 有 175,460 个文档，`stats` 说 144,332 个包 —— 不矛盾。**
+>
+> 175,460 是 **Elasticsearch 文档总数**（包 + 选项 + 程序条目混在一起），144,332 是**包**的计数。**两个数口径不同，别拿来互相「验证」。**
+
+---
+
+### 39.2 ★★★ 最重要的一条：mcp-nixos 内部有**两套互不相通的后端**
+
+**这是本章的核心，也是第十轮完全没意识到的事。**
+
+| 走哪条路 | 后端 | 跟踪什么 | 实测数据新鲜度 |
+|---|---|---|---|
+| `action` = `info` / `search` / `stats` / `browse` + **`channel=` 参数** | **search.nixos.org**（Elasticsearch） | **你指定的 channel**（`26.05` / `25.11` / `unstable`） | **2026-10-14**（当日） |
+| `nix_versions` 工具 + **`action=cache`** + **`source=nixhub`** | **NixHub.io**（Jetify） | **只有 nixpkgs-unstable 的历史**（**没有 `channel` 参数**） | **2026-08-27**（滞后约 7 周） |
+
+**实测证据 —— 同一个包，两套后端给出不同版本号：**
+
+| 包 | `info channel=26.05`（search.nixos.org） | `info channel=unstable` | `nix_versions` / `cache`（NixHub.io） | NixHub 快照 commit |
+|---|---|---|---|---|
+| `steam` | **1.0.0.85** | 1.0.0.87 | **1.0.0.87** | `c27cdad4` |
+| `mesa` | **26.1.8** | 26.2.4 | **26.2.1** | `e8be7818` |
+| `proton-ge-bin` | **GE-Proton11-1** | GE-Proton11-7 | **`3`**（store path 为 `GE-Proton11-3`） | `c27cdad4` |
+| `firefox` | **157.0.1** | 157.0.1 | **154.0.1** ⚠️ | `c27cdad4` |
+| `nodejs` | **24.21.0**（`nodejs` 属性） | — | **26.8.1**（属性是 `nodejs_26`） | `7d1a7c21` |
+
+> [!DANGER]
+> **⚠️ 三件必须记住的事：**
+>
+> **① `nix_versions` 没有 `channel` 参数 —— 它永远查的是 unstable 的历史，不是你系统的版本。**
+>
+> 实测：`nix_versions(package="nodejs", version="24.21.0")` → **`Version 24.21.0 not found for nodejs`**，但 26.05 里 `nodejs` **就是 24.21.0**。因为它只认 NixHub 快照里有的版本。
+>
+> **② NixHub 快照会滞后，且滞后方向不固定。**
+>
+> `steam` NixHub 比 26.05 新（跟 unstable，正常）；`firefox` NixHub 比 26.05 **旧**（154 < 157）—— 因为 NixHub 最后一次抓 firefox 停在 **2026-08-27**，而 nixpkgs 在 9–10 月已经推到 157。
+>
+> **③ 所以：`nix_versions` 说「最新是 X」时，不能推断「你系统里就是 X」。**
+>
+> 要查**你的系统**里是什么版本，用 `info` + `type=package` + `channel=<你的channel>`；要查**历史与对应 commit**（比如「我想回到 154.0.1，该 pin 哪个 commit」），才用 `nix_versions`。
+
+> [!TIP]
+> **★ 一句话判据**：
+>
+> | 你的问题 | 用哪个 | 必须带的参数 |
+> |---|---|---|
+> | 「26.05 里这个包是什么版本？」 | `info` | `type=package` + **`channel="26.05"`** |
+> | 「这个选项在 26.05 默认值是多少？」 | `info` | `type=option` + **`channel="26.05"`** |
+> | 「这个包的历史版本 + 对应 nixpkgs commit？」 | `nix_versions` | `limit=`（**没有 channel**） |
+> | 「这个包在不在二进制缓存、多大？」 | `cache` | 只认 NixHub 快照的版本 |
+> | 「某个包名到底存不存在？」 | `search` | `type=packages` 或 `type=options` |
+>
+> **凡是看到版本号，先问一句「这是哪套后端给的」。**
+
+---
+
+### 39.3 ★★ home-manager 侧的三个索引特性
+
+第十轮一条 HM 选项都没查。本轮查了 40 余条，发现 HM 索引与 NixOS 索引**有三处系统性差异**。
+
+**① HM 索引不返回默认值（没有 `Default:` 行）**
+
+| 查询 | NixOS 侧（`source=nixos`） | HM 侧（`source=home-manager`） |
+|---|---|---|
+| `programs.firefox.enable` | `Type: boolean` / `Description: …` / **`Default: false`** / `Example: true` | `Type: boolean` / `Description: …` —— **无 `Default:` 行** |
+| `programs.bash.enable` | **`Default: true`** + 一段长描述 | `Type: boolean` / `Description: Whether to enable GNU Bourne-Again SHell.` —— **无 `Default:`** |
+
+> [!WARNING]
+> **第三十八章 §38.3 教过一条判据：「`info` 输出里没有 `Default:` 行 = 该选项没有默认值」。**
+>
+> **这条判据在 `source=home-manager` 下不成立** —— HM 索引**根本不输出默认值**，无论有没有。
+>
+> **所以：在 HM 侧查默认值，必须回官方文档** → <https://nix-community.github.io/home-manager/options.xhtml>。
+
+**② HM 侧描述被截断**
+
+实测 `xdg.portal.enable` 的 HM 描述原文结尾是：
+
+```
+... make sure to add to your NixOS configuration so that
+```
+
+—— **句子断在这里，后面的内容没了**。同样被截断的还有 `home.stateVersion`（断在 `… or l`）、`home.sessionPath`（断在 `However, since expressions like`）、`dconf.settings`（断在 `if an option is of ty`）。
+
+> [!TIP]
+> **截断只发生在 HM 侧**（NixOS 侧描述完整）。**看到描述断在半句、且没有句号收尾，就知道是被索引截断了，不是你漏看了。**
+>
+> 需要完整描述 → 用 `action=browse`（§39.7 实测，browse 的输出同样截断）或直接开官方 options 页。
+
+**③ HM 索引忽略 `channel` 参数**
+
+| 查询 | 26.05 | 25.11 |
+|---|---|---|
+| `stats source=home-manager` | 5,661 选项 / 28 分类 | **5,661 选项 / 28 分类**（完全相同） |
+| `programs.mangohud` 的 `Similar:` 建议列表 | 5 条 | **完全相同的 5 条** |
+
+> [!IMPORTANT]
+> **原因：Home Manager 不在 nixpkgs 里**（§19.1 的核心结论）。它是 `nix-community` 的独立仓库，有自己的 release 分支。**mcp-nixos 的 HM 索引只有一份，没有「按 channel 分」的概念。**
+>
+> **实务后果**：查 HM 选项时**写不写 `channel` 都一样**。但**写 `channel="26.05"` 不会报错**（会静默忽略）—— 别以为你查的是「26.05 的 HM」。
+>
+> **这一条反过来独立佐证了 §19.1**：NixOS 与 HM 是两套独立的版本体系。
+
+---
+
+### 39.4 ★★ HM 侧核实结果：本指南写到的 HM 选项，逐条实测
+
+**方法**：把本指南正文里出现的 HM 侧选项名提取出来，用 `source=home-manager` + `channel=26.05` 逐条查。
+
+| 本指南写的 | HM 侧实测 | 结论 |
+|---|---|---|
+| `programs.git.enable` | ✅ boolean | 正确 |
+| `programs.zsh.enable` | ✅ boolean | 正确 |
+| `programs.bash.enable` | ✅ boolean | 正确 |
+| `programs.firefox.enable` | ✅ boolean | 正确 |
+| `programs.mangohud.enable` | ✅ boolean | 正确 |
+| `programs.mangohud.settings` | ✅（`browse` 实测存在） | 正确 |
+| `dconf.settings` | ✅ `attribute set of attribute set of (GVariant value)` | 正确 |
+| `home.packages` | ✅ `list of package` | 正确 |
+| `home.username` | ✅ `non-empty string` | 正确 |
+| `home.homeDirectory` | ✅ `absolute path` | 正确 |
+| `home.shellAliases` | ✅ `attribute set of string` | 正确 |
+| `home.file` | ✅ `attribute set of (submodule)` | 正确 |
+| `home.sessionPath` | ✅ `list of string` | 正确 |
+| `home.stateVersion` | ✅ `one of "18.09" … "26.11"`（**含 26.05 与 26.11**） | 正确 |
+| `xdg.portal.enable` | ✅ boolean | 正确 |
+| `xdg.portal.extraPortals` | ✅ `list of package` | 正确 |
+| `xdg.portal.config` | ✅ `attribute set of attribute set of …` | 正确 |
+| `gtk.enable` / `gtk.theme` / `gtk.iconTheme` | ✅ | 正确 |
+| `qt.enable` | ✅ boolean | 正确 |
+| `qt.platformTheme` | ⚠️ **`Deprecated. Use qt.platformTheme.name instead.`** | **本轮修正，见 §39.9** |
+| `services.mako.enable` | ✅ boolean | 正确 |
+| `systemd.user.services` | ✅ `attribute set of (open submodule of systemd service unit configuration)` | 正确 |
+| `targets.genericLinux.enable` | ✅ boolean | 正确 |
+| `nixpkgs.config` | ✅ `null or (nixpkgs config)` | 正确（§24.5 的 `useGlobalPkgs = false` 前提） |
+| `programs.home-manager.enable` | ✅ boolean（HM standalone 的入口） | 正确 |
+
+> [!TIP]
+> **26.05 实测的 HM 侧「本指南没写过、但值得知道」的选项：**
+>
+> | 选项 | 类型 | 用途 |
+> |---|---|---|
+> | `programs.mangohud.enableSessionWide` | boolean | **给所有支持的应用自动挂 MangoHud**（不用逐个 `mangohud %command%`） |
+> | `programs.mangohud.settingsPerApplication` | attrset | **按应用分别写 MangoHud 配置**（写到 `$XDG_CONFIG_HOME/MangoHud/<app>.conf`） |
+> | `services.home-manager.autoUpgrade.*` | 6 个选项 | **HM 内建的自动升级**（§39.6） |
+> | `services.home-manager.autoExpire.*` | 5 个选项 | **HM 内建的 generation 自动清理**（§39.6） |
+>
+> **`programs.mangohud.enableSessionWide` 对游戏玩家特别有用** —— 这是 §8 的 MangoHud 配置里比 `mangohud %command%` 更省事的一档。
+
+> [!IMPORTANT]
+> **★ HM 侧的「假阴性」——本指南写了、但 `source=nixos` 查不到，且这**不是**错误：**
+>
+> 本指南大量使用 `home-manager.users.<name>`、`home-manager.useGlobalPkgs`、`home-manager.useUserPackages`、`home-manager.backupFileExtension`。**实测这 4 个在 `source=nixos` 下全部 `NOT_FOUND`。**
+>
+> **为什么**：它们**不是 nixpkgs 的选项**，而是 **Home Manager 仓库自己提供的 NixOS 模块**（`home-manager/release-26.05/nixos/common.nix` 等，见附录 B.14.2）的选项。**nixpkgs 的索引里当然没有它们。**
+>
+> **所以**：`home-manager.*` 在 mcp-nixos 里**永远查不到**（HM 的「用户侧」选项在 `source=home-manager`，「NixOS 模块侧」选项两处都没有）。**要核实它们，只能读 HM 仓库源码。**
+
+**独立佐证（本轮最有价值的三条）**：
+
+| 本指南的原结论 | mcp-nixos 实测 | 判定 |
+|---|---|---|
+| §8：「`programs.mangohud` 是 HM 侧选项，NixOS 侧没有」 | NixOS 侧 `NOT_FOUND` ✅ / HM 侧 ✅ | **独立证实** |
+| §21：Hermes 与 OpenClaw **不在 nixpkgs** | `services.hermes-agent.enable` → `NOT_FOUND`；HM 侧 `openclaw` → **`No Home Manager options found`** | **独立证实** |
+| §19.2：「`environment.systemPackages` 与 `home.packages` 都写同一个包 = 装两遍」 | HM 侧 `programs.lutris.steamPackage` 的官方描述原文：*"This must be the same you use for your system, or two instances will conflict, for example, if you configure steam through the nixos module, a good value is `osConfig.programs.steam.package`"* | **官方文字直接印证** |
+
+> [!NOTE]
+> **第三条特别值得看** —— 它不是「mcp-nixos 说的」，而是 **mcp-nixos 从 nixpkgs 索引里取回的 nixpkgs 官方选项描述**。HM 的 `programs.lutris` 模块主动提醒你「两份 steam 会冲突」，这是 §19.2 那条 WARNING 的**上游原文**。
+
+---
+
+### 39.5 ★★ `action=cache`：动手查「这个包在不在二进制缓存」
+
+**这是第十轮完全没用过、但对本指南 §22.2 那个痛点最直接的 action。**
+
+§22.2 讲的是「Hermes flake 没有二进制缓存，每次 `nix flake update` 要本地重建 ~666 个 derivation」。**问题反过来问就是：我依赖的这些包，到底哪些在 cache.nixos.org 上？**
+
+`action=cache` 就是干这个的。
+
+**实测输出（2026-10-14）**：
+
+```jsonc
+// {"action": "cache", "query": "mesa"}
+Binary Cache Status: mesa@26.2.1
+
+System: x86_64-linux
+  Store path: /nix/store/v5c40hysv678q0yjwvdi0q97rdmxr9r4-mesa-26.2.1
+  Status: CACHED
+  Download size: 58.7 MB
+  Unpacked size: 272.4 MB
+  Compression: zstd
+```
+
+```jsonc
+// {"action": "cache", "query": "steam"}
+Binary Cache Status: steam@1.0.0.87
+
+System: x86_64-linux
+  Store path: /nix/store/dbfnfmn8yn1cg45a51v1lih08i75rxhx-steam-1.0.0.87
+  Status: NOT CACHED
+```
+
+**本轮实测汇总**：
+
+| 包 | 版本 | x86_64-linux 缓存状态 | 下载 / 解包体积 |
+|---|---|---|---|
+| `mesa` | 26.2.1 | ✅ **CACHED** | 58.7 MB / 272.4 MB |
+| `proton-ge-bin` | `3` | ✅ **CACHED** | 162 B / 224 B |
+| `firefox` | 154.0.1 | ✅ CACHED（x86_64 + aarch64-linux）/ ❌ NOT CACHED（aarch64-darwin） | 316.6 KB / 1.5 MB |
+| **`steam`** | 1.0.0.87 | ❌ **NOT CACHED** | — |
+
+> [!TIP]
+> **★ `steam` 为什么 `NOT CACHED`？—— 因为它是 unfree。**
+>
+> `steam` 的 license 是 **`unfreeRedistributable`**（实测 `info` 输出的 `License:` 字段）。**`cache.nixos.org` 不缓存 unfree 包**，所以任何 `allowUnfree` 才能装的包，大概率都要本地构建或从别的 cache 拿。
+>
+> **这是解释「为什么我装 Steam 那么慢」的物理原因** —— 不是你配置错了。
+>
+> **顺带解释另一个现象**：`proton-ge-bin` 显示 CACHED 但体积只有 162 B —— 因为它是**固定输出派生的占位 / 或内容寻址的薄层**（真正的 GE-Proton 压缩包由 `fetchurl` 从 GitHub 拉）。**「CACHED 且体积极小」不等于「不用下载」，只等于「这个 derivation 的输出在缓存里」。**
+
+> [!WARNING]
+> **`cache` 只认 NixHub 快照的版本（§39.2）。**
+>
+> 实测：`{"action": "cache", "query": "linux_6_18"}` → **`NOT_FOUND`**，因为 NixHub 不索引内核包名（§38.7 第③类假阴性）。
+>
+> 要查**内核**的缓存状态，得先找到 NixHub 认的名字（试 `linux` / `linuxKernel` 等），或者干脆用命令行：
+>
+> ```bash
+> # 本机直接问（需要已装 Nix，本指南读者装完系统后可用）
+> nix path-info --store https://cache.nixos.org -r ./result   # 查 closure 是否全在缓存
+> nix-store --query --hash /nix/store/<path>                  # 查单个路径
+> ```
+>
+> **`action=cache` 的定位是「快速体检」，不是「精确验证」。**
+
+**与本指南 §22.2 的连接**：
+
+| 你遇到的问题 | 用 `action=cache` 怎么答 |
+|---|---|
+| 「为什么这个包装得这么慢？」 | 查它 → `NOT CACHED` → 本地构建 |
+| 「我的 flake 重建要多久？」 | 逐个查它的 input 依赖 → 数一数有多少 `NOT CACHED` |
+| 「能不能提前知道这次 update 会炸多久？」 | update 前先查关键包的缓存状态 |
+| 「unfree 包是不是都慢？」 | 是。license 为 `unfree*` 的包基本都不在官方 cache |
+
+---
+
+### 39.6 ★★ 本轮最有价值的实务发现：HM 内建的两个服务
+
+**这两个是第十轮完全没碰、本指南也完全没写的** —— 而它们**直接回答了你第二轮提出的问题**：
+
+> 「flake 是否可以自动更新，而不会锁版本？不需要人工一直介入来更新？」
+
+§11.3 当时给的答案是「四个层次」（`system.autoUpgrade` / 两段式 / GitHub Action / agent 接管），**全部是系统层的**。本轮实测发现：**Home Manager 自己就内建了用户侧的自动升级与自动清理。**
+
+**`services.home-manager.autoUpgrade`（HM 侧 6 个选项）**：
+
+| 选项 | 类型 | 作用 |
+|---|---|---|
+| `enable` | boolean | 启用「周期性跑 `home-manager switch`」的服务 |
+| `frequency` | string | 间隔，传给 systemd timer 的 `OnCalendar` |
+| `flags` | list of string | 传给 `home-manager switch` 的额外参数（**这里放 `--flake` 相关 flag**） |
+| `flakeDir` | string | `flake.nix` 所在目录 |
+| `useFlake` | boolean | 是否用 flake 模式（**flake URI 用 FQDN / 长 / 短主机名，需要在 `homeConfigurations` 里配 `user@host` 键**） |
+| `preSwitchCommands` | list of string | switch 之前执行的 shell 命令 |
+
+**`services.home-manager.autoExpire`（HM 侧 5 个选项）**：
+
+| 选项 | 类型 | 作用 |
+|---|---|---|
+| `enable` | boolean | 周期性清理**旧 HM generation** |
+| `frequency` | string | 间隔（`OnCalendar` 格式） |
+| `timestamp` | string | 「删掉比 TIMESTAMP 更旧的 generation」（`date -d` 的语义） |
+| `store.cleanup` | boolean | **同时跑 `nix-collect-garbage` 清理 store** |
+| `store.options` | string | 传给 `nix-collect-garbage` 的参数 |
+
+> [!TIP]
+> **★ 这两组选项补上了本指南的一个真实缺口：**
+>
+> | 本指南原来只有 | 现在补上 |
+> |---|---|
+> | §11.3 / §23.14：`system.autoUpgrade`（**系统层**） | `services.home-manager.autoUpgrade`（**用户层**） |
+> | §11.x：`nix.gc.automatic`（**系统层 GC**） | `services.home-manager.autoExpire`（**用户层 generation + store**） |
+>
+> **对你这个画像的意义**：你的 agent（Hermes / OpenClaw）跑在**用户层**（§21 的硬约束：不做 root 服务）。**用户层的配置与 generation 只有 HM 自己知道怎么清理。** 系统层的 `nix.gc` 管不到 HM 的 generation 链 —— 长期下来 HM 的 generation 会独自膨胀。
+>
+> **`services.home-manager.autoExpire` 就是官方给这个问题的答案。**
+
+> [!DANGER]
+> **⚠️ 不要同时开 `system.autoUpgrade` 和 `services.home-manager.autoUpgrade` 的「自动 switch」而不管顺序。**
+>
+> 两者会各自触发一次 rebuild：系统层一次、用户层一次。**如果用户的 HM 配置依赖系统层刚升级后的 `pkgs`（例如 `useGlobalPkgs = true`），那么用户层可能先于系统层跑，拿到的是旧的 `pkgs`。**
+>
+> **安全的组合**：**系统层负责 upgrade，用户层只负责 expire。** 或者用 `preSwitchCommands` / systemd 依赖把顺序串起来（§11.3 层次 2 的手法）。
+
+> [!NOTE]
+> **这两组选项本指南尚未实测「跑起来是什么样」** —— 本章核实的是**它们存在、类型、语义**（mcp-nixos + HM 索引）。**具体行为（是否与 flake 模式配合、失败如何回滚）列为附录 C 的存疑项。**
+
+---
+
+### 39.7 ★ 两个必须知道的用法：`type=options` 与 `action=browse`
+
+**① `search` 默认只搜包（`type=packages`）—— 搜选项必须显式写 `type=options`**
+
+实测对照：
+
+```jsonc
+// 默认（等于 type=packages）
+{"action": "search", "query": "experimental-features", "source": "nixos", "limit": 5}
+// → No packages found matching 'experimental-features'
+
+// 加上 type=options
+{"action": "search", "query": "experimental-features", "source": "nixos", "type": "options", "limit": 5}
+// → Found 1 options matching 'experimental-features':
+//   * nix.settings.experimental-features
+//     Type: list of string
+```
+
+> [!WARNING]
+> **这是本轮实测中最容易误判的一处。**
+>
+> 第三十八章 §38.7 把 `nix.settings.experimental-features` 归为「第④类假阴性：freeform 键，`info` 查不到」。**`info` 确实查不到**（实测 `NOT_FOUND`），**但它 `search` 查得到** —— 只要写 `type=options`。
+>
+> **所以「`info` 查不到」不等于「搜不到」。** 先 `search`（带 `type=options`），再决定要不要判它「不存在」。
+>
+> **同理**：`search` 默认**只搜包**，所以 `search query="mangohud" source=nixos` 返回的是**包** `mangohud (0.8.4)` / `mangojuice (1.0.0)`；而 `search … type=options` 返回 **`No options found matching 'mangohud'`** —— 后者才是本指南 §8 说的「NixOS 侧没有 mangohud 选项」的**正确核实方式**。
+
+**② `action=browse`：按前缀浏览选项树（**只对 HM / darwin / nixvim / NVF / Noogle 有效**）**
+
+实测：
+
+```jsonc
+{"action": "browse", "source": "home-manager", "query": "programs.mangohud"}
+// → Home Manager options with prefix 'programs.mangohud' (5 found):
+//   * programs.mangohud.enable
+//   * programs.mangohud.enableSessionWide
+//   * programs.mangohud.package
+//   * programs.mangohud.settings
+//   * programs.mangohud.settingsPerApplication
+```
+
+`browse` 在 **`source=nixos` 下会明确报错**，并给出正确用法：
+
+```
+Error (ERROR): action=browse is not for NixOS. To search NixOS options, use:
+{"action": "search", "query": "nginx", "type": "options"}. To get a specific
+option's details, use: {"action": "info", "query": "services.nginx.enable", "type": "option"}.
+```
+
+> [!TIP]
+> **`browse` 的真实价值：发现「你不知道自己不知道」的选项。**
+>
+> `info` 只能查你**已经知道名字**的选项。`browse` 把一棵子树全列出来 —— **本轮就是靠它发现 `programs.mangohud.enableSessionWide` / `settingsPerApplication`，以及 `services.home-manager.autoUpgrade` / `autoExpire` 全部 11 个选项的。**
+>
+> **用法**：`browse source=home-manager query=<前缀>`。前缀写多深都行（`programs` 会返回 3,230+ 条，`programs.mangohud` 返回 5 条）。
+
+**③ 顺带发现：`Similar:` 建议**
+
+`info` 查一个**中间层 attrset**（不是叶子）时，会给出**存在的叶子列表**：
+
+```jsonc
+{"action": "info", "query": "programs.mangohud", "type": "option", "source": "home-manager"}
+// → Error (NOT_FOUND): Option 'programs.mangohud' not found.
+//   Similar: programs.mangohud.enable, programs.mangohud.enableSessionWide,
+//            programs.mangohud.package, programs.mangohud.settings,
+//            programs.mangohud.settingsPerApplication
+```
+
+> [!TIP]
+> **这直接改善了第三十八章 §38.7 第②类假阴性（「attrset 不是叶子」）的处理方式。**
+>
+> 第十轮的做法是「查叶子：`services.lact` → `services.lact.enable`」—— 但**叶子叫什么名字得你自己猜**。现在 `Similar:` 会把叶子全列出来。**先查中间层，让工具告诉你叶子叫什么。**
+
+---
+
+### 39.8 ★ 假阴性的第五、六类：把 §38.7 的四步判据升级
+
+第三十八章 §38.7 列了 `NOT_FOUND` 的四类假阴性。本轮又实测出**两类**，补进同一张表：
+
+| 类别 | 例子 | 为什么查不到 | 正确做法 |
+|---|---|---|---|
+| **⑤ 第三方模块选项** | `home-manager.users`、`home-manager.useGlobalPkgs`、`home-manager.useUserPackages`、`home-manager.backupFileExtension` | **它们不在 nixpkgs 里**，是 Home Manager 仓库自带的 NixOS 模块提供的 | 读 HM 仓库源码（`nixos/common.nix` 等）；**mcp-nixos 两套 source 都查不到** |
+| **⑥ freeform 子键（选项树深处的自由键）** | `xdg.portal.config.common.default`、`xdg.portal.config.<desktop>.*` | 它们是 **`xdg.portal.config` 这个 attrset 的子键**，不是独立选项 | 查父选项 `xdg.portal.config`，**它的 `Example:` 字段里就写着 `common = { default = [ "gtk" ]; }`** |
+
+> [!IMPORTANT]
+> **第⑥类的判据：看父选项的 `Example:` 字段。**
+>
+> 实测 `xdg.portal.config` 的 `Example:` 原文：
+>
+> ```nix
+> {
+>   common = {
+>     default = [ "gtk" ];
+>   };
+>   pantheon = {
+>     default = [ "pantheon" "gtk" ];
+>     "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+>   };
+>   x-cinnamon = {
+>     default = [ "xapp" "gtk" ];
+>   };
+> }
+> ```
+>
+> **`common.default` 就在里面** —— 所以本指南写 `xdg.portal.config.common.default` **是对的**，`NOT_FOUND` 是索引粒度问题，不是指南的错。
+>
+> **（这与 §38.7 第④类的区别：第④类是 `nix.settings` 下的 nix.conf 键；第⑥类是任何 `attribute set of attribute set of …` 类型选项下的自由子键。判据相同：看父选项的 `Type:` 是不是 attrset，再看 `Example:`。）**
+
+**升级后的完整判据（六步）**：
+
+> [!TIP]
+> **★ 一个名字 `NOT_FOUND` 时，按顺序问六个问题：**
+>
+> 1. **是不是「点分路径的中间层」？** → 是 → 用 `Similar:` 或 `browse` 找叶子
+> 2. **官方是否说它已改名 / 已弃用？** → 是 → 读 `pkgs/top-level/aliases.nix`
+> 3. **是不是 nix.conf 的键？** → 是 → 读 `man nix.conf`
+> 4. **是不是「内核 / 包集派生」？** → 是 → 换源头名（`linuxKernel.kernels.*`）
+> 5. **是不是第三方模块（HM / nix-darwin / nix-flatpak / nix-gaming）的选项？** → 是 → 去那个仓库读源码
+> 6. **父选项的 `Type:` 是不是 attrset？** → 是 → 看父选项的 `Example:`，子键通常写在那里
+>
+> **另外先做一步**：**用 `search` + `type=options` 再搜一遍**（§39.7）。`info` 要求精确路径，`search` 是模糊匹配 —— **很多「`info` 查不到」其实 `search` 能查到。**
+>
+> **六步 + 一次 search 都不命中，才判定为「真的不存在」。**
+
+---
+
+### 39.9 本轮就地修正
+
+**本轮修正 1 处、补充 3 处。** 全部已就地改到正文。
+
+| # | 位置 | 原写法 | 实测 | 类型 |
+|---|---|---|---|---|
+| 1 | **§6.5 坑表** | `qt.platformTheme = "gnome"` ⚠️ 26.05 深色模式坏 | HM 侧实测描述原文：**`Deprecated. Use qt.platformTheme.name instead.`** | **修正**（补弃用提示） |
+| 2 | **§38.7 假阴性表** | 四类 | 补**第⑤类（第三方模块选项）**、**第⑥类（freeform 子键）** | 补充 |
+| 3 | **§11151 unit 命名表** | `.mount` 举例 `home.mount` | `home.mount` **不是 HM 选项**（HM 侧 `NOT_FOUND` 是正确的），是 **systemd 的 `.mount` unit 名** | 补充（加消歧） |
+| 4 | **§11.3 / §19.6** | 只有系统层 `system.autoUpgrade` | 补 `services.home-manager.autoUpgrade` + `autoExpire`（§39.6） | 补充 |
+
+> [!DANGER]
+> **⚠️ 修正 1 是本节唯一一处「指南说错了」的地方，值得展开：**
+>
+> 本指南 §6.5 写的是：
+>
+> > `qt.platformTheme = "gnome"` ⚠️ **26.05 下深色模式是坏的**。改用 `qadwaitadecorations` / `qgnomeplatform`
+>
+> **这段话本身没错**（26.05 的深色模式问题确实存在，`[Wiki]` 出处也对），但**它漏了一个更前置的事实**：`qt.platformTheme` 这个选项**在 HM 侧已经被标记为 deprecated**，官方描述原文就是一句：
+>
+> > **Deprecated. Use `qt.platformTheme.name` instead.**
+>
+> **所以正确顺序是**：先改用 `qt.platformTheme.name`（选项没被删），再谈深色模式怎么绕。**直接照 §6.5 写 `qt.platformTheme = "gnome"` 会同时踩两个坑：弃用 + 深色模式。**
+>
+> **这也再次印证第三十八章 §38.6 的结论：本轮和上轮的错误，全部来自「知道有这个东西，但没查它现在还是不是推荐写法」。**
+
+> [!TIP]
+> **本轮「确认没错」的项（不修正，但值得记录）**：
+>
+> | 本指南的写法 | mcp-nixos 实测 | 判定 |
+> |---|---|---|
+> | `services.hardware.auto-cpufreq` → 第十轮已改为 `services.auto-cpufreq` | 本轮未重查（第十轮已定） | — |
+> | `nixfmt`（第十轮已改） | `1.5.0` ✅ | **确认** |
+> | `xdg.portal.gtkUsePortal` **已删** | NixOS 侧 `NOT_FOUND` + HM 侧 `NOT_FOUND` | **双向确认** |
+> | `services.ananicy` 的选项是 `enable`/`package`/`rulesProvider`/`settings`/`extraRules`/`extraTypes`/`extraCgroups` | `services.ananicy.rules` → `NOT_FOUND` ✅（本来就没有 `.rules`） | **确认** |
+> | `programs.steam.extraCompatPackages` | ✅ `Default: [ ]`，`Example:` 正是 `with pkgs; [ proton-ge-bin ]` | **确认** |
+> | `services.scx.enable` | ✅ `Default: false`，描述：「requires a kernel with the Sched-ext feature. Generally, kernel version 6.12 and later」 | **确认**（26.05 默认内核 6.18 满足） |
+> | `services.lact.enable` | ✅ `Default: false`，描述里主动推荐 `hardware.amdgpu.overdrive.enable = true` | **确认** |
+> | `programs.steam.gamescopeSession.enable` | ✅ `Default: false` | **确认** |
+> | `nixpkgs.overlays` | ✅ `Default: [ ]` | **确认** |
+
+---
+
+### 39.10 可复用操作：本章的查询清单
+
+**★ 最常用的一条 —— 查一个包在**你的 channel**里是什么版本：**
+
+```jsonc
+{"action": "info", "query": "<包名>", "type": "package", "source": "nixos", "channel": "26.05"}
+```
+
+**★ 查一个选项在 26.05 的默认值（看有没有 `Default:` 行）：**
+
+```jsonc
+{"action": "info", "query": "<点分选项名>", "type": "option", "source": "nixos", "channel": "26.05"}
+```
+
+**★ 查 HM 侧选项（**注意：无 `Default:` 行是正常的**）：**
+
+```jsonc
+{"action": "info", "query": "programs.mangohud.enable", "type": "option", "source": "home-manager", "channel": "26.05"}
+```
+
+**★ 不知道选项叫什么 —— 先搜再查：**
+
+```jsonc
+{"action": "search", "query": "<关键词>", "source": "nixos", "type": "options", "limit": 10}
+{"action": "search", "query": "<关键词>", "source": "home-manager", "limit": 10}
+```
+
+**★ 列出一棵子树（发现未知选项的最佳方式）：**
+
+```jsonc
+{"action": "browse", "source": "home-manager", "query": "services.home-manager"}
+```
+
+**★ 查包在二进制缓存里的状态与体积：**
+
+```jsonc
+{"action": "cache", "query": "<包名>"}
+```
+
+**★ 查包的历史版本 + 对应 nixpkgs commit（**没有 channel 参数**）：**
+
+```jsonc
+{"tool": "nix_versions", "package": "<包名>", "limit": 10}
+{"tool": "nix_versions", "package": "<包名>", "version": "<精确版本>"}
+```
+
+**★ 查 Nix 函数签名（`noogle`）：**
+
+```jsonc
+{"action": "info", "query": "lib.attrsets.mapAttrs", "source": "noogle"}
+// → Type: mapAttrs :: (String -> a -> b) -> { [String] :: a } -> { [String] :: b }
+//   Aliases: builtins.mapAttrs, lib.mapAttrs
+//   Primop: Yes (arity: 2, args: f, attrset)
+```
+
+**★ 查 Wiki / nix.dev 原文（省掉一次网页搜索）：**
+
+```jsonc
+{"action": "info", "query": "Flakes", "source": "wiki"}
+{"action": "search", "query": "packaging", "source": "nix-dev", "limit": 5}
+```
+
+**★ 查 FlakeHub 上的 flake：**
+
+```jsonc
+{"action": "search", "query": "nixpkgs", "source": "flakehub", "limit": 5}
+{"action": "search", "query": "agenix", "source": "flakes", "limit": 5}
+// → agenix / Repository: ryantm/agenix / "Secret management with age"
+```
+
+**本章新建的批次文件（留在 `.build/`，可复现）**：
+
+| 文件 | 内容 | 条数 |
+|---|---|---|
+| `mcp-batch-12.json` | `channels` + 首次试 `source=home-manager` + HM `stats` | 8 |
+| `mcp-batch-13.json` | `nix_versions` 首次实测 + HM 默认值表现 | 14 |
+| `mcp-batch-14.json` | HM 侧选项核实 + `search` / `browse` | 30 |
+| `mcp-batch-15.json` | **`action=cache` 首次实测** + 其余 9 个 source | 21 |
+| `mcp-batch-16.json` | **两套后端对质** + HM 新选项 | 18 |
+| `mcp-batch-17.json` | HM 生态 + 指南关键选项 + `browse services.home-manager` | 17 |
+| `mcp-batch-18.json` | `search type=options` + `browse` 边界 + cachix | 15 |
+| `mcp-batch-19.json` | `xdg.portal.config` + 游戏选项复核 | 15 |
+| `mcp-batch-20.json` | 第十轮版本号复现性验证 | 15 |
+
+**驱动方式同第三十八章**：
+
+```bash
+C:/Users/Admin/.workbuddy-ai/binaries/python/versions/3.13.12/python.exe \
+  .build/mcp-nixos-driver.py .build/mcp-batch-14.json
+```
+
+---
+
+### 39.11 反模式
+
+| # | 反模式 | 为什么错 | 正确做法 |
+|---|---|---|---|
+| 1 | **拿 `nix_versions` 的版本号当作「我系统里的版本」** | 它走 NixHub 后端、只跟 unstable、且快照可能滞后 7 周（实测 `firefox` 差 3 个大版本） | 查系统版本用 `info` + `channel=` |
+| 2 | **在 `source=home-manager` 下用「有没有 `Default:` 行」判断默认值** | HM 索引**根本不输出默认值** | 回官方 options 页 |
+| 3 | **以为 HM 选项能按 channel 区分** | HM 是独立仓库，索引只有一份，`channel` 被静默忽略 | 写不写都一样，别指望 |
+| 4 | **`search` 不写 `type=options` 就去搜选项** | 默认只搜包，会返回「No packages found」误导你以为不存在 | 搜选项必须 `type=options` |
+| 5 | **在 `source=nixos` 下查 `home-manager.*` 然后以为指南写错了** | HM 的 NixOS 模块选项**不在 nixpkgs 索引里** | 去 HM 仓库读源码（§39.4） |
+| 6 | **`info` 返回 `NOT_FOUND` 就判定「不存在」** | 六类假阴性（§38.7 + §39.8） | 走六步判据，**并先补一次 `search`** |
+| 7 | **用 `action=browse` 查 NixOS** | 明确不支持，会返回 ERROR | NixOS 用 `search type=options` |
+| 8 | **看 `stats` 的包数和 `channels` 的文档数互相验证** | 口径不同（包 vs 全部文档） | 别交叉验证，各用各的 |
+
+> [!TIP]
+> **★ 本章的四句话总结：**
+>
+> 1. **mcp-nixos 有 11 个 source、8 个 action** —— 第十轮只用了 1 个和 4 个。
+> 2. **它内部有两条后端（search.nixos.org / NixHub.io），会对同一个包给出不同版本号** —— 看到版本号先问「哪套后端」。
+> 3. **HM 侧索引有三个特性：无默认值、描述截断、忽略 channel** —— 因为 HM 不在 nixpkgs 里。
+> 4. **`cache` action 是回答「这个包为什么装得慢」的最直接工具**；**`browse` + `Similar:` 是发现未知选项的最直接工具**。
 
 
 ## 附录 A：命令速查
@@ -19095,6 +19856,111 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 
 ---
 
+### B.19 第十一轮（2026-10-14）mcp-nixos 完整能力面（本指南 v2.2）
+
+#### B.19.1 本轮出处与实测环境
+
+| 项 | 值 |
+|---|---|
+| 工具 | **mcp-nixos v3.1.0**（`serverInfo` 握手实测） |
+| 上游 | <https://github.com/utensils/mcp-nixos>（MIT，作者 James Brink，release 3.1.0 / 2026-09-05） |
+| 运行方式 | `uvx mcp-nixos@latest`（**不需要本机装 Nix**；本机 `which nix` = not found） |
+| 驱动 | 自写 stdio 驱动 `.build/mcp-nixos-driver.py`（同第三十八章） |
+| 实测日期 | **2026-10-14** |
+| 本轮新增批次 | `.build/mcp-batch-12.json` … `-20.json`（9 个文件，约 150 条查询） |
+| 权威依据 | **上游 README 的「The Tools」章节**（本轮首次通读，第十轮未读） |
+
+#### B.19.2 本轮修正与补充的 6 处（全部已就地改到正文）
+
+| # | 位置 | 类型 | 内容 |
+|---|---|---|---|
+| 1 | **§6.5 坑表** | **修正** | `qt.platformTheme` 补「HM 侧已弃用，改用 `qt.platformTheme.name`」 |
+| 2 | **§11.3** | 补充 | 新增「层次 5：Home Manager 侧的内建自动更新」+ 配置示例 |
+| 3 | **§19.6** | 补充 | 新增「HM 侧的自动升级与自动清理」+ 10 行系统层↔用户层对照表 |
+| 4 | **§22.2** | 补充 | 新增「动手查：哪些包在缓存里？」（`action=cache`） |
+| 5 | **§38.7** | 补充 | 假阴性表补**第⑤类（第三方模块选项）**、**第⑥类（freeform 子键）**，并把四步判据指向 §39.8 的六步版 |
+| 6 | **§29 unit 命名表** | 补充 | `home.mount` 加消歧（它是 systemd unit 名，**不是 HM 选项**） |
+
+#### B.19.3 本轮确立的方法论（写进第三十九章 §39.2）
+
+> **mcp-nixos 内部有两条互不相通的后端，它们会对同一个包给出不同版本号。**
+
+| 走哪条路 | 后端 | 跟踪 | 实测新鲜度 |
+|---|---|---|---|
+| `info` / `search` / `stats` / `browse` + **`channel=`** | **search.nixos.org** | 你指定的 channel | **2026-10-14** |
+| `nix_versions` + **`cache`** + `source=nixhub` | **NixHub.io** | 只有 unstable 历史（**无 channel 参数**） | **2026-08-27**（滞后约 7 周） |
+
+**这条方法论的来源不是推断，是「同一个包问两遍得到两个答案」**：
+
+| 包 | `info channel=26.05` | `info channel=unstable` | `nix_versions` / `cache`（NixHub） |
+|---|---|---|---|
+| `steam` | 1.0.0.85 | 1.0.0.87 | **1.0.0.87** |
+| `mesa` | 26.1.8 | 26.2.4 | **26.2.1** |
+| `proton-ge-bin` | GE-Proton11-1 | GE-Proton11-7 | **`3`**（store path `GE-Proton11-3`） |
+| `firefox` | 157.0.1 | 157.0.1 | **154.0.1** ⚠️ 比 stable 还旧 |
+| `nodejs` | 24.21.0 | — | **26.8.1**（属性是 `nodejs_26`） |
+
+**决定性旁证**：`nix_versions(package="nodejs", version="24.21.0")` → **`Version 24.21.0 not found`**，但 26.05 里 `nodejs` **就是 24.21.0**。**因为它只认 NixHub 快照里有的版本。**
+
+#### B.19.4 ★★ HM 侧索引的三个系统性特性（写进 §39.3）
+
+| 特性 | 实测证据 | 后果 |
+|---|---|---|
+| **① 不返回默认值** | `programs.firefox.enable`：NixOS 侧有 `Default: false`，**HM 侧无 `Default:` 行**；`programs.bash.enable`：NixOS 侧 `Default: true`，HM 侧无 | **§38.3 那条「没有 `Default:` 行 = 没有默认值」的判据在 HM 侧失效** |
+| **② 描述被截断** | `xdg.portal.enable` 描述断在 `… so that`；`home.stateVersion` 断在 `… or l`；`home.sessionPath` 断在 `However, since expressions like`；`dconf.settings` 断在 `if an option is of ty` | 需完整描述 → 回官方 options 页 |
+| **③ 忽略 `channel` 参数** | `stats source=home-manager` 在 `26.05` 与 `25.11` 下**返回完全相同的 5,661 / 28** | 因为 **HM 不在 nixpkgs 里**（独立仓库、独立 release 分支）→ **反向佐证 §19.1** |
+
+#### B.19.5 ★★ 本轮新发现的两个 HM 内建服务（补进 §11.3 与 §19.6）
+
+**`services.home-manager.autoUpgrade`（6 个选项）**：`enable` / `useFlake` / `flakeDir` / `frequency` / `flags` / `preSwitchCommands`
+**`services.home-manager.autoExpire`（5 个选项）**：`enable` / `frequency` / `timestamp` / `store.cleanup` / `store.options`
+
+> **为什么这是本轮最有价值的实务发现**：本指南 §11.3 / §23.14 讲的自动更新**全是系统层的**（`system.autoUpgrade` / `nix.gc`）。而本指南 §21 的硬约束是「agent 不做 root 服务」→ **agent 的 generation 全在用户层**。**系统层的 `nix.gc` 看不见也清不掉 HM 的用户 generation 链。** `services.home-manager.autoExpire` 就是官方给这个问题的答案。
+
+**发现方式**：`action=browse` + `query=services.home-manager`（**不是** `info` —— `info` 只能查你已知名字的东西）。
+
+#### B.19.6 ★ 本轮新核实的 HM 侧选项（本指南未写过的 4 条）
+
+| 选项 | 类型 | 用途 |
+|---|---|---|
+| `programs.mangohud.enableSessionWide` | boolean | 给所有支持的应用自动挂 MangoHud（比逐个 `mangohud %command%` 省事） |
+| `programs.mangohud.settingsPerApplication` | attrset | 按应用分别写 MangoHud 配置（`$XDG_CONFIG_HOME/MangoHud/<app>.conf`） |
+| `services.home-manager.autoUpgrade.*` | 6 选项 | 见 B.19.5 |
+| `services.home-manager.autoExpire.*` | 5 选项 | 见 B.19.5 |
+
+**发现方式**：`browse source=home-manager query=programs.mangohud` → 返回 5 条（`enable` / `enableSessionWide` / `package` / `settings` / `settingsPerApplication`）。
+
+#### B.19.7 ★ 三条独立佐证（对既有章节）
+
+| 本指南的原结论 | mcp-nixos 实测 | 判定 |
+|---|---|---|
+| §8：「`programs.mangohud` 是 HM 侧选项，NixOS 侧没有」 | NixOS 侧 `NOT_FOUND` ✅ / HM 侧 ✅ | **独立证实** |
+| §21：Hermes 与 OpenClaw **不在 nixpkgs** | `services.hermes-agent.enable` → `NOT_FOUND`；HM 侧 `openclaw` → **`No Home Manager options found`** | **独立证实** |
+| §19.2：「`environment.systemPackages` 与 `home.packages` 都写同一个包 = 装两遍」 | HM 侧 `programs.lutris.steamPackage` 官方描述原文：*"This must be the same you use for your system, or two instances will conflict … a good value is `osConfig.programs.steam.package`"* | **上游原文直接印证** |
+| §19.1：「HM 不在 nixpkgs 里」 | HM 侧 `stats` 忽略 `channel`（B.19.4 特性③） | **独立佐证** |
+
+#### B.19.8 ★ `action=cache` 实测汇总（26.05 / x86_64-linux）
+
+| 包 | 版本 | 状态 | 体积 |
+|---|---|---|---|
+| `mesa` | 26.2.1 | ✅ CACHED | 58.7 MB / 272.4 MB |
+| `proton-ge-bin` | `3` | ✅ CACHED | 162 B / 224 B |
+| `firefox` | 154.0.1 | ✅ CACHED（x86_64-linux + aarch64-linux）/ ❌ NOT CACHED（aarch64-darwin） | 316.6 KB / 1.5 MB |
+| **`steam`** | 1.0.0.87 | ❌ **NOT CACHED** | — |
+| `linux_6_18` | — | `NOT_FOUND`（NixHub 不索引内核包名） | — |
+
+> **关键推论**：`steam` 的 license 是 **`unfreeRedistributable`** → **`cache.nixos.org` 不缓存 unfree 包**。**这是「为什么装 Steam 那么慢」的物理原因，不是配置错误。**
+
+#### B.19.9 ★ 本轮「确认没错」的项（不修正，仅记录）
+
+`nixfmt` 1.5.0 ✅ / `xdg.portal.gtkUsePortal` 双向 `NOT_FOUND`（**已删，指南正确**）✅ / `services.ananicy.rules` `NOT_FOUND`（本来就没有 `.rules`，指南列的是 7 个正确选项）✅ / `programs.steam.extraCompatPackages`（`Default: [ ]`，`Example:` 正是 `proton-g-e-bin`）✅ / `services.scx.enable`（`Default: false`，描述要求 kernel ≥ 6.12，26.05 默认 6.18 满足）✅ / `services.lact.enable`（`Default: false`）✅ / `programs.steam.gamescopeSession.enable`（`Default: false`）✅ / `nixpkgs.overlays`（`Default: [ ]`）✅
+
+**第十轮版本号复现性验证（本轮重跑 15 个包）**：`mangohud` 0.8.3 / `goverlay` 1.8.1 / `gamemode` 1.8.2 / `gamescope` 3.16.23 / `mesa` 26.1.8 / `heroic` 2.22.1 / `bottles` 63.2 / `wine` 11.0 / `lact` 0.9.0 / `inputplumber` 0.77.1 / `powerstation` 0.8.1 / `bazaar` 0.7.15 / `nixfmt` 1.5.0 / `firefox` 157.0.1 / `chromium` 155.0.8059.39 —— **全部与第十轮一致**。
+
+> **唯一一处索引内部不一致**：`search query=mangohud source=nixos`（默认 `type=packages`）返回 **`mangohud (0.8.4)`**，而 `info query=mangohud type=package` 返回 **`0.8.3`**。**同一个包、同一套后端、同一时刻，`search` 与 `info` 给出不同版本号。** 本指南 §17.5 的 0.8.3 采用 `info` 的值（`info` 是权威的精确查询）。**这条列为存疑项（附录 C 第十一轮）。**
+
+---
+
 ## 附录 C：未核实 / 存疑项
 
 > [!NOTE]
@@ -19121,6 +19987,14 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 > - **★ 本轮修正了正文 3 处** —— `services.hardware.auto-cpufreq` → `services.auto-cpufreq`；`nixfmt-rfc-style` → `nixfmt`；`generateHostKeys` 默认值表述。**详见 §38.6 与附录 B.18.3**
 > - **★ 本轮确立了一条方法论** —— **`NOT_FOUND` ≠ 不存在**（别名 / attrset / 派生集 / freeform 键四类假阴性），**详见 §38.7**
 
+> [!NOTE]
+> **第十一轮（2026-10-14 mcp-nixos 完整能力面）的状态更新**：
+> - **★ 本轮把假阴性从四类扩到六类** —— 新增**第⑤类（第三方模块选项**，如 `home-manager.*` 在 nixpkgs 索引里永远查不到**）**与**第⑥类（freeform 子键**，如 `xdg.portal.config.common.default`**）**，并把判据升级为「六步 + 一次 `search`」。**详见 §39.8 与 §38.7**
+> - **★ 本轮修正了正文 1 处** —— `qt.platformTheme` 在 **HM 侧已弃用**（官方描述原文 *"Deprecated. Use `qt.platformTheme.name` instead."*），§6.5 原来只提了深色模式问题，**详见 §39.9 与 B.19.2**
+> - **★ 本轮补充了 4 处** —— §11.3「层次 5」（HM 侧自动更新）· §19.6（HM 自动升级/清理）· §22.2（`action=cache`）· §29 unit 表（`home.mount` 消歧）
+> - **★★ 本轮确立了一条更重要的方法论** —— **mcp-nixos 内部有两条互不相通的后端**（search.nixos.org vs NixHub.io），**会对同一个包给出不同版本号**。`nix_versions` / `cache` 走 NixHub（只跟 unstable、快照滞后约 7 周、无 `channel` 参数）。**详见 §39.2 与 B.19.3**
+> - **★ 本轮新发现两个 HM 内建服务** —— `services.home-manager.autoUpgrade`（6 选项）/ `autoExpire`（5 选项），补上了本指南「只有系统层自动更新」的缺口。**详见 §39.6 与 B.19.5**
+
 | 项 | 状态 | 说明 |
 |---|---|---|
 | ~~**Hermes Agent 的 NixOS 模块确切选项名**~~ | ✅ **已核实（第三轮解决）** | 官方仓库自带 `flake.nix` + `nix/nixosModules.nix`，模块名是 **`services.hermes-agent`**（不是 `services.hermes`）。全部选项表见 §21.8 与附录 B.11.4。**原稿「建议用 `uv tool install` 装在用户目录」的结论已被 §21.11 替代** |
@@ -19135,7 +20009,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | `hardware.enableRedistributableFirmware` 对有线网卡的必要性 | `[社区]` | 逻辑上 Realtek 需要 `rtl_nic/*.fw`；**具体哪些型号必需未逐一核实** |
 | `plasma-login-manager` 是否已取代 SDDM | **来源冲突** | 26.05 官方 Wiki 称它是「Plasma 默认登录器」，但 `plasma6.nix` 源码仍以 **SDDM** 为默认。**以源码为准** |
 | GNOME 分数缩放的声明式方案 | `[社区]` | 只能 gsettings，**无 NixOS 选项**；这意味着它不在配置版本控制内 |
-| `qt.platformTheme = "gnome"` 深色模式问题 | `[Wiki]` | 26.05 已知问题，绕过方案（`qadwaitadecorations`）来自 Wiki 而非官方 release notes |
+| `qt.platformTheme = "gnome"` 深色模式问题 | `[Wiki]` | 26.05 已知问题，绕过方案（`qadwaitadecorations`）来自 Wiki 而非官方 release notes。**⚠️ 第十一轮补充：该选项在 HM 侧已被标记 deprecated**（官方描述原文 *"Deprecated. Use `qt.platformTheme.name` instead."*，`[mcp-nixos 实测 2026-10-14]`）**—— 应先改用 `qt.platformTheme.name`**（§6.5 已就地更新） |
 | Flatpak 主题统一的方案 | `[社区]` | nixpkgs **无原生解**；`flatpak override` 方案来自社区实践 |
 | **中文输入法在 Flatpak 应用内** | `[未核实]` | 部分应用沙箱内输入法失效是普遍报告，但**未找到系统性的一手测试数据** |
 | `hardware.graphics.package` 换 Mesa 版本对 AMD 的影响 | `[未核实]` | 选项存在，但「换成 unstable Mesa 后 AMD 表现如何」缺实测数据 |
@@ -19313,7 +20187,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | 项 | 状态 | 说明 |
 |---|---|---|
 | **mcp-nixos 索引的滞后量到底有多大** | `[官方提示]` + `[未量化]` | `channels` 输出明确说 *"may be a few commits ahead of the indexed data"*，**但没给具体 commit 数或天数**。§38.1 已标注 |
-| **`nix_versions` 的版本历史覆盖到多早** | `[未核实]` | 本指南本轮只用了 `nix` 工具，**`nix_versions` 未实测** |
+| ~~**`nix_versions` 的版本历史覆盖到多早**~~ | ✅ **已实测（第十一轮解决）** | 覆盖到包在 **NixHub.io 快照**里的全部历史（`firefox` 208 个版本 / `mesa` 126 个 / `nodejs` 265 个），但**只跟 unstable、快照滞后约 7 周**（§39.2） |
 | **`nix.settings.substituters` 的 `[ ]` 默认值下，`cache.nixos.org` 到底由谁加进去** | `[描述推断]` | 选项描述说 *"By default cache.nixos.org is added"*，**但 `Default: [ ]`** —— 「谁加的、在哪加」未在源码层逐行确认。§38.3 的结论（「直接设会丢官方缓存」）是**实践推断** |
 | **`linuxKernel.kernels` 在 25.11 索引里为何缺 `linux_default` / `linux_latest`** | `[未核实]` | 25.11 的 `search linuxKernel.kernels` 返回 19 项但**没有 `linux_default` / `linux_latest`**；26.05 有。**是索引差异还是 nixpkgs 差异未确认** |
 | **`xorg` 别名集的 `warn` 是「每次求值都打」还是「只打一次」** | `[未核实]` | 源码用的是 `warnAlias`，**警告的触发频率与可见性未实测** |
@@ -19321,7 +20195,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | **`services.scx.scheduler` 的 26 个取值里，哪些在 AMD 桌面游戏上真的更好** | `[官方列了取值]` + `[未实测]` | mcp-nixos 只给枚举（含 `scx_lavd`），**收益仍无基准**（与 §14.4 的旧存疑项一致） |
 | **`wineWow64Packages.yabridge`（9.21）与顶层 `pkgs.yabridge`（5.1.1）的关系** | `[未核实]` | 实测两者版本号不同（9.21 vs 5.1.1）。**哪个是「正确入口」未确认** |
 | **`pkgs.python315`（3.15.0）是否适合日常使用** | `[未核实]` | 实测存在（本指南 §15 未提）。**稳定性与生态兼容性未评估** |
-| **mcp-nixos 的 `source=home-manager` 侧覆盖率** | `[未实测]` | 本轮**只用了 `source=nixos`**。HM 选项（如 `programs.mangohud`）**未逐条核实** |
+| ~~**mcp-nixos 的 `source=home-manager` 侧覆盖率**~~ | ✅ **已实测（第十一轮解决）** | HM 侧覆盖 **5,661 个选项 / 28 分类**（26.05 与 25.11 相同，因为索引不区分 channel）。本指南正文出现的 25 条 HM 选项**已逐条核实**（§39.4）；**HM 的 NixOS 模块选项（`home-manager.*`）两套 source 都查不到**（§39.4 IMPORTANT + §39.8 第⑤类） |
 
 > [!NOTE]
 > **第十轮存疑项的特征**：**几乎全是「工具本身的边界」而不是「nixpkgs 的事实」**。
@@ -19331,6 +20205,35 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 > **★ 本轮最大的收获仍是一条「方法论」**：**`NOT_FOUND` ≠ 不存在**（§38.7 的四类假阴性 + 四步判据）。**这是使用任何「索引型」工具时的通用纪律** —— 索引是「已知事实的快照」，不是「全部真相」。
 >
 > **⚠️ 附带一条自我提醒**：**本指南本轮修正的 3 处错误，全部来自「从命名规律推断」而不是「读源码读错」** —— 这说明**推断是比读错更危险的错误来源**，因为它看起来很有道理。**遇到「目录结构 / 命名惯例 / 文档措辞」三类线索时，宁可多查一次。**
+
+#### 附录 C 补充：第十一轮（2026-10-14 mcp-nixos 完整能力面）的新增存疑项
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| **`services.home-manager.autoUpgrade` 的实际行为** | `[未实测]` | 选项存在、类型与语义已核实（§39.6）。**但「与 flake 模式配合时能不能正确 switch」「失败是否回滚」「和系统层 autoUpgrade 的实际先后」未真机实测** |
+| **`services.home-manager.autoExpire` 与 `nix.gc` 是否会互相干扰** | `[未核实]` | 两者都会调 `nix-collect-garbage`。**并发时的行为（锁竞争 / 谁先跑）未确认** |
+| **`search` 与 `info` 为何对 `mangohud` 给出不同版本号（0.8.4 vs 0.8.3）** | `[未核实]` | 同一套后端、同一时刻、同一个包。**是索引字段差异还是排序取值的 bug 未确认**。本指南 §17.5 采用 `info` 的值（0.8.3） |
+| **NixHub.io 快照的更新频率** | `[未量化]` | 实测快照停在 commit `c27cdad4` / **2026-08-27**（滞后约 7 周），**但这是单次观测，不知道它的正常节奏是多久** |
+| **NixHub.io 与 nixpkgs-unstable 是否严格一一对应** | `[推断]` | 实测 4/5 个包的 NixHub 版本等于或接近 unstable，**但 `firefox` 例外（154 < 157）**。「NixHub 跟 unstable」是**推断**，未从 NixHub 官方文档确认 |
+| **`action=cache` 的判定依据是 `narinfo` 探测还是 NixHub 元数据** | `[未核实]` | 输出里有 `Download size` / `Unpacked size` / `Compression`（像 `narinfo` 字段），但**没说明它实际打的是哪个接口**。所以「`NOT CACHED`」的**时效性未知** |
+| **`cache` 对 unfree 包的判定是否一律 `NOT CACHED`** | `[单点实测]` | 实测 `steam`（`unfreeRedistributable`）→ `NOT CACHED`。**样本只有 1 个，不能推广为「所有 unfree 都不缓存」** |
+| **HM 索引描述的截断阈值** | `[未核实]` | 实测多条描述断在半句（§39.3），**但没测出截断在多少字符**。只知道「HM 侧会截断、NixOS 侧不截断」 |
+| **`action=flake-inputs` / `store` 的实际输出** | `[未实测]` | 两者**都需要本机装 Nix**（本指南的核实环境是 Windows，无 Nix）。**装完 NixOS 后才能验证** |
+| **`source=nixvim` / `nvf` 的输出质量** | `[未实测]` | 本轮未查。本指南不涉及 Neovim 配置，**但如果你后来用 Nixvim，值得回头验证** |
+| **`programs.mangohud.enableSessionWide` 与 `programs.steam` 的交互** | `[未核实]` | HM 侧选项存在、描述说「给所有支持的应用自动挂 MangoHud」。**但和 NixOS 侧 `programs.steam` 同用时会怎样未实测** |
+| **`qt.platformTheme` 的弃用是「有过渡期」还是「即将移除」** | `[官方只说了半句]` | 官方描述只有 *"Deprecated. Use `qt.platformTheme.name` instead."* —— **没说何时移除、也没说是否会有 `mkRenamedOptionModule` 自动迁移** |
+
+> [!NOTE]
+> **第十一轮存疑项的特征**：**从「工具查不到的那部分」转向「工具的哪条路在骗我」**。
+>
+> - **第十轮**发现的是「**索引的边界**」（别名 / attrset / 派生集 / freeform 键 → 四类假阴性）
+> - **第十一轮**发现的是「**索引内部的分裂**」—— **同一个工具、同一个包，走不同的 action 会得到不同的版本号**（§39.2）。这比假阴性更隐蔽：假阴性会让你「查不到」，而数据源分裂会让你「查到一个错的值，还以为是对的」。
+>
+> **★ 由此得到一条比第十轮更普适的纪律**：
+>
+> > **任何「聚合多个上游数据源」的工具，都要先问一句「这个结果来自哪个源、那个源什么时候更新的」。**
+>
+> **第十轮的错误来自「从命名规律推断」；第十一轮的发现来自「同一个问题问了两个 action」** —— 后者的成本极低（多敲一条查询），收益却很大。
 
 ---
 
@@ -19426,6 +20329,21 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 >
 > **三处错误的共同点**：**全部来自「从命名规律推断」而不是「读源码读错」** —— 这是本指南首次系统性暴露「推断型错误」的占比。
 
+> [!NOTE]
+> **2026-10-14 第十一轮更新（mcp-nixos 完整能力面，新增第三十九章）**：这一轮的性质是**「补盲 + 辨析」** —— 第十轮只用了这个工具的 **1/11 的 source 和 4/8 的 action**，本轮把剩下的全部摸清。
+>
+> **做法**：通读 **mcp-nixos 上游 README 的「The Tools」章节**（第十轮未读），据此系统实测 **11 个 source × 8 个 action**，并**首次核实 home-manager 侧**（本指南正文 91 处提到 HM，第十轮一条都没查）。新增 **9 个批次文件**（`mcp-batch-12` … `-20`，约 150 条查询）。
+>
+> **本轮最高价值的 4 条结果**：
+> 1. **★★★ 发现 mcp-nixos 内部有两条互不相通的后端** —— `info`/`search` 走 **search.nixos.org**（跟你的 channel，实测当日新鲜），`nix_versions`/`cache` 走 **NixHub.io**（只跟 unstable，**快照滞后约 7 周**，实测停在 `c27cdad4` / 2026-08-27）。**同一个包会给出两个版本号**（§39.2）
+> 2. **★★ 补上 HM 侧核实** —— HM 索引有**三个系统性特性**：不返回默认值（**§38.3 那条 `Default:` 判据在 HM 侧失效**）、描述被截断、**忽略 `channel` 参数**（因为 HM 不在 nixpkgs 里 → **反向佐证 §19.1**）。本指南 25 条 HM 选项逐条实测（§39.3 / §39.4）
+> 3. **★★ 发现两个 HM 内建服务** —— `services.home-manager.autoUpgrade`（6 选项）/ `autoExpire`（5 选项）。**本指南原来只有系统层的 `system.autoUpgrade` / `nix.gc`，而 agent 跑在用户层 —— 系统层 GC 管不到 HM 的 generation 链**（§39.6，补进 §11.3 / §19.6）
+> 4. **★★ `action=cache` 实测** —— 直接回答「这个包为什么装得慢」。**实测 `steam` → `NOT CACHED`，因为它是 `unfreeRedistributable`；`cache.nixos.org` 不缓存 unfree 包**（§39.5，补进 §22.2）
+>
+> **本轮修正 1 处**（`qt.platformTheme` 在 HM 侧已弃用 → `qt.platformTheme.name`）、**补充 5 处**（§11.3 / §19.6 / §22.2 / §38.7 第⑤⑥类假阴性 / §29 unit 表消歧）。
+>
+> **两轮方法论的关系**：**第十轮**发现「**索引的边界**」（四类假阴性 → 查不到）；**第十一轮**发现「**索引内部的分裂**」（同一工具不同 action 给出不同值 → **查到了错的值还以为是对的**）。**后者更隐蔽，也更值得警惕。**
+
 | 主题 | 为什么值得补 | 需要什么证据 |
 |---|---|---|
 | ~~**Hermes Agent 的 Nix flake 确切用法**~~ | ✅ **已完成**（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7） | 已取官方 `nix/nixosModules.nix` + `homeManagerModules.nix` + `nix-setup.md` 全文 || **OpenClaw 的 skills 目录结构** | 第十章讲了 skills 概念，但具体路径/加载机制未核实 | 官方仓库文档 |
@@ -19439,6 +20357,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | ~~**以 nix.dev guides 补充「怎么写才对」**~~ | ✅ **已完成（第九轮）**：**第三十六章**（13 节）—— 官方最佳实践七条 + `system.nix` + npins + 五个报错的官方修法 + 二进位包官方答案 + 4 个 Recipe | nix.dev Guides 全部 Markdown 源（14 个文件，见附录 B.17.1） |
 | ~~**NixOS 26.05 破坏性变更总表**~~ | ✅ **已完成（第九轮）**：**第三十七章**（16 节）—— 升级前必查 16 项 + `fsType` 矛盾实例 + Stage 1 默认变更 + switch inhibitors + 网络与桌面变更 | 26.05 release notes 原文 496 行（`.build/rl-2605.section.md`）+ 25.11/26.05 模块源码对比（见附录 B.17） |
 | ~~**用实时索引反向核对本指南的结论**~~ | ✅ **已完成（第十轮）**：**第三十八章**（9 节）—— mcp-nixos 用法 + 26.05/25.11 默认值对照 + 内核包实测 + **修正 3 处** + **`NOT_FOUND` 四类假阴性** | mcp-nixos v3.1.0（`uvx`，约 325 条查询）+ `.build/mcp-nixos-driver.py` + 12 个批次文件（见附录 B.18） |
+| ~~**把 mcp-nixos 的能力面用全（HM 侧 / 其他 source / cache）**~~ | ✅ **已完成（第十一轮）**：**第三十九章**（11 节）—— **11 source × 8 action 全表** + **★★★ 两套后端辨析** + **HM 侧三特性 + 25 条选项实测** + **`action=cache` 实测** + **HM 内建 autoUpgrade/autoExpire** + **假阴性第⑤⑥类** + **修正 1 处 / 补充 5 处** | mcp-nixos v3.1.0 + **上游 README「The Tools」章节**（首次通读）+ 9 个新批次文件（`-12` … `-20`，约 150 条查询，见附录 B.19） |
 | **实测基准数据** | 本文多处标 `[未核实]` 就是因为缺可复现的基准（scx 收益、内核切换收益） | 你自己的 A/B 测试 |
 
 #### E.1.1 本轮之后**仍未做**的高价值方向
