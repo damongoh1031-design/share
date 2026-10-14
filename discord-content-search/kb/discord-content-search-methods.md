@@ -11,9 +11,9 @@ tags:
   - osint
 created: 2026-10-14
 updated: 2026-10-14
-version: 1.1
+version: 1.2
 status: stable
-source: 本次会话（GitHub REST API 实测 + 各项目 README/官网抓取 + Messages-Searcher 本机实测）
+source: 本次会话（GitHub REST API 实测 + README/官网抓取 + Messages-Searcher 本机实测 + LLM 工具形态深挖）
 confidence: 已核实
 ---
 
@@ -91,6 +91,24 @@ Discord 官方只提供「登录后、已加入范围内」的客户端搜索，
 
 **结论**：本机（Python 3.13）无法运行——2.x 崩在参数、1.7.3 崩在 cgi；需要 Python ≤3.12 + discord.py 1.7.3 才可能启动。即便能跑，`history(limit=99999)` 扫全部服务器/DM 违反 Discord ToS，有封号风险。
 
+## 7. 让 LLM 搜索 Discord 内容的软件形态（2026-10-14 GitHub 深挖）
+
+按「搜索能力上限」排序的五种形态：
+
+| 形态 | 代表项目（★，2026-10-14） | 鉴权 | 搜索能力真相 | 适用场景 |
+|---|---|---|---|---|
+| MCP server（bot token） | [SaseQ/discord-mcp](https://github.com/SaseQ/discord-mcp)（539）、[v-3/discordmcp](https://github.com/v-3/discordmcp)（235）、[hanweg/mcp-discord](https://github.com/hanweg/mcp-discord)（164）、[cappyeo/discord-mcp](https://github.com/cappyeo/discord-mcp)（134，209 工具）、[mastra-ai/discord-mcp-server](https://github.com/mastra-ai/discord-mcp-server) | bot token | **无服务端搜索**：全部是读有界/最近历史 + 本地过滤。hanweg 工具名即 `read_messages`（recent history）；cappyeo 自述 bounded history + 显式 coverage 标注 | 实时问答、最近消息摘要 |
+| 本地 SQLite+FTS 同步（CLI/MCP 双形态） | [quangdang46/discord_cli](https://github.com/quangdang46/discord_cli)（Rust，77 命令，SQLite FTS5，MCP 直插 Claude Code：`claude mcp add discord -- $(which discord) serve`）、[jackwener/discord-cli](https://github.com/jackwener/discord-cli)（Python，133★） | 用户身份为主 | **真全文检索（FTS5）**，历史无界；`discord search "deploy" -n 50` | 深度历史检索首选架构 |
+| Agent Skill | [banodoco/hivemind](https://github.com/banodoco/hivemind)（71★，Claude Code/Codex drop-in skill，`python3 executors/search/run.py --query "..."`，revision 机制）、[Nice-Wolf-Studio/agent-discord-skills](https://github.com/Nice-Wolf-Studio/agent-discord-skills)（16★） | 各异 | hivemind：同步 feed 后本地查询（唯一「drop-in 即可搜」）；bot token skill 版仍是历史过滤 | 已在使用 Claude Code/Codex 的团队 |
+| 浏览器自动化 | [OpenCLI](https://github.com/jackwener/opencli)（~20k★，2026-05 报道，已登录浏览器→CLI/Agent）、agent-browser / playwriter / browser-use 驱动 Discord Web | 你的登录态 | **直接用官方客户端搜索**（`from:`/`in:`/`has:` 运算符全支持） | 临时查询、零同步成本 |
+| RAG / 向量库 | [youngsecurity/discord_vector_db](https://github.com/youngsecurity/discord_vector_db)（Discord→向量库）、[sandraschi/discord-mcp](https://github.com/sandraschi/discord-mcp)（FastMCP + RAG search） | bot token / 导出文件 | 语义检索（同义词、含义级） | 归档库语义问答 |
+
+**选型结论（已核实）**：
+1. bot token MCP 的天花板就是「有界历史」——服务端搜索不对 bot 开放（坑 #4），所有 `search_messages` 工具都是拉 N 条本地过滤，别指望全站全文检索。
+2. 要真检索只有两条干净路：**sync-to-local（SQLite FTS5）**或**浏览器复用官方搜索**。前者完成度最高的是 quangdang46/discord_cli（CLI+MCP+FTS5 三合一单件），Python 生态等价物是 jackwener/discord-cli。
+3. Skill 形态里 hivemind 是唯一开箱即搜的；其他「skill」只是 bot API 封装。
+4. ToS 边界：bot token 系最干净；「as yourself」CLI/MCP 与浏览器路线用的是本人登录态，性质等同手动操作，风险远低于 Messages-Searcher 式高频全扫，但仍在灰色区。
+
 ---
 
 ## 可复用操作
@@ -153,6 +171,7 @@ pinned:            只看置顶
 
 ## 修订记录
 
+- **1.2**（2026-10-14）：新增第 7 节「让 LLM 搜索 Discord 内容的软件形态」深挖结果（MCP/Skill/CLI/浏览器/RAG 五形态 + 选型结论）。
 - **1.1**（2026-10-14）：新增第 6 节 Messages-Searcher 本机实测纪要（双重 TypeError + cgi 模块缺失 + re.match 锚定/静默跳频道实测）；坑 #5/#8 更新为实测结论。
 - **1.0**（2026-10-14）：初版。
 
@@ -163,3 +182,4 @@ pinned:            只看置顶
 - mcpworld Discord MCP 条目（2026-10）：bot 无服务端搜索端点
 - CSDN 2024 年文章 ×2：`/api/v9/guilds/{guildId}/messages/search` 端点佐证
 - Messages-Searcher 源码与实测：https://github.com/KanekiWeb/Messages-Searcher （克隆于 2026-10-14，Python 3.13.12 / discord.py 2.7.1 与 1.7.3 双路冒烟）
+- LLM 工具形态深挖（2026-10-14，GitHub Search API 四路查询 + 8 个仓库 README 抓取）：SaseQ/discord-mcp、v-3/discordmcp、hanweg/mcp-discord、cappyeo/discord-mcp、mastra-ai/discord-mcp-server、banodoco/hivemind、Nice-Wolf-Studio/agent-discord-skills、quangdang46/discord_cli、youngsecurity/discord_vector_db、sandraschi/discord-mcp、jackwener/opencli（20k★ 报道见 https://hub.baai.ac.cn/view/54747 ）
