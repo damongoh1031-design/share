@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "source": "https://www.skills.sh/",
+    "fetched_at": "2026-10-14",
+    "note": "代表性 skill 详情页一手抓取结果，含安全审计状态（Gen Agent Trust Hub / Socket / Snyk）。null 表示页面未显示该项。"
+  },
+  "platform": {
+    "name": "skills.sh",
+    "tagline": "The Agent Skills Directory / The Open Agent Skills Ecosystem",
+    "by": "Vercel",
+    "launched": "2026-01-20",
+    "install": "npx skills add <owner/repo>",
+    "leaderboards": ["All Time (8W Activity)", "Trending (24h)", "Hot (1H/Change)"],
+    "all_time_total_label": "1,312,146",
+    "supported_agents": ["Claude Code","Cursor","Codex","GitHub Copilot","Windsurf","Gemini","Cline","AMP","Antigravity","OpenClaw","Droid","Goose","Kilo","Kiro CLI","Nous Research","OpenCode","Roo","Trae","VS Code","Zed"],
+    "cli_extra_agents_note": "CLI README 称 Supports OpenCode, Claude Code, Codex, Cursor, and 75 more"
+  },
+  "skills": [
+    {
+      "name": "find-skills",
+      "owner": "vercel-labs/skills",
+      "rank": 1,
+      "installs": "3.8M",
+      "github_stars": null,
+      "first_seen": null,
+      "security": {"agent_trust_hub": null, "socket": null, "snyk": null},
+      "summary": "Discover and install specialized agent skills from the open ecosystem when users need extended capabilities.",
+      "solves": "让 agent 自己发现并安装 skill，是全站入口级元技能",
+      "quotes": [
+        "Provides `npx skills find [query]` command to search interactively and `npx skills add <package>` to install from GitHub or other sources",
+        "Recommends skills based on install count (prefer 1K+), source reputation (official sources like Vercel, Anthropic), and GitHub stars to ensure quality",
+        "Checks the skills.sh leaderboard first for battle-tested, popular options before running CLI searches"
+      ]
+    },
+    {
+      "name": "grill-me",
+      "owner": "mattpocock/skills",
+      "rank": 2,
+      "installs": "1.4M",
+      "github_stars": "289.5K (repo)",
+      "first_seen": "2026-03-13",
+      "security": {"agent_trust_hub": "Pass", "socket": "Pass", "snyk": "Pass"},
+      "summary": "Relentless interviewing skill that stress-tests plans and designs through systematic questioning.",
+      "solves": "AI 编程最高频失败模式「它做的不是你要的」——开工前把需求问透",
+      "quotes": [
+        "Conducts deep-dive questioning across all aspects of a plan, walking through decision trees branch-by-branch until shared understanding is reached",
+        "Automatically explores the codebase to answer questions where code context is available, reducing redundant back-and-forth",
+        "Designed for design reviews, architecture validation, and pre-implementation planning where thorough vetting prevents downstream issues"
+      ]
+    },
+    {
+      "name": "tdd",
+      "owner": "mattpocock/skills",
+      "rank": 6,
+      "installs": "1.1M",
+      "security": {"agent_trust_hub": null, "socket": null, "snyk": null},
+      "summary": "Test-driven development with vertical slices, behavior-focused tests, and incremental red-green-refactor cycles.",
+      "solves": "AI 写的测试测实现细节、一重构就全红——强制测行为、在接缝上测",
+      "quotes": [
+        "Emphasizes integration-style tests that verify behavior through public APIs, not implementation details; tests should survive refactors unchanged",
+        "Requires vertical slicing (one test → one implementation → repeat) instead of horizontal slicing (all tests first, then all code)",
+        "A seam is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.",
+        "Test only at pre-agreed seams. Before writing any test, write down the seams under test and confirm them with the user."
+      ]
+    },
+    {
+      "name": "improve-codebase-architecture",
+      "owner": "mattpocock/skills",
+      "rank": 5,
+      "installs": "1.1M",
+      "security": {"agent_trust_hub": null, "socket": null, "snyk": null},
+      "summary": "Analyze codebases for architectural friction and propose module-deepening refactors as testability improvements.",
+      "solves": "agent 加速编码也加速软件熵增——定期体检代码库，找出该加深的模块",
+      "quotes": [
+        "Explores codebases organically to surface shallow modules, tightly-coupled components, and untested seams rather than following rigid heuristics",
+        "Applies John Ousterhout's \"deep module\" principle: small interfaces hiding large implementations for better testability and AI navigability",
+        "Generates multiple radically different interface designs (minimalist, flexible, caller-optimized, ports & adapters) via parallel sub-agents, then recommends the strongest approach",
+        "It is a survey, not a rescue: on a genuinely old codebase it will find real candidates, but it won't untangle the mud for you."
+      ]
+    },
+    {
+      "name": "handoff",
+      "owner": "mattpocock/skills",
+      "rank": 10,
+      "installs": "979.1K",
+      "security": {"agent_trust_hub": null, "socket": null, "snyk": null},
+      "summary": "Summarize conversations into handoff documents for seamless agent-to-agent transitions.",
+      "solves": "上下文满了/换 agent/中断时，无损压缩上下文而不是从头讲一遍",
+      "quotes": [
+        "Compacts current conversation context into a structured document saved to the OS temp directory",
+        "Automatically suggests relevant skills the next agent should invoke based on conversation content",
+        "Avoids duplication by referencing existing artifacts (PRDs, plans, ADRs, issues, commits, diffs) by path or URL rather than repeating their content",
+        "Redacts sensitive data including API keys, passwords, and personally identifiable information before handoff",
+        "Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS ($TMPDIR, else /tmp; %TEMP% on Windows) - not the current workspace."
+      ]
+    },
+    {
+      "name": "triage",
+      "owner": "mattpocock/skills",
+      "rank": 12,
+      "installs": "938.7K",
+      "security": {"agent_trust_hub": "Warn", "socket": null, "snyk": "Warn"},
+      "summary": "State machine-driven issue triage with role-based workflow management and agent brief generation.",
+      "solves": "issue 堆积状态混乱；且主动标注 AI 生成避免误导",
+      "warning": "安全审计 Warn —— 装前须自行审 SKILL.md（它会自动往 issue tracker 发评论）",
+      "quotes": [
+        "Two category roles (bug, enhancement) and five state roles (needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix)",
+        "Includes reproduction testing for bugs, grilling sessions for incomplete issues, and templates for triage notes and agent briefs",
+        "Every comment or issue posted to the issue tracker during triage must start with this disclaimer: > *This was generated by AI during triage.*"
+      ]
+    },
+    {
+      "name": "frontend-design",
+      "owner": "anthropics/skills",
+      "rank": 9,
+      "installs": "985.0K",
+      "security": {"agent_trust_hub": null, "socket": null, "snyk": null},
+      "summary": "Distinctive, production-grade frontend interfaces that reject generic AI aesthetics through intentional design choices.",
+      "solves": "AI 生成的界面千篇一律——强制先定美学方向再写代码",
+      "quotes": [
+        "Guides aesthetic direction selection (brutalist, maximalist, retro-futuristic, luxury, organic, etc.) before implementation",
+        "Explicitly avoids overused fonts, clichéd color schemes, and predictable layouts that characterize generic AI-generated interfaces",
+        "Approach this as the design lead at a design studio known for giving every client a distinct visual identity that is not mistaken for anyone else's.",
+        "a big number with a small label, supporting stats, and a gradient accent is the default treatment, so only use it if that's truly the best option"
+      ]
+    },
+    {
+      "name": "research",
+      "owner": "mattpocock/skills",
+      "rank": 35,
+      "installs": "658.9K",
+      "github_stars": "289.5K (repo)",
+      "first_seen": "2026-07-02",
+      "security": {"agent_trust_hub": "Pass", "socket": null, "snyk": null},
+      "summary": "Spin up a background agent to do the research, so you keep working while it reads.",
+      "solves": "研究不阻塞干活，且每条结论都要溯源到一手资料",
+      "quotes": [
+        "Investigate the question against primary sources (official docs, source code, specs, first-party APIs), not a secondary write-up of them. Follow every claim back to the source that owns it.",
+        "Write the findings to a single Markdown file, citing each claim's source.",
+        "Save it where the repo already keeps such notes"
+      ]
+    },
+    {
+      "name": "design-mobile-apps",
+      "owner": "designed-by-ai/skills",
+      "rank": 22,
+      "installs": "800.0K",
+      "github_stars": 15,
+      "first_seen": "2026-09-04",
+      "security": {"agent_trust_hub": "Pass", "socket": "Pass", "snyk": "Fail"},
+      "summary": "Designing with Sleek — 通过 sleek.design REST API 创建项目、从 brief 设计屏幕、取回 HTML 与渲染图",
+      "solves": "移动端设计生成",
+      "warning": "Snyk: Fail。且 GitHub 仅 15 star 却有 80 万安装（比值 5.3 万倍）—— 商业推广驱动，非社区认可",
+      "quotes": [
+        "sleek.design provides a REST API at /api/v1/* to create projects, design screens from a brief, and fetch their HTML and renders.",
+        "Auth: Authorization: Bearer $SLEEK_API_KEY"
+      ]
+    },
+    {
+      "name": "reddit-automation",
+      "owner": "flowkit-labs/skills",
+      "rank": 14,
+      "installs": "925.5K",
+      "security": {"agent_trust_hub": null, "socket": null, "snyk": null},
+      "summary": "在 Reddit 找真正需要你产品的人，诚实披露身份后回复",
+      "solves": "Reddit 营销：真实贡献而非刷屏",
+      "quotes": [
+        "Reddit rewards real contribution and punishes spam. The way to market here is not to hide — it's to genuinely help, disclose your affiliation, and only bring up your product when it truly answers the question.",
+        "This skill runs two moves: find the few threads where you can actually help, then draft a reply worth posting."
+      ]
+    }
+  ],
+  "orgs_by_entry_count": [
+    {"org": "mattpocock/skills", "entries": 41},
+    {"org": "heygen-com/hyperframes", "entries": 21},
+    {"org": "microsoft/azure-skills", "entries": 15},
+    {"org": "larksuite/cli", "entries": 14},
+    {"org": "leonxlnx/taste-skill", "entries": 13},
+    {"org": "prime-skills/runcomfy-agent-skills", "entries": 12},
+    {"org": "obra/superpowers", "entries": 9},
+    {"org": "prisma/skills", "entries": 9},
+    {"org": "juliusbrussee/caveman", "entries": 7},
+    {"org": "lllllllama/rigorpilot-skills", "entries": 5},
+    {"org": "vercel-labs/agent-skills", "entries": 4},
+    {"org": "anthropics/skills", "entries": 3}
+  ],
+  "duplicate_skill_names": [
+    {"skill": "ai-video-generation", "owners": ["101-skills/superpowers", "magentosh/superpowers", "qu-skills/superpowers", "its-a-skill-issue/superpowers", "bankai-skills/superpowers", "skills-shell/superpowers", "prime-skills/runcomfy-agent-skills"]},
+    {"skill": "ai-image-generation", "owners": ["magentosh/superpowers", "its-a-skill-issue/superpowers", "bankai-skills/superpowers", "gencraft-labs/skills", "prime-skills/runcomfy-agent-skills"]}
+  ]
+}

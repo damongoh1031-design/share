@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>skills.sh 必备 Skills 深度调研</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+aside{width:270px;flex:0 0 270px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:7px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1100px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)}
+.box p:last-child{margin-bottom:0}
+.box ul:last-child{margin-bottom:0}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.star{color:var(--yl);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:25px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid var(--bd)}
+.tab{padding:9px 15px;background:transparent;border:1px solid transparent;border-bottom:none;color:var(--tx2);cursor:pointer;font-size:13.5px;border-radius:7px 7px 0 0;font-family:inherit;transition:.15s;position:relative;top:1px}
+.tab:hover{color:var(--tx);background:var(--bg2)}
+.tab.on{color:var(--ac);background:var(--bg2);border-color:var(--bd);border-bottom-color:var(--bg2);font-weight:600}
+.pane{display:none;padding-top:18px}
+.pane.on{display:block;animation:fi .22s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+.bars{margin:18px 0}
+.bar{display:grid;grid-template-columns:200px 1fr 72px;align-items:center;gap:12px;margin:7px 0;font-size:13px}
+.bar .lbl{color:var(--tx2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .trk{background:var(--bg3);height:22px;border-radius:4px;overflow:hidden}
+.bar .fil{height:100%;border-radius:4px;background:linear-gradient(90deg,#1f6feb,#58a6ff);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.bar .val{color:var(--ac2);font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.bar.g .fil{background:linear-gradient(90deg,#238636,#3fb950)}
+.bar.y .fil{background:linear-gradient(90deg,#9e6a03,#d29922)}
+.bar.r .fil{background:linear-gradient(90deg,#a40e26,#f85149)}
+.bar.p .fil{background:linear-gradient(90deg,#6e40c9,#bc8cff)}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 20px 60px}
+  .bar{grid-template-columns:110px 1fr 60px;font-size:12px}
+  h2{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>skills.sh 必备 Skills 调研</h1>
+  <div class="sub">176 条榜单实测<br>数据核验 2026-10-14</div>
+  <nav>
+    <div class="grp">结论</div>
+    <a href="#s0" class="on">〇 结论速览</a>
+    <a href="#s1">一 平台怎么用</a>
+    <a href="#s2">二 全站 Top 40</a>
+    <div class="grp">分场景</div>
+    <a href="#s3">三 分场景推荐</a>
+    <a href="#s3a">　· 元技能 / 需求对齐</a>
+    <a href="#s3b">　· 开发流程 / 调试</a>
+    <a href="#s3c">　· 协作 / 学习研究</a>
+    <a href="#s3d">　· 前端 UI / 视频</a>
+    <a href="#s3e">　· 办公 / 营销 / 省 token</a>
+    <div class="grp">生态</div>
+    <a href="#s4">四 三大生态深度解析</a>
+    <div class="grp">风险</div>
+    <a href="#s5">五 安全与陷阱</a>
+    <a href="#s6">六 数据可信度</a>
+    <a href="#s7">附录 完整榜单</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>结论速览</h2>
+
+<div class="grid">
+  <div class="card"><div class="k">榜单条目</div><div class="v">176</div><div class="d">All Time 榜实测解析</div></div>
+  <div class="card gn"><div class="k">榜首安装量</div><div class="v">3.8M</div><div class="d">find-skills（vercel-labs/skills）</div></div>
+  <div class="card yl"><div class="k">单组织最多上榜</div><div class="v">41 个</div><div class="d">mattpocock/skills</div></div>
+  <div class="card rd"><div class="k">安全审计异常</div><div class="v">Warn/Fail</div><div class="d">连前 25 名也有</div></div>
+</div>
+
+<div class="box">
+<div class="t">skills.sh 是什么</div>
+<p><strong>Vercel 出品的 Agent Skills 目录与排行榜</strong>，2026-01-20 上线。自称 "The Agent Skills Directory" / "The Open Agent Skills Ecosystem"。</p>
+<p>一条命令安装：<code>npx skills add &lt;owner/repo&gt;</code></p>
+<p>支持 <strong>20 个 agent</strong>（页面实测）：Claude Code、Cursor、Codex、GitHub Copilot、Windsurf、Gemini、Cline、AMP、Antigravity、OpenClaw、Droid、Goose、Kilo、Kiro CLI、Nous Research、OpenCode、Roo、Trae、VS Code、Zed。CLI 本身支持更多（README 称 "75 more"）。</p>
+</div>
+
+<div class="box danger">
+<div class="t">最重要的一个发现：榜单被少数几个组织垄断</div>
+<p>176 条榜单里，<strong>超过一半来自 6 个组织</strong>。所谓「skills.sh 最推荐的」很大程度上是<strong>「mattpocock 和 heygen 最推荐的」</strong>。<strong>看到高排名先看 owner。</strong></p>
+</div>
+
+<div class="bars">
+  <div class="bar p"><div class="lbl">mattpocock/skills</div><div class="trk"><div class="fil" style="width:100%"></div></div><div class="val">41</div></div>
+  <div class="bar p"><div class="lbl">heygen-com/hyperframes</div><div class="trk"><div class="fil" style="width:51.2%"></div></div><div class="val">21</div></div>
+  <div class="bar"><div class="lbl">microsoft/azure-skills</div><div class="trk"><div class="fil" style="width:36.6%"></div></div><div class="val">15</div></div>
+  <div class="bar g"><div class="lbl">larksuite/cli（飞书官方）</div><div class="trk"><div class="fil" style="width:34.1%"></div></div><div class="val">14</div></div>
+  <div class="bar"><div class="lbl">leonxlnx/taste-skill</div><div class="trk"><div class="fil" style="width:31.7%"></div></div><div class="val">13</div></div>
+  <div class="bar"><div class="lbl">prime-skills/runcomfy-agent-skills</div><div class="trk"><div class="fil" style="width:29.3%"></div></div><div class="val">12</div></div>
+  <div class="bar y"><div class="lbl">obra/superpowers</div><div class="trk"><div class="fil" style="width:22.0%"></div></div><div class="val">9</div></div>
+  <div class="bar"><div class="lbl">prisma/skills</div><div class="trk"><div class="fil" style="width:22.0%"></div></div><div class="val">9</div></div>
+  <div class="bar y"><div class="lbl">juliusbrussee/caveman</div><div class="trk"><div class="fil" style="width:17.1%"></div></div><div class="val">7</div></div>
+  <div class="bar"><div class="lbl">lllllllama/rigorpilot-skills</div><div class="trk"><div class="fil" style="width:12.2%"></div></div><div class="val">5</div></div>
+  <div class="bar"><div class="lbl">vercel-labs/agent-skills</div><div class="trk"><div class="fil" style="width:9.8%"></div></div><div class="val">4</div></div>
+  <div class="bar"><div class="lbl">anthropics/skills</div><div class="trk"><div class="fil" style="width:7.3%"></div></div><div class="val">3</div></div>
+</div>
+
+<h3>分层必装清单</h3>
+<table>
+<thead><tr><th>层级</th><th>Skill</th><th>安装量</th><th>解决什么</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-b">元技能</span>第一个装</td><td><strong><code>find-skills</code></strong>（vercel-labs/skills）</td><td class="star">3.8M</td><td>让 agent 自己去找并装 skill</td></tr>
+<tr><td>需求对齐</td><td><strong><code>grill-me</code></strong>（mattpocock/skills）</td><td class="star">1.4M</td><td>开工前把需求问清楚，避免返工</td></tr>
+<tr><td>架构守护</td><td><strong><code>improve-codebase-architecture</code></strong></td><td class="star">1.1M</td><td>定期体检代码库，找出该重构的模块</td></tr>
+<tr><td>测试</td><td><strong><code>tdd</code></strong>（mattpocock/skills）</td><td class="star">1.1M</td><td>红绿重构循环，产出值得留的测试</td></tr>
+<tr><td>浏览器自动化</td><td><strong><code>agent-browser</code></strong>（vercel-labs）</td><td class="star">1.1M</td><td>让 agent 真的能操作网页</td></tr>
+<tr><td>前端设计</td><td><strong><code>frontend-design</code></strong>（anthropics/skills）</td><td class="star">985.0K</td><td>拒绝「AI 味」的界面设计</td></tr>
+<tr><td>跨会话交接</td><td><strong><code>handoff</code></strong>（mattpocock/skills）</td><td class="star">979.1K</td><td>把当前对话压缩成交接文档</td></tr>
+<tr><td>调试</td><td><strong><code>diagnosing-bugs</code></strong>（mattpocock/skills）</td><td class="star">777.5K</td><td>难 bug 的纪律化诊断循环</td></tr>
+<tr><td>省 token</td><td><strong><code>caveman</code></strong>（juliusbrussee/caveman）</td><td class="star">572.4K</td><td>让 agent 少说少读，省 33%+ input token</td></tr>
+<tr><td>中文办公</td><td><strong><code>lark-doc</code></strong> 等（飞书官方）</td><td class="star">770.1K</td><td>飞书文档/多维表格/IM 全打通</td></tr>
+</tbody>
+</table>
+
+<div class="box danger">
+<div class="t">一句警告：装之前一定看 Security Audits</div>
+<p>skills.sh 对每个 skill 显示三家审计结果（Gen Agent Trust Hub / Socket / Snyk），实测发现<strong>连高排名 skill 也有 Warn 和 Fail</strong>：</p>
+<ul>
+<li><code>triage</code>（938.7K 安装，全站第 12）→ <strong>Gen Agent Trust Hub: Warn、Snyk: Warn</strong></li>
+<li><code>design-mobile-apps</code>（799.9K 安装，全站第 22）→ <strong>Snyk: Fail</strong></li>
+</ul>
+</div>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+<h2><span class="n">一</span>skills.sh 平台怎么用</h2>
+
+<h3>1.1 三个榜单的差别</h3>
+<table>
+<thead><tr><th>榜单</th><th>指标</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td><strong>All Time</strong></td><td><code>8W Activity</code> + <code>Installs</code>（8 周活跃 + 累计安装）</td><td>判断长期价值</td></tr>
+<tr><td><strong>Trending (24h)</strong></td><td><code>Installs</code>（24 小时）</td><td>看这周什么在起来</td></tr>
+<tr><td><strong>Hot</strong></td><td><code>1H / Change</code>（1 小时 + 增量）</td><td>看此刻什么在爆</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">实测差异很大</div>
+<p>All Time 前 10 全是开发/设计类；<strong>Trending 前 10 里 7 个是 heygen 的视频生成类</strong>（hyperframes-cli 32.9K、hyperframes-audio 28.4K、motion-graphics 20.6K…）；Hot 榜前列则是 <code>limrun-bazel</code>、<code>ponytail</code>、<code>clickhouse-best-practices</code> 这类刚起步的。</p>
+<p><strong>结论：只看 All Time 会漏掉正在起势的；只看 Trending 会被单一厂商刷屏。</strong></p>
+</div>
+
+<h3>1.2 安装方式</h3>
+<pre><code># 基础安装（owner/repo 简写）
+npx skills add vercel-labs/agent-skills
+
+# 指定单个 skill
+npx skills add https://github.com/mattpocock/skills --skill tdd
+
+# 装到用户目录而非项目（全局）
+npx skills add mattpocock/skills -g
+
+# 只看有哪些 skill，不装
+npx skills add mattpocock/skills --list
+
+# 不安装，直接生成 prompt 喂给 agent
+npx skills use vercel-labs/agent-skills@web-design-guidelines | claude
+npx skills use vercel-labs/agent-skills --skill web-design-guidelines --agent claude-code
+
+# 指定目标 agent
+npx skills add mattpocock/skills -a claude-code -a codex</code></pre>
+
+<p><strong>支持多种来源</strong>（README 实测）：GitHub 简写 / 完整 URL / 仓库内子路径 / GitLab / Azure Repos / 任意 git URL / 本地路径 / <strong>私有仓库</strong>（复用 Git 凭证、<code>gh</code> CLI 或 SSH）。</p>
+
+<h3>1.3 单个 skill 页面有什么</h3>
+<p>抓取详情页实测，每个 skill 页显示 6 组信息：</p>
+<table>
+<thead><tr><th>字段</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td><strong>Installs</strong></td><td>安装量</td></tr>
+<tr><td><strong>Repository + GitHub Stars</strong></td><td>仓库与星数（<strong>用于发现「星数低但安装量高」的推广驱动 skill</strong>）</td></tr>
+<tr><td><strong>First Seen</strong></td><td>首次收录日期（用于发现新建仓库陡增）</td></tr>
+<tr><td><strong>Security Audits</strong></td><td><span class="pill p-g">Gen Agent Trust Hub</span><span class="pill p-b">Socket</span><span class="pill p-y">Snyk</span></td></tr>
+<tr><td><strong>Summary</strong></td><td>一句话摘要</td></tr>
+<tr><td><strong>SKILL.md</strong></td><td>完整原文（<strong>装前必读</strong>）</td></tr>
+</tbody>
+</table>
+<div class="box ok"><div class="t">这六组数据合起来才能判断一个 skill 值不值得装</div><p>只看安装量会被刷榜误导；只看星数会漏掉好用的新 skill；<strong>不看安全审计则可能装进有问题的东西</strong>。</p></div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+<h2><span class="n">二</span>全站 Top 40（2026-10-14 实测）</h2>
+<p>完整 176 条见 <code>data/leaderboard.json</code>。</p>
+<table>
+<thead><tr><th>#</th><th>Skill</th><th>来源</th><th>安装量</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>find-skills</strong></td><td>vercel-labs/skills</td><td class="star">3.8M</td></tr>
+<tr><td>2</td><td><strong>grill-me</strong></td><td>mattpocock/skills</td><td class="star">1.4M</td></tr>
+<tr><td>3</td><td><strong>grill-with-docs</strong></td><td>mattpocock/skills</td><td class="star">1.2M</td></tr>
+<tr><td>4</td><td><strong>agent-browser</strong></td><td>vercel-labs/agent-browser</td><td class="star">1.1M</td></tr>
+<tr><td>5</td><td><strong>improve-codebase-architecture</strong></td><td>mattpocock/skills</td><td class="star">1.1M</td></tr>
+<tr><td>6</td><td><strong>tdd</strong></td><td>mattpocock/skills</td><td class="star">1.1M</td></tr>
+<tr><td>7</td><td>hyperframes-cli</td><td>heygen-com/hyperframes</td><td class="star">1.0M</td></tr>
+<tr><td>8</td><td>setup-matt-pocock-skills</td><td>mattpocock/skills</td><td class="star">997.5K</td></tr>
+<tr><td>9</td><td><strong>frontend-design</strong></td><td><strong>anthropics/skills</strong></td><td class="star">985.0K</td></tr>
+<tr><td>10</td><td><strong>handoff</strong></td><td>mattpocock/skills</td><td class="star">979.1K</td></tr>
+<tr><td>11</td><td>hyperframes</td><td>heygen-com/hyperframes</td><td class="star">961.9K</td></tr>
+<tr><td>12</td><td><strong>triage</strong> <span class="pill p-y">⚠️ Warn</span></td><td>mattpocock/skills</td><td class="star">938.7K</td></tr>
+<tr><td>13</td><td><strong>prototype</strong></td><td>mattpocock/skills</td><td class="star">934.3K</td></tr>
+<tr><td>14</td><td>reddit-automation</td><td>flowkit-labs/skills</td><td class="star">925.5K</td></tr>
+<tr><td>15</td><td><strong>grilling</strong></td><td>mattpocock/skills</td><td class="star">907.9K</td></tr>
+<tr><td>16</td><td>media-use</td><td>heygen-com/hyperframes</td><td class="star">885.0K</td></tr>
+<tr><td>17</td><td>hyperframes-animation</td><td>heygen-com/hyperframes</td><td class="star">853.1K</td></tr>
+<tr><td>18</td><td>hyperframes-registry</td><td>heygen-com/hyperframes</td><td class="star">842.4K</td></tr>
+<tr><td>19</td><td><strong>domain-modeling</strong></td><td>mattpocock/skills</td><td class="star">816.5K</td></tr>
+<tr><td>20</td><td><strong>teach</strong></td><td>mattpocock/skills</td><td class="star">808.1K</td></tr>
+<tr><td>21</td><td>hyperframes-core</td><td>heygen-com/hyperframes</td><td class="star">803.0K</td></tr>
+<tr><td>22</td><td>design-mobile-apps <span class="pill p-r">❌ Fail</span></td><td>designed-by-ai/skills</td><td class="star">800.0K</td></tr>
+<tr><td>23</td><td>vercel-react-best-practices</td><td>vercel-labs/agent-skills</td><td class="star">799.2K</td></tr>
+<tr><td>24</td><td><strong>codebase-design</strong></td><td>mattpocock/skills</td><td class="star">792.3K</td></tr>
+<tr><td>25</td><td><strong>diagnosing-bugs</strong></td><td>mattpocock/skills</td><td class="star">777.5K</td></tr>
+<tr><td>26</td><td>hyperframes-creative</td><td>heygen-com/hyperframes</td><td class="star">775.2K</td></tr>
+<tr><td>27</td><td><strong>lark-doc</strong></td><td>open.feishu.cn</td><td class="star">770.1K</td></tr>
+<tr><td>28</td><td>web-design-guidelines</td><td>vercel-labs/agent-skills</td><td class="star">734.2K</td></tr>
+<tr><td>29</td><td><strong>code-review</strong></td><td>mattpocock/skills</td><td class="star">729.7K</td></tr>
+<tr><td>30</td><td><strong>implement</strong></td><td>mattpocock/skills</td><td class="star">718.4K</td></tr>
+<tr><td>31</td><td>ask-matt</td><td>mattpocock/skills</td><td class="star">715.7K</td></tr>
+<tr><td>32</td><td>wayfinder</td><td>mattpocock/skills</td><td class="star">664.8K</td></tr>
+<tr><td>33</td><td>to-spec</td><td>mattpocock/skills</td><td class="star">661.4K</td></tr>
+<tr><td>34</td><td>hyperframes-keyframes</td><td>heygen-com/hyperframes</td><td class="star">659.8K</td></tr>
+<tr><td>35</td><td><strong>research</strong></td><td>mattpocock/skills</td><td class="star">658.9K</td></tr>
+<tr><td>36</td><td>to-tickets</td><td>mattpocock/skills</td><td class="star">655.3K</td></tr>
+<tr><td>37</td><td>remotion-best-practices</td><td>remotion-dev/skills</td><td class="star">615.1K</td></tr>
+<tr><td>38</td><td>design-taste-frontend</td><td>leonxlnx/taste-skill</td><td class="star">606.8K</td></tr>
+<tr><td>39</td><td><strong>caveman</strong></td><td>juliusbrussee/caveman</td><td class="star">572.4K</td></tr>
+<tr><td>40</td><td>general-video</td><td>heygen-com/hyperframes</td><td class="star">569.7K</td></tr>
+</tbody>
+</table>
+<div class="box warn"><div class="t">读法提醒</div><p>mattpocock 一家占了前 40 里的 <strong>18 个</strong>。这不代表它们都「必备」——<strong>它们是同一个作者的一套完整方法论，装整套才有意义</strong>（见第四章）。</p></div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+<h2><span class="n">三</span>分场景推荐</h2>
+
+<div class="tabs">
+<button class="tab on" data-t="p1">元技能 / 需求对齐</button>
+<button class="tab" data-t="p2">开发流程 / 调试</button>
+<button class="tab" data-t="p3">协作 / 学习研究</button>
+<button class="tab" data-t="p4">前端 UI / 视频</button>
+<button class="tab" data-t="p5">办公 / 营销 / 省 token</button>
+</div>
+
+<div class="pane on" id="p1">
+<h3 id="s3a">3.1 元技能层 —— 先装这个</h3>
+
+<h4><code>find-skills</code>（vercel-labs/skills，3.8M，全站第一）</h4>
+<p><strong>它做什么</strong>：让 agent 自己去发现并安装 skill。</p>
+<p>详情页原文：</p>
+<pre><code>Discover and install specialized agent skills from the open ecosystem
+when users need extended capabilities.
+
+- Helps identify relevant skills by domain and task when users ask
+  "how do I do X" or "find a skill for X"
+- Provides `npx skills find [query]` command to search interactively
+  and `npx skills add <package>` to install from GitHub or other sources
+- Recommends skills based on install count (prefer 1K+), source
+  reputation (official sources like Vercel, Anthropic), and GitHub
+  stars to ensure quality
+- Checks the skills.sh leaderboard first for battle-tested, popular
+  options before running CLI searches</code></pre>
+<p><strong>解决什么</strong>：你不用再手动逛榜单——直接问 agent「有没有做 X 的 skill」，它自己去查、去比、去装。</p>
+<p><strong>为什么它排第一</strong>：它是<strong>入口</strong>。装了它，后面所有 skill 的发现成本归零。</p>
+
+<h4><code>skill-creator</code>（anthropics/skills，405.1K）</h4>
+<p>原文：<em>"Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test..."</em></p>
+<p><strong>解决什么</strong>：找不到合适的就自己造。这是官方出的<strong>造 skill 的 skill</strong>。</p>
+<p>另有 <code>obra/superpowers</code> 的 <code>writing-skills</code>（含测试方法论）和 mattpocock 的 <code>writing-for-agents</code> / <code>writing-great-skills</code>，都是「怎么给 agent 写文档」的元技能。</p>
+
+<h3>3.2 需求对齐 / 设计阶段 —— 最被低估的一类</h3>
+
+<h4><code>grill-me</code>（mattpocock/skills，1.4M，全站第二）</h4>
+<p>详情页原文：</p>
+<pre><code>Relentless interviewing skill that stress-tests plans and designs
+through systematic questioning.
+
+- Conducts deep-dive questioning across all aspects of a plan, walking
+  through decision trees branch-by-branch until shared understanding
+  is reached
+- Automatically explores the codebase to answer questions where code
+  context is available, reducing redundant back-and-forth
+- Designed for design reviews, architecture validation, and
+  pre-implementation planning where thorough vetting prevents
+  downstream issues</code></pre>
+<p><strong>解决什么</strong>：<strong>AI 编程最高频的失败模式是「它做的不是你要的」。</strong> 这个 skill 强制在动手前把需求问透。</p>
+<p>作者原文（README）：</p>
+<pre><code>The most common failure mode in software development is misalignment.
+You think the dev knows what you want. Then you see what they've built
+- and you realize it didn't understand you at all. This is just the
+same in the AI age. There is a communication gap between you and the
+agent. The fix for this is a grilling session.</code></pre>
+
+<h4><code>grill-with-docs</code>（1.2M）</h4>
+<p>比 <code>grill-me</code> 多了<strong>构建领域模型</strong>：边问边更新 <code>GLOSSARY.md</code> 和 ADR。作者的例子很有说服力：</p>
+<table>
+<thead><tr><th></th><th>说法</th></tr></thead>
+<tbody>
+<tr><td><strong>BEFORE</strong></td><td>"There's a problem when a lesson inside a section of a course is made 'real' (i.e. given a spot in the file system)"</td></tr>
+<tr><td><strong>AFTER</strong></td><td>"There's a problem with <strong>the materialization cascade</strong>"</td></tr>
+</tbody>
+</table>
+<p><strong>收益</strong>（作者原文）：变量/函数/文件名用统一语言命名 → 代码库更易导航 → <strong>agent 思考更省 token</strong>。</p>
+
+<h4><code>grilling</code>（907.9K）—— 底层原语</h4>
+<p>原文：<em>"Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved. <strong>The reusable interview primitive behind</strong> <code>grill-me</code>, <code>grill-with-docs</code>, <code>triage</code>, <code>wayfinder</code> and <code>improve-codebase-architecture</code>."</em></p>
+<p>即：<code>grill-me</code> 是「入口」，<code>grilling</code> 是「引擎」。</p>
+
+<h4>其他对齐类</h4>
+<table>
+<thead><tr><th>Skill</th><th>安装量</th><th>做什么</th></tr></thead>
+<tbody>
+<tr><td><code>domain-modeling</code></td><td class="star">816.5K</td><td>主动构建并打磨项目领域模型：用边界场景压力测试术语，内联更新 <code>GLOSSARY.md</code> 与 ADR</td></tr>
+<tr><td><code>prototype</code></td><td class="star">934.3K</td><td>构建一次性原型回答设计问题：单个可分享 HTML，或多个完全不同的 UI 变体在一个路由切换</td></tr>
+<tr><td><code>brainstorming</code>（superpowers）</td><td class="star">391.2K</td><td>动手前把意图挖出来</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="p2">
+<h3 id="s3b">3.3 开发流程 —— 从 spec 到合并</h3>
+<p>这是 mattpocock 生态最完整的部分。<strong>它们是一条流水线，单独装一个价值有限</strong>：</p>
+<table>
+<thead><tr><th>阶段</th><th>Skill</th><th>安装量</th><th>做什么</th></tr></thead>
+<tbody>
+<tr><td>配置（每仓库一次）</td><td><code>setup-matt-pocock-skills</code></td><td class="star">997.5K</td><td>配 issue tracker、triage 标签、领域文档位置</td></tr>
+<tr><td>找路</td><td><code>ask-matt</code></td><td class="star">715.7K</td><td>路由器：告诉你该用哪个 skill</td></tr>
+<tr><td>规划</td><td><code>to-spec</code></td><td class="star">661.4K</td><td>把当前对话转成 spec 并发布到 issue tracker</td></tr>
+<tr><td>拆票</td><td><code>to-tickets</code></td><td class="star">655.3K</td><td>把计划拆成 tracer-bullet 工单，标注阻塞关系</td></tr>
+<tr><td>大工程规划</td><td><code>wayfinder</code></td><td class="star">664.8K</td><td>规划<strong>超过一个 agent session 容量</strong>的大块工作</td></tr>
+<tr><td><strong>实现</strong></td><td><code>implement</code></td><td class="star">718.4K</td><td>按 spec/工单施工，在约定接缝上跑 <code>/tdd</code>，收尾跑 <code>/code-review</code></td></tr>
+<tr><td>批量实现</td><td><code>implement-spec</code></td><td class="star">235.0K</td><td>在一个集成分支上实现整个 spec，<strong>并行 subagent 打满就绪前沿</strong></td></tr>
+<tr><td>代码审查</td><td><code>code-review</code></td><td class="star">729.7K</td><td><strong>两轴审查</strong>：Standards（编码规范 + Fowler 坏味道基线）+ Spec（是否忠实实现原 issue），跑并行子代理互不污染</td></tr>
+<tr><td>PR</td><td><code>pr</code></td><td>—</td><td>PR 正文的形态：最小可视化摘要 + 前后证据 + 合并风险评级</td></tr>
+<tr><td>收尾</td><td><code>retro</code></td><td class="star">225.1K</td><td>复盘并建议改进 agent 环境（导航、自动检查、规范、steering 文件）</td></tr>
+</tbody>
+</table>
+
+<h4><code>tdd</code>（1.1M）—— 值得单独说</h4>
+<p>详情页原文：</p>
+<pre><code>Test-driven development with vertical slices, behavior-focused tests,
+and incremental red-green-refactor cycles.
+
+- Emphasizes integration-style tests that verify behavior through
+  public APIs, not implementation details; tests should survive
+  refactors unchanged
+- Requires vertical slicing (one test → one implementation → repeat)
+  instead of horizontal slicing (all tests first, then all code),
+  preventing brittle, behavior-insensitive test suites
+- Includes planning phase to confirm interface changes, prioritize
+  behaviors to test, and design for testability before writing code</code></pre>
+<p>SKILL.md 原文的关键概念：</p>
+<pre><code>A seam is the public boundary you test at: the interface where you
+observe behavior without reaching inside. Tests live at seams, never
+against internals.
+
+Test only at pre-agreed seams. Before writing any test, write down the
+seams under test and confirm them with the user. No test is written at
+an unconfirmed seam.</code></pre>
+<p><strong>解决什么</strong>：AI 写的测试往往「测实现细节」，一重构就全红。这个 skill 强制测<strong>行为</strong>、在<strong>接缝</strong>上测。</p>
+
+<h4><code>codebase-design</code>（792.3K）+ <code>improve-codebase-architecture</code>（1.1M）</h4>
+<p><strong><code>codebase-design</code> 提供词汇表</strong>：module、interface、depth、seam、adapter、leverage、locality。原文要求 <em>"Use these terms exactly in every suggestion, and don't drift into 'component,' 'service,' 'API,' or 'boundary.'"</em></p>
+<p><strong><code>improve-codebase-architecture</code> 详情页原文</strong>：</p>
+<pre><code>Analyze codebases for architectural friction and propose
+module-deepening refactors as testability improvements.
+
+- Explores codebases organically to surface shallow modules,
+  tightly-coupled components, and untested seams rather than
+  following rigid heuristics
+- Applies John Ousterhout's "deep module" principle: small interfaces
+  hiding large implementations for better testability and AI
+  navigability
+- Generates multiple radically different interface designs
+  (minimalist, flexible, caller-optimized, ports & adapters) via
+  parallel sub-agents, then recommends the strongest approach
+- Creates GitHub issue RFCs documenting the problem space, design
+  trade-offs, and refactoring rationale</code></pre>
+<p>作者建议：<strong>每隔几天在代码库上跑一次</strong>。自我定位很克制：<em>"It is a survey, not a rescue: on a genuinely old codebase it will find real candidates, but it won't untangle the mud for you."</em></p>
+<p><strong>解决什么</strong>：作者的诊断——<em>"agents can radically speed up coding, they also <strong>accelerate software entropy</strong>. Codebases get more complex at an unprecedented rate."</em></p>
+
+<h3>3.4 调试与排错</h3>
+<h4><code>diagnosing-bugs</code>（mattpocock/skills，777.5K）</h4>
+<pre><code>Disciplined diagnosis loop for hard bugs and performance regressions:
+build a feedback loop that goes red on this bug → minimise →
+hypothesise → instrument → fix → regression-test.</code></pre>
+<p><strong>解决什么</strong>：难 bug 靠猜是猜不出来的。强制先建一个「能稳定复现」的反馈回路，再最小化、再假设、再插桩。</p>
+<h4><code>systematic-debugging</code>（superpowers，291.8K）</h4>
+<p>原文：<em>"4-phase root cause process (includes root-cause-tracing, defense-in-depth, condition-based-waiting techniques)"</em></p>
+<h4><code>verification-before-completion</code>（superpowers，238.3K）</h4>
+<p>原文：<em>"Ensure it's actually fixed"</em></p>
+<p><strong>解决什么</strong>：AI 最常犯的错是「声称修好了但没验证」。这个 skill 强制在宣布完成前做验证。</p>
+</div>
+
+<div class="pane" id="p3">
+<h3 id="s3c">3.5 协作与交接</h3>
+<h4><code>handoff</code>（mattpocock/skills，979.1K）</h4>
+<p>详情页原文：</p>
+<pre><code>Summarize conversations into handoff documents for seamless
+agent-to-agent transitions.
+
+- Compacts current conversation context into a structured document
+  saved to the OS temp directory
+- Automatically suggests relevant skills the next agent should invoke
+  based on conversation content
+- Avoids duplication by referencing existing artifacts (PRDs, plans,
+  ADRs, issues, commits, diffs) by path or URL rather than repeating
+  their content
+- Redacts sensitive data including API keys, passwords, and PII
+  before handoff
+- Tailors handoff focus based on user-provided arguments</code></pre>
+<p>SKILL.md 原文（很短，说明它很聚焦）：</p>
+<pre><code>Write a handoff document summarising the current conversation so a
+fresh agent can continue the work. Save to the temporary directory of
+the user's OS ($TMPDIR, else /tmp; %TEMP% on Windows) - not the
+current workspace.
+
+Include a "suggested skills" section in the document, naming which
+skills the next agent should call the Skill tool for.
+
+Do not duplicate content already captured in other artifacts.
+Reference them by path or URL instead.
+
+Redact any sensitive information, such as API keys, passwords, or
+personally identifiable information.</code></pre>
+<p><strong>解决什么</strong>：上下文窗口满了 / 要换 agent / 要开会中断时，把上下文无损压缩，而不是从头讲一遍。</p>
+
+<h4><code>triage</code>（938.7K） <span class="pill p-y">⚠️ 安全审计 Warn</span></h4>
+<p>详情页原文：</p>
+<pre><code>State machine-driven issue triage with role-based workflow management
+and agent brief generation.
+
+- Two category roles (bug, enhancement) and five state roles
+  (needs-triage, needs-info, ready-for-agent, ready-for-human,
+  wontfix) guide issues through a standardized workflow
+- Supports querying unlabeled issues, in-progress triage, and issues
+  awaiting reporter feedback
+- Includes reproduction testing for bugs, grilling sessions for
+  incomplete issues, and templates for triage notes and agent briefs
+- Respects prior triage context, codebase ADRs, and out-of-scope
+  knowledge bases</code></pre>
+<p><strong>一个很好的设计细节</strong>（SKILL.md 原文）：triage 期间发的每条评论都<strong>必须</strong>以这句话开头：</p>
+<pre><code>&gt; *This was generated by AI during triage.*</code></pre>
+<p><strong>解决什么</strong>：issue 堆积、状态混乱。而且<strong>主动标注 AI 生成</strong>，避免误导。</p>
+
+<h4>其他协作类</h4>
+<table>
+<thead><tr><th>Skill</th><th>安装量</th><th>做什么</th></tr></thead>
+<tbody>
+<tr><td><code>wait-what</code></td><td class="star">399.5K</td><td>agent 说的你没听懂时触发，用你的 <code>GLOSSARY.md</code> 词汇用大白话重新解释</td></tr>
+<tr><td><code>to-questionnaire</code></td><td class="star">450.2K</td><td>把「你答不了的决策」转成给能答的人填的 Markdown 问卷（它问的是「怎么发」，不是「问什么」）</td></tr>
+<tr><td><code>resolving-merge-conflicts</code></td><td class="star">551.0K</td><td>解决合并冲突</td></tr>
+<tr><td><code>git-guardrails-claude-code</code></td><td class="star">463.7K</td><td>git 护栏</td></tr>
+</tbody>
+</table>
+
+<h3>3.6 学习与研究</h3>
+<h4><code>teach</code>（808.1K）</h4>
+<p>原文：<em>"Teach the user a new skill or concept over multiple sessions, using the current directory as a <strong>stateful teaching workspace</strong>."</em></p>
+<p><strong>解决什么</strong>：把「学一个东西」变成跨会话的持续过程，而不是每次从零问。</p>
+
+<h4><code>research</code>（658.9K）</h4>
+<pre><code>Spin up a background agent to do the research, so you keep working
+while it reads.
+
+Its job:
+1. Investigate the question against primary sources (official docs,
+   source code, specs, first-party APIs), not a secondary write-up of
+   them. Follow every claim back to the source that owns it.
+2. Write the findings to a single Markdown file, citing each claim's
+   source.
+3. Save it where the repo already keeps such notes</code></pre>
+<p><strong>解决什么</strong>：研究不阻塞你干活，且<strong>每条结论都要溯源到一手资料</strong>。</p>
+
+<h4><code>academy-guide</code>（anthropics/skills）</h4>
+<p>原文：<em>"Stop and check this skill before finishing any reply to a question about how to use Claude or a Claude product — it recommends matching courses, tutorials, and use cases..."</em></p>
+</div>
+
+<div class="pane" id="p4">
+<h3 id="s3d">3.7 前端 / UI 设计</h3>
+<h4><code>frontend-design</code>（anthropics/skills，985.0K）—— 排名最高的非 mattpocock 开发类 skill</h4>
+<pre><code>Distinctive, production-grade frontend interfaces that reject generic
+AI aesthetics through intentional design choices.
+
+- Guides aesthetic direction selection (brutalist, maximalist,
+  retro-futuristic, luxury, organic, etc.) before implementation
+- Emphasizes typography, color theming with CSS variables, motion
+  design, spatial composition, and textural details as core design
+  pillars
+- Generates working code (HTML/CSS/JS, React, Vue) that matches
+  implementation complexity to the aesthetic vision
+- Explicitly avoids overused fonts, clichéd color schemes, and
+  predictable layouts that characterize generic AI-generated interfaces</code></pre>
+<p>SKILL.md 原文的开场设定（很能说明它的思路）：</p>
+<pre><code>Approach this as the design lead at a design studio known for giving
+every client a distinct visual identity that is not mistaken for
+anyone else's. This client has already rejected proposals that felt
+cliché or templated, and is paying for a distinctive point of view.</code></pre>
+<p>以及一条很具体的反套路规则：</p>
+<pre><code>a big number with a small label, supporting stats, and a gradient
+accent is the default treatment, so only use it if that's truly the
+best option</code></pre>
+<p><strong>解决什么</strong>：<strong>AI 生成的界面千篇一律</strong>。这个 skill 强制先定美学方向，再写代码。</p>
+
+<h4><code>web-design-guidelines</code>（vercel-labs/agent-skills，734.2K）</h4>
+<p>README 原文：<em>"Review UI code for compliance with web interface best practices. Audits your code for <strong>100+ rules</strong> covering accessibility, performance, and UX."</em></p>
+<p>覆盖：Accessibility（aria-label、语义 HTML、键盘处理）、Focus States、Forms、Animation（<code>prefers-reduced-motion</code>）、Typography（弯引号、省略号、<code>tabular-nums</code>）、Images、Performance（虚拟化、布局抖动、preconnect）、Navigation &amp; State（URL 反映状态、深链）、Dark Mode &amp; Theming、Touch &amp; Interaction、Locale &amp; i18n（<code>Intl.DateTimeFormat</code>）</p>
+<div class="box ok"><div class="t">它和 frontend-design 是互补的</div><p>前者是「<strong>创造</strong>好看的设计」，后者是「<strong>审查</strong>是否符合规范」。两个都装不冲突。</p></div>
+
+<h4><code>vercel-react-best-practices</code>（799.2K）</h4>
+<p>README 原文：<em>"React and Next.js performance optimization guidelines from Vercel Engineering. Contains <strong>40+ rules across 8 categories, prioritized by impact</strong>."</em></p>
+<p>分类：消除瀑布流（Critical）、包体积优化（Critical）、服务端性能（High）、客户端数据获取（Medium-High）、重渲染优化（Medium）、渲染性能（Medium）、JS 微优化（Low-Medium）</p>
+
+<h4>其他 UI 类</h4>
+<table>
+<thead><tr><th>Skill</th><th>安装量</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>design-mobile-apps</code>（designed-by-ai） <span class="pill p-r">❌ Snyk Fail</span></td><td class="star">800.0K</td><td>通过 sleek.design REST API 生成移动端设计。⚠️ 星数仅 15 却有 80 万安装</td></tr>
+<tr><td><code>design-taste-frontend</code>（leonxlnx/taste-skill）</td><td class="star">606.8K</td><td>leonxlnx 的独立设计师路线，约 15 个 UI skill 上榜</td></tr>
+<tr><td><code>ui-ux-pro-max</code>（nextlevelbuilder）</td><td class="star">395.4K</td><td>—</td></tr>
+<tr><td><code>emil-design-eng</code>（emilkowalski）</td><td class="star">350.9K</td><td>设计工程</td></tr>
+<tr><td><code>shadcn</code>（shadcn/ui 官方）</td><td class="star">271.1K</td><td>shadcn/ui 组件库</td></tr>
+<tr><td><code>break-ui</code> / <code>animate-expo</code>（emilkowalski）</td><td>Hot 榜</td><td>—</td></tr>
+<tr><td><code>no-ai-slop</code>（petergyang）</td><td>Hot 榜</td><td>去 AI 味</td></tr>
+<tr><td><code>make-interfaces-feel-better</code>（jakubkrehel）</td><td>Hot 榜</td><td>界面手感</td></tr>
+</tbody>
+</table>
+
+<h3>3.8 视频 / 媒体生成 —— 榜单上最大的「新势力」</h3>
+<p><code>heygen-com/hyperframes</code> 是<strong>开源框架，把 HTML/CSS/媒体/可寻址动画渲染成确定性 MP4</strong>。21 个 skill 上榜，README 原文：</p>
+<pre><code>The skills teach agents the HyperFrames production loop: plan the
+video, write valid HTML, wire seekable animations, add media, lint,
+preview, and render.</code></pre>
+<p><strong>架构是「路由器 + 创建工作流 + 领域技能」三层</strong>：</p>
+<table>
+<thead><tr><th>类型</th><th>Skill</th><th>何时用</th></tr></thead>
+<tbody>
+<tr><td><strong>路由器</strong></td><td><code>/hyperframes</code></td><td><strong>任何视频/动画/动态图形需求都先读它</strong></td></tr>
+<tr><td rowspan="10">创建工作流</td><td><code>/product-launch-video</code></td><td>网站营销/发布/推广视频（≤3 分钟，最佳 30-90 秒）</td></tr>
+<tr><td><code>/faceless-explainer</code></td><td>从任意文本讲清一个概念，视觉全部 LLM 生成</td></tr>
+<tr><td><code>/pr-to-video</code></td><td>GitHub PR → 变更日志/特性揭示视频（走 <code>gh</code> CLI）</td></tr>
+<tr><td><code>/embedded-captions</code></td><td>给已有口播视频加字幕</td></tr>
+<tr><td><code>/talking-head-recut</code></td><td>口播/访谈/播客加设计图形层</td></tr>
+<tr><td><code>/motion-graphics</code></td><td>短片头/动效（~10 秒内）</td></tr>
+<tr><td><code>/music-to-video</code></td><td>音乐 → 节拍同步视频</td></tr>
+<tr><td><code>/slideshow</code></td><td>演示/路演/交互式 deck（<strong>输出可导航 deck，不是渲染视频</strong>）</td></tr>
+<tr><td><code>/general-video</code></td><td>兜底：多场景、品牌片、循环</td></tr>
+<tr><td><code>/remotion-to-hyperframes</code></td><td>把已有 Remotion 组合迁移过来（单向）</td></tr>
+<tr><td rowspan="4">领域技能</td><td><code>/hyperframes-core</code></td><td>组合契约：<code>data-*</code> 计时属性、tracks、子组合</td></tr>
+<tr><td><code>/hyperframes-animation</code></td><td>动画知识：GSAP / Lottie / Three.js / Anime.js / CSS / WAAPI</td></tr>
+<tr><td><code>/hyperframes-keyframes</code></td><td>可寻址关键帧编写</td></tr>
+<tr><td><code>/hyperframes-creative</code></td><td>非动画的创意方向：调色板、字体、旁白、节拍规划</td></tr>
+</tbody>
+</table>
+<div class="box danger">
+<div class="t">安装提醒（README 原文）</div>
+<pre><code>The picker opens with nothing pre-selected — the Core Skills group is
+all you need: the /hyperframes router installs each creation workflow
+on demand.
+
+⚠️ a non-interactive or agent run without --skill installs all 21.</code></pre>
+<p>即：<strong>非交互安装会一次装 21 个</strong>，务必用 <code>--skill</code> 指定。</p>
+</div>
+
+<h4>其他媒体类（Trending 榜主力）</h4>
+<table>
+<thead><tr><th>Skill</th><th>来源</th><th>数值</th></tr></thead>
+<tbody>
+<tr><td>ai-image-generation</td><td>magentosh/superpowers</td><td class="star">29.9K（24h）</td></tr>
+<tr><td>uizze-ui</td><td>uizze/uizze</td><td class="star">27.6K（24h）</td></tr>
+<tr><td>ai-music / video-edit / image-to-video</td><td>gencraft-labs/skills</td><td class="star">15.5K（24h）</td></tr>
+<tr><td>kling-3-0 / nano-banana-2 / ace-step</td><td>prime-skills/runcomfy-agent-skills</td><td class="star">432K / 432K / 362.8K</td></tr>
+<tr><td>remotion-best-practices</td><td>remotion-dev/skills</td><td class="star">615.1K</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="p5">
+<h3 id="s3e">3.9 办公 / 企业</h3>
+<h4>飞书官方（<code>open.feishu.cn</code> / <code>larksuite/cli</code>）—— 单组织 16.9M 安装，全站最大</h4>
+<p>lark-cli README 原文：</p>
+<pre><code>The official Lark/Feishu CLI tool, maintained by the larksuite team —
+built for humans and AI Agents. Covers core business domains including
+Messenger, Docs, Base, Sheets, Slides, Calendar, Mail, Tasks,
+Meetings, Markdown, and more, with 200+ commands and 26 AI Agent
+Skills.</code></pre>
+<p>覆盖 <strong>18 个业务域</strong>：Calendar、Messenger、Docs、Drive、Markdown、Base（多维表格）、Sheets、Slides、Tasks、Wiki、Contact、Mail、Meetings、Attendance、Approval、OKR、Project（Meegle）、Apps</p>
+<p><strong>上榜的飞书 skill</strong>：<code>lark-doc</code>（770.1K）、<code>lark-okr</code>、<code>lark-markdown</code>、<code>lark-vc-agent</code>、<code>lark-base</code>、<code>lark-wiki</code>、<code>lark-workflow-standup-report</code>、<code>lark-openapi-explorer</code>、<code>lark-skill-maker</code>、<code>lark-approval</code>、<code>lark-slides</code>、<code>lark-attendance</code>、<code>lark-drive</code>、<code>lark-note</code>、<code>lark-apps</code></p>
+<p><strong>架构亮点</strong>（README 原文）：三层命令系统 —— <strong>Shortcuts（人和 AI 友好）→ API Commands（平台同步）→ Raw API（全覆盖）</strong>；安全上做<strong>输入注入防护、终端输出净化、OS 原生钥匙串存凭证</strong>。</p>
+<div class="box ok">
+<div class="t">对中国用户的实际意义</div>
+<p>如果你的工作流在飞书上，这是<strong>投入产出比最高的一批 skill</strong>——装一次，agent 就能操作飞书文档、多维表格、IM、日历、审批、OKR、会议。这也是榜单上<strong>唯一一个中国厂商官方、且体量最大的生态</strong>。</p>
+</div>
+
+<h4>其他企业类</h4>
+<table>
+<thead><tr><th>组织</th><th>上榜数</th><th>代表</th></tr></thead>
+<tbody>
+<tr><td><code>microsoft/azure-skills</code></td><td>15</td><td>azure-compliance、azure-compute、azure-messaging、azure-kubernetes、azure-rbac、azure-cost、azure-reliability、entra-agent-id</td></tr>
+<tr><td><code>prisma/skills</code></td><td>9</td><td>prisma-client-api、prisma-database-setup、prisma-cli、prisma-postgres、prisma-upgrade-v7</td></tr>
+<tr><td><code>supabase/agent-skills</code></td><td>2</td><td>supabase-postgres-best-practices、supabase</td></tr>
+<tr><td><code>neondatabase/agent-skills</code></td><td>1</td><td>neon-postgres</td></tr>
+<tr><td><code>clickhouse/agent-skills</code></td><td>1</td><td>clickhouse-best-practices</td></tr>
+<tr><td><code>google/agents-cli</code></td><td>1</td><td>google-agents-cli-adk-code</td></tr>
+</tbody>
+</table>
+
+<h3>3.10 营销 / 增长</h3>
+<h4><code>reddit-automation</code>（flowkit-labs/skills，925.5K）</h4>
+<p>它的伦理立场很明确，原文值得一读：</p>
+<pre><code>Reddit rewards real contribution and punishes spam. The way to market
+here is not to hide — it's to genuinely help, disclose your
+affiliation, and only bring up your product when it truly answers the
+question. This skill runs two moves: find the few threads where you
+can actually help, then draft a reply worth posting.</code></pre>
+<table>
+<thead><tr><th>Skill</th><th>来源</th><th>安装量</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>reddit-automation</code></td><td>flowkit-labs/skills（doany.ai）</td><td class="star">925.5K</td><td>在 Reddit 找真正需要你产品的人，<strong>诚实披露身份</strong>后回复</td></tr>
+<tr><td><code>seo-audit</code></td><td>coreyhaines31/marketingskills</td><td class="star">227.4K</td><td>网站 SEO 审计</td></tr>
+</tbody>
+</table>
+
+<h3>3.11 省 token / 成本控制 —— 一个被忽视的品类</h3>
+<h4><code>caveman</code>（juliusbrussee/caveman，572.4K）</h4>
+<p><strong>这个 skill 很有意思，且有第三方学术验证。</strong></p>
+<pre><code>Caveman make your AI agent say less and read less. Code stay exact.
+Brain still big.</code></pre>
+<p><strong>第三方验证</strong>（README 引用）：</p>
+<table>
+<thead><tr><th>来源</th><th>实验</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td><strong>Adobe Research</strong>（CAVEWOMAN 论文，引用了本仓库）</td><td>Caveman 风格输出，8 模型 × 5 数据集</td><td class="ok-b">每模型成本降 1.4-2.4 倍，最高 3 倍</td></tr>
+<tr><td><strong>Elasticsearch Labs</strong></td><td>Caveman 模式重制到 ES，8 个真实 MCP 场景</td><td class="ok-b">响应 token 少 63.6%，"Zero information loss"</td></tr>
+<tr><td><strong>JetBrains</strong></td><td>86 个真实编码任务，配对 A/B</td><td class="ok-b">无质量损失（p = 0.82），输出 token 少 8.5%</td></tr>
+</tbody>
+</table>
+<p><strong>六个组成部分</strong>（v4.0，可单独开关）：</p>
+<table>
+<thead><tr><th>部分</th><th>做什么</th><th>实测</th></tr></thead>
+<tbody>
+<tr><td><strong>Say less</strong></td><td>agent 回答短，代码保持精确</td><td class="star">63 → 20 token，同样修复</td></tr>
+<tr><td><strong>Read less</strong></td><td>日志/JSON/CSV/测试输出在模型读之前先压缩</td><td class="star">input token 少 33.2%</td></tr>
+<tr><td><strong>Auto</strong></td><td>按任务选模型和 effort</td><td class="star">比 Opus xhigh 便宜 54%，同分</td></tr>
+<tr><td><strong>Blocks</strong></td><td>code mode：agent 保留写过的脚本并复用</td><td class="star">一次测试运行 397 → 76 token</td></tr>
+<tr><td><strong>Waste fixes</strong></td><td>找出 token 花在哪并修</td><td>—</td></tr>
+<tr><td><strong>Browse</strong></td><td>网页返回前先压缩</td><td class="star">页面小 129.8 倍</td></tr>
+</tbody>
+</table>
+<p><strong>两条重要发现</strong>（README 原文，解释了它的设计边界）：</p>
+<pre><code>Adobe: cavemanning *your* prompt makes answers worse, so caveman never
+touches your prompt.
+JetBrains: agent sessions are mostly code and tool calls, which the
+voice leaves alone. So caveman grew rocks that shrink what the agent
+*reads* and what it *runs on*.</code></pre>
+<p>安装：<code>npx @caveman-ai/cli@latest</code>，支持 Claude、Codex、Gemini CLI、OpenCode 等 30+。</p>
+<p><strong>同类</strong>：<code>headroomlabs-ai/headroom</code>（75,305★，压缩工具输出/日志/RAG chunks，JSON 省 60-95% token）、caveman 家族（<code>caveman-compress</code> 397.0K、<code>caveman-review</code> 398.2K、<code>caveman-commit</code> 402.2K、<code>caveman-stats</code> 344.6K）</p>
+
+<h3>3.12 文档与知识管理</h3>
+<h4>Anthropic 官方文档三件套（<strong>生产环境在用</strong>）</h4>
+<p>anthropics/skills README 原文：</p>
+<pre><code>We've also included the document creation &amp; editing skills that power
+Claude's document capabilities under the hood in the skills/docx,
+skills/pdf, skills/pptx, and skills/xlsx subfolders. These are
+source-available, not open source, but we wanted to share these with
+developers as a reference for more complex skills that are actively
+used in a production AI application.</code></pre>
+<table>
+<thead><tr><th>Skill</th><th>SKILL.md 原文触发条件</th></tr></thead>
+<tbody>
+<tr><td><strong><code>pdf</code></strong></td><td><em>"anytime the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs..."</em></td></tr>
+<tr><td><strong><code>docx</code></strong></td><td><em>"whenever the user wants to create, read, edit, or manipulate Word documents (.docx files) or Word templates (.dotx files)"</em></td></tr>
+<tr><td><strong><code>pptx</code></strong></td><td><em>"any time a .pptx or .potx file is involved in any way — as input, output, or both"</em></td></tr>
+<tr><td><strong><code>xlsx</code></strong></td><td><em>"any time a spreadsheet file is the primary input or output"</em></td></tr>
+</tbody>
+</table>
+<div class="box warn"><div class="t">注意 License 差异</div><p>这四个 skill 是 <strong>source-available，不是 open source</strong>。其他 Anthropic skill 多为 Apache 2.0。</p></div>
+
+<h4>Anthropic 官方 skill 全表（19 个）</h4>
+<table>
+<thead><tr><th>Skill</th><th>做什么</th></tr></thead>
+<tbody>
+<tr><td><code>algorithmic-art</code></td><td>用 p5.js 做算法艺术（带种子随机与交互参数）</td></tr>
+<tr><td><code>brand-guidelines</code></td><td>应用 Anthropic 官方品牌色与字体</td></tr>
+<tr><td><code>canvas-design</code></td><td>用设计哲学创建 .png/.pdf 视觉作品（海报等）</td></tr>
+<tr><td><code>claude-api</code></td><td>Claude API / SDK 参考（模型 id、定价、参数、流式、工具、MCP、缓存、迁移）</td></tr>
+<tr><td><code>discernment-nudge</code></td><td>在给出实质性建议后做「审慎提醒」</td></tr>
+<tr><td><code>doc-coauthoring</code></td><td>结构化文档共创工作流</td></tr>
+<tr><td><code>internal-comms</code></td><td>写各类内部沟通文档</td></tr>
+<tr><td><code>mcp-builder</code></td><td>构建高质量 MCP server</td></tr>
+<tr><td><code>slack-gif-creator</code></td><td>为 Slack 优化的动画 GIF</td></tr>
+<tr><td><code>theme-factory</code></td><td>给 artifact 套主题（10 个预设主题）</td></tr>
+<tr><td><code>web-artifacts-builder</code></td><td>用 React + Tailwind + shadcn/ui 构建复杂 claude.ai HTML artifact</td></tr>
+<tr><td><code>webapp-testing</code></td><td>用 Playwright 测试本地 web 应用</td></tr>
+<tr><td><code>academy-guide</code></td><td>推荐 Claude 相关课程/教程</td></tr>
+</tbody>
+</table>
+
+<h4>文档写作规范</h4>
+<p><code>writing-guidelines</code>（vercel-labs/agent-skills）：<em>"Review docs and prose for compliance with the Vercel writing handbook. Audits your pages for <strong>80+ rules</strong> covering voice, structure, content types, code samples, typography, and AI workflow."</em></p>
+<p><strong>一个有意思的规则</strong>：禁用词包括 <code>easy</code> / <code>simple</code> / <code>quick</code>。</p>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+<h2><span class="n">四</span>三大生态深度解析</h2>
+
+<h3>4.1 mattpocock/skills —— 榜单的真正主导者</h3>
+<ul>
+<li><strong>289.5K GitHub stars</strong>，<strong>41 个 skill 上榜</strong>（全站第一）</li>
+<li>作者 Matt Pocock（Total TypeScript 作者），newsletter 约 6 万订阅</li>
+<li>仓库定位原文：<em>"My agent skills that I use every day to do <strong>real engineering</strong> - not vibe coding."</em></li>
+</ul>
+<p><strong>它的设计哲学</strong>（README 原文，很值得读）：</p>
+<pre><code>Developing real applications is hard. Approaches like GSD, BMAD, and
+Spec-Kit try to help by owning the process. But while doing so, they
+take away your control and make bugs in the process hard to resolve.
+
+These skills are designed to be small, easy to adapt, and composable.
+They work with any model. They're based on decades of engineering
+experience.</code></pre>
+<p><strong>一个关键的架构设计</strong>（README 原文）：</p>
+<pre><code>These split on one axis: who can invoke them. User-invoked skills are
+reachable only when you type them (e.g. /grill-me); their job is to
+orchestrate. Model-invoked skills can be invoked by you or reached for
+automatically by the agent when the task fits; they hold the reusable
+discipline. A user-invoked skill may invoke model-invoked skills, but
+never another user-invoked one.</code></pre>
+<table>
+<thead><tr><th>分类</th><th>User-invoked（手动）</th><th>Model-invoked（可自动）</th></tr></thead>
+<tbody>
+<tr><td><strong>Engineering</strong></td><td>ask-matt、grill-with-docs、triage、improve-codebase-architecture、setup-matt-pocock-skills、to-spec、to-tickets、implement、implement-spec、wayfinder、retro</td><td>prototype、diagnosing-bugs、research、tdd、domain-modeling、codebase-design、code-review、pr、wizard</td></tr>
+<tr><td><strong>Productivity</strong></td><td>grill-me、handoff、teach、to-questionnaire、wait-what</td><td>grilling、writing-for-agents</td></tr>
+</tbody>
+</table>
+<p><strong>它诊断的 4 个失败模式</strong>（README 原文，这是整个生态的理论基础）：</p>
+<ol>
+<li><strong>The Agent Didn't Do What I Want</strong> → 用 <code>grill-me</code> / <code>grill-with-docs</code></li>
+<li><strong>The Agent Is Way Too Verbose</strong> → 用共享语言（GLOSSARY.md）。原文：<em>"Agents are usually dropped into a project and asked to figure out the jargon as they go. So they <strong>use 20 words where 1 will do</strong>."</em></li>
+<li><strong>The Code Doesn't Work</strong> → 用 <code>tdd</code> / <code>diagnosing-bugs</code>。原文引用 <em>"the rate of feedback is your speed limit"</em></li>
+<li><strong>We Built A Ball Of Mud</strong> → 用 <code>improve-codebase-architecture</code>。原文引用 Kent Beck <em>"Invest in the design of the system every day."</em></li>
+</ol>
+<p><strong>其他值得注意的</strong>：<code>git-guardrails-claude-code</code>（463.7K）、<code>resolving-merge-conflicts</code>（551.0K）、<code>wizard</code>（503.6K，生成交互式 bash 向导让人做只有人能做的事）、<code>setup-pre-commit</code>（453.4K）</p>
+
+<h3>4.2 obra/superpowers —— 最完整的「全自动」方法论</h3>
+<ul>
+<li><strong>15 个 skill</strong>，<strong>自动触发</strong></li>
+<li>支持 <strong>16+ 个 harness</strong>（Claude Code、Antigravity、Codex App/CLI、Cursor、Devin CLI、Factory Droid、Gemini CLI、GitHub Copilot CLI、Grok Build CLI、Kimi Code、OpenCode、Pi、Qwen Code、<strong>Hermes Agent</strong>、Muse）</li>
+<li>核心创新：<strong>subagent-driven-development</strong>（两阶段审查：先查 spec 合规，再查代码质量）</li>
+<li>有商业支持通道（sales@primeradiant.com）</li>
+</ul>
+<p>README 原文描述它的工作流：</p>
+<pre><code>As soon as it sees that you're building something, it doesn't just jump
+into trying to write code. Instead, it steps back and asks you what
+you're really trying to do. Once it's teased a spec out of the
+conversation, it shows it to you in chunks short enough to actually
+read and digest. After you've signed off on the design, your agent puts
+together an implementation plan that's clear enough for an enthusiastic
+junior engineer with poor taste, no judgement, no project context, and
+an aversion to testing to follow. It emphasizes true red/green TDD,
+YAGNI, and DRY.
+
+Next up, once you say "go", it launches a subagent-driven-development
+process... It's not uncommon for your agent to work autonomously for a
+couple hours at a time without deviating from the plan.</code></pre>
+<p><strong>技能分组</strong>（README "What's Inside"）：</p>
+<ul>
+<li><strong>Testing</strong>：<code>test-driven-development</code></li>
+<li><strong>Debugging</strong>：<code>systematic-debugging</code>、<code>verification-before-completion</code>、<code>diagnosing-superpowers</code></li>
+<li><strong>Collaboration</strong>：<code>brainstorming</code>、<code>writing-plans</code>、<code>executing-plans</code>、<code>dispatching-parallel-agents</code>、<code>requesting-code-review</code>、<code>receiving-code-review</code>、<code>using-git-worktrees</code>、<code>finishing-a-development-branch</code>、<code>subagent-driven-development</code></li>
+<li><strong>Meta</strong>：<code>writing-skills</code>、<code>using-superpowers</code></li>
+</ul>
+<div class="box warn">
+<div class="t">与 mattpocock 的选择建议</div>
+<p><strong>superpowers 偏「全自动流水线」，mattpocock 偏「手动精细控制」</strong>。前者省心，后者可控。<strong>不要同时装</strong>——两者的 <code>tdd</code> / <code>test-driven-development</code>、<code>code-review</code> / <code>requesting-code-review</code> 功能重叠，同时装会让 agent 重复劳动。</p>
+</div>
+
+<h3>4.3 vercel-labs —— 前端与平台侧</h3>
+<ul>
+<li><strong><code>vercel-labs/skills</code></strong>：只有 <code>find-skills</code>（但它是全站第一）</li>
+<li><strong><code>vercel-labs/agent-skills</code></strong>：<code>vercel-optimize</code>、<code>react-best-practices</code>、<code>web-design-guidelines</code>、<code>writing-guidelines</code>、<code>vercel-composition-patterns</code>、<code>vercel-react-native-skills</code></li>
+<li><strong><code>vercel-labs/agent-browser</code></strong>：<code>agent-browser</code>（1.1M，全站第 4）</li>
+</ul>
+
+<h3>4.4 open.feishu.cn —— 唯一上榜的中国厂商生态</h3>
+<p>见 3.9。<strong>16.9M 总安装量是全站单一组织最高</strong>。lark-cli 是 MIT 开源、Go 写的官方 CLI，覆盖 18 业务域、200+ 命令、26 个 agent skill。</p>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+<h2><span class="n">五</span>安全与陷阱</h2>
+
+<h3>5.1 安全审计状态 —— 装之前必看</h3>
+<p><strong>skills.sh 对每个 skill 显示三家审计结果</strong>：Gen Agent Trust Hub、Socket、Snyk。实测结果<strong>并不都是 Pass</strong>：</p>
+<table>
+<thead><tr><th>Skill</th><th>安装量</th><th class="c">Gen Agent Trust Hub</th><th class="c">Socket</th><th class="c">Snyk</th></tr></thead>
+<tbody>
+<tr><td><code>grill-me</code></td><td class="star">1.4M</td><td class="c ok-b">Pass</td><td class="c ok-b">Pass</td><td class="c ok-b">Pass</td></tr>
+<tr><td><code>research</code></td><td class="star">658.9K</td><td class="c ok-b">Pass</td><td class="c">—</td><td class="c">—</td></tr>
+<tr><td><code>design-mobile-apps</code></td><td class="star">800.0K</td><td class="c ok-b">Pass</td><td class="c ok-b">Pass</td><td class="c no-b">❌ Fail</td></tr>
+<tr><td><code>triage</code></td><td class="star">938.7K</td><td class="c warn-b">⚠️ Warn</td><td class="c">—</td><td class="c warn-b">⚠️ Warn</td></tr>
+</tbody>
+</table>
+<div class="box danger">
+<div class="t">三条结论</div>
+<ol>
+<li><strong>安装量高 ≠ 安全。</strong> <code>triage</code>（938.7K）和 <code>design-mobile-apps</code>（800.0K）都在前 25 名，但都有 Warn 或 Fail。</li>
+<li><strong>审计结果不一致是常态。</strong> <code>design-mobile-apps</code> 是 Pass/Pass/Fail——三家结论不同，说明它们测的维度不同。</li>
+<li><strong>Warn/Fail 不等于恶意</strong>，可能是权限过大、外部 API 调用、或依赖问题。但<strong>必须自己看 SKILL.md 判断</strong>。</li>
+</ol>
+</div>
+<pre><code># 装之前先看它带不带可执行脚本
+npx skills add &lt;owner/repo&gt; --list        # 先列出，不安装
+# 然后去 skills.sh/&lt;owner&gt;/&lt;repo&gt;/&lt;skill&gt; 看 Security Audits</code></pre>
+
+<h3>5.2 星数与安装量严重脱节</h3>
+<table>
+<thead><tr><th>Skill</th><th>GitHub Stars</th><th>Installs</th><th>比值</th></tr></thead>
+<tbody>
+<tr><td><code>design-mobile-apps</code></td><td class="star">15</td><td class="star">799.9K</td><td class="no-b">5.3 万倍</td></tr>
+<tr><td><code>mattpocock/skills</code>（仓库）</td><td class="star">289.5K</td><td>—</td><td>—</td></tr>
+<tr><td><code>grill-me</code></td><td class="star">289.5K（仓库）</td><td class="star">1.4M</td><td>4.8 倍</td></tr>
+</tbody>
+</table>
+<div class="box warn">
+<div class="t">说明什么</div>
+<p><code>design-mobile-apps</code> 只有 15 star 却有 80 万安装——<strong>它靠的是榜单曝光和 sleek.design 的商业推广，不是社区认可</strong>。</p>
+<p><strong>判断方法</strong>：<strong>同时看 Stars、Installs、First Seen 三个指标。</strong> 星数低但安装量高的，多半是商业推广驱动。</p>
+</div>
+
+<h3>5.3 榜单水分的识别方法</h3>
+<p><strong>实测发现三种「刷榜」形态</strong>：</p>
+<h4>① 同一 skill 被多个 fork 重复上榜</h4>
+<p>Trending 榜里 <code>ai-video-generation</code> 出现了 <strong>7 次</strong>，来自 7 个不同 owner：</p>
+<pre><code>magentosh/superpowers、101-skills/superpowers、qu-skills/superpowers、
+its-a-skill-issue/superpowers、bankai-skills/superpowers、
+skills-shell/superpowers、prime-skills/runcomfy-agent-skills</code></pre>
+<p><code>ai-image-generation</code> 同理出现 5 次（magentosh、its-a-skill-issue、bankai-skills、gencraft-labs、prime-skills）。</p>
+
+<h4>② 单一厂商占据整个榜单段位</h4>
+<p>Trending 前 10 里 <strong>7 个是 heygen</strong>；All Time 前 40 里 <strong>18 个是 mattpocock</strong>。</p>
+
+<h4>③ 新建仓库陡增</h4>
+<p>Hot 榜里 <code>limrun-bazel</code>（139+139）、<code>design-taste-frontend-v2-experimental</code>（139+139）、<code>ponytail</code>（208+117）都是<strong>增量 = 总量</strong>，即当天新建当天上榜。</p>
+
+<div class="box">
+<div class="t">识别清单</div>
+<ul>
+<li>看 owner 是否在榜单上占了 10 个以上（厂商刷屏）</li>
+<li>看同一个 skill 名是否出现在多个 owner 下（fork 刷榜）</li>
+<li>看 <code>First Seen</code> 是否很近（新仓陡增）</li>
+<li>看 Stars 与 Installs 的比值是否悬殊</li>
+<li><strong>看 Security Audits 是否有 Warn/Fail</strong></li>
+</ul>
+</div>
+
+<h3>5.4 其他陷阱</h3>
+<table>
+<thead><tr><th>陷阱</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>非交互安装会装全部</strong></td><td>hyperframes README 明确警告：<em>"a non-interactive or agent run without <code>--skill</code> installs all 21"</em>。用 <code>--skill</code> 指定</td></tr>
+<tr><td><strong>同一能力重复装</strong></td><td>mattpocock 与 superpowers 的 <code>tdd</code> / <code>test-driven-development</code>、<code>code-review</code> / <code>requesting-code-review</code> 功能重叠，<strong>同时装会让 agent 重复劳动</strong></td></tr>
+<tr><td><strong><code>find-skills</code> 会推荐基于安装量的 skill</strong></td><td>它自己的原文：<em>"Recommends skills based on install count (prefer 1K+)"</em>——<strong>安装量高不等于适合你</strong></td></tr>
+<tr><td><strong>Anthropic 文档三件套不是开源</strong></td><td>README 原文：<em>"These are source-available, not open source"</em></td></tr>
+<tr><td><strong>CLI 支持数 &gt; 榜单支持数</strong></td><td>榜单页面显示 20 个 agent，但 CLI README 说支持 "75 more"。装之前确认你的 agent 在不在</td></tr>
+<tr><td><strong>同名 skill 冲突</strong></td><td>本机已有 <code>find-skills</code>（WorkBuddy 内置），注意与 vercel-labs 版区分</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+<h2><span class="n">六</span>数据可信度</h2>
+
+<h3>6.1 来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span>一手实测</td><td>skills.sh 三张榜单原始 HTML 解析（176 条完整排名 + 安装量）；6 个仓库 README 原文；19 个 Anthropic SKILL.md 原文；8 个 skill 详情页（含安全审计）</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-b">B 级</span>官方文档</td><td>各仓库 README 自述能力与设计哲学</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-y">C 级</span>独立二手</td><td>腾讯云开发者社区、CSDN、51CTO、优设网等对榜单的独立测评</td><td class="warn-b">中</td></tr>
+<tr><td><span class="pill p-p">D 级</span>厂商自述数据</td><td>caveman 引用的 Adobe/JetBrains/Elastic 实验数据（<strong>为仓库自述，未独立复核论文</strong>）</td><td class="warn-b">中</td></tr>
+</tbody>
+</table>
+
+<h3>6.2 独立交叉验证</h3>
+<p>搜索到的第三方测评与本次实测<strong>基本一致</strong>：</p>
+<ul>
+<li>2026-01 的文章称 skills.sh「5 万人热用」「Top 10 多数为开发者准备」</li>
+<li>2026-07 的文章称「第一名 240 万热度」（本次实测 <code>find-skills</code> 已 <strong>3.8M</strong>，增长合理）</li>
+<li>多篇文章提到 <code>seo-audit</code>、<code>pricing-strategy</code> 等非开发类 skill（本次实测 <code>seo-audit</code> 排 #174，227.4K）</li>
+</ul>
+<p><strong>一个被反复提到的独立观点</strong>（优设网）：<em>"做产品、运营、市场的，这个仓库比 Top 10 更值得装。"</em></p>
+
+<h3>6.3 明确未核实 / 存疑项</h3>
+<ol>
+<li><strong><code>8W Activity</code> 的确切口径</strong>：页面表头写 <code>8W Activity</code>，但同一位置也标 <code>Installs</code>。推测是「8 周活跃安装」，但<strong>未从官方文档确认</strong>。</li>
+<li><strong><code>All Time (1,312,146)</code> 的含义</strong>：推测是收录的 skill 总数，未确认。</li>
+<li><strong><code>design-mobile-apps</code> 的 Snyk Fail 具体原因</strong>：未深挖。它通过 sleek.design 的 REST API 工作，需要 <code>SLEEK_API_KEY</code>——Fail 可能与外部 API 调用或权限有关。</li>
+<li><strong><code>triage</code> 的 Warn 具体原因</strong>：未深挖。它是纯 Markdown 指令型 skill（无脚本），Warn 可能来自「要求 agent 自动往 issue tracker 发评论」这类行为。</li>
+<li><strong>各 skill 的实际使用效果</strong>：本轮为<strong>桌面调研 + 数据核验</strong>，未逐个实际安装运行。</li>
+<li><strong>Trending/Hot 榜的数字口径</strong>：Trending 显示 <code>Installs</code>（24h），Hot 显示 <code>1H / Change</code>，与 All Time 的 <code>8W Activity</code> 口径不同，<strong>不可直接跨榜比较</strong>。</li>
+<li><strong>caveman 引用的 Adobe 论文（arXiv 2606.24083）</strong>：未独立核验论文内容，仅为仓库自述引用。</li>
+</ul>
+
+<h3>6.4 本轮方法说明</h3>
+<div class="box ok">
+<div class="t">核心方法：直接解析原始 HTML 而非依赖摘要</div>
+<p>skills.sh 的榜单是服务端渲染的，安装量在 <code>&lt;span class="font-mono text-sm text-foreground"&gt;3.8M&lt;/span&gt;</code> 这样的结构里。本轮用正则解析出<strong>完整 176 条</strong>（含排名与安装量），比只读前 20 条摘要可靠得多——<strong>这也是发现「同一 skill 被 7 个 fork 重复上榜」的唯一途径</strong>。</p>
+</div>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+<h2><span class="n">附</span>录 完整 Top 176 榜单</h2>
+<p>完整结构化数据见 <code>data/leaderboard.json</code>。前 40 见第二章，以下为 <strong>41-176 名</strong>：</p>
+<table>
+<thead><tr><th>#</th><th>Skill</th><th>来源</th><th>安装量</th></tr></thead>
+<tbody id="rest"></tbody>
+</table>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 数据核验：skills.sh 三榜单原始 HTML 解析（176 条）+ 6 仓库 README + 19 个官方 SKILL.md + 8 个详情页安全审计 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/leaderboard.json</code> · <code>data/skills-detail.json</code> · <code>data/fetch_leaderboard.py</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+var REST=[
+[41,"microsoft-foundry","microsoft/azure-skills","564.3K"],
+[42,"azure-compliance","microsoft/azure-skills","553.5K"],
+[43,"resolving-merge-conflicts","mattpocock/skills","551.0K"],
+[44,"hyperframes-audio","heygen-com/hyperframes","548.4K"],
+[45,"azure-messaging","microsoft/azure-skills","544.4K"],
+[46,"azure-compute","microsoft/azure-skills","509.2K"],
+[47,"ai-image-generation","magentosh/superpowers","509.0K"],
+[48,"wizard","mattpocock/skills","503.6K"],
+[49,"azure-cloud-migrate","microsoft/azure-skills","502.0K"],
+[50,"google-agents-cli-adk-code","google/agents-cli","495.0K"],
+[51,"lark-doc","larksuite/cli","469.8K"],
+[52,"product-launch-video","heygen-com/hyperframes","468.8K"],
+[53,"lark-base","larksuite/cli","467.6K"],
+[54,"git-guardrails-claude-code","mattpocock/skills","463.7K"],
+[55,"lark-wiki","larksuite/cli","463.2K"],
+[56,"azure-quotas","microsoft/azure-skills","457.3K"],
+[57,"paper-context-resolver","lllllllama/rigorpilot-skills","457.0K"],
+[58,"lark-workflow-standup-report","larksuite/cli","456.7K"],
+[59,"lark-openapi-explorer","larksuite/cli","456.5K"],
+[60,"repo-intake-and-plan","lllllllama/rigorpilot-skills","456.2K"],
+[61,"lark-skill-maker","larksuite/cli","456.2K"],
+[62,"minimal-run-and-audit","lllllllama/rigorpilot-skills","456.2K"],
+[63,"env-and-assets-bootstrap","lllllllama/rigorpilot-skills","456.1K"],
+[64,"faceless-explainer","heygen-com/hyperframes","454.2K"],
+[65,"setup-pre-commit","mattpocock/skills","453.4K"],
+[66,"to-questionnaire","mattpocock/skills","450.2K"],
+[67,"azure-upgrade","microsoft/azure-skills","450.1K"],
+[68,"remotion-to-hyperframes","heygen-com/hyperframes","448.3K"],
+[69,"writing-beats","mattpocock/skills","447.0K"],
+[70,"writing-shape","mattpocock/skills","446.5K"],
+[71,"motion-graphics","heygen-com/hyperframes","446.1K"],
+[72,"writing-fragments","mattpocock/skills","446.0K"],
+[73,"scaffold-exercises","mattpocock/skills","445.0K"],
+[74,"supabase-postgres-best-practices","supabase/agent-skills","443.8K"],
+[75,"migrate-to-shoehorn","mattpocock/skills","441.1K"],
+[76,"ai-avatar-video","qu-skills/superpowers","440.1K"],
+[77,"high-end-visual-design","leonxlnx/taste-skill","438.3K"],
+[78,"redesign-existing-projects","leonxlnx/taste-skill","437.2K"],
+[79,"video-edit","prime-skills/runcomfy-agent-skills","434.1K"],
+[80,"image-to-video","prime-skills/runcomfy-agent-skills","432.3K"],
+[81,"nano-banana-2","prime-skills/runcomfy-agent-skills","432.0K"],
+[82,"lark-approval","larksuite/cli","431.9K"],
+[83,"image-edit","prime-skills/runcomfy-agent-skills","431.6K"],
+[84,"azure-enterprise-infra-planner","microsoft/azure-skills","427.4K"],
+[85,"azure-kubernetes","microsoft/azure-skills","420.9K"],
+[86,"writing-for-agents","mattpocock/skills","414.2K"],
+[87,"lark-slides","larksuite/cli","412.5K"],
+[88,"lark-attendance","larksuite/cli","409.6K"],
+[89,"kling-3-0","prime-skills/runcomfy-agent-skills","407.5K"],
+[90,"skill-creator","anthropics/skills","405.1K"],
+[91,"minimalist-ui","leonxlnx/taste-skill","405.1K"],
+[92,"loop-me","mattpocock/skills","403.9K"],
+[93,"caveman-commit","juliusbrussee/caveman","402.2K"],
+[94,"embedded-captions","heygen-com/hyperframes","399.6K"],
+[95,"wait-what","mattpocock/skills","399.5K"],
+[96,"caveman-review","juliusbrussee/caveman","398.2K"],
+[97,"caveman-compress","juliusbrussee/caveman","397.0K"],
+[98,"azure-rbac","microsoft/azure-skills","396.7K"],
+[99,"codex-pet","prime-skills/runcomfy-agent-skills","395.9K"],
+[100,"lark-okr","larksuite/cli","395.8K"],
+[101,"ui-ux-pro-max","nextlevelbuilder/ui-ux-pro-max-skill","395.4K"],
+[102,"pr-to-video","heygen-com/hyperframes","394.9K"],
+[103,"vercel-composition-patterns","vercel-labs/agent-skills","392.2K"],
+[104,"brainstorming","obra/superpowers","391.2K"],
+[105,"caveman-help","juliusbrussee/caveman","389.4K"],
+[106,"full-output-enforcement","leonxlnx/taste-skill","385.6K"],
+[107,"claude-handoff","mattpocock/skills","384.0K"],
+[108,"gpt-taste","leonxlnx/taste-skill","380.6K"],
+[109,"industrial-brutalist-ui","leonxlnx/taste-skill","378.7K"],
+[110,"ai-video-generation","prime-skills/runcomfy-agent-skills","377.3K"],
+[111,"ai-image-generation","prime-skills/runcomfy-agent-skills","377.3K"],
+[112,"lark-markdown","larksuite/cli","377.1K"],
+[113,"stitch-design-taste","leonxlnx/taste-skill","376.8K"],
+[114,"runcomfy-cli","prime-skills/runcomfy-agent-skills","374.5K"],
+[115,"brandkit","leonxlnx/taste-skill","371.4K"],
+[116,"video-extend","prime-skills/runcomfy-agent-skills","371.3K"],
+[117,"music-to-video","heygen-com/hyperframes","367.0K"],
+[118,"image-to-code","leonxlnx/taste-skill","367.0K"],
+[119,"ai-music","prime-skills/runcomfy-agent-skills","363.3K"],
+[120,"ace-step","prime-skills/runcomfy-agent-skills","362.8K"],
+[121,"azure-cost","microsoft/azure-skills","362.6K"],
+[122,"imagegen-frontend-web","leonxlnx/taste-skill","361.9K"],
+[123,"prisma-client-api","prisma/skills","360.9K"],
+[124,"prisma-database-setup","prisma/skills","360.1K"],
+[125,"prisma-cli","prisma/skills","358.3K"],
+[126,"talking-head-recut","heygen-com/hyperframes","357.3K"],
+[127,"imagegen-frontend-mobile","leonxlnx/taste-skill","355.8K"],
+[128,"azure-hosted-copilot-sdk","microsoft/azure-skills","355.3K"],
+[129,"prisma-postgres","prisma/skills","352.5K"],
+[130,"to-prd","mattpocock/skills","351.6K"],
+[131,"emil-design-eng","emilkowalski/skills","350.9K"],
+[132,"slideshow","heygen-com/hyperframes","347.4K"],
+[133,"prisma-driver-adapter-implementation","prisma/skills","347.3K"],
+[134,"prisma-upgrade-v7","prisma/skills","347.0K"],
+[135,"airunway-aks-setup","microsoft/azure-skills","346.9K"],
+[136,"prisma-postgres-setup","prisma/skills","346.9K"],
+[137,"lark-vc-agent","larksuite/cli","346.9K"],
+[138,"cavecrew","juliusbrussee/caveman","345.7K"],
+[139,"caveman-stats","juliusbrussee/caveman","344.6K"],
+[140,"prisma-compute","prisma/skills","342.2K"],
+[141,"prisma-mongodb-upgrade","prisma/skills","340.8K"],
+[142,"to-issues","mattpocock/skills","339.1K"],
+[143,"setup-ts-deep-modules","mattpocock/skills","333.0K"],
+[144,"impeccable","pbakaus/impeccable","331.6K"],
+[145,"supabase","supabase/agent-skills","324.5K"],
+[146,"entra-agent-id","microsoft/azure-skills","323.2K"],
+[147,"hyperframes-studio","heygen-com/hyperframes","319.7K"],
+[148,"ai-research-explore","lllllllama/rigorpilot-skills","317.4K"],
+[149,"design-taste-frontend-v1","leonxlnx/taste-skill","312.2K"],
+[150,"lark-apps","larksuite/cli","307.4K"],
+[151,"writing-great-skills","mattpocock/skills","306.5K"],
+[152,"orca-cli","stablyai/orca","297.0K"],
+[153,"ai-video-generation","skills-shell/superpowers","295.3K"],
+[154,"systematic-debugging","obra/superpowers","291.8K"],
+[155,"orchestration","stablyai/orca","289.3K"],
+[156,"ai-image-generation","its-a-skill-issue/superpowers","288.9K"],
+[157,"azure-reliability","microsoft/azure-skills","286.4K"],
+[158,"figma","heygen-com/hyperframes","276.3K"],
+[159,"ai-image-generation","bankai-skills/superpowers","273.8K"],
+[160,"writing-plans","obra/superpowers","272.5K"],
+[161,"shadcn","shadcn/ui","271.1K"],
+[162,"using-superpowers","obra/superpowers","262.4K"],
+[163,"requesting-code-review","obra/superpowers","251.3K"],
+[164,"test-driven-development","obra/superpowers","249.1K"],
+[165,"just-scrape","scrapegraphai/just-scrape","245.0K"],
+[166,"neon-postgres","neondatabase/agent-skills","243.2K"],
+[167,"vercel-react-native-skills","vercel-labs/agent-skills","240.2K"],
+[168,"verification-before-completion","obra/superpowers","238.3K"],
+[169,"pptx","anthropics/skills","235.5K"],
+[170,"implement-spec","mattpocock/skills","235.0K"],
+[171,"lark-note","larksuite/cli","233.9K"],
+[172,"executing-plans","obra/superpowers","233.4K"],
+[173,"diagnose","mattpocock/skills","227.6K"],
+[174,"seo-audit","coreyhaines31/marketingskills","227.4K"],
+[175,"subagent-driven-development","obra/superpowers","227.1K"],
+[176,"retro","mattpocock/skills","225.1K"]
+];
+var tb=document.getElementById('rest');
+for(var i=0;i<REST.length;i++){
+  var r=REST[i];
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td class="star">'+r[3]+'</td>';
+  tb.appendChild(tr);
+}
+
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=btn.getAttribute('data-t');
+    document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    btn.classList.add('on');
+    var el=document.getElementById(t);
+    if(el){el.classList.add('on')}
+  });
+});
+
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.fil').forEach(function(f){
+        if(!f.dataset.done){
+          var w=f.style.width; f.style.width='0';
+          requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=w})});
+          f.dataset.done='1';
+        }
+      });
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.bars').forEach(function(b){obs.observe(b)});
+</script>
+</body>
+</html>
