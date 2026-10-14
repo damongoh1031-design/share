@@ -1,0 +1,488 @@
+{
+ "agent-workflows": [
+  {
+   "rank": 1,
+   "path": "/vercel-labs/skills/find-skills",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/vercel-labs/agent-browser/agent-browser",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/anthropics/skills/skill-creator",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/obra/superpowers/brainstorming",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/browser-use/browser-use/browser-use",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/obra/superpowers/systematic-debugging",
+   "value": null
+  },
+  {
+   "rank": 7,
+   "path": "/obra/superpowers/writing-plans",
+   "value": null
+  },
+  {
+   "rank": 8,
+   "path": "/obra/superpowers/executing-plans",
+   "value": null
+  },
+  {
+   "rank": 9,
+   "path": "/obra/superpowers/test-driven-development",
+   "value": null
+  },
+  {
+   "rank": 10,
+   "path": "/obra/superpowers/requesting-code-review",
+   "value": null
+  },
+  {
+   "rank": 11,
+   "path": "/obra/superpowers/subagent-driven-development",
+   "value": null
+  },
+  {
+   "rank": 12,
+   "path": "/obra/superpowers/verification-before-completion",
+   "value": null
+  },
+  {
+   "rank": 13,
+   "path": "/obra/superpowers/dispatching-parallel-agents",
+   "value": null
+  },
+  {
+   "rank": 14,
+   "path": "/obra/superpowers/using-git-worktrees",
+   "value": null
+  },
+  {
+   "rank": 15,
+   "path": "/obra/superpowers/finishing-a-development-branch",
+   "value": null
+  },
+  {
+   "rank": 16,
+   "path": "/subsy/ralph-tui/ralph-tui-prd",
+   "value": null
+  },
+  {
+   "rank": 17,
+   "path": "/subsy/ralph-tui/ralph-tui-create-beads",
+   "value": null
+  },
+  {
+   "rank": 18,
+   "path": "/subsy/ralph-tui/ralph-tui-create-json",
+   "value": null
+  },
+  {
+   "rank": 19,
+   "path": "/fstandhartinger/ralph-wiggum/ralph-wiggum",
+   "value": null
+  },
+  {
+   "rank": 20,
+   "path": "/andrelandgraf/fullstackrecipes/ralph-loop",
+   "value": null
+  }
+ ],
+ "databases": [
+  {
+   "rank": 1,
+   "path": "/supabase/agent-skills/supabase-postgres-best-practices",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/supabase/agent-skills/supabase",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/firebase/agent-skills/firebase-basics",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/firebase/agent-skills/firebase-auth-basics",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/firebase/agent-skills/firebase-firestore-enterprise-native-mode",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/get-convex/agent-skills/convex-quickstart",
+   "value": null
+  },
+  {
+   "rank": 7,
+   "path": "/get-convex/agent-skills/convex-setup-auth",
+   "value": null
+  },
+  {
+   "rank": 8,
+   "path": "/neondatabase/agent-skills/neon-postgres",
+   "value": null
+  },
+  {
+   "rank": 9,
+   "path": "/planetscale/database-skills/postgres",
+   "value": null
+  },
+  {
+   "rank": 10,
+   "path": "/planetscale/database-skills/mysql",
+   "value": null
+  },
+  {
+   "rank": 11,
+   "path": "/tursodatabase/agent-skills/turso-db",
+   "value": null
+  },
+  {
+   "rank": 12,
+   "path": "/duckdb/duckdb-skills/query",
+   "value": null
+  },
+  {
+   "rank": 13,
+   "path": "/bobmatnyc/claude-mpm-skills/drizzle-orm",
+   "value": null
+  }
+ ],
+ "design": [
+  {
+   "rank": 1,
+   "path": "/anthropics/skills/frontend-design",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/vercel-labs/agent-skills/web-design-guidelines",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/vercel-labs/agent-skills/vercel-composition-patterns",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/nextlevelbuilder/ui-ux-pro-max-skill/ui-ux-pro-max",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/sleekdotdesign/agent-skills/sleek-design-mobile-apps",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/anthropics/skills/canvas-design",
+   "value": null
+  },
+  {
+   "rank": 7,
+   "path": "/pbakaus/impeccable/polish",
+   "value": null
+  },
+  {
+   "rank": 8,
+   "path": "/pbakaus/impeccable/critique",
+   "value": null
+  },
+  {
+   "rank": 9,
+   "path": "/pbakaus/impeccable/bolder",
+   "value": null
+  },
+  {
+   "rank": 10,
+   "path": "/pbakaus/impeccable/delight",
+   "value": null
+  },
+  {
+   "rank": 11,
+   "path": "/pbakaus/impeccable/distill",
+   "value": null
+  },
+  {
+   "rank": 12,
+   "path": "/pbakaus/impeccable/quieter",
+   "value": null
+  },
+  {
+   "rank": 13,
+   "path": "/arvindrk/extract-design-system/extract-design-system",
+   "value": null
+  },
+  {
+   "rank": 14,
+   "path": "/leonxlnx/taste-skill/design-taste-frontend",
+   "value": null
+  },
+  {
+   "rank": 15,
+   "path": "/leonxlnx/taste-skill/high-end-visual-design",
+   "value": null
+  },
+  {
+   "rank": 16,
+   "path": "/emilkowalski/skill/emil-design-eng",
+   "value": null
+  }
+ ],
+ "marketing": [
+  {
+   "rank": 1,
+   "path": "/coreyhaines31/marketingskills/seo-audit",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/coreyhaines31/marketingskills/copywriting",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/coreyhaines31/marketingskills/marketing-psychology",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/coreyhaines31/marketingskills/social-content",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/coreyhaines31/marketingskills/content-strategy",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/coreyhaines31/marketingskills/programmatic-seo",
+   "value": null
+  },
+  {
+   "rank": 7,
+   "path": "/coreyhaines31/marketingskills/pricing-strategy",
+   "value": null
+  },
+  {
+   "rank": 8,
+   "path": "/coreyhaines31/marketingskills/page-cro",
+   "value": null
+  },
+  {
+   "rank": 9,
+   "path": "/coreyhaines31/marketingskills/launch-strategy",
+   "value": null
+  },
+  {
+   "rank": 10,
+   "path": "/coreyhaines31/marketingskills/schema-markup",
+   "value": null
+  },
+  {
+   "rank": 11,
+   "path": "/coreyhaines31/marketingskills/email-sequence",
+   "value": null
+  },
+  {
+   "rank": 12,
+   "path": "/coreyhaines31/marketingskills/paid-ads",
+   "value": null
+  },
+  {
+   "rank": 13,
+   "path": "/coreyhaines31/marketingskills/competitor-alternatives",
+   "value": null
+  },
+  {
+   "rank": 14,
+   "path": "/coreyhaines31/marketingskills/analytics-tracking",
+   "value": null
+  },
+  {
+   "rank": 15,
+   "path": "/coreyhaines31/marketingskills/paywall-upgrade-cro",
+   "value": null
+  },
+  {
+   "rank": 16,
+   "path": "/coreyhaines31/marketingskills/popup-cro",
+   "value": null
+  },
+  {
+   "rank": 17,
+   "path": "/coreyhaines31/marketingskills/ai-seo",
+   "value": null
+  },
+  {
+   "rank": 18,
+   "path": "/coreyhaines31/marketingskills/cold-email",
+   "value": null
+  },
+  {
+   "rank": 19,
+   "path": "/coreyhaines31/marketingskills/ad-creative",
+   "value": null
+  },
+  {
+   "rank": 20,
+   "path": "/coreyhaines31/marketingskills/churn-prevention",
+   "value": null
+  },
+  {
+   "rank": 21,
+   "path": "/coreyhaines31/marketingskills/lead-magnets",
+   "value": null
+  }
+ ],
+ "mobile": [
+  {
+   "rank": 1,
+   "path": "/vercel-labs/agent-skills/vercel-react-native-skills",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/sleekdotdesign/agent-skills/sleek-design-mobile-apps",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/expo/skills/building-native-ui",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/expo/skills/native-data-fetching",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/expo/skills/expo-tailwind-setup",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/expo/skills/upgrading-expo",
+   "value": null
+  }
+ ],
+ "nextjs": [
+  {
+   "rank": 1,
+   "path": "/vercel-labs/agent-skills/vercel-react-best-practices",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/vercel-labs/agent-skills/vercel-composition-patterns",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/vercel-labs/next-skills/next-best-practices",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/vercel-labs/agent-skills/deploy-to-vercel",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/vercel-labs/next-skills/next-cache-components",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/vercel/turborepo/turborepo",
+   "value": null
+  },
+  {
+   "rank": 7,
+   "path": "/vercel/ai/ai-sdk",
+   "value": null
+  }
+ ],
+ "react": [
+  {
+   "rank": 1,
+   "path": "/vercel-labs/agent-skills/vercel-react-best-practices",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/vercel-labs/agent-skills/vercel-composition-patterns",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/shadcn/ui/shadcn",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/anthropics/skills/webapp-testing",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/wshobson/agents/typescript-advanced-types",
+   "value": null
+  },
+  {
+   "rank": 6,
+   "path": "/wshobson/agents/tailwind-design-system",
+   "value": null
+  }
+ ],
+ "testing": [
+  {
+   "rank": 1,
+   "path": "/obra/superpowers/test-driven-development",
+   "value": null
+  },
+  {
+   "rank": 2,
+   "path": "/anthropics/skills/webapp-testing",
+   "value": null
+  },
+  {
+   "rank": 3,
+   "path": "/obra/superpowers/verification-before-completion",
+   "value": null
+  },
+  {
+   "rank": 4,
+   "path": "/currents-dev/playwright-best-practices-skill/playwright-best-practices",
+   "value": null
+  },
+  {
+   "rank": 5,
+   "path": "/microsoft/playwright-cli/playwright-cli",
+   "value": null
+  }
+ ]
+}

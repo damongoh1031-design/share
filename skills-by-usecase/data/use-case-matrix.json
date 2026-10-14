@@ -1,0 +1,220 @@
+{
+  "meta": {
+    "source": "https://www.skills.sh/",
+    "fetched_at": "2026-10-14",
+    "purpose": "按用途去重后的唯一推荐矩阵。每个用途一个最优解，同一 skill 不重复出现。",
+    "verified": "176 条榜单 + 8 个 Topics + 102 官方厂商 + 50 条审计 + 20+ skill 详情页，全部一手抓取"
+  },
+  "categories": [
+    {
+      "id": "dev",
+      "name": "编程开发",
+      "items": [
+        {"use": "开工前对齐需求（防返工）", "pick": "grill-me", "owner": "mattpocock/skills", "installs": "1.4M", "why": "AI 编程最高频失败模式：它做的不是你要的"},
+        {"use": "统一领域语言（命名/术语）", "pick": "domain-modeling", "owner": "mattpocock/skills", "installs": "816.5K", "why": "agent 用 20 个词说 1 个词的事，token 与可读性双输"},
+        {"use": "架构设计纪律（词汇）", "pick": "codebase-design", "owner": "mattpocock/skills", "installs": "792.3K", "why": "提供 module/interface/depth/seam 词汇，防止说成 component/service"},
+        {"use": "架构体检 / 找重构候选", "pick": "improve-codebase-architecture", "owner": "mattpocock/skills", "installs": "1.1M", "why": "agent 加速编码也加速软件熵增，需定期体检", "audit": "Gen Med / Snyk Med"},
+        {"use": "写测试", "pick": "tdd", "owner": "mattpocock/skills", "installs": "1.1M", "why": "AI 写的测试测实现细节，一重构就全红；强制在接缝测行为"},
+        {"use": "纠错 / 难 bug", "pick": "diagnosing-bugs", "owner": "mattpocock/skills", "installs": "777.5K", "why": "难 bug 靠猜猜不出来，强制先建稳定复现的反馈回路"},
+        {"use": "代码审查", "pick": "code-review", "owner": "mattpocock/skills", "installs": "729.7K", "why": "两轴并行审查：编码规范 + 是否忠实实现原 spec"},
+        {"use": "需求 → 实现全流程", "pick": "implement", "owner": "mattpocock/skills", "installs": "718.4K", "why": "按 spec 施工，在约定接缝跑 tdd，收尾跑 code-review"},
+        {"use": "超大工程规划", "pick": "wayfinder", "owner": "mattpocock/skills", "installs": "664.8K", "why": "规划超过一个 agent session 容量的大块工作"},
+        {"use": "原型验证", "pick": "prototype", "owner": "mattpocock/skills", "installs": "934.3K", "why": "用一次性原型回答设计问题，别直接写进正式代码"},
+        {"use": "TypeScript 类型设计", "pick": "typescript-advanced-types", "owner": "wshobson/agents", "installs": null, "why": "泛型约束/条件类型/映射类型/模板字面量等高级模式"},
+        {"use": "PR 撰写", "pick": "pr", "owner": "mattpocock/skills", "installs": null, "why": "最小可视化摘要 + 前后证据 + 合并风险评级"},
+        {"use": "Git 危险操作护栏", "pick": "git-guardrails-claude-code", "owner": "mattpocock/skills", "installs": "463.7K", "why": "防止 agent 执行危险 git 命令"},
+        {"use": "合并冲突", "pick": "resolving-merge-conflicts", "owner": "mattpocock/skills", "installs": "551.0K", "why": "冲突解决流程"},
+        {"use": "复盘改进 agent 环境", "pick": "retro", "owner": "mattpocock/skills", "installs": "225.1K", "why": "建议改进导航/自动检查/规范/steering 文件"}
+      ]
+    },
+    {
+      "id": "office",
+      "name": "办公",
+      "items": [
+        {"use": "飞书全家桶（文档/表格/IM/日历/审批/OKR/会议）", "pick": "飞书官方 22 件套（入口 lark-doc）", "owner": "open.feishu.cn", "installs": "16.9M（合计）", "why": "单组织 16.9M 安装，全站最大官方生态", "audit": "三家均 Pending（未完成审计）"},
+        {"use": "Word 文档", "pick": "docx", "owner": "anthropics/skills", "installs": null, "why": "驱动 Claude 生产环境文档能力（source-available）"},
+        {"use": "PDF 处理", "pick": "pdf", "owner": "anthropics/skills", "installs": null, "why": "读取/提取/合并/拆分/表单"},
+        {"use": "PPT", "pick": "pptx", "owner": "anthropics/skills", "installs": "235.5K", "why": "创建/解析/编辑幻灯片"},
+        {"use": "Excel / 表格", "pick": "xlsx", "owner": "anthropics/skills", "installs": null, "why": "表格为主输入输出时"},
+        {"use": "文档共创", "pick": "doc-coauthoring", "owner": "anthropics/skills", "installs": null, "why": "结构化文档共创工作流"},
+        {"use": "内部沟通文稿", "pick": "internal-comms", "owner": "anthropics/skills", "installs": null, "why": "各类内部沟通格式"},
+        {"use": "Notion", "pick": "makenotion/skills", "owner": "makenotion（官方）", "installs": null, "why": "Notion 官方，4 repos / 23 skills"},
+        {"use": "artifact 套主题", "pick": "theme-factory", "owner": "anthropics/skills", "installs": null, "why": "10 个预设主题"},
+        {"use": "Slack 动画 GIF", "pick": "slack-gif-creator", "owner": "anthropics/skills", "installs": null, "why": "含约束、校验工具、动画概念"}
+      ]
+    },
+    {
+      "id": "web",
+      "name": "网页 / 搜索 / 数据获取",
+      "items": [
+        {"use": "agent 操作浏览器", "pick": "agent-browser", "owner": "vercel-labs/agent-browser", "installs": "1.1M", "why": "CDP + 无障碍树快照 + @eN 元素引用，token 高效", "audit": "Snyk Med"},
+        {"use": "需要视觉理解的浏览", "pick": "browser-use", "owner": "browser-use（官方）", "installs": null, "why": "基于「看到什么」交互，适合纯视觉判断场景"},
+        {"use": "写 / 跑浏览器测试", "pick": "playwright-cli", "owner": "microsoft（官方）", "installs": null, "why": "40+ 命令，多浏览器 + 持久 profile + 网络 mock + 追踪"},
+        {"use": "网页抓取 / 提取 / 监控", "pick": "just-scrape", "owner": "scrapegraphai", "installs": "245.0K", "why": "五合一：search / scrape / extract(JSON) / crawl / monitor"},
+        {"use": "网页搜索", "pick": "tavily-ai/skills", "owner": "tavily-ai（官方）", "installs": null, "why": "搜索 API 官方，2 repos / 20 skills"},
+        {"use": "网页 → Markdown", "pick": "firecrawl/cli", "owner": "firecrawl（官方）", "installs": null, "why": "官方 CLI，14 repos / 286 skills"},
+        {"use": "带引用的研究", "pick": "research", "owner": "mattpocock/skills", "installs": "658.9K", "why": "后台 agent 跑研究，每条结论溯源到一手资料"},
+        {"use": "结果去重 / 来源去重", "pick": null, "owner": null, "installs": null, "why": "⚠️ 未找到专门 skill。在 176 榜单 + 8 Topics + 102 官方厂商中均无。目前由 agent 自身或研究类 skill 承担"}
+      ]
+    },
+    {
+      "id": "design",
+      "name": "设计 / 前端 / 移动端",
+      "items": [
+        {"use": "生成有品味的 UI", "pick": "frontend-design", "owner": "anthropics/skills", "installs": "985.0K", "why": "拒绝 AI 味，先定美学方向再写代码"},
+        {"use": "UI 规范审查", "pick": "web-design-guidelines", "owner": "vercel-labs/agent-skills", "installs": "734.2K", "why": "100+ 规则：a11y / 性能 / UX / i18n"},
+        {"use": "设计批评 / 去 AI slop", "pick": "impeccable/critique", "owner": "pbakaus/impeccable", "installs": null, "why": "对照 AI 生成设计反模式，10 个维度结构化批评"},
+        {"use": "上线前打磨", "pick": "impeccable/polish", "owner": "pbakaus/impeccable", "installs": null, "why": "对齐/间距/一致性/交互态/微交互的最终质检"},
+        {"use": "设计系统参考", "pick": "ui-ux-pro-max", "owner": "nextlevelbuilder", "installs": "395.4K", "why": "50+ 风格 / 161 调色板 / 57 字体对 / 99 UX 规则 / 10 技术栈"},
+        {"use": "从网站提取设计令牌", "pick": "extract-design-system", "owner": "arvindrk", "installs": null, "why": "Playwright 逆向出色彩/字体/间距/圆角/阴影 → JSON + CSS"},
+        {"use": "React / Next 性能", "pick": "vercel-react-best-practices", "owner": "vercel-labs/agent-skills", "installs": "799.2K", "why": "40+ 规则 / 8 类，按影响排序"},
+        {"use": "Next.js App Router", "pick": "next-best-practices", "owner": "vercel-labs/next-skills", "installs": null, "why": "App Router / 服务端组件 / 缓存 API / 部署"},
+        {"use": "组件库", "pick": "shadcn", "owner": "shadcn/ui（官方）", "installs": "271.1K", "why": "shadcn/ui 官方"},
+        {"use": "Expo 原生 UI", "pick": "building-native-ui", "owner": "expo（官方）", "installs": null, "why": "Expo Router + Apple HIG 对齐"},
+        {"use": "React Native", "pick": "vercel-react-native-skills", "owner": "vercel-labs/agent-skills", "installs": "240.2K", "why": "RN 最佳实践"},
+        {"use": "静态视觉作品（海报/PNG/PDF）", "pick": "canvas-design", "owner": "anthropics/skills", "installs": null, "why": "用设计哲学创建视觉作品"},
+        {"use": "算法 / 生成艺术", "pick": "algorithmic-art", "owner": "anthropics/skills", "installs": null, "why": "p5.js + 种子随机 + 交互参数"},
+        {"use": "品牌规范套用", "pick": "brand-guidelines", "owner": "anthropics/skills", "installs": null, "why": "官方品牌色与字体"}
+      ]
+    },
+    {
+      "id": "media",
+      "name": "媒体生成",
+      "items": [
+        {"use": "视频制作（全套）", "pick": "hyperframes", "owner": "heygen-com（官方）", "installs": "961.9K", "why": "HTML/CSS → 确定性 MP4。路由器 + 10 创建工作流 + 4 领域技能", "audit": "Snyk Med"},
+        {"use": "用 React 做视频", "pick": "remotion-best-practices", "owner": "remotion-dev（官方）", "installs": "615.1K", "why": "30+ 规则文件：动画/音频/字幕/3D/图表"},
+        {"use": "图像生成", "pick": "ai-image-generation", "owner": "prime-skills/runcomfy-agent-skills", "installs": "377.3K", "why": "同名 5 个 owner，选官方 runcomfy"},
+        {"use": "图生视频 / 视频编辑", "pick": "image-to-video / video-edit", "owner": "prime-skills/runcomfy-agent-skills", "installs": "432.3K / 434.1K", "why": "同属 runcomfy 官方套装"},
+        {"use": "音乐生成", "pick": "ai-music", "owner": "prime-skills/runcomfy-agent-skills", "installs": "363.3K", "why": null},
+        {"use": "语音合成 TTS", "pick": "elevenlabs/skills", "owner": "elevenlabs（官方）", "installs": null, "why": "ElevenLabs 官方，2 repos / 12 skills"},
+        {"use": "语音转写 ASR", "pick": "deepgram/skills", "owner": "deepgram（官方）", "installs": null, "why": "Deepgram 官方，4 repos / 22 skills"},
+        {"use": "专业视频生成", "pick": "runwayml/skills", "owner": "runwayml（官方）", "installs": null, "why": "Runway 官方，2 repos / 32 skills"}
+      ]
+    },
+    {
+      "id": "data",
+      "name": "数据 / 后端 / 云",
+      "items": [
+        {"use": "Postgres / Supabase", "pick": "supabase-postgres-best-practices", "owner": "supabase（官方）", "installs": "443.8K", "why": "官方 3 repos / 17 skills"},
+        {"use": "Firebase", "pick": "firebase-basics", "owner": "firebase（官方）", "installs": null, "why": "官方 4 repos / 55 skills"},
+        {"use": "Neon", "pick": "neon-postgres", "owner": "neondatabase（官方）", "installs": "243.2K", "why": "官方 7 repos / 22 skills"},
+        {"use": "MySQL / PlanetScale", "pick": "planetscale/database-skills", "owner": "planetscale（官方）", "installs": null, "why": "官方 2 repos / 8 skills"},
+        {"use": "DuckDB 分析", "pick": "duckdb/query", "owner": "duckdb（官方）", "installs": null, "why": "分析查询"},
+        {"use": "Convex", "pick": "convex-quickstart", "owner": "convex-dev（官方）", "installs": null, "why": "官方 1 repo / 9 skills"},
+        {"use": "ORM", "pick": "prisma", "owner": "prisma（官方）", "installs": null, "why": "官方 4 repos / 95 skills"},
+        {"use": "认证", "pick": "clerk", "owner": "clerk（官方）", "installs": null, "why": "官方 2 repos / 31 skills"},
+        {"use": "密钥管理", "pick": "bitwarden", "owner": "bitwarden（官方）", "installs": null, "why": "官方 3 repos / 65 skills"},
+        {"use": "支付", "pick": "stripe/ai", "owner": "stripe（官方）", "installs": null, "why": "官方 5 repos / 11 skills"},
+        {"use": "Azure", "pick": "microsoft/azure-skills", "owner": "microsoft（官方）", "installs": null, "why": "官方 51 repos / 582 skills"},
+        {"use": "AWS", "pick": "aws/agent-toolkit-for-aws", "owner": "aws（官方）", "installs": null, "why": "官方 1 repo / 99 skills"},
+        {"use": "Cloudflare", "pick": "cloudflare/skills", "owner": "cloudflare（官方）", "installs": null, "why": "官方 17 repos / 138 skills"},
+        {"use": "Vercel 部署", "pick": "deploy-to-vercel", "owner": "vercel-labs/agent-skills", "installs": null, "why": "官方部署流程"},
+        {"use": "IaC", "pick": "pulumi 或 hashicorp", "owner": "pulumi / hashicorp（官方）", "installs": null, "why": "32 / 74 skills"},
+        {"use": "可观测性", "pick": "datadog-labs / getsentry / langfuse / posthog / signoz", "owner": "各厂商官方", "installs": null, "why": "43 / 302 / 23 / 262 / 13 skills"},
+        {"use": "数据管道", "pick": "dagster-io / dbt-labs", "owner": "官方", "installs": null, "why": "53 / 14 skills"},
+        {"use": "功能开关", "pick": "launchdarkly", "owner": "launchdarkly（官方）", "installs": null, "why": "官方 3 repos / 68 skills"},
+        {"use": "邮件发送", "pick": "resend", "owner": "resend（官方）", "installs": null, "why": "官方 6 repos / 13 skills"},
+        {"use": "工作流自动化", "pick": "n8n-io", "owner": "n8n-io（官方）", "installs": null, "why": "官方 2 repos / 41 skills"},
+        {"use": "CMS", "pick": "sanity-io / contentful / contentstack", "owner": "官方", "installs": null, "why": "48 / 7 / 21 skills"},
+        {"use": "电商", "pick": "shopify / medusajs", "owner": "官方", "installs": null, "why": "37 / 30 skills"},
+        {"use": "地图", "pick": "mapbox", "owner": "mapbox（官方）", "installs": null, "why": "官方 2 repos / 24 skills"},
+        {"use": "实时音视频", "pick": "livekit", "owner": "livekit（官方）", "installs": null, "why": "官方 1 repo / 1 skill"},
+        {"use": "时序数据", "pick": "tinybirdco", "owner": "tinybirdco（官方）", "installs": null, "why": "官方 1 repo / 4 skills"},
+        {"use": "缓存 / 队列", "pick": "redis", "owner": "redis（官方）", "installs": null, "why": "官方 2 repos / 15 skills"},
+        {"use": "向量库", "pick": "pinecone-io", "owner": "pinecone-io（官方）", "installs": null, "why": "官方 4 repos / 27 skills"},
+        {"use": "MCP 开发", "pick": "mcp-builder", "owner": "anthropics/skills", "installs": null, "why": "构建高质量 MCP server 的官方指南"},
+        {"use": "MCP 使用 / 构建", "pick": "mcp-use", "owner": "mcp-use（官方）", "installs": null, "why": "官方 2 repos / 6 skills"}
+      ]
+    },
+    {
+      "id": "marketing",
+      "name": "营销 / 增长",
+      "items": [
+        {"use": "SEO 审计", "pick": "seo-audit", "owner": "coreyhaines31/marketingskills", "installs": "227.4K", "why": "五大优先区：可抓取性/技术基础/页面优化/内容质量/权威信号"},
+        {"use": "文案撰写", "pick": "copywriting", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "营销心理学", "pick": "marketing-psychology", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "社媒内容", "pick": "social-content", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "内容策略", "pick": "content-strategy", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "程序化 SEO", "pick": "programmatic-seo", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "定价策略", "pick": "pricing-strategy", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "落地页转化（CRO）", "pick": "page-cro", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "发布策略", "pick": "launch-strategy", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "结构化数据", "pick": "schema-markup", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "邮件序列", "pick": "email-sequence", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "付费广告", "pick": "paid-ads", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "竞品对比页", "pick": "competitor-alternatives", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "埋点分析", "pick": "analytics-tracking", "owner": "coreyhaines31/marketingskills", "installs": null, "why": null},
+        {"use": "Reddit 获客", "pick": "reddit-automation", "owner": "flowkit-labs/skills", "installs": "925.5K", "why": "诚实披露身份后真实贡献，非刷屏", "audit": "Snyk Med"}
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "研究 / 学习 / 元技能",
+      "items": [
+        {"use": "找 skill", "pick": "find-skills", "owner": "vercel-labs/skills", "installs": "3.8M", "why": "全站入口，装了它所有 skill 发现成本归零", "audit": "Snyk Med"},
+        {"use": "造 skill", "pick": "skill-creator", "owner": "anthropics/skills", "installs": "405.1K", "why": "官方出的造 skill 的 skill，含 eval 测试"},
+        {"use": "给 agent 写文档", "pick": "writing-for-agents", "owner": "mattpocock/skills", "installs": "414.2K", "why": "skill / AGENTS.md / CLAUDE.md 的写法"},
+        {"use": "教学（跨会话）", "pick": "teach", "owner": "mattpocock/skills", "installs": "808.1K", "why": "把学习变成跨会话持续过程"},
+        {"use": "学术论文上下文", "pick": "paper-context-resolver", "owner": "lllllllama/rigorpilot-skills", "installs": "457.0K", "why": "论文上下文解析"},
+        {"use": "上下文交接", "pick": "handoff", "owner": "mattpocock/skills", "installs": "979.1K", "why": "无损压缩上下文 + 自动脱敏 + 建议下一步技能"},
+        {"use": "头脑风暴", "pick": "brainstorming", "owner": "obra/superpowers", "installs": "391.2K", "why": "动手前把意图挖出来"},
+        {"use": "对话 → spec", "pick": "to-spec", "owner": "mattpocock/skills", "installs": "661.4K", "why": "把当前对话转成 spec 并发布到 issue tracker"},
+        {"use": "spec → 工单", "pick": "to-tickets", "owner": "mattpocock/skills", "installs": "655.3K", "why": "拆成 tracer-bullet 工单，标注阻塞关系"},
+        {"use": "issue 分流", "pick": "triage", "owner": "mattpocock/skills", "installs": "938.7K", "why": "状态机分流，且主动标注 AI 生成", "audit": "Gen Med / Snyk Med"},
+        {"use": "多 agent 编排", "pick": "subagent-driven-development", "owner": "obra/superpowers", "installs": "227.1K", "why": "两阶段审查：先查 spec 合规，再查代码质量"},
+        {"use": "并行 agent", "pick": "dispatching-parallel-agents", "owner": "obra/superpowers", "installs": null, "why": "并发 subagent 工作流"},
+        {"use": "多 agent 运行时", "pick": "stablyai/orca", "owner": "stablyai", "installs": "289.3K", "why": "orchestration + orca-cli"},
+        {"use": "提问澄清", "pick": "wait-what", "owner": "mattpocock/skills", "installs": "399.5K", "why": "没听懂时触发，用大白话重新解释"},
+        {"use": "决策问卷", "pick": "to-questionnaire", "owner": "mattpocock/skills", "installs": "450.2K", "why": "把答不了的决策转成给能答的人填的问卷"},
+        {"use": "测试 web 应用", "pick": "webapp-testing", "owner": "anthropics/skills", "installs": null, "why": "用 Playwright 验证前端功能、截图、看日志"}
+      ]
+    },
+    {
+      "id": "efficiency",
+      "name": "效率 / 成本",
+      "items": [
+        {"use": "省 token（输出+输入）", "pick": "caveman", "owner": "juliusbrussee/caveman", "installs": "572.4K", "why": "input token 少 33.2%，有 Adobe/JetBrains/Elastic 三方验证"},
+        {"use": "压缩工具输出 / 日志 / RAG chunk", "pick": "headroomlabs-ai/headroom", "owner": "headroomlabs-ai", "installs": "75,305★", "why": "JSON 省 60-95% token"},
+        {"use": "项目知识图谱记忆", "pick": "codebase-memory-mcp", "owner": "DeusData", "installs": "46,547★", "why": "158 种语言，亚毫秒级"},
+        {"use": "Markdown 知识图谱", "pick": "iwe", "owner": "iwe-org", "installs": "1,771★", "why": "LSP + CLI + MCP 记忆"}
+      ]
+    }
+  ],
+  "dedup_rules": [
+    {"group": "整套方法论", "pick": "mattpocock/skills", "avoid": "obra/superpowers", "reason": "superpowers 自动触发（省心），mattpocock 手动精细控制（可控）。tdd/test-driven-development、code-review/requesting-code-review 完全重叠"},
+    {"group": "写测试", "pick": "tdd (1.1M)", "avoid": "test-driven-development (249.1K)", "reason": "安装量高 4.4 倍；mattpocock 版有「接缝 seam」核心概念"},
+    {"group": "需求对齐", "pick": "grill-me (1.4M)", "avoid": "grilling (907.9K)", "reason": "grilling 是 grill-me 的底层引擎，装 grill-me 会自动调用它"},
+    {"group": "交接", "pick": "handoff (979.1K)", "avoid": "claude-handoff (384.0K)", "reason": "handoff 是正式版，含自动脱敏 + 建议技能列表"},
+    {"group": "代码审查", "pick": "code-review (729.7K)", "avoid": "requesting-code-review (251.3K)", "reason": "mattpocock 版是两轴并行审查，更完整"},
+    {"group": "调试", "pick": "diagnosing-bugs (777.5K)", "avoid": "systematic-debugging (291.8K)", "reason": "mattpocock 版有「先建稳定复现回路」的硬约束"},
+    {"group": "浏览器操作", "pick": "agent-browser (1.1M)", "avoid": "browser-use", "reason": "除非你要纯视觉判断。agent-browser 用无障碍树 + @eN 引用，token 更省"},
+    {"group": "移动端设计", "pick": "building-native-ui (Expo 官方)", "avoid": "design-mobile-apps (Snyk High Risk) / sleek-design-mobile-apps", "reason": "前者官方 + 免费；后两个走第三方付费 API 且有高危审计"},
+    {"group": "前端设计生成", "pick": "frontend-design (Anthropic, 985K)", "avoid": "design-taste-frontend (leonxlnx, 606.8K)", "reason": "官方出品；leonxlnx/taste-skill 一家 13 个 UI skill 上榜，属商业推广驱动"},
+    {"group": "视频", "pick": "hyperframes (961.9K)", "avoid": "remotion-dev/skills", "reason": "除非团队已用 React/Remotion。hyperframes 是 HTML/CSS 路线，Remotion 是 React 路线"},
+    {"group": "视频生成", "pick": "prime-skills/runcomfy-agent-skills", "avoid": "其余 6 个同名 ai-video-generation", "reason": "同一 skill 被 7 个 owner 重复发布，选官方"},
+    {"group": "设计系统", "pick": "ui-ux-pro-max (395.4K)", "avoid": "tailwind-design-system (wshobson)", "reason": "前者覆盖 10 个技术栈 + 161 调色板，更全"}
+  ],
+  "non_obvious_scenarios": [
+    {"scenario": "云平台运维", "evidence": "NVIDIA 1,176 skills / Microsoft Azure 582 / Cloudflare 138 / AWS 99 / HashiCorp 74 / LaunchDarkly 68 / Pulumi 32"},
+    {"scenario": "可观测性与 SRE", "evidence": "getsentry 302 / posthog 262 / datadog-labs 43 / langfuse 23 / signoz 13 / dash0 4 / axiom 12"},
+    {"scenario": "数据管道与 ETL", "evidence": "dagster-io 53 / dbt-labs 14 / temporalio 7 / tinybirdco 4 / duckdb"},
+    {"scenario": "认证 / 支付 / 密钥", "evidence": "auth0 34 / clerk 31 / coinbase 29 / better-auth 13 / stripe 11 / bitwarden 65"},
+    {"scenario": "CMS 与电商", "evidence": "sanity-io 48 / webflow 37 / shopify 37 / medusajs 30 / wix 23 / contentstack 21 / wordpress 18 / contentful 7"},
+    {"scenario": "移动端原生开发", "evidence": "flutter 88 / callstackincubator 21 / expo 18 / kotlin 4"},
+    {"scenario": "前端生态框架", "evidence": "vercel/ai 131 / facebook/react 14 / nuxt 7 / sveltejs 3 / vercel/turborepo 1 / shadcn/ui 1"},
+    {"scenario": "语音与音频", "evidence": "runwayml 32 / deepgram 22 / elevenlabs 12 / livekit 1"},
+    {"scenario": "数据可视化 / 3D / 地图", "evidence": "google-labs-code/stitch-skills 30 / mapbox 24 / tldraw 19"},
+    {"scenario": "邮件与搜索 API", "evidence": "brave 26 / tavily-ai 20 / resend 13"},
+    {"scenario": "AI/ML 工程", "evidence": "openai 278 / langchain-ai 86 / huggingface 45 / google-gemini 29 / mastra-ai 19 / pytorch 14 / rivet-dev 11"},
+    {"scenario": "测试与质量门禁", "evidence": "antithesishq 17 / coderabbitai 6 / semgrep 6 / currents-dev / microsoft/playwright-cli"}
+  ],
+  "audit_summary": {
+    "total_records": 50,
+    "gen_agent_trust_hub": {"Safe": 25, "Med Risk": 3, "Pending": 22},
+    "socket": {"zero_alerts": 28, "Pending": 22},
+    "snyk": {"Low Risk": 19, "Med Risk": 8, "High Risk": 1, "Pending": 22},
+    "high_risk": ["design-mobile-apps (Snyk High Risk, 799.9K installs)"],
+    "med_risk": ["find-skills", "agent-browser", "improve-codebase-architecture", "hyperframes-cli", "hyperframes", "triage", "reddit-automation", "hyperframes-registry", "hyperframes-animation (Gen)"],
+    "note": "飞书官方 22 个 skill 三家审计全部 Pending（未完成）。Med Risk 通常意味着该 skill 会执行 shell 命令 / 调外部 API / 往第三方平台写数据 / 安装其他 skill"
+  }
+}

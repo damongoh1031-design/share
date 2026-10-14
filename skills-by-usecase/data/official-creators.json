@@ -1,0 +1,614 @@
+[
+ {
+  "creator": "aave",
+  "repo": "skills",
+  "repos": 1,
+  "skills": 5
+ },
+ {
+  "creator": "anthropics",
+  "repo": "skills",
+  "repos": 18,
+  "skills": 605
+ },
+ {
+  "creator": "antithesishq",
+  "repo": "antithesis-skills",
+  "repos": 1,
+  "skills": 17
+ },
+ {
+  "creator": "apify",
+  "repo": "agent-skills",
+  "repos": 5,
+  "skills": 38
+ },
+ {
+  "creator": "apollographql",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 15
+ },
+ {
+  "creator": "astronomer",
+  "repo": "agents",
+  "repos": 1,
+  "skills": 29
+ },
+ {
+  "creator": "auth0",
+  "repo": "agent-skills",
+  "repos": 1,
+  "skills": 34
+ },
+ {
+  "creator": "automattic",
+  "repo": "agent-skills",
+  "repos": 9,
+  "skills": 40
+ },
+ {
+  "creator": "aws",
+  "repo": "agent-toolkit-for-aws",
+  "repos": 1,
+  "skills": 99
+ },
+ {
+  "creator": "axiomhq",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 12
+ },
+ {
+  "creator": "base",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 25
+ },
+ {
+  "creator": "better-auth",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 13
+ },
+ {
+  "creator": "bitwarden",
+  "repo": "ai-plugins",
+  "repos": 3,
+  "skills": 65
+ },
+ {
+  "creator": "box",
+  "repo": "box-for-ai",
+  "repos": 1,
+  "skills": 5
+ },
+ {
+  "creator": "brave",
+  "repo": "brave-search-skills",
+  "repos": 2,
+  "skills": 26
+ },
+ {
+  "creator": "browser-use",
+  "repo": "browser-use",
+  "repos": 5,
+  "skills": 11
+ },
+ {
+  "creator": "browserbase",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 16
+ },
+ {
+  "creator": "callstackincubator",
+  "repo": "agent-skills",
+  "repos": 9,
+  "skills": 21
+ },
+ {
+  "creator": "clerk",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 31
+ },
+ {
+  "creator": "clickhouse",
+  "repo": "agent-skills",
+  "repos": 6,
+  "skills": 33
+ },
+ {
+  "creator": "cloudflare",
+  "repo": "skills",
+  "repos": 17,
+  "skills": 138
+ },
+ {
+  "creator": "coderabbitai",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 6
+ },
+ {
+  "creator": "coinbase",
+  "repo": "agentic-wallet-skills",
+  "repos": 2,
+  "skills": 29
+ },
+ {
+  "creator": "contentful",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 7
+ },
+ {
+  "creator": "contentstack",
+  "repo": "contentstack-agent-skills",
+  "repos": 2,
+  "skills": 21
+ },
+ {
+  "creator": "convex-dev",
+  "repo": "convex",
+  "repos": 1,
+  "skills": 9
+ },
+ {
+  "creator": "dagster-io",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 53
+ },
+ {
+  "creator": "dash0hq",
+  "repo": "agent-skills",
+  "repos": 1,
+  "skills": 4
+ },
+ {
+  "creator": "datadog-labs",
+  "repo": "agent-skills",
+  "repos": 3,
+  "skills": 43
+ },
+ {
+  "creator": "dbt-labs",
+  "repo": "dbt-agent-skills",
+  "repos": 1,
+  "skills": 14
+ },
+ {
+  "creator": "deepgram",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 22
+ },
+ {
+  "creator": "denoland",
+  "repo": "skills",
+  "repos": 1,
+  "skills": 6
+ },
+ {
+  "creator": "elevenlabs",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 12
+ },
+ {
+  "creator": "encoredev",
+  "repo": "skills",
+  "repos": 1,
+  "skills": 30
+ },
+ {
+  "creator": "exploreomni",
+  "repo": "omni-agent-skills",
+  "repos": 3,
+  "skills": 27
+ },
+ {
+  "creator": "expo",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 18
+ },
+ {
+  "creator": "facebook",
+  "repo": "react",
+  "repos": 4,
+  "skills": 14
+ },
+ {
+  "creator": "factory-ai",
+  "repo": "factory-plugins",
+  "repos": 3,
+  "skills": 43
+ },
+ {
+  "creator": "figma",
+  "repo": "mcp-server-guide",
+  "repos": 2,
+  "skills": 25
+ },
+ {
+  "creator": "firebase",
+  "repo": "agent-skills",
+  "repos": 4,
+  "skills": 55
+ },
+ {
+  "creator": "firecrawl",
+  "repo": "cli",
+  "repos": 14,
+  "skills": 286
+ },
+ {
+  "creator": "flutter",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 88
+ },
+ {
+  "creator": "getsentry",
+  "repo": "skills",
+  "repos": 21,
+  "skills": 302
+ },
+ {
+  "creator": "github",
+  "repo": "awesome-copilot",
+  "repos": 8,
+  "skills": 406
+ },
+ {
+  "creator": "google-gemini",
+  "repo": "gemini-skills",
+  "repos": 4,
+  "skills": 29
+ },
+ {
+  "creator": "google-labs-code",
+  "repo": "stitch-skills",
+  "repos": 4,
+  "skills": 30
+ },
+ {
+  "creator": "hashicorp",
+  "repo": "agent-skills",
+  "repos": 5,
+  "skills": 74
+ },
+ {
+  "creator": "huggingface",
+  "repo": "skills",
+  "repos": 11,
+  "skills": 45
+ },
+ {
+  "creator": "kotlin",
+  "repo": "kotlin-agent-skills",
+  "repos": 1,
+  "skills": 4
+ },
+ {
+  "creator": "langchain-ai",
+  "repo": "langchain-skills",
+  "repos": 6,
+  "skills": 86
+ },
+ {
+  "creator": "langfuse",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 23
+ },
+ {
+  "creator": "launchdarkly",
+  "repo": "agent-skills",
+  "repos": 3,
+  "skills": 68
+ },
+ {
+  "creator": "livekit",
+  "repo": "agent-skills",
+  "repos": 1,
+  "skills": 1
+ },
+ {
+  "creator": "makenotion",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 23
+ },
+ {
+  "creator": "mapbox",
+  "repo": "mapbox-agent-skills",
+  "repos": 2,
+  "skills": 24
+ },
+ {
+  "creator": "mastra-ai",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 19
+ },
+ {
+  "creator": "mcp-use",
+  "repo": "mcp-use",
+  "repos": 2,
+  "skills": 6
+ },
+ {
+  "creator": "medusajs",
+  "repo": "medusa-agent-skills",
+  "repos": 2,
+  "skills": 30
+ },
+ {
+  "creator": "microsoft",
+  "repo": "azure-skills",
+  "repos": 51,
+  "skills": 582
+ },
+ {
+  "creator": "modal-labs",
+  "repo": "modal-client",
+  "repos": 1,
+  "skills": 1
+ },
+ {
+  "creator": "mongodb",
+  "repo": "agent-skills",
+  "repos": 1,
+  "skills": 9
+ },
+ {
+  "creator": "n8n-io",
+  "repo": "n8n",
+  "repos": 2,
+  "skills": 41
+ },
+ {
+  "creator": "neondatabase",
+  "repo": "agent-skills",
+  "repos": 7,
+  "skills": 22
+ },
+ {
+  "creator": "nuxt",
+  "repo": "ui",
+  "repos": 4,
+  "skills": 7
+ },
+ {
+  "creator": "nvidia",
+  "repo": "skills",
+  "repos": 48,
+  "skills": 1176
+ },
+ {
+  "creator": "openai",
+  "repo": "skills",
+  "repos": 8,
+  "skills": 278
+ },
+ {
+  "creator": "openshift",
+  "repo": "hypershift",
+  "repos": 5,
+  "skills": 24
+ },
+ {
+  "creator": "parallel-web",
+  "repo": "parallel-agent-skills",
+  "repos": 2,
+  "skills": 16
+ },
+ {
+  "creator": "pinecone-io",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 27
+ },
+ {
+  "creator": "planetscale",
+  "repo": "database-skills",
+  "repos": 2,
+  "skills": 8
+ },
+ {
+  "creator": "posthog",
+  "repo": "skills",
+  "repos": 7,
+  "skills": 262
+ },
+ {
+  "creator": "prisma",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 95
+ },
+ {
+  "creator": "projectopensea",
+  "repo": "opensea-skill",
+  "repos": 1,
+  "skills": 1
+ },
+ {
+  "creator": "pulumi",
+  "repo": "agent-skills",
+  "repos": 2,
+  "skills": 32
+ },
+ {
+  "creator": "pytorch",
+  "repo": "pytorch",
+  "repos": 1,
+  "skills": 14
+ },
+ {
+  "creator": "redis",
+  "repo": "agent-skills",
+  "repos": 2,
+  "skills": 15
+ },
+ {
+  "creator": "remotion-dev",
+  "repo": "skills",
+  "repos": 4,
+  "skills": 19
+ },
+ {
+  "creator": "resend",
+  "repo": "resend-skills",
+  "repos": 6,
+  "skills": 13
+ },
+ {
+  "creator": "rivet-dev",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 11
+ },
+ {
+  "creator": "runwayml",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 32
+ },
+ {
+  "creator": "sanity-io",
+  "repo": "agent-toolkit",
+  "repos": 6,
+  "skills": 48
+ },
+ {
+  "creator": "semgrep",
+  "repo": "skills",
+  "repos": 3,
+  "skills": 6
+ },
+ {
+  "creator": "shopify",
+  "repo": "shopify-ai-toolkit",
+  "repos": 4,
+  "skills": 37
+ },
+ {
+  "creator": "signoz",
+  "repo": "agent-skills",
+  "repos": 1,
+  "skills": 13
+ },
+ {
+  "creator": "streamlit",
+  "repo": "agent-skills",
+  "repos": 2,
+  "skills": 38
+ },
+ {
+  "creator": "stripe",
+  "repo": "ai",
+  "repos": 5,
+  "skills": 11
+ },
+ {
+  "creator": "supabase",
+  "repo": "agent-skills",
+  "repos": 3,
+  "skills": 17
+ },
+ {
+  "creator": "sveltejs",
+  "repo": "ai-tools",
+  "repos": 2,
+  "skills": 3
+ },
+ {
+  "creator": "tavily-ai",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 20
+ },
+ {
+  "creator": "temporalio",
+  "repo": "skill-temporal-developer",
+  "repos": 6,
+  "skills": 7
+ },
+ {
+  "creator": "tinybirdco",
+  "repo": "tinybird-agent-skills",
+  "repos": 1,
+  "skills": 4
+ },
+ {
+  "creator": "tldraw",
+  "repo": "tldraw",
+  "repos": 1,
+  "skills": 19
+ },
+ {
+  "creator": "triggerdotdev",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 13
+ },
+ {
+  "creator": "uniformdev",
+  "repo": "agent-skills",
+  "repos": 1,
+  "skills": 11
+ },
+ {
+  "creator": "upstash",
+  "repo": "context7",
+  "repos": 10,
+  "skills": 32
+ },
+ {
+  "creator": "vapiai",
+  "repo": "skills",
+  "repos": 1,
+  "skills": 15
+ },
+ {
+  "creator": "vercel",
+  "repo": "ai",
+  "repos": 23,
+  "skills": 131
+ },
+ {
+  "creator": "vercel-labs",
+  "repo": "agent-skills",
+  "repos": 43,
+  "skills": 252
+ },
+ {
+  "creator": "webflow",
+  "repo": "webflow-skills",
+  "repos": 1,
+  "skills": 37
+ },
+ {
+  "creator": "whopio",
+  "repo": "whop-payments-network-skill",
+  "repos": 1,
+  "skills": 1
+ },
+ {
+  "creator": "wix",
+  "repo": "skills",
+  "repos": 2,
+  "skills": 23
+ },
+ {
+  "creator": "wordpress",
+  "repo": "agent-skills",
+  "repos": 2,
+  "skills": 18
+ }
+]

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>skills.sh 按用途选型清单（去重版）</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+aside{width:268px;flex:0 0 268px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:7px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1120px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.pick{color:var(--gn);font-weight:600;font-family:"SF Mono",Consolas,monospace;font-size:12.5px}
+.avoid{color:var(--rd);font-family:"SF Mono",Consolas,monospace;font-size:12.5px}
+.star{color:var(--yl);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:25px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid var(--bd)}
+.tab{padding:8px 14px;background:transparent;border:1px solid transparent;border-bottom:none;color:var(--tx2);cursor:pointer;font-size:13px;border-radius:7px 7px 0 0;font-family:inherit;transition:.15s;position:relative;top:1px;white-space:nowrap}
+.tab:hover{color:var(--tx);background:var(--bg2)}
+.tab.on{color:var(--ac);background:var(--bg2);border-color:var(--bd);border-bottom-color:var(--bg2);font-weight:600}
+.pane{display:none;padding-top:18px}
+.pane.on{display:block;animation:fi .22s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+.bars{margin:18px 0}
+.bar{display:grid;grid-template-columns:196px 1fr 74px;align-items:center;gap:12px;margin:7px 0;font-size:13px}
+.bar .lbl{color:var(--tx2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .trk{background:var(--bg3);height:22px;border-radius:4px;overflow:hidden}
+.bar .fil{height:100%;border-radius:4px;background:linear-gradient(90deg,#1f6feb,#58a6ff);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.bar .val{color:var(--ac2);font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.bar.g .fil{background:linear-gradient(90deg,#238636,#3fb950)}
+.bar.y .fil{background:linear-gradient(90deg,#9e6a03,#d29922)}
+.bar.r .fil{background:linear-gradient(90deg,#a40e26,#f85149)}
+.bar.p .fil{background:linear-gradient(90deg,#6e40c9,#bc8cff)}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 18px 60px}
+  .bar{grid-template-columns:108px 1fr 58px;font-size:12px}
+  h2{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>skills.sh 按用途选型</h1>
+  <div class="sub">每用途一个最优解 · 去重版<br>数据核验 2026-10-14</div>
+  <nav>
+    <div class="grp">原则</div>
+    <a href="#s0" class="on">〇 三条使用原则</a>
+    <div class="grp">用途总表</div>
+    <a href="#s1">一 用途 → 唯一推荐</a>
+    <div class="grp">去重</div>
+    <a href="#s2">二 去重决策表（13 组）</a>
+    <a href="#s2a">　· 隐性重复提醒</a>
+    <div class="grp">补充</div>
+    <a href="#s3">三 你没提到的 12 个场景</a>
+    <a href="#s4">四 4 个值得单独说的</a>
+    <div class="grp">风险</div>
+    <a href="#s5">五 安全审计：哪些别装</a>
+    <a href="#s6">六 数据可信度</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>三条使用原则</h2>
+
+<div class="grid">
+  <div class="card gn"><div class="k">用途数</div><div class="v">90+</div><div class="d">覆盖 9 大类，每用途一个最优解</div></div>
+  <div class="card yl"><div class="k">去重组</div><div class="v">13 组</div><div class="d">功能重叠，每组只装一个</div></div>
+  <div class="card"><div class="k">官方厂商</div><div class="v">102</div><div class="d">数千个官方 skill</div></div>
+  <div class="card rd"><div class="k">高危 skill</div><div class="v">1 个</div><div class="d">Snyk High Risk</div></div>
+</div>
+
+<div class="box ok">
+<div class="t">① 一个用途只装一个</div>
+<p>重叠的 skill 会让 agent <strong>重复劳动、浪费 context</strong>，还会互相干扰——比如两个 TDD skill 都要求「先写测试」，agent 会不知道该听谁的。</p>
+</div>
+
+<div class="box">
+<div class="t">② 先看用途，再看安装量</div>
+<p>安装量高只说明流行，不代表适合你的用途。<code>find-skills</code>（3.8M）是入口，但它在「写测试」这个用途上毫无用处。</p>
+</div>
+
+<div class="box danger">
+<div class="t">③ 装之前必看安全审计</div>
+<p>实测 50 条审计记录：<strong>Gen Agent Trust Hub 有 3 个 Med Risk、Snyk 有 8 个 Med Risk + 1 个 High Risk</strong>。详见第五章。</p>
+</div>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+<h2><span class="n">一</span>用途 → 唯一推荐</h2>
+<p>点标签切换大类。<strong>同一 skill 不在本清单中出现两次。</strong></p>
+
+<div class="tabs">
+<button class="tab on" data-t="c1">编程开发</button>
+<button class="tab" data-t="c2">办公</button>
+<button class="tab" data-t="c3">网页 / 搜索</button>
+<button class="tab" data-t="c4">设计 / 前端</button>
+<button class="tab" data-t="c5">媒体生成</button>
+<button class="tab" data-t="c6">数据 / 后端 / 云</button>
+<button class="tab" data-t="c7">营销 / 增长</button>
+<button class="tab" data-t="c8">研究 / 元技能</button>
+<button class="tab" data-t="c9">效率 / 成本</button>
+</div>
+
+<div class="pane on" id="c1">
+<h3>编程开发</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>安装量</th><th>它解决什么</th></tr></thead>
+<tbody>
+<tr><td><strong>开工前对齐需求</strong>（防返工）</td><td class="pick">grill-me</td><td class="star">1.4M</td><td>AI 编程最高频失败模式：它做的不是你要的</td></tr>
+<tr><td><strong>统一领域语言</strong>（命名/术语）</td><td class="pick">domain-modeling</td><td class="star">816.5K</td><td>agent 用 20 个词说 1 个词的事，token 与可读性双输</td></tr>
+<tr><td><strong>架构设计纪律</strong></td><td class="pick">codebase-design</td><td class="star">792.3K</td><td>提供 module/interface/depth/seam 词汇，防止说成 component/service</td></tr>
+<tr><td><strong>架构体检 / 找重构候选</strong></td><td class="pick">improve-codebase-architecture</td><td class="star">1.1M</td><td>agent 加速编码也加速软件熵增，需定期体检 <span class="pill p-y">审计 Med</span></td></tr>
+<tr><td><strong>写测试</strong></td><td class="pick">tdd</td><td class="star">1.1M</td><td>AI 写的测试测实现细节，一重构就全红；强制在接缝测行为</td></tr>
+<tr><td><strong>纠错 / 难 bug</strong></td><td class="pick">diagnosing-bugs</td><td class="star">777.5K</td><td>难 bug 靠猜猜不出来，强制先建稳定复现的反馈回路</td></tr>
+<tr><td><strong>代码审查</strong></td><td class="pick">code-review</td><td class="star">729.7K</td><td>两轴并行审查：编码规范 + 是否忠实实现原 spec</td></tr>
+<tr><td><strong>需求 → 实现全流程</strong></td><td class="pick">implement</td><td class="star">718.4K</td><td>按 spec 施工，在约定接缝跑 tdd，收尾跑 code-review</td></tr>
+<tr><td><strong>超大工程规划</strong></td><td class="pick">wayfinder</td><td class="star">664.8K</td><td>规划超过一个 agent session 容量的大块工作</td></tr>
+<tr><td><strong>原型验证</strong></td><td class="pick">prototype</td><td class="star">934.3K</td><td>用一次性原型回答设计问题，别直接写进正式代码</td></tr>
+<tr><td><strong>TypeScript 类型设计</strong></td><td class="pick">typescript-advanced-types</td><td>—</td><td>泛型约束/条件类型/映射类型/模板字面量等高级模式</td></tr>
+<tr><td><strong>PR 撰写</strong></td><td class="pick">pr</td><td>—</td><td>最小可视化摘要 + 前后证据 + 合并风险评级</td></tr>
+<tr><td><strong>Git 危险操作护栏</strong></td><td class="pick">git-guardrails-claude-code</td><td class="star">463.7K</td><td>防止 agent 执行危险 git 命令</td></tr>
+<tr><td><strong>合并冲突</strong></td><td class="pick">resolving-merge-conflicts</td><td class="star">551.0K</td><td>冲突解决流程</td></tr>
+<tr><td><strong>复盘改进 agent 环境</strong></td><td class="pick">retro</td><td class="star">225.1K</td><td>建议改进导航/自动检查/规范/steering 文件</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="c2">
+<h3>办公</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>飞书全家桶</strong>（文档/表格/IM/日历/审批/OKR/会议）</td><td class="pick">飞书官方 22 件套（入口 lark-doc）</td><td>单组织 <strong>16.9M</strong> 安装，全站最大官方生态 <span class="pill p-y">审计 Pending</span></td></tr>
+<tr><td><strong>Word 文档</strong></td><td class="pick">docx</td><td>驱动 Claude 生产环境文档能力（source-available）</td></tr>
+<tr><td><strong>PDF 处理</strong></td><td class="pick">pdf</td><td>读取/提取/合并/拆分/表单</td></tr>
+<tr><td><strong>PPT</strong></td><td class="pick">pptx</td><td>创建/解析/编辑幻灯片</td></tr>
+<tr><td><strong>Excel / 表格</strong></td><td class="pick">xlsx</td><td>表格为主输入输出时</td></tr>
+<tr><td><strong>文档共创</strong></td><td class="pick">doc-coauthoring</td><td>结构化文档共创工作流</td></tr>
+<tr><td><strong>内部沟通文稿</strong></td><td class="pick">internal-comms</td><td>各类内部沟通格式</td></tr>
+<tr><td><strong>Notion</strong></td><td class="pick">makenotion/skills</td><td>Notion 官方，4 repos / 23 skills</td></tr>
+<tr><td><strong>artifact 套主题</strong></td><td class="pick">theme-factory</td><td>10 个预设主题（幻灯片/文档/HTML 落地页）</td></tr>
+<tr><td><strong>Slack 动画 GIF</strong></td><td class="pick">slack-gif-creator</td><td>含约束、校验工具、动画概念</td></tr>
+</tbody>
+</table>
+<div class="box warn"><div class="t">注意 License</div><p>Anthropic 的 <code>docx</code> / <code>pdf</code> / <code>pptx</code> / <code>xlsx</code> 是 <strong>source-available，不是 open source</strong>；其他 Anthropic skill 多为 Apache 2.0。</p></div>
+</div>
+
+<div class="pane" id="c3">
+<h3>网页 / 搜索 / 数据获取</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>安装量</th><th>它解决什么</th></tr></thead>
+<tbody>
+<tr><td><strong>agent 操作浏览器</strong></td><td class="pick">agent-browser</td><td class="star">1.1M</td><td>CDP + 无障碍树快照 + <code>@eN</code> 元素引用，<strong>token 高效</strong> <span class="pill p-y">Snyk Med</span></td></tr>
+<tr><td><strong>需要视觉理解的浏览</strong></td><td class="pick">browser-use</td><td>—</td><td>基于「看到什么」交互，适合纯视觉判断场景</td></tr>
+<tr><td><strong>写 / 跑浏览器测试</strong></td><td class="pick">playwright-cli</td><td>—</td><td>40+ 命令，多浏览器 + 持久 profile + 网络 mock + 追踪</td></tr>
+<tr><td><strong>网页抓取 / 提取 / 监控</strong></td><td class="pick">just-scrape</td><td class="star">245.0K</td><td><strong>五合一</strong>：search / scrape / extract(JSON) / crawl / monitor</td></tr>
+<tr><td><strong>网页搜索</strong></td><td class="pick">tavily-ai/skills</td><td>—</td><td>搜索 API 官方，2 repos / 20 skills</td></tr>
+<tr><td><strong>网页 → Markdown</strong></td><td class="pick">firecrawl/cli</td><td>—</td><td>官方 CLI，14 repos / 286 skills</td></tr>
+<tr><td><strong>带引用的研究</strong></td><td class="pick">research</td><td class="star">658.9K</td><td>后台 agent 跑研究，每条结论溯源到一手资料</td></tr>
+<tr><td><strong>结果去重 / 来源去重</strong></td><td class="no-b">⚠️ 未找到</td><td>—</td><td>176 榜单 + 8 Topics + 102 官方厂商中均无专门 skill</td></tr>
+</tbody>
+</table>
+<div class="box warn">
+<div class="t">「去重」这个用途确实存在缺口</div>
+<p>在 skills.sh 的 176 条榜单、8 个 Topics 分类、102 个官方厂商里，<strong>没有发现以「结果去重 / 来源去重」为核心功能的 skill</strong>。目前这类工作由 agent 自身或研究类 skill（<code>research</code>、<code>last30days</code> 系列）承担。这是本次调研的一个明确缺口，如果你需要，可以自己用 <code>skill-creator</code> 造一个。</p>
+</div>
+</div>
+
+<div class="pane" id="c4">
+<h3>设计 / 前端 / 移动端</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>安装量</th><th>它解决什么</th></tr></thead>
+<tbody>
+<tr><td><strong>生成有品味的 UI</strong></td><td class="pick">frontend-design</td><td class="star">985.0K</td><td>拒绝「AI 味」，先定美学方向再写代码</td></tr>
+<tr><td><strong>UI 规范审查</strong></td><td class="pick">web-design-guidelines</td><td class="star">734.2K</td><td>100+ 规则：a11y / 性能 / UX / i18n</td></tr>
+<tr><td><strong>设计批评 / 去 AI slop</strong></td><td class="pick">impeccable/critique</td><td>—</td><td>对照 AI 生成设计反模式，10 个维度结构化批评</td></tr>
+<tr><td><strong>上线前打磨</strong></td><td class="pick">impeccable/polish</td><td>—</td><td>对齐/间距/一致性/交互态/微交互的最终质检</td></tr>
+<tr><td><strong>设计系统参考</strong></td><td class="pick">ui-ux-pro-max</td><td class="star">395.4K</td><td>50+ 风格 / 161 调色板 / 57 字体对 / 99 UX 规则 / 10 技术栈</td></tr>
+<tr><td><strong>从网站提取设计令牌</strong></td><td class="pick">extract-design-system</td><td>—</td><td>Playwright 逆向出色彩/字体/间距/圆角/阴影 → JSON + CSS</td></tr>
+<tr><td><strong>React / Next 性能</strong></td><td class="pick">vercel-react-best-practices</td><td class="star">799.2K</td><td>40+ 规则 / 8 类，按影响排序</td></tr>
+<tr><td><strong>Next.js App Router</strong></td><td class="pick">next-best-practices</td><td>—</td><td>App Router / 服务端组件 / 缓存 API / 部署</td></tr>
+<tr><td><strong>组件库</strong></td><td class="pick">shadcn</td><td class="star">271.1K</td><td>shadcn/ui 官方</td></tr>
+<tr><td><strong>Expo 原生 UI</strong></td><td class="pick">building-native-ui</td><td>—</td><td>Expo Router + Apple HIG 对齐</td></tr>
+<tr><td><strong>React Native</strong></td><td class="pick">vercel-react-native-skills</td><td class="star">240.2K</td><td>RN 最佳实践</td></tr>
+<tr><td><strong>静态视觉作品</strong>（海报/PNG/PDF）</td><td class="pick">canvas-design</td><td>—</td><td>用设计哲学创建视觉作品</td></tr>
+<tr><td><strong>算法 / 生成艺术</strong></td><td class="pick">algorithmic-art</td><td>—</td><td>p5.js + 种子随机 + 交互参数</td></tr>
+<tr><td><strong>品牌规范套用</strong></td><td class="pick">brand-guidelines</td><td>—</td><td>官方品牌色与字体</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="c5">
+<h3>媒体生成</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>安装量</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>视频制作（全套）</strong></td><td class="pick">hyperframes</td><td class="star">961.9K</td><td>HTML/CSS → 确定性 MP4。路由器 + 10 创建工作流 + 4 领域技能 <span class="pill p-y">Snyk Med</span></td></tr>
+<tr><td><strong>用 React 做视频</strong></td><td class="pick">remotion-best-practices</td><td class="star">615.1K</td><td>30+ 规则文件：动画/音频/字幕/3D/图表</td></tr>
+<tr><td><strong>图像生成</strong></td><td class="pick">ai-image-generation</td><td class="star">377.3K</td><td>⚠️ 同名 5 个 owner，选官方 runcomfy</td></tr>
+<tr><td><strong>图生视频 / 视频编辑</strong></td><td class="pick">image-to-video / video-edit</td><td class="star">432.3K / 434.1K</td><td>同属 runcomfy 官方套装</td></tr>
+<tr><td><strong>音乐生成</strong></td><td class="pick">ai-music</td><td class="star">363.3K</td><td>—</td></tr>
+<tr><td><strong>语音合成 TTS</strong></td><td class="pick">elevenlabs/skills</td><td>—</td><td>ElevenLabs 官方，2 repos / 12 skills</td></tr>
+<tr><td><strong>语音转写 ASR</strong></td><td class="pick">deepgram/skills</td><td>—</td><td>Deepgram 官方，4 repos / 22 skills</td></tr>
+<tr><td><strong>专业视频生成</strong></td><td class="pick">runwayml/skills</td><td>—</td><td>Runway 官方，2 repos / 32 skills</td></tr>
+</tbody>
+</table>
+<div class="box danger">
+<div class="t">安装提醒</div>
+<p>hyperframes README 原文警告：<em>"a non-interactive or agent run without <code>--skill</code> installs all 21"</em>。即<strong>非交互安装会一次装 21 个</strong>，务必用 <code>--skill</code> 指定。</p>
+</div>
+</div>
+
+<div class="pane" id="c6">
+<h3>数据 / 后端 / 云（按你的技术栈选一个）</h3>
+<table>
+<thead><tr><th>技术栈</th><th>唯一推荐</th><th>官方 skill 数</th></tr></thead>
+<tbody>
+<tr><td>Postgres / Supabase</td><td class="pick">supabase-postgres-best-practices</td><td class="star">17</td></tr>
+<tr><td>Firebase</td><td class="pick">firebase-basics</td><td class="star">55</td></tr>
+<tr><td>Neon</td><td class="pick">neon-postgres</td><td class="star">22</td></tr>
+<tr><td>MySQL / PlanetScale</td><td class="pick">planetscale/database-skills</td><td class="star">8</td></tr>
+<tr><td>DuckDB 分析</td><td class="pick">duckdb/query</td><td>—</td></tr>
+<tr><td>Convex</td><td class="pick">convex-quickstart</td><td class="star">9</td></tr>
+<tr><td>ORM</td><td class="pick">prisma</td><td class="star">95</td></tr>
+<tr><td>认证</td><td class="pick">clerk</td><td class="star">31</td></tr>
+<tr><td>密钥管理</td><td class="pick">bitwarden</td><td class="star">65</td></tr>
+<tr><td>支付</td><td class="pick">stripe/ai</td><td class="star">11</td></tr>
+<tr><td><strong>Azure</strong></td><td class="pick">microsoft/azure-skills</td><td class="star">582</td></tr>
+<tr><td><strong>AWS</strong></td><td class="pick">aws/agent-toolkit-for-aws</td><td class="star">99</td></tr>
+<tr><td><strong>Cloudflare</strong></td><td class="pick">cloudflare/skills</td><td class="star">138</td></tr>
+<tr><td>Vercel 部署</td><td class="pick">deploy-to-vercel</td><td>—</td></tr>
+<tr><td>IaC</td><td class="pick">pulumi / hashicorp</td><td class="star">32 / 74</td></tr>
+<tr><td>可观测性</td><td class="pick">datadog-labs / getsentry / langfuse / posthog / signoz</td><td class="star">43 / 302 / 23 / 262 / 13</td></tr>
+<tr><td>数据管道</td><td class="pick">dagster-io / dbt-labs</td><td class="star">53 / 14</td></tr>
+<tr><td>功能开关</td><td class="pick">launchdarkly</td><td class="star">68</td></tr>
+<tr><td>邮件发送</td><td class="pick">resend</td><td class="star">13</td></tr>
+<tr><td>工作流自动化</td><td class="pick">n8n-io</td><td class="star">41</td></tr>
+<tr><td>CMS</td><td class="pick">sanity-io / contentful / contentstack</td><td class="star">48 / 7 / 21</td></tr>
+<tr><td>电商</td><td class="pick">shopify / medusajs</td><td class="star">37 / 30</td></tr>
+<tr><td>地图</td><td class="pick">mapbox</td><td class="star">24</td></tr>
+<tr><td>实时音视频</td><td class="pick">livekit</td><td class="star">1</td></tr>
+<tr><td>时序数据</td><td class="pick">tinybirdco</td><td class="star">4</td></tr>
+<tr><td>缓存 / 队列</td><td class="pick">redis</td><td class="star">15</td></tr>
+<tr><td>向量库</td><td class="pick">pinecone-io</td><td class="star">27</td></tr>
+<tr><td><strong>MCP 开发</strong></td><td class="pick">mcp-builder</td><td>—</td></tr>
+<tr><td>MCP 使用 / 构建</td><td class="pick">mcp-use</td><td class="star">6</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="c7">
+<h3>营销 / 增长（<code>coreyhaines31/marketingskills</code> 一家 21 个）</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th></tr></thead>
+<tbody>
+<tr><td><strong>SEO 审计</strong></td><td class="pick">seo-audit</td></tr>
+<tr><td>文案撰写</td><td class="pick">copywriting</td></tr>
+<tr><td>营销心理学</td><td class="pick">marketing-psychology</td></tr>
+<tr><td>社媒内容</td><td class="pick">social-content</td></tr>
+<tr><td>内容策略</td><td class="pick">content-strategy</td></tr>
+<tr><td>程序化 SEO</td><td class="pick">programmatic-seo</td></tr>
+<tr><td>定价策略</td><td class="pick">pricing-strategy</td></tr>
+<tr><td>落地页转化（CRO）</td><td class="pick">page-cro</td></tr>
+<tr><td>发布策略</td><td class="pick">launch-strategy</td></tr>
+<tr><td>结构化数据</td><td class="pick">schema-markup</td></tr>
+<tr><td>邮件序列</td><td class="pick">email-sequence</td></tr>
+<tr><td>付费广告</td><td class="pick">paid-ads</td></tr>
+<tr><td>竞品对比页</td><td class="pick">competitor-alternatives</td></tr>
+<tr><td>埋点分析</td><td class="pick">analytics-tracking</td></tr>
+<tr><td><strong>Reddit 获客</strong></td><td class="pick">reddit-automation</td></tr>
+</tbody>
+</table>
+<div class="box ok">
+<div class="t">seo-audit 的一个好细节</div>
+<p>它强调用浏览器工具或 Google Rich Results Test 验证 schema markup，<strong>而不是静态检查 HTML</strong>——因为 JS 注入的结构化数据会导致误判。它按五区评估：可抓取性/索引、技术基础、页面优化、内容质量、权威信号，并按 SaaS/电商/内容/本地商家分别给指引。</p>
+</div>
+</div>
+
+<div class="pane" id="c8">
+<h3>研究 / 学习 / 元技能</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>安装量</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>找 skill</strong></td><td class="pick">find-skills</td><td class="star">3.8M</td><td>全站入口，装了它所有 skill 发现成本归零 <span class="pill p-y">Snyk Med</span></td></tr>
+<tr><td><strong>造 skill</strong></td><td class="pick">skill-creator</td><td class="star">405.1K</td><td>官方出的造 skill 的 skill，含 eval 测试</td></tr>
+<tr><td><strong>给 agent 写文档</strong></td><td class="pick">writing-for-agents</td><td class="star">414.2K</td><td>skill / AGENTS.md / CLAUDE.md 的写法</td></tr>
+<tr><td><strong>教学（跨会话）</strong></td><td class="pick">teach</td><td class="star">808.1K</td><td>把学习变成跨会话持续过程</td></tr>
+<tr><td><strong>学术论文上下文</strong></td><td class="pick">paper-context-resolver</td><td class="star">457.0K</td><td>论文上下文解析</td></tr>
+<tr><td><strong>上下文交接</strong></td><td class="pick">handoff</td><td class="star">979.1K</td><td>无损压缩上下文 + 自动脱敏 + 建议下一步技能</td></tr>
+<tr><td><strong>头脑风暴</strong></td><td class="pick">brainstorming</td><td class="star">391.2K</td><td>动手前把意图挖出来</td></tr>
+<tr><td><strong>对话 → spec</strong></td><td class="pick">to-spec</td><td class="star">661.4K</td><td>把当前对话转成 spec 并发布到 issue tracker</td></tr>
+<tr><td><strong>spec → 工单</strong></td><td class="pick">to-tickets</td><td class="star">655.3K</td><td>拆成 tracer-bullet 工单，标注阻塞关系</td></tr>
+<tr><td><strong>issue 分流</strong></td><td class="pick">triage</td><td class="star">938.7K</td><td>状态机分流，且主动标注 AI 生成 <span class="pill p-y">审计 Med</span></td></tr>
+<tr><td><strong>多 agent 编排</strong></td><td class="pick">subagent-driven-development</td><td class="star">227.1K</td><td>两阶段审查：先查 spec 合规，再查代码质量</td></tr>
+<tr><td><strong>并行 agent</strong></td><td class="pick">dispatching-parallel-agents</td><td>—</td><td>并发 subagent 工作流</td></tr>
+<tr><td><strong>多 agent 运行时</strong></td><td class="pick">stablyai/orca</td><td class="star">289.3K</td><td>orchestration + orca-cli</td></tr>
+<tr><td><strong>提问澄清</strong></td><td class="pick">wait-what</td><td class="star">399.5K</td><td>没听懂时触发，用大白话重新解释</td></tr>
+<tr><td><strong>决策问卷</strong></td><td class="pick">to-questionnaire</td><td class="star">450.2K</td><td>把答不了的决策转成给能答的人填的问卷</td></tr>
+<tr><td><strong>测试 web 应用</strong></td><td class="pick">webapp-testing</td><td>—</td><td>用 Playwright 验证前端功能、截图、看日志</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="c9">
+<h3>效率 / 成本</h3>
+<table>
+<thead><tr><th>用途</th><th>唯一推荐</th><th>数值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>省 token（输出+输入）</strong></td><td class="pick">caveman</td><td class="star">572.4K</td><td>input token 少 33.2%，有 Adobe/JetBrains/Elastic 三方验证</td></tr>
+<tr><td><strong>压缩工具输出 / 日志 / RAG chunk</strong></td><td class="pick">headroom</td><td class="star">75,305★</td><td>JSON 省 60-95% token</td></tr>
+<tr><td><strong>项目知识图谱记忆</strong></td><td class="pick">codebase-memory-mcp</td><td class="star">46,547★</td><td>158 种语言，亚毫秒级</td></tr>
+<tr><td><strong>Markdown 知识图谱</strong></td><td class="pick">iwe</td><td class="star">1,771★</td><td>LSP + CLI + MCP 记忆</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+<h2><span class="n">二</span>去重决策表</h2>
+<p><strong>这是本文最有实用价值的部分。</strong> 以下 13 组 skill 功能重叠，<strong>每组只装一个</strong>：</p>
+
+<table>
+<thead><tr><th>#</th><th>冲突组</th><th>✅ 选它</th><th>❌ 别装</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>整套方法论</strong></td><td class="pick">mattpocock/skills</td><td class="avoid">obra/superpowers</td><td>superpowers <strong>自动触发</strong>（省心），mattpocock <strong>手动精细控制</strong>（可控）。两者 <code>tdd</code>/<code>test-driven-development</code>、<code>code-review</code>/<code>requesting-code-review</code> 完全重叠</td></tr>
+<tr><td>2</td><td>写测试</td><td class="pick">tdd <span class="star">1.1M</span></td><td class="avoid">test-driven-development <span class="star">249.1K</span></td><td>安装量高 4.4 倍；mattpocock 版有「接缝（seam）」核心概念</td></tr>
+<tr><td>3</td><td>需求对齐</td><td class="pick">grill-me <span class="star">1.4M</span></td><td class="avoid">grilling <span class="star">907.9K</span></td><td><code>grilling</code> 是 <code>grill-me</code> 的<strong>底层引擎</strong>，装 <code>grill-me</code> 会自动调用它</td></tr>
+<tr><td>4</td><td>交接</td><td class="pick">handoff <span class="star">979.1K</span></td><td class="avoid">claude-handoff <span class="star">384.0K</span></td><td><code>handoff</code> 是正式版，含自动脱敏 + 建议技能列表</td></tr>
+<tr><td>5</td><td>代码审查</td><td class="pick">code-review <span class="star">729.7K</span></td><td class="avoid">requesting-code-review <span class="star">251.3K</span></td><td>mattpocock 版是<strong>两轴并行审查</strong>，更完整</td></tr>
+<tr><td>6</td><td>调试</td><td class="pick">diagnosing-bugs <span class="star">777.5K</span></td><td class="avoid">systematic-debugging <span class="star">291.8K</span></td><td>mattpocock 版有「先建稳定复现回路」的硬约束</td></tr>
+<tr><td>7</td><td>浏览器操作</td><td class="pick">agent-browser <span class="star">1.1M</span></td><td class="avoid">browser-use</td><td><strong>除非</strong>你要纯视觉判断。agent-browser 用无障碍树 + <code>@eN</code> 引用，token 更省</td></tr>
+<tr><td>8</td><td>移动端设计</td><td class="pick">building-native-ui（Expo 官方）</td><td class="avoid">design-mobile-apps <span class="pill p-r">Snyk High Risk</span> / sleek-design-mobile-apps</td><td>前者官方 + 免费；后两个走第三方付费 API 且<strong>有高危审计</strong></td></tr>
+<tr><td>9</td><td>前端设计生成</td><td class="pick">frontend-design <span class="star">985K</span></td><td class="avoid">design-taste-frontend <span class="star">606.8K</span></td><td>官方出品；<code>leonxlnx/taste-skill</code> 一家 13 个 UI skill 上榜，属商业推广驱动</td></tr>
+<tr><td>10</td><td>视频</td><td class="pick">hyperframes <span class="star">961.9K</span></td><td class="avoid">remotion-dev/skills</td><td><strong>除非</strong>团队已用 React/Remotion。hyperframes 是 HTML/CSS 路线，Remotion 是 React 路线</td></tr>
+<tr><td>11</td><td>视频生成</td><td class="pick">prime-skills/runcomfy-agent-skills</td><td class="avoid">其余 6 个同名 ai-video-generation</td><td>同一 skill 被 <strong>7 个 owner</strong> 重复发布（magentosh、101-skills、qu-skills、its-a-skill-issue、bankai-skills、skills-shell），选官方</td></tr>
+<tr><td>12</td><td>设计系统</td><td class="pick">ui-ux-pro-max <span class="star">395.4K</span></td><td class="avoid">tailwind-design-system</td><td>前者覆盖 10 个技术栈 + 161 调色板，更全</td></tr>
+</tbody>
+</table>
+
+<h3 id="s2a">一个必须注意的「隐性重复」</h3>
+<div class="box ok">
+<div class="t">这两个不是重复，是配合关系——要一起装</div>
+<ul>
+<li><code>codebase-design</code> = <strong>词汇与纪律</strong>（module / interface / depth / seam / adapter / leverage / locality）</li>
+<li><code>improve-codebase-architecture</code> = <strong>执行体检</strong>，且它<strong>明确要求</strong>先调用 <code>codebase-design</code> 拿词汇</li>
+</ul>
+<p>原文：<em>"Call the Skill tool with 'codebase-design' for the architecture vocabulary... <strong>Use these terms exactly in every suggestion, and don't drift into 'component,' 'service,' 'API,' or 'boundary.'</strong>"</em></p>
+</div>
+<div class="box warn">
+<div class="t">同理，这三组也是「互补非重复」</div>
+<ul>
+<li><code>grill-me</code>（对齐需求）↔ <code>grill-with-docs</code>（对齐需求 + 建 GLOSSARY.md/ADR）</li>
+<li><code>frontend-design</code>（创造好看的设计）↔ <code>web-design-guidelines</code>（审查是否符合规范）</li>
+<li><code>impeccable/critique</code>（批评）↔ <code>impeccable/polish</code>（打磨）</li>
+</ul>
+</div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+<h2><span class="n">三</span>你没提到的 12 个高频场景</h2>
+<p>以下场景在 skills.sh 上有<strong>大量官方 skill 支撑</strong>，但普通用户很少想到：</p>
+
+<table>
+<thead><tr><th>#</th><th>场景</th><th>官方证据（厂商 skill 数）</th></tr></thead>
+<tbody>
+<tr><td>①</td><td><strong>云平台运维</strong></td><td><strong>NVIDIA 1,176</strong> / <strong>Microsoft Azure 582</strong> / Cloudflare 138 / AWS 99 / HashiCorp 74 / LaunchDarkly 68 / Pulumi 32</td></tr>
+<tr><td>②</td><td><strong>可观测性与 SRE</strong></td><td>getsentry <strong>302</strong> / posthog <strong>262</strong> / datadog-labs 43 / langfuse 23 / signoz 13 / dash0 4 / axiom 12</td></tr>
+<tr><td>③</td><td><strong>数据管道与 ETL</strong></td><td>dagster-io 53 / dbt-labs 14 / temporalio 7 / tinybirdco 4 / duckdb</td></tr>
+<tr><td>④</td><td><strong>认证 / 支付 / 密钥</strong></td><td>bitwarden 65 / auth0 34 / clerk 31 / coinbase 29 / better-auth 13 / stripe 11</td></tr>
+<tr><td>⑤</td><td><strong>CMS 与电商</strong></td><td>sanity-io 48 / webflow 37 / shopify 37 / medusajs 30 / wix 23 / contentstack 21 / wordpress 18 / contentful 7</td></tr>
+<tr><td>⑥</td><td><strong>移动端原生开发</strong></td><td>flutter 88 / callstackincubator 21 / expo 18 / kotlin 4</td></tr>
+<tr><td>⑦</td><td><strong>前端生态框架</strong></td><td>vercel/ai 131 / facebook/react 14 / nuxt 7 / sveltejs 3 / vercel/turborepo 1 / shadcn/ui 1</td></tr>
+<tr><td>⑧</td><td><strong>语音与音频</strong></td><td>runwayml 32 / deepgram 22 / elevenlabs 12 / livekit 1</td></tr>
+<tr><td>⑨</td><td><strong>可视化 / 3D / 地图</strong></td><td>google-labs-code/stitch-skills 30 / mapbox 24 / tldraw 19</td></tr>
+<tr><td>⑩</td><td><strong>邮件与搜索 API</strong></td><td>brave 26 / tavily-ai 20 / resend 13</td></tr>
+<tr><td>⑪</td><td><strong>AI / ML 工程</strong></td><td>openai 278 / langchain-ai 86 / huggingface 45 / google-gemini 29 / mastra-ai 19 / pytorch 14 / rivet-dev 11</td></tr>
+<tr><td>⑫</td><td><strong>测试与质量门禁</strong></td><td>antithesishq 17（模糊测试）/ coderabbitai 6（AI 代码审查）/ semgrep 6（静态分析）/ currents-dev / microsoft/playwright-cli</td></tr>
+</tbody>
+</table>
+
+<h3>最值得注意的一个：Azure 官方 582 个 skill</h3>
+<p>Microsoft 官方有 <strong>51 个仓库、582 个 skill</strong>，涵盖：compute / kubernetes / rbac / cost / reliability / compliance / quotas / messaging / cloud-migrate / enterprise-infra-planner / hosted-copilot-sdk / upgrade。</p>
+<div class="box">
+<div class="t">为什么值得注意</div>
+<p>这已经不是「技能」，是<strong>完整的云运维知识库</strong>。如果你的团队用 Azure，这批官方 skill 的价值远超任何第三方 skill。</p>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+<h2><span class="n">四</span>4 个值得单独说的 skill</h2>
+
+<h3>4.1 <code>caveman</code> —— 唯一有第三方学术验证的省钱 skill</h3>
+<table>
+<thead><tr><th>来源</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td><strong>Adobe Research</strong>（CAVEWOMAN 论文引用本仓库）</td><td class="ok-b">每模型成本降 1.4-2.4 倍，最高 3 倍</td></tr>
+<tr><td><strong>Elasticsearch Labs</strong></td><td class="ok-b">响应 token 少 63.6%，"Zero information loss"</td></tr>
+<tr><td><strong>JetBrains</strong>（86 个真实编码任务配对 A/B）</td><td class="ok-b">无质量损失（p = 0.82），输出 token 少 8.5%</td></tr>
+</tbody>
+</table>
+<p><strong>六个可独立开关的组件</strong>：Say less（63→20 token）、Read less（<strong>input token 少 33.2%</strong>）、Auto（比 Opus xhigh 便宜 <strong>54%</strong>）、Blocks（397→76 token）、Waste fixes、Browse（页面小 <strong>129.8 倍</strong>）</p>
+<div class="box warn">
+<div class="t">一条重要设计边界</div>
+<p><em>"Adobe: cavemanning <strong>your</strong> prompt makes answers worse, so caveman <strong>never touches your prompt</strong>."</em> —— 它只压缩输出和工具返回，<strong>从不改你的输入</strong>。</p>
+</div>
+
+<h3>4.2 <code>ui-ux-pro-max</code> —— 设计参考的数据量最大</h3>
+<p><strong>50+ 设计风格</strong> · <strong>161 调色板</strong> · <strong>57 字体配对</strong> · <strong>99 UX 指南</strong> · 10 技术栈（React / Next.js / Vue / Svelte / SwiftUI / RN / Flutter / Tailwind / shadcn / HTML）· 25 种图表 · 161 种产品类型模式</p>
+<p>覆盖：网站 / 落地页 / 仪表盘 / 管理后台 / 电商 / SaaS / 作品集 / 博客 / 移动应用，含组件库（按钮、模态、表单、表格、卡片、图表）</p>
+<p><strong>它和 <code>frontend-design</code> 的区别</strong>：<code>frontend-design</code> 教 agent「怎么做出有品味的选择」，<code>ui-ux-pro-max</code> 给 agent「一个可查询的设计数据库」。<strong>两者可共存。</strong></p>
+
+<h3>4.3 <code>just-scrape</code> —— 一个顶五个</h3>
+<table>
+<thead><tr><th>命令</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td><code>search</code></td><td>发现（找 URL）</td></tr>
+<tr><td><code>scrape</code></td><td>抓原始页面（markdown / HTML / 截图 / 链接 / 图片）</td></tr>
+<tr><td><code>extract</code></td><td>AI 结构化 → <strong>JSON（可选 schema 校验）</strong></td></tr>
+<tr><td><code>crawl</code></td><td>批量抓整站章节</td></tr>
+<tr><td><code>monitor</code></td><td>定时变化追踪</td></tr>
+</tbody>
+</table>
+<p><strong>如果你的用途是「从网上拿数据」，这一个就够</strong>，不用再装 firecrawl + tavily + 各种爬虫。</p>
+
+<h3>4.4 <code>impeccable</code> —— 把「设计质量」拆成 6 个可调用动作</h3>
+<table>
+<thead><tr><th>Skill</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td><code>critique</code></td><td>对照 AI 生成设计反模式做 10 维度结构化批评</td></tr>
+<tr><td><code>polish</code></td><td>上线前最终质检：对齐/间距/一致性/交互态/微交互</td></tr>
+<tr><td><code>bolder</code> / <code>quieter</code></td><td>视觉强度调节</td></tr>
+<tr><td><code>delight</code></td><td>增加愉悦感</td></tr>
+<tr><td><code>distill</code></td><td>简化提炼</td></tr>
+</tbody>
+</table>
+<p><strong><code>critique</code> 的 10 个维度</strong>：视觉层级、信息架构、情感共鸣、可发现性、构图、字体、色彩策略、状态处理、微文案、可供性。</p>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+<h2><span class="n">五</span>安全审计：哪些别装</h2>
+<p>实测 50 条审计记录（按安装量排序的前 50）：</p>
+
+<div class="grid">
+  <div class="card gn"><div class="k">Gen Trust Hub</div><div class="v">25 Safe</div><div class="d">3 Med Risk · 22 Pending</div></div>
+  <div class="card gn"><div class="k">Socket</div><div class="v">0 alerts</div><div class="d">已审 28 个 · 22 Pending</div></div>
+  <div class="card yl"><div class="k">Snyk</div><div class="v">19 Low</div><div class="d">8 Med · <span class="no-b">1 High</span> · 22 Pending</div></div>
+  <div class="card rd"><div class="k">高危</div><div class="v">1 个</div><div class="d">design-mobile-apps</div></div>
+</div>
+
+<h3>5.1 有风险的 skill（实测清单）</h3>
+<table>
+<thead><tr><th>Skill</th><th>安装量</th><th class="c">Gen</th><th class="c">Snyk</th><th>判断</th></tr></thead>
+<tbody>
+<tr><td><strong>design-mobile-apps</strong></td><td class="star">799.9K</td><td class="c ok-b">Safe</td><td class="c no-b">🔴 High Risk</td><td><strong>不建议装</strong>。走 sleek.design 付费 API，星数仅 15</td></tr>
+<tr><td>improve-codebase-architecture</td><td class="star">1.1M</td><td class="c warn-b">🟡 Med</td><td class="c warn-b">🟡 Med</td><td>全站第 5，但双中危。纯 Markdown 指令型，风险可能来自「跑 git 命令 + 创建 GitHub issue」</td></tr>
+<tr><td>triage</td><td class="star">938.7K</td><td class="c warn-b">🟡 Med</td><td class="c warn-b">🟡 Med</td><td>双中危。风险可能来自「自动往 issue tracker 发评论」</td></tr>
+<tr><td>hyperframes-animation</td><td class="star">853.1K</td><td class="c warn-b">🟡 Med</td><td class="c ok-b">Low</td><td>中危</td></tr>
+<tr><td>find-skills</td><td class="star">3.8M</td><td class="c ok-b">Safe</td><td class="c warn-b">🟡 Med</td><td>全站第一，Snyk 中危——<strong>因为它会执行 <code>npx skills add</code> 安装任意来源的 skill</strong></td></tr>
+<tr><td>agent-browser</td><td class="star">1.1M</td><td class="c ok-b">Safe</td><td class="c warn-b">🟡 Med</td><td>浏览器自动化天然需要宽权限</td></tr>
+<tr><td>hyperframes-cli / hyperframes / hyperframes-registry</td><td class="star">1.0M / 961.9K / 842.4K</td><td class="c ok-b">Safe</td><td class="c warn-b">🟡 Med</td><td>—</td></tr>
+<tr><td>reddit-automation</td><td class="star">925.5K</td><td class="c ok-b">Safe</td><td class="c warn-b">🟡 Med</td><td>涉及外部平台操作</td></tr>
+</tbody>
+</table>
+
+<h3>5.2 飞书官方 22 个 skill 全部「Pending」</h3>
+<p>实测发现：<code>lark-doc</code>、<code>lark-base</code>、<code>lark-drive</code>、<code>lark-shared</code>、<code>lark-im</code>、<code>lark-calendar</code>、<code>lark-approval</code>、<code>lark-sheets</code>、<code>lark-wiki</code>、<code>lark-contact</code>、<code>lark-task</code>、<code>lark-slides</code>、<code>lark-mail</code>、<code>lark-whiteboard</code>、<code>lark-event</code>、<code>lark-openapi-explorer</code>、<code>lark-attendance</code>、<code>lark-minutes</code>、<code>lark-skill-maker</code>、<code>lark-workflow-meeting-summary</code>、<code>lark-workflow-standup-report</code>、<code>lark-vc</code> —— <strong>全部是 Pending</strong>（未完成审计）。</p>
+<div class="box warn">
+<div class="t">判断</div>
+<p>它们是<strong>飞书官方（larksuite 团队）维护、MIT 开源</strong>，来源可信；但审计未完成，装前建议自己过一遍 SKILL.md。</p>
+</div>
+
+<h3>5.3 一条实用的安全原则</h3>
+<div class="box danger">
+<div class="t">「Med Risk」在 skills.sh 上几乎等同于「这个 skill 会做有副作用的操作」</div>
+<p>纯文本指令型 skill（如 <code>grill-me</code>、<code>tdd</code>）基本都是 Safe/Low Risk；凡是 <strong>Med Risk</strong> 的，通常意味着它会：<strong>执行 shell 命令、调用外部 API、往第三方平台写数据、或安装其他 skill</strong>。</p>
+<p><strong>这不是坏事</strong>——<code>agent-browser</code> 如果装成 Safe 反而说明它没在做它该做的事。<strong>关键是自己知道它要什么权限。</strong></p>
+</div>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+<h2><span class="n">六</span>数据可信度</h2>
+
+<h3>6.1 来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span>一手实测</td><td>skills.sh 176 条榜单 + 8 个 Topics + 102 官方厂商 + 50 条审计记录 + 20+ skill 详情页原始 HTML 解析</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-b">B 级</span>官方原文</td><td>各仓库 README、SKILL.md frontmatter</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-y">C 级</span>厂商自述</td><td>caveman 引用的 Adobe/JetBrains/Elastic 数据（<strong>未独立复核论文</strong>）</td><td class="warn-b">中</td></tr>
+</tbody>
+</table>
+
+<h3>6.2 本轮新增的关键发现（上一轮报告未覆盖）</h3>
+<ol>
+<li><strong>skills.sh 有 8 个 Topics 分类</strong>：React(6) / Next.js(7) / Design &amp; UI(16) / Mobile(6) / Agent workflows(20) / Databases(13) / Testing(5) / Marketing(21)</li>
+<li><strong>有 102 个官方厂商</strong>，合计数千个官方 skill。<strong>NVIDIA 1,176 个、Anthropic 605 个、Microsoft 582 个、GitHub 406 个、Sentry 302 个</strong></li>
+<li><strong>有独立的 Audits 页</strong>，给出 Gen/Socket/Snyk 三家评级（不只是 Pass/Fail，而是 Safe / Low Risk / Med Risk / High Risk / Pending）</li>
+<li><strong>每个 skill 页底部有 "Related skills"</strong>，是发现同用途替代品的最佳入口</li>
+<li><strong>有 Packs 功能</strong>：可把多个 skill 打包成一个安装命令，但 pack 默认不公开</li>
+<li><strong>官方 API 存在但需认证</strong>：<code>https://skills.sh/api/v1/skills</code> 返回 401，需 Vercel OIDC token</li>
+<li><strong>站内搜索是纯客户端渲染</strong>，无法通过 URL 参数抓取</li>
+</ol>
+
+<h3>6.3 明确未核实 / 存疑项</h3>
+<ol>
+<li><strong>「去重」用途未找到专门的 skill。</strong> 在 176 条榜单、8 个 Topics、102 个官方厂商中均未发现以「结果去重 / 来源去重」为核心功能的 skill。<strong>这是本次调研的一个明确缺口。</strong></li>
+<li><strong>各 skill 的实际使用效果</strong>：本轮为<strong>桌面调研 + 数据核验</strong>，未逐个安装运行。</li>
+<li><strong>Audits 页只覆盖 50 条</strong>（按安装量排序的前 50），排名 51-176 的审计状态未收录。</li>
+<li><strong>官方厂商的「skills 数」口径</strong>：页面显示的是该 creator 所有仓库的 skill 总数（如 NVIDIA 48 repos / 1176 skills），<strong>不等于每个都值得装</strong>。</li>
+<li><strong><code>improve-codebase-architecture</code> / <code>triage</code> 的 Med Risk 具体原因</strong>：未深挖，判断依据是 SKILL.md 描述的行为（跑 git 命令、创建 issue、发评论）。</li>
+<li><strong>caveman 引用的 Adobe 论文（arXiv 2606.24083）</strong>：未独立核验。</li>
+</ol>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 数据核验：skills.sh 176 条榜单 + 8 Topics + 102 官方厂商 + 50 条审计 + 20+ skill 详情页 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/use-case-matrix.json</code> · <code>data/topics.json</code> · <code>data/official-creators.json</code> · <code>data/audits.json</code> · <code>data/leaderboard.json</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=btn.getAttribute('data-t');
+    document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    btn.classList.add('on');
+    var el=document.getElementById(t);
+    if(el){el.classList.add('on')}
+  });
+});
+
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.fil').forEach(function(f){
+        if(!f.dataset.done){
+          var w=f.style.width; f.style.width='0';
+          requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=w})});
+          f.dataset.done='1';
+        }
+      });
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.bars').forEach(function(b){obs.observe(b)});
+</script>
+</body>
+</html>

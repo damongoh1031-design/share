@@ -1,0 +1,402 @@
+[
+ {
+  "rank": 1,
+  "skill": "find-skills",
+  "owner": "vercel-labs/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 2,
+  "skill": "grill-me",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 3,
+  "skill": "grill-with-docs",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 4,
+  "skill": "agent-browser",
+  "owner": "vercel-labs/agent-browser",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 5,
+  "skill": "improve-codebase-architecture",
+  "owner": "mattpocock/skills",
+  "gen": "Med Risk",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 6,
+  "skill": "tdd",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 7,
+  "skill": "hyperframes-cli",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 8,
+  "skill": "setup-matt-pocock-skills",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 9,
+  "skill": "frontend-design",
+  "owner": "anthropics/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 10,
+  "skill": "handoff",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 11,
+  "skill": "hyperframes",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 12,
+  "skill": "triage",
+  "owner": "mattpocock/skills",
+  "gen": "Med Risk",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 13,
+  "skill": "prototype",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 14,
+  "skill": "reddit-automation",
+  "owner": "flowkit-labs/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 15,
+  "skill": "grilling",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 16,
+  "skill": "media-use",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Safe",
+  "socket": "2 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 17,
+  "skill": "hyperframes-animation",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Med Risk",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 18,
+  "skill": "hyperframes-registry",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Med Risk"
+ },
+ {
+  "rank": 19,
+  "skill": "domain-modeling",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 20,
+  "skill": "teach",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 21,
+  "skill": "hyperframes-core",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 22,
+  "skill": "design-mobile-apps",
+  "owner": "designed-by-ai/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "High Risk"
+ },
+ {
+  "rank": 23,
+  "skill": "vercel-react-best-practices",
+  "owner": "vercel-labs/agent-skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 24,
+  "skill": "codebase-design",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 25,
+  "skill": "diagnosing-bugs",
+  "owner": "mattpocock/skills",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 26,
+  "skill": "hyperframes-creative",
+  "owner": "heygen-com/hyperframes",
+  "gen": "Safe",
+  "socket": "0 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 27,
+  "skill": "lark-doc",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 28,
+  "skill": "lark-base",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 29,
+  "skill": "lark-drive",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 30,
+  "skill": "lark-shared",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 31,
+  "skill": "lark-im",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 32,
+  "skill": "lark-calendar",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 33,
+  "skill": "lark-approval",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 34,
+  "skill": "lark-sheets",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 35,
+  "skill": "lark-wiki",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 36,
+  "skill": "lark-contact",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 37,
+  "skill": "lark-task",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 38,
+  "skill": "lark-slides",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 39,
+  "skill": "lark-mail",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 40,
+  "skill": "lark-whiteboard",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 41,
+  "skill": "lark-event",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 42,
+  "skill": "lark-openapi-explorer",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 43,
+  "skill": "lark-attendance",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 44,
+  "skill": "lark-minutes",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 45,
+  "skill": "lark-skill-maker",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 46,
+  "skill": "lark-workflow-meeting-summary",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 47,
+  "skill": "lark-workflow-standup-report",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 48,
+  "skill": "lark-vc",
+  "owner": "open.feishu.cn",
+  "gen": "Pending",
+  "socket": "Pending",
+  "snyk": "Pending"
+ },
+ {
+  "rank": 49,
+  "skill": "ai-video-generation",
+  "owner": "101-skills/superpowers",
+  "gen": "Safe",
+  "socket": "1 alerts",
+  "snyk": "Low Risk"
+ },
+ {
+  "rank": 50,
+  "skill": "ai-image-generation",
+  "owner": "101-skills/superpowers",
+  "gen": "Safe",
+  "socket": "1 alerts",
+  "snyk": "Low Risk"
+ }
+]
