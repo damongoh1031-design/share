@@ -1,0 +1,69 @@
+{
+  "packed_at": "2026-10-14",
+  "source": "C:/Users/Admin/.workbuddy-ai",
+  "type": "experts-and-agents",
+  "expert_packages": {
+    "marketplace_experts": 5,
+    "custom_my_experts": 1,
+    "total_agents": 26,
+    "packages": [
+      {
+        "name": "deep-research",
+        "version": "1.0.0",
+        "market": "experts",
+        "agents": 1,
+        "installed": "2026-09-24",
+        "skills": 1
+      },
+      {
+        "name": "gpt-researcher-team",
+        "version": "2.0.0",
+        "market": "experts",
+        "agents": 7,
+        "installed": "2026-09-24",
+        "note": "7-agent expert team (planner/topic-researcher/chief-editor/writer/reviewer/reviser/publisher)",
+        "skills": 0
+      },
+      {
+        "name": "operations-customer-experts",
+        "version": "1.0.0",
+        "market": "experts",
+        "agents": 5,
+        "installed": "2026-10-12",
+        "skills": 8
+      },
+      {
+        "name": "education-training-experts",
+        "version": "1.0.0",
+        "market": "experts",
+        "agents": 4,
+        "installed": "2026-10-12",
+        "skills": 5
+      },
+      {
+        "name": "quality-testing-experts",
+        "version": "1.0.0",
+        "market": "experts",
+        "agents": 8,
+        "installed": "2026-10-13",
+        "skills": 4
+      },
+      {
+        "name": "rimworld-mod-guardian",
+        "version": "1.0.0",
+        "market": "my-experts",
+        "agents": 1,
+        "installed": "2026-10-06",
+        "note": "custom, no marketplace copy",
+        "skills": 0
+      }
+    ]
+  },
+  "files": 679,
+  "size_uncompressed": "14M",
+  "excluded": [
+    ".in_use/<pid> runtime markers"
+  ],
+  "secret_scan": "clean (2026-10-14, only doc placeholders found)",
+  "push_safe": true
+}
