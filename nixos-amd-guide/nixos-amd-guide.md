@@ -8,8 +8,9 @@
 | 下一版本 | NixOS 26.11「Zokor」（2026 年 11 月底） |
 | 硬件画像 | **AMD 显卡 + AMD CPU + Realtek 有线网卡**（无 NVIDIA、无无线） |
 | 用户画像 | 中文用户 · GNOME 或 KDE · Flatpak · Steam · Vibe Coding |
-| 文档版本 | 2.2 |
-| 核实日期 | 2026-10-14（**第十一轮：补全 mcp-nixos 的完整能力面 —— home-manager 侧核实（第十轮完全没查）· 数据源辨析（search.nixos.org vs NixHub.io 两套后端）· `cache`/`browse`/其余 9 个 source 实测；新增第三十九章，并就地修正 §6.5、补充 §11.3 / §19.6 / §22.2 / §38.7 / §29 unit 表共 6 处**，见附录 B.19） |
+| 文档版本 | 2.3 |
+| 核实日期 | 2026-10-14（**第十二轮：Discord 与 Reddit 社区信号 —— 官方 Discord API 一手数据（20,092 成员 / 3,695 在线 / 7 个公开频道）· 9 组 Reddit 定向搜索（225 帖，含 r/NixOS 与 r/linux_gaming）· Reddit 抓取方法学（curl 全封 → 无头浏览器）与口径边界；新增第四十章，并就地修正 §8.1、补充 §11.3 / §17.2 / §24.6 / §30.5 / §32.6 / §36 共 6 处，把「只滚 mesa」风险从 `[未核实]` 升级为 `[社区实证]`**，见附录 B.20） |
+| 上一轮 | 2026-10-14（第十一轮：mcp-nixos 完整能力面 —— 见附录 B.19） |
 | 姊妹文档 | `nixos-ops-guide.md`（通用深度手册，含完整理论推导） |
 
 ---
@@ -62,7 +63,8 @@
 | **三十七** | **NixOS 26.05 破坏性变更与新增特性总表**（官方 release notes 逐条） | **★ 升级前必查 16 项** / **`fsType` 不再有默认值（官方手册正文已过时）** / **Stage 1 默认改为 systemd** / **Switch inhibitors** / `profiles/hardened` 移除 / `wineWowPackages` 改名（游戏必读） / 网络与桌面变更 / **26.05 变更速查表** |
 | **三十八** | **mcp-nixos 交叉核实：26.05 版本与选项实测对照表** | **★ 用实时索引反向核对前 37 章** / **26.05 vs 25.11 选项默认值实测对照** / **内核包实测（`linux_7_0`/`linux_7_1` 消失的实物证据）** / **★ 修正 3 处** / **★★ `NOT_FOUND` ≠ 不存在（四类假阴性）** |
 | **三十九** | **mcp-nixos 的完整能力面：home-manager 侧核实 · 数据源辨析 · 二进制缓存查询** | **★★ 11 个 source × 8 个 action（第十轮只用 1 个和 4 个）** / **★★★ 内部有两套后端（search.nixos.org vs NixHub.io），会对同一个包给出不同版本号** / **★ HM 侧索引三特性（无默认值 / 描述截断 / 忽略 channel）** / **★ HM 侧 25 条选项逐条实测** / **★★ `action=cache`：查「这包在不在缓存」** / **★★ HM 内建 `services.home-manager.autoUpgrade` / `autoExpire`（补 §11.3 / §19.6 的缺口）** / **`browse` + `Similar:` 发现未知选项** / **假阴性第⑤⑥类** |
-| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes · B.18 mcp-nixos 交叉核实 · B.19 mcp-nixos 完整能力面**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
+| **四十** | **Discord 与 Reddit 社区信号：官方求助渠道 · 社区实测案例 · 数据口径与陷阱** | **★★ Discord 一手 API（20,092 成员 / 3,695 在线 / 7 个公开频道 / `Mentoring Group` + `Mentoring 1-1` 公开的结构性含义）** / **★★★ Reddit 抓取方法学（curl 全封 → 无头浏览器；限流形态是「200 + 39 字节空 body」而不是 429）** / **★★ 口径边界（RSS 无 score/comment → 不能做热度排序）** / **★★★ 23 条高价值帖逐条解读** / **★ 把「只滚 mesa」从 `[未核实]` 升级为 `[社区实证]`** / **★ ESP 三引导器行为差异 + 免安装救援命令** / **★ LLM 辅助写 flake 的 5 个真实案例（含 1 个 LLM 说错的实例）** |
+| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes · B.18 mcp-nixos 交叉核实 · B.19 mcp-nixos 完整能力面 · B.20 Discord 与 Reddit 社区信号**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
 
 > [!TIP]
 > **时间估算**：全新安装 + 跑通本文全部配置，**约 3–4 小时**（含下载时间）。其中装机约 40 分钟，配置与调试约 2–3 小时。
@@ -270,7 +272,7 @@
 | 27–32 | Test 驱动开发 / 安装器测试 | — | ➖ 贡献向 |
 | 33+ | Modular Services / Portability / Migration | — | ➖ 贡献向 |
 
-### 导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章 + 第十一轮 1 章）
+### 导航 6 · 缺口汇总（第八轮 10 章 + 第九轮 2 章 + 第十轮 1 章 + 第十一轮 1 章 + 第十二轮 1 章）
 
 | 新章节 | 对应官方 Part | 补的是什么 | 对你为什么有用 |
 |---|---|---|---|
@@ -288,6 +290,7 @@
 | **三十七** | **release notes 26.05** | 破坏性变更与新增特性总表 | **升级前逐条检查单**；解释「老教程为什么失效」 |
 | **三十八** | **mcp-nixos（实时索引）** | 26.05 版本与选项实测对照 | **反向核对前 37 章的结论**；**`NOT_FOUND` ≠ 不存在** |
 | **三十九** | **mcp-nixos（完整能力面）** | HM 侧核实 / 两套后端辨析 / `cache` 缓存查询 | **查「这包在不在缓存、装它要多久」**；**查 HM 侧选项**；**发现未知选项**；**搞清楚工具什么时候会骗你** |
+| **四十** | **Discord 与 Reddit（社区信号）** | 官方 Discord API / Reddit 抓取方法学 / 23 条高价值帖 / 口径边界 | **遇到问题去哪问**（Discord 的 `Mentoring` 频道）；**别人踩过什么坑**；**怎么自己抓社区数据**；**引用社区帖的纪律** |
 
 > [!TIP]
 > **阅读建议**：
@@ -298,6 +301,7 @@
 > - **升级 / 别人教程不管用时** → 先读 **三十七**（26.05 变更总表）
 > - **想自己核实某个包/选项存不存在** → 读 **三十八**（mcp-nixos 用法 + 四类假阴性）
 > - **想知道「这个包装起来要多久」「HM 选项怎么写」** → 读 **三十九**（`cache` 查缓存 + HM 侧核实 + 两套后端辨析）
+> - **卡住了想找人问 / 想知道别人踩过什么坑** → 读 **四十**（Discord 官方频道结构 + Reddit 高价值帖 + 抓取方法学）
 
 ---
 
@@ -1542,6 +1546,10 @@ flatpak uninstall --unused
     dedicatedServer.openFirewall = true;   # 自建服务器所需端口
     gamescopeSession.enable = true;        # 提供 gamescope 会话（见 §8.4）
     extraCompatPackages = with pkgs; [ proton-ge-bin ];   # 声明式安装 GE-Proton
+
+    # ★ 2026 款 Steam 手柄需要（第四十章新增）：Steam 客户端用 hidapi 检查手柄固件，
+    #   而 NixOS 默认不装 hidapi → 固件更新每次失败
+    extraPackages = with pkgs; [ hidapi ];
   };
 
   # 性能工具
@@ -1571,6 +1579,21 @@ flatpak uninstall --unused
 
 > [!NOTE]
 > **AMD 用户不需要装任何专有驱动，也不需要 `allowUnfree`（为显卡）。** 这是 AMD 相对 NVIDIA 的显著优势 —— NVIDIA 用户必须 `allowUnfree = true` 才能装驱动，AMD 用户只在需要某些非自由软件（如 Steam 本身的部分组件、特定游戏）时才需要。
+
+> [!TIP]
+> **`extraPackages` 这一行是第四十章新增的（社区实证，2026-05-18）。**
+>
+> **症状**：用 **2026 款 Steam 手柄**时，Steam 每次开机/插线/启动客户端都会尝试检查手柄固件更新，**每次都失败**。
+>
+> **根因**：Steam 客户端用 **`hidapi`** 做这个通信，而 **NixOS 默认不装 `hidapi`**（它不在 Steam 的 FHS 环境里）。
+>
+> **修法**：`programs.steam.extraPackages = [ pkgs.hidapi ];`
+>
+> **⚠️ 两个细节**：
+> 1. **用 `extraPackages` 而不是 `environment.systemPackages`** —— `extraPackages` 只把包注入 **Steam 自己的 FHS 环境**（`programs.steam.nix` 的 `extraPackages` 语义），**不污染全局**。这与 `extraCompatPackages`（同样是只给 Steam 用）是同一个模式。
+> 2. **原帖作者补充说 Steam 客户端的 beta 版已修复此问题** —— 所以这是一个**有保质期的坑**。26.05 稳定版 Steam 若尚未合并该修复，就仍需要这一行。
+>
+> 出处：[Reddit `1th46tr`](https://www.reddit.com/r/NixOS/comments/1th46tr/steam_controller_2026_public_service_announcement/)（2026-05-18，u/Cyb0lic）`[社区]`；详见 §40.8.1
 
 > 出处：`nixos/modules/programs/steam.nix` `[核实·源码]`；[NixOS Wiki · Steam](https://wiki.nixos.org/wiki/Steam) `[Wiki]`
 
@@ -2553,6 +2576,28 @@ services.home-manager.autoExpire = {
 
 > [!DANGER]
 > **⚠️ 不要同时让系统层与用户层都「自动 switch」。** 两者会各自触发一次 rebuild，而用户层可能先跑、拿到旧的 `pkgs`（尤其在 `home-manager.useGlobalPkgs = true` 时）。**安全组合：系统层负责 upgrade，用户层只负责 expire。**
+
+#### 层次 6：让「该更新了」这件事可见（GUI 提醒，第四十章新增）`[社区]`
+
+**上面五个层次解决的都是「怎么自动更新」，但解决不了「忘了更新」。** 那是 UI / 提醒问题。
+
+Reddit `1x2h00h`（2026-10-10，u/Emergency_Bridge_581）介绍了一个工具 **Nixdatifier** —— 作者自述是 **CachyOS 的 `apdatifier` 在 NixOS 上的对应物**：
+
+> *"I loved `apdatifier` when I used **CachyOS** and I missed it in NixOS… So I created this project which **sits in the tray**. And it tells me when **a flake input is outdated**, and shows **what an update would change before running it**. It has **generation timelines, package diffs between generations, flake update checks with dry-run previews**…"*
+
+| 它的功能 | 对应本指南哪一节 |
+|---|---|
+| flake input 过期提醒 | §11.3（`nix flake update` 策略） |
+| **generation 时间线 + 包 diff** | §30.4（GC）/ §33（切换机制） |
+| **flake update 的 dry-run 预览** | **§0.3 铁律 3（先 `dry-build` 再 `switch`）的 GUI 化** |
+
+> [!WARNING]
+> **三点注意**：
+> 1. **它是第三方项目**，2026-10-10 发布（本指南核实日期的 4 天前）—— **成熟度、是否进 nixpkgs、是否支持 GNOME（作者说 "started it on KDE"）本指南均未核实**。
+> 2. **它是「给人看的提醒」，不是「自动更新」** —— 与本节的层次 1–5 **不冲突**，但**不要用它替代 `dry-build` 的习惯**。
+> 3. **它是 CachyOS 生态工具的移植** —— 与本指南第十八章（不加外部仓库逼近 CachyOS）是**同一条线**上的新东西。
+
+详见 §40.8.21。
 
 **另外两个必踩的坑**：
 
@@ -5284,6 +5329,65 @@ networking.firewall = {
 > **最诚实的总结：NixOS 让你「更不容易被持久化」，但不会让你「更不容易被钓鱼」。**
 >
 > 它解决的是**系统完整性**问题，不是**人的判断力**问题。你的最大风险面依然是：浏览器、你运行的脚本、你装的包、你点的链接。
+
+#### 17.2.5 ★ 一个必须精确回答的问题：回滚 generation 能清掉病毒吗？（第四十章新增）
+
+Reddit `1u3rqfw`（2026-06-12，u/Past-Combination6262）在 **AUR 上 400+ 个包被植入恶意软件** 的事件后问了两个问题：
+
+> *"Recently, a bunch of AUR packages (400+) were compromised and installed malware; **how common are these incidents with nixpkgs**? … And another question: **if a virus installed or set itself up as some sort of persistent systemd service, would rolling back to a previous version remove the virus?**"*
+
+> [!DANGER]
+> **答案分两半，而且第二半是很多人会答错的。**
+>
+> **① 回滚 generation 会移除「由 Nix 管理的部分」** ✅
+> - 系统级服务定义（`systemd.services.*`）**回到旧 generation**
+> - 旧 generation 里那个被投毒的 store path **不再是「当前」的**
+> - **⚠️ 但**：**store 里的路径不会立即删除** —— 要等 GC（`nix-collect-garbage -d`）才真正消失。**在 GC 之前，那个恶意二进制还在磁盘上**（只是不再被引用）。
+>
+> **② 回滚 ❌ 不会清理「不受 Nix 管理的持久状态」** —— **这是关键**
+>
+> 这正是本指南 **§30.1「哪些状态必须持久化」** 那张清单。恶意软件只要往这些地方写，回滚就清不掉：
+>
+> | 位置 | 例子 | 回滚能清吗 |
+> |---|---|---|
+> | `/var/lib/*` | 数据库、应用状态、**systemd 服务的运行时数据** | ❌ |
+> | `/home/*` | `~/.config/autostart/*`、`~/.bashrc`、**systemd user 服务**（`~/.config/systemd/user/`） | ❌ |
+> | `/etc` 里**由 activation script 写入但不在 store 里**的文件 | 部分软件首次运行生成的配置 | ❌ |
+> | cron / systemd timer **写入的持久任务** | `systemctl --user list-timers` 里多出来的项 | ❌ |
+> | `/nix/store`（旧 generation 的路径） | 恶意二进制本体 | ⚠️ **要 GC 才真正删** |
+>
+> **结论**：**回滚是「止血」，不是「消毒」。**
+>
+> 正确处置顺序（本指南整合）：
+> ```bash
+> # 1. 先断网（防止外联/二次下载）
+> nmcli networking off
+> # 2. 回滚系统（止血）
+> sudo nixos-rebuild --rollback switch
+> # 3. ★ 检查「不受 Nix 管理」的持久化点（这一步最关键）
+> systemctl --user list-units --type=service --state=running
+> systemctl --user list-timers --all
+> ls -la ~/.config/autostart/ ~/.config/systemd/user/
+> grep -rIl "curl\|wget\|base64 -d" ~/.bashrc ~/.profile ~/.config/autostart/ 2>/dev/null
+> # 4. 彻底清理 store（旧 generation 里的恶意二进制）
+> sudo nix-collect-garbage -d
+> # 5. 如果被 root 权限执行过 → 唯一可靠的处置是重装
+> ```
+>
+> **③ 关于第一个问题「nixpkgs 上这类事件有多常见」**
+>
+> **本指南不做统计结论**（没有数据支撑）。但可以给出**结构性差异**：
+>
+> | 维度 | AUR | nixpkgs |
+> |---|---|---|
+> | 提交门槛 | **任何人可提交 PKGBUILD** | **需要被 nixpkgs 维护者 review 并合并** |
+> | 构建方式 | **在你机器上执行 `build()` 脚本**（可任意代码） | **在沙箱里构建**（`sandbox = true` 默认） |
+> | 是否可复现 | 否 | **内容寻址 + 可复现构建（部分）** |
+> | 二进制来源 | 你自己编译 | **官方签名缓存**（`cache.nixos.org`，密钥固定，见 §30.10） |
+>
+> **所以 nixpkgs 的结构性风险更低** —— 但**不是零**：如果你**自己写 derivation 并 `nix-build`**，或者**用了不受信任的第三方 flake**，风险等级就和 AUR 类似。
+>
+> **⚠️ 一个补充**：本指南**未核实**该 AUR 事件的具体细节（规模、时间、影响范围）。上面引用的「400+」是**帖子作者的说法** `[社区]`。
 
 ---
 
@@ -8914,6 +9018,30 @@ _module.args.pkgsPath = lib.mkDefault (
 >
 > **这正是 Aeon 的设计意图**（*"every extra package in the host incurs extra risk of instability"*），只是 NixOS 把「隔离」做得更彻底 —— **Aeon 靠容器隔离，NixOS 靠 store 路径隔离。**
 
+> [!DANGER]
+> **⚠️ 第四十章重要更新：路 C 的「mesa 单独滚」有社区实证的失败案例。**
+>
+> **Reddit `1wuvnh2`（2026-10-01，u/Stunning-Mix492）** —— 一个用户的**配置与本指南路 C 完全同构**：
+> - 基座：**26.05 stable** + **flakes**
+> - 桌面：**GNOME**
+> - 症状：*"After boot splash, **I'm stuck on a blinking cursor, GDM does not launch**"*
+> - 他最后的结论（原文）：***"Solved: do not use unstable mesa on stable release :)"***
+>
+> **这条把本指南 §32.6「ICD 混版本静默失败」从 `[未核实]` 升级为 `[社区实证]`。**
+>
+> **⚠️ 但要注意边界**：**这条实证反对的是「只滚 mesa」，不是「路 C 整体」**。路 C 的其余部分（**Flatpak 应用层 + HM 应用层**）不受影响。
+>
+> **修正后的路 C 建议（本指南采纳）**：
+>
+> | 组件 | 第四十章前的建议 | **修正后** |
+> |---|---|---|
+> | 基座 | 26.05 stable | 不变 |
+> | **mesa** | 可单独滚 | **❌ 不要单独滚** —— 要么整套图形栈同源升（内核 + mesa + libdrm），要么就用 26.05 的 mesa |
+> | 内核 | 可单独滚（`linuxPackages_latest`） | ⚠️ 内核可单独升，**但升内核时 mesa 若不同源，风险同 §32.6** |
+> | 应用层（Flatpak / HM） | 追新 | **不变** —— 这层是路 C 真正的价值所在 |
+>
+> 详见 §40.8.4（含诊断命令 `journalctl -b -1`）与 §40.8.23（为什么社区**想**滚 mesa：RDNA4 上 mesa-git 最高 +41%）。
+
 ### 24.7 更新与回滚：Aeon 的两条机制在 NixOS 上的对应
 
 | Aeon 机制 | NixOS 对应 | 配置/命令 |
@@ -12074,6 +12202,50 @@ bootctl list                              # 列出所有启动项
 sudo bootctl cleanup                      # 清理无主文件
 ```
 
+#### 三种引导器的行为差异（第四十章新增）`[社区]`
+
+> [!IMPORTANT]
+> **上面讲的「`configurationLimit` + 重新 rebuild」是通用做法。但三种引导器在「内核和 initrd 放哪」上行为不同，这决定了清理的难度。**
+>
+> 出处：Reddit `1wofaax`（2026-09-23，u/Lonely-Scarcity-3387）`[社区]`，见 §40.8.19。
+
+| 引导器 | 内核 / initrd 放在哪 | 清理难度 | 关键点 |
+|---|---|---|---|
+| **GRUB** | **取决于挂载点** —— ESP 挂在 **`/boot/efi`** 时，内核/initrd **留在根文件系统**；挂在 `/boot` 时才进 ESP | **最容易** | 原帖：*"GRUB is the easiest to keep clean, **but only if you set it up that way**"* |
+| **systemd-boot** | **必须全在 ESP 上** | 中 | **它无法从根分区读取** —— 所以内核和 initrd 只能放 ESP（本指南 §27 已从「加密 `/boot` 不可行」的角度讲过同一件事） |
+| **Limine** | 在 ESP 上 | **最差** | **`maxGenerations` 默认无限制**，且安装器**先复制后删除** |
+
+> [!DANGER]
+> **核心机制：`configurationLimit` 有一个「时机漏洞」。**
+>
+> 它**只在 ESP 还没满时有效**。**一旦满了就是死循环（catch-22）**：
+> - rebuild 要**先复制**新内核/initrd 到 ESP，**才能删**旧的
+> - ESP 满了 → 复制失败 → rebuild 失败 → **永远删不掉旧的**
+>
+> 原帖原文：*"Once it's full, you hit a catch-22 because **the rebuild has to copy new files before it can delete old ones**."*
+>
+> **Limine 尤其危险**（`maxGenerations` 默认无限制）—— 原帖：*"You need to rebuild to make space, but you need space to rebuild."*
+
+**★ 已经满了怎么办：一个免安装的救援工具**
+
+```bash
+# 即使 ESP 100% 满，也能跑（不需要预先安装）
+nix run --extra-experimental-features "nix-command flakes" \
+  github:DanielTallon/nix-packages#boot-gardener
+```
+
+它显示：**每个 generation 的内核与版本、是否还在 bootloader 里、ESP 用了多少、当前启动的是哪个**（Limine 用户还能 pin 住某个 generation 防止被自动清理）。
+
+> [!WARNING]
+> **两条提醒：**
+> 1. 这是**第三方工具**（作者自述在 Limine / GRUB / systemd-boot 三种上都测过），**本指南未独立验证**。它降低的是「手删 ESP 文件时删错」的风险 —— **手删仍然是通用兜底**（步骤见上）。
+> 2. **`nix run` 走的是 `github:` 直接拉取** —— 需要网络，且**第一次会下载整个仓库的求值**。ESP 满通常不影响网络，所以可用。
+
+> [!TIP]
+> **一条装机阶段就能做的预防优化**：原帖指出 —— **把 ESP 挂在 `/boot/efi` 而不是 `/boot`（配合 GRUB）时，内核和 initrd 留在根文件系统上**，ESP 只放引导器。
+>
+> **本指南 §2 装机 / §27 分区时没有提这个选项** —— 如果你**还没装机**且打算用 GRUB，这是一个值得考虑的布局。**⚠️ 代价**：`/boot/efi` 方案下，**GRUB 需要能读根文件系统**（所以根分区不能是 GRUB 不认识的格式，且**根分区加密时要额外配 `boot.loader.grub.enableCryptodisk`**）。**systemd-boot 用户不适用这条**（它读不了根分区）。
+
 ### 30.6 启动问题：内核参数全集（官方 `sec-boot-problems`）
 
 **官方开场（原文）**：
@@ -13101,6 +13273,39 @@ strings /run/opengl-driver/lib/libvulkan.so.1 2>/dev/null | grep -i glibc
 > **「`ldd` 对比 glibc」这一招能直接看出官方说的那个问题。**
 >
 > 如果 loader 和 runtime 链接的 `libc.so.6` **路径不同**（一个在 stable 的 store path，一个在 unstable 的 store path）→ **就是官方警告的那个场景**。
+
+> [!DANGER]
+> **★★ 第四十章更新：这个「静默失败」有社区实证了（2026-10-01）。**
+>
+> **Reddit `1wuvnh2`（u/Stunning-Mix492）** —— 配置是 **26.05 stable + flakes + GNOME**，某次更新后：
+> - 症状：*"After boot splash, **I'm stuck on a blinking cursor, GDM does not launch**"*
+> - 可切换到 tty、可回滚到上一个 generation
+> - 用户的诊断过程：*"**I don't know how to investigate the problem.** I think it may be related to the last systemd update."*（**他猜错了方向**）
+> - 最终结论（原文）：***"Solved: do not use unstable mesa on stable release :)"***
+>
+> **为什么这条值得单独强调**：
+>
+> | 本指南原来的说法 | 这条实证补充了什么 |
+> |---|---|
+> | 官方说 *"the loader will generally be quiet about such issues"* | **社区实证：症状表现为「GDM 不启动、卡在闪烁光标」** —— 这比「驱动静默失败」更好识别 |
+> | 本指南建议「一起滚同源」 | **实证了「不这么做的后果」** —— 而且**用户最初误判为 systemd 问题** |
+> | 附录 C 把「只滚 mesa 的长期风险」列为 `[未核实]` | **现在升级为 `[社区实证]`** |
+>
+> **★ 正确诊断动作（这是本指南该补的）**：
+>
+> ```bash
+> # 关键：崩溃后重启进来，当前 boot 的日志是干净的 —— 必须看「上一次启动」
+> journalctl -b -1 -p err --no-pager | head -50
+> journalctl -b -1 -u gdm --no-pager | tail -50
+> journalctl -b -1 -k --no-pager | grep -iE "amdgpu|drm|mesa|vulkan|dlopen"
+> # 确认是不是 ICD 混版本（本节的判据）
+> ls -l /run/opengl-driver/share/vulkan/icd.d/
+> ldd $(readlink -f $(which vulkaninfo)) | grep libc
+> ```
+>
+> **`-b -1` 是本节最该记住的参数** —— 用户之所以「不知道从哪查」，就是因为默认的 `journalctl` 看的是**当前（正常）启动**。
+>
+> 详见 §40.8.4。
 
 ### 32.7 AMD 完整验证清单（本指南整合）
 
@@ -16595,6 +16800,31 @@ $ nix-shell
 >
 > **本章你至少要记住一条**：**`import <nixpkgs> {}` 不是可复现的** —— 官方原话是「不纯地读文件系统」。
 
+### 36.14 ★★ 「黑话对照表」：文档里那些你没见过的词，其实你现在都不需要（第四十章新增）
+
+Reddit `1uhwn3m`（2026-06-28，u/yoftahe1）精确描述了这个痛点：
+
+> *"I tried to read the nix docs… for context I'm complete beginner to nix and the only thing I know is defining `flake.nix` and running `nix develop`… but when I try to check people in communities they always talk about concepts that are strange to me. like **what is `darwin.nix`, `cellPackages`**… and for this I tried to read the docs and it is like **'if you are a beginner, get off!'**"*
+
+> [!IMPORTANT]
+> **本指南的立场：这些词你不认识，不代表你落后。** 它们属于**「多主机 / 多架构 / 大型配置」**场景。**单机用户用 `configuration.nix` + 可选 flake 就够了**（§19 的裁决表就是这个结论）。
+>
+> | 黑话 | 是什么 | 你的画像需要吗 |
+> |---|---|---|
+> | **`darwin.nix`** / `nix-darwin` | 用于**在 macOS 上**管理系统配置的一套模块 | ❌ **不需要** —— 你是 NixOS（Linux），不是 macOS |
+> | **`cellPackages`** | **`flake-parts`** 生态里用「cell」组织多主机/多架构输出的概念 | ❌ **不需要** —— 单机不需要多输出组织 |
+> | `flake-parts` | 把 `flake.nix` 拆成模块的框架 | ⚠️ **入门不需要**；配置大到几十个文件时才考虑 |
+> | `dendritic` / `den` | flake 组织的**进阶模式**（「树状」/「den」框架） | ⚠️ **入门不需要**（§40.8.13 那位用 Claude 建栈的用户用了，但那是**进阶**） |
+> | `devenv` | 另一种 devShell 管理工具（第三方） | ⚠️ 可选，本指南 §15 用的是原生 `mkShell` + direnv |
+> | `nixvim` / `nvf` | **用 Nix 配置 Neovim** 的框架 | ⚠️ 可选（本指南 §15 有基础 `neovim` 配置） |
+> | `home-manager` | 用户级配置管理 | ✅ **需要** —— 本指南第十九章专讲 |
+> | `flake` | 依赖锁定 + 多输入 | ✅ **看情况** —— 见 §19 裁决表 |
+> | `npins` / `system.nix` | 不用 flake 的 pin 方案 | ✅ **可选** —— 见 §36.3 / §36.4 |
+>
+> **一句话**：**遇到不认识的词，先问「它解决的是不是我的问题」。** 大多数 Nix 生态的黑话来自**大规模多机部署**场景（NixOS 在企业/云上用得很多），**单机桌面用户可以直接跳过**。
+>
+> 出处：Reddit `1uhwn3m`（2026-06-28）`[社区]`；详见 §40.8.18
+
 ---
 
 ## 三十七、NixOS 26.05 破坏性变更与新增特性总表（官方 release notes 逐条）
@@ -18593,6 +18823,1787 @@ C:/Users/Admin/.workbuddy-ai/binaries/python/versions/3.13.12/python.exe \
 > 4. **`cache` action 是回答「这个包为什么装得慢」的最直接工具**；**`browse` + `Similar:` 是发现未知选项的最直接工具**。
 
 
+## 四十、Discord 与 Reddit 社区信号：官方求助渠道 · 社区实测案例 · 数据口径与陷阱
+
+> [!NOTE]
+> **本章的数据来源与口径，先讲清楚，否则后面每一条数字都会被误读。**
+>
+> | 数据源 | 抓取方式 | 一手/二手 | 口径 |
+> |---|---|---|---|
+> | **Discord** | 官方公开 API（`discord.com/api/v10/invites/...`、`.../widget.json`） | **一手** | 是 Discord 官方返回的实时数字，**有权威性** |
+> | **Reddit 列表** | 本机无头浏览器抓 `search.rss` / `top/.rss` | **一手**（帖子原文），但**口径受限** | **只有标题 + 链接 + 极短 excerpt**，**没有点赞数 / 评论数** |
+> | **Reddit 正文** | 同上，RSS 的 `<content>` 字段 | **一手** | 只有**首帖正文的开头**，不是完整正文，也**不是评论区** |
+>
+> **★ 最重要的一句口径声明**：**本轮的 Reddit 数据不能用来做「热度排序」或「哪个话题讨论最多」的结论。** 因为列表类 RSS 不返回 `score` / `comment-count`。任何「r/NixOS 上最热的是 X」这种说法，本轮数据**支撑不了**。
+>
+> 出处：本机实测（2026-10-14）`[实测]`；Discord 官方 API 响应体 `[官方]`
+
+---
+
+### 40.1 ★★ Discord 官方社区：规模、结构、怎么用
+
+NixOS 官方在 <https://nixos.org/community/> 页面公布的 Discord 邀请链接是：
+
+```
+https://discord.gg/BqdJJFER4H
+```
+
+**这个邀请码可以直接用官方 API 查询，不需要登录、不需要 bot token：**
+
+```bash
+curl -s "https://discord.com/api/v10/invites/BqdJJFER4H?with_counts=true&with_expiration=true"
+```
+
+**实测返回（2026-10-14）** `[实测]`：
+
+| 字段 | 值 | 含义 |
+|---|---|---|
+| `code` | `BqdJJFER4H` | 邀请码 |
+| `guild_id` | `568306982717751326` | 服务器 ID（后面所有 API 都用它） |
+| `guild.name` | **`Nix/NixOS (unofficial)`** | 注意括号里的 **unofficial** |
+| `guild.description` | *"Unofficial Discord for the NixOS ecosystem. https://nixos.org/"* | 官方页面上挂它，但它自称非官方 |
+| `approximate_member_count` | **20,092** | 总成员数（近似值） |
+| `approximate_presence_count` | **3,695** | 当前在线（近似值） |
+| `guild.verification_level` | `2` | 需要**已验证邮箱**才能发言 |
+| `guild.premium_tier` | `2` | 服务器加成等级 2（不是最高） |
+| `guild.premium_subscription_count` | `13` | 只有 13 个 boost —— **规模很大但 boost 很少** |
+| `expires_at` | `null` | **永久邀请**，不会过期 |
+
+> [!IMPORTANT]
+> **「20,092 成员 / 3,695 在线」这两个数字是本指南全文里唯一能引用的 Discord 量化事实。** 除此之外，**没有授权就看不到任何频道内容** —— 包括「大家在问什么」「哪个问题最常见」。
+>
+> 本机实测：`GET https://discord.com/api/v10/guilds/568306982717751326/preview` → **HTTP 401**（需要 bot token）。`GET https://discord.com/api/v10/invites/nixos` → **404 `Unknown Invite`**（`nixos` 不是有效邀请码）。
+>
+> 所以：**任何声称「Discord 上讨论最多的是 X」的说法，如果没有 bot token，都是编的。** 本指南不写这种结论。
+
+#### 40.1.1 ★ 不用登录就能看到的 7 个频道
+
+Discord 有一个**不需要认证**的 widget 端点：
+
+```bash
+curl -s "https://discord.com/api/guilds/568306982717751326/widget.json"
+```
+
+**实测返回 33,804 B**，其中包含 `presence_count`（**3,725**，与上面 invite API 的 3,695 略有差异 —— 两个快照时间点不同）和一个 `instant_invite`（`https://discord.com/invite/nSMNWs5j`，**与官方页面公布的邀请码不同**，但指向同一个服务器）。
+
+**它暴露了 7 个「公开可见」频道** `[实测]`：
+
+| position | 频道名 | 性质 |
+|---|---|---|
+| 0 | **`General`** | 主聊天 |
+| 1 | **`More General`** | 主聊天分流（说明 `General` 经常满） |
+| 2 | **`Mentoring Group`** | **小组辅导** |
+| 3 | **`Mentoring 1-1`** | **一对一辅导** |
+| 4 | **`Conferences & Meetups`** | 会议与线下聚会 |
+| 5 | `asocial-stream-watchers😋` | 看直播的闲聊 |
+| 6 | `AFK` | 挂机频道 |
+
+> [!TIP]
+> **怎么用这个邀请链接**：直接点 <https://discord.gg/BqdJJFER4H> 加入。需要**已验证的邮箱**（`verification_level: 2`）才能发言。
+>
+> **对本指南读者的实际建议**：NixOS 的**实时**求助在 Discord，**可搜索的历史**在 Discourse（<https://discourse.nixos.org>）和 Reddit。**Discord 的回答不会被搜索引擎索引** —— 所以「我在 Discord 问过」的内容，三个月后别人搜不到，只能再问一遍。**提问时如果结论有价值，请顺手贴到 Discourse 或本指南的 KB 里。**
+>
+> 出处：Discord 官方 API 实测（2026-10-14）`[实测]`；官方社区页 <https://nixos.org/community/> `[官方]`
+
+---
+
+### 40.2 ★★ Discord 的结构性发现：为什么「Mentoring」是公开频道
+
+上面 7 个频道里，最值得注意的是 **`Mentoring Group`（位置 2）和 `Mentoring 1-1`（位置 3）被设成了公开可见**。
+
+> [!IMPORTANT]
+> **这不是随手起的名字，它透露了这个社区的设计取向。**
+>
+> 绝大多数技术 Discord 的公开频道是 `#help` / `#support` / `#beginner-questions` —— 也就是**「公开提问，公开回答」**。NixOS 官方 Discord 却把 **「小组辅导」和「一对一辅导」** 放在最显眼的位置（position 2 和 3，紧跟主聊天之后）。
+>
+> **含义有三层**：
+>
+> 1. **他们预期新手的问题不适合「公开问答」形式** —— 因为 NixOS 的问题经常需要看你的**整个 `configuration.nix`**，是「长上下文」问题，不是「一句话问答」。公开频道里贴几百行配置不现实。
+> 2. **他们承认「教会一个人」比「回答一个问题」更重要** —— 这正对应本指南的存在理由：NixOS 的难点不在「不知道答案」，而在**「不知道自己不知道什么」**。
+> 3. **`General` 与 `More General` 分离** —— 说明主频道流量已经溢出过一次，被迫开了分流频道。
+
+**对你的实际用法**：
+
+| 你的问题类型 | 该去哪 |
+|---|---|
+| 「这个报错什么意思」 | `General`（贴最小复现） |
+| 「我的整个配置该怎么组织」 | **`Mentoring Group`**（小组辅导，正是为此设的） |
+| 「我要从 Arch 迁移，帮我看看路线」 | **`Mentoring 1-1`** |
+| 「可搜索的历史答案」 | 不要用 Discord → 用 Discourse / Reddit |
+
+> [!WARNING]
+> **不要在没有 bot token 的情况下声称自己知道 Discord 里的讨论内容。** 本指南只能告诉你**频道结构**（这是公开 API 给的），**不能**告诉你「哪个频道最活跃」「什么话题最常出现」—— 那需要 bot 权限。
+>
+> 本指南对 Discord 的结论**只到「结构性」这一层**：规模（20,092 成员）、在线量（3,695–3,725）、频道列表、以及由频道列表**推断**出的社区取向。**推断部分已在上面标为推断，不是实测。**
+
+---
+
+### 40.3 ★★★ 方法论：Reddit 怎么抓（curl 全封 → 无头浏览器）
+
+这一节值得单独写，因为它**推翻了一个常见假设**：很多人以为「Reddit 有 `.json` 端点，`curl` 就能拿数据」。**在本机实测中，这条路完全走不通。**
+
+#### 40.3.1 实测：所有「传统」路径全部失败
+
+| 路径 | 结果 | 说明 |
+|---|---|---|
+| `curl https://www.reddit.com/r/NixOS/top.json` | **403** | 返回 189,908 B 的 HTML 阻断页（不是 JSON） |
+| `curl https://www.reddit.com/r/NixOS/top/.rss`（无 UA） | **403**，随后 **429** | 连续请求触发限流 |
+| `curl -A "Mozilla/5.0" ...` | **403** | 换 UA 无效 |
+| `curl -L https://old.reddit.com/r/NixOS/` | **302 → `/login/?reason=lor2`，最终 403** | 老版界面被强制登录 |
+| `redlib.catsarch.com` | **429** | Redlib 第三方前端 |
+| `safereddit.com` | **404** | |
+| `redlib.perennialte.ch` | **410** | 已下线 |
+| `rsshub.app` | **403** | |
+| `libreddit.privacydev.net` | **502** | |
+| `redlib.nadeko.net` | **418** | |
+| `redlib.ducks.party` | **404** | |
+| `redlib.freedit.eu` | **403** | |
+| `rl.bloat.cat` / `reddit.076.ne.jp` | **000** | DNS / 连接失败 |
+| `api.pullpush.io`（Pushshift 后继） | **429** | 见下 |
+| `answeroverflow.com`（全部路径） | **429**，经无头浏览器抓 → **Vercel Security Checkpoint** | 见下 |
+
+> [!DANGER]
+> **`api.pullpush.io` 给出了明确的商业拒绝，值得原文引用：**
+>
+> ```json
+> {"error":"Rate limit exceeded. This website does not provide free scraping resources for agents.
+>  Please contact the administrator on Discord if you're interested in a paid scraping service."}
+> ```
+>
+> **这句话是写给 AI agent 看的。** 它明确说明：**该站不向 agent 提供免费抓取资源**，想用请付费。**不要试图绕过它** —— 这是一个清晰的、有法律含义的拒绝，绕过既无必要（有更好的路）也不合适。
+>
+> `answeroverflow.com` 则是 **Vercel Security Checkpoint**（页面文字 `We're verifying your browser`）—— 浏览器指纹挑战，无头浏览器也过不去。
+
+#### 40.3.2 ★ 唯一走通的路：本机无头浏览器 + `.rss`
+
+本机装了 **moli**（`C:/Users/Admin/.workbuddy-ai/tools/moli/moli.exe`，v1.1.17），它是一个 Rust 写的无头浏览器 CLI。**它成功了。**
+
+```bash
+M="C:/Users/Admin/.workbuddy-ai/tools/moli/moli.exe"
+# HTML 列表页 —— 成功
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/top/?t=year" > out.html
+# → 200 / 565,665 B（curl 是 403，moli 是 200）
+
+# RSS —— 成功（但限流严格）
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=amdgpu&restrict_sr=1&sort=top&t=all" > out.html
+# → 200 / 313,771 B / 25 entries
+```
+
+| 路径 | curl | **moli 无头浏览器** |
+|---|---|---|
+| `www.reddit.com/r/NixOS/`（HTML） | 403 | **✅ 200 / 565,665 B** |
+| `www.reddit.com/r/NixOS/top.json` | 403 | ❌ **仍返回阻断页 HTML**（`.json` 被封得最死） |
+| `www.reddit.com/r/NixOS/top/.rss` | 403 → 429 | **✅ 200 / 117,461 B / 25 entries** |
+| `old.reddit.com/r/NixOS/` | 302 → 登录 | ❌ 仅 75 B（同样被重定向到登录） |
+
+> [!IMPORTANT]
+> **三条结论：**
+>
+> 1. **`.json` 端点是封得最死的一条路** —— 即使经无头浏览器也拿不到，返回的是阻断页 HTML。**不要在这条路上浪费时间。**
+> 2. **`.rss` 是最可用的路** —— 经无头浏览器能拿到完整的 25 条 entry。
+> 3. **`old.reddit.com` 没用** —— 它被重定向到登录页，连无头浏览器也一样。
+
+#### 40.3.3 ★★ 限流的真实形态：不是 429，而是「39 字节的空 body」
+
+这是本轮最有价值的一个工程发现。
+
+**当你请求过快时，Reddit 不是返回 HTTP 429，而是返回 HTTP 200 加一个 39 字节的空壳：**
+
+```html
+<html><head></head><body></body></html>
+```
+
+**39 字节。HTTP 200。解析出来 0 条 entry。**
+
+> [!WARNING]
+> **这是一个「静默失败」** —— 如果你的脚本只看 HTTP 状态码，会以为抓成功了，然后解析出 0 条数据，还以为是「这个话题没帖子」。
+>
+> **正确的判据是「entry 数量」而不是「HTTP 状态码」**：
+
+```bash
+fetch(){
+  for t in 1 2 3 4 5; do
+    timeout 150 "$M" fetch --wait domstable --timeout 60000 "$2" > "$D/$1.html" 2>/dev/null
+    e=$(grep -o '<entry>' "$D/$1.html" | wc -l)     # ← 判据是 entry 数
+    if [ "$e" -gt 3 ]; then echo "OK   $1 entries=$e"; return 0; fi
+    echo "retry$t $1 entries=$e"; sleep 40          # ← 串行 + 40 秒间隔
+  done
+  echo "FAIL $1"
+}
+```
+
+**实测的限流参数**：
+
+| 参数 | 实测值 |
+|---|---|
+| 相邻请求最小间隔 | **约 35–40 秒** |
+| 在 40s 间隔下的成功率 | **约 1/3 成功，2/3 返回 39 B 空 body** |
+| 重试次数 | 需要 **2–5 次**才能稳定拿到 25 entries |
+| 并发 | **必须串行** —— 并发会同时触发 429 |
+
+> [!TIP]
+> **为什么值得专门写一节？** 因为这套「判据看内容、不看状态码；串行 + 40 秒间隔 + 5 次重试」的模式，**对本指南第十二章列的所有抓取任务都适用**。它同时也是第二十二章「让 Agent 管系统」里**「agent 做长期任务时要幂等、要能识别静默失败」**这条原则的真实案例。
+
+---
+### 40.4 ★★ 口径警告：Reddit RSS 能拿到什么、拿不到什么
+
+这一节决定**你能不能信本章的数字**。请读完再往下看。
+
+#### 40.4.1 RSS 的结构
+
+`search.rss` 与 `top/.rss` 返回的是 Atom 格式，每条 entry 长这样：
+
+```xml
+<entry>
+  <title>AmdGPU VRAM priority fix</title>
+  <link href="https://www.reddit.com/r/NixOS/comments/1shkwn0/amdgpu_vram_priority_fix/" />
+  <updated>2026-04-10T...Z</updated>
+  <author><name>/u/Mandlebrot</name></author>
+  <content type="html">...首帖正文的开头（HTML 转义）...</content>
+</entry>
+```
+
+| 字段 | 有没有 | 说明 |
+|---|---|---|
+| `title` | ✅ | 标题 |
+| `link` | ✅ | 帖子永久链接，**含帖子 ID**（`/comments/<id>/<slug>/`） |
+| `updated` | ✅ | 时间戳 |
+| `author` | ✅ | 发帖人 |
+| `content` | ⚠️ **截断** | **只有首帖正文的开头**（约 400–600 字符），**不是全文，也不是评论区** |
+| **`score`（点赞数）** | ❌ **没有** | |
+| **`comment-count`（评论数）** | ❌ **没有** | |
+| 评论区内容 | ❌ **没有** | |
+
+> [!DANGER]
+> **本轮的 Reddit 数据「不能做热度排序」。**
+>
+> 因为 RSS 不返回 `score` 和 `comment-count`，**本指南无法回答**「r/NixOS 上关于 AMD 最热的是哪篇」「讨论最多的 flake 问题是什么」。
+>
+> **一个反例说明为什么不能凑合**：`search.rss?sort=top` 的返回顺序是 Reddit 的 `top` 排序（服务端已按分数排好），所以**顺序本身有意义**，但**分数值拿不到**。这意味着你可以说「第 1 条比第 25 条热」，**但不能说「第 1 条有 500 赞」**。本章所有涉及顺序的表述都已注明「按 `sort=top` 顺序」，**不涉及具体分数**。
+
+#### 40.4.2 ★ 列表页 HTML 里其实藏着分数（但拿不全）
+
+上面说 RSS 没有分数。**HTML 列表页有**，但有个大坑。
+
+用无头浏览器抓 `https://www.reddit.com/r/NixOS/top/?t=year`，页面 URL 会被**重写成带 JS 挑战参数**：
+
+```
+https://www.reddit.com/r/NixOS/top/?solution=e8f232bb83fec057...&js_challenge=1&jsc_token=2824be10...&t=year
+```
+
+`document.title` 变成 `Reddit - The heart of the internet`，**页面上只渲染出 3 个 `<shreddit-post>` 元素**（`articleCount=3`）—— 因为 JS 挑战 + 懒加载把其余的都挡住了。
+
+**但是** —— 这 3 个元素的 **HTML 属性里带着完整元数据**。这是本轮的一个意外发现：
+
+```html
+<shreddit-post
+  permalink="/r/NixOS/comments/1t1k1fj/day_3_of_daily_driving_nixos/"
+  comment-count="111"
+  created-timestamp="2026-05-02T08:24:01.073000+0000"
+  domain="i.redd.it"
+  id="t3_1t1k1fj"
+  post-title="Day 3 of daily driving NixOS"
+  post-type="image"
+  score="1186"
+  upvote-ratio="0.8962516733601071"
+  subreddit-prefixed-name="r/NixOS"
+  author="Stickhtot">
+```
+
+> [!TIP]
+> **所以 `score` / `comment-count` / `created-timestamp` / `author` 是能拿到的 —— 但每页只有 3 条。**
+>
+> 想用这条路做完整榜单，需要**滚动 + 逐页累积**，而本轮实测（滚动 12 次 × 3 秒）**只累积到 3 条** —— 因为 JS 挑战限制了分页。**所以这条路目前不足以支撑「热度榜」**，只适合**定点核对某一条帖子的真实分数**。
+
+**怎么定点核对一条帖子的分数**（可复用）：
+
+```bash
+M="C:/Users/Admin/.workbuddy-ai/tools/moli/moli.exe"
+# 抓单帖 HTML 页，然后用 JS 读 shreddit-post 的属性
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/comments/1shkwn0/amdgpu_vram_priority_fix/" > post.html
+grep -o 'score="[0-9]*"' post.html | head -1
+grep -o 'comment-count="[0-9]*"' post.html | head -1
+```
+
+> [!WARNING]
+> **本轮没有对每个帖子做这一步定点核对** —— 因为会额外消耗限流配额。所以本章引用帖子时**只引用它的标题、时间、作者、正文开头**，**不引用分数**。**凡是没有分数的，本指南不编造分数。**
+
+---
+
+### 40.5 ★★★ r/NixOS 定向搜索：AMD / 显卡类（本轮最高价值）
+
+**查询**：
+
+```bash
+M="C:/Users/Admin/.workbuddy-ai/tools/moli/moli.exe"
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=amdgpu&restrict_sr=1&sort=top&t=all"
+# → 200 / 313,771 B / 25 entries
+```
+
+**URL 参数含义**（可复用）：
+
+| 参数 | 值 | 说明 |
+|---|---|---|
+| `q` | `amdgpu` | 关键词 |
+| `restrict_sr` | `1` | **限定在本 subreddit 内搜**（去掉就是全站搜） |
+| `sort` | `top` / `relevance` / `new` | 排序方式 |
+| `t` | `year` / `month` / `week` / `all` | 时间范围 |
+
+**按 `sort=top` 顺序返回的 25 条里，有实务价值的是这些**（**顺序 = top 排序，但无分数**）：
+
+| # | 帖子 ID | 时间 | 作者 | 标题 | 为什么有价值 |
+|---|---|---|---|---|---|
+| 3 | `1ae5y4l` | 2024-01-29 | — | **Latest nixpkgs breaks amdgpu. Beware.** | **★ 有可复现的修法原文**（见 §40.8.3） |
+| 5 | `1mq7qni` | 2025-08-14 | u/VoNpo | **Chasing the "perfect" AMD GPU config module** | RX 9060 XT 用户的完整摸索过程 |
+| 6 | `1shkwn0` | 2026-04-10 | u/Mandlebrot | **AmdGPU VRAM priority fix** | **★ 2026 新特性**，提到 Jovian NixOS |
+| 7 | `1clrvve` | 2024-05-06 | — | **did i just waste my time setting up nix configs for weeks...** | **★ 有根因原文**（`i2c_designware_pci`，见 §40.8.5） |
+| 14 | `1n0m1w6` | 2025-08-26 | — | **Struggling to run Steam games on Hyprland/Wayland**（**[SOLVED]**） | 报错原文 + 解法（见 §40.8.6） |
+| 19 | `125h9lh` | 2023-03-29 | — | 7900xtx help [new to amd graphics]（**[Solved-ish]**） | 老帖，但讲清了「新卡需要 bleeding edge mesa + kernel」 |
+| 20 | `1eb8st0` | 2024-07-24 | — | **NixOS keeps crashing**（RX 7900 XT） | **★ 有内核日志原文**（SMU 报错，见 §40.8.7） |
+| 21 | `jw4nv7` | 2020-11-17 | — | Unable to start i3 with home-manager | **含老写法** `services.xserver.videoDrivers = ["amdgpu" "modesetting" "radeon"]` —— **26.05 下已弃用**，正好是本指南第二十五章的案例 |
+| 13 | `1h2mjxa` | 2024-11-29 | — | Can anyone tell me what these glitches are called? | 图形花屏的**症状描述**（便于对症搜索） |
+| 1 | `1td5bze` | 2026-05-14 | — | **14 days into NixOS. Now i can't go back to any other distro.** | 正面信号（新手留存） |
+
+> [!IMPORTANT]
+> **注意 `jw4nv7`（2020 年）这条老帖的用法示范。** 它里面出现的
+> ```nix
+> services.xserver.videoDrivers = ["amdgpu" "modesetting" "radeon"];
+> ```
+> **是 2020 年的正确写法，在 26.05 下已经不对了** —— 本指南第二十五章有完整的 `xorg` 弃用对照表。
+>
+> **这是引用社区帖最重要的一条纪律**：**社区帖有「保质期」，官方文档才是权威。** 引用时必须带**日期**，并且要**用官方文档或 mcp-nixos 复核**（本指南第三十八、三十九章正是干这个的）。
+
+---
+
+### 40.6 ★★ r/NixOS 定向搜索：Steam / gamescope 类
+
+**查询**：
+
+```bash
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=steam&restrict_sr=1&sort=top&t=all"
+# → 200 / 180,835 B / 25 entries
+```
+
+**按 `sort=top` 顺序里，有实务价值的是**：
+
+| # | 帖子 ID | 时间 | 作者 | 标题 | 为什么有价值 |
+|---|---|---|---|---|---|
+| 2 | `1ri2dvk` | 2026-03-01 | u/LyonSyonII | **PSA: You can set global environment variables for all Steam games** | **★ 游戏玩家高价值**（见 §40.8.8） |
+| 9 | `1th46tr` | 2026-05-18 | u/Cyb0lic | **Steam Controller (2026) Public Service Announcement** | **★★ 本指南完全没写过的一条实测**（见 §40.8.1） |
+| 11 | `1lgxq3a` | 2025-06-21 | u/khryx_at | **My solution to Wayland Steam/gamescope hell** | **★★ 有完整可抄的 wrapper 方案**（见 §40.8.2） |
+| 8 | `1pjkyp7` | 2025-12-11 | u/kopasz7 | "Steam OS" but configurable | 概念帖（把 NixOS 做成 SteamOS 形态） |
+| 12 | `1ej8n4x` | 2024-08-03 | u/kopasz7 | Steam-run is magic, I swear | 印证本指南 §8.1 对 `steam-run` 的说明 |
+| 13 | `1uhyaw6` | 2026-06-28 | u/bankroll5441 | **I replaced my Xbox One S with a NixOS "Console"** | 客厅主机形态的完整实践（含 mini PC 选型） |
+| 6 | `1rfb9c9` | 2026-02-26 | u/tungnon | **Non-programmer desktop user trying NixOS (unstable + KDE + Flatpak) - surprisingly smooth** | **★ 与你画像高度重合**（非程序员 / KDE / Flatpak） |
+| 3 | `1o8gd3l` | 2025-10-16 | u/CadeVoidlighter | **NixOS as daily driver for a year. I'm getting tired. Advice?** | **★ 反面案例**（见 §40.9.3） |
+
+> [!TIP]
+> **`q=steam` 的 top 结果里混着大量「桌面美化 / 玩梗」帖**（`NixOS-95`、`Rate my nixos with win 7 theme`、`Which nixpkgs by-name letter pair...`）。
+>
+> **这不是抓取失败，而是 r/NixOS 的真实构成**：它是一个**兴趣社区**，不是一个**支持论坛**。想要「按问题类型检索」，**必须用 `search.rss?q=<精确关键词>`**，直接翻 `top/.rss` 会被玩梗帖淹没（见 §40.7.1）。
+
+---
+### 40.7 ★★ 其余四组定向搜索的结果
+
+#### 40.7.1 先说年度榜：`top/.rss?t=year` 几乎全是玩梗帖
+
+**查询**：
+
+```bash
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/top/.rss?t=year"
+# → 200 / 117,461 B / 25 entries
+```
+
+> [!WARNING]
+> **这 25 条里，实务价值极低。** 按 top 顺序，绝大部分是 meme / 情绪帖：
+>
+> `chads use nix` / `What do I do now` / `Rate my DE` / `The Rainbow Nix logo` / `How I see NixOS if it were a car` / `I stand for my flag 🫡❄️` / `Gang, we found it` / `Holy moly` / `NixOS made me lose my wife` …
+>
+> **这本身是一个重要结论**：**r/NixOS 的「高赞内容」和「有用内容」几乎不重合。** 高赞的是**社区认同感**（玩梗、吐槽、晒配置），有用的是**具体故障帖** —— 而具体故障帖的赞数通常低得多。
+>
+> **推论**：**不要用「r/NixOS 年度榜」来学习 NixOS。** 要学具体问题，**必须用 `search.rss?q=<精确关键词>`**（本指南 §40.5–§40.6 就是这么做的）。
+
+年度榜里**唯二**有实务价值的：
+
+| 帖子 ID | 时间 | 作者 | 标题 | 价值 |
+|---|---|---|---|---|
+| `1p4v1f0` | 2025-11-23 | u/Captain_Pumpkinhead | **Goddammit, Nix! Tell me which package in my config threw this error!** | **★ 说出 NixOS 最真实的痛点**（见 §40.8.9） |
+| `1ri2dvk` | 2026-03-01 | u/LyonSyonII | **PSA: You can set global environment variables for all Steam games** | 游戏玩家高价值（见 §40.8.8） |
+
+#### 40.7.2 `q=flake`：仍是玩梗为主，但有三个资源
+
+```bash
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=flake&restrict_sr=1&sort=top&t=all"
+# → 200 / 142,523 B / 25 entries
+```
+
+**有价值的**：
+
+| 帖子 ID | 时间 | 作者 | 标题 | 价值 |
+|---|---|---|---|---|
+| `1uk0fe4` | 2026-06-30 | u/ucsilahsor | **Nix Diátaxis: The Complete Anthology**（EPUB） | **★★ 最值得收藏的一条**（见 §40.8.10） |
+| `1mlh8b2` | 2025-08-09 | u/video_2 | **I wrote a TUI installer for NixOS** | `nixos-wizard`（见 §40.8.11） |
+| `1raqini` | 2026-02-21 | u/ayanada | VS Code extension: Nix 字符串内嵌语言高亮 | **对 Vibe Coding 有用**（见 §40.8.12） |
+| `1rtjyz9` | 2026-03-14 | u/moortuvivens | **I'm a nixxer** | **★ LLM 辅助建 flake 的实证**（见 §40.8.13） |
+| `1vkuu9s` | 2026-08-10 | u/Lonely-Scarcity-3387 | **Loving NixOS so Far** | **★ Bazzite → CachyOS → NixOS 的迁移路径**（见 §40.9.4） |
+
+**其余是玩梗**：`NixOS made me lose my wife`、`Nix is the worst designed language`、`One does not simply learn Nix`、`Dealing with post nix-flake god complex`、`The NixOS community has 2 sides`、`NixOS SC Member and head architect of the woke invasion - AMA`（**这条是社区内部争议的讽刺帖，本指南不展开**）。
+
+#### 40.7.3 `q=home-manager`：**HM 机制类内容在 r/NixOS 上很少**
+
+```bash
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=home-manager&restrict_sr=1&sort=top&t=all"
+# → 200 / 181,365 B / 25 entries
+```
+
+> [!IMPORTANT]
+> **这是一个「没有找到」的结论，同样有价值。**
+>
+> 用 `q=home-manager` 搜 top，返回的 25 条里**几乎没有一条在讲 HM 的机制**（怎么组织、怎么和 NixOS 分工、`useGlobalPkgs` 的取舍）。返回的是**玩梗 + 一般性讨论**。
+>
+> **对照本指南第十九章**：HM 的机制问题（三套方案的边界、`useGlobalPkgs` 的代价）**在 Reddit 上几乎没有高质量讨论**。这类问题的主要来源是：
+> 1. **HM 官方手册与 FAQ**（<https://nix-community.github.io/home-manager/>）`[官方]`
+> 2. **HM 仓库源码与 issue**
+> 3. **本指南第十九章**（已把 HM 官方 FAQ 的写法整理成对照表）
+>
+> **推论**：**「Reddit 上没有」不等于「不重要」。** 本指南第十九章的内容**无法用 Reddit 佐证** —— 这很正常，因为它是**机制层**问题，不是**故障层**问题，而 Reddit 的强项是故障层。
+
+**`q=home-manager` 里唯一有独立价值的**：
+
+| 帖子 ID | 时间 | 作者 | 标题 | 价值 |
+|---|---|---|---|---|
+| `1rqtu0j` | 2026-03-11 | u/zener79 | **I built a reproducible NixOS deployment system for a multi-PC school lab with no client internet access** | 30 台无网 PC 的部署方案（见 §40.8.14） |
+| `1kiabg5` | 2025-05-09 | u/popcornpeters | Briefcase PC | 模块化硬件（Minisforum UM680，AMD）—— 硬件灵感 |
+
+#### 40.7.4 `q=beginner`：**本指南最该看的一组**
+
+```bash
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=beginner&restrict_sr=1&sort=top&t=all"
+# → 200 / 244,411 B / 25 entries
+```
+
+**这一组里，与「怎么写一份好的 NixOS 入门指南」直接相关的帖子最多**：
+
+| 帖子 ID | 时间 | 作者 | 标题 | 价值 |
+|---|---|---|---|---|
+| `1uk0fe4` | 2026-06-30 | u/ucsilahsor | **Nix Diátaxis: The Complete Anthology** | **★★ 离线官方文档合集**（见 §40.8.10） |
+| `13dxw9d` / `14fvz1q` | 2023-05-10 / 2023-06-22 | **u/ryan4yin** | **NixOS & Nix Flakes - A Guide for Beginners**（[thiscute.world](https://thiscute.world/en/posts/nixos-and-flake-basics/)） | **★★ 同类的第三方入门指南**（中文社区友好，见 §40.8.15） |
+| `10jgt38` | 2023-01-23 | u/lucperkins_dev | **Introducing Zero to Nix**（Determinate Systems） | **★★ 官方级入门资源 + `nix-installer`**（见 §40.8.16） |
+| `15v1r4o` | 2023-08-19 | u/z_mitchell | New official tutorial series | nix.dev 成为官方资源的公告 |
+| `1k707lx` | 2025-04-24 | u/WasabiOk6163 | **Nix Flakes for NixOS Configuration Explained** | **★ 专讲「新手卡点」**（见 §40.8.17） |
+| `1ohdtln` | 2025-10-27 | u/Mindless_Insect3743 | **A use case where NixOS is more trouble than worth** | **★★ 反面案例，直接打在本指南 §25/§15 的痛点上**（见 §40.9.2） |
+| `1i79cxk` | 2025-01-22 | u/EmiProjectsYT | **I gave NixOS to a beginner** | **★★ Bazzite 对比实证**（见 §40.9.1） |
+| `1uhwn3m` | 2026-06-28 | u/yoftahe1 | **Is the nix docs written for people who already know nix?** | 新手被 `darwin.nix` / `cellPackages` 这类词劝退（见 §40.8.18） |
+| `1k1550k` | 2025-04-17 | u/Business-Assistant52 | New Repo for Learning Nix | 学习仓库 |
+| `ncnodk` | 2021-05-15 | u/happysalada | From zero to prod with NixOS | 生产环境视角（老帖） |
+| `ffssy1` | 2020-03-09 | u/Arsleust | Learning Nix language, tools and OS is too erratic | 老帖，但「学习路径混乱」的抱怨至今成立 |
+
+#### 40.7.5 `q=26.05`：**本轮最新鲜、最实用的一组**（2026 年 9–10 月）
+
+```bash
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=26.05&restrict_sr=1&sort=new&t=year"
+# → 200 / 153,153 B / 25 entries
+```
+
+> [!TIP]
+> **这一组用的是 `sort=new`（不是 `top`），所以它是「最近一年关于 26.05 的最新讨论」，而不是「最热的」。**
+>
+> **这是本轮唯一一组「时效性优先」的查询** —— 对本指南「长期运维 / 跨版本升级」章节（第十一章、第三十七章）最有价值。
+
+**全部有实务价值的**：
+
+| 帖子 ID | 时间 | 作者 | 标题 | 价值 |
+|---|---|---|---|---|
+| `1wuvnh2` | **2026-10-01** | u/Stunning-Mix492 | **Stuck on blinking cursor on boot** | **★★★ 直接坐实本指南「只滚 mesa」警告**（见 §40.8.4） |
+| `1wofaax` | **2026-09-23** | u/Lonely-Scarcity-3387 | **Boot-Gardener: A tool to fix a full ESP on NixOS without the stress** | **★★★ ESP 三引导器对比 + 可复用命令**（见 §40.8.19） |
+| `1wyxzns` | **2026-10-06** | u/Positive-Incident221 | **Can't upgrade to KDE 6.7** | **★★ 混 channel 不会自动升级模块的真实案例**（见 §40.8.20） |
+| `1x2h00h` | **2026-10-10** | u/Emergency_Bridge_581 | **Nixdatifier - The Apdatifier for NixOS** | **★★ CachyOS 的 apdatifier 的 NixOS 对应物**（见 §40.8.21） |
+| `1wkv2vm` | 2026-09-19 | u/Lonely-Scarcity-3387 | Harvesting Boot Space - Tool | **kernel specialization 让每个 generation 大 6 倍** |
+| `1wobs0v` | 2026-09-23 | u/neontiger26 | Failed to update bootloader | 「installed is already newer」报错 |
+| `1wqlwne` | 2026-09-26 | u/Ok_Salamander_7245 | **IdeaPad Slim 5 13ARP10 / Ryzen 7 7735HS — s2idle resume broken** | **★ AMD 笔记本 suspend 的真实故障** |
+| `1winlsg` | 2026-09-17 | u/Purple-Midnight-9902 | How (un)stable is unstable ? | **★ 「stable vs unstable」的社区共识**（见 §40.9.5） |
+| `1wvx3r2` | 2026-10-02 | u/Effective_Great | Unstable release + legacy nvidia card | **★ 用 LLM（Claude）咨询升级风险**（见 §40.8.13 同主题） |
+| `1wvzkss` | 2026-10-02 | u/Lonely-Scarcity-3387 | So it begins (appreciation post) | 「3 个月后能用一条命令从 minimal ISO 重装」 |
+| `1wwtrgy` | 2026-10-03 | u/UAP44 | I'm new, first install, 'my'~way. | **SSH 上把反代从 Mint 迁到 NixOS，2 小时内完成** |
+| `1wzd7n7` | 2026-10-06 | u/Zestyclose_Duck5651 | Nixos is so cool! Why is it not recommended more? | 非开发者视角的正面评价 |
+
+> [!IMPORTANT]
+> **`1wuvnh2` 与 `1wofaax` 是本章最重要的两条** —— 因为它们**不是意见，是可验证的技术事实**，而且**直接命中本指南已有的两个章节**：
+> - `1wuvnh2` → 印证 **§32.6 / §20 / §24.6 的「只滚 mesa」风险**
+> - `1wofaax` → 补充 **§30.5 / §27 的 ESP 管理**
+>
+> 详见 §40.8.4 与 §40.8.19。
+
+---
+### 40.8 ★★★ 高价值帖逐条解读（带原文引用）
+
+> [!NOTE]
+> **本节纪律**：每条都给出 **帖子 ID + 日期 + 作者 + 原文引用**。**引用的是「帖子作者说了什么」，不是「本指南认为它对」。** 本指南的评判放在 §40.9 的对照表里。
+>
+> **所有引用都不带分数** —— 原因见 §40.4.1（RSS 不返回 `score`）。
+
+---
+
+#### 40.8.1 ★★ Steam Controller（2026 款）：`hidapi` 未预装（**本指南原来完全没写过**）
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1th46tr` |
+| 日期 | **2026-05-18** |
+| 作者 | u/Cyb0lic |
+| 标题 | Steam Controller (2026) Public Service Announcement |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1th46tr/steam_controller_2026_public_service_announcement/> |
+
+**原文**：
+
+> *"When using the new Steam Controller, Steam will try to check whether a firmware update is available every time the controller is turned on, plugged in, or Steam is started, and on NixOS (and other distros), it'll fail every time. The issue is that the Steam client uses **hidapi** for this communication, which **isn't installed by default**. Here's the fix, if you don't already have hidapi installed in `systemPackages`:*
+>
+> ```nix
+> programs.steam = {
+>   enable = true;
+>   extraPackages = [ pkgs.hidapi ];
+> };
+> ```
+>
+> *UPDATE: This is no-longer an issue with the beta version of the Steam client. For now, th…"*
+
+> [!TIP]
+> **本指南第一至三十九章完全没有出现过 `hidapi`。** 这是本轮**唯一一条「新增知识点」性质的社区发现**（其余都是对已有章节的印证或补充）。
+>
+> **对你的意义**：如果你用 **2026 款 Steam 手柄**（或任何需要 Steam 客户端做固件更新的手柄），在稳定版 Steam 客户端下会遇到「固件更新每次都失败」。修法就是上面那三行。
+>
+> **注意两个细节**：
+> 1. **用的是 `extraPackages`，不是 `systemPackages`** —— 前者只给 Steam 的 FHS 环境加包，后者是全局。**用 `extraPackages` 更干净**（本指南 §8.1 已在 `extraCompatPackages` 上用过同一个模式）。
+> 2. **作者更新说 beta 版客户端已修复** —— 所以这是一个**有保质期的坑**。26.05 的稳定版 Steam 若尚未合并修复，仍需要这段配置。
+>
+> **本指南已在 §8.1 补入这条**（见 §40.9 对照表）。
+>
+> 出处：[Reddit `1th46tr`](https://www.reddit.com/r/NixOS/comments/1th46tr/steam_controller_2026_public_service_announcement/)（2026-05-18）`[社区]`
+
+---
+
+#### 40.8.2 ★★ Wayland 下 gamescope 的完整 wrapper 方案
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1lgxq3a` |
+| 日期 | 2025-06-21 |
+| 作者 | u/khryx_at |
+| 标题 | My solution to Wayland Steam/gamescope hell |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1lgxq3a/my_solution_to_wayland_steamgamescope_hell/> |
+
+**原文（首段）**：
+
+> *"For the past few days, I've been refining my gaming setup on NixOS, and getting gamescope to cooperate has been hell. If any of you have also run into issues with gamescope on Wayland, here is the solution that, FINALLY, works for me. The goal was to have my games launch via gamescope **by default** — to get features like FSR, proper frame pacing, and HDR — **without manually setting launch options for every single game**. Here's a breakdown of my configuration. Sources: gamescope.nix, gaming.nix, monitors.nix, Repo (dot.nix). **Core Script: `gamescope-run`** — The heart of this configuration is a custom wr…"*
+
+> [!TIP]
+> **这条帖子的价值在于「目标」而不是「代码」** —— 它的目标是：**让所有游戏默认走 gamescope，而不用在 Steam 里给每个游戏手写 `gamescope ... -- %command%`**。
+>
+> 做法是写一个 **`gamescope-run` wrapper 脚本**，然后让 Steam 把 `%command%` 替换成它。这与本指南 §14.6 讲的「什么时候值得用 gamescope」是**同一个问题的「怎么自动化」那一半**。
+>
+> **⚠️ 局限**：RSS 只给了首帖正文的**开头**，**没有给出完整脚本内容**。想看完整实现，需要点开原帖（或它的 GitHub 仓库 `dot.nix`）。
+>
+> 出处：[Reddit `1lgxq3a`](https://www.reddit.com/r/NixOS/comments/1lgxq3a/my_solution_to_wayland_steamgamescope_hell/)（2025-06-21）`[社区]`
+
+---
+
+#### 40.8.3 ★★ 一条「回滚 lock 文件」解决 AMD 故障的完整 diff
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1ae5y4l` |
+| 日期 | **2024-01-29** |
+| 作者 | u/PolarBearVuzi |
+| 标题 | Latest nixpkgs breaks amdgpu. Beware. |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1ae5y4l/latest_nixpkgs_breaks_amdgpu_beware/> |
+
+**原文（含完整 `flake.lock` diff）**：
+
+> *"Rolling back the lock file solves the issue.*
+> ```diff
+> --- a/flake.lock
+> +++ b/flake.lock
+> @@ -147,11 +147,11 @@
+>        "nixpkgs": {
+>          "locked": {
+> -          "lastModified": 1706371002,
+> -          "narHash": "sha256-dwuorKimqSYgyu8Cw6ncKhyQjUDOyuXoxDTVmAXq88s=",
+> +          "lastModified": 1706191920,
+> +          "narHash": "sha256-eLihrZAPZX0R6RyM5fYAWeKVNuQPYjAkCUBr+JNvtdE=",
+>            "owner": "nixos",
+>            "repo": "nixpkgs",
+> -          "rev": "c002c6aa977ad22c60398daaa9be52f2203d0006",
+> +          "rev": "ae5c332cbb5827f6b1f02572496b141021de335f",
+> ```
+> *Boot logs mention some allocation errors and ends with amdgpu fatal error during gpu init. This is the first time I had to rollback a lock file. And yes I do not reboot my PC every time I bump the lockfile which is a bad practice."*
+
+> [!IMPORTANT]
+> **这条帖印证了本指南第十一章的两个核心观点，并且给出了一个本指南没写过的细节：**
+>
+> 1. **「bump 完 lock 文件不重启」是坏习惯** —— 作者自己承认。**这正是本指南 §11 讲的「混合版本策略」的隐性风险**：你 bump 了 lock，但运行中的系统还是旧的，直到重启才发现坏。
+> 2. **回滚 `flake.lock` 是有效的修复手段** —— 而且是**最精准的**（只回滚 nixpkgs，不动你的配置）。本指南第十一章讲过 `nixos-rebuild --rollback`，但**「回滚 lock 文件本身」是另一个操作**（把 `flake.lock` 用 git 恢复到上一个 commit，然后 rebuild）。
+> 3. **★ 具体命令（本指南原来没写）**：
+>
+> ```bash
+> # 方案 A：用 git 恢复 lock 文件到上一个 commit
+> git checkout HEAD~1 -- flake.lock
+> sudo nixos-rebuild switch --flake .
+>
+> # 方案 B：把 nixpkgs 输入钉回指定的 rev（更精确）
+> nix flake lock --override-input nixpkgs \
+>   github:NixOS/nixpkgs/ae5c332cbb5827f6b1f02572496b141021de335f
+> sudo nixos-rebuild switch --flake .
+> ```
+>
+> **⚠️ 注意帖子的日期是 2024-01-29** —— 具体的 `rev` 现在当然已经过期了，**但它演示的「方法」不过期**。这是引用社区帖的标准姿势：**取方法，不取数字**。
+
+---
+
+#### 40.8.4 ★★★ 「不要在稳定版上用 unstable mesa」—— 本指南核心警告的独立实证
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1wuvnh2` |
+| 日期 | **2026-10-01** |
+| 作者 | u/Stunning-Mix492 |
+| 标题 | Stuck on blinking cursor on boot |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1wuvnh2/stuck_on_blinking_cursor_on_boot/> |
+
+**原文（完整）**：
+
+> *"Hi, My last update on nixos failed. I use a simple gnome setup with flakes, pointing to the **26.05 stable release**. With last update, After boot splash, **I'm stuck on a blinking cursor, GDM does not launch**. I can switch to another virtual terminal, reboot the machine, and boot on the last functional generations (thank you nixos!). But I don't know how to investigate the problem. I think it may be related to the last systemd update. Anyone experience the same problem? Any fix found? My last functional generation was generated with `nh os boot --update` yesterday.*
+>
+> ***Solved: do not use unstable mesa on stable release :)***"
+
+> [!DANGER]
+> **这是本轮最重要的一条。**
+>
+> 本指南在**第二十章 / §24.6 / §32.6** 反复警告过：**「只滚 mesa」有 ICD 混版本风险，可能导致静默失败**。当时附录 C 把这条列为 `[未核实]` —— 因为**没有长期跟踪数据**。
+>
+> **现在有了**：一个真实用户在 **2026-10-01**（本指南核实日期的两周前）**完全按本指南警告的方式踩了坑** ——
+> - 基座：**26.05 stable**
+> - 方式：**flakes**
+> - 症状：**GDM 不启动、卡在闪烁光标**（正是 §32.6 描述的「图形栈静默失败」形态）
+> - 用户自己的结论：***"do not use unstable mesa on stable release :)"***
+>
+> **这条把附录 C 的那一项从 `[未核实]` 升级为 `[社区实证]`。**
+>
+> **同时它给出了一个本指南该补的诊断动作**：用户说 *"I don't know how to investigate the problem"* —— **这正是本指南第三十章「故障排查」存在的理由**。正确做法是：
+> ```bash
+> # 1. 看上一个坏 generation 的日志（不要只看当前）
+> journalctl -b -1 -p err --no-pager | head -50
+> # 2. 专看图形栈
+> journalctl -b -1 -u gdm --no-pager | tail -50
+> journalctl -b -1 -k --no-pager | grep -iE "amdgpu|drm|mesa|vulkan"
+> # 3. 确认是不是 ICD 混版本（§32.6 的判据）
+> ls -l /run/opengl-driver/share/vulkan/icd.d/
+> ```
+> **关键**：`journalctl -b -1` 里的 `-1` 是**上一次启动** —— 崩溃后重启进来，当前 boot 的日志是干净的，**必须看 `-1`**。
+
+---
+
+#### 40.8.5 ★ GPU 直通卡住：`i2c_designware_pci` 的根因
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1clrvve` |
+| 日期 | 2024-05-06（作者数月后回帖补充解法） |
+| 作者 | u/juipeltje |
+| 标题 | did i just waste my time setting up nix configs for weeks... |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1clrvve/> |
+
+**原文（解法部分）**：
+
+> *"Edit: finally fixed it! Decided to reinstall nixos on a separate drive and go back to the problem because i couldn't let it go. **I found out that the usb device from the gpu was being used by a driver called `i2c_designware_pci`**. When trying to unload that kernel module it would error out complaining that the module was in use, so **i blacklisted the module and now the card unbinds successfully!** Decided to update the post even though it's months old at this point but hopefully this can help someone if they have the same problem."*
+
+**症状原文（原始提问）**：
+
+> *"no matter what i do, my usb controller of my gpu refuses to detach itself from the host when i want to pass it through. it just freezes up when the command is executing and it never finishes. … i tried an older 6.6.30 kernel, still stuck at the usb host detach, finally i tried the 6.8.6-zen1 kernel, still the same problem."*
+
+> [!TIP]
+> **这条对「想用 VM 玩 Windows 游戏 / 单卡直通」的用户是救命信息。**
+>
+> **症状**：`virsh nodedev-detach` 卡死、永不返回；换内核版本无效。
+> **根因**：GPU 上的 **USB 控制器**（不是 GPU 本体）被 **`i2c_designware_pci`** 驱动占用，卸载时报「module in use」。
+> **解法**：**blacklist 该模块**。
+>
+> ```nix
+> boot.blacklistedKernelModules = [ "i2c_designware_pci" ];
+> ```
+>
+> **⚠️ 注意**：`i2c_designware_pci` 在部分笔记本上是**触摸板 / 屏幕背光 / 传感器**的驱动。**blacklist 它可能让这些设备失效** —— 作者是在**台式机**（直通场景）上做的，风险低。**笔记本用户不要照抄。**
+>
+> **这条本指南没写过**，已在 §40.9 对照表标为「新增候选」。
+
+---
+
+#### 40.8.6 ★ Hyprland/Wayland 下 Steam 启动失败的报错原文
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1n0m1w6` |
+| 日期 | 2025-08-26（**[SOLVED]**） |
+| 作者 | u/bromatofiel |
+| 标题 | Struggling to run Steam games on Hyprland/Wayland |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1n0m1w6/> |
+
+**报错原文（节选，这是关键）**：
+
+```
+System.Exception: wayland,x11 not available
+  at Xalia.Sdl.SplitOverlayBox.CreateWindows ()
+  at Xalia.Sdl.WindowingSystem.CreateOverlayBox ()
+  at Xalia.Ui.UiMain..ctor ()
+```
+
+**以及 Steam 自己的警告**：
+
+```
+steam.sh: warning: SDL_VIDEODRIVER='wayland' does not allow fallback, use 'wayland,x11' instead
+```
+
+**用户的配置片段**：
+
+```nix
+environment.sessionVariables = {
+  NIXOS_OZONE_WL = "1";
+  SDL_VIDEODRIVER = "wayland,x11";
+};
+```
+
+> [!IMPORTANT]
+> **这条的价值在于「报错原文」+「Steam 自己给出的修法」。**
+>
+> 1. **`Xalia` 是 Steam 输入/覆盖层的组件**（用于手柄 UI 映射）。它调 SDL 时，如果 `SDL_VIDEODRIVER` 被设成**单值 `wayland`**，就没有回退，直接抛 `wayland,x11 not available`。
+> 2. **Steam 的警告就是解法**：`SDL_VIDEODRIVER='wayland' does not allow fallback, use 'wayland,x11' instead`。
+> 3. 但注意 —— **用户配置里已经写的是 `wayland,x11`**，仍然报错。说明**还有其他来源把它覆盖成了 `wayland`**（很可能是某个 Hyprland 配置或环境继承）。**这就是「配置写了但没生效」的典型形态** —— 排查方法是确认**实际生效值**：
+>
+> ```bash
+> # 在启动 Steam 的那个环境里
+> echo $SDL_VIDEODRIVER
+> systemctl --user show-environment | grep -i sdl
+> ```
+>
+> **本指南 §14.6 / §8.4 讲 gamescope 与 Wayland 时没有覆盖这条报错**，已在 §40.9 标为「新增候选」。
+
+---
+
+#### 40.8.7 ★ AMD 崩溃的内核日志原文（SMU / MES）
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1eb8st0` |
+| 日期 | 2024-07-24 |
+| 作者 | u/rgmundo524 |
+| 标题 | NixOS keeps crashing（RX 7900 XT） |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1eb8st0/> |
+
+**内核日志原文（节选）**：
+
+```
+Jul 24 13:08:42 main kernel: amdgpu 0000:03:00.0: amdgpu: SMU: response:0xFFFFFFFF for index:18 param:0x00000005 message:TransferTableSmu2Dram?
+Jul 24 13:08:42 main kernel: amdgpu 0000:03:00.0: amdgpu: Failed to export SMU metrics table!
+Jul 24 13:24:25 main kernel: [drm:mes_v11_0_submit_pkt_and_poll_completion...] *ERROR* MES failed to response msg=14
+Jul 24 13:24:25 main kernel: [drm:amdgpu_mes_reg_write_reg_wait [amdgpu]] *ERROR* failed to reg_write_reg_wait
+Jul 24 13:24:27 main kernel: snd_hda_intel 0000:03:00.1: Unable to change power state from D3hot to D0, device inaccessible
+```
+
+**用户的诊断命令（值得抄）**：
+
+```bash
+tail -n 100 previous_boot_log.txt | grep -E "error|fail|warn|amdgpu|critical|segfault|panic|fault" | sort | uniq
+```
+
+> [!WARNING]
+> **`SMU: response:0xFFFFFFFF` + `MES failed to respond` + `D3hot to D0, device inaccessible` 这三条连在一起，是典型的「GPU 掉卡 / 电源管理失败」特征**，不是「NixOS 特有的问题」——**同样的日志在 Arch、Fedora 上也会出现**。
+>
+> **本指南要提醒的是引用纪律**：这类帖子**容易让人误以为是 NixOS 的锅**。实际根因通常在**硬件/固件/内核**层。**诊断顺序应该是**：
+> 1. 换内核版本（`linuxPackages_latest` / `linuxPackages_zen`）
+> 2. 加内核参数（`amdgpu.dpm`、`amdgpu.ppfeaturemask`）
+> 3. 查显卡固件（`linux-firmware` 版本）
+> 4. **最后**才怀疑 NixOS 的配置
+>
+> **用户的诊断命令是好的**（`grep -E "error|fail|warn|amdgpu|..." | sort | uniq`）—— **去重后看高频项**，这是本指南第三十章推荐的日志处理姿势。**唯一要改的是：`previous_boot_log.txt` 应该换成 `journalctl -b -1`。**
+
+---
+
+#### 40.8.8 ★ Steam 全局环境变量：不用给每个游戏写 `%command%`
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1ri2dvk` |
+| 日期 | **2026-03-01** |
+| 作者 | u/LyonSyonII |
+| 标题 | PSA: You can set global environment variables for all Steam games |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1ri2dvk/psa_you_can_set_global_environment_variables_for/> |
+
+**原文（完整）**：
+
+> *"Today I've discovered that you can set global environment variables directly in the NixOS configuration. **No more `gamemoderun mangohud %command%` on every game!** Posting here for people searching for it."*
+
+> [!TIP]
+> **这条正好命中本指南 §8.1 / §14 的一个「没写透」的点。**
+>
+> 本指南在 §14 讲过 `gamemoderun` 与 `mangohud`，但**默认的做法是「在 Steam 启动项里写 `%command%` 前缀」** —— 那是**逐个游戏**的。**帖子指出的是「全局」做法**：
+>
+> ```nix
+> programs.steam = {
+>   enable = true;
+>   # 方式 A：NixOS 侧的 Steam 模块支持 extraEnv（若版本支持）
+>   # 方式 B：更通用的做法 —— 设成会话/进程级环境变量
+> };
+>
+> # 让所有 Steam 游戏继承（本指南 §14 已讲 mangohud 的 HM 选项，这里是「全局环境变量」路线）
+> environment.sessionVariables = {
+>   MANGOHUD = "1";
+>   MANGOHUD_CONFIG = "fps_limit=0,no_display";
+>   DXVK_HUD = "0";
+> };
+> ```
+>
+> **⚠️ 一个重要限制**：`environment.sessionVariables` 会**作用于整个桌面会话**，不只是 Steam 游戏。而 MangoHUD 只有在**被注入到 Vulkan/OpenGL 进程**时才生效，所以「全局设 `MANGOHUD=1`」**通常不会**影响浏览器 —— 但 `DXVK_HUD` 这类变量**可能影响其他 DXVK 应用**。
+>
+> **更精确的替代**（本指南第三十九章已核实的 HM 选项）：**`programs.mangohud.enableSessionWide = true`** —— 它「给所有支持的应用自动挂 MangoHud」，比手写全局环境变量更声明式。**这两条路可以互为参照。**
+>
+> 出处：[Reddit `1ri2dvk`](https://www.reddit.com/r/NixOS/comments/1ri2dvk/psa_you_can_set_global_environment_variables_for/)（2026-03-01）`[社区]`
+
+---
+
+#### 40.8.9 ★★ 「Nix 不告诉我是哪个包报的错」—— 最真实的痛点
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1p4v1f0` |
+| 日期 | 2025-11-23 |
+| 作者 | u/Captain_Pumpkinhead |
+| 标题 | Goddammit, Nix! Tell me which package in my config threw this error! |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1p4v1f0/> |
+
+**RSS 只给出标题**（正文未包含在 entry 里），但**标题本身就是完整的信息**。
+
+> [!IMPORTANT]
+> **这个标题精确描述了 NixOS 最难的一类报错**：**求值/构建失败时，报错信息指向的是 derivation 或 store path，而不是「你配置里的哪一行」。**
+>
+> 本指南在**第三十三章（系统切换内部）**和**第三十六章（nix.dev 排错）**都讨论过这个问题的**成因**：
+> - Nix 的求值是**惰性**的，报错点在**依赖图深处**，不在你写的那一行
+> - 报错里的名字是 **store path / derivation name**，需要**反查**回你的配置
+>
+> **本指南原来没有给「反查」的标准动作。这里补上**：
+>
+> ```bash
+> # 1. 拿到报错里的 derivation 名（例如 xyz-1.2.3）
+> # 2. 反查它是谁引入的
+> nix why-depends --derivation ./result /nix/store/<报错的path>
+> # 或（更常用）：从配置求值，看谁引用了它
+> nixos-rebuild dry-build --show-trace 2>&1 | grep -B5 -A20 "<关键字>"
+>
+> # 3. 用 trace 看求值栈
+> nixos-rebuild dry-build --flake .#host --show-trace 2>&1 | tail -80
+>
+> # 4. 二分法：注释掉一半配置，看报错是否消失（最土但最有效）
+> ```
+>
+> **`--show-trace` 是本指南第三十三章讲过、但在「排错」语境下没强调过的关键参数。** 没有它，报错只有一行；有了它，能看到**求值栈**（哪一层调用了哪一层）。
+
+---
+
+#### 40.8.10 ★★ 离线官方文档合集：Nix Diátaxis（EPUB）
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1uk0fe4` |
+| 日期 | **2026-06-30** |
+| 作者 | u/ucsilahsor |
+| 标题 | I introduce Nix Diátaxis: The Complete Anthology |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1uk0fe4/> |
+
+**原文（节选）**：
+
+> *"…I spend a lot of time digging through Nix documentation. But staring at a monitor for deep-dive reading gets exhausting, so I wanted to move the entire Nix documentation ecosystem onto my e-ink reader for offline, distraction-free reading. **This volume contains the complete, cross-linked contents of:***
+> - *nix.dev: Official Documentation for the Nix Ecosystem*
+> - *Nix **2.34.8** Reference Manual*
+> - *NixOS **26.05** Reference Manual*
+> - *Nixpkgs **26.05** Reference Manual*
+>
+> *Compiled directly from source, this volume aligns strictly with the **Diátaxis** framework (adopted by Nix…"*
+
+> [!TIP]
+> **这是本轮「最值得收藏」的一条资源** —— 因为它的**版本号正好对齐本指南**：
+>
+> | 组件 | 版本 |
+> |---|---|
+> | NixOS Reference Manual | **26.05** ← 与本指南适用版本**完全一致** |
+> | Nixpkgs Reference Manual | **26.05** ← 一致 |
+> | Nix Reference Manual | 2.34.8 |
+> | nix.dev | 官方文档 |
+>
+> **两个用处**：
+> 1. **离线** —— 装机时（还没配好网络/代理）可以带着查
+> 2. **交叉链接** —— 官方手册之间原本互相孤立，这个合集把 `nix.dev` 与 Nix/NixOS/Nixpkgs 手册**用超链接串起来**
+>
+> **⚠️ 需要核实**：本轮**只拿到帖子正文开头**，**没有拿到 EPUB 的实际下载地址**。要拿到需要点开原帖看正文/评论。**本指南不编造下载链接。**
+>
+> **与 §36.2 的关系**：本指南 §36 讲过官方文档按 **Diátaxis** 组织（tutorials / guides / reference / concepts）。这个 EPUB 就是**按同一框架**编译的 —— 所以它和本指南第三十六章是**同一套骨架的两种呈现**。
+
+---
+
+#### 40.8.11 ★ TUI 安装器：`nixos-wizard`
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1mlh8b2` |
+| 日期 | 2025-08-09 |
+| 作者 | u/video_2 |
+| 标题 | I wrote a TUI installer for NixOS |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1mlh8b2/> |
+
+**原文**：
+
+> *"NixOS is my favorite linux distro, but installing it from the terminal is a pain in the ass. I had to re-install it pretty recently and the whole time I was thinking 'Arch gets to have a cool TUI installer, why don't we have one' So I wrote one **https://github.com/km-clay/nixos-wizard**. Still in early development, but the core functionality is stable."*
+
+> [!WARNING]
+> **本指南第二章讲的是「官方安装流程」**（手动分区 + `nixos-generate-config`）。**这个 TUI 安装器是第三方项目，不是官方工具。**
+>
+> **对本指南读者的建议**：
+> - **第一次装** → **走官方流程**（第二章）。因为装坏了你知道怎么修，且官方流程是后面所有章节的**前提假设**。
+> - **第二次、第三次装** → 可以试 `nixos-wizard` 省时间。
+> - **⚠️ 作者自己说 "Still in early development"** —— 且是 2025-08 的状态，**到 2026-10 是否仍维护、是否支持 26.05，本指南未核实**。
+>
+> 出处：[Reddit `1mlh8b2`](https://www.reddit.com/r/NixOS/comments/1mlh8b2/i_wrote_a_tui_installer_for_nixos/)（2025-08-09）`[社区]`；仓库 <https://github.com/km-clay/nixos-wizard> `[仓库]`
+
+---
+
+#### 40.8.12 ★ Vibe Coding 相关：Nix 字符串内嵌语言的语法高亮
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1raqini` |
+| 日期 | **2026-02-21** |
+| 作者 | u/ayanada |
+| 标题 | I built a VS Code extension that brings syntax highlighting to embedded languages inside Nix strings (`'' ... ''`). Zero dependencies. |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1raqini/> |
+
+**原文（节选）**：
+
+> *"I switched to NixOS about three months ago… I finally managed to put together a proper system flake, set up home-manager, and got my whole environment structured. Now I'm just enjoying the ride. But there was one thing that kept annoying me. **As my config grew, I started putting more and more stuff directly into Nix (like `shellHook`s, bash sni…**"*
+
+> [!TIP]
+> **这正是本指南第九章 / 第十章的痛点**：**Vibe Coding 场景下，你的 `configuration.nix` 里会塞进大量 `'' ... ''` 字符串**（`shellHook`、bash 脚本、Python 片段、systemd 单元内容）。**这些内嵌语言默认没有高亮，非常容易写错。**
+>
+> **与「LLM 写配置」的配合**：当 Agent 帮你写 `shellHook` 时，**没有高亮你就看不出它写错了**。这个扩展让内嵌的 bash/python 有语法着色 —— **对「人审查 Agent 产出」这一步有实际帮助**。
+>
+> **⚠️ 本指南未核实**：这个扩展的名称、市场链接、是否支持 26.05 时代的新语法 —— 帖子正文只给了描述，**没给扩展 ID**。
+
+---
+
+#### 40.8.13 ★★★ LLM 辅助写 flake 的五个真实案例（本轮最重要的主题之一）
+
+**本轮共出现 5 个「用 LLM 写 NixOS 配置」的真实案例**，全部来自不同帖子。**这是对「LLM 介入管理模式」（本指南第九、十、二十一、三十四章的立论基础）最强的社区佐证。**
+
+| # | 帖子 | 日期 | 作者 | 用了什么 LLM | 原话 |
+|---|---|---|---|---|---|
+| 1 | `1rtjyz9` | **2026-03-14** | u/moortuvivens | **Claude** | *"everytime I tried to learn nix, my eyes glazed over. I could not concentrate on it. **This time I took the shortcut, I had claude help me make a flake.** I did however decide exactly on how I wanted it, **checking its work every step of the way**. Not good to take the shortcut, but better the shortcut than not at all. **Flake-parts, dendritic, den, home manager, stylix, sops and lanzaboote.** It's nicely composeable, I can just make a host by combining profiles and apps/services and drivers."* |
+| 2 | `1rqtu0j` | **2026-03-11** | u/zener79 | **Claude** | *"I'm still a Nix beginner, so this was also a big learning project for me. **A lot of the heavy lifting in the early phase came from working with Claude**, which helped me get from 'I kind…'"* |
+| 3 | `1wvx3r2` | **2026-10-02** | u/Effective_Great | **Claude** | *"I recently hopped onto NixOS and have been running **26.05 stable** release. I wanted to hop onto the unstable release for the latest versions of my apps but **asking around (claude) it appears not to be advisable** on my system because rn I'm on a laptop with a dual gpu (intel uhd and rtx 1060) and my nvidia card runs on legacy drivers that will break when the current kernel stops supporting them. **Is claude…**"* |
+| 4 | `1qi7a2g` | 2026-01-20 | u/codingismy11to7 | **Gemini** | *"https://github.com/codingismy11to7/secrets … i know other people have done stuff like this before… **gemini did most of the heavy lifting here** so i'm certainly not precious about it."* |
+| 5 | `1mq7qni` | 2025-08-14 | u/VoNpo | **ChatGPT** | *"I have tried to put together a 'perfect' AMD GPU module in past week by browsing reddit, reading the wiki and **talking to ChatGPT**. … **However, ChatGPT in particular believes that it would be a good idea to install everything in the `extraPackages` section (including mesa, vulkan, libva etc.) because some parts of the packages in question will otherwise not be installed? Is there any real truth to this, any devs here to confirm which is the correct way?**"* |
+
+> [!IMPORTANT]
+> **这张表里有三个可以直接引用的结论：**
+>
+> **① LLM 辅助已经进入主流实践，不再是边缘做法。**
+> 5 个案例、4 种模型（Claude ×3、Gemini、ChatGPT）、时间跨度 2025-08 至 2026-10。**而且都是用 LLM 做「配置生成」这一高价值步骤。**
+>
+> **② ★★ `1rtjyz9` 给出了「正确的用法」的完整描述 —— 值得逐句拆：**
+> | 作者原话 | 对应本指南的哪条原则 |
+> |---|---|
+> | *"I did however decide **exactly on how I wanted it**"* | **人决定架构，LLM 写代码**（§34 的模块提示词模板正是这个分工） |
+> | *"**checking its work every step of the way**"* | **`dry-build` 作为验证闸门**（§0.3 铁律 3） |
+> | *"Not good to take the shortcut, but better the shortcut than not at all"* | **对「入门门槛」的务实态度** —— 与 §23（Bazzite 模式）、§24（Aeon 模式）的立场一致 |
+> | *"Flake-parts, dendritic, den, home manager, stylix, sops and lanzaboote"* | **LLM 直接产出了相当复杂的栈** —— 说明 LLM 的能力上限不低，但**审查能力必须跟上** |
+>
+> **③ ★★ `1mq7qni` 是一个「LLM 说错了」的实例，而且作者自己察觉了。**
+>
+> ChatGPT 建议：**在 `hardware.graphics.extraPackages` 里把 mesa / vulkan / libva 全都装一遍**。作者**起了疑心**，跑到 Reddit 上找开发者确认：*"Is there any real truth to this?"*
+>
+> **本指南的裁决（基于 §32 的官方文档分析）**：
+> - **`hardware.graphics.enable = true` 已经包含 OpenGL / Vulkan / VA-API 驱动**（本指南 §32.1 已核实）
+> - **只有 OpenCL 需要额外装**（`rocmPackages.clr.icd`）
+> - **所以 ChatGPT 的建议是多余的**，而且**可能有害** —— 在 `extraPackages` 里手动塞 mesa 会**绕过 `hardware.graphics.package` 的统一管理**，正是 §32.6「ICD 混版本」的成因之一
+>
+> **这条帖子的正确姿势，正是本指南 §34 那张「给 Agent 的模块提示词模板」想解决的**：**LLM 给的建议必须用官方文档或 mcp-nixos 复核**（本指南第三十八、三十九章就是这套复核工具链）。
+>
+> **作者的配置（可作反面参照）**：
+> ```nix
+> hardware.graphics = {
+>   enable = true;
+>   enable32Bit = true;
+>   extraPackages = with pkgs; [
+>     rocmPackages.clr.icd   # ✅ 这条是对的（OpenCL）
+>     libva                  # ⚠️ VA-API 已由 enable=true 提供，多余
+>     # （帖子里还提到 ChatGPT 建议加 mesa/vulkan —— 那就是明确多余）
+>   ];
+> };
+> ```
+
+---
+
+#### 40.8.14 ★ 30 台无网 PC 的 NixOS 部署（半年后演进为独立项目）
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1rqtu0j`（2026-03-11）→ `1wvw4k1`（2026-10-02） |
+| 作者 | u/zener79（教师） |
+| 项目 | `nixos-lab` → **Nixorium 2.1** |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1rqtu0j/> ；<https://www.reddit.com/r/NixOS/comments/1wvw4k1/> |
+
+**原文（第一条）**：
+
+> *"I'm a teacher, and I'm responsible for a school computer lab with **30 student PCs**. In this kind of environment, reproducibility matters a lot. If even a few machines drift over time, maintenance becomes messy very quickly. Reinstalling systems by hand is slow, error-prone, and hard to repeat consistently **even with Ansible**. So over the last month, I built this: **https://github.com/giovantenne/nixos-lab**"*
+
+**原文（半年后）**：
+
+> *"Six months ago I posted here about the NixOS setup I built for the 30-PC computer lab where I teach. At the time, it worked well for me, but **it was still very much my setup: tied to one lab, one network, and a lot of assumptions I had accumulated along the way**. Since then I've been trying to turn it into something other people could actually install, understand, and maintain. Today I released **Nixorium 2.1**."*
+
+> [!TIP]
+> **这条的价值在于「**`no client internet access`**」这个约束** —— 它对应本指南第三十五章（构建镜像 / Live ISO / Appliance）与 §30.10（离线二进制缓存）。
+>
+> **「30 台无网 PC」是 NixOS 最擅长的场景**，因为：
+> 1. **声明式** → 30 台配置完全一致，不会漂移
+> 2. **可离线** → 本地二进制缓存 / 自建 Cachix（本指南 §30.10）
+> 3. **可回滚** → 一台坏了不影响其他
+>
+> **作者明确对比了 Ansible**：*"hard to repeat consistently even with Ansible"* —— 这是**声明式 vs 命令式**差异的实战结论。
+>
+> **半年后演进为 Nixorium 2.1** 这一点也值得记：**从「我的配置」到「别人能装的东西」是一次质的跃迁**，作者自己点出了难点是 *"a lot of assumptions I had accumulated"*（隐含假设）。
+
+---
+
+#### 40.8.15 ★★ 同类第三方入门指南：`ryan4yin` 的 NixOS & Flakes Guide
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `13dxw9d`（2023-05-10）+ `14fvz1q`（2023-06-22，更新公告） |
+| 作者 | **u/ryan4yin** |
+| 标题 | NixOS & Nix Flakes - A Guide for Beginners |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/13dxw9d/> ；原文 <https://thiscute.world/en/posts/nixos-and-flake-basics/> |
+
+**原文（首发）**：
+
+> *"Hello Everyone~ I wrote a brand new **NixOS & Nix Flakes Guide** during my recent practices with them. I would like to share this guide here, hoping to bring some help to beginners just like me. looking forward to any feedback to improve this article!"*
+
+> [!TIP]
+> **这是「与本指南同生态位」的一份第三方指南**，值得知道它的存在 —— **不是因为要替代本指南，而是因为它的定位不同**：
+>
+> | 维度 | 本指南 | `ryan4yin` 的指南 |
+> |---|---|---|
+> | 硬件画像 | **AMD 显卡 + AMD CPU + Realtek 网卡** | 通用 |
+> | 场景 | **中文用户 · GNOME/KDE · Flatpak · Steam · Vibe Coding** | 通用 |
+> | LLM 介入 | **核心主题**（第九、十、二十一、三十四章） | 不涉及 |
+> | 游戏 | **整章（第八、十四、十八、二十三章）** | 不涉及 |
+> | 证据分级 | **全文 `[官方]`/`[Wiki]`/`[社区]`/`[核实·源码]`** | 未分级 |
+> | 深度 | 40 章 + 5 附录 | 入门向 |
+>
+> **⚠️ 时效性**：帖子是 **2023 年**，`thiscute.world` 上的原文持续更新（作者在 2023-06 发过更新公告），但**本指南未核实其当前是否已对齐 26.05**。
+>
+> **建议用法**：**作为「第二意见」** —— 当本指南某处你没看懂时，换个说法看。**但版本相关的结论以本指南（已核实 26.05）和官方文档为准。**
+>
+> **注**：`ryan4yin` 也是中文社区知名项目 **`nixos-and-flakes-book`** 的作者 —— 本指南未核实该仓库与上述网页版的关系。
+
+---
+
+#### 40.8.16 ★★ Zero to Nix（Determinate Systems）
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `10jgt38` |
+| 日期 | 2023-01-23 |
+| 作者 | u/lucperkins_dev（Determinate Systems） |
+| 标题 | Introducing Zero to Nix |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/10jgt38/> |
+
+**原文（节选）**：
+
+> *"We at **Determinate Systems** are excited to announce **Zero to Nix**, a new learning resource for Nix that's designed to be beginner friendly and to reach people who have tried to learn Nix in the past but haven't quite gotten over the hump. There are two things that set Zero to Nix apart from other resources: **It has users install Nix using Nix Installer, a next-generation tool created by Determinate Systems**…"*
+
+> [!TIP]
+> **两个要点：**
+>
+> 1. **`Zero to Nix` 是「官方级」的入门资源**（Determinate Systems 是 Nix 生态的核心商业公司，也是 `flakehub` 的运营方 —— 本指南 §12 已收录 FlakeHub）。
+> 2. **它推广的是 `nix-installer`** —— **⚠️ 这是一个重要的区分**：
+>    - `nix-installer` 是 **Determinate 的安装器**（用于在**已有 Linux/macOS 上装 Nix 包管理器**）
+>    - 本指南第二章讲的是**安装 NixOS 操作系统**
+>    - **两者不是一回事**：`nix-installer` 装的是「Nix 这个包管理器」，NixOS 装的是「整个操作系统」
+>
+> **对你的意义**：**你已经装 NixOS 了，不需要 `nix-installer`。** 但 `Zero to Nix` 的教程内容（Nix 语言、flake 基础）**仍然适用** —— 而且它是**英文世界里公认「对新手最友好」的入口之一**。
+>
+> **⚠️ 时效性**：帖子是 2023 年。本指南**未核实** `zeroto.nix` 的内容是否已对齐 26.05。
+
+---
+
+#### 40.8.17 ★ 专讲「新手卡点」的 flake 说明
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1k707lx` |
+| 日期 | 2025-04-24 |
+| 作者 | u/WasabiOk6163 |
+| 标题 | Nix Flakes for NixOS Configuration Explained |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1k707lx/> |
+
+**原文（开头，说明了它的定位）**：
+
+> *"This is more intended to **highlight some common gotchas and places of confusion for beginners** than to be a complete guide. Also, I take notes in markdown so it's written in markdown. … **You can think of the `flake.nix` as an entry point and a way of acquiring dependencies (`inputs`) that are required for evaluation.** A flake is simply a source tree (e.g. git repo) containing a `flake.nix` that provides a standardized interface to Nix artifacts (e.g. packages, modules). Attribute…"*
+
+> [!TIP]
+> **「highlight common gotchas」这个自我定位，正是本指南第十九、二十、二十六章在做的事**（第十九章：三套方案边界；第二十章：flake 进阶；第二十六章：语法与抽象）。
+>
+> **作者那句对 `flake.nix` 的比喻值得记**：
+> > *"You can think of the `flake.nix` as **an entry point** and a way of **acquiring dependencies** (`inputs`) that are required for evaluation."*
+>
+> **这比很多官方文档的说法更好懂** —— 它把 `flake.nix` 定位成「入口 + 依赖获取器」，而不是「配置文件」。这与本指南第十九章「flake 是**依赖管理与版本锁定层**，不是配置层」的定位一致。
+>
+> **⚠️ 本指南只拿到正文开头**，完整内容需点开原帖。
+
+---
+
+#### 40.8.18 ★ 新手被劝退的真实原因：文档里的「黑话」
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1uhwn3m` |
+| 日期 | **2026-06-28** |
+| 作者 | u/yoftahe1 |
+| 标题 | Is the nix docs written for people who already know nix? |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1uhwn3m/> |
+
+**原文（完整）**：
+
+> *"I tried to read the nix docs to get a clear understanding of reproducible environments. for context I'm complete beginner to nix and the only thing I know is defining `flake.nix` and running `nix develop` which stores things in `/nix/store`. but when I try to check people in communities they always talk about concepts that are strange to me. like **what is `darwin.nix`, `cellPackages`**.. all I know nix for is that you define a shell with the same version of binaries that run similarly in different machines. and for this I tried to read the docs and it is like **'if you are a beginner, get off!'**"*
+
+> [!IMPORTANT]
+> **这条精确指出了「入门文档的黑话问题」，而且点了两个具体的词。本指南第三十六章可以据此补一个「黑话对照表」：**
+>
+> | 黑话 | 是什么 | 你需不需要关心 |
+> |---|---|---|
+> | **`darwin.nix`** | **nix-darwin** 的配置文件 —— 用于**在 macOS 上管理系统配置** | ❌ **AMD 台式机/笔记本不需要**（你是 NixOS Linux，不是 macOS） |
+> | **`cellPackages`** | **`flake-parts`** 生态里的一个概念（`flake-parts` 用「cell」组织多主机/多架构的输出） | ❌ **入门阶段完全不需要** —— 这是**大型多主机 flake** 的组织工具 |
+> | `flake-parts` | 把 `flake.nix` 拆成模块的框架 | ⚠️ **入门不需要**；本指南 §40.8.13 里那位用 Claude 建栈的用户用到了它，但那是**进阶** |
+> | `dendritic` / `den` | flake 组织的**进阶模式** | ⚠️ 同上，**入门不需要** |
+>
+> **本指南的立场**：**这些词你不认识，不代表你落后。** 它们属于**「多主机 / 多架构 / 大型配置」**场景。**单机用户用 `configuration.nix` + 可选 flake 就够了**（本指南第十九章的裁决表就是这个结论）。
+>
+> **这条也是本指南为什么按「官方手册骨架」组织（第三十六至三十九章）的理由** —— 官方手册是**分层**的，你可以只读 `reference` 层，跳过 `concepts` 层的黑话。
+
+---
+
+#### 40.8.19 ★★★ ESP 爆满：三种引导器的行为差异 + 一个免安装的救援工具
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1wofaax` |
+| 日期 | **2026-09-23** |
+| 作者 | u/Lonely-Scarcity-3387 |
+| 标题 | Boot-Gardener: A tool to fix a full ESP on NixOS without the stress |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1wofaax/> |
+| 仓库 | <https://github.com/DanielTallon/nix-packages> |
+
+**原文（关键技术事实，逐条拆）**：
+
+> *"Every NixOS user has learned that a rebuild can add a kernel and initrd to your EFI System Partition (ESP). And that eventually the ESP fills up and the whole rebuild fails. Each bootloader handles this differently…*
+>
+> *Comparing ESPs:*
+> - ***GRUB is the easiest to keep clean, but only if you set it up that way. If you mount the ESP at `/boot/efi` instead of `/boot`, kernels and initrds stay on your root filesystem.***
+> - ***systemd-boot can't read from the root partition, so every kernel and initrd has to live on the ESP.***
+> - *`configurationLimit` prunes old entries automatically, **but only before the ESP fills up**.*
+> - ***Once it's full, you hit a catch-22 because the rebuild has to copy new files before it can delete old ones.***
+> - ***Limine is currently the worst case, especially for new NixOS users. `maxGenerations` defaults to no limit, and the installer also copies before it deletes.*** *You need to rebuild to make space, but you need space to rebuild. That makes it easy to fill your ESP to 100%, and once it's full, Limine can't finish its own cleanup."*
+
+**原文（工具用法）**：
+
+> *"You can find Boot-Gardener in my repo: https://github.com/DanielTallon/nix-packages. **However, you don't need to install it ahead of time.** Even on a fresh NixOS install with a completely full ESP, you can run:*
+>
+> ```bash
+> nix run --extra-experimental-features "nix-command flakes" github:DanielTallon/nix-packages#boot-gardener
+> ```
+>
+> *What you'll see: Every generation, with its kernel and version, and whether it is currently on the bootloader. How full your ESP is. Which generation you booted into and which one is currently active."*
+
+> [!DANGER]
+> **这是本轮**最实用的技术发现**，因为本指南第三十章 §30.5 只讲了「`/boot` 满了要两步」，**没有讲清三种引导器的行为差异**，也**没有给「已经满了怎么办」的免安装救援命令**。
+>
+> **本指南 §30.5 的现有结论是对的**（`configurationLimit` 是必需的，见 §30.5 与 §30.11 反模式 #3），**但缺了三块**：
+>
+> **① 引导器行为差异表（本指南原来没有）**
+>
+> | 引导器 | 内核/initrd 放哪 | 清理难度 | 关键点 |
+> |---|---|---|---|
+> | **GRUB** | **取决于挂载点** —— ESP 挂 **`/boot/efi`** 时，内核/initrd **留在根文件系统** | **最容易** | *"only if you set it up that way"* |
+> | **systemd-boot** | **必须全在 ESP 上** | 中 | **无法从根分区读取** —— 所以内核/initrd 只能放 ESP |
+> | **Limine** | 在 ESP 上 | **最差** | **`maxGenerations` 默认无限制** + 安装器**先复制后删除** |
+>
+> **② 核心机制：`configurationLimit` 的「时机漏洞」**
+>
+> `configurationLimit` **只在 ESP 还没满时有效**。**一旦满了就是 catch-22**：rebuild 要先复制新文件才能删旧文件，但没空间复制 → **rebuild 失败 → 永远删不掉**。
+>
+> **③ 免安装救援命令（★ 最有用的一条）**
+>
+> ```bash
+> # 即使 ESP 100% 满，也能跑（不预先安装）
+> nix run --extra-experimental-features "nix-command flakes" \
+>   github:DanielTallon/nix-packages#boot-gardener
+> ```
+> 它显示：每个 generation 的内核与版本、**是否还在 bootloader 里**、ESP 用了多少、当前启动的是哪个。
+>
+> **⚠️ 两条提醒**：
+> - 这是**第三方工具**（作者自述在 Limine/GRUB/systemd-boot 三种上都测过，但**本指南未独立验证**）。
+> - **手删 ESP 文件仍然是最通用的兜底**（本指南 §30.5 已给步骤）—— 工具只是降低「删错文件」的风险。
+>
+> **④ 一条本指南该补的预防性建议**
+>
+> 帖子里那句 **"If you mount the ESP at `/boot/efi` instead of `/boot`, kernels and initrds stay on your root filesystem"** 是一条**装机阶段就能做的优化**（配合 GRUB）。本指南第二章/第二十七章讲分区时**没提这个选项** —— 已列入 §40.9 的「新增候选」。
+>
+> 出处：[Reddit `1wofaax`](https://www.reddit.com/r/NixOS/comments/1wofaax/)（2026-09-23）`[社区]`
+
+---
+
+#### 40.8.20 ★★ 「加了 unstable channel 但 KDE 没升级」—— 混 channel 的真实案例
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1wyxzns` |
+| 日期 | **2026-10-06** |
+| 作者 | u/Positive-Incident221 |
+| 标题 | Can't upgrade to KDE 6.7 |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1wyxzns/> |
+
+**原文（完整）**：
+
+> *"I added the unstable channel and ran `nixos-rebuild switch --upgrade` and then rebooted. however, **it's still using kde 6.6 and not 6.7**. Does anyone know how to fix this?"*
+
+> [!IMPORTANT]
+> **这条是「混 channel 不会自动升级」的教科书案例，而且就发生在 2026-10-06（本指南核实日期的 8 天前）。**
+>
+> **为什么失败？** 本指南第二十章 / 第二十四章讲过：
+> - **加 channel（或加 flake input）只是「让 unstable 可用」，不等于「用 unstable 替换」**
+> - **`nixos-rebuild switch --upgrade`** 升级的是**当前 channel 指向的 nixpkgs**，**不会**把 KDE 换成另一个 channel 的 KDE
+> - **KDE 的版本由「你实际使用的那个 nixpkgs」决定** —— 只要你没在配置里把 KDE 的来源指向 unstable，它就还是 stable 的 6.6
+>
+> **正确做法（本指南第二十四章「路 B：双 nixpkgs」）**：
+>
+> ```nix
+> # 关键：把 KDE 相关的包从 unstable 取，而不是从默认 nixpkgs 取
+> { pkgs, pkgsUnstable, ... }:
+> {
+>   # 方式一：overlay 替换（推荐，影响面可控）
+>   nixpkgs.overlays = [
+>     (final: prev: {
+>       kdePackages = pkgsUnstable.kdePackages;   # ← 关键这一行
+>     })
+>   ];
+> }
+> ```
+>
+> **或者用 flake 的 `nixpkgs-unstable` input**（本指南第二十四章 §24.5 给的 `pkgsUnstable` 写法）。
+>
+> **⚠️ 但本指南在 §24.6 有明确警告**：**「只滚一部分」是有风险的**（依赖图混版本）。KDE 的依赖链比 mesa 更长 —— **`kdePackages` 整体替换**相对安全（因为是「整包集替换」），但**如果只替换其中几个组件就会出问题**。
+>
+> **⚠️ 另一条更重要的提醒**：**`--upgrade` 与「只升一个包」是两件事**。**用户真正想要的可能是「稳定基座 + 新 KDE」** —— 这正是本指南第二十四章的主题。**加 channel + `--upgrade` 是最常见的错误尝试。**
+
+---
+
+#### 40.8.21 ★★ Nixdatifier：CachyOS 的 `apdatifier` 的 NixOS 对应物
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1x2h00h` |
+| 日期 | **2026-10-10**（本轮最新的一条） |
+| 作者 | u/Emergency_Bridge_581 |
+| 标题 | Nixdatifier - The Apdatifier for NixOS |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1x2h00h/> |
+
+**原文（完整）**：
+
+> *"I loved **`apdatifier`** when I used **CachyOS** and I missed it in NixOS. I needed something in the UI that reminds me to run updates and all. So I created this project which **sits in the tray**. And it tells me when **a flake input is outdated**, and shows **what an update would change before running it**. It has **generation timelines, package diffs between generations, flake update checks with dry-run previews** and some other tools like dev environments checks if one uses such. I started it on **KDE** as I started my NixOS journey with that but it also w…"*
+
+> [!TIP]
+> **这条命中本指南第十一章（长期运维）的一个空白：**「**怎么让『该更新了』这件事可见**」。
+>
+> 本指南第十一章讲的是**机制**（`system.autoUpgrade` / `nix.gc` / 回滚 / HM 的 `autoUpgrade`）。**但机制解决不了「忘了更新」** —— 那是 **UI / 提醒**问题。
+>
+> **这个工具的三个功能正好对应本指南的三个主题**：
+>
+> | 功能 | 对应本指南 |
+> |---|---|
+> | **flake input 过期提醒** | §11 的 `nix flake update` 策略 |
+> | **generation 时间线 + 包 diff** | §30 的 generation 管理与 §33 的切换机制 |
+> | **flake update 的 dry-run 预览** | **§0.3 铁律 3（先 `dry-build` 再 `switch`）的 GUI 化** |
+>
+> **⚠️ 三点注意**：
+> 1. **它是 CachyOS 的 `apdatifier` 的移植** —— 而**你在更早的对话里问过「NixOS 怎么逼近 CachyOS」**（本指南第十八章）。**这是那条线上的一个新工具。**
+> 2. **它是第三方项目**，2026-10-10 才发布（**4 天前**）—— **本指南未核实其成熟度、是否在 nixpkgs 里、是否支持 GNOME**（作者说 "started it on KDE"）。
+> 3. **⚠️ 与「让 Agent 管系统」的关系**：这个工具的定位是**给人看的提醒**。而本指南第十一章讲的是**让 Agent 自动做**。**两者不冲突**：人看提醒 → 决定 → 让 Agent 执行（或自己执行）。**但要注意 §11 的 DANGER「不要两层都自动 switch」。**
+>
+> 出处：[Reddit `1x2h00h`](https://www.reddit.com/r/NixOS/comments/1x2h00h/)（2026-10-10）`[社区]`
+
+---
+
+#### 40.8.22 ★★ AMD VRAM 优先级补丁 + Jovian NixOS
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1shkwn0` |
+| 日期 | **2026-04-10** |
+| 作者 | u/Mandlebrot |
+| 标题 | AmdGPU VRAM priority fix |
+| 链接 | <https://www.reddit.com/r/NixOS/comments/1shkwn0/> |
+
+**原文（关键技术部分）**：
+
+> *"As you may have heard from the other subs, this work has been doing the rounds. In very very short, it allows for **better VRAM prioritisation** (e.g. towards a foreground game or process, and away from e.g. a web browser or the desktop that's hidden). Wouldn't it be fun to start the day by building the kernel? **Luckily Jovian Nixos kinda does this stuff already**… So here are some lines to add to your `configuration.nix`:*
+>
+> ```nix
+> boot.kernelPatches = [
+>   { name = "amdgpu-vram-cgroups-patch-1"; patch = ./patches/9d928b2c5af078304205c12c71fec4904860d8cc.patch; }
+>   { name = "amdgpu-vram-cgroups-patch-2"; patch = ./patches/9a02490c9f7938a4ed8950f0d61bcf677f67c07b.patch; }
+>   # ... 共 6 个补丁
+> ];
+> ```
+>
+> *…and in your `environment.systemPackages` list, add `(pkgs.callPackage ./dmemcg-booster.nix {})` …*
+> *…grab the kernel patch files from the author, and put in `/etc/nixos/patches` and the `dmemcg-booster.nix`, `plasma-foreground-booster.nix`, and `kcgroups.nix` from **Jovian-nixos**, renaming and putting in `/etc/nixos`…*
+> *Kernel version I'm using (`uname -r`): **6.19.8-xanmod1** (GPU: Radeon 5700, processor Ryzen 2600X, 8 GB ram :( )*
+> *So... does it work? `amdgpu_top` … and Baldur's Gate 3 at 1440p/HDR/VRR showed **only 3MB allocated to GTT, before and after. More testing needed!** (and I'm not convinced the `plasma-foreground-booster` bit is working at all)"*
+
+> [!WARNING]
+> **这是一条「实验性」内容，必须明确标注 —— 不要照着抄。**
+>
+> **它讲的是什么**：一组**内核补丁**，让 amdgpu 能把 **VRAM 分配优先级**按 cgroup 划分（前台游戏优先，后台浏览器/桌面让出）。
+>
+> **为什么不能照抄**：
+> 1. **作者自己的结论是「可能没用」**：*"only 3MB allocated to GTT, **before and after**"* → **前后无变化**；*"I'm not convinced the `plasma-foreground-booster` bit is working at all"*
+> 2. **需要 6 个内核补丁 + 3 个 `.nix` 文件**，全部手工放到 `/etc/nixos/`
+> 3. **作者用的是 Xanmod 内核 6.19.8** —— 与 26.05 默认的 6.18 **不同**
+> 4. **作者说 "Wouldn't it be fun to start the day by building the kernel?"** —— 这是**反讽**，意思是**每次更新都要重新编译内核**
+>
+> **唯一值得记的一点**：**作者提到 "Jovian Nixos kinda does this stuff already"** —— **Jovian NixOS 是 Steam Deck 的 NixOS 发行版**，它已经在做这类游戏向的内核/服务优化。**如果你想了解「NixOS 上的掌机/游戏向发行版」，Jovian 是一个值得知道的名字**（本指南第二十三章讲 Bazzite 模式时**没有提到 Jovian** —— 已列入「新增候选」）。
+>
+> **⚠️ 本指南未核实 Jovian NixOS 的当前状态**（是否支持 26.05、是否维护中）。
+
+---
+
+#### 40.8.23 ★★ mesa-git 在 RDNA4 上「最高 +41%」—— 但同时是本指南警告的反面
+
+| 项 | 值 |
+|---|---|
+| 帖子 | `1mgj1dw` |
+| 日期 | 2025-08-03 |
+| 作者 | u/Nolan_PG |
+| 标题 | Testing mesa-git RDNA4 improvements against mesa stable in a few games |
+| 链接 | <https://www.reddit.com/r/linux_gaming/comments/1mgj1dw/> |
+
+**原文（关键部分）**：
+
+> *"I just did some tests to see the improvements to RDNA4 GPU's performance **mesa-git** provides, and after seeing the results **I'd recommend anyone with a RX 9000 to change to mesa-git**.*
+>
+> *System Specs: NixOS 25.11 / KDE Plasma 6.4.3 / Kernel 6.16.0 / Wayland / Ryzen 7 7700 / 32 GiB 6000MHz CL30 / **AMD Radeon RX 9070 XT (265W Power Limit, -90mV Undervolt)** / Drivers: **mesa-git vs mesa-stable (25.1.7)***
+>
+> *Considerations: All tests are done with either Proton-GE-10.10 or Proton Experimental. Only tested at QHD. **All samples are at least 60s long**… **Take the results with a grain of salt, it was only one iteration per case so there could be measurement errors**…*
+>
+> ***Conclusion**: The difference in performance depends on the game but **mesa-git is, in every case tested, an improvement** and provides a performance uplift of **up to 41%** when compared to mesa-stable (Ninja Gaiden 2 Black RT-On TSR100 AVG FPS). If you've got a RDNA4 GPU and value Ray Tracing/FSR4 performance, **switch to mesa-git**… otherwise, if you'd rather stability over performance then go with stable."*
+
+> [!IMPORTANT]
+> **这条帖子把本指南 §32.6 的警告变成了一个「两难」，必须一起讲才有意义。**
+>
+> **① 社区有强烈的「滚 mesa」动机**
+>
+> RDNA4（RX 9000 系列）在新驱动上收益巨大：**最高 +41%**（Ninja Gaiden 2 Black，开光追）。而且这不是孤例 —— 同一查询里另一条帖子（`1jt2wfs`）也在说 *"I'm leveraging AUR to pull in the latest mesa git drivers for the 9070xt"*。
+>
+> **② 但 NixOS 上「只滚 mesa」有已知风险**
+>
+> 本指南 §32.6 讲过 **ICD 混版本静默失败**；而 §40.8.4 的 `1wuvnh2` 正是**这个风险的实证**（stable 基座 + unstable mesa → GDM 不启动）。
+>
+> **③ 本指南的裁决：两条路，都不推荐「只滚 mesa」**
+>
+> | 路 | 做法 | 代价 |
+> |---|---|---|
+> | **A. 全套同源升级** | **内核 + mesa + libdrm 一起从同一个 nixpkgs 取** | 失去「稳定基座」，等于整体切 unstable |
+> | **B. 保持稳定，接受性能差** | 用 26.05 的 mesa | 失去 RDNA4 的 +41% |
+> | **❌ C. 只替换 mesa** | `nixpkgs.overlays` 里只换 `mesa` | **§32.6 + `1wuvnh2` 双重风险** |
+>
+> **④ ★ 一个本指南 §40.8.13 讲过的关联**
+>
+> 同一批用户里，**有人已经在用 LLM 问这类问题**（`1wvx3r2` 用 Claude 问「能不能上 unstable」）。**这说明「LLM 回答版本/兼容性问题」是一个真实高频场景** —— 而这正是本指南第三十八、三十九章（用 mcp-nixos 做实测核实）存在的理由：**LLM 的建议必须用可验证的数据源复核。**
+>
+> **⑤ 一个待核实的点**
+>
+> 本指南 §18 / §24 讲过 **`mesa-git` 在 nixpkgs 里拿不到**（只有稳定版 `mesa`）。**本指南未核实** 2026-10 时点是否有官方或半官方的 mesa-git flake（如 `nixpkgs-mesa-git` 或 Chaotic-Nyx 之类的第三方缓存）。**这条列入附录 C 存疑项。**
+>
+> 出处：[Reddit `1mgj1dw`](https://www.reddit.com/r/linux_gaming/comments/1mgj1dw/)（2025-08-03）`[社区]`
+
+---
+### 40.9 ★★ 社区共识 ↔ 本指南结论的对照表
+
+> [!NOTE]
+> **这张表的用法**：左边是社区帖的说法，右边是本指南的对应章节与裁决。
+>
+> **三种裁决**：
+> - **✅ 印证** —— 社区帖与本指南结论一致（**独立佐证**，提高置信度）
+> - **➕ 补充** —— 社区帖提供了本指南没写的**细节或工具**
+> - **⚠️ 需修正** —— 社区帖与本指南不一致，**本指南需要说明为什么**
+
+#### 40.9.1 ✅ Bazzite 不适合「零基础新手」—— 与本指南 §23 一致
+
+| 帖子 | `1i79cxk`（2025-01-22，u/EmiProjectsYT） |
+|---|---|
+| 标题 | I gave NixOS to a beginner |
+
+**原文（关键段）**：
+
+> *"One of my friends decided to use Linux since Windows 10 is going EOL… So, my idea was that he should install **bazzite** since it should be simple and it's configured out of the box for gaming and he doesn't need to install the Nvidia drivers manually. **Bazzite's installation went fine and he started using it, but it had some problems, especially with the 1st run setup.** I decided that he should **rebase to the base ublue kinoite image** which was slightly better, but **there were still a couple problems**…"*
+
+> [!TIP]
+> **✅ 印证本指南 §23（Bazzite 模式）的核心判断**：Bazzite **不是「零配置」** —— 它的**首次运行设置**本身就会出问题，而**出问题后用户没有排查手段**（因为它把复杂度藏起来了）。
+>
+> 本指南 §23 的结论是：**「Bazzite 模式」值得学的是它的软件分层策略（六个层级），不是「Bazzite 更简单」。** 这条帖子正好佐证了后半句。
+
+#### 40.9.2 ⚠️ 「NixOS 在开发工具/非 FHS 场景不划算」—— 本指南需要正面回应
+
+| 帖子 | `1ohdtln`（2025-10-27，u/Mindless_Insect3743） |
+|---|---|
+| 标题 | A use case where NixOS is more trouble than worth（TL;DR - dev tools/environments, non FHS compliance） |
+
+**原文（开头）**：
+
+> *"I have been using NixOS for close to **two months** now. I was originally drawn by the modularity/configurability, large and up to date package repo, reproducibility and atomic updates… But **I have run into too many issues, and I will not be using NixOS any more.** Here is a very long review and retrospective, which will hopefully be of help to other NixOS beginners, or people (**in particular developers**) int…"*
+
+> [!IMPORTANT]
+> **⚠️ 这条与本指南有部分张力，必须诚实处理。**
+>
+> **社区帖的立场**：**开发工具 + 非 FHS 场景**下，NixOS 的麻烦 > 收益。
+>
+> **本指南的立场（第二十五章 + 第十五章）**：**这两类场景确实是 NixOS 的「摩擦区」，但都有成熟的解法。**
+>
+> | 帖子指出的痛点 | 本指南的对应解法 |
+> |---|---|
+> | 非 FHS 兼容 | **§25 的 14 种方案按侵入性排序**（`buildFHSEnv` / `steam-run` / `nix-ld` / `appimage-run` / `distrobox` …） |
+> | 开发工具链 | **§15 的语言工具链手册**（npm / bun / uv / Python / Rust / Go / TS + `devShell`） |
+> | 「每个工具都要找 Nix 特定做法」 | **§10 的 Agent 管理模式**（让 Agent 处理这些「一次性」的转换） |
+>
+> **但要承认的是**：帖子的抱怨**不是错的** —— **NixOS 在这两类场景下确实比 Arch/Fedora 多一层心智负担**。**本指南的定位正是「把这层负担降到可接受」**，而不是「声称没有负担」。
+>
+> **✅ 本指南已在 §0 的「三条铁律」和 §25 的「三类死路」里承认过这一点。** 这条帖子可以作为**「什么情况下应该考虑不用 NixOS」**的参考 —— **诚实比推销重要。**
+
+#### 40.9.3 ⚠️ 「用了一年还是累了」—— 本指南需要给的「减负」建议
+
+| 帖子 | `1o8gd3l`（2025-10-16，u/CadeVoidlighter） |
+|---|---|
+| 标题 | NixOS as daily driver for a year. I'm getting tired. Advice? |
+
+**原文（关键句）**：
+
+> *"I love NixOS!... In theory. In practice, I'm not sure I can stick with NixOS. I'm getting so tired. Now **my needing to 'stick' with NixOS might be part of the problem — I keep wanting to use NixOS as my one tool to solve all of my system needs.** The only thing is, NixOS keeps sounding like the perfect solution for all my system needs. --- I can troubleshoot, and I like to tinker…"*
+
+> [!IMPORTANT]
+> **作者自己指出了根因，而且这个根因很有价值**：
+> > *"I keep wanting to use NixOS as **my one tool to solve all of my system needs**."*
+>
+> **这是「过度统一」的陷阱** —— 想把**所有东西**都塞进 Nix。
+>
+> **本指南给出的「减负」原则（分散在 §7 / §17 / §23 / §24 / §25）**：
+>
+> | 什么东西 | 该不该进 Nix |
+> |---|---|
+> | 系统服务、驱动、内核 | ✅ **应该**（这是 NixOS 的主场） |
+> | 桌面应用（图形类） | ⚠️ **Flatpak 优先**（§7 / §24.4） |
+> | 开发工具链（每个项目不同版本） | ✅ **`devShell` / `direnv`**（§15） |
+> | 需要 FHS 的第三方二进制 | ⚠️ **`distrobox` / `buildFHSEnv`**（§25），**不要硬塞进 Nix** |
+> | 一次性脚本 | ❌ **不要写成 Nix 模块** |
+>
+> **一句话**：**NixOS 是「系统层」的工具，不是「万物皆 Nix」的工具。** 承认边界，才能长期用下去。
+
+#### 40.9.4 ➕ Bazzite → CachyOS → NixOS：一条真实的迁移路径
+
+| 帖子 | `1vkuu9s`（2026-08-10，u/Lonely-Scarcity-3387） |
+|---|---|
+| 标题 | Loving NixOS so Far |
+
+**原文（完整迁移史）**：
+
+> *"I've only been using Linux for the last 6 months and I am proud to say that 2 of them have been using NixOS. It was quite a journey. I started using **Zorin** on an old laptop from work because Windows 11 took over 10 minutes to fully boot. From there I installed **Bazzite** on my gaming desktop, but **I didn't like it**. Then **CachyOS**, but **the frequent AUR attacks made me leave that hot mess**. I tried NixOS for a few days before, but I bounced off it pretty quickly. Then I decided that I still had a lot to learn before tackling NixOS again."*
+
+> [!TIP]
+> **➕ 这条提供了两个本指南可以引用的「外部动机」**：
+>
+> 1. **「AUR 攻击」是一个真实且反复出现的迁移动机。** 同一批数据里，另一条帖子（`1vcydc5`，2026-08-01）说 *"after another disappointing linux experience (with arch and cachyos)…"*，还有一条（`1u3rqfw`）直接问 *"Recently, a bunch of AUR packages(400+) were compromised and installed malware; how common are these incidents with nixpkgs?"*
+> 2. **「从 Bazzite 出发但不喜欢」** —— 与 §40.9.1 呼应：**Bazzite 的开箱即用不等于满意。**
+>
+> **✅ 与本指南 §17（安全加固 / 防病毒）的连接**：`1u3rqfw` 那条帖子里有两个问题，第二个特别值得回答：
+>
+> > *"if a virus installed or set itself up as some sort of persistent systemd service, **would rolling back to a previous version remove the virus?**"*
+>
+> **本指南的答案（基于 §30 的 generation 机制 + §29 的 systemd 状态分析）**：
+> - **回滚 generation 会移除「由 Nix 管理的部分」** —— 系统级服务定义、`/nix/store` 里的二进制（**但要等 GC 才真正删除**）
+> - **❌ 但回滚不会清理「不受 Nix 管理的持久状态」** —— 这正是 §30.1 的「必须持久化的路径」清单：
+>   - `/var/lib/*`（数据库、应用状态）
+>   - `/home/*`（用户配置、`~/.config/autostart`、`~/.bashrc`、systemd **user** 服务）
+>   - `/etc` 里**由 activation script 写入但不在 store 里**的文件
+> - **所以**：**恶意软件如果在 `/var` 或 `/home` 里落了持久化文件，回滚 generation 是清不掉的。**
+> - **这也是 §17 的结论**：**NixOS 的「不可变性」降低的是「系统层被篡改」的风险，不是「用户层恶意软件」的风险。**
+
+#### 40.9.5 ★ 「stable vs unstable」的社区共识
+
+| 帖子 | `1winlsg`（2026-09-17，u/Purple-Midnight-9902） |
+|---|---|
+| 标题 | How (un)stable is unstable ? |
+
+**原文（关键句）**：
+
+> *"I have tested various distros in the past, mostly **Debian sid, Fedora, Arch, NixOS**. (And they are all great btw) Currently on **NixOS 26.05**. I was wondering — and I know it is subjective… — at which point unstable is usable or not? For example Debian sid is 'still in dev' but it proved to work perfectly in 99% time…"*
+
+> [!TIP]
+> **➕ 这条给了「unstable 到底能不能用」的一个正确框架**：**拿它和 Debian sid / Arch 类比。**
+>
+> **本指南 §24.1 的结论**：「稳定」有两种含义 —— **① 版本不跳（stable channel）** 与 **② 系统不坏（NixOS 的 generation 机制）**。**NixOS 的 unstable 在「②系统不坏」上仍然优于 Arch**（因为每次切换都有 generation，可以回滚）。
+>
+> **所以本指南 §24 的推荐是「混合」**（路 C，但要按 §24.6 修正）：**基座稳定 + 少数组件滚动**，而不是「整个切 unstable」。
+>
+> **⚠️ 与 §40.8.4 / §40.8.20 的呼应**：**「混」是有技术风险的**（ICD 混版本、模块不自动升级）。**这两条社区实证正是本指南 §24.6 警告的来源。**
+
+#### 40.9.6 ✅ 「flake 到底为什么需要」—— 本指南 §19 的核心问题
+
+| 帖子 | `1wkrzo7`（2026-09-19，u/Pale_Section_7703） |
+|---|---|
+| 标题 | I need help understanding nixos |
+
+**原文（关键句，逐字引用）**：
+
+> *"I've been using NixOS for about 2 weeks now, and for the life of me, **I STILL couldn't understand flakes**. I've read the documentation, watched several videos, and yes, I understand the general idea: it has inputs and outputs, there's a `flake.lock` file to lock versions, and it's supposed to make your system configuration more reproducible and portable. **But I just cannot get the hang of it or see the practical use cases. Like, why would I use flakes instead of just configuring my `configuration.nix` and calling it a day? What am I actually gaining by using flakes on my own personal machine?** (I'm genuinely helpless here)"*
+
+> [!IMPORTANT]
+> **✅ 这个提问**就是本指南第十九章存在的理由**。**
+>
+> **本指南 §19 的答案（三句话版）**：
+>
+> | 问题 | 答案 |
+> |---|---|
+> | 「为什么不用 `configuration.nix` 就够了？」 | **对单机、不追新、不需要多机复用的用户 —— 确实够了。** 本指南 §19 的裁决表就是这个结论 |
+> | 「flake 给我什么？」 | **① 版本锁定（`flake.lock`）** —— 可复现；**② 多来源输入** —— 能同时用 stable + unstable；**③ 纯求值（不依赖本地状态）** |
+> | 「我该不该上 flake？」 | **§19 的一页裁决表**：要「跨版本混装」或「多机复用」→ 上；只是「改配置装包」→ 不需要 |
+>
+> **⚠️ 但这里有一个本指南承认的现实**：**flake 的官方文档（`nix.dev`）确实是「给已经懂的人写的」**（见 §40.8.18 的 `1uhwn3m`）。**本指南第十九章 + 第二十章的作用就是把这段「黑话期」压缩掉。**
+
+#### 40.9.7 ✅ 「试了三次还是回 Arch」—— 最平衡的一条反面评价
+
+| 帖子 | `1b6dwux`（2024-03-04，u/toruzikrov） |
+|---|---|
+| 标题 | I've tried NixOS 3 times now, and I honestly feel like I should just admit defeat and head back home to Arch |
+
+**原文（「喜欢」与「不喜欢」两栏，逐字引用）**：
+
+> *"This is **NOT** an Arch is awesome, NixOS sucks post. I'm not saying NixOS is objectively bad, I just don't think it's the right fit for my workflow and perhaps my personality… **The NixOS community are SUPER helpful.***
+>
+> ***What I like about NixOS:***
+> - ***Stability**: I've never had to power down my machine because something froze. And if something went wrong I don't just have a backup, but a detailed backup that I can browse the `configuration.nix` file and check what's missing.*
+> - ***A record of everything**: It feels great to have a record of what packages and programs I need in a list.*
+> - ***Access to so much new stuff with one package manager**…*
+>
+> ***What I disliked about NixOS:***
+> - *Dealing with any program, plugin **that downloads or executes binaries**. Trying to redirect paths, or find nix-specific workarounds…*
+> - ***Not being FHS compliant** can be really irritating at times…*
+> - *The confusing documentation… There's so many times that I'll open up a docs and it's like 'what the heck am I looking at?', 'Why are there so many options to do this simple thing I want?', Or the instructions leave me wondering **'Which file do I paste this and where?'**"*
+
+> [!TIP]
+> **✅ 这条是本轮最有参考价值的「中立评价」** —— 因为作者**同时列了优点和缺点**，而且**优点恰好是本指南的立论基础**（可复现、有记录、包多），**缺点恰好是本指南第二十五、三十六章要解决的**。
+>
+> **特别是这一句，值得本指南直接引用**：
+> > *"the instructions leave me wondering **'Which file do I paste this and where?'**"*
+>
+> **这正是本指南所有配置示例都标出「写在哪个文件」的原因** —— 本指南的每个代码块前面都说明了它属于 `configuration.nix` / `flake.nix` / HM 的 `home.nix`。
+>
+> **以及这一句**：
+> > *"I always feel a sense of 'man… **can I replicate this step on my own or figure out something like this the next time I run into a problem?**'"*
+>
+> **这就是「可迁移的知识」vs「抄一次就忘的教程」的区别** —— 也是本指南坚持**给证据链和出处**的原因：**你以后能自己查到。**
+
+#### 40.9.8 ★★ 社区数据的一个量化事实：nixpkgs 维护者增长
+
+| 帖子 | `1q2cmhk`（2026-01-02，u/MeLThRoX） |
+|---|---|
+| 标题 | Nix has experienced explosive growth, with maintainers increasing by 264% over the last years |
+
+**原文（方法与结论）**：
+
+> *"While analyzing the maintainer numbers of various package repositories, I found that **Nix has had by far the largest growth in maintainers over the past few years**… **I used Repology.org and Archive.org to fetch the historical statistics with a script — 23 quarters across 16 distributions.** What I found out: **Nixpkgs has far surpassed all others with an exponential growth of 263% (from 1,205 to 4,382 maintainers).** Even Arch only has a linear growth of 100% in the same time period, and **Debian basically stagnated at 2.3%**."*
+
+> [!NOTE]
+> **这是本轮唯一一条带「方法论 + 数据源」的量化结论**：
+>
+> | 项 | 值 |
+> |---|---|
+> | 数据源 | **Repology.org + Archive.org**（用脚本抓历史统计） |
+> | 样本 | **23 个季度 × 16 个发行版** |
+> | nixpkgs 维护者 | **1,205 → 4,382（+263%，指数增长）** |
+> | Arch 同期 | **+100%（线性增长）** |
+> | Debian 同期 | **+2.3%（基本停滞）** |
+>
+> **⚠️ 引用纪律**：这是**帖子作者的分析**，不是官方统计。**本指南未独立验证**这组数字（未重跑 Repology 查询）。**引用时应标明「社区分析，数据源 Repology + Archive.org」**。
+>
+> **为什么值得记**：它给「nixpkgs 的可持续性」提供了一个**数据点** —— 对应本指南 §22 里讨论过的「nixpkgs 是否太大、维护是否跟得上」这个问题。
+
+---
+
+### 40.10 可复用操作：Discord 与 Reddit 查询清单
+
+> [!TIP]
+> **这一节是本章的「工具化」部分** —— 直接可粘贴。**所有命令都在本机实测过（2026-10-14）。**
+
+#### 40.10.1 Discord：三个免登录端点
+
+```bash
+# ① 服务器规模（成员数 / 在线数 / 描述 / features）
+curl -s "https://discord.com/api/v10/invites/BqdJJFER4H?with_counts=true&with_expiration=true"
+
+# ② 公开频道列表 + 在线数 + instant_invite（不需要认证）
+curl -s "https://discord.com/api/guilds/568306982717751326/widget.json"
+
+# ③ 需要 bot token（本机无 token → 401，仅记录）
+curl -s "https://discord.com/api/v10/guilds/568306982717751326/preview"
+```
+
+**已知常量（可直接用）**：
+
+| 项 | 值 |
+|---|---|
+| 官方邀请（nixos.org 公布） | `https://discord.gg/BqdJJFER4H` |
+| widget 里的 instant_invite | `https://discord.com/invite/nSMNWs5j` |
+| guild id | `568306982717751326` |
+| 服务器名 | `Nix/NixOS (unofficial)` |
+
+#### 40.10.2 Reddit：唯一可用的抓取姿势
+
+```bash
+M="C:/Users/Admin/.workbuddy-ai/tools/moli/moli.exe"   # 本机无头浏览器 v1.1.17
+
+# ① 榜单（注意：几乎全是玩梗帖，实务价值低）
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/top/.rss?t=year" > top.html
+
+# ② ★ 定向搜索（真正有用的入口）
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/search.rss?q=amdgpu&restrict_sr=1&sort=top&t=all" > s.html
+
+# ③ 单帖 HTML（能读到 shreddit-post 属性里的 score / comment-count）
+"$M" fetch --wait domstable --timeout 60000 \
+  "https://www.reddit.com/r/NixOS/comments/1shkwn0/" > post.html
+grep -o 'score="[0-9]*"' post.html | head -1
+grep -o 'comment-count="[0-9]*"' post.html | head -1
+```
+
+**URL 参数表**：
+
+| 参数 | 可用值 | 说明 |
+|---|---|---|
+| `q` | 关键词 | 搜索词 |
+| `restrict_sr` | `1` / 省略 | `1` = 只在本 subreddit 内搜 |
+| `sort` | `top` / `relevance` / `new` | **`new` 用于追时效，`top` 用于找经典帖** |
+| `t` | `year` / `month` / `week` / `all` | 时间窗口 |
+
+**抓取纪律（必须遵守）**：
+
+| 项 | 要求 |
+|---|---|
+| 判据 | **看 `<entry>` 数量，不看 HTTP 状态码**（限流返回 200 + 39 字节空壳） |
+| 间隔 | **相邻请求 ≥ 35–40 秒** |
+| 并发 | **必须串行** |
+| 重试 | **2–5 次**（40s 间隔下约 1/3 成功率） |
+
+**解析（本机脚本）**：
+
+```bash
+PY="C:/Users/Admin/.workbuddy-ai/binaries/python/versions/3.13.12/python.exe"
+"$PY" .build/reddit/parse.py .build/reddit/s-amdgpu.html      # 列表摘要
+"$PY" .build/reddit/full.py .build/reddit/s-amdgpu.html 1shkwn0  # 单帖全文
+```
+
+#### 40.10.3 ★ 本轮实际执行的查询（9 组，共 225 帖）
+
+| # | 脚本名 | 查询 | 结果 |
+|---|---|---|---|
+| 1 | `rss-NixOS-year` | `top/.rss?t=year` | 25 entries（玩梗为主） |
+| 2 | `s-amdgpu` | `q=amdgpu&sort=top&t=all` | 25 entries（**最高价值**） |
+| 3 | `s-steam` | `q=steam&sort=top&t=all` | 25 entries |
+| 4 | `s-flake` | `q=flake&sort=top&t=all` | 25 entries |
+| 5 | `s-hm` | `q=home-manager&sort=top&t=all` | 25 entries（**HM 机制内容很少**） |
+| 6 | `s-beginner` | `q=beginner&sort=top&t=all` | 25 entries（**资源最丰富**） |
+| 7 | `s-2605` | `q=26.05&sort=new&t=year` | 25 entries（**时效性最好**） |
+| 8 | `s-regret` | `q=switched back&sort=top&t=all` | 25 entries（**反面评价最多**） |
+| 9 | `s-lg` | `r/linux_gaming` + `q=nixos` | 25 entries（**游戏性能数据**） |
+
+**总耗时**：后台串行执行 **7 分 13 秒**（含 3 次限流重试）。
+
+---
+
+### 40.11 反模式：引用社区资料时的六个坑
+
+| # | 反模式 | 为什么错 | 正确做法 |
+|---|---|---|---|
+| 1 | **拿「r/NixOS 年度榜」当学习资料** | 年度榜几乎全是玩梗/情绪帖（§40.7.1） | 用 `search.rss?q=<精确关键词>` |
+| 2 | **用 RSS 数据做「热度排序」** | **RSS 不返回 `score` / `comment-count`**（§40.4.1） | 要么不做排序，要么用 `shreddit-post` 属性**逐帖**核对分数 |
+| 3 | **照抄社区帖的配置/版本号** | 社区帖有**保质期**（`jw4nv7` 的 2020 年写法在 26.05 已弃用） | **取方法不取数字**；用官方文档 / mcp-nixos 复核 |
+| 4 | **把社区帖当「官方立场」** | 帖子是个人经验；**Discord 服务器自己写着 `unofficial`** | 标清 `[社区]`；与 `[官方]` 区分 |
+| 5 | **以为「Discord 上讨论最多的是 X」** | **无 bot token 看不到任何频道内容**（§40.1） | 只引用**规模与频道结构**，不推断话题分布 |
+| 6 | **试图绕过付费/验证墙**（`pullpush.io` / `answeroverflow`） | `pullpush.io` 明确说 *"does not provide free scraping resources for agents"* | **换源**（官方 RSS 已够用），不绕过 |
+
+---
+
+### 40.12 未核实 / 存疑（本章）
+
+> [!WARNING]
+> **本章所有社区引用都是「帖子作者说了什么」，本指南未逐条独立复现。以下明确标出未核实项。**
+
+| # | 项 | 状态 | 说明 |
+|---|---|---|---|
+| 1 | `nixos-wizard`（`1mlh8b2`）是否仍在维护、是否支持 26.05 | `[未核实]` | 帖子是 2025-08；作者自述 "early development" |
+| 2 | Nix Diátaxis EPUB（`1uk0fe4`）的**实际下载地址** | `[未核实]` | RSS 只给正文开头，**未拿到链接**。**本指南不编造** |
+| 3 | VS Code Nix 内嵌语言扩展（`1raqini`）的**扩展 ID / 市场链接** | `[未核实]` | 帖子只给描述 |
+| 4 | Boot-Gardener（`1wofaax`）在 26.05 上的实际表现 | `[未核实]` | 作者自述在三种引导器上测过；**本指南未独立验证** |
+| 5 | `nixos-lab` / **Nixorium 2.1**（`1rqtu0j` / `1wvw4k1`）当前状态 | `[未核实]` | 仓库存在；未核实是否对齐 26.05 |
+| 6 | **Jovian NixOS** 当前是否维护、是否支持 26.05 | `[未核实]` | 由 `1shkwn0` 提到；本指南未查 |
+| 7 | **NixOS 上是否存在官方/半官方的 `mesa-git` 来源** | `[未核实]` | §18/§24 说 nixpkgs 只有稳定 mesa；**未核实 2026-10 是否有可用 flake** |
+| 8 | `i2c_designware_pci` blacklist 的**副作用范围** | `[未核实]` | 作者是台式机直通场景；**笔记本上可能影响触摸板/背光** |
+| 9 | nixpkgs 维护者 **+263%**（`1q2cmhk`） | `[社区分析]` | 数据源 Repology + Archive.org；**本指南未重跑验证** |
+| 10 | mesa-git 在 RDNA4 上 **+41%**（`1mgj1dw`） | `[社区实测]` | 作者自述 **"only one iteration per case"**，**可能有测量误差**；单机单次测试 |
+| 11 | `1wuvnh2` 的根因是否**确实**是 unstable mesa | `[社区自述]` | 作者写 *"Solved: do not use unstable mesa on stable release :)"* —— **是作者的结论，非官方诊断** |
+| 12 | 2026 款 Steam 手柄 `hidapi` 问题在 26.05 稳定版 Steam 上**是否仍存在** | `[未核实]` | 作者说 beta 客户端已修复；**未核实 26.05 的 Steam 版本** |
+| 13 | 帖子 `1lgxq3a` 的 `gamescope-run` **完整脚本内容** | `[未核实]` | RSS 只给开头，**未取到完整实现** |
+| 14 | r/NixOS 与 r/linux_gaming 的**发帖量/活跃度趋势** | `[未核实]` | RSS 不给统计；**本章未做任何活跃度结论** |
+
+---
+
+### 40.13 一句话总结本章
+
+> [!TIP]
+> **四句话：**
+>
+> 1. **Discord 只能拿「结构」**（20,092 成员 / 3,695 在线 / 7 个公开频道 / `Mentoring Group` 与 `Mentoring 1-1` 公开），**拿不到「内容」**（需要 bot token）。
+> 2. **Reddit 只能拿「标题 + 链接 + 正文开头」**，**拿不到分数与评论** → **不能做热度排序**。
+> 3. **Reddit 的正确用法是「定向搜索」**（`search.rss?q=<关键词>`），**不是翻榜单** —— 榜单几乎全是玩梗帖。
+> 4. **本轮真正新增的知识点只有一条**（Steam Controller 的 `hidapi`），**其余都是对已有章节的印证或补充** —— 而**印证本身就有价值**：`1wuvnh2` 把本指南「只滚 mesa 有风险」从 `[未核实]` 升级成了 `[社区实证]`。
+
+---
+
+
 ## 附录 A：命令速查
 
 ### A.1 系统重建与验证
@@ -19961,6 +21972,174 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 
 ---
 
+### B.20 第十二轮（2026-10-14）Discord 与 Reddit 社区信号（本指南 v2.3）
+
+**本轮性质**：**从社区源补充资料**。与前十轮的「官方文档 / 官方 API」不同，本轮的数据源是**社区**（Discord 官方 API + Reddit 官方 RSS），因此**口径纪律格外重要**。
+
+**新增章节**：**第四十章**（13 节 + 45 个子节，1,779 行）
+**就地修正 / 补充**：**7 处** —— §8.1（修正+补充）· §11.3（新增层次 6）· §17.2（新增 §17.2.5）· §24.6（DANGER 更新）· §30.5（新增引导器对比）· §32.6（DANGER 更新）· §36（新增 §36.14）· 附录 E.3（推翻旧结论）
+
+#### B.20.1 ★ Discord 一手数据（官方 API，无需认证）
+
+| 端点 | 结果 |
+|---|---|
+| `GET /api/v10/invites/BqdJJFER4H?with_counts=true&with_expiration=true` | **200 / 2,699 B** |
+| `GET /api/guilds/568306982717751326/widget.json` | **200 / 33,804 B** |
+| `GET /api/v10/guilds/568306982717751326/preview` | **401**（需 bot token） |
+| `GET /api/v10/invites/nixos` | **404 `Unknown Invite`** |
+
+| 字段 | 值 |
+|---|---|
+| 服务器名 | **`Nix/NixOS (unofficial)`** |
+| guild id | `568306982717751326` |
+| description | *"Unofficial Discord for the NixOS ecosystem. https://nixos.org/"* |
+| **成员数** | **20,092** |
+| **在线数** | **3,695**（invite API）/ **3,725**（widget API，不同快照） |
+| `verification_level` | `2`（需已验证邮箱才能发言） |
+| `premium_tier` | `2` / boost 仅 **13** |
+| `expires_at` | `null`（永久邀请） |
+| 官方邀请（nixos.org 公布） | `https://discord.gg/BqdJJFER4H` |
+| widget 的 instant_invite | `https://discord.com/invite/nSMNWs5j` |
+
+**7 个公开频道**（position 0–6）：`General` / `More General` / **`Mentoring Group`** / **`Mentoring 1-1`** / `Conferences & Meetups` / `asocial-stream-watchers😋` / `AFK`
+
+> **★ 结构性发现**：**`Mentoring Group` 与 `Mentoring 1-1` 被设为公开可见** → 该社区的主要求助形态是**「一对一/小组辅导」**，不是「公开问答」。原因是 NixOS 的问题经常需要看**整个 `configuration.nix`**（长上下文），不适合公开频道。
+>
+> **★ 口径纪律**：**无 bot token 看不到任何频道内容。** 本指南**只引用规模与频道结构**，**不做「哪个话题讨论最多」的结论**。
+
+#### B.20.2 ★★★ Reddit 抓取方法学（本轮最重要的工程发现）
+
+**所有「传统」路径全部失败**：`curl` 直连 `.json` → 403；`.rss` 无 UA → 403 后 429；`-A Mozilla` → 403；`old.reddit.com` → 302 到登录页。**第三方前端全军覆没**（redlib 各实例 429/403/404/410/418/502/000、safereddit 404、rsshub 403、libreddit 502）。
+
+**两个明确的商业拒绝**：
+- `api.pullpush.io` → 429 + `"This website does not provide free scraping resources for agents. Please contact the administrator on Discord if you're interested in a paid scraping service."`
+- `answeroverflow.com` → 全部路径 429，经无头浏览器抓 → **Vercel Security Checkpoint**（`We're verifying your browser`）
+
+**✅ 唯一走通的路：本机无头浏览器（moli v1.1.17）+ `.rss`**
+
+| 路径 | curl | moli |
+|---|---|---|
+| `www.reddit.com/r/NixOS/`（HTML） | 403 | **✅ 200 / 565,665 B** |
+| `.json` 端点 | 403 | ❌ 仍返回阻断页 HTML |
+| `.rss` 端点 | 403 → 429 | **✅ 200 / 117,461 B / 25 entries** |
+| `old.reddit.com` | 302 → 登录 | ❌ 仅 75 B |
+
+**★★ 限流的真实形态（本轮的坑）**：
+
+> **请求过快时，Reddit 返回的不是 HTTP 429，而是 HTTP 200 + 一个 39 字节的空壳：**
+> ```html
+> <html><head></head><body></body></html>
+> ```
+> **解析出来 0 条 entry，但状态码是 200 —— 静默失败。**
+
+**正确判据 + 参数**：
+
+| 项 | 要求 |
+|---|---|
+| 判据 | **看 `<entry>` 数量，不看 HTTP 状态码** |
+| 相邻请求间隔 | **≥ 35–40 秒** |
+| 并发 | **必须串行** |
+| 重试 | **2–5 次**（40s 间隔下约 1/3 成功率） |
+
+**★ 另一个发现**：HTML 列表页有 **JS 挑战**（URL 被重写为带 `?solution=...&js_challenge=1&jsc_token=...`），**每页只渲染 3 个 `<shreddit-post>`**。**但这 3 个元素的 HTML 属性里带完整元数据**：
+
+```html
+<shreddit-post permalink=... comment-count="111" created-timestamp="2026-05-02T08:24:01.073000+0000"
+  id="t3_1t1k1fj" post-title="Day 3 of daily driving NixOS" post-type="image"
+  score="1186" upvote-ratio="0.8962516733601071" author="Stickhtot">
+```
+→ **`score` / `comment-count` / `created-timestamp` / `author` 都能拿到，但每页只有 3 条。**
+
+#### B.20.3 ★★ 口径边界（必须写清，否则每个数字都会被误读）
+
+| 数据源 | 有 | 没有 |
+|---|---|---|
+| Reddit **RSS** | `title` / `link`（含帖子 ID）/ `updated` / `author` / **`content`（首帖正文开头，约 400–600 字符）** | **`score`** / **`comment-count`** / **评论区全文** / 完整正文 |
+| Reddit **HTML 列表页** | 每页 3 条 `shreddit-post` 的完整属性 | 其余条目（JS 挑战限制分页） |
+| Discord **公开 API** | 规模 / 在线数 / 7 个公开频道 | 任何频道内容 |
+
+> **★ 结论**：**本轮 Reddit 数据「不能做热度排序」。** `search.rss?sort=top` 的**顺序**有意义（服务端已按分数排好），但**分数值拿不到**。本指南**所有涉及顺序的表述都注明「按 `sort=top` 顺序」，不涉及具体分数**。
+
+#### B.20.4 ★ 本轮实际执行的 9 组查询（225 帖，后台串行 7 分 13 秒）
+
+| # | 脚本 | 查询 | 结果 |
+|---|---|---|---|
+| 1 | `rss-NixOS-year` | `top/.rss?t=year` | 25 entries（**几乎全是玩梗帖，实务价值低**） |
+| 2 | `s-amdgpu` | `q=amdgpu&sort=top&t=all` | 25 entries（**最高价值**） |
+| 3 | `s-steam` | `q=steam&sort=top&t=all` | 25 entries |
+| 4 | `s-flake` | `q=flake&sort=top&t=all` | 25 entries |
+| 5 | `s-hm` | `q=home-manager&sort=top&t=all` | 25 entries（**HM 机制内容很少 —— 「没找到」也是结论**） |
+| 6 | `s-beginner` | `q=beginner&sort=top&t=all` | 25 entries（**资源最丰富**） |
+| 7 | `s-2605` | `q=26.05&sort=new&t=year` | 25 entries（**时效性最好，全是 2026-09/10 的真实故障帖**） |
+| 8 | `s-regret` | `q=switched back&sort=top&t=all` | 25 entries（**反面评价最多**） |
+| 9 | `s-lg` | `r/linux_gaming` + `q=nixos` | 25 entries（**游戏性能数据**） |
+
+**URL 参数**：`q`（关键词）/ `restrict_sr=1`（限本 sub）/ `sort`（`top`/`relevance`/`new`）/ `t`（`year`/`month`/`week`/`all`）
+
+#### B.20.5 ★★ 本轮的就地修正与补充（7 处）
+
+| # | 位置 | 类型 | 内容 |
+|---|---|---|---|
+| 1 | **§8.1** | **修正 + 补充** | `programs.steam.extraPackages = [ pkgs.hidapi ];` —— **2026 款 Steam 手柄固件更新失败**的修法（**本指南原来完全没有 `hidapi` 这个词**）。原帖 `1th46tr`（2026-05-18） |
+| 2 | **§11.3** | **补充** | 新增**「层次 6：让『该更新了』这件事可见」** —— Nixdatifier（CachyOS `apdatifier` 的 NixOS 对应物）。原帖 `1x2h00h`（2026-10-10） |
+| 3 | **§17.2** | **补充** | 新增 **§17.2.5「回滚 generation 能清掉病毒吗？」** —— 分两半回答：清得掉「Nix 管理的部分」，**清不掉 `/var` `/home` 里的持久化**。原帖 `1u3rqfw` |
+| 4 | **§24.6** | **DANGER 更新** | 路 C 的「mesa 单独滚」有社区实证失败案例 → **修正为「不要单独滚 mesa」** |
+| 5 | **§30.5** | **补充** | 新增**「三种引导器的行为差异」**（GRUB / systemd-boot / Limine）+ **catch-22 机制** + **免安装救援命令** `nix run github:DanielTallon/nix-packages#boot-gardener`。原帖 `1wofaax`（2026-09-23） |
+| 6 | **§32.6** | **DANGER 更新** | 把「ICD 混版本静默失败」从 `[未核实]` 升级为 **`[社区实证]`** —— 症状是「**GDM 不启动、卡在闪烁光标**」，且**用户最初误判为 systemd 问题**。原帖 `1wuvnh2`（2026-10-01） |
+| 7 | **§36.14** | **补充** | 新增**「黑话对照表」**（`darwin.nix` / `cellPackages` / `flake-parts` / `dendritic` / `den` …）—— 回应「官方文档是给已经懂的人写的」。原帖 `1uhwn3m`（2026-06-28） |
+| 8 | **附录 E.3** | **推翻旧结论** | ~~「Reddit 社区数据：抓取被拦截」~~ → **已打通**（moli + `.rss`） |
+
+#### B.20.6 ★★★ 本轮最重要的三条社区实证
+
+| # | 帖子 | 日期 | 本指南的哪条结论被佐证 |
+|---|---|---|---|
+| 1 | **`1wuvnh2`** | **2026-10-01** | **「只滚 mesa」的风险** —— 本指南 §20/§24.6/§32.6 反复警告过，附录 C 曾列为 `[未核实]`。**现在有实证**：26.05 stable + flakes + unstable mesa → GDM 不启动 → 用户结论 *"do not use unstable mesa on stable release :)"*。**升级为 `[社区实证]`** |
+| 2 | **`1wofaax`** | **2026-09-23** | **ESP 三引导器行为差异** —— 本指南 §30.5 只讲了「删 generation + 重新 rebuild」，**没讲清三种引导器的差异**，也没给「已经满了」的免安装救援命令 |
+| 3 | **`1mq7qni`** | 2025-08-14 | **LLM 说错了的一个实例** —— ChatGPT 建议在 `hardware.graphics.extraPackages` 里塞 mesa/vulkan/libva，**用户起了疑心去 Reddit 求证**。本指南 §32.1 已核实：**`hardware.graphics.enable = true` 已包含这些，只有 OpenCL 需要额外装**。**这正是 §34「给 Agent 的模块提示词模板」+ §38/§39（用 mcp-nixos 复核）存在的理由** |
+
+#### B.20.7 ★ LLM 辅助写 flake 的 5 个真实案例（本指南立论的社区佐证）
+
+| # | 帖子 | 日期 | 模型 | 关键原话 |
+|---|---|---|---|---|
+| 1 | `1rtjyz9` | 2026-03-14 | **Claude** | *"I had claude help me make a flake… **checking its work every step of the way**. Not good to take the shortcut, but better the shortcut than not at all."*（用了 flake-parts / dendritic / den / HM / stylix / sops / lanzaboote） |
+| 2 | `1rqtu0j` | 2026-03-11 | **Claude** | *"A lot of the heavy lifting in the early phase came from working with Claude"*（30 台无网 PC 的学校机房） |
+| 3 | `1wvx3r2` | 2026-10-02 | **Claude** | *"asking around (claude) it appears not to be advisable…"*（用 Claude 评估升级到 unstable 的风险） |
+| 4 | `1qi7a2g` | 2026-01-20 | **Gemini** | *"gemini did most of the heavy lifting here"*（secrets 管理 flake） |
+| 5 | `1mq7qni` | 2025-08-14 | **ChatGPT** | 见 B.20.6 #3 —— **LLM 说错的实例** |
+
+> **★ 时间跨度 2025-08 至 2026-10，5 个案例、4 种模型。** `1rtjyz9` 那句 *"checking its work every step of the way"* 正是本指南 §0.3 铁律 3（先 `dry-build` 再 `switch`）的社区表述。
+
+#### B.20.8 ★ 本轮新发现的资源（本指南原来没有）
+
+| 资源 | 出处 | 价值 | 本指南的核实状态 |
+|---|---|---|---|
+| **Nix Diátaxis: The Complete Anthology**（EPUB） | `1uk0fe4`（2026-06-30） | **离线官方文档合集** —— **版本正好是 NixOS 26.05 + Nixpkgs 26.05 + Nix 2.34.8**，按 Diátaxis 框架编译 | ⚠️ **未拿到实际下载地址**（RSS 只给正文开头） |
+| **`nixos-wizard`**（TUI 安装器） | `1mlh8b2`（2025-08-09） | 第三方 TUI 安装器（<https://github.com/km-clay/nixos-wizard>） | ⚠️ 作者自述 "early development"；未核实是否支持 26.05 |
+| **`Boot-Gardener`** | `1wofaax`（2026-09-23） | ESP 爆满救援（免安装 `nix run`） | ⚠️ 第三方；作者自述三种引导器都测过 |
+| **`Nixdatifier`** | `1x2h00h`（2026-10-10） | tray 提醒 + generation 时间线 + 包 diff + dry-run 预览 | ⚠️ 第三方，发布仅 4 天 |
+| **`Nixorium`（原 `nixos-lab`）** | `1rqtu0j` → `1wvw4k1` | 30 台无网 PC 的可复现部署系统 | ⚠️ 未核实是否对齐 26.05 |
+| **`Zero to Nix`**（Determinate Systems） | `10jgt38`（2023-01-23） | 官方级入门资源 + `nix-installer` | ⚠️ 2023 年帖；未核实内容时效 |
+| **`ryan4yin` 的 NixOS & Nix Flakes Guide** | `13dxw9d` / `14fvz1q`（2023） | 同生态位的第三方入门指南（<https://thiscute.world/en/posts/nixos-and-flake-basics/>） | ⚠️ 未核实是否对齐 26.05 |
+| **Jovian NixOS** | 由 `1shkwn0` 提到 | **Steam Deck 的 NixOS 发行版** —— 已在做游戏向内核/服务优化 | ⚠️ 未核实维护状态 |
+| **`CtrlAssist`** | `1ps9mby`（r/linux_gaming） | 手柄多路复用（多个物理手柄合成一个虚拟设备） | ⚠️ 第三方 |
+| **VS Code Nix 内嵌语言高亮扩展** | `1raqini`（2026-02-21） | `'' ... ''` 里的 bash/python 有语法着色 —— **对「人审查 Agent 产出」有帮助** | ⚠️ 未拿到扩展 ID |
+
+#### B.20.9 ★ 本轮确立的方法论（写进第四十章 §40.10 / §40.11）
+
+**三条可直接复用的纪律**：
+
+1. **抓取判据看内容，不看状态码** —— Reddit 限流返回 **200 + 39 字节空 body**，只看状态码会误判为成功。
+2. **社区帖「取方法不取数字」** —— `1ae5y4l`（2024-01）的 `flake.lock` 回滚 diff 里，`rev` 早已过期，**但它演示的方法（回滚 lock 文件 / `--override-input` 钉 rev）不过期**。老帖 `jw4nv7`（2020）里的 `services.xserver.videoDrivers = ["amdgpu" ...]` **在 26.05 已弃用**（见 §25）。
+3. **社区帖必须有「保质期意识」+ 官方复核** —— 引用时带日期，并用官方文档 / mcp-nixos（§38/§39）复核。
+
+**六个引用反模式**（第四十章 §40.11）：拿年度榜当学习资料 / 用 RSS 做热度排序 / 照抄版本号 / 把社区帖当官方立场 / 以为知道 Discord 话题分布 / 试图绕过付费墙。
+
+#### B.20.10 ★ 本轮未核实的项（→ 附录 C 第十二轮）
+
+共 **14 条**，见附录 C「第十二轮补充」。其中最需要强调的一条：**本指南未独立复现任何一条社区帖** —— 所有引用都是「帖子作者说了什么」，已逐条标注 `[社区]` / `[社区实证]` / `[社区自述]`。
+
+---
+
 ## 附录 C：未核实 / 存疑项
 
 > [!NOTE]
@@ -20101,7 +22280,7 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | **Aeon 是否仍默认不装防火墙** | `[媒体·2023]` | 来自 2023 年 LWN 转述 Richard Brown 的说法。**2026 年的现状未核实** |
 | **Aeon 的「无全盘加密」是否已解决** | `[媒体·2023]` | 2023 年 LWN 说 FDE 不支持、等「停用 YaST 之后」。**现状未核实**（Aeon 已改用 TIK 安装器，可能已支持） |
 | **`nixpkgs-unstable` 与 `nixos-unstable` 两个分支的差异** | `[官方]`（存在性）+ `[未核实]`（差异细节） | 两分支均 HTTP 200；HM 官方 FAQ 用的是 **`nixpkgs-unstable`**（HM 开发针对该分支）。**但两者包版本是否逐字相同未实测** |
-| **路 C 里「只滚 mesa」的长期风险** | `[未核实]` | mesa 跨大版本可能与基座内核/`libdrm` 有 ABI 约束。§20 已讨论，**无长期跟踪数据** |
+| **路 C 里「只滚 mesa」的长期风险** | **`[社区实证]`**（**第十二轮升级**） | ~~`[未核实]`：mesa 跨大版本可能与基座内核/`libdrm` 有 ABI 约束。§20 已讨论，无长期跟踪数据~~ → **✅ 第十二轮有实证了**：Reddit `1wuvnh2`（**2026-10-01**，u/Stunning-Mix492）—— **26.05 stable + flakes + GNOME**，更新后 **GDM 不启动、卡在闪烁光标**，用户结论原文 ***"do not use unstable mesa on stable release :)"***。**§24.6 与 §32.6 已就地更新为「不要单独滚 mesa」**（详见 §40.8.4）。**⚠️ 仍存疑**：这只是**一个案例**，不是系统性统计；且**未核实根因是否确实是 ICD 混版本**（是用户自述结论） |
 
 > [!NOTE]
 > **本章存疑项的分布很集中**：一半是**Aeon 侧信息时效性**（LWN 是 2023 年的，Aeon 已多次迭代），一半是**HM 双 pkgs 的实测空白**（机制已源码核实，效果未量化）。
@@ -20235,6 +22414,40 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 >
 > **第十轮的错误来自「从命名规律推断」；第十一轮的发现来自「同一个问题问了两个 action」** —— 后者的成本极低（多敲一条查询），收益却很大。
 
+#### 附录 C 补充：第十二轮（2026-10-14 Discord 与 Reddit 社区信号）的新增存疑项
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| **`1wuvnh2` 的根因是否确实是 ICD 混版本** | `[社区自述]` | 用户写 *"Solved: do not use unstable mesa on stable release :)"* —— 这是**作者自己的结论**，**不是官方诊断**。本指南把它作为「只滚 mesa 有风险」的**实证**（升级附录 C 那一项），但**根因链条未独立验证** |
+| **`nixos-wizard` 是否仍维护、是否支持 26.05** | `[未核实]` | 帖子是 2025-08-09，作者自述 *"Still in early development"* |
+| **Nix Diátaxis EPUB 的实际下载地址** | `[未核实]` | RSS 只给正文开头，**未拿到链接**。本指南**不编造下载链接** |
+| **VS Code Nix 内嵌语言扩展的扩展 ID / 市场链接** | `[未核实]` | 帖子只给描述（`1raqini`，2026-02-21） |
+| **Boot-Gardener 在 26.05 上的实际表现** | `[未核实]` | 作者自述在 Limine / GRUB / systemd-boot 三种上都测过；**本指南未独立验证**。它降低的是「手删 ESP 文件删错」的风险 |
+| **`nixos-lab` / Nixorium 2.1 的当前状态** | `[未核实]` | 仓库存在；未核实是否对齐 26.05 |
+| **Jovian NixOS 是否维护、是否支持 26.05** | `[未核实]` | 由 `1shkwn0` 提到；本指南未查。**它是 Steam Deck 的 NixOS 发行版** |
+| **NixOS 上是否存在官方/半官方的 `mesa-git` 来源** | `[未核实]` | §18/§24 说 nixpkgs 只有稳定 `mesa`；**未核实 2026-10 是否有可用的 mesa-git flake**（如 `nixpkgs-mesa-git` / Chaotic-Nyx 之类）。这条与 `1mgj1dw` 的「RDNA4 上 mesa-git +41%」形成需求侧压力 |
+| **`i2c_designware_pci` blacklist 的副作用范围** | `[未核实]` | 原帖是**台式机 GPU 直通**场景。**笔记本上该模块可能驱动触摸板 / 背光** —— 本指南已警告「笔记本不要照抄」 |
+| **nixpkgs 维护者 +263%（`1q2cmhk`）** | `[社区分析]` | 数据源 Repology.org + Archive.org，23 季度 × 16 发行版。**本指南未重跑验证** |
+| **mesa-git 在 RDNA4 上 +41%（`1mgj1dw`）** | `[社区实测]` | 作者自述 *"it was only one iteration per case so there could be measurement errors"* —— **单机单次测试** |
+| **2026 款 Steam 手柄 `hidapi` 问题在 26.05 稳定版 Steam 上是否仍存在** | `[未核实]` | 原帖作者说 **beta 版 Steam 客户端已修复**；**未核实 26.05 附带的是哪个 Steam 版本**。这是一个**有保质期的坑** |
+| **`1lgxq3a` 的 `gamescope-run` 完整脚本内容** | `[未核实]` | RSS 只给正文开头，**未取到完整实现** |
+| **AUR 400+ 包被植入恶意软件的事件细节**（`1u3rqfw`） | `[社区]` | 「400+」是**帖子作者的说法**。本指南**未核实**该事件的规模、时间、影响范围 |
+| **r/NixOS 与 r/linux_gaming 的发帖量 / 活跃度趋势** | `[未核实]` | RSS 不给统计。**本指南未做任何活跃度结论** |
+| **`1wofaax` 的「GRUB 挂 `/boot/efi` 让内核留根分区」是否在所有配置下成立** | `[社区自述]` | 这是原帖的说法；**本指南未独立验证**。且它**依赖 GRUB 能读根文件系统**（根分区加密时需额外配置） |
+
+> [!NOTE]
+> **第十二轮存疑项的特征：从「工具的哪条路在骗我」转向「社区帖的保质期与责任边界」。**
+>
+> - **第十轮**：索引的**边界**（四类假阴性 → 查不到）
+> - **第十一轮**：索引**内部的分裂**（同一工具不同 action 给出不同值 → **查到了错的值**）
+> - **第十二轮**：**数据源的「时效性」与「权威性」**（社区帖是**个人经验**，有保质期，且**本指南未复现**）
+>
+> **★ 由此得到第三条纪律**（前两条见上）：
+>
+> > **引用社区数据时，必须同时标注三件事：① 出处（帖子 ID + 日期 + 作者）② 口径（能拿到什么、拿不到什么）③ 核实状态（本指南是否独立验证）。**
+>
+> **三者的共同点**：**它们都不是「数据错了」，而是「数据的适用范围被误判了」。** 第十轮是「查不到 ≠ 不存在」，第十一轮是「查到了 ≠ 是对的」，第十二轮是「**有人这么说 ≠ 事实如此**」。
+
 ---
 
 
@@ -20344,6 +22557,23 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 >
 > **两轮方法论的关系**：**第十轮**发现「**索引的边界**」（四类假阴性 → 查不到）；**第十一轮**发现「**索引内部的分裂**」（同一工具不同 action 给出不同值 → **查到了错的值还以为是对的**）。**后者更隐蔽，也更值得警惕。**
 
+> [!NOTE]
+> **2026-10-14 第十二轮更新（Discord 与 Reddit 社区信号，新增第四十章）**：这一轮的性质是**「从社区源补料 + 立口径」** —— 数据源从「官方文档 / 官方 API」切换到**社区**，因此**口径纪律成为本轮的主要内容之一**。
+>
+> **做法**：Discord 走**官方公开 API**（invite + widget，无需认证）；Reddit 走**本机无头浏览器 moli + `.rss` 端点**（`curl` 与全部第三方前端均失败），**9 组定向搜索、225 帖、后台串行 7 分 13 秒**。
+>
+> **本轮最高价值的 4 条结果**：
+> 1. **★★★ Reddit 抓取方法学** —— `curl` 全封（403/429/302-to-login）、第三方前端全军覆没（redlib/safereddit/rsshub 全部 4xx/5xx），**唯一走通的是无头浏览器 + `.rss`**。**并且发现限流的真实形态是「HTTP 200 + 39 字节空 body」而不是 429** —— 只看状态码会误判为成功（§40.3）
+> 2. **★★ 口径边界** —— **列表类 RSS 不返回 `score` / `comment-count`** → **本轮数据不能做热度排序**。HTML 列表页的 `shreddit-post` 属性里**有**分数，但**每页只有 3 条**（§40.4）
+> 3. **★★★ 社区实证：把「只滚 mesa」从 `[未核实]` 升级为 `[社区实证]`** —— `1wuvnh2`（**2026-10-01**）：26.05 stable + flakes + unstable mesa → **GDM 不启动、卡在闪烁光标**，用户结论 *"do not use unstable mesa on stable release :)"*。**§24.6 与 §32.6 已就地更新**（§40.8.4）
+> 4. **★★ 一条本指南完全没写过的知识点** —— **2026 款 Steam 手柄需要 `programs.steam.extraPackages = [ pkgs.hidapi ];`**（Steam 客户端用 hidapi 检查手柄固件，NixOS 默认不装）。**§8.1 已补入**（§40.8.1）
+>
+> **本轮修正 / 补充 8 处**（§8.1 / §11.3 / §17.2 / §24.6 / §30.5 / §32.6 / §36.14 / 附录 E.3）。
+>
+> **三轮方法论的关系**：**第十轮**发现「**索引的边界**」（查不到 ≠ 不存在）；**第十一轮**发现「**索引内部的分裂**」（查到了 ≠ 是对的）；**第十二轮**发现「**社区数据的适用范围**」（**有人这么说 ≠ 事实如此**）。**共同点：都不是「数据错了」，而是「数据的适用范围被误判了」。**
+>
+> **⚠️ 本轮最重要的一条自我限制**：**本指南未独立复现任何一条社区帖。** 所有引用都是「帖子作者说了什么」，已逐条标注 `[社区]` / `[社区实证]` / `[社区自述]`。
+
 | 主题 | 为什么值得补 | 需要什么证据 |
 |---|---|---|
 | ~~**Hermes Agent 的 Nix flake 确切用法**~~ | ✅ **已完成**（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7） | 已取官方 `nix/nixosModules.nix` + `homeManagerModules.nix` + `nix-setup.md` 全文 || **OpenClaw 的 skills 目录结构** | 第十章讲了 skills 概念，但具体路径/加载机制未核实 | 官方仓库文档 |
@@ -20358,6 +22588,8 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | ~~**NixOS 26.05 破坏性变更总表**~~ | ✅ **已完成（第九轮）**：**第三十七章**（16 节）—— 升级前必查 16 项 + `fsType` 矛盾实例 + Stage 1 默认变更 + switch inhibitors + 网络与桌面变更 | 26.05 release notes 原文 496 行（`.build/rl-2605.section.md`）+ 25.11/26.05 模块源码对比（见附录 B.17） |
 | ~~**用实时索引反向核对本指南的结论**~~ | ✅ **已完成（第十轮）**：**第三十八章**（9 节）—— mcp-nixos 用法 + 26.05/25.11 默认值对照 + 内核包实测 + **修正 3 处** + **`NOT_FOUND` 四类假阴性** | mcp-nixos v3.1.0（`uvx`，约 325 条查询）+ `.build/mcp-nixos-driver.py` + 12 个批次文件（见附录 B.18） |
 | ~~**把 mcp-nixos 的能力面用全（HM 侧 / 其他 source / cache）**~~ | ✅ **已完成（第十一轮）**：**第三十九章**（11 节）—— **11 source × 8 action 全表** + **★★★ 两套后端辨析** + **HM 侧三特性 + 25 条选项实测** + **`action=cache` 实测** + **HM 内建 autoUpgrade/autoExpire** + **假阴性第⑤⑥类** + **修正 1 处 / 补充 5 处** | mcp-nixos v3.1.0 + **上游 README「The Tools」章节**（首次通读）+ 9 个新批次文件（`-12` … `-20`，约 150 条查询，见附录 B.19） |
+| ~~**Reddit 社区数据**~~ | ✅ **已完成（第十二轮）**：**第四十章**（13 节）—— **Discord 官方 API 一手数据** + **Reddit 抓取方法学（curl 全封 → 无头浏览器；限流形态是 200 + 39 字节空 body）** + **口径边界** + **23 条高价值帖逐条解读** + **9 组定向搜索（225 帖）** + **修正 / 补充 8 处** | 本机 moli v1.1.17 无头浏览器 + Reddit 官方 `.rss` 端点 + Discord 官方 API（见附录 B.20） |
+| **Discord 频道内容** | 只有公开 API（规模 / 在线数 / 7 个公开频道）。**频道内容需要 bot token**（`preview` 端点 401） | 一个 bot token（本指南无） |
 | **实测基准数据** | 本文多处标 `[未核实]` 就是因为缺可复现的基准（scx 收益、内核切换收益） | 你自己的 A/B 测试 |
 
 #### E.1.1 本轮之后**仍未做**的高价值方向
@@ -20396,7 +22628,8 @@ curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
 | **SELinux on NixOS** | 没有模块，架构上冲突 |
 | ~~**SteamOS 的 Gaming Mode UI**~~ | ⚠️ **第五轮部分推翻**：**Gamescope Session 本身 NixOS 有官方选项**（`programs.steam.gamescopeSession`，源码核实，§23.10）。**Valve 深度定制的部分**（SteamOS 的 gamepad UI 外壳、系统级 overlay）仍无对应实现 |
 | ~~**掌机 TDP 控制**~~ | ⚠️ **第五轮部分推翻**：**`pkgs.powerstation` 在 nixpkgs 里**（`ShadowBlip/PowerStation`，*"Open source TDP control and performance daemon with DBus interface"*，源码核实，§23.11）。**缺的是机型适配接线**，不是零件 |
-| **Reddit 社区数据** | 抓取被拦截（`old.reddit.com` 返回 Blocked）。已用 NixOS Discourse / Arch BBS / HN 替代 |
+| ~~**Reddit 社区数据**~~ | ⚠️ **第十二轮推翻**：~~抓取被拦截（`old.reddit.com` 返回 Blocked）。已用 NixOS Discourse / Arch BBS / HN 替代~~ → **已打通**：`curl` 全封（403/429/302-to-login），但**本机无头浏览器 moli + `.rss` 端点可抓**（2026-10-14 实测，9 组查询 225 帖）。**详见第四十章**（含「限流返回 200 + 39 字节空 body」这个坑） |
+| **Discord 频道内容** | 只有**公开 API**（规模 / 在线数 / 7 个公开频道）。**频道内容需要 bot token**（`preview` 端点 401）—— 本指南不做话题分布结论 |
 
 ### E.4 建议你**自己**做的验证（本文无法替代）
 
