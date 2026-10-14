@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>类 WorkBuddy Agent 工作台全景调研（Linux + bash）· 2026-10-13</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--border:#2d333f;--text:#e6edf3;--dim:#9aa7b4;--acc:#58a6ff;--ok:#3fb950;--part:#d29922;--no:#f85149;--warn:#db6d28;--chip:#222b36}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 "Segoe UI","Microsoft YaHei",system-ui,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:24px 20px 60px}
+h1{font-size:22px;margin:0 0 6px}
+h2{font-size:17px;margin:34px 0 10px;padding-left:10px;border-left:3px solid var(--acc)}
+.sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+.meta{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--dim)}
+.meta b{color:var(--text)}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:12.5px;margin-bottom:8px}
+th{background:var(--panel2);text-align:left;padding:8px 8px;border-bottom:1px solid var(--border);white-space:nowrap;font-size:12px;color:var(--dim)}
+td{padding:7px 8px;border-bottom:1px solid var(--panel2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#1a2230}
+.tool{font-weight:600;color:var(--acc);white-space:nowrap}
+.tool a{color:var(--acc);text-decoration:none}
+.tool a:hover{text-decoration:underline}
+.dim{color:var(--dim)}
+.y{color:var(--ok);font-weight:700}
+.p{color:var(--part);font-weight:700}
+.n{color:var(--no);font-weight:700}
+.q{color:var(--dim);font-weight:700}
+.star{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;background:var(--chip);border:1px solid var(--border);border-radius:10px;padding:0 8px;font-size:11px;color:var(--dim);margin:1px 2px 1px 0;white-space:nowrap}
+.warnrow td{background:#2a1c12}
+.note{font-size:12px;color:var(--dim);margin:4px 0 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;margin:10px 0}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:13px}
+.card h3{margin:0 0 6px;font-size:14px;color:var(--acc)}
+.card ul{margin:6px 0 0;padding-left:18px}
+.card li{margin:2px 0}
+.legend{font-size:12px;color:var(--dim);margin:8px 0 0}
+.legend span{margin-right:14px;white-space:nowrap}
+footer{margin-top:36px;border-top:1px solid var(--border);padding-top:14px;font-size:12px;color:var(--dim)}
+ol.src{padding-left:20px;font-size:12px;columns:2;column-gap:28px}
+ol.src li{margin:2px 0;break-inside:avoid}
+code{background:var(--chip);border-radius:4px;padding:1px 5px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>类 WorkBuddy 的 Agent 工作台全景调研</h1>
+<div class="sub">筛选条件：GitHub 开源 · Linux 桌面可用 · 支持 bash/终端执行 · 已排除 goose / aionui / openwork / opencode desktop / octop / openwebui desktop / codex / claude desktop · 共收录 <b>51 个</b> · 数据核实日期 2026-10-13</div>
+
+<div class="meta">
+<b>评测口径：</b>「Linux」= 有官方 Linux 桌面版或 Linux 自托管部署；「bash」= Agent 可直接执行 shell 命令（原生或沙箱）；「自动化」= 定时任务 / 子代理 / 工作流编排 / 无头模式；「Computer Use」= 操控 GUI 或浏览器（OS 级或浏览器级）；「MCP」= Model Context Protocol 客户端支持。<br>
+<b>图例：</b><span class="y">✓ 支持</span> · <span class="p">△ 部分/有限/间接</span> · <span class="n">✗ 不支持</span> · <span class="q">— 未确认/未核实</span> · star 数为调研当日 GitHub 实时值。<b>标 △/— 的能力标注为调研结论或推断，可信度低于 ✓。</b>
+</div>
+
+<h2>A · 本地桌面工作台（Linux 原生桌面 App）</h2>
+<div class="note">最接近 WorkBuddy 形态：装在本机、开箱即用、自带模型接入与工具扩展。</div>
+<table>
+<thead><tr><th>工具</th><th>定位</th><th>Linux</th><th>bash</th><th>自动化</th><th>Computer Use</th><th>MCP</th><th class="star">Star</th><th>协议</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td class="tool"><a href="https://github.com/janhq/jan">Jan</a></td><td>离线优先 ChatGPT 替代</td><td class="y">✓ deb/AppImage</td><td class="n">✗</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">44,919</td><td>Apache-2.0</td><td>本地模型（llama.cpp/Ollama），隐私优先</td></tr>
+<tr><td class="tool"><a href="https://github.com/CherryHQ/cherry-studio">Cherry Studio</a></td><td>AI 生产力工作室</td><td class="y">✓ Tauri</td><td class="p">△ 经 MCP</td><td class="p">△ 助手市场</td><td class="n">✗</td><td class="y">✓</td><td class="star">52,579</td><td>AGPL-3.0</td><td>300+ 助手、知识库、多模型统一接入</td></tr>
+<tr><td class="tool"><a href="https://github.com/witsy-ai/witsy">Witsy</a></td><td>通用 MCP 客户端</td><td class="y">✓ Electron</td><td class="p">△ 经 MCP</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">—</td><td>Apache-2.0</td><td>mac/win/linux 三平台，BYOK</td></tr>
+<tr><td class="tool"><a href="https://github.com/thinkinaixyz/deepchat">DeepChat</a></td><td>本地优先 Agent 桌面客户端</td><td class="y">✓ Electron</td><td class="p">△ 经 MCP/ACP</td><td class="p">△ ACP 智能体</td><td class="n">✗</td><td class="y">✓</td><td class="star">6,360</td><td>Apache-2.0</td><td>多模型 + MCP 工具 + 技能</td></tr>
+<tr><td class="tool"><a href="https://github.com/ChatboxAI/chatbox">Chatbox</a></td><td>跨平台 AI 客户端</td><td class="y">✓ Tauri</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="p">△ 已接入</td><td class="star">42,004</td><td>GPL-3.0</td><td>轻量、本地数据存储</td></tr>
+<tr><td class="tool"><a href="https://github.com/Mintplex-Labs/anything-llm">AnythingLLM</a></td><td>本地 RAG + Agent 一体机</td><td class="y">✓ 桌面+自托管</td><td class="p">△ Agent 技能（需授权）</td><td class="p">△ Agent 流程</td><td class="n">✗</td><td class="y">✓</td><td class="star">66,990</td><td>MIT</td><td>文档问答强，桌面/Docker 双形态</td></tr>
+<tr><td class="tool"><a href="https://github.com/khoj-ai/khoj">Khoj</a></td><td>AI 第二大脑</td><td class="y">✓ 桌面+自托管</td><td class="n">✗</td><td class="y">✓ 定时 Agent</td><td class="n">✗</td><td class="q">—</td><td class="star">37,662</td><td>AGPL-3.0</td><td>可自建 Agent、深度研究</td></tr>
+<tr><td class="tool"><a href="https://github.com/onyx-dot-app/onyx">Onyx</a></td><td>开源 AI 平台（原 Danswer）</td><td class="p">△ 浏览器自托管</td><td class="p">△</td><td class="p">△ Deep Research</td><td class="n">✗</td><td class="p">△ 推断</td><td class="star">32,427</td><td>MIT</td><td>团队知识库 + Agent，Docker 部署</td></tr>
+</tbody>
+</table>
+</body>
+</html>
+<h2>B · 自托管平台型工作台（Docker / Web）</h2>
+<div class="note">服务器或本机 Docker 常驻，多人可用，偏「平台」而非「桌面 App」；Linux 均以自托管方式满足。</div>
+<table>
+<thead><tr><th>工具</th><th>定位</th><th>Linux</th><th>bash</th><th>自动化</th><th>Computer Use</th><th>MCP</th><th class="star">Star</th><th>协议</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td class="tool"><a href="https://github.com/danny-avila/LibreChat">LibreChat</a></td><td>自托管多模型聊天台</td><td class="y">✓ Docker</td><td class="p">△ 经 MCP</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">45,598</td><td>MIT</td><td>插件生态大，可接 Code Interpreter</td></tr>
+<tr><td class="tool"><a href="https://github.com/lobehub/lobe-chat">LobeChat</a></td><td>开源聊天框架</td><td class="y">✓ Docker</td><td class="p">△ 经插件</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">83,182</td><td>MIT</td><td>插件市场 + 知识库，桌面版非官方 Linux</td></tr>
+<tr><td class="tool"><a href="https://github.com/ChatGPTNextWeb/NextChat">NextChat</a></td><td>零配置聊天助手</td><td class="y">✓ Docker</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="y">✓</td><td class="star">88,839</td><td>MIT</td><td>轻量，可接 MCP 工具</td></tr>
+<tr><td class="tool"><a href="https://github.com/coze-dev/coze-studio">Coze Studio</a></td><td>字节扣子开源版</td><td class="y">✓ Docker</td><td class="p">△ 代码节点</td><td class="y">✓ 工作流</td><td class="n">✗</td><td class="y">✓</td><td class="star">21,700</td><td>Apache-2.0</td><td>Bot/工作流可视化编排，可自托管</td></tr>
+<tr><td class="tool"><a href="https://github.com/langgenius/dify">Dify</a></td><td>LLMOps / Agentic 工作流</td><td class="y">✓ Docker</td><td class="p">△ 代码节点沙箱</td><td class="y">✓✓ 工作流</td><td class="n">✗</td><td class="y">✓</td><td class="star">158,285</td><td>Apache-2.0*</td><td>生态最大；RAG+Agent+评测一体</td></tr>
+<tr><td class="tool"><a href="https://github.com/langflow-ai/langflow">Langflow</a></td><td>可视化 Agent 搭建</td><td class="y">✓ Docker/PyPI</td><td class="p">△ Python 组件</td><td class="y">✓ 流程编排</td><td class="n">✗</td><td class="y">✓</td><td class="star">155,563</td><td>MIT</td><td>LangChain 系拖拽式，可部署 API</td></tr>
+<tr class="warnrow"><td class="tool"><a href="https://github.com/FlowiseAI/Flowise">Flowise</a></td><td>可视化 Agent 搭建</td><td class="y">✓ Docker</td><td class="p">△ 工具节点</td><td class="y">✓ 流程编排</td><td class="n">✗</td><td class="y">✓</td><td class="star">55,499</td><td>Apache-2.0</td><td><b>仓库已归档</b>，仅建议维护旧项目用</td></tr>
+<tr><td class="tool"><a href="https://github.com/infiniflow/ragflow">RAGFlow</a></td><td>RAG 引擎 + Agent</td><td class="y">✓ Docker</td><td class="n">✗</td><td class="p">△</td><td class="n">✗</td><td class="p">△ 推断</td><td class="star">92,080</td><td>Apache-2.0</td><td>深度文档理解，Agent 问答为主</td></tr>
+<tr><td class="tool"><a href="https://github.com/n8n-io/n8n">n8n</a></td><td>自动化平台 + AI</td><td class="y">✓ Docker</td><td class="y">✓ Execute Command</td><td class="y">✓✓ 400+ 节点</td><td class="p">△ 浏览器节点</td><td class="y">✓ 双向</td><td class="star">207,150</td><td>fair-code</td><td>事实标准级自动化，AI 是其中一环</td></tr>
+<tr><td class="tool"><a href="https://github.com/activepieces/activepieces">Activepieces</a></td><td>AI 自动化 / MCP 中继</td><td class="y">✓ Docker</td><td class="p">△ 代码步骤</td><td class="y">✓✓ 流程编排</td><td class="n">✗</td><td class="y">✓</td><td class="star">25,025</td><td>MIT+EE</td><td>官方内置 ~400 个 MCP server</td></tr>
+<tr><td class="tool"><a href="https://github.com/Significant-Gravitas/AutoGPT">AutoGPT</a></td><td>自主 Agent 平台</td><td class="y">✓ Docker</td><td class="p">△ 代码块</td><td class="y">✓ Blocks/Forge</td><td class="n">✗</td><td class="q">—</td><td class="star">187,540</td><td>自定义</td><td>鼻祖级，重心已转向 Forge 平台</td></tr>
+<tr><td class="tool"><a href="https://github.com/microsoft/autogen">AutoGen Studio</a></td><td>多 Agent 框架 GUI</td><td class="y">✓ PyPI</td><td class="p">△ 代码执行器</td><td class="y">✓ 多 Agent 编排</td><td class="n">✗</td><td class="p">△ 推断</td><td class="star">61,379</td><td>CC-BY-4.0</td><td>低代码拖 Agent，微软系</td></tr>
+<tr class="warnrow" style="outline:2px solid #1f6feb"><td class="tool"><a href="https://github.com/frdel/agent-zero">Agent Zero</a></td><td>自带 Linux 桌面的通用 Agent</td><td class="y">✓✓ Docker(含 XFCE)</td><td class="y">✓✓ 容器内任意命令</td><td class="y">✓✓ 子代理+定时任务</td><td class="y">✓ 驱动桌面 GUI</td><td class="y">✓</td><td class="star">19,444</td><td>MIT</td><td><b>综合最贴近需求</b>：容器内 bash+XFCE+MCP+定时，行为全在可编辑 prompt 文件</td></tr>
+<tr><td class="tool"><a href="https://github.com/kortix-ai/suna">Suna</a></td><td>开源「AI 操作系统」</td><td class="y">✓ Docker</td><td class="y">✓ 沙箱 shell</td><td class="y">✓ 多 Agent 协作</td><td class="p">△ 浏览器自动化</td><td class="q">—</td><td class="star">20,272</td><td>未核实</td><td>对标 Manus/Claude Cowork，团队工作区形态</td></tr>
+<tr><td class="tool"><a href="https://github.com/FoundationAgents/OpenManus">OpenManus</a></td><td>开源 Manus 复刻</td><td class="y">✓ Python</td><td class="y">✓</td><td class="p">△ 任务级循环</td><td class="p">△ 浏览器工具</td><td class="p">△</td><td class="star">58,639</td><td>MIT</td><td>MetaGPT 团队，代码清晰好改造，无 UI</td></tr>
+<tr><td class="tool"><a href="https://github.com/camel-ai/owl">OWL</a></td><td>多 Agent 任务自动化</td><td class="y">✓ Python</td><td class="y">✓</td><td class="y">✓ 多 Agent</td><td class="p">△ 浏览器工具</td><td class="p">△ CAMEL 系</td><td class="star">20,154</td><td>未核实</td><td>GAIA 榜单常客，研究向</td></tr>
+<tr><td class="tool"><a href="https://github.com/huggingface/smolagents">smolagents</a></td><td>极简代码 Agent 库</td><td class="y">✓ Python</td><td class="y">✓ CodeAct</td><td class="p">△</td><td class="p">△ vision 示例</td><td class="y">✓ MCP 客户端</td><td class="star">29,800</td><td>Apache-2.0</td><td>库而非成品，适合嵌自己产品</td></tr>
+<tr><td class="tool"><a href="https://github.com/Fosowl/agenticSeek">AgenticSeek</a></td><td>全本地 Manus 平替</td><td class="y">✓ Python</td><td class="y">✓</td><td class="p">△</td><td class="p">△ 浏览/爬取</td><td class="n">✗</td><td class="star">27,474</td><td>GPL-3.0</td><td>零 API 花费，本地模型跑全流程</td></tr>
+<tr><td class="tool"><a href="https://github.com/mediar-ai/screenpipe">screenpipe</a></td><td>24/7 屏幕/音频记忆</td><td class="y">✓ 桌面</td><td class="p">△ 经 MCP</td><td class="y">✓ 持续录制</td><td class="p">△ 录屏非操控</td><td class="y">✓</td><td class="star">21,925</td><td>MIT</td><td>给其他 Agent 当「眼睛」，Wayland 兼容性一般</td></tr>
+</tbody>
+</table>
+<div class="note">* Dify 为 Apache-2.0 + 附加条款；n8n 为 fair-code（Sustainable Use），商用需读条款。</div>
+<h2>C · 编程 / 编码 Agent（IDE 插件 · 原生 IDE · CLI）</h2>
+<div class="note">bash 均为原生支持（终端/沙箱内执行）；Linux 可用指官方支持 Linux 桌面或 Linux CLI。</div>
+<table>
+<thead><tr><th>工具</th><th>形态</th><th>Linux</th><th>bash</th><th>自动化</th><th>Computer Use</th><th>MCP</th><th class="star">Star</th><th>协议</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td class="tool"><a href="https://github.com/All-Hands-AI/OpenHands">OpenHands</a></td><td>自主开发平台（Web UI）</td><td class="y">✓ Docker</td><td class="y">✓✓ 沙箱终端</td><td class="y">✓✓ 任务闭环</td><td class="p">△ browser agent</td><td class="y">✓</td><td class="star">90,754</td><td>MIT</td><td>开源「AI 开发者」标杆，SWE-bench 头部</td></tr>
+<tr><td class="tool"><a href="https://github.com/cline/cline">Cline</a></td><td>VS Code 插件</td><td class="y">✓（随 VS Code）</td><td class="y">✓</td><td class="p">△ 任务级</td><td class="p">△ 经 MCP 浏览器</td><td class="y">✓</td><td class="star">70,241</td><td>Apache-2.0</td><td>人审每一步，权限控制细</td></tr>
+<tr class="warnrow"><td class="tool"><a href="https://github.com/RooCodeInc/Roo-Code">Roo Code</a></td><td>VS Code 插件</td><td class="y">✓（随 VS Code）</td><td class="y">✓</td><td class="p">△ 多模式</td><td class="p">△ 经 MCP</td><td class="y">✓</td><td class="star">24,281</td><td>Apache-2.0</td><td><b>仓库已归档</b>，Cline 分支继任者</td></tr>
+<tr><td class="tool"><a href="https://github.com/continuedev/continue">Continue</a></td><td>IDE 插件框架</td><td class="y">✓（VS Code/JetBrains）</td><td class="p">△ 终端集成</td><td class="p">△ 任务级</td><td class="n">✗</td><td class="y">✓</td><td class="star">36,203</td><td>Apache-2.0</td><td>可深度定制，模型自选</td></tr>
+<tr><td class="tool"><a href="https://github.com/zed-industries/zed">Zed</a></td><td>Rust 原生编辑器</td><td class="y">✓ 原生 Linux</td><td class="p">△ 编辑器终端</td><td class="p">△ ACP Agent</td><td class="n">✗</td><td class="y">✓ Context Server</td><td class="star">91,638</td><td>GPL 系</td><td>高性能，Agent 面板 + 外部 Agent 接入</td></tr>
+<tr><td class="tool"><a href="https://github.com/voideditor/void">Void</a></td><td>开源 Cursor 替代</td><td class="y">✓ Electron</td><td class="p">△ 终端集成</td><td class="p">△ Agent 模式</td><td class="n">✗</td><td class="y">✓</td><td class="star">28,762</td><td>Apache-2.0</td><td>VS Code  fork，自带索引</td></tr>
+<tr><td class="tool"><a href="https://github.com/Aider-AI/aider">Aider</a></td><td>终端结对编程</td><td class="y">✓ CLI</td><td class="y">✓✓</td><td class="p">△ 无头模式</td><td class="n">✗</td><td class="n">✗</td><td class="star">49,507</td><td>Apache-2.0</td><td>git 集成干净，模型无关</td></tr>
+<tr><td class="tool"><a href="https://github.com/google-gemini/gemini-cli">Gemini CLI</a></td><td>Google 终端 Agent</td><td class="y">✓ CLI</td><td class="y">✓✓</td><td class="y">✓ 无头/CI</td><td class="n">✗</td><td class="y">✓</td><td class="star">107,301</td><td>Apache-2.0</td><td>1M 上下文，免费额度大</td></tr>
+<tr><td class="tool"><a href="https://github.com/QwenLM/qwen-code">Qwen Code</a></td><td>阿里终端 Agent</td><td class="y">✓ CLI</td><td class="y">✓✓</td><td class="y">✓ 无头/CI</td><td class="n">✗</td><td class="y">✓</td><td class="star">28,455</td><td>Apache-2.0</td><td>Gemini CLI 分叉，适配 Qwen Coder</td></tr>
+<tr><td class="tool"><a href="https://github.com/charmbracelet/crush">Crush</a></td><td>Charm 终端 Agent</td><td class="y">✓ CLI(TUI)</td><td class="y">✓✓</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">28,609</td><td>MIT</td><td>多模型 + LSP，TUI 体验好</td></tr>
+<tr><td class="tool"><a href="https://github.com/iflow-ai/iflow-cli">iFlow CLI</a></td><td>心流终端 Agent</td><td class="y">✓ CLI</td><td class="y">✓✓</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">5,086</td><td>未核实</td><td>国产模型友好，接多家 API</td></tr>
+<tr><td class="tool"><a href="https://github.com/plandex-ai/plandex">Plandex</a></td><td>终端任务编排 Agent</td><td class="y">✓ CLI</td><td class="y">✓✓ 沙箱</td><td class="y">✓ 计划-执行分离</td><td class="n">✗</td><td class="n">✗</td><td class="star">15,712</td><td>未核实</td><td>大任务拆解、可回滚，适合复杂重构</td></tr>
+<tr><td class="tool"><a href="https://github.com/princeton-nlp/SWE-agent">SWE-agent</a></td><td>学术 SWE Agent</td><td class="y">✓ CLI</td><td class="y">✓✓</td><td class="p">△</td><td class="n">✗</td><td class="n">✗</td><td class="star">20,541</td><td>MIT</td><td>普林斯顿出品，SWE-bench 基准常驻</td></tr>
+<tr><td class="tool"><a href="https://github.com/gptme/gptme">gptme</a></td><td>终端本地工具 Agent</td><td class="y">✓ CLI</td><td class="y">✓✓</td><td class="y">✓ 定时/服务器模式</td><td class="p">△ 视觉/浏览器工具</td><td class="q">—</td><td class="star">4,448</td><td>MIT</td><td>本地工具优先，可当个人助理常驻</td></tr>
+<tr><td class="tool"><a href="https://github.com/stackblitz-labs/bolt.diy">bolt.diy</a></td><td>开源 Bolt.new</td><td class="p">△ 浏览器 WebContainer</td><td class="p">△ 沙箱 shell</td><td class="p">△</td><td class="n">✗</td><td class="y">✓</td><td class="star">19,948</td><td>MIT</td><td>提示词生成全栈应用，模型自选</td></tr>
+<tr><td class="tool"><a href="https://github.com/Pythagora-io/gpt-pilot">GPT Pilot</a></td><td>「第一个真 AI 开发者」</td><td class="y">✓ Python</td><td class="y">✓</td><td class="p">△ 任务分步</td><td class="n">✗</td><td class="n">✗</td><td class="star">33,651</td><td>未核实</td><td>从需求到可运行仓库，人工确认节点多</td></tr>
+<tr><td class="tool"><a href="https://github.com/dyad-sh/dyad">Dyad</a></td><td>本地开源 AI 应用构建器</td><td class="p">△ Linux 未官方确认</td><td class="p">△ 生成代码本地跑</td><td class="n">✗</td><td class="n">✗</td><td class="y">✓</td><td class="star">21,873</td><td>未核实</td><td>v0/Lovable 本地平替，自带密钥</td></tr>
+</tbody>
+</table>
+
+<h2>D · Computer Use / GUI 与浏览器自动化</h2>
+<div class="note">操控图形界面（OS 级）或浏览器（浏览器级）的 Agent；均可跑在 Linux。</div>
+<table>
+<thead><tr><th>工具</th><th>形态</th><th>Linux</th><th>bash</th><th>自动化</th><th>Computer Use</th><th>MCP</th><th class="star">Star</th><th>协议</th><th>备注</th></tr></thead>
+<tbody>
+<tr class="warnrow"><td class="tool"><a href="https://github.com/browser-use/browser-use">browser-use</a></td><td>浏览器 Agent 库</td><td class="y">✓</td><td class="p">△</td><td class="p">△ 可脚本化</td><td class="y">✓✓ 浏览器级</td><td class="n">✗（有社区 MCP 封装）</td><td class="star">117,763</td><td>MIT</td><td>Python 生态最流行的 browser agent</td></tr>
+<tr><td class="tool"><a href="https://github.com/Skyvern-AI/skyvern">Skyvern</a></td><td>浏览器工作流自动化</td><td class="y">✓ Docker</td><td class="p">△</td><td class="y">✓ 工作流</td><td class="y">✓ 浏览器级</td><td class="q">—</td><td class="star">23,188</td><td>AGPL-3.0</td><td>视觉+DOM 混合，抗前端变化</td></tr>
+<tr><td class="tool"><a href="https://github.com/lavague-ai/LaVague">LaVague</a></td><td>Large Action Model 框架</td><td class="y">✓ Python</td><td class="p">△</td><td class="p">△</td><td class="y">✓ 浏览器级</td><td class="n">✗</td><td class="star">6,392</td><td>Apache-2.0</td><td>自然语言→Playwright 动作，社区活跃度下降</td></tr>
+<tr><td class="tool"><a href="https://github.com/simular-ai/Agent-S">Agent-S</a></td><td>OS 级 GUI Agent</td><td class="y">✓ Python</td><td class="p">△ 经系统</td><td class="p">△</td><td class="y">✓✓ OSWorld 前排</td><td class="n">✗</td><td class="star">12,593</td><td>Apache-2.0</td><td>像人一样点桌面，OS 级任务 SOTA 级</td></tr>
+<tr><td class="tool"><a href="https://github.com/trycua/cua">Cua</a></td><td>Computer-Use 基础设施</td><td class="y">✓ macOS/Linux/Windows</td><td class="p">△</td><td class="y">✓ 跨 OS 集群</td><td class="y">✓✓ 虚拟机桌面</td><td class="p">△</td><td class="star">29,519</td><td>MIT</td><td>开源 VM 驱动 + fleets + 基准，训练评测一体</td></tr>
+<tr><td class="tool"><a href="https://github.com/bytedance/UI-TARS-desktop">UI-TARS-desktop</a></td><td>字节 GUI Agent 桌面</td><td class="p">△ macOS 优先</td><td class="p">△</td><td class="p">△</td><td class="y">✓✓ OS 级</td><td class="n">✗</td><td class="star">39,252</td><td>Apache-2.0</td><td>UI-TARS 模型官方桌面端，Linux 支持有限</td></tr>
+<tr><td class="tool"><a href="https://github.com/openinterpreter/open-interpreter">Open Interpreter</a></td><td>终端本地计算机代理</td><td class="y">✓ 原生沙箱</td><td class="y">✓✓</td><td class="p">△</td><td class="p">△ 历史 OS mode</td><td class="q">—</td><td class="star">68,565</td><td>未核实</td><td>本地跑代码控制电脑，1.0 改名 Interpreter 后策略有变</td></tr>
+</tbody>
+</table>
+<h2>结论与选型建议</h2>
+<div class="cards">
+<div class="card"><h3>最接近 WorkBuddy 形态（桌面开箱即用）</h3><ul>
+<li><b>Cherry Studio</b>（52.6k★，MCP+助手市场）</li>
+<li><b>AnythingLLM</b>（67k★，RAG+Agent，桌面/Docker 双形态）</li>
+<li><b>DeepChat</b>（MCP+ACP 智能体接入）</li>
+</ul></div>
+<div class="card"><h3>能力最全能（bash + 自动化 + Computer Use + MCP 全占）</h3><ul>
+<li><b>Agent Zero</b>（19.4k★）：Docker 内 XFCE 桌面 + 任意 bash + 子代理 + 定时任务 + MCP</li>
+<li><b>OpenHands</b>（90.8k★）：沙箱终端任务闭环 + MCP，浏览器 Agent</li>
+</ul></div>
+<div class="card"><h3>编程任务优先</h3><ul>
+<li>终端：<b>Gemini CLI / Crush / Qwen Code</b>（MCP+无头，可进 CI）</li>
+<li>IDE：<b>Cline / Continue / Void</b>（Roo Code 已归档，慎入）</li>
+<li>长任务：<b>Plandex</b>（计划-执行分离，可回滚）</li>
+</ul></div>
+<div class="card"><h3>操控本机 GUI（Computer Use）</h3><ul>
+<li><b>Agent-S</b>：Linux 桌面 OS 级 GUI 操控第一梯队</li>
+<li><b>Cua</b>：跨 OS 虚拟机 + fleets，做集群/评测</li>
+<li><b>browser-use</b>：浏览器级最流行，可被 MCP 封装后喂给任意 Agent</li>
+</ul></div>
+</div>
+<div class="legend">
+<span><b>组合建议：</b>桌面 Cherry Studio/AnythingLLM 日常交互 + Agent Zero 跑自动化长任务 + MCP 统一接入 bash/browser/CUA 工具链。Flowise、Roo Code 仓库已归档，AgentGPT/TaskWeaver/SuperAGI 等 legacy 项目已停止维护，未列入正表。</span>
+</div>
+
+<h2>调研方法与可信度说明</h2>
+<div class="meta" style="font-size:12.5px">
+1. Star/协议/归档状态：2026-10-13 经 GitHub API 与仓库页面直取，共 55 个仓库调用。<br>
+2. 能力矩阵：以各仓库 README/官方文档 + 2026 年第三方索引（agenticindex.io 等）交叉验证；标注 <span class="p">△</span> 或 <span class="q">—</span> 的为调研推断/未逐字确认项，签约/落地前建议按官网复核。<br>
+3. 已按要求排除：goose、aionui、openwork、opencode desktop、octop、openwebui desktop、codex、claude desktop。<br>
+4. 已剔除：Cursor/Windsurf/Trae/Kiro 等闭源 IDE；LM Studio 等无 GitHub 开源仓库的产品；AgentGPT / TaskWeaver / SuperAGI 等已停止维护的 legacy 项目。
+</div>
+
+<h2>参考来源</h2>
+<ol class="src">
+<li><a href="https://github.com/sorrycc/awesome-code-agents">awesome-code-agents（AI 编码 Agent 清单）</a></li>
+<li><a href="https://geek-doc.cn/ai-tools/agent-usage/coding-agent-tools-complete-list-2026">coding agent 工具大全 2026（极客工场）</a></li>
+<li><a href="https://agenticindex.io/vendors/agent-zero">Agentic Index: Agent Zero</a></li>
+<li><a href="https://www.agent-zero.ai/p/docs/mcp-a2a">Agent Zero 官方文档：MCP &amp; A2A</a></li>
+<li><a href="https://mcp.so/zh/clients/witsy">mcp.so：Witsy 客户端档案</a></li>
+<li><a href="https://www.toolai.io/zh/github/thinkinaixyz/deepchat">ToolAI：DeepChat 档案</a></li>
+<li><a href="https://www.dyad.sh/">Dyad 官网</a></li>
+<li><a href="https://aitoolsatlas.ai/tools/dyad">AI Tools Atlas：Dyad（MCP 支持说明）</a></li>
+<li><a href="https://api.github.com/repos">GitHub REST API（star/协议数据）</a></li>
+<li>各工具官方 GitHub 仓库 README（见正文链接）</li>
+</ol>
+<footer>生成：WorkBuddy AI（deep-research 专家） · 2026-10-13 · 数据均带口径与核实日期 · Linux 兼容性以各项目官方发布为准</footer>
+</div>
+</body>
+</html>
