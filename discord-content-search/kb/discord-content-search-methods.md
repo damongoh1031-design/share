@@ -11,9 +11,9 @@ tags:
   - osint
 created: 2026-10-14
 updated: 2026-10-14
-version: 1.0
+version: 1.1
 status: stable
-source: 本次会话（GitHub REST API 实测 + 各项目 README/官网抓取）
+source: 本次会话（GitHub REST API 实测 + 各项目 README/官网抓取 + Messages-Searcher 本机实测）
 confidence: 已核实
 ---
 
@@ -36,7 +36,7 @@ Discord 官方只提供「登录后、已加入范围内」的客户端搜索，
 | 数据包 | Data-Package-Tool / discorch.org | 你的消息 + 可访问部分 | 已核实 |
 | 客户端增强 | Global-Search（Vencord 插件） | 跨所有 DM/群聊 | 已核实 |
 | 非官方 API | POST /api/v9/guilds/{id}/messages-search | 账号可见范围 | 社区实证 |
-| selfbot 脚本 | KanekiWeb/Messages-Searcher | 全频道（违反 ToS） | 已核实存在，风险已知 |
+| selfbot 脚本 | KanekiWeb/Messages-Searcher | 全频道（违反 ToS，且已实测跑不起来） | 已实测，见第 6 节 |
 | GitHub 代码层 | Search API / search/code / grep.app | 全网镜像引用 | 已实测（2026-10-14） |
 | 找服务器 | disboard / top.gg / Discovery | 服务器列表 | 已核实 |
 
@@ -57,6 +57,7 @@ Discord 官方只提供「登录后、已加入范围内」的客户端搜索，
 | [aamiaa/Data-Package-Tool](https://github.com/aamiaa/Data-Package-Tool) | 176 | 数据包浏览器 | C# GUI，按服务器/频道/DM 搜索消息 |
 | [Qubzy/DiscordSearchExporter](https://github.com/Qubzy/DiscordSearchExporter) | 3 | BetterDiscord 插件 | 把官方搜索结果逐页导出（绕速率限制） |
 | [Atom1cByte/Global-Search](https://github.com/Atom1cByte/Global-Search) | 16 | Vencord 插件 | 跨所有 DM/群聊全局搜索 |
+| [KanekiWeb/Messages-Searcher](https://github.com/KanekiWeb/Messages-Searcher) | 50 | selfbot 扫描器（已实测不可用） | 见第 6 节 |
 
 ## 4. 数据与边界口径
 
@@ -73,6 +74,22 @@ Discord 官方只提供「登录后、已加入范围内」的客户端搜索，
 | grep.app | 免登录（有盾） | 2026-10-14 实测：curl 与无头浏览器均被 Vercel Security Checkpoint 拦截 |
 | GH Archive | BigQuery | 查 commit message 中的 Discord 链接 |
 | GitHub 网页搜索页 | JS 渲染 | WebFetch 直抓返回空 → 用无头浏览器 `open` + `snapshot` |
+
+## 6. Messages-Searcher 本机实测纪要（2026-10-14，Python 3.13.12）
+
+测试方式：克隆仓库（50★）→ 全量代码审计 → `py_compile` → 离线复刻匹配逻辑 → 假 token 冒烟。全程未使用真实 token。
+
+| 测试项 | 结果 |
+|---|---|
+| 代码性质 | 94 行 discord.py selfbot：`Client()` + `run(token, bot=False)`；读 `config.json`（README 误写 config.txt）；命中只写本地 `found.txt`，**无外传/webhook，非恶意软件** |
+| py_compile（Python 3.13） | ✅ 通过 |
+| 依赖安装 | discord.py 2.7.1 + colorama 装进托管 venv 成功 |
+| discord.py 2.7.1 运行 | ❌ 两处 TypeError：① 第 4 行 `Client()` 缺 `intents`（import 即崩）② 补 intents 后第 93 行 `Client.run()` 的 `bot=` 参数已被 2.x 移除 |
+| discord.py 1.7.3 运行 | ❌ 装是装上了（aiohttp 3.7.4.post0），但 **Python 3.13 已删除 `cgi` 模块** → aiohttp 导入即 `ModuleNotFoundError: No module named 'cgi'` |
+| 匹配逻辑（离线实测） | ⚠️ `re.match` 锚定消息开头：`"say hello there"` 在 words 模式命中、regex 模式漏掉；非法正则抛 `re.error` 被 `except: pass` 静默吞掉 → 该频道剩余消息全部跳过且无任何提示 |
+| 许可 | 正文写 MIT，徽章却挂 GPLv3，自相矛盾 |
+
+**结论**：本机（Python 3.13）无法运行——2.x 崩在参数、1.7.3 崩在 cgi；需要 Python ≤3.12 + discord.py 1.7.3 才可能启动。即便能跑，`history(limit=99999)` 扫全部服务器/DM 违反 Discord ToS，有封号风险。
 
 ---
 
@@ -93,6 +110,11 @@ discord search "rust" -c general --json
 # 4) DiscordChatExporter 导出后 ripgrep 全文检索
 ./DiscordChatExporter.Cli export -c <CHANNEL_ID> -t <TOKEN> -f Json
 rg -i "关键词" --glob "*.json" .
+
+# 5) 审计/测试可疑 selfbot 脚本的安全姿势（本次实测流程）
+git clone --depth 1 <repo> test-ms && rm -rf test-ms/.git   # 先读代码再运行
+cp -r test-ms test-ms-run   # 在副本里改配置跑，保持原始仓库干净
+# 假 token 冒烟：期望只到登录环节失败（LoginFailure），不到 on_ready
 ```
 
 ```text
@@ -113,9 +135,10 @@ pinned:            只看置顶
 2. **GitHub core API 未登录限额 60 次/小时** —— 批量验证仓库前先列好清单，一次循环跑完；超限返回 `{"message":"API rate limit exceeded"}`（含 message 无 content）。
 3. **grep.app 对自动化访问挂 Vercel 盾** —— 2026-10-14 curl 与无头浏览器均吃 Security Checkpoint；代码搜索优先 GitHub `search/code`。
 4. **bot 没有消息搜索端点** —— 各类 MCP 服务器的 `search_messages` 均为拉最近 N 条本地过滤（默认 200 条），不能当服务端搜索用。
-5. **selfbot / user-token 工具违反 Discord ToS** —— KanekiWeb/Messages-Searcher 把用户 token 写进 config.txt 扫全频道，有封号风险；仅用于自账号并降频率。
+5. **selfbot / user-token 工具违反 Discord ToS** —— Messages-Searcher 实测：即使想用也跑不起来（见第 6 节）；`re.match` 锚定开头 + `except: pass` 静默跳频道，会漏结果且无提示。
 6. **已删消息只能靠提前记录找回** —— 持续归档选 DHT 或日志机器人，事后工具无能为力。
 7. **GitHub 搜索页 `get text` 可能为空但 `snapshot` 正常** —— 虚拟列表/aria 结构导致 text 提取丢失，snapshot（含 ref）更可靠。
+8. **discord.py 1.x 生态在 Python ≥3.13 集体阵亡** —— PEP 594 删除 `cgi`，aiohttp 3.7.x 导入即炸；遇到 2021 年代的 Python 脚本先查依赖年代再看代码。
 
 ## 未核实 / 存疑
 
@@ -126,10 +149,17 @@ pinned:            只看置顶
 | 官方搜索运算符的完整清单 | 依据客户端使用经验 + 社区资料，未找到 Discord 官方支持文档单列此表 |
 | `/api/v9/guilds/{id}/messages-search` 请求体字段细节 | 多篇 2024 年 CSDN 文章佐证端点存在与返回结构；精确字段（offset/limit/content）未实测 |
 | virat-mankali/discord-cli 与 jackwener/discord-cli 的关系 | 网页端搜索还出现同名项目，未比对二者差异 |
+| Messages-Searcher 在 Python ≤3.12 能否完整跑通 | 只验证到依赖导入层崩溃；未装旧 Python 实测 on_ready 后的扫描流程 |
+
+## 修订记录
+
+- **1.1**（2026-10-14）：新增第 6 节 Messages-Searcher 本机实测纪要（双重 TypeError + cgi 模块缺失 + re.match 锚定/静默跳频道实测）；坑 #5/#8 更新为实测结论。
+- **1.0**（2026-10-14）：初版。
 
 ## Sources
 
-- GitHub REST API 实测（2026-10-14）：repositories 搜索与 7 个仓库元数据
+- GitHub REST API 实测（2026-10-14）：repositories 搜索与 8 个仓库元数据
 - 各项目 README（raw.githubusercontent.com）与官网：dht.chylex.com、discorch.org、friendcordapp.com、quark.bot
 - mcpworld Discord MCP 条目（2026-10）：bot 无服务端搜索端点
 - CSDN 2024 年文章 ×2：`/api/v9/guilds/{guildId}/messages/search` 端点佐证
+- Messages-Searcher 源码与实测：https://github.com/KanekiWeb/Messages-Searcher （克隆于 2026-10-14，Python 3.13.12 / discord.py 2.7.1 与 1.7.3 双路冒烟）
