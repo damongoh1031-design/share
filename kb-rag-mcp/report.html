@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识库 / RAG / 召回 / 重排 —— MCP 选型指南</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+
+aside{width:266px;flex:0 0 266px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:8px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1080px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)}
+.box p:last-child{margin-bottom:0}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.star{color:var(--yl);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:25px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid var(--bd)}
+.tab{padding:9px 16px;background:transparent;border:1px solid transparent;border-bottom:none;color:var(--tx2);cursor:pointer;font-size:13.5px;border-radius:7px 7px 0 0;font-family:inherit;transition:.15s;position:relative;top:1px}
+.tab:hover{color:var(--tx);background:var(--bg2)}
+.tab.on{color:var(--ac);background:var(--bg2);border-color:var(--bd);border-bottom-color:var(--bg2);font-weight:600}
+.pane{display:none;padding-top:18px}
+.pane.on{display:block;animation:fi .22s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+.tree{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:20px 22px;margin:18px 0;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;line-height:2;overflow-x:auto;white-space:pre;color:var(--tx2)}
+.tree b{color:var(--ac2);font-weight:600}
+.tree i{color:var(--gn);font-style:normal}
+.tree u{color:var(--yl);text-decoration:none}
+
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+
+.bars{margin:18px 0}
+.bar{display:grid;grid-template-columns:210px 1fr 82px;align-items:center;gap:12px;margin:7px 0;font-size:13px}
+.bar .lbl{color:var(--tx2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .trk{background:var(--bg3);height:22px;border-radius:4px;overflow:hidden}
+.bar .fil{height:100%;border-radius:4px;background:linear-gradient(90deg,#1f6feb,#58a6ff);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.bar .val{color:var(--ac2);font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.bar.g .fil{background:linear-gradient(90deg,#238636,#3fb950)}
+.bar.y .fil{background:linear-gradient(90deg,#9e6a03,#d29922)}
+.bar.r .fil{background:linear-gradient(90deg,#a40e26,#f85149)}
+.bar.p .fil{background:linear-gradient(90deg,#6e40c9,#bc8cff)}
+
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0}
+.step{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:13px;flex:1 1 140px;text-align:center}
+.step .n{font-size:11px;color:var(--tx3);display:block;margin-bottom:3px}
+.step.hi{border-color:var(--gn);background:rgba(63,185,80,.08)}
+.step.mid{border-color:var(--yl);background:rgba(210,153,34,.08)}
+.step.lo{border-color:var(--bd);opacity:.62}
+.arrow{color:var(--tx3);font-size:16px}
+
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 20px 60px}
+  .bar{grid-template-columns:118px 1fr 64px;font-size:12px}
+  h2{font-size:21px}
+  .tree{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>知识库 / RAG 的 MCP 选型</h1>
+  <div class="sub">召回 · 重排 · 混合检索<br>数据核验 2026-10-14</div>
+  <nav>
+    <div class="grp">结论</div>
+    <a href="#s0" class="on">〇 结论速览 + 决策树</a>
+    <a href="#s1">一 RAG 环节，MCP 覆盖哪几个</a>
+    <div class="grp">选型</div>
+    <a href="#s2">二 召回+重排一体的（稀缺）</a>
+    <a href="#s3">三 向量库 / 检索后端 MCP</a>
+    <a href="#s4">四 RAG 平台型（自带 MCP）</a>
+    <a href="#s5">五 知识图谱 / Graph RAG</a>
+    <a href="#s6">六 记忆层</a>
+    <a href="#s7">七 解析与切分（决定上限）</a>
+    <a href="#s8">八 重排 / Embedding 服务</a>
+    <div class="grp">落地</div>
+    <a href="#s9">九 四套可抄的组合方案</a>
+    <a href="#s10">十 陷阱清单</a>
+    <a href="#s11">十一 数据可信度</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>结论速览</h2>
+
+<div class="grid">
+  <div class="card gn"><div class="k">内置重排的 MCP</div><div class="v">3 个</div><div class="d">全量检索后仅找到 3 个（+1 云端）</div></div>
+  <div class="card yl"><div class="k">向量库 MCP 做重排</div><div class="v">基本没有</div><div class="d">它们只做「召回」</div></div>
+  <div class="card"><div class="k">核验仓库数</div><div class="v">143</div><div class="d">API 直查 + README 逐一核实</div></div>
+  <div class="card pp"><div class="k">首推</div><div class="v">haiku.rag</div><div class="d">628★ · 混合检索 + 5 种重排 + 页码引用</div></div>
+</div>
+
+<h3>三个最容易被误解的点</h3>
+
+<div class="box danger">
+<div class="t">① 绝大多数「向量库 MCP」只做召回，不做重排</div>
+<p>官方 Qdrant MCP（<strong>1,548★</strong>，这个领域星数最高）<strong>只有 2 个工具</strong>：<code>qdrant-store</code> 和 <code>qdrant-find</code>。没有重排、没有混合检索，embedding 只支持 fastembed。它自述定位是「<strong>acts as a semantic memory layer</strong>」——<strong>不是 RAG 引擎</strong>。高星 ≠ 功能全。</p>
+</div>
+
+<div class="box warn">
+<div class="t">② 想要「召回 + 重排」一体，只有很少几个 MCP 做到了</div>
+<p>真正内置 cross-encoder 重排的 MCP，本轮只找到 <strong>3 个</strong>：<code>haiku.rag</code>、<code>knowledge-rag</code>、以及云端的 Bedrock KB Retrieval。</p>
+</div>
+
+<div class="box">
+<div class="t">③ MCP 是「接缝」，不是「引擎」</div>
+<p>RAG 的四个环节里，MCP 负责的是<strong>把已有能力接到 Agent 上</strong>，而不是替你实现能力。所以选型第一问不是「哪个 MCP 最强」，而是「<strong>我的检索后端是什么</strong>」。</p>
+</div>
+
+<h3>选型决策树</h3>
+<div class="tree">你的知识库后端是什么？
+│
+├─ 还没有，想要开箱即用 ────────→ <b>【一体化 RAG MCP】</b>
+│                                  <i>haiku.rag</i>（628★，最推荐）
+│                                  <i>knowledge-rag</i>（296★，纯本地）
+│
+├─ 已有向量库（Qdrant/Milvus/…）→ <b>【向量库官方 MCP】</b> + 重排交给向量库自身配置
+│                                  qdrant / milvus / weaviate / redis
+│
+├─ 已有 Elasticsearch ─────────→ <b>【ES MCP】</b><u>⚠️ Elastic 官方版已废弃</u>
+│                                  改用 OpenSearch 或 Elastic Agent Builder
+│
+├─ 已有云知识库（AWS/Azure）────→ <b>【云厂商 KB MCP】</b>自带 rerank，最省事
+│                                  awslabs/mcp（Bedrock KB Retrieval）
+│
+├─ 想要完整平台 + 自带 MCP ─────→ <b>【RAG 平台】</b>Dify / RAGFlow / WeKnora
+│
+└─ 知识有强关系结构 ────────────→ <b>【Graph RAG】</b>Graphiti / cognee / neo4j MCP</div>
+
+<h3>分层推荐速查表</h3>
+<table>
+<thead><tr><th>场景</th><th>首选</th><th>星数</th><th class="c">召回</th><th class="c">重排</th></tr></thead>
+<tbody>
+<tr><td><strong>开箱即用的本地 RAG</strong></td><td><code>ggozad/haiku.rag</code></td><td class="star">628★</td><td class="c ok-b">✅ 混合</td><td class="c ok-b">✅ 5 种可插拔</td></tr>
+<tr><td>纯本地零云 RAG</td><td><code>lyonzin/knowledge-rag</code></td><td class="star">296★</td><td class="c ok-b">✅ 混合</td><td class="c ok-b">✅ cross-encoder</td></tr>
+<tr><td>云知识库检索</td><td><code>awslabs/mcp</code> Bedrock KB</td><td class="star">9,777★</td><td class="c ok-b">✅</td><td class="c ok-b">✅ Bedrock rerank</td></tr>
+<tr><td>已有 Qdrant</td><td><code>qdrant/mcp-server-qdrant</code></td><td class="star">1,548★</td><td class="c ok-b">✅ 纯向量</td><td class="c no-b">❌</td></tr>
+<tr><td>已有 Neo4j / 要图谱</td><td><code>neo4j-contrib/mcp-neo4j</code></td><td class="star">988★</td><td class="c ok-b">✅ 图谱</td><td class="c no-b">❌</td></tr>
+<tr><td>完整平台</td><td><code>Tencent/WeKnora</code></td><td class="star">33,881★</td><td class="c ok-b">✅</td><td class="c ok-b">✅（平台内）</td></tr>
+<tr><td>代码库知识库</td><td><code>DeusData/codebase-memory-mcp</code></td><td class="star">46,547★</td><td class="c ok-b">✅</td><td class="c">—</td></tr>
+<tr><td>上下文压缩（省 token）</td><td><code>headroomlabs-ai/headroom</code></td><td class="star">75,305★</td><td class="c">—</td><td class="c">—</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+<h2><span class="n">一</span>RAG 的环节，MCP 覆盖哪几个</h2>
+
+<h3>1.1 一条完整 RAG 链路的 5 个环节</h3>
+<div class="flow">
+  <div class="step hi"><span class="n">① 解析</span>PDF/Word/图片 → 文本<br><span class="ok-b">✅ MCP 覆盖充分</span></div>
+  <div class="arrow">→</div>
+  <div class="step mid"><span class="n">② 切分</span>文本 → chunks<br><span class="warn-b">⚠️ 几乎没有独立 MCP</span></div>
+  <div class="arrow">→</div>
+  <div class="step hi"><span class="n">③ 召回</span>向量/关键词/混合<br><span class="ok-b">✅ 覆盖最充分</span></div>
+  <div class="arrow">→</div>
+  <div class="step mid"><span class="n">④ 重排</span>cross-encoder 精排<br><span class="warn-b">⚠️ 最稀缺</span></div>
+  <div class="arrow">→</div>
+  <div class="step lo"><span class="n">⑤ 生成</span>喂给 LLM<br><span class="no-b">❌ 由 Agent 本体负责</span></div>
+</div>
+
+<table>
+<thead><tr><th>环节</th><th>做什么</th><th>MCP 覆盖情况</th></tr></thead>
+<tbody>
+<tr><td><strong>① 解析</strong></td><td>PDF/Word/图片 → 结构化文本</td><td class="ok-b">✅ 有专门的解析 MCP</td></tr>
+<tr><td><strong>② 切分</strong></td><td>文本 → chunks</td><td class="warn-b">⚠️ 少见独立 MCP，多内嵌在平台里</td></tr>
+<tr><td><strong>③ 召回</strong></td><td>向量/关键词/混合检索</td><td class="ok-b">✅ <strong>MCP 覆盖最充分的一环</strong></td></tr>
+<tr><td><strong>④ 重排</strong></td><td>cross-encoder 精排 top-k</td><td class="no-b">⚠️ <strong>稀缺</strong>，只有少数 MCP 内置</td></tr>
+<tr><td><strong>⑤ 生成</strong></td><td>喂给 LLM</td><td>❌ 由 Agent 本体负责</td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<div class="t">关键结论</div>
+<p><strong>③ 召回</strong> 是 MCP 生态最成熟的环节（向量库厂商都在做官方 MCP）；<strong>④ 重排</strong> 是最稀缺的环节；<strong>② 切分</strong> 几乎没有独立 MCP。</p>
+</div>
+
+<h3>1.2 MCP 是「接缝」，不是「引擎」</h3>
+<p>一个常见误解是「装个 MCP 就有 RAG 了」。实际上：</p>
+<ul>
+<li><strong>向量库 MCP</strong>（Qdrant/Milvus/Weaviate）做的是「把你的查询转成对已有向量库的调用」</li>
+<li><strong>它不负责</strong>：文档解析、切分策略、embedding 质量、重排、答案生成</li>
+</ul>
+<p>所以选型顺序应该是：<strong>先定检索后端 → 再选 MCP</strong>，而不是反过来。</p>
+
+<h3>1.3 三类 MCP 的分工</h3>
+<table>
+<thead><tr><th>类型</th><th>代表</th><th>你得到什么</th><th>你需要自己做什么</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-b">存储型</span></td><td>qdrant / milvus / weaviate / redis MCP</td><td>一个「语义记忆」接口</td><td class="warn-b">解析、切分、重排、答案</td></tr>
+<tr><td><span class="pill p-g">检索型</span></td><td>haiku.rag / knowledge-rag</td><td>完整的 RAG 能力</td><td class="ok-b">几乎不用，装完即用</td></tr>
+<tr><td><span class="pill p-p">平台型</span></td><td>Dify / RAGFlow / WeKnora</td><td>完整平台 + 自带 MCP Server</td><td>部署平台</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+<h2><span class="n">二</span>能同时做「召回 + 重排」的 MCP（最稀缺）</h2>
+<p>本轮全量检索后，真正内置 cross-encoder 重排的 MCP 只有 <strong>3 个</strong>（外加 1 个云端方案）。这一章是全文最有价值的部分。</p>
+
+<h3>2.1 <code>ggozad/haiku.rag</code> — 最强本地 RAG MCP <span class="pill p-g">首推</span></h3>
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td>星数</td><td class="star">628★</td></tr>
+<tr><td>License</td><td>MIT</td></tr>
+<tr><td>最后推送</td><td class="ok-b">2026-10-13（活跃）</td></tr>
+<tr><td>技术栈</td><td>LanceDB（嵌入式）+ Pydantic AI + Docling</td></tr>
+<tr><td>Python</td><td>3.12+</td></tr>
+</tbody>
+</table>
+
+<h4>README 原文能力清单（已核实）</h4>
+<pre><code>- Ingest PDFs, office documents, HTML, Markdown and images with Docling...
+  The stored DoclingDocument keeps headings, tables, pictures and page provenance.
+
+- Search with hybrid vector and full-text retrieval, optional reranking
+  (cross-encoders, Jina, Cohere, Zero Entropy, vLLM, OpenRouter),
+  section-aware context expansion, and image search with a multimodal
+  embedder... Across several named databases at once.
+
+- Answer with the RAG capability: it searches, runs sandboxed Python over
+  the documents for counting and aggregation, and cites page numbers and headings.
+
+- Check a citation by drawing its chunk on the page image.
+
+- Integrate through the Python API, native Pydantic AI capabilities,
+  an MCP server for Claude Code, Codex and Claude Desktop, and a reference web app.
+
+- Operate with the haiku-ingester service (filesystem, HTTP, S3 and WebDAV
+  sources, a SQLite or Postgres job queue with retries, a control plane and
+  dashboard), tags and rollback, vacuum, and haiku-rag doctor health checks.</code></pre>
+
+<h4>为什么它是最优解</h4>
+<ol>
+<li><strong>召回层是混合的</strong>（向量 + 全文），不是纯向量</li>
+<li><strong>重排可插拔</strong>：cross-encoder / Jina / Cohere / vLLM / OpenRouter 五选一，可先用本地模型、后期换云服务</li>
+<li><strong>引用可验证</strong>：能把 chunk 画回 PDF 页面图上——RAG 可信度的关键，绝大多数方案做不到</li>
+<li><strong>默认零配置</strong>：嵌入式 LanceDB + Ollama，不需要起服务器、不需要 API key</li>
+<li><strong>有生产化组件</strong>：<code>haiku-ingester</code> 带重试的任务队列 + 控制面板 + 健康检查</li>
+</ol>
+
+<pre><code>pip install haiku.rag
+haiku-rag init
+haiku-rag add-src paper.pdf
+haiku-rag search "attention mechanism"
+haiku-rag ask "What datasets were used for evaluation?"</code></pre>
+
+<p><strong>适合</strong>：个人/团队自建知识库，要质量、要引用、要本地。</p>
+
+<h3>2.2 <code>lyonzin/knowledge-rag</code> — 纯本地零云方案</h3>
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td>星数</td><td class="star">296★</td></tr>
+<tr><td>License</td><td>MIT</td></tr>
+<tr><td>最后推送</td><td class="ok-b">2026-10-13（活跃）</td></tr>
+<tr><td>技术栈</td><td>ChromaDB + FastEmbed</td></tr>
+<tr><td>Python</td><td>3.11+</td></tr>
+</tbody>
+</table>
+
+<p>README 原文核心卖点（已核实）：</p>
+<pre><code>Hybrid search · Cross-encoder reranking · 35 file formats
+100% local · Zero cloud · Enterprise-grade plumbing built-in.
+
+pip install knowledge-rag  →  restart Claude Code  →  search_knowledge("your query")</code></pre>
+
+<p><strong>企业级配套设施</strong>（README 明确列出）：bearer auth、Prometheus metrics、rate limiting、health probes、structured JSON logging、<strong>zero-downtime reindex</strong>。</p>
+
+<div class="box warn">
+<div class="t">⚠️ 三条使用警告</div>
+<ol>
+<li><strong>README 有大量 SEO 关键词堆砌</strong>（HTML 注释里塞了 <code>local rag, mcp server, hybrid search, cross-encoder reranking, chromadb rag...</code>，还有 schema.org 结构化数据块）。这是营销驱动的仓库，<strong>看到这类 README 要更谨慎地验证实际能力</strong>。</li>
+<li><strong>能力口径不一致</strong>：仓库描述说「13 MCP tools, 20 format parsers」，README 说「35 file formats」。<strong>两个数字对不上</strong>，用前自己数一下。</li>
+<li><strong>GPU 依赖</strong>：badge 显示 NVIDIA CUDA。纯 CPU 环境的性能需自行验证。</li>
+</ol>
+</div>
+
+<h3>2.3 <code>awslabs/mcp</code> — Bedrock KB Retrieval（云端首选）</h3>
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td>星数</td><td class="star">9,777★（整个 AWS MCP 集合）</td></tr>
+<tr><td>License</td><td>Apache-2.0</td></tr>
+<tr><td>最后推送</td><td class="ok-b">2026-10-14（活跃）</td></tr>
+</tbody>
+</table>
+
+<p>README 原文能力（已核实），其中三项非常关键：</p>
+<pre><code>Agentic retrieval on managed knowledge bases
+  - Plan a multi-step retrieval strategy and synthesise a cited answer
+  - Search several knowledge bases in one call
+  - Optional condensed trace of the agent's planning and retrieval steps
+
+Reach ACL-protected content
+  - Pass user_id to retrieve content from ACL-aware data sources
+    (SharePoint, OneDrive, Confluence with per-document ACLs)
+  - Results are filtered to what that user is authorised to see
+
+Rerank results
+  - Improve relevance of retrieval results
+  - Use Amazon Bedrock reranking capabilities</code></pre>
+
+<p><strong>三个别处没有的能力</strong>：</p>
+<ol>
+<li><strong>Agentic retrieval</strong>：不是单次检索，而是「规划多步检索策略 → 综合出带引用的答案」，且<strong>一次调用可跨多个知识库</strong></li>
+<li><strong>ACL 感知</strong>：传 <code>user_id</code> 就能拿到 SharePoint/OneDrive/Confluence 的权限内内容，结果按该用户权限过滤——<strong>企业场景的刚需，开源方案普遍缺失</strong></li>
+<li><strong>Bedrock 原生重排</strong></li>
+</ol>
+<p>同时支持 <code>VECTOR</code> 和 <code>MANAGED</code> 两种知识库类型，自动识别。</p>
+
+<h3>2.4 Azure AI Search 的 MCP 端点</h3>
+<p>Azure AI Search 每个知识库暴露<strong>原生 MCP 端点</strong>，检索请求里设 <code>"resultsProcessing": "rerank"</code> 即启用重排序管道。这是<strong>平台内建 MCP</strong>（不需要单独装服务器）。</p>
+<div class="box danger"><div class="t">⚠️ 注意</div><p><code>Azure/azure-mcp</code>（1,225★）<strong>已归档</strong>（最后推送 2026-02-06）。Azure 的 MCP 能力现在走 AI Search 原生端点，不要去找那个归档仓库。</p></div>
+
+<h3>2.5 三个一体化方案横向对比</h3>
+<table>
+<thead><tr><th></th><th>haiku.rag</th><th>knowledge-rag</th><th>Bedrock KB Retrieval</th></tr></thead>
+<tbody>
+<tr><td><strong>星数</strong></td><td class="star">628★</td><td class="star">296★</td><td class="star">9,777★（集合）</td></tr>
+<tr><td><strong>部署</strong></td><td>本地</td><td>本地</td><td>AWS 云</td></tr>
+<tr><td><strong>向量库</strong></td><td>LanceDB（嵌入）</td><td>ChromaDB</td><td>Bedrock KB</td></tr>
+<tr><td><strong>召回</strong></td><td class="ok-b">✅ 混合（向量+全文）</td><td class="ok-b">✅ 混合</td><td class="ok-b">✅</td></tr>
+<tr><td><strong>重排</strong></td><td class="ok-b">✅ 5 种可插拔</td><td class="ok-b">✅ cross-encoder</td><td class="ok-b">✅ Bedrock rerank</td></tr>
+<tr><td><strong>引用</strong></td><td class="ok-b">✅ 页码+标题，可回画页面图</td><td>—</td><td class="ok-b">✅</td></tr>
+<tr><td><strong>多库查询</strong></td><td class="ok-b">✅ 同时跨多个命名库</td><td>—</td><td class="ok-b">✅ 一次调用跨多库</td></tr>
+<tr><td><strong>权限控制</strong></td><td>—</td><td>bearer auth</td><td class="ok-b">✅ ACL 感知</td></tr>
+<tr><td><strong>增量/重试</strong></td><td class="ok-b">✅ ingester 服务</td><td class="ok-b">✅ 零停机重建索引</td><td>AWS 托管</td></tr>
+<tr><td><strong>解析器</strong></td><td>Docling</td><td>35 格式</td><td>Bedrock 托管</td></tr>
+<tr><td><strong>答案生成</strong></td><td class="ok-b">✅ + 沙箱 Python 聚合</td><td class="no-b">❌ 只检索</td><td class="ok-b">✅ agentic</td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<div class="t">选择建议</div>
+<p>个人/团队自建 → <strong>haiku.rag</strong>；纯离线合规 → knowledge-rag；企业云上 → Bedrock KB Retrieval。</p>
+</div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+<h2><span class="n">三</span>向量库 / 检索后端 MCP（召回层）</h2>
+<p>这是 MCP 生态里数量最多的一类，但<strong>能力边界差异极大</strong>。「重排」列是重点。</p>
+
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>召回能力</th><th class="c">重排</th></tr></thead>
+<tbody>
+<tr><td><strong>qdrant/mcp-server-qdrant</strong></td><td class="star">1,548★</td><td>Apache-2.0</td><td>2026-09-04</td><td>纯向量</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>neo4j-contrib/mcp-neo4j</strong></td><td class="star">988★</td><td>MIT</td><td>2026-09-09</td><td>图谱</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>elastic/mcp-server-elasticsearch</strong></td><td class="star">718★</td><td>Apache-2.0</td><td>2026-10-12</td><td>全文+向量</td><td class="c warn-b">⚠️ 已废弃</td></tr>
+<tr><td><strong>redis/mcp-redis</strong></td><td class="star">634★</td><td>MIT</td><td>2026-10-13</td><td>向量+KV</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>chroma-core/chroma-mcp</strong></td><td class="star">599★</td><td>Apache-2.0</td><td class="no-b">2025-09-17</td><td>向量</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>zilliztech/mcp-server-milvus</strong></td><td class="star">244★</td><td>Apache-2.0</td><td>2026-08-11</td><td>向量+混合</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>weaviate/mcp-server-weaviate</strong></td><td class="star">162★</td><td>—</td><td>2026-05-26</td><td>向量+混合</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>pinecone-io/pinecone-mcp</strong></td><td class="star">72★</td><td>Apache-2.0</td><td>2026-09-29</td><td>向量</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>opensearch-project/opensearch-mcp-server-py</strong></td><td class="star">155★</td><td>Apache-2.0</td><td>2026-10-08</td><td>全文+向量</td><td class="c warn-b">⚠️</td></tr>
+<tr><td><strong>crystaldba/postgres-mcp</strong></td><td class="star">3,396★</td><td>MIT</td><td>2026-08-17</td><td>SQL+pgvector</td><td class="c no-b">❌</td></tr>
+<tr><td><strong>FalkorDB/FalkorDB-MCPServer</strong></td><td class="star">41★</td><td>MIT</td><td>2026-10-13</td><td>图谱+向量</td><td class="c no-b">❌</td></tr>
+</tbody>
+</table>
+
+<h3>3.1 三个必须知道的发现</h3>
+
+<h4>① Qdrant 官方 MCP 比想象的弱得多</h4>
+<p>已抓 README 核实，它的<strong>全部工具只有两个</strong>：</p>
+<pre><code>qdrant-store  → 存信息
+qdrant-find   → 检索信息</code></pre>
+<p>配置项只有 <code>QDRANT_URL</code> / <code>QDRANT_LOCAL_PATH</code> / <code>COLLECTION_NAME</code> / <code>EMBEDDING_PROVIDER</code>（<strong>目前只支持 fastembed</strong>）/ <code>EMBEDDING_MODEL</code>（默认 <code>all-MiniLM-L6-v2</code>）/ <code>QDRANT_SEARCH_LIMIT</code>（默认 10）/ <code>QDRANT_READ_ONLY</code>。</p>
+<div class="box danger"><div class="t">高星 ≠ 功能全</div><p>它自述定位是「<strong>acts as a semantic memory layer</strong>」（语义记忆层）——<strong>不是 RAG 引擎</strong>。但它有 1,548★，是这个领域星数最高的。</p></div>
+
+<h4>② Elastic 官方 MCP 已废弃</h4>
+<pre><code>[!CAUTION]
+This MCP server is deprecated and will only receive critical security
+updates going forward. It has been superseded by the Elastic Agent
+Builder MCP endpoint, which is available in Elastic 9.2.0+ and
+Elasticsearch Serverless projects.</code></pre>
+<p>另外它提示 <strong>SSE 传输已废弃</strong>，改用 streamable-HTTP。用 ES 做知识库的人要改路线。</p>
+
+<h4>③ Neo4j 有两套，别装错</h4>
+<p><code>neo4j-contrib/mcp-neo4j</code>（988★）是 <strong>Neo4j Labs</strong> 项目，README 明确说「<strong>we don't provide any SLAs or guarantees around backwards compatibility</strong>」，并指向 <code>github.com/neo4j/mcp</code> 为官方产品版。它包含 4 个子服务：</p>
+<ul>
+<li><code>mcp-neo4j-cypher</code> — 自然语言转 Cypher</li>
+<li><code>mcp-neo4j-memory</code> — <strong>知识图谱记忆</strong>（跨会话/客户端持久化实体与关系）</li>
+<li><code>mcp-neo4j-cloud-aura-api</code> — Aura 云实例管理</li>
+<li><code>mcp-neo4j-data-modeling</code> — 图数据建模与可视化</li>
+</ul>
+
+<h3>3.2 重要提醒：混合检索与重排可能在「库本体」里</h3>
+<p>MCP 只是一个薄壳。<strong>Milvus、Weaviate、Qdrant 本体都支持混合检索</strong>，只是官方 MCP 没把这些参数暴露出来。</p>
+<table>
+<thead><tr><th>向量库本体</th><th>星数</th><th>本体是否支持混合检索</th></tr></thead>
+<tbody>
+<tr><td><code>milvus-io/milvus</code></td><td class="star">46,381★</td><td class="ok-b">✅ 支持 sparse + dense</td></tr>
+<tr><td><code>qdrant/qdrant</code></td><td class="star">35,070★</td><td class="ok-b">✅ topics 含 <code>hybrid-search</code></td></tr>
+<tr><td><code>weaviate/weaviate</code></td><td class="star">16,880★</td><td class="ok-b">✅ topics 含 <code>hybrid-search</code></td></tr>
+<tr><td><code>chroma-core/chroma</code></td><td class="star">29,494★</td><td class="warn-b">⚠️ 有限</td></tr>
+<tr><td><code>pgvector/pgvector</code></td><td class="star">23,355★</td><td class="no-b">❌（需自己配 BM25）</td></tr>
+<tr><td><code>infiniflow/infinity</code></td><td class="star">4,741★</td><td class="ok-b">✅ dense+sparse+tensor+全文</td></tr>
+<tr><td><code>lancedb/lancedb</code></td><td class="star">11,669★</td><td class="ok-b">✅</td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<div class="t">所以如果你要混合检索 + 重排，有两条路</div>
+<ol>
+<li><strong>换成一体的 RAG MCP</strong>（haiku.rag），它已经把混合检索和重排都接好了</li>
+<li><strong>自建薄封装</strong>：直接用向量库 SDK 调混合检索 + 重排，再包一层 MCP。<strong>如果官方 MCP 不暴露你要的参数，别硬用它</strong></li>
+</ol>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+<h2><span class="n">四</span>RAG 平台型（自带 MCP Server，最省事）</h2>
+<p>如果你愿意跑一个平台，这类方案能一次解决解析 + 切分 + 召回 + 重排 + 生成，并且<strong>自己就暴露 MCP Server</strong> 给别的 Agent 用。</p>
+
+<table>
+<thead><tr><th>平台</th><th>星数</th><th>License</th><th>最后推送</th><th>亮点</th></tr></thead>
+<tbody>
+<tr><td><strong>langgenius/dify</strong></td><td class="star">158,418★</td><td>—</td><td>2026-10-14</td><td>最流行；RAG 流水线 + Agent 工作流 + 模型/工具生态</td></tr>
+<tr><td><strong>open-webui/open-webui</strong></td><td class="star">155,610★</td><td>—</td><td>2026-10-14</td><td>内建 RAG，最易部署</td></tr>
+<tr><td><strong>infiniflow/ragflow</strong></td><td class="star">92,181★</td><td>Apache-2.0</td><td>2026-10-14</td><td>深度文档理解见长，切片/召回可调</td></tr>
+<tr><td><strong>Mintplex-Labs/anything-llm</strong></td><td class="star">67,041★</td><td>MIT</td><td>2026-10-14</td><td>本地优先，桌面版友好</td></tr>
+<tr><td><strong>zylon-ai/private-gpt</strong></td><td class="star">57,575★</td><td>Apache-2.0</td><td>2026-10-14</td><td>自述含 RAG + skills + tools + <strong>MCP</strong> + text-to-sql</td></tr>
+<tr><td><strong>HKUDS/LightRAG</strong></td><td class="star">40,127★</td><td>MIT</td><td>2026-10-12</td><td>轻量 Graph RAG，成本低</td></tr>
+<tr><td><strong>chatchat-space/Langchain-Chatchat</strong></td><td class="star">38,681★</td><td>Apache-2.0</td><td class="no-b">2025-11-10</td><td><span class="pill p-y">停更 11 个月</span></td></tr>
+<tr><td><strong>Tencent/WeKnora</strong></td><td class="star">33,881★</td><td>—</td><td>2026-10-14</td><td><strong>腾讯官方</strong>，见下方详解</td></tr>
+<tr><td><strong>Cinnamon/kotaemon</strong></td><td class="star">25,802★</td><td>Apache-2.0</td><td>2026-07-14</td><td>开源文档问答 UI</td></tr>
+<tr><td><strong>netease-youdao/QAnything</strong></td><td class="star">14,199★</td><td>AGPL-3.0</td><td>2026-09-23</td><td>网易有道</td></tr>
+<tr><td><strong>dataelement/bisheng</strong></td><td class="star">12,049★</td><td>Apache-2.0</td><td>2026-10-14</td><td>企业级 LLM 应用平台</td></tr>
+<tr><td><strong>xerrors/Yuxi</strong></td><td class="star">7,388★</td><td>MIT</td><td>2026-10-10</td><td><strong>中文</strong>，多租户，统一 RAG + 知识图谱 + MCP/Skills</td></tr>
+</tbody>
+</table>
+
+<h3>4.1 <code>Tencent/WeKnora</code> — 中文场景最值得看的</h3>
+<p>已抓 README 核实，能力密度很高：</p>
+<ul>
+<li><strong>三种模式共用同一知识库</strong>：RAG 查资料 / Agent 做多步任务 / Wiki 组织知识</li>
+<li><strong>数据源自动同步</strong>：飞书 wiki、飞书云盘、Confluence、GitLab、腾讯 IMA、Notion、语雀、钉钉文档、Seafile、RSS</li>
+<li><strong>格式</strong>：PDF、Word、图片、Excel、XMind 等 10+，Office 文件由 anydoc 进程内解析</li>
+<li><strong>内建 MCP Server</strong>：供 Cursor、Claude 等 AI 工具接入</li>
+<li><strong>检索 chunk 可编辑、可 diff、可回滚</strong>——这个特性很少见，直接解决「切分错了怎么办」</li>
+<li><strong>跨会话长期记忆</strong>：保存用户档案、偏好、已确认事实</li>
+<li><strong>渠道</strong>：企业微信、飞书、Slack、Telegram 问答；可嵌入外部网站</li>
+<li><strong>29 个内置模型厂商</strong>；LLM / 向量库 / 存储后端全部可替换</li>
+<li><strong>权限</strong>：多工作区 RBAC（4 种角色）+ 每资源所有权 + 每工作区审计日志</li>
+<li><strong>可观测</strong>：Langfuse 追踪 agent 步骤、token 用量、流水线</li>
+<li><strong>部署</strong>：Docker Compose / K8s，可本地或私有云，数据不出环境</li>
+<li>知识图谱走 <code>neo4j</code> profile</li>
+</ul>
+
+<h3>4.2 云厂商 MCP 工具箱（不只是知识库）</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>License</th><th>最后推送</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>googleapis/mcp-toolbox</strong></td><td class="star">16,657★</td><td>Apache-2.0</td><td>2026-10-14</td><td>数据库 MCP 工具箱：BigQuery/ClickHouse/Elasticsearch/Firestore 等</td></tr>
+<tr><td><strong>awslabs/mcp</strong></td><td class="star">9,777★</td><td>Apache-2.0</td><td>2026-10-14</td><td>含 Bedrock KB Retrieval（见 2.3）</td></tr>
+<tr><td><strong>cloudflare/mcp-server-cloudflare</strong></td><td class="star">4,378★</td><td>Apache-2.0</td><td>2026-10-09</td><td>含 Vectorize/AI Gateway</td></tr>
+<tr><td><strong>Azure/azure-mcp</strong></td><td class="star">1,225★</td><td>MIT</td><td class="no-b">2026-02-06</td><td><span class="pill p-r">已归档</span>，Azure 改走 AI Search 原生 MCP 端点</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+<h2><span class="n">五</span>知识图谱 / Graph RAG（关系型知识）</h2>
+<p>当知识之间有强关系结构（人物、组织、事件、代码依赖），纯向量召回会失效——它找得到「相似」，找不到「关联」。</p>
+
+<h3>5.1 知识图谱框架（非 MCP，但常作为后端）</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>License</th><th>最后推送</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>HKUDS/LightRAG</strong></td><td class="star">40,127★</td><td>MIT</td><td>2026-10-12</td><td>轻量 Graph RAG，成本远低于微软方案</td></tr>
+<tr><td><strong>microsoft/graphrag</strong></td><td class="star">36,332★</td><td>MIT</td><td>2026-10-12</td><td>微软官方，体系完整但重</td></tr>
+<tr><td><strong>topoteretes/cognee</strong></td><td class="star">32,243★</td><td>Apache-2.0</td><td>2026-10-14</td><td>记忆 + 知识图谱一体化</td></tr>
+<tr><td><strong>getzep/graphiti</strong></td><td class="star">31,730★</td><td>Apache-2.0</td><td>2026-10-14</td><td>实时知识图谱，企业级，带时间维度</td></tr>
+<tr><td><strong>vitali87/code-graph-rag</strong></td><td class="star">5,253★</td><td>MIT</td><td>2026-10-14</td><td>代码库知识图谱</td></tr>
+<tr><td><strong>FlowElement-xinliuyuansu/m_flow</strong></td><td class="star">4,511★</td><td>Apache-2.0</td><td>2026-09-01</td><td>类脑认知记忆引擎</td></tr>
+</tbody>
+</table>
+
+<h3>5.2 带 MCP 的知识图谱方案</h3>
+<table>
+<thead><tr><th>MCP / 项目</th><th>星数</th><th>最后推送</th><th>形态</th></tr></thead>
+<tbody>
+<tr><td><strong>Graphify-Labs/graphify</strong></td><td class="star">126,279★</td><td>2026-10-13</td><td>代码库+文档+SQL schema+PDF → 可查询知识图谱，提供 <code>/graphify</code> skill</td></tr>
+<tr><td><strong>DeusData/codebase-memory-mcp</strong></td><td class="star">46,547★</td><td>2026-10-14</td><td>代码库索引进持久知识图谱，158 种语言，亚毫秒级</td></tr>
+<tr><td><strong>forloopcodes/contextplus</strong></td><td class="star">1,983★</td><td>2026-07-13</td><td>RAG + Tree-sitter AST + 谱聚类，含 <code>search_memory_graph</code> / <code>retrieve_with_traversal</code>（带衰减评分）</td></tr>
+<tr><td><strong>iwe-org/iwe</strong></td><td class="star">1,771★</td><td>2026-10-08</td><td>Markdown 知识图谱，CLI + MCP 记忆</td></tr>
+<tr><td><strong>doobidoo/mcp-memory-service</strong></td><td class="star">2,013★</td><td>2026-10-14</td><td>知识图谱 + 自主整合</td></tr>
+<tr><td><strong>neo4j-contrib/mcp-neo4j</strong></td><td class="star">988★</td><td>2026-09-09</td><td><code>mcp-neo4j-memory</code> 子服务</td></tr>
+<tr><td><strong>shaneholloman/mcp-knowledge-graph</strong></td><td class="star">886★</td><td>2026-05-29</td><td>本地知识图谱持久记忆</td></tr>
+<tr><td><strong>GreatScottyMac/context-portal</strong></td><td class="star">767★</td><td>2026-01-27</td><td>项目级知识图谱记忆库</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">⚠️ 星数异常提示</div>
+<p><code>Graphify-Labs/graphify</code> 的 <strong>126,279★</strong> 和 <code>DeusData/codebase-memory-mcp</code> 的 <strong>46,547★</strong> 都经 API 复核确认，但<strong>建仓时间很短、增长曲线陡峭</strong>。这类高星新仓建议实际试用后再决定，不要只看星数。</p>
+</div>
+
+<h3>5.3 Graph RAG vs 向量 RAG 怎么选</h3>
+<table>
+<thead><tr><th></th><th>向量 RAG</th><th>Graph RAG</th></tr></thead>
+<tbody>
+<tr><td><strong>擅长</strong></td><td>「意思相近」的检索</td><td>「相互关联」的推理</td></tr>
+<tr><td><strong>典型问法</strong></td><td>"文档里怎么说 X？"</td><td>"X 和 Y 是什么关系？谁影响了谁？"</td></tr>
+<tr><td><strong>成本</strong></td><td class="ok-b">低</td><td class="warn-b">高（要建图 + LLM 抽取实体关系）</td></tr>
+<tr><td><strong>增量更新</strong></td><td class="ok-b">容易</td><td class="no-b">难</td></tr>
+<tr><td><strong>建议</strong></td><td colspan="2"><strong>先做向量，不够再上图</strong>；知识本身有强关系结构时直接用图</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+<h2><span class="n">六</span>记忆层（与知识库的边界）</h2>
+<div class="box">
+<div class="t">「记忆」和「知识库」不是一回事</div>
+<ul>
+<li><strong>知识库</strong>：你主动放进去的文档，可检索、可引用</li>
+<li><strong>记忆</strong>：Agent 在对话中自动沉淀的事实/偏好，用于跨会话连续性</li>
+</ul>
+<p>两者可以共用一个向量库，但<strong>用途和写入策略完全不同</strong>。选型时别把它们混成一个需求。</p>
+</div>
+
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>License</th><th>最后推送</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>mem0ai/mem0</strong></td><td class="star">67,153★</td><td>Apache-2.0</td><td>2026-10-12</td><td>最流行的 Agent 记忆层</td></tr>
+<tr><td><strong>MemTensor/MemOS</strong></td><td class="star">11,854★</td><td>Apache-2.0</td><td>2026-10-10</td><td>自述 hybrid-retrieval，省 35.24% token，支持 DSH/Hermes</td></tr>
+<tr><td><strong>getzep/zep</strong></td><td class="star">4,959★</td><td>Apache-2.0</td><td>2026-10-14</td><td>Graphiti 的商业版底座</td></tr>
+<tr><td><strong>basicmachines-co/basic-memory</strong></td><td class="star">4,167★</td><td>AGPL-3.0</td><td>2026-10-12</td><td>Markdown 本地记忆，<strong>与 Obsidian 天然兼容</strong></td></tr>
+<tr><td><strong>memodb-io/memobase</strong></td><td class="star">2,932★</td><td>Apache-2.0</td><td>2026-01-11</td><td>基于用户档案的长期记忆</td></tr>
+<tr><td><strong>microsoft/kernel-memory</strong></td><td class="star">2,231★</td><td>MIT</td><td class="warn-b">2026-06-08</td><td>微软研究项目（<strong>注意：是 research project</strong>）</td></tr>
+<tr><td><strong>doobidoo/mcp-memory-service</strong></td><td class="star">2,013★</td><td>Apache-2.0</td><td>2026-10-14</td><td>知识图谱 + 自主整合</td></tr>
+<tr><td><strong>okf-memory/okf-agent-memory</strong></td><td class="star">777★</td><td>MIT</td><td>2026-10-12</td><td>Git-native，BM25 亚 300µs</td></tr>
+<tr><td><strong>0xK3vin/MegaMemory</strong></td><td class="star">724★</td><td>MIT</td><td>2026-05-03</td><td>项目知识图谱 + 语义搜索</td></tr>
+<tr><td><strong>jaredrhod/ai-memory-vault</strong></td><td class="star">700★</td><td>CC-BY-SA-4.0</td><td>2026-08-31</td><td>把 Obsidian vault 变成 AI 工作记忆</td></tr>
+<tr><td><strong>Lyellr88/marm-memory</strong></td><td class="star">420★</td><td>Apache-2.0</td><td>2026-10-12</td><td>本地优先，融合会话历史+代码索引</td></tr>
+</tbody>
+</table>
+
+<p><strong>官方参考实现</strong>：<code>modelcontextprotocol/servers</code> 里的 <strong>Knowledge Graph Memory</strong> 是最常被引用的官方记忆实现（官方活跃参考服务器现在只剩 7 个：Filesystem / Memory / Sequential Thinking / Time / Fetch / Git / Everything）。</p>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+<h2><span class="n">七</span>文档解析与切分（RAG 的前置，决定上限）</h2>
+<div class="box warn"><div class="t">RAG 效果的上限在解析和切分，不在向量库</div><p>这一环做不好，后面再强的重排也救不回来。</p></div>
+
+<h3>7.1 文档解析</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>License</th><th>最后推送</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>microsoft/markitdown</strong></td><td class="star">190,127★</td><td>MIT</td><td>2026-10-04</td><td>文档转 Markdown 的事实标准（注意：是<strong>库</strong>，MCP 只是捆绑）</td></tr>
+<tr><td><strong>unclecode/crawl4ai</strong></td><td class="star">85,497★</td><td>Apache-2.0</td><td>2026-10-14</td><td>网页爬取 → LLM 友好 Markdown</td></tr>
+<tr><td><strong>opendatalab/MinerU</strong></td><td class="star">81,713★</td><td>—</td><td>2026-10-14</td><td>PDF 深度解析，中文/公式/表格强</td></tr>
+<tr><td><strong>docling-project/docling</strong></td><td class="star">68,859★</td><td>MIT</td><td>2026-10-14</td><td>IBM 出品，保留标题/表格/图片/页码溯源</td></tr>
+<tr><td><strong>datalab-to/marker</strong></td><td class="star">40,431★</td><td>Apache-2.0</td><td>2026-10-02</td><td>PDF → Markdown，质量高</td></tr>
+<tr><td><strong>datalab-to/surya</strong></td><td class="star">21,493★</td><td>Apache-2.0</td><td>2026-09-11</td><td>OCR + 版面分析</td></tr>
+<tr><td><strong>Unstructured-IO/unstructured</strong></td><td class="star">15,564★</td><td>Apache-2.0</td><td>2026-10-14</td><td>老牌，格式覆盖最广</td></tr>
+<tr><td><strong>firecrawl/firecrawl</strong></td><td class="star">191,341★</td><td>AGPL-3.0</td><td>2026-10-13</td><td>网页抓取 → 结构化</td></tr>
+<tr><td><strong>pymupdf/pymupdf4llm</strong></td><td class="star">2,262★</td><td>AGPL-3.0</td><td>2026-10-13</td><td>轻量 PDF → Markdown</td></tr>
+<tr><td><strong>opendatalab/MinerU-Document-Explorer</strong></td><td class="star">641★</td><td>MIT</td><td>2026-04-26</td><td><strong>Agent 原生知识引擎，带 MCP 工具</strong>：文档索引、wiki 组织、快速检索、深读</td></tr>
+</tbody>
+</table>
+
+<h3>7.2 切分</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>License</th><th>最后推送</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>feyninc/chonkie</strong></td><td class="star">4,790★</td><td>MIT</td><td>2026-10-03</td><td>最流行的 RAG 切分库</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">⚠️ 注意</div>
+<p><code>chonkie</code> 的仓库已迁移到 <code>feyninc/chonkie</code>（<code>chonkie-ai/chonkie</code> 返回 404）。<strong>独立做切分的 MCP 基本没有</strong>——切分要么内嵌在平台里，要么你自己在管线里做。</p>
+</div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+<h2><span class="n">八</span>重排 / Embedding 服务</h2>
+<p>如果不想用一体化 MCP，也可以把重排单独做成服务，再用 MCP 包一层。</p>
+
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>License</th><th>最后推送</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>ollama/ollama</strong></td><td class="star">183,101★</td><td>MIT</td><td>2026-10-14</td><td>本地跑 embedding 模型最省事</td></tr>
+<tr><td><strong>vllm-project/vllm</strong></td><td class="star">93,751★</td><td>Apache-2.0</td><td>2026-10-14</td><td>高吞吐推理，可跑 embedding/reranker</td></tr>
+<tr><td><strong>huggingface/sentence-transformers</strong></td><td class="star">19,171★</td><td>Apache-2.0</td><td>2026-10-13</td><td>自述 "Embeddings, Retrieval, and <strong>Reranking</strong>"</td></tr>
+<tr><td><strong>FlagOpen/FlagEmbedding</strong></td><td class="star">12,243★</td><td>MIT</td><td>2026-08-24</td><td><strong>BGE 系列</strong>，中文场景首选重排模型</td></tr>
+<tr><td><strong>huggingface/text-embeddings-inference</strong></td><td class="star">5,076★</td><td>Apache-2.0</td><td>2026-10-13</td><td>官方 embedding 推理服务</td></tr>
+<tr><td><strong>mixedbread-ai/mgrep</strong></td><td class="star">4,419★</td><td>Apache-2.0</td><td>2026-04-25</td><td>语义 grep（代码/图片/PDF）</td></tr>
+<tr><td><strong>michaelfeil/infinity</strong></td><td class="star">2,958★</td><td>MIT</td><td>2026-10-14</td><td><strong>高吞吐 serving 引擎，同时支持 text-embeddings 和 reranking</strong></td></tr>
+<tr><td><strong>AnswerDotAI/rerankers</strong></td><td class="star">1,641★</td><td>Apache-2.0</td><td class="no-b">2025-12-20</td><td><span class="pill p-y">停更 10 个月</span>，轻量重排库</td></tr>
+<tr><td><strong>Scisaga/qwen3-retrieval-server</strong></td><td class="star">7★</td><td>—</td><td>2026-08-18</td><td>自托管 Qwen3，Embedding + Reranker + MCP + Web 控制台</td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<div class="t">推荐组合</div>
+<ul>
+<li><strong>中文重排</strong> → FlagEmbedding（BGE-reranker 系列）</li>
+<li><strong>生产 serving</strong> → infinity 或 TEI</li>
+<li><strong>本地快速起步</strong> → Ollama</li>
+</ul>
+</div>
+
+<div class="box warn">
+<div class="t">⚠️ BGE 的 GitHub 仓库提示</div>
+<p><code>BAAI/bge-reranker-v2-m3</code> 是<strong>模型名不是仓库</strong>（返回 404）。模型权重在 HuggingFace，代码在 <code>FlagOpen/FlagEmbedding</code>。</p>
+</div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+<h2><span class="n">九</span>四套可直接抄的组合方案</h2>
+
+<h3>方案 A：个人本地知识库（最省心）</h3>
+<pre><code>文档 → Docling/MinerU 解析
+     → haiku.rag（LanceDB + 混合检索 + cross-encoder 重排 + 页码引用）
+     → MCP Server
+     → Claude Code / Codex / Claude Desktop</code></pre>
+<ul>
+<li>装：<code>pip install haiku.rag</code> + Ollama</li>
+<li>优点：全本地、零 API key、引用可验证</li>
+<li>适合：个人文档、论文、笔记</li>
+</ul>
+
+<h3>方案 B：团队知识库（要权限 + 多数据源）</h3>
+<pre><code>飞书/Notion/Confluence/GitLab
+     → WeKnora（自动同步 + 解析 + 切分 + 检索 + 重排）
+     → 内建 MCP Server
+     → 各类 AI 工具</code></pre>
+<ul>
+<li>优点：数据源打通、RBAC 权限、审计日志、chunk 可回滚</li>
+<li>适合：中文企业、需要 IM 渠道（企业微信/飞书/钉钉）</li>
+</ul>
+
+<h3>方案 C：已有向量库（改动最小）</h3>
+<pre><code>已有 Qdrant/Milvus/Weaviate
+     → 官方 MCP（仅召回）
+     + 重排放在向量库自身配置或客户端管线里</code></pre>
+<ul>
+<li>优点：不动现有架构</li>
+<li><strong>注意</strong>：官方 MCP 通常不暴露混合检索/重排参数，<strong>如果不够用，考虑自建薄封装而不是硬用</strong></li>
+</ul>
+
+<h3>方案 D：企业云上（要 ACL）</h3>
+<pre><code>SharePoint/OneDrive/Confluence（带 ACL）
+     → AWS Bedrock KB
+     → awslabs/mcp bedrock-kb-retrieval
+       （rerank + agentic retrieval + user_id 权限过滤）</code></pre>
+<ul>
+<li>优点：ACL 感知、多库一次调用、Bedrock 原生重排</li>
+<li>适合：已有 AWS、有权限管控要求</li>
+</ul>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+<h2><span class="n">十</span>陷阱清单（全部实测）</h2>
+
+<h3>10.1 已废弃 / 已归档</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>状态</th><th>影响</th></tr></thead>
+<tbody>
+<tr><td><strong>elastic/mcp-server-elasticsearch</strong></td><td class="star">718★</td><td class="warn-b">⚠️ 官方 deprecated</td><td>改用 Elastic Agent Builder MCP 端点（9.2.0+）</td></tr>
+<tr><td><strong>Azure/azure-mcp</strong></td><td class="star">1,225★</td><td class="no-b">✅ 已归档</td><td>Azure 改走 AI Search 原生 MCP 端点</td></tr>
+<tr><td><strong>weaviate/Verba</strong></td><td class="star">7,697★</td><td class="no-b">✅ 已归档</td><td>Weaviate 的 RAG 演示应用停更</td></tr>
+<tr><td><strong>timescale/pgai</strong></td><td class="star">5,798★</td><td class="no-b">✅ 已归档</td><td>pgvector 生态的 AI 扩展</td></tr>
+</tbody>
+</table>
+
+<h3>10.2 高星但停更</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>停更</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>kwanLeeFrmVi/mcp-rag-server</code></td><td class="star">36★</td><td class="no-b">18 个月</td><td>2025-04-18</td></tr>
+<tr><td><code>chroma-core/chroma-mcp</code></td><td class="star">599★</td><td class="no-b">13 个月</td><td>2025-09-17</td></tr>
+<tr><td><code>chatchat-space/Langchain-Chatchat</code></td><td class="star">38,681★</td><td class="no-b">11 个月</td><td>2025-11-10</td></tr>
+<tr><td><code>AnswerDotAI/rerankers</code></td><td class="star">1,641★</td><td class="warn-b">10 个月</td><td>2025-12-20</td></tr>
+<tr><td><code>vibrantlabsai/ragas</code></td><td class="star">16,019★</td><td class="warn-b">8 个月</td><td>2026-02-24</td></tr>
+<tr><td><code>weaviate/mcp-server-weaviate</code></td><td class="star">162★</td><td class="warn-b">5 个月</td><td>2026-05-26</td></tr>
+<tr><td><code>microsoft/kernel-memory</code></td><td class="star">2,231★</td><td class="warn-b">4 个月</td><td>2026-06-08</td></tr>
+</tbody>
+</table>
+
+<h3>10.3 仓库改名（照抄旧 URL 会 404）</h3>
+<table>
+<thead><tr><th>旧名</th><th>新名</th></tr></thead>
+<tbody>
+<tr><td><code>explodinggradients/ragas</code></td><td><strong><code>vibrantlabsai/ragas</code></strong></td></tr>
+<tr><td><code>chonkie-ai/chonkie</code></td><td><strong><code>feyninc/chonkie</code></strong></td></tr>
+<tr><td><code>VikParuchuri/marker</code></td><td><code>datalab-to/marker</code></td></tr>
+<tr><td><code>VikParuchuri/surya</code></td><td><code>datalab-to/surya</code></td></tr>
+<tr><td><code>pymupdf/RAG</code></td><td><code>pymupdf/pymupdf4llm</code></td></tr>
+<tr><td><code>run-llama/llama_parse</code></td><td><code>run-llama/llama_cloud_services</code></td></tr>
+<tr><td><code>UKPLab/sentence-transformers</code></td><td><code>huggingface/sentence-transformers</code></td></tr>
+<tr><td><code>THUDM/ChatGLM3</code></td><td><code>zai-org/ChatGLM3</code></td></tr>
+<tr><td><code>mendableai/firecrawl-mcp-server</code></td><td><code>firecrawl/firecrawl-mcp-server</code></td></tr>
+</tbody>
+</table>
+
+<h3>10.4 「库本体」被误当「MCP」</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>真相</th></tr></thead>
+<tbody>
+<tr><td><code>microsoft/markitdown</code></td><td class="star">190,127★</td><td><strong>文档转换库</strong>，MCP 只是捆绑功能</td></tr>
+<tr><td><code>firecrawl/firecrawl</code></td><td class="star">191,341★</td><td><strong>抓取服务本体</strong>；MCP 是 <code>firecrawl-mcp-server</code>（7,598★）</td></tr>
+<tr><td><code>qdrant/qdrant</code></td><td class="star">35,070★</td><td><strong>向量库本体</strong>；MCP 是 <code>mcp-server-qdrant</code>（1,548★）</td></tr>
+<tr><td><code>milvus-io/milvus</code></td><td class="star">46,381★</td><td><strong>向量库本体</strong>；MCP 是 <code>mcp-server-milvus</code>（244★）</td></tr>
+<tr><td><code>HKUDS/LightRAG</code></td><td class="star">40,127★</td><td><strong>RAG 框架本体</strong>；<code>olafgeibig/knowledge-mcp</code> 才是用它做的 MCP</td></tr>
+</tbody>
+</table>
+
+<h3>10.5 星数参考性的三个警告</h3>
+<ol>
+<li><strong>官方 MCP 星数普遍远低于库本体</strong>：Milvus 本体 46,381★ vs 它的 MCP 244★。<strong>别用本体的星数评估 MCP。</strong></li>
+<li><strong>向量库 MCP 的星数不能反映功能完整度</strong>：Qdrant MCP 1,548★ 但只有 2 个工具、无重排；haiku.rag 628★ 却有完整混合检索+重排+引用。</li>
+<li><strong>高星新仓要谨慎</strong>：<code>Graphify-Labs/graphify</code> 126,279★、<code>DeusData/codebase-memory-mcp</code> 46,547★ 均经 API 复核，但建仓短、增速陡，<strong>建议试用后再采用</strong>。</li>
+</ol>
+
+<h3>10.6 口径提醒</h3>
+<ul>
+<li><code>BAAI/bge-reranker-v2-m3</code> <strong>不是 GitHub 仓库</strong>（404），是 HuggingFace 模型名；代码在 <code>FlagOpen/FlagEmbedding</code>（12,243★）</li>
+<li><code>xlang-ai/ModelScope</code> 返回 404，ModelScope 的代码托管在别处</li>
+<li><code>smithery-ai/reference-servers</code> 返回 404，Smithery 的参考服务器已迁移</li>
+</ul>
+</section>
+
+<!-- 11 -->
+<section id="s11">
+<h2><span class="n">十一</span>数据可信度与核验</h2>
+
+<h3>11.1 来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span></td><td>GitHub REST API 一手直查（143 仓库）+ <strong>关键 MCP 的 raw README 逐一核实能力声明</strong></td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-b">B 级</span></td><td>官方 README 原文引用（haiku.rag / knowledge-rag / Qdrant MCP / Bedrock KB / WeKnora / contextplus 等）</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-y">C 级</span></td><td>检索聚合（15 组关键词，用于发现）</td><td class="warn-b">中</td></tr>
+</tbody>
+</table>
+
+<h3>11.2 本轮方法论的进步</h3>
+<div class="box ok">
+<div class="t">核验重点从「星数」转向「能力」</div>
+<p>上一轮发现子代理的 star 数普遍不准。本轮进一步发现：<strong>光核验星数还不够，必须核实「它到底能做什么」</strong>。</p>
+<p>因此对每个候选 MCP 都做了 raw README 抓取，例如：</p>
+<ul>
+<li>确认 Qdrant 官方 MCP <strong>只有 2 个工具、无重排</strong>（而非传闻中的"向量检索全能"）</li>
+<li>确认 Elastic 官方 MCP <strong>已 deprecated</strong>（README 顶部 CAUTION 块）</li>
+<li>确认 <code>knowledge-rag</code> 的<strong>能力口径自相矛盾</strong>（13 tools/20 parsers vs 35 formats）</li>
+<li>确认 <code>neo4j-contrib/mcp-neo4j</code> 是 <strong>Labs 非官方产品版</strong></li>
+</ul>
+</div>
+
+<h3>11.3 明确未核实 / 存疑项</h3>
+<ol>
+<li><strong><code>lyonzin/knowledge-rag</code> 的实际质量</strong>：README 有大量 SEO 关键词堆砌（HTML 注释 + schema.org 块），属营销驱动仓库；且能力口径不一致。<strong>建议实测后再用于生产。</strong></li>
+<li><strong><code>lyonzin/knowledge-rag</code> 的 CPU 性能</strong>：badge 显示 NVIDIA CUDA，纯 CPU 表现未验证。</li>
+<li><strong><code>Graphify-Labs/graphify</code>（126,279★）与 <code>DeusData/codebase-memory-mcp</code>（46,547★）</strong>：星数经 API 复核为真，但建仓时间短、增长陡峭，实际质量未验证。</li>
+<li><strong>Azure AI Search MCP 端点的具体参数</strong>：仅从微软文档确认有 <code>resultsProcessing: rerank</code>，未实测。</li>
+<li><strong>各向量库官方 MCP 是否支持传混合检索参数</strong>：本轮只确认了 Qdrant（不支持）。Milvus/Weaviate 官方 MCP 的参数面未逐一核实。</li>
+<li><strong><code>headroomlabs-ai/headroom</code>（75,305★）</strong>：自述压缩 RAG chunks 省 token，星数高但属新品类，未验证压缩后对召回质量的影响。</li>
+</ol>
+
+<h3>11.4 核验数据速览</h3>
+<h4>一体化 RAG MCP</h4>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>License</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>ggozad/haiku.rag</code></td><td class="star">628★</td><td>MIT</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>benmaster82/Kwipu</code></td><td class="star">609★</td><td>MIT</td><td class="ok-b">2026-09-07</td></tr>
+<tr><td><code>mathomhaus/guild</code></td><td class="star">301★</td><td>Apache-2.0</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>lyonzin/knowledge-rag</code></td><td class="star">296★</td><td>MIT</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>olafgeibig/knowledge-mcp</code></td><td class="star">59★</td><td>MIT</td><td class="warn-b">2026-02-13</td></tr>
+<tr><td><code>Scisaga/qwen3-retrieval-server</code></td><td class="star">7★</td><td>—</td><td class="warn-b">2026-08-18</td></tr>
+</tbody>
+</table>
+
+<h4>向量库 / 检索后端 MCP</h4>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>crystaldba/postgres-mcp</code></td><td class="star">3,396★</td><td class="ok-b">2026-08-17</td></tr>
+<tr><td><code>qdrant/mcp-server-qdrant</code></td><td class="star">1,548★</td><td class="ok-b">2026-09-04</td></tr>
+<tr><td><code>neo4j-contrib/mcp-neo4j</code></td><td class="star">988★</td><td class="ok-b">2026-09-09</td></tr>
+<tr><td><code>elastic/mcp-server-elasticsearch</code></td><td class="star">718★</td><td class="warn-b">2026-10-12 ⚠️deprecated</td></tr>
+<tr><td><code>redis/mcp-redis</code></td><td class="star">634★</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>chroma-core/chroma-mcp</code></td><td class="star">599★</td><td class="no-b">2025-09-17 ⚠️停更</td></tr>
+<tr><td><code>zilliztech/mcp-server-milvus</code></td><td class="star">244★</td><td class="ok-b">2026-08-11</td></tr>
+<tr><td><code>weaviate/mcp-server-weaviate</code></td><td class="star">162★</td><td class="warn-b">2026-05-26</td></tr>
+<tr><td><code>opensearch-project/opensearch-mcp-server-py</code></td><td class="star">155★</td><td class="ok-b">2026-10-08</td></tr>
+<tr><td><code>pinecone-io/pinecone-mcp</code></td><td class="star">72★</td><td class="ok-b">2026-09-29</td></tr>
+</tbody>
+</table>
+
+<h4>平台 / 框架（本体星数）</h4>
+<div class="bars">
+  <div class="bar"><div class="lbl">langgenius/dify</div><div class="trk"><div class="fil" style="width:100%"></div></div><div class="val">158,418</div></div>
+  <div class="bar"><div class="lbl">open-webui/open-webui</div><div class="trk"><div class="fil" style="width:98.2%"></div></div><div class="val">155,610</div></div>
+  <div class="bar"><div class="lbl">infiniflow/ragflow</div><div class="trk"><div class="fil" style="width:58.2%"></div></div><div class="val">92,181</div></div>
+  <div class="bar"><div class="lbl">Mintplex-Labs/anything-llm</div><div class="trk"><div class="fil" style="width:42.3%"></div></div><div class="val">67,041</div></div>
+  <div class="bar"><div class="lbl">zylon-ai/private-gpt</div><div class="trk"><div class="fil" style="width:36.3%"></div></div><div class="val">57,575</div></div>
+  <div class="bar"><div class="lbl">run-llama/llama_index</div><div class="trk"><div class="fil" style="width:33.1%"></div></div><div class="val">52,488</div></div>
+  <div class="bar"><div class="lbl">HKUDS/LightRAG</div><div class="trk"><div class="fil" style="width:25.3%"></div></div><div class="val">40,127</div></div>
+  <div class="bar y"><div class="lbl">chatchat-space/Langchain-Chatchat</div><div class="trk"><div class="fil" style="width:24.4%"></div></div><div class="val">38,681</div></div>
+  <div class="bar"><div class="lbl">microsoft/graphrag</div><div class="trk"><div class="fil" style="width:22.9%"></div></div><div class="val">36,332</div></div>
+  <div class="bar"><div class="lbl">Tencent/WeKnora</div><div class="trk"><div class="fil" style="width:21.4%"></div></div><div class="val">33,881</div></div>
+  <div class="bar"><div class="lbl">topoteretes/cognee</div><div class="trk"><div class="fil" style="width:20.3%"></div></div><div class="val">32,243</div></div>
+  <div class="bar"><div class="lbl">getzep/graphiti</div><div class="trk"><div class="fil" style="width:20.0%"></div></div><div class="val">31,730</div></div>
+  <div class="bar"><div class="lbl">deepset-ai/haystack</div><div class="trk"><div class="fil" style="width:16.9%"></div></div><div class="val">26,737</div></div>
+  <div class="bar"><div class="lbl">xerrors/Yuxi</div><div class="trk"><div class="fil" style="width:4.7%"></div></div><div class="val">7,388</div></div>
+</div>
+
+<h4>解析 / 记忆 / 重排</h4>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>firecrawl/firecrawl</code></td><td class="star">191,341★</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>microsoft/markitdown</code></td><td class="star">190,127★</td><td class="ok-b">2026-10-04</td></tr>
+<tr><td><code>ollama/ollama</code></td><td class="star">183,101★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>vllm-project/vllm</code></td><td class="star">93,751★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>unclecode/crawl4ai</code></td><td class="star">85,497★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>opendatalab/MinerU</code></td><td class="star">81,713★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>headroomlabs-ai/headroom</code></td><td class="star">75,305★</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>docling-project/docling</code></td><td class="star">68,859★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>mem0ai/mem0</code></td><td class="star">67,153★</td><td class="ok-b">2026-10-12</td></tr>
+<tr><td><code>datalab-to/marker</code></td><td class="star">40,431★</td><td class="ok-b">2026-10-02</td></tr>
+<tr><td><code>huggingface/sentence-transformers</code></td><td class="star">19,171★</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>vibrantlabsai/ragas</code></td><td class="star">16,019★</td><td class="warn-b">2026-02-24 ⚠️停更</td></tr>
+<tr><td><code>Unstructured-IO/unstructured</code></td><td class="star">15,564★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>FlagOpen/FlagEmbedding</code></td><td class="star">12,243★</td><td class="ok-b">2026-08-24</td></tr>
+<tr><td><code>lancedb/lancedb</code></td><td class="star">11,669★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>huggingface/text-embeddings-inference</code></td><td class="star">5,076★</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>feyninc/chonkie</code></td><td class="star">4,790★</td><td class="ok-b">2026-10-03</td></tr>
+<tr><td><code>michaelfeil/infinity</code></td><td class="star">2,958★</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>AnswerDotAI/rerankers</code></td><td class="star">1,641★</td><td class="warn-b">2025-12-20 ⚠️停更</td></tr>
+</tbody>
+</table>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 数据核验：GitHub REST API 直查 143 仓库 + 关键 MCP 能力 raw README 逐一核实 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/github-verified.json</code> · <code>data/github-verified-2.json</code> · <code>data/github-search.json</code> · <code>data/verify_repos.py</code> · <code>data/verify_repos2.py</code> · <code>data/verify_search.py</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=btn.getAttribute('data-t');
+    document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    btn.classList.add('on');
+    var el=document.getElementById(t);
+    if(el){el.classList.add('on')}
+  });
+});
+
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.fil').forEach(function(f){
+        if(!f.dataset.done){
+          var w=f.style.width; f.style.width='0';
+          requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=w})});
+          f.dataset.done='1';
+        }
+      });
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.bars').forEach(function(b){obs.observe(b)});
+</script>
+</body>
+</html>

@@ -1,0 +1,720 @@
+{
+  "chonkie chunking": [
+    {
+      "repo": "feyninc/chonkiejs",
+      "stars": 368,
+      "license": "MIT",
+      "pushed_at": "2026-10-03",
+      "archived": false,
+      "desc": "🦛 CHONK your texts with Chonkie ✨ Type-friendly, light-weight, fast and super-simple chunking library"
+    },
+    {
+      "repo": "GiovanniPasq/chunky",
+      "stars": 186,
+      "license": "MIT",
+      "pushed_at": "2026-10-01",
+      "archived": false,
+      "desc": "Open-source toolkit for reliable RAG pipelines: convert PDFs to Markdown, clean documents, inspect chunks, compare chunking strategies, and enrich met"
+    },
+    {
+      "repo": "SecludedCoder/chonkie",
+      "stars": 43,
+      "license": "MIT",
+      "pushed_at": "2024-11-08",
+      "archived": false,
+      "desc": "🦛 CHONK your texts with Chonkie ✨ - The no-nonsense RAG chunking library"
+    },
+    {
+      "repo": "feyninc/skills",
+      "stars": 6,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-06-19",
+      "archived": false,
+      "desc": "agent-skills for chonkie's ecosystem"
+    },
+    {
+      "repo": "think-bro/rag-ingestion-pipeline",
+      "stars": 4,
+      "license": null,
+      "pushed_at": "2026-07-22",
+      "archived": false,
+      "desc": "An opinionated, local-first, asynchronous document ingestion pipeline for RAG workflows."
+    },
+    {
+      "repo": "tofunori/Ragdoc",
+      "stars": 3,
+      "license": "MIT",
+      "pushed_at": "2026-09-29",
+      "archived": false,
+      "desc": "Production RAG system for scientific literature with Voyage AI embeddings and Chonkie chunking"
+    }
+  ],
+  "bge reranker": [
+    {
+      "repo": "Nomad-why/FA-ops-rag",
+      "stars": 80,
+      "license": null,
+      "pushed_at": "2026-09-14",
+      "archived": false,
+      "desc": "专为生产环境设计的 RAG 运维助手。核心采用父子块检索策略与稀疏/稠密混合检索机制，集成 BGE-M3 与 Reranker 本地模型，支持多跳故障推理、主动追问及知识溯源。"
+    },
+    {
+      "repo": "urstory/urstory-rag",
+      "stars": 49,
+      "license": "MIT",
+      "pushed_at": "2026-08-17",
+      "archived": false,
+      "desc": "한국어 특화 프로덕션 RAG 시스템. 하이브리드 검색(PGVector + Elasticsearch Nori), 한국어 리랭커(bge-reranker-v2-m3-ko), HyDE, 멀티쿼리 구조분해, 가드레일(PII/인젝션/할루시네이션), RAGAS 자동 평가, Lang"
+    },
+    {
+      "repo": "Happy-Chen-CH/Educational_RAG_System",
+      "stars": 36,
+      "license": null,
+      "pushed_at": "2026-06-22",
+      "archived": false,
+      "desc": "End-to-end educational RAG system: dual-engine retrieval (BM25 + BGE-M3 hybrid vector search), adaptive query strategies (HyDE/sub-query/backtracking)"
+    },
+    {
+      "repo": "04-jj/law_assistant",
+      "stars": 20,
+      "license": "Apache-2.0",
+      "pushed_at": "2025-11-05",
+      "archived": false,
+      "desc": "本项目成功设计并实现了一个基于RAG架构的智能法律问答系统，具备完善的用户管理、多格式文档解析、智能问答交互、知识库动态管理等一系列核心功能。该系统通过API接入DeepSeek-R1/Lora训练的DeepSeek-R1-Distill-Qwen-1.5B作为大语言模型，并使用BAAI/bge-s"
+    },
+    {
+      "repo": "caraxl/bge-reranker-base-api",
+      "stars": 17,
+      "license": null,
+      "pushed_at": "2024-01-05",
+      "archived": false,
+      "desc": ""
+    },
+    {
+      "repo": "00200200/ollama-rag-reranker",
+      "stars": 13,
+      "license": null,
+      "pushed_at": "2025-11-08",
+      "archived": false,
+      "desc": "Interactive CLI for Retrieval-Augmented Generation (RAG) with ranking — uses Ollama embeddings + HNSW vector DB + optional reranker for more accurate "
+    }
+  ],
+  "mcp server rag knowledge base": [
+    {
+      "repo": "nduckmink/arkon",
+      "stars": 1493,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-06-03",
+      "archived": false,
+      "desc": "Arkon: Enterprise AI Knowledge Hub & MCP Server. Self-hosted knowledge base for teams to manage RAG contexts, access policies, and AI skills. Connect "
+    },
+    {
+      "repo": "docsagent/docsagent",
+      "stars": 572,
+      "license": null,
+      "pushed_at": "2026-09-28",
+      "archived": false,
+      "desc": "⚡ DocsAgent — give your AI agents instant, private access to your personal knowledge base (Zotero, Obsidian, Apple Notes supported now, local docs on "
+    },
+    {
+      "repo": "ali-kamali/Axon.MCP.Server",
+      "stars": 166,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-06-30",
+      "archived": false,
+      "desc": "Transform your codebase into an intelligent knowledge base for AI-powered development with Cursor IDE, Google AntiGravity, and MCP-enabled assistants"
+    },
+    {
+      "repo": "arthurpanhku/DocSentinel",
+      "stars": 88,
+      "license": "MIT",
+      "pushed_at": "2026-10-09",
+      "archived": false,
+      "desc": "MCP server for AI agent for cybersecurity: automate assessment of documents, questionnaires & reports. Multi-format parsing, RAG knowledge base,Risks,"
+    },
+    {
+      "repo": "nader0913/ocpp-rag",
+      "stars": 61,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-06-09",
+      "archived": false,
+      "desc": "MCP server with RAG knowledge base for OCPP 1.6, OCPP 2.0.1, and EV charging standards"
+    },
+    {
+      "repo": "olafgeibig/knowledge-mcp",
+      "stars": 59,
+      "license": "MIT",
+      "pushed_at": "2026-02-13",
+      "archived": false,
+      "desc": "A MCP server that is a locally running knowledge base with a hybrid vector and graph RAG engine using LightRAG"
+    }
+  ],
+  "mcp vector database": [
+    {
+      "repo": "rocketride-org/rocketride-server",
+      "stars": 17778,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "High-performance AI pipeline engine with a C++ core and 50+ Python-extensible nodes. Build, debug, and scale LLM workflows with 13+ model providers, 8"
+    },
+    {
+      "repo": "orneryd/NornicDB",
+      "stars": 905,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Nornicdb is a distributed low-latency, Graph+Vector, Temporal MVCC with all sub-ms HNSW search, graph traversal, and writes. Using Neo4j Bolt/Cypher a"
+    },
+    {
+      "repo": "jaredrhod/ai-memory-vault",
+      "stars": 700,
+      "license": "CC-BY-SA-4.0",
+      "pushed_at": "2026-08-31",
+      "archived": false,
+      "desc": "Give your AI a real, persistent memory. The open-source system plus templates that turn an Obsidian vault into your AI's working memory. No vector dat"
+    },
+    {
+      "repo": "scrypster/muninndb",
+      "stars": 333,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-09-10",
+      "archived": false,
+      "desc": "The cognitive database. A new class of data storage. Not a vector store, not a graph DB, not a RAG wrapper. Ebbinghaus decay, Hebbian   learning, and "
+    },
+    {
+      "repo": "braincrew-lab/langconnect-client",
+      "stars": 325,
+      "license": "MIT",
+      "pushed_at": "2025-07-09",
+      "archived": false,
+      "desc": "A Modern GUI Interface for Vector Database Management(Supports MCP integration)"
+    },
+    {
+      "repo": "rush-db/rushdb",
+      "stars": 325,
+      "license": null,
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "RushDB is a graph + vector database and memory layer for AI agents. Push any JSON, get typed, searchable, relationship-aware records back — no schema,"
+    }
+  ],
+  "mcp reranker": [
+    {
+      "repo": "CodeBendKit/codeseek",
+      "stars": 768,
+      "license": "MIT",
+      "pushed_at": "2026-08-02",
+      "archived": false,
+      "desc": "Rust-powered code intelligence CLI for AI coding agents. Builds call graphs and hybrid semantic search indexes (Dense + Sparse + RRF + Reranker) acros"
+    },
+    {
+      "repo": "TadMSTR/searxng-mcp",
+      "stars": 25,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Private web search MCP: SearXNG metasearch → ML reranking → 4-tier fetch cascade (Firecrawl / Crawl4AI / raw / Wayback) with per-domain learning, Olla"
+    },
+    {
+      "repo": "xmpuspus/kb-arena",
+      "stars": 12,
+      "license": "MIT",
+      "pushed_at": "2026-09-10",
+      "archived": false,
+      "desc": "Benchmark 19 retrieval architectures (vector, contextual, QnA, knowledge graph, LightRAG, hybrid, RAPTOR, PageIndex, BM25, metadata-filtered, temporal"
+    },
+    {
+      "repo": "alphaparkinc/genpark-multilingual-dense-embedding-cross-encoder-reranker-skill",
+      "stars": 8,
+      "license": null,
+      "pushed_at": "2026-08-25",
+      "archived": false,
+      "desc": "Multilingual dense embedding vectorizer and cross-encoder neural reranker (Cohere style)"
+    },
+    {
+      "repo": "alphaparkinc/genpark-cross-encoder-reranker-document-store-engine-skill",
+      "stars": 8,
+      "license": null,
+      "pushed_at": "2026-08-30",
+      "archived": false,
+      "desc": "Cross-encoder reranker document store engine for high precision RAG (Haystack style)"
+    },
+    {
+      "repo": "Scisaga/qwen3-retrieval-server",
+      "stars": 7,
+      "license": null,
+      "pushed_at": "2026-08-18",
+      "archived": false,
+      "desc": "Self-hosted Qwen3 retrieval server with Embedding, Reranker, MCP, and Web console."
+    }
+  ],
+  "mcp hybrid search": [
+    {
+      "repo": "giancarloerra/SocratiCode",
+      "stars": 3336,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-10-10",
+      "archived": false,
+      "desc": "Enterprise-grade (40m+ LOC) codebase intelligence, zero-setup, local & private Plugin/Skill/Extension or MCP: hybrid semantic search, polyglot depende"
+    },
+    {
+      "repo": "CodeBendKit/codeseek",
+      "stars": 768,
+      "license": "MIT",
+      "pushed_at": "2026-08-02",
+      "archived": false,
+      "desc": "Rust-powered code intelligence CLI for AI coding agents. Builds call graphs and hybrid semantic search indexes (Dense + Sparse + RRF + Reranker) acros"
+    },
+    {
+      "repo": "ggozad/haiku.rag",
+      "stars": 628,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Agentic RAG for local and self-hosted document search: hybrid retrieval, reranking and multimodal RAG on embedded LanceDB, with Docling parsing and an"
+    },
+    {
+      "repo": "benmaster82/Kwipu",
+      "stars": 609,
+      "license": "MIT",
+      "pushed_at": "2026-09-07",
+      "archived": false,
+      "desc": "Ask questions across your Markdown notes using a fully local Graph RAG engine. Built for Obsidian vaults, works with any folder of Markdown files. Ext"
+    },
+    {
+      "repo": "mathomhaus/guild",
+      "stars": 301,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Shared context, memory, and task coordination across AI coding agents. Single Go binary, local SQLite, hybrid keyword and semantic search."
+    },
+    {
+      "repo": "lyonzin/knowledge-rag",
+      "stars": 296,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Local RAG MCP server for Claude Code — hybrid search (semantic + BM25), cross-encoder reranking, 13 MCP tools, 20 format parsers. Zero external server"
+    }
+  ],
+  "mcp embedding server": [
+    {
+      "repo": "modelcontextprotocol/ext-apps",
+      "stars": 2953,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-09-25",
+      "archived": false,
+      "desc": "Official repo for spec & SDK of MCP Apps protocol - standard for UIs embedded AI chatbots, served by MCP servers"
+    },
+    {
+      "repo": "drhelius/Gearboy",
+      "stars": 1217,
+      "license": "GPL-3.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Game Boy / Game Boy Color / Super Game Boy emulator and debugger with embedded MCP server for macOS, Windows, Linux, BSD and RetroArch."
+    },
+    {
+      "repo": "orneryd/NornicDB",
+      "stars": 905,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Nornicdb is a distributed low-latency, Graph+Vector, Temporal MVCC with all sub-ms HNSW search, graph traversal, and writes. Using Neo4j Bolt/Cypher a"
+    },
+    {
+      "repo": "okf-memory/okf-agent-memory",
+      "stars": 777,
+      "license": "MIT",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "Git-native persistent memory for AI coding agents. Implements Google OKF v0.2 with sub-300µs in-memory BM25 search, embedded MCP server, and progressi"
+    },
+    {
+      "repo": "0xK3vin/MegaMemory",
+      "stars": 724,
+      "license": "MIT",
+      "pushed_at": "2026-05-03",
+      "archived": false,
+      "desc": "Persistent project knowledge graph for coding agents. MCP server with semantic search, in-process embeddings, and web explorer."
+    },
+    {
+      "repo": "ggozad/haiku.rag",
+      "stars": 628,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Agentic RAG for local and self-hosted document search: hybrid retrieval, reranking and multimodal RAG on embedded LanceDB, with Docling parsing and an"
+    }
+  ],
+  "graph rag mcp": [
+    {
+      "repo": "Graphify-Labs/graphify",
+      "stars": 126279,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, "
+    },
+    {
+      "repo": "xerrors/Yuxi",
+      "stars": 7388,
+      "license": "MIT",
+      "pushed_at": "2026-10-10",
+      "archived": false,
+      "desc": "可私有部署的多租户知识智能体平台：统一 RAG、知识图谱、多智能体、MCP/Skills、沙盒与权限管理。Yuxi = Cloud Agents + Knowledge RAG, Self-hosted knowledge agent platform for RAG, knowledge grap"
+    },
+    {
+      "repo": "vitali87/code-graph-rag",
+      "stars": 5253,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "The ultimate RAG for your monorepo. Query, understand, and edit multi-language codebases with the power of AI and knowledge graphs"
+    },
+    {
+      "repo": "FlowElement-xinliuyuansu/m_flow",
+      "stars": 4511,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-09-01",
+      "archived": false,
+      "desc": "A bio-inspired cognitive memory engine — a new paradigm for Graph RAG."
+    },
+    {
+      "repo": "doobidoo/mcp-memory-service",
+      "stars": 2013,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open-source persistent memory for AI agent pipelines (LangGraph, CrewAI, AutoGen) and Claude. REST API + knowledge graph + autonomous consolidation."
+    },
+    {
+      "repo": "forloopcodes/contextplus",
+      "stars": 1983,
+      "license": "MIT",
+      "pushed_at": "2026-07-13",
+      "archived": false,
+      "desc": "Semantic Intelligence for Large-Scale Engineering. Context+ is an MCP server designed for developers who demand 99% accuracy. By combining RAG, Tree-s"
+    }
+  ],
+  "mcp knowledge graph memory": [
+    {
+      "repo": "DeusData/codebase-memory-mcp",
+      "stars": 46547,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-"
+    },
+    {
+      "repo": "panaversity/learn-agentic-ai",
+      "stars": 4385,
+      "license": "MIT",
+      "pushed_at": "2025-10-26",
+      "archived": false,
+      "desc": "Learn Agentic AI using Dapr Agentic Cloud Ascent (DACA) Design Pattern and Agent-Native Cloud Technologies: OpenAI Agents SDK, Memory, MCP, A2A, Knowl"
+    },
+    {
+      "repo": "doobidoo/mcp-memory-service",
+      "stars": 2013,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open-source persistent memory for AI agent pipelines (LangGraph, CrewAI, AutoGen) and Claude. REST API + knowledge graph + autonomous consolidation."
+    },
+    {
+      "repo": "iwe-org/iwe",
+      "stars": 1771,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-08",
+      "archived": false,
+      "desc": "Markdown knowledge graph — LSP for your editor, CLI + MCP memory for your AI agents"
+    },
+    {
+      "repo": "shaneholloman/mcp-knowledge-graph",
+      "stars": 886,
+      "license": "MIT",
+      "pushed_at": "2026-05-29",
+      "archived": false,
+      "desc": "MCP server enabling persistent memory for Claude through a local knowledge graph - fork focused on local development"
+    },
+    {
+      "repo": "GreatScottyMac/context-portal",
+      "stars": 767,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-01-27",
+      "archived": false,
+      "desc": "Context Portal (ConPort): A memory bank MCP server building a project-specific knowledge graph to supercharge AI assistants. Enables powerful Retrieva"
+    }
+  ],
+  "local rag mcp server": [
+    {
+      "repo": "zylon-ai/private-gpt",
+      "stars": 57575,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Complete API layer for private AI applications on local models: RAG, skills, tools, MCP, text-to-sql, and more. Works with any OpenAI-compatible infer"
+    },
+    {
+      "repo": "varunvasudeva1/llm-server-docs",
+      "stars": 845,
+      "license": "MIT",
+      "pushed_at": "2026-06-30",
+      "archived": false,
+      "desc": "End-to-end documentation to set up your own local & fully private LLM server on Debian. Equipped with chat, web search, RAG, model management, MCP ser"
+    },
+    {
+      "repo": "bartolli/codanna",
+      "stars": 755,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "Local code intelligence MCP server and CLI for AI coding agents"
+    },
+    {
+      "repo": "ggozad/haiku.rag",
+      "stars": 628,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Agentic RAG for local and self-hosted document search: hybrid retrieval, reranking and multimodal RAG on embedded LanceDB, with Docling parsing and an"
+    },
+    {
+      "repo": "docsagent/docsagent",
+      "stars": 572,
+      "license": null,
+      "pushed_at": "2026-09-28",
+      "archived": false,
+      "desc": "⚡ DocsAgent — give your AI agents instant, private access to your personal knowledge base (Zotero, Obsidian, Apple Notes supported now, local docs on "
+    },
+    {
+      "repo": "Lyellr88/marm-memory",
+      "stars": 420,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "Local-first 3-in-1 AI memory layer & MCP server for Claude Code, Codex, Grok, Gemini, VS Code and Cursor. Fuses session history, codebase indexing & c"
+    }
+  ],
+  "mcp document indexing": [
+    {
+      "repo": "opendatalab/MinerU-Document-Explorer",
+      "stars": 641,
+      "license": "MIT",
+      "pushed_at": "2026-04-26",
+      "archived": false,
+      "desc": "Agent-native knowledge engine with MCP tools for document indexing, wiki organization, fast retrieval and deep reading across PDF/DOCX/PPTX/Markdown"
+    },
+    {
+      "repo": "shnax0210/documents-vector-search",
+      "stars": 42,
+      "license": "MIT",
+      "pushed_at": "2026-08-16",
+      "archived": false,
+      "desc": "Project allows document indexing in a local vector database and then search (supports Jira, Confluence and local files, can be integrated via MCP)"
+    },
+    {
+      "repo": "Xevos117/mcp-zotero",
+      "stars": 37,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "MCP server that exposes Zotero library operations as tools for Claude. Supports searching, browsing collections, adding items by     DOI, importing PD"
+    },
+    {
+      "repo": "kwanLeeFrmVi/mcp-rag-server",
+      "stars": 36,
+      "license": "MIT",
+      "pushed_at": "2025-04-18",
+      "archived": false,
+      "desc": "mcp-rag-server is a Model Context Protocol (MCP) server that enables Retrieval Augmented Generation (RAG) capabilities. It empowers Large Language Mod"
+    },
+    {
+      "repo": "Hainrixz/claude-db",
+      "stars": 20,
+      "license": "MIT",
+      "pushed_at": "2026-06-17",
+      "archived": false,
+      "desc": "The multi-paradigm database expert for Claude Code — design a schema, audit it on two never-blended scores (Design & Integrity / Performance & Scale),"
+    },
+    {
+      "repo": "bekirdag/docdex",
+      "stars": 15,
+      "license": "MIT",
+      "pushed_at": "2026-09-21",
+      "archived": false,
+      "desc": "A document index with MCP, http and client support. https://docdex.org/ "
+    }
+  ],
+  "agentic rag mcp": [
+    {
+      "repo": "langgenius/dify",
+      "stars": 158420,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so t"
+    },
+    {
+      "repo": "unclecode/crawl4ai",
+      "stars": 85497,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open-source web crawler and scraper for LLMs and AI agents: any website into clean, LLM-ready Markdown. Run it yourself, or use Crawl4AI Cloud with on"
+    },
+    {
+      "repo": "headroomlabs-ai/headroom",
+      "stars": 75305,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same a"
+    },
+    {
+      "repo": "bojieli/ai-agent-book",
+      "stars": 54131,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-08",
+      "archived": false,
+      "desc": "《深入理解 AI Agent：设计原理与工程实践》（李博杰 著）开源主仓库：全书正文、编译版 PDF 与按章配套代码"
+    },
+    {
+      "repo": "patchy631/ai-engineering-hub",
+      "stars": 38313,
+      "license": "MIT",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "In-depth tutorials on LLMs, RAGs and real-world AI agent applications."
+    },
+    {
+      "repo": "deepset-ai/haystack",
+      "stars": 26737,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open-source AI orchestration framework for building context-engineered, production-ready LLM applications. Design modular pipelines and agent workflow"
+    }
+  ],
+  "mcp server pinecone weaviate qdrant": [
+    {
+      "repo": "reaatech/hybrid-rag",
+      "stars": 1,
+      "license": "MIT",
+      "pushed_at": "2026-10-07",
+      "archived": false,
+      "desc": "Production-grade hybrid RAG in TypeScript — vector + BM25 + reranker across 14 vector stores (Qdrant, Pinecone, Weaviate, pgvector, LanceDB & more) be"
+    },
+    {
+      "repo": "Citadel-Cloud-Management/mcp-server-vector-db",
+      "stars": 0,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-09-20",
+      "archived": false,
+      "desc": "MCP server for vector database operations - Pinecone, Weaviate, Qdrant, and ChromaDB"
+    }
+  ],
+  "rag evaluation mcp": [
+    {
+      "repo": "dipakkr/awesome-ai-engineering",
+      "stars": 22381,
+      "license": "MIT",
+      "pushed_at": "2026-06-17",
+      "archived": false,
+      "desc": "🚀 A curated collection of AI engineering resources, roadmaps, tools, and projects covering LLMs, RAG, AI Agents, MCP, fine-tuning, evaluations, and pr"
+    },
+    {
+      "repo": "Kiln-AI/Kiln",
+      "stars": 5193,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Build, Evaluate, and Optimize AI Systems. Includes evals, RAG, agents, fine-tuning, synthetic data generation, dataset management, MCP, and more."
+    },
+    {
+      "repo": "trpc-group/trpc-agent-go",
+      "stars": 1862,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "A Go framework for building production agent systems with graph workflows, tools, memory, A2A, AG-UI, MCP, evaluation, and observability."
+    },
+    {
+      "repo": "chunxiaoxx/nautilus-compass",
+      "stars": 1253,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open memory & reliability layer for AI agents + independent judging/verification (NACRE judge, caliber-bench meta-benchmark, preregistered criteria) —"
+    },
+    {
+      "repo": "Ricky-7-Yan/intelligent-audit-system",
+      "stars": 1173,
+      "license": null,
+      "pushed_at": "2026-08-12",
+      "archived": false,
+      "desc": "AuditPilot: auditable enterprise AI agents for evidence-grounded workflows, governed tools, evaluation harnesses, human review, and remediation delive"
+    },
+    {
+      "repo": "Prompthon-IO/agent-systems-handbook",
+      "stars": 315,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-09-24",
+      "archived": false,
+      "desc": "A practical AI agents handbook covering agent systems, agentic workflows, LangGraph, MCP/A2A, context engineering, agent memory, evaluation, observabi"
+    }
+  ],
+  "context engineering mcp knowledge": [
+    {
+      "repo": "weiwei966/awesome-ai-harness",
+      "stars": 154,
+      "license": "CC0-1.0",
+      "pushed_at": "2026-08-19",
+      "archived": false,
+      "desc": "The model is the engine; the harness is the car. Curated knowledge on harness engineering — context management, tool design, agent loops, memory, sand"
+    },
+    {
+      "repo": "EthanReedLabs/sulde",
+      "stars": 99,
+      "license": "MIT",
+      "pushed_at": "2026-10-09",
+      "archived": false,
+      "desc": "Task orchestration and engineering delivery for AI agents: definition, assignment, supervision, checks, verification, acceptance and rework. Knowledge"
+    },
+    {
+      "repo": "kennethlaw325/awesome-llm-knowledge-systems",
+      "stars": 93,
+      "license": "MIT",
+      "pushed_at": "2026-09-15",
+      "archived": false,
+      "desc": "The Map Everyone's Missing: LLM Knowledge Engineering in 2026 — First unified guide connecting RAG, Context Engineering, Harness Engineering, Skill Sy"
+    },
+    {
+      "repo": "ctxpipe-ai/ctxpipe",
+      "stars": 26,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Self-learning context infrastructure for AI engineering agents. Connect repos, docs, and tools into one org-scoped knowledge graph and expose it throu"
+    },
+    {
+      "repo": "vsov/okfy",
+      "stars": 14,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-09-30",
+      "archived": false,
+      "desc": "Knowledge engineering for AI agents: distill corpora too big for any context window into small, verified, git-native knowledge bundles"
+    },
+    {
+      "repo": "Daksh-create349/Contradiction-MCP",
+      "stars": 5,
+      "license": "MIT",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "Autonomous Model Context Protocol (MCP) engine for factual consistency, version reconciliation, and conflict resolution across engineering knowledge b"
+    }
+  ]
+}
