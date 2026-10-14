@@ -4,9 +4,9 @@ title: malaysiayp 全量采集 · 无人值守运行手册（常驻守护 + 看�
 tags: [malaysiayp, 全量采集, 无人值守, 守护进程, 看门狗, 计划任务, supervise, watchdog]
 created: 2026-10-13
 updated: 2026-10-14
-version: 2.1.0
+version: 2.2.0
 status: stable
-source: 本会话多轮实测（2026-10-08 ~ 2026-10-14），2026-10-14 架构改造后复测通过
+source: 本会话多轮实测（2026-10-08 ~ 2026-10-14），2026-10-14 15:55 跨会话巡检复核通过
 confidence: 已核实
 ---
 
@@ -24,7 +24,7 @@ v1.0.0 的每轮人工监督内容保留在文末「旧范式」一节，仅供�
 | 看门狗 | `watchdog.py` | 读心跳判断守护是否停摆，停摆才拉起 | 计划任务 / 开机自启 vbs |
 | 守护 | `supervise.py`（无参数，daemon 模式） | 唯一采集驱动者，自己无限循环跑片 | 看门狗 |
 | 采集 | `scrape_malaysiayp.py` | 单片采集，断点落 SQLite | 守护 spawn |
-| 巡检 | WorkBuddy automation「malaysiayp 采集健康检查」 | **每小时**读一次心跳/告警，健康时只输出一行 | WorkBuddy 调度器 |
+| 巡检 | WorkBuddy automation「malaysiayp 全量采集 · 每小时监督」（id `4d9d98ef-99e4-4658-8889-c2468cfaa200`） | **每小时**读一次心跳/告警/四层冗余，健康时只输出一行 | WorkBuddy 调度器 |
 
 三层自愈都不需要 LLM：`watchdog` 每 20 分钟判活自愈 → 守护自己调速续跑 → 出错写 `ALERT.json`。LLM 巡检只是最后一道兜底，**正常时完全不介入**（不写文件、不起进程）。
 
@@ -119,8 +119,40 @@ MSYS_NO_PATHCONV=1 schtasks /Create /TN "MalaysiaYP-FullCrawl" /XML _task.xml /F
 | `已完成 / 预期页数` | done / `pages_queued_known` | 低估总量，须同时报 `estimated_true_pct` |
 | `有效进度（剔除延期页）` | done / (总 − 延期) | 最诚实的进度口径 |
 
+# 巡检快照（2026-10-14 15:55，跨会话复核）
+
+| 项 | 实测值 | 判定 |
+|---|---|---|
+| 已完成 / 预期页数 | 3213 / 34347（9.35%） | 推进中 |
+| 有效进度（剔延期页） | 3213 / 34342（9.36%） | — |
+| 入库实体 / 导出行 | 48,793 / 48,793 | 零差额 ✅ |
+| CSV 分片数 | 314 | — |
+| 分类 已索引 / 待索引 | 1243 / 62（62 为已决策跳过） | 阶段 1 已收尾 |
+| 页缺口 / 页数不一致 | 0 / 0 | ✅ |
+| 最近一片（run-20261014-154016） | attempts 169 / 失败 57 / 0 字节 56（33%）/ 截断 1 / 硬错误 0 | 健康 |
+| 总成功率 / 健康率 | 0.663 / 0.997 | 优秀 |
+| 封禁指纹 | 0 | ✅ |
+| 自适应 delay / 片间冷却 | 3.0 s / 60 s | 维持 |
+| 速率 / ETA | 7.6 页/分 · **68.3 小时** | — |
+| 采集进程 / 守护进程 | 均存活（pythonw.exe） | ✅ |
+| `logs/ALERT.json` / `STOP` / `EXHAUSTED.json` | 均不存在 | 无需人介入 ✅ |
+| 心跳 `logs/heartbeat.json` | ts 与当前差 < 1 min | ✅ |
+
+四层冗余逐层核验（2026-10-14 15:55）：
+
+| 层 | 实测 | 状态 |
+|---|---|---|
+| 1 计划任务 `MalaysiaYP-FullCrawl` | State=Ready，LastRun 15:46:56，LastTaskResult=0，NextRun 16:06:55，Missed=0 | ✅ |
+| 2 常驻守护 `supervise.py` | PID 10548 存活；采集进程 PID 11540 存活 | ✅ |
+| 3 启动文件夹 | `malaysiayp-crawl-autostart.vbs` + `start_watchdog.vbs` 均在 | ✅ |
+| 4 WorkBuddy automation | **本次巡检时 `automation_update list` 返回空** → 已新建「malaysiayp 全量采集 · 每小时监督」补齐 | 已修复 |
+
+交付物已于 15:56 刷新：`data/deliverable/` 4 CSV（all 48,853 行 / mobile 6,917 行 / extended 48,853 行 / quarantine 1,845 行）+ `README.md` + `meta.json`。
+
 # 未核实项
 
-- 站点返回 `200 + 0 字节` 的比例约 29%（2026-10-14），集中在 `business-services` / `automotive` / `apparel` 等分类的深页（如 `page/265/`），怀疑是「枚举出的页数超过分类实际页数」。未验证，未针对优化——这批空页仍会消耗重试预算，是当前吞吐的主要天花板。
+- 站点返回 `200 + 0 字节` 的比例在 2026-10-14 15:53 那片为 **33%**（全量累计：带错误页 2245，其中 2157 为 0 字节；`business-services` 989 页报错 / 988 页 0 字节，`automotive` 445/440，`apparel` 424/420），集中在深页（如 `business-services/page/1950+`）。怀疑是「枚举出的页数超过分类实际页数」。未验证，未针对优化——这批空页仍会消耗重试预算，是当前吞吐的主要天花板。
+- **「4 层冗余」中的 WorkBuddy automation 层是否真缺失未定论**：KB v2.1.0 记载存在「malaysiayp 采集健康检查」automation，但 2026-10-14 15:54 在本会话 `automation_update list` 返回空数组。可能是该 automation 属于另一 workspace 作用域（本工具列表按作用域过滤），也可能是已被删除。本次已新建一个补齐；若两者同时生效，会产生两条每小时的只读巡检（幂等、无害，但重复）。待下次巡检确认是否只有一条。
 - 「心跳 70 分钟未刷新 = 停摆」是拍的阈值（须 > 单片 50 分钟 + 收尾余量），未在真实停摆场景复核。
 - 主机睡眠对计划任务的补跑行为未验证（`StartWhenAvailable=true` 理论上会补）。
+- ETA 68.3 小时（7.6 页/分 × 31,134 待处理页）是**按当前 0 字节缺陷比例外推**；若站点持续劣化（0 字节比例上升），ETA 会被系统性低估。
