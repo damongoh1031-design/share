@@ -4,7 +4,7 @@ title: Hermes Agent 设置技巧汇总(官方最佳实践 + Reddit 社区实证 
 tags: [hermes-agent, nousresearch, ai-agent, settings, reddit, cli, memory, skills, mcp, cron]
 created: 2026-10-14
 updated: 2026-10-14
-version: 1
+version: 2
 status: active
 source: 官方文档 hermes-agent.nousresearch.com + Reddit 社区(r/openclaw、r/better_claw、r/hermesagent、r/LocalLLaMA、r/AI_Agents,经 cnblogs/百家号转引)+ 中文实战社区 + 本机安装实测(2026-10-14)
 confidence: high(官方文档、本机实测已核实;Reddit 观点为社区转引,个别数字未能独立复核)
@@ -139,9 +139,94 @@ TEMPERATURE=0.2
 - `hermes doctor` 红字没解决就装 skill,会白装。
 - Windows 上写文件 Unicode 报错:显式 `encoding="utf-8"`,PowerShell 先 `[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)`。
 
-## 13. 未核实项
+## 13. SOUL.md 专章(v2 补充,2026-10-14 深调研,官方文档 + 本机源码 v2026.9.24 实测)
+
+### 13.1 定位与位置
+
+- SOUL.md = Agent 的**主要身份标识**,占 system prompt **第 1 槽位**,**完全替换**内置默认身份;内容不加包装语言原样注入。
+- 路径:`$HERMES_HOME/SOUL.md`(通常 `~/.hermes/SOUL.md`;Windows 原生版 = `%LOCALAPPDATA%\hermes\SOUL.md`)。Hermes **只在 HERMES_HOME 找,不在 cwd 找**——仓库里放 SOUL.md 无效(那是社区常见误用)。
+- 首次运行自动生成初始文件;已有文件不覆盖;**空文件 = 回退内置默认身份**。
+- 注入前经过:提示词注入模式扫描 + 过长截断。SOUL.md 不会在上下文文件部分重复出现。
+
+### 13.2 写什么 / 不写什么
+
+| 写入 SOUL.md | 写入 AGENTS.md |
+|---|---|
+| 语气、个性、沟通风格、直接程度 | 代码规范、文件路径、命令、端口 |
+| 如何应对不确定性/分歧/模糊 | 项目架构、部署说明 |
+| "所有地方都生效"的规则 | "只属于某项目"的规则 |
+
+判断原则:随你到处适用 → SOUL.md;属于某个项目 → AGENTS.md。
+
+### 13.3 建议结构与官方 4 个风格模板
+
+```markdown
+# Identity   你是谁
+# Style      说话什么风格
+# Avoid      不该做什么
+# Defaults   遇到模糊时怎么行为
+```
+
+1. **务实工程师**:"You are a pragmatic senior engineer. Be direct, concise unless complexity requires depth, say when something is a bad idea. Avoid: sycophancy, hype language, overexplaining obvious things."
+2. **研究伙伴**:"curious, honest about uncertainty, distinguish speculation from evidence, ask clarifying questions when underspecified."
+3. **教师**:"patient technical teacher, understanding not performance, build from intuition to details."
+4. **严格审阅者**:"rigorous reviewer, point out weak assumptions directly, correctness over harmony, blunt clarity over vague diplomacy."
+
+优质 = 稳定、宽泛、风格具体;劣质 = 堆项目细节、自相矛盾、微观管理每句回复格式、满篇"要有帮助/要清晰"(Hermes 本来就会)。
+
+### 13.4 三层个性机制(对应"不同智能体"需求)
+
+| 层 | 机制 | 粒度 | 命令/配置 |
+|---|---|---|---|
+| 1. 多实例 | **profile**(多个隔离 Hermes 实例,各带独立 SOUL.md/config/skills/memories/cron) | 长期、完全隔离 | `hermes profile create` / `use` / `list` / `delete` / `alias` / `export` / `import` |
+| 2. 会话覆盖 | `/personality` 预设 + `config.yaml` 的 `agent.personalities` 自定义 | 单会话 | `/personality teacher`、`/personality codereviewer`(自定义) |
+| 3. 子代理 | `delegate_task` 派隔离子 agent | 任务级 | 子代理**不继承 SOUL.md**(回退默认身份),模型可单独覆盖 |
+
+内置 13 种 `/personality`:helpful / concise / technical / creative / teacher / kawaii / catgirl / pirate / shakespeare / surfer / noir / uwu / philosopher / hype。SOUL.md 是持久默认,`/personality` 是临时切换,互补。
+
+### 13.5 profile 实操(v2026.9.24 CLI 实测)
+
+```bash
+hermes profile create work --clone        # 克隆活跃 profile:config.yaml/.env/SOUL.md/skills 跟过来,消息 bot token 不带
+hermes profile create research --clone --no-alias
+hermes profile use work                   # 设粘性默认 profile
+hermes profile list
+hermes profile show work
+hermes profile describe work "擅长代码审查" # 描述供 kanban 编排器按角色路由任务
+hermes profile alias                      # 管理 wrapper 脚本(给 profile 起别名命令)
+hermes profile export work -o work.tar.gz # 备份/迁移
+```
+
+- `--clone` 复制 config.yaml/.env/SOUL.md/skills;`--clone-all` 全量(除历史与消息通道);`--clone-channels` 才复制 bot token(⚠ 两个 profile 持同一 bot token 会冲突,系统拒绝)。
+- `--clone --sync-imports` 让新 profile 继续注册在同一 Claude Code/Codex 树上。
+- 源码确认(profiles.py docstring):"Profile management for multiple isolated Hermes instances";每 profile 含独立 memories/sessions/skills/logs/cron/home;**`_CLONE_CONFIG_FILES` 含 SOUL.md**。
+- **profile = 官方推荐的多智能体答案**:不同 SOUL.md 就要建不同 profile。
+
+### 13.6 SOUL.md 编辑工作流与排错
+
+1. 从自动生成的默认文件开始 → 2. 删掉不合意的 → 3. 加 4–8 行定语气 → 4. 用一段时间 → 5. 迭代。比一次设计完美人设有效。
+- 编辑后要**新开会话**才生效(文件中改,重启或 /new)。
+- "改了没变化"排查:编辑的是不是 HERMES_HOME 下的、文件是否为空、是否被 `/personality` 覆盖层主导。
+- "部分内容被忽略"原因:更高优先级指令覆盖、自相矛盾、过长被截断、被注入扫描器改写。
+- `display.skin` / `/skin` 管终端外观,与对话个性(SOUL.md)独立。
+
+## 14. 多模型配置专章(v2 补充,官方 configuration + 本机 config.yaml 实测)
+
+| 层级 | 机制 | 说明 |
+|---|---|---|
+| 主模型 | `config.yaml` 的 `model.default` + `model.provider`;CLI `hermes model` 向导选择;`--model`/`--provider` 单次覆盖;会话内 `/model` 随时切换 | 200+ 模型,无厂商锁定;`hermes model` OAuth 登录 Nous Portal/Codex/Anthropic |
+| 辅助模型(auxiliary) | `config.yaml` 的 `auxiliary:` 段(标注 Advanced—Experimental) | 轻量模型跑 side tasks:vision(图像分析)、web_extract(网页摘要)、compression(上下文压缩)、tts_audio_tags;每任务独立 provider+model 可混,默认 auto(Gemini Flash via OpenRouter/Nous);`reasoning_effort` 可按任务调思考深度省钱 |
+| 子代理模型 | `config.yaml` 的 `delegation.model` / `delegation.provider` | 覆盖 delegate_task 子 agent 用的模型;官方 cost tip:父代理留前沿模型保规划质量,子代理钉便宜模型(子代理扛绝大部分 token) |
+| provider 列表(本机 config.yaml 实测) | openrouter / nous / anthropic / openai-codex / copilot / gemini / zai(GLM) / kimi-coding / minimax(-cn) / huggingface / nvidia / xiaomi / arcee / ollama-cloud / deepinfra / kilocode / ai-gateway / azure-foundry / lmstudio / custom(任何 OpenAI 兼容端点,含 Ollama/vLLM/llama.cpp) | streaming 可全局关(自建 OpenAI 兼容服务流式 tool-call 坏时) |
+
+**本机现状**(2026-10-14 实测):provider = `custom:local`,base_url = `http://127.0.0.1:8788/v1`(本地代理),default model = `deepseek-v4.1-flash`;auxiliary 段全部注释(走默认 auto);`agent.personalities: {}`(未定义自定义个性)。
+
+**多模型策略建议**:主模型按任务质量要求选;auxiliary 显式钉本地端点(压缩/摘要不需要多模态,省云端费用);delegation.model 钉便宜模型+父留前沿模型,是省钱最大杠杆。
+
+## 15. 未核实项(v1 原有,v2 续)
 
 - Reddit 具体帖子链接未能直接抓取(reddit.com 与 redlib 镜像均被网络策略拦截),社区引述经 cnblogs/百家号 2026-05-08 汇总转引,原帖用户名/票数以该汇总为准。
 - "Reddit 7 月汇总 276 用例"来自知乎文章(含明显营销内容),仅作背景参考,未逐条核实。
-- 本机 version 2026.9.24,官方文档为最新版;个别 CLI 细节(如 `hermes cron` 参数)以 `hermes --help` 为准。
+- 本机 version 2026.9.24,官方文档为最新版;个别 CLI 细节以 `hermes --help` 为准。
 - 40+ 内置工具 / 70+ skills 数字来自不同时点的资料,可能随版本变化。
+- v2 新增未核实:内置 personality 列表与 delegation 参数来自官方文档 + 本机 `--help` 实测;auxiliary models 官方自标 Experimental;profile 的 kanban orchestrator 路由细节未实测(需多 profile + gateway 环境)。
