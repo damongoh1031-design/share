@@ -4,7 +4,7 @@ title: malaysiayp 全量采集 · 无人值守运行手册（常驻守护 + 看�
 tags: [malaysiayp, 全量采集, 无人值守, 守护进程, 看门狗, 计划任务, supervise, watchdog]
 created: 2026-10-13
 updated: 2026-10-14
-version: 2.0.0
+version: 2.1.0
 status: stable
 source: 本会话多轮实测（2026-10-08 ~ 2026-10-14），2026-10-14 架构改造后复测通过
 confidence: 已核实
@@ -24,6 +24,9 @@ v1.0.0 的每轮人工监督内容保留在文末「旧范式」一节，仅供�
 | 看门狗 | `watchdog.py` | 读心跳判断守护是否停摆，停摆才拉起 | 计划任务 / 开机自启 vbs |
 | 守护 | `supervise.py`（无参数，daemon 模式） | 唯一采集驱动者，自己无限循环跑片 | 看门狗 |
 | 采集 | `scrape_malaysiayp.py` | 单片采集，断点落 SQLite | 守护 spawn |
+| 巡检 | WorkBuddy automation「malaysiayp 采集健康检查」 | **每小时**读一次心跳/告警，健康时只输出一行 | WorkBuddy 调度器 |
+
+三层自愈都不需要 LLM：`watchdog` 每 20 分钟判活自愈 → 守护自己调速续跑 → 出错写 `ALERT.json`。LLM 巡检只是最后一道兜底，**正常时完全不介入**（不写文件、不起进程）。
 
 健康信号（全部只读文件）：
 
@@ -99,6 +102,7 @@ MSYS_NO_PATHCONV=1 schtasks /Create /TN "MalaysiaYP-FullCrawl" /XML _task.xml /F
 - **PowerShell 工具在本机返回空 stdout / 沙箱报错**，查进程改用 `tasklist`；需要命令行时改用计划任务或文件落盘。
 - **`--status` 的「采集进程存活」在片间空隙显示 False 属正常**，不是故障。
 - **主机睡眠会造成跨夜大空档**（Oct 8→9、9→12、12→13，最长 63.5h）。判停滞前先排除睡眠。
+- **WorkBuddy 的 automation 调度器表达不了「每半小时」**（2026-10-14 试错）：`FREQ=MINUTELY` 不被识别（返回体没有 `nextRunAt`）；`FREQ=HOURLY;...;BYMINUTE=0,30` 里的 `BYMINUTE` 被忽略（仍按创建时刻的分钟每小时跑一次）；`FREQ=DAILY` 要求 `BYHOUR` 是**单个** 0–23 整数，传列表直接报错。最小粒度就是 `FREQ=HOURLY;INTERVAL=1`。要更密只能到 Windows 计划任务层做（那里没有 LLM）。
 - **不要用 `nslookup` 判站点可达性**（实测报 `Server failed` 而脚本同刻正常）。以脚本 rc 为准。
 
 # 旧范式（v1.0.0，已废弃，仅供读历史日志）
