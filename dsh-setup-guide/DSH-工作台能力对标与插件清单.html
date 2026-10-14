@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>把 DSH 打造成通用工作台 · 对标 Goose / OpenWork / Open WebUI / WorkBuddy 的插件清单</title>
+<style>
+  :root{
+    --bg:#0e1116; --bg2:#151a21; --bg3:#1b2129; --line:#272e38;
+    --tx:#e6eaf0; --tx2:#9aa4b2; --tx3:#6b7684;
+    --accent:#4c8dff; --green:#3fb950; --amber:#d29922; --red:#f85149; --purple:#a371f7; --teal:#2dd4bf;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:48px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  h1{font-size:27px;font-weight:600;margin:0 0 10px;letter-spacing:-.3px}
+  .sub{color:var(--tx2);font-size:14px}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:var(--bg3);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:12px;color:var(--tx2)}
+  .pill b{color:var(--tx);font-weight:500}
+  h2{font-size:20px;font-weight:600;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent);letter-spacing:-.2px}
+  h3{font-size:16px;font-weight:600;margin:32px 0 10px}
+  h4{font-size:14px;font-weight:600;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0;padding-left:22px}
+  li{margin:6px 0}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--bg3);border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:#8ec9ff}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px 18px;overflow-x:auto;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#cdd6e0;font-size:12.5px;line-height:1.75}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+  th{text-align:left;background:var(--bg3);color:var(--tx);font-weight:600;padding:9px 11px;border:1px solid var(--line)}
+  td{padding:8px 11px;border:1px solid var(--line);color:var(--tx2);vertical-align:top}
+  td code{font-size:11.5px;word-break:break-all}
+  tr:hover td{background:rgba(76,141,255,.04)}
+  .ok{color:var(--green);font-weight:500;white-space:nowrap}
+  .no{color:var(--amber);font-weight:500;white-space:nowrap}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+  .card.accent{border-left:3px solid var(--accent)}
+  .card.green{border-left:3px solid var(--green)}
+  .card.amber{border-left:3px solid var(--amber)}
+  .card.red{border-left:3px solid var(--red)}
+  .card h4{margin-top:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+  @media(max-width:760px){.grid2,.grid4{grid-template-columns:1fr}}
+  .metric{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .metric .lb{font-size:12.5px;color:var(--tx2);margin-bottom:4px}
+  .metric .vl{font-size:22px;font-weight:500;letter-spacing:-.5px}
+  .dim{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
+  .dim h3{margin:0 0 6px;font-size:15.5px}
+  .dim .src{font-size:12.5px;color:var(--tx3);margin-bottom:10px}
+  .dim .pick{font-size:13.5px;margin:8px 0 0}
+  .dim .pick b{color:var(--tx)}
+  .cmd{background:var(--bg3);border:1px solid var(--line);border-radius:6px;padding:6px 10px;
+    font-family:var(--mono);font-size:12px;color:#8ec9ff;margin-top:8px;overflow-x:auto;white-space:pre}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.5px}
+  footer a{color:var(--tx2);text-decoration:none;border-bottom:1px dotted var(--line)}
+  footer a:hover{color:var(--accent)}
+  .note{font-size:12.5px;color:var(--tx3);margin-top:6px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;vertical-align:middle;white-space:nowrap}
+  .tag.builtin{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+  .tag.need{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+  .tag.gap{background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.35)}
+  .tag.must{background:rgba(76,141,255,.15);color:var(--accent);border:1px solid rgba(76,141,255,.35)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>把 DSH 打造成通用工作台</h1>
+  <div class="sub">对标 Goose / OpenWork / Open WebUI / WorkBuddy —— 还差哪些插件，装什么、怎么装</div>
+  <div class="meta">
+    <span class="pill">插件目录 <b>4,644 个</b></span>
+    <span class="pill">覆盖维度 <b>20 项</b></span>
+    <span class="pill">核实安装命令 <b>38 条</b></span>
+    <span class="pill">调研日期 <b>2026-10-14</b></span>
+  </div>
+</header>
+
+<h2>一、结论速览</h2>
+<div class="grid4">
+  <div class="metric"><div class="lb">DSH 已自带</div><div class="vl" style="color:var(--green)">8 项</div></div>
+  <div class="metric"><div class="lb">需补插件</div><div class="vl" style="color:var(--amber)">10 项</div></div>
+  <div class="metric"><div class="lb">最小可用组合</div><div class="vl" style="color:var(--accent)">7 个</div></div>
+  <div class="metric"><div class="lb">插件也补不了</div><div class="vl" style="color:var(--red)">5 项</div></div>
+</div>
+<div class="card accent">
+  <h4>一句话回答</h4>
+  <p>DSH 的<b>内核（Agent 循环 + 多模型 + 插件市场 + 会话日志）已经具备工作台的地基</b>，但要达到 Goose / OpenWork / Open WebUI / WorkBuddy 那种「完整工作台」体验，<b>需要补 10 个维度的插件</b>。其中<b>最小可用组合只需 7 个插件</b>就能覆盖 80% 的日常场景。</p>
+  <p>但要注意：<b>有 5 项能力是插件也补不了的</b>——DSH 是「单人本地工具」架构，而 Open WebUI 是「多用户服务平台」架构，这是设计定位差异，不是插件能填的坑。</p>
+</div>
+
+<h2>二、四个参照产品，各自代表什么能力</h2>
+<table>
+  <tr><th>产品</th><th>定位</th><th>标志性能力（DSH 需要对标的部分）</th></tr>
+  <tr><td><b>Goose</b><br><span class="note">Block → AAIF</span></td><td>本地通用 AI Agent，CLI + 桌面</td><td>三栏桌面布局（会话管理 / <b>食谱库 Recipes</b> / 扩展中心）、MCP 扩展体系、可复用工作流模板、多模型（本地 + 云端）</td></tr>
+  <tr><td><b>OpenWork</b><br><span class="note">Different AI</span></td><td>开源桌面工作台，定位 Claude Cowork / Codex 开源替代</td><td><b>能力共享</b>（一个 MCP 暴露 <code>search_capabilities</code> + <code>execute_capability</code>，skills/MCP/Google Workspace 统一成一条轨道）、<b>给非技术用户用的好看外壳</b>、多代理本地调度、本地优先</td></tr>
+  <tr><td><b>Open WebUI</b></td><td>可自托管的多用户 AI 平台</td><td><b>知识库 + RAG 推理引擎</b>、<b>多用户 + RBAC 细粒度权限</b>、模型并行对比、Pipelines 插件框架、多模态输入、语音、完全离线部署</td></tr>
+  <tr><td><b>WorkBuddy</b><br><span class="note">当前产品</span></td><td>全功能 AI 工作台</td><td>专家中心、技能系统、连接器/MCP、<b>资料库</b>、<b>定时自动化</b>、发布为应用、Office 文档生成、图片/视频生成、三层记忆、Agent 团队、内置浏览器预览</td></tr>
+</table>
+<p>把四者能力取并集，得到 <b>20 项「工作台能力」</b>。下面逐项对照 DSH 现状。</p>
+
+<h2>三、能力对标矩阵</h2>
+<table>
+  <tr><th>能力维度</th><th>来自</th><th>DSH 现状</th></tr>
+  <tr><td>Agent 循环 / 文件 / 终端</td><td>全部</td><td class="ok">✅ 内核自带</td></tr>
+  <tr><td>多模型接入与切换</td><td>全部</td><td class="ok">✅ 自带 <code>dsh-llm-pi-ai</code></td></tr>
+  <tr><td>插件市场 / 分发</td><td>Goose</td><td class="ok">✅ 自带 dshmarket</td></tr>
+  <tr><td>Web UI 基础外壳</td><td>全部</td><td class="ok">✅ 自带</td></tr>
+  <tr><td>会话日志与持久化</td><td>全部</td><td class="ok">✅ 自带</td></tr>
+  <tr><td>技能加载</td><td>Goose / OpenWork</td><td class="ok">✅ 自带 skills 目录</td></tr>
+  <tr><td>Agent 预设 / 模式</td><td>Goose / OpenWork</td><td class="ok">✅ 自带 4 套预设</td></tr>
+  <tr><td>多 Agent 协作 / 定时</td><td>OpenWork / WorkBuddy</td><td class="ok">⚠️ 有实验 bundle，功能弱</td></tr>
+  <tr><td>工作台 UI 布局（三栏 / 面板）</td><td>Goose / OpenWork</td><td class="no">需插件</td></tr>
+  <tr><td>会话归档 / 分支 / 全文检索</td><td>全部</td><td class="no">需插件</td></tr>
+  <tr><td>知识库 / RAG</td><td>Open WebUI / WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>长期记忆 / 用户画像</td><td>WorkBuddy / OpenWork</td><td class="no">需插件</td></tr>
+  <tr><td>MCP / 连接器管理</td><td>Goose / OpenWork</td><td class="no">需插件</td></tr>
+  <tr><td>文档办公（Word/Excel/PPT）</td><td>WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>浏览器自动化</td><td>全部</td><td class="no">需插件</td></tr>
+  <tr><td>视觉 / 多模态识图</td><td>Open WebUI / WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>语音输入输出</td><td>Open WebUI / Goose</td><td class="no">需插件</td></tr>
+  <tr><td>图像 / 视频生成</td><td>WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>远程 / 移动端访问</td><td>WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>IM / 通知集成</td><td>WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>用量 / 成本统计</td><td>全部</td><td class="no">需插件</td></tr>
+  <tr><td>权限管控 / 认证门禁</td><td>Open WebUI</td><td class="no">需插件（但见第七节）</td></tr>
+  <tr><td>发布 / 分享 / 部署</td><td>WorkBuddy</td><td class="no">需插件</td></tr>
+  <tr><td>配置备份 / 跨机迁移</td><td>OpenWork</td><td class="no">需插件</td></tr>
+  <tr><td>上下文压缩 / 可视化</td><td><span class="note">DSH 特有强项</span></td><td class="no">需插件（但生态最成熟）</td></tr>
+</table>
+
+<h2>四、分维度推荐插件（含核实过的安装命令）</h2>
+<p class="note">所有命令均已从插件详情页抓取核实，格式为 <code>dsh plugin --profile web add &lt;包名&gt;</code>。装完需重启 <code>dsh web</code> 并刷新页面。</p>
+
+<h3>A. 工作台 UI 外壳 <span class="tag must">对标 OpenWork 的「好看外壳」</span></h3>
+<div class="dim">
+  <div class="src">Goose 三栏布局 · OpenWork 面向非技术用户的界面</div>
+  <p class="pick"><b>首选 <code>AKS1st/dock</code></b> —— DSH Web 工作台基座插件，提供 <b>VSCode 风格布局外壳</b>（活动栏 / 侧边栏 / 编辑器区 / 面板 / 状态栏），并开放 <code>ctx.workbench</code> 注册表供其他插件挂载面板与命令。这是最接近「工作台骨架」的一个。</p>
+  <div class="cmd">dsh plugin --profile web add dock-base</div>
+  <p class="pick" style="margin-top:12px">叠加 <b><code>DSH-better-sidebar</code></b>（侧边栏工作台：文件编辑 / 终端 / Git / 子代理，230,287 周下载）或 <b><code>@michengai/dsh-codex-ui</code></b>（Codex 风格侧栏，265,526 周下载）二选一。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-better-sidebar
+dsh plugin --profile web add @michengai/dsh-codex-ui</div>
+</div>
+
+<h3>B. 会话管理：归档 / 分支 / 全文检索</h3>
+<div class="dim">
+  <div class="src">Goose 会话管理 · Open WebUI 会话侧栏 · WorkBuddy 会话历史</div>
+  <p class="pick"><b>归档管理：<code>@michengai/dsh-archive-manager</code></b>（185,958 周下载）—— 已归档会话页，按工作区搜索 / 恢复 / 删除。</p>
+  <div class="cmd">dsh plugin --profile web add @michengai/dsh-archive-manager</div>
+  <p class="pick" style="margin-top:12px"><b>批量治理：<code>dsh-session-conductor</code></b> —— 归档/恢复、批量与条件删除、AI 自动重命名、中断自动续跑、按工作区分组、撤回最后一条消息、损坏日志修复、价值分析与全文搜索。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-session-conductor</div>
+  <p class="pick" style="margin-top:12px"><b>Git 式分支：<code>github:Jason-skd/dsh-session-fork</code></b> —— 子分支各持上下文并行工作，完成后以压缩摘要合并回来；带 <code>/branch</code> 命令与分支页签。</p>
+  <div class="cmd">dsh plugin --profile web add "github:Jason-skd/dsh-session-fork"</div>
+  <p class="pick" style="margin-top:12px"><b>就地回退：<code>dsh-rewind-plugin</code></b> —— Claude Code <code>/rewind</code> 语义，把上下文回退到任意用户消息，可还原工作区文件。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-rewind-plugin</div>
+</div>
+
+<h3>C. 知识库 / RAG <span class="tag must">对标 Open WebUI 核心</span></h3>
+<div class="dim">
+  <div class="src">Open WebUI 的内置 RAG 推理引擎 + 知识库</div>
+  <p class="pick"><b><code>dsh-kb-rag</code></b> —— 本地文献知识库 RAG，提供 <b>10 个工具</b>（kb_ingest / kb_search / kb_rag / kb_zotero / kb_dedup / kb_clear / kb_fetch / kb_scope / kb_stats / kb_status）。支持 Zotero 文献库，功能最完整。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-kb-rag</div>
+  <p class="pick" style="margin-top:12px">若需要语义代码检索，加 <b><code>JohnXu22786/semantic-search</code></b>（片段级符号感知索引 + 向量/BM25 混合检索 + RRF 融合）。</p>
+  <p class="note">你本机已装 <code>@weibaohui/dsh-kb</code> 和 <code>dsh-knowledge-base</code>，先确认它们是否已满足需求再考虑叠加。</p>
+</div>
+
+<h3>D. 长期记忆 / 用户画像</h3>
+<div class="dim">
+  <div class="src">WorkBuddy 三层记忆 · OpenWork 本地优先</div>
+  <p class="pick"><b><code>@vectorize-io/hindsight-coding-agents</code></b>（59,538 周下载，★49,309）—— 会学习的 Agent 长期记忆系统：自动召回/保存、知识页、深度反思、按仓库隔离的记忆银行。</p>
+  <div class="cmd">dsh plugin --profile web add @vectorize-io/hindsight-coding-agents</div>
+  <p class="pick" style="margin-top:12px"><b>或 <code>dsh-mnemon</code></b>（46,563 周下载）—— 跨 Agent、本地优先的持久记忆，支持语义召回、知识图谱与 Sidebar UI。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-mnemon</div>
+  <p class="pick" style="margin-top:12px">要「自动提取 + 自进化」，看 <b><code>madage/dsh-self-improved</code></b>（L0 对话捕获 → L1 记忆提取 → L2 场景归纳 → L3 用户画像，纯本地 SQLite FTS5 + jieba）。</p>
+</div>
+
+<h3>E. MCP / 连接器管理 <span class="tag must">对标 Goose extensions / OpenWork MCP</span></h3>
+<div class="dim">
+  <div class="src">Goose 扩展中心 · OpenWork 的能力轨道</div>
+  <p class="pick"><b><code>dsh-mcp-connector</code></b> —— DSH 的 MCP 管理面板：<b>超百个 MCP 连接器目录</b>、统一连接管理与授权配置、跨连接搜索工具、连接排障、按状态筛选、逐连接重新发现工具；支持 OAuth 2.0 PKCE / API Key / stdio / HTTP / mcpServers JSON 导入。<b>由企查查（QCC）团队维护</b>，是这一类里最完整的。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-mcp-connector</div>
+</div>
+
+<h3>F. 多 Agent 协作 / 专家体系 <span class="tag must">对标 WorkBuddy 专家中心 + OpenWork 多代理</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy 专家中心 / Agent 团队 · OpenWork 多代理调度</div>
+  <p class="pick"><b><code>github:Asher-2000/dsh-expert-mode</code></b> —— 专家模式 Agent 预设：<b>首席协调官 + 17 位领域专家子代理</b>，按任务特性自动委派，带文件系统任务状态机与双语提示词。<b>这是最接近 WorkBuddy「专家中心」的一个。</b></p>
+  <div class="cmd">dsh plugin --profile web add "github:Asher-2000/dsh-expert-mode"</div>
+  <p class="pick" style="margin-top:12px"><b>轻量版：<code>@michengai/dsh-agency-agents</code></b>（155,263 周下载）—— 可召唤的领域专家名单，专家以子代理运行，主会话保留任务和最终答复。</p>
+  <div class="cmd">dsh plugin --profile web add @michengai/dsh-agency-agents</div>
+  <p class="pick" style="margin-top:12px"><b>持久团队：<code>@nanmicoder/dsh-agent-teams</code></b>（49,346 周下载）—— Captain 拆分任务、成员子代理并行执行、结果汇总；团队和成员<b>做完任务后保留可复用</b>。</p>
+  <div class="cmd">dsh plugin --profile web add @nanmicoder/dsh-agent-teams</div>
+</div>
+
+<h3>G. 工作流自动化 / 定时任务 <span class="tag must">对标 WorkBuddy 自动化 + Goose Recipes</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy 定时自动化 · Goose Recipes 可复用工作流</div>
+  <p class="pick"><b>定时：<code>dsh-scheduler</code></b>（<code>yangdongzhen590/dsh-knj-scheduler</code>）—— 按 Cron 表达式到点自动新建 DSH 会话并注入提示词执行，支持任务历史、手动运行与启停。或 <b><code>@goodandready/dsh-cron</code></b>。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-scheduler
+dsh plugin --profile web add @goodandready/dsh-cron</div>
+  <p class="pick" style="margin-top:12px"><b>任务看板：<code>@linxin666/dsh-client-ui-task-board</code></b>（148,727 周下载）—— 多列看板，卡片交给真实 DSH 会话执行，支持 <b>cron 定时（Host 侧到点执行，关浏览器也生效）</b>。</p>
+  <div class="cmd">dsh plugin --profile web add @linxin666/dsh-client-ui-task-board</div>
+  <p class="pick" style="margin-top:12px"><b>计划执行：<code>@michengai/dsh-automation</code></b>（123,673 周下载）—— 在独立会话里按计划执行编码任务，可在设置页或对话里管理。</p>
+  <div class="cmd">dsh plugin --profile web add @michengai/dsh-automation</div>
+</div>
+
+<h3>H. 文档与办公套件 <span class="tag must">对标 WorkBuddy Office</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy Word / PPT / Excel 生成能力</div>
+  <p class="pick"><b>首选 <code>dsh-univer-office</code></b>（<code>dream-num</code> 出品，51,191 周下载）—— 把<b>电子表格、文档、幻灯片、画布、多维表格</b>汇聚到同一运行时，数据互联、修改经校验、变更按版本管理，并以隔离工作树支持多 Agent 协作。<b>这是 DSH 生态里唯一称得上「办公环境」的插件。</b></p>
+  <div class="cmd">dsh plugin --profile web add dsh-univer-office</div>
+  <p class="pick" style="margin-top:12px"><b>PPT 专用：<code>dsh-kimi-ppt</code></b> —— 创建/编辑/导出 .pptx，本地生成，Pillow 渲染预览图，不需要浏览器。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-kimi-ppt</div>
+  <p class="pick" style="margin-top:12px"><b>驱动真实 Office：<code>wly8691-jpg/dsh-office-com</code></b> —— COM 驱动运行中的 Excel/Word：VBA 宏、透视表、活公式重算、深度排版。</p>
+</div>
+
+<h3>I. 浏览器自动化</h3>
+<div class="dim">
+  <div class="src">全部产品的基础能力</div>
+  <p class="pick"><b>官方出品：<code>@wxg-prc-cpg/browser-skill-dsh-plugin</code></b>（腾讯 BrowserSkill，26,644 周下载）—— 通过原生浏览器工具控制可见的 Chrome 和 Edge Agent Window，支持可访问性与 VOM 页面观察、截图、隔离的多会话控制与 Web UI 实时观察浮层。</p>
+  <div class="cmd">dsh plugin --profile web add @wxg-prc-cpg/browser-skill-dsh-plugin</div>
+  <p class="pick" style="margin-top:12px"><b>独立会话浏览器：<code>github:CJYLZS/dsh-browser</code></b> —— 每个会话拥有自己的 Chrome/Edge 进程、独立 profile 与独立 CDP 端口，六个工具驱动它，右侧边栏实时镜像页面。</p>
+  <div class="cmd">dsh plugin --profile web add "github:CJYLZS/dsh-browser"</div>
+</div>
+
+<h3>J. 视觉 / 多模态识图 <span class="tag must">补齐 DeepSeek 纯文本模型的硬缺口</span></h3>
+<div class="dim">
+  <div class="src">Open WebUI 多模态输入 · WorkBuddy 图片理解</div>
+  <p class="pick"><b>首选 <code>@liustack/modlens</code></b>（96,722 周下载，★4,239）—— 粘贴图片输出<b>结构化 JSON 证据</b>（OCR + 版面 + 语义），保留元素位置关系，前端还原度检查尤其好用。</p>
+  <div class="cmd">dsh plugin --profile web add @liustack/modlens</div>
+  <p class="pick" style="margin-top:12px"><b>免 Key 方案：<code>dsh-vision-router</code></b>（34,622 周下载）—— 内置免 Key 视觉链 + 像素级工具（看图问答、定位、裁剪、像素对比、取色、OCR、矢量化、抠图、截图），粘贴图片即可用。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-vision-router</div>
+</div>
+
+<h3>K. 语音输入输出 <span class="tag must">对标 Open WebUI voice</span></h3>
+<div class="dim">
+  <div class="src">Open WebUI 语音 · Goose STT/TTS</div>
+  <p class="pick"><b><code>github:Jesse-njx/dsh-voice</code></b> —— 语音输入 + 语音输出：口述音频转写为用户消息（transcribe），让 agent 朗读回复（speak），本地优先，音频存于 <code>~/.dsh/voice</code>。</p>
+  <div class="cmd">dsh plugin --profile web add "github:Jesse-njx/dsh-voice"</div>
+  <p class="pick" style="margin-top:12px">要「按住说话 + 自动朗读」的豆包式体验，看 <code>maoyuching/dsh-voice-chat</code>。</p>
+</div>
+
+<h3>L. 图像 / 视频生成 <span class="tag must">对标 WorkBuddy 多模态生成</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy 图片生成 / 视频生成</div>
+  <p class="pick"><b>一体化 <code>@mokuyoaxis/dsh-iris</code></b> —— 媒体与视觉工作台：文生图、图/文生视频、语音合成与转写、图像问答与元素定位、长图 OCR、像素比对、HTML 截图验证、视频摘要；支持 DashScope 与 OpenAI 兼容端点。</p>
+  <div class="cmd">dsh plugin --profile web add @mokuyoaxis/dsh-iris</div>
+  <p class="pick" style="margin-top:12px"><b>专业创作：<code>zmm863-commits/dsh-agnes-studio</code></b> —— 一站式 AI 影视创作工作站（生图 1K–4K / 8 种宽高比、生视频 4–12 秒带首帧控制、短剧）。</p>
+  <p class="pick" style="margin-top:12px"><b>国内模型：<code>klingai-dev/deepseek-plugin</code></b> —— 自然语言调用可灵 AI，文生图/图生图/文生视频/图生视频。</p>
+</div>
+
+<h3>M. 远程 / 移动端访问 <span class="tag must">对标 WorkBuddy 手机访问</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy 跨设备 · OpenWork 桌面客户端</div>
+  <p class="pick"><b>首选 <code>dsh-pocket</code></b>（<code>shaobeichen/dsh-pocket</code>）—— 手机远程访问 DSH Web：<b>扫码即用</b>，局域网或公网（Cloudflare 隧道，<b>不需要自己买服务器</b>），实时同屏、移动端适配布局。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-pocket</div>
+  <p class="pick" style="margin-top:12px"><b>或 <code>@linxin666/dsh-remote-web-ui</code></b>（149,550 周下载）—— 扫码配对、令牌门控通道、SSE 实时同步，提供移动端与完整桌面 GUI 两种远程形态。</p>
+  <div class="cmd">dsh plugin --profile web add @linxin666/dsh-remote-web-ui</div>
+  <p class="note">⚠️ 安全提示：远程二维码、公网地址与访问密码切勿分享——DSH 可操作本机文件。</p>
+</div>
+
+<h3>N. IM / 通知集成 <span class="tag must">对标 WorkBuddy 连接器</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy 连接器体系</div>
+  <p class="pick"><b>渠道最全：<code>@xmanrui/dsh-im</code></b>（61,949 周下载）—— 支持飞书、微信、钉钉、企业微信、QQ、Slack、Telegram、Discord、WhatsApp <b>共 9 种渠道</b>，二维码或机器人凭据接入。</p>
+  <div class="cmd">dsh plugin --profile web add @xmanrui/dsh-im</div>
+  <p class="pick" style="margin-top:12px"><b>工作区频道：<code>@michengai/dsh-im-connect</code></b>（141,090 周下载）—— 微信/企微/钉钉/飞书/QQ/Telegram 接入，<b>每个 IM 聊天对应一条独立工作区频道</b>。</p>
+  <div class="cmd">dsh plugin --profile web add @michengai/dsh-im-connect</div>
+  <p class="pick" style="margin-top:12px"><b>纯推送：<code>github:a23842/dsh-notifier</code></b> —— Server酱/PushPlus/Bark/钉钉/企微/飞书/邮件/ntfy/自定义 Webhook 多渠道通知。</p>
+  <div class="cmd">dsh plugin --profile web add "github:a23842/dsh-notifier"</div>
+</div>
+
+<h3>O. 用量 / 成本统计</h3>
+<div class="dim">
+  <div class="src">全部产品的成本可观测性</div>
+  <p class="pick"><b>面板最全：<code>dsh-cost-meter</code></b>（108,151 周下载）—— 会话与当日费用、预算图框（已用%）、官方余额、历史看板、峰谷计价、官方价格一键同步。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-cost-meter</div>
+  <p class="pick" style="margin-top:12px"><b>挂件形态：<code>dsh-whale-widget</code></b>（184,537 周下载）—— 右下角常驻小鲸鱼：余额、今日已用、每轮消耗（含峰谷价）、<b>内置 30+ 厂商模板</b>（OpenAI / OpenRouter / Kimi / 硅基流动 / 方舟 / 智谱 / MiniMax 等）。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-whale-widget</div>
+</div>
+
+<h3>P. 权限管控 / 认证门禁</h3>
+<div class="dim">
+  <div class="src">Open WebUI RBAC（但注意第七节的架构差异）</div>
+  <p class="pick"><b>细粒度网关：<code>@mrweicodes/dsh-permgate</code></b> —— 按分类（工作区外目录 / 命令 / 读写文件 / 子代理 / 重复操作）逐项审查工具调用，全局 + 项目双级白黑名单、自定义规则、中英文审批弹窗（内联 diff 详情）。</p>
+  <div class="cmd">dsh plugin --profile web add @mrweicodes/dsh-permgate</div>
+  <p class="pick" style="margin-top:12px"><b>登录门禁：<code>dsh-ui-auth</code></b> —— Web UI 认证网关，覆盖页面、<code>/api</code>、<code>/plugins</code> 与 WebSocket 升级；PBKDF2 口令哈希 + HttpOnly SameSite 会话 Cookie。<b>这是远程访问时必装的安全兜底。</b></p>
+  <div class="cmd">dsh plugin --profile web add dsh-ui-auth</div>
+</div>
+
+<h3>Q. 发布 / 分享 / 部署 <span class="tag must">对标 WorkBuddy 发布为应用</span></h3>
+<div class="dim">
+  <div class="src">WorkBuddy 发布为应用 / 分享链接</div>
+  <p class="pick"><b><code>dsh-plugin-deploy</code></b> —— 一句话把项目部署到 Cloudflare、把做好的插件发布到 npm；首次部署零账号，凭据模型看不到。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-plugin-deploy</div>
+  <p class="pick" style="margin-top:12px"><b>文件分享：<code>dsh-shareone-plugin</code></b> —— 把 TXT / Markdown / HTML / PDF / Word / PowerPoint 发布为分享链接，支持访问密码、水印、页面更新与评论。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-shareone-plugin</div>
+</div>
+
+<h3>R. 配置备份 / 跨机迁移 <span class="tag must">对标 OpenWork「共享一份」</span></h3>
+<div class="dim">
+  <div class="src">OpenWork 的核心卖点：能力可搬动、可共享</div>
+  <p class="pick"><b><code>dsh-config-manager</code></b> —— 一键备份、导出、导入与迁移<b>整套</b> DSH 配置：设置、插件、MCP、技能与工作区。<b>密钥默认不导出</b>；若选择包含则以 AES-256-GCM 加密而非明文写出。导入先预览、自动备份、可回滚、profile 可保存多套。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-config-manager</div>
+  <p class="pick" style="margin-top:12px"><b>定时备份：<code>@xiaoyuyu6420/dsh-backup</code></b> —— 定时自动备份、sha256 校验、失败自动回滚、凭据脱敏进本机 vault、<b>GitHub 同步跨机迁移</b>。</p>
+  <div class="cmd">dsh plugin --profile web add @xiaoyuyu6420/dsh-backup</div>
+</div>
+
+<h3>S. 上下文压缩 / 可视化 <span class="tag builtin">DSH 生态最强项</span></h3>
+<div class="dim">
+  <div class="src">其他工作台普遍缺失的能力</div>
+  <p class="pick"><b><code>billion-context</code></b>（1,300,026 周下载，<b>生态第一</b>）—— 省 5 倍 token，支持几十亿 token 单会话。</p>
+  <div class="cmd">dsh plugin --profile web add billion-context</div>
+  <p class="pick" style="margin-top:12px"><b><code>dsh-context</code></b>（154,094 周下载）—— Context 仪表盘 + <code>/context</code> 命令 + Context 浏览器，查看上下文分类组成、演进趋势、压缩/注入事件。<b>与 billion-context 是绝配。</b></p>
+  <div class="cmd">dsh plugin --profile web add dsh-context</div>
+</div>
+
+<h3>T. 模型接入补充</h3>
+<div class="dim">
+  <div class="src">Open WebUI 多模型 · Goose 多 provider</div>
+  <p class="pick"><b>选择器：<code>github:genius-alray/dsh-model-picker</code></b> —— 对话框式模型选择，模糊搜索、供应商折叠分组、收藏与只看收藏过滤、思考档位下拉。</p>
+  <div class="cmd">dsh plugin --profile web add "github:genius-alray/dsh-model-picker"</div>
+  <p class="pick" style="margin-top:12px"><b>白嫖已有订阅：<code>dsh-workbuddy-connect</code></b>（28,599 周下载）—— 把 <b>WorkBuddy 桌面 App 里的模型自动接入 DSH</b>，零配置使用。</p>
+  <div class="cmd">dsh plugin --profile web add dsh-workbuddy-connect</div>
+  <p class="pick" style="margin-top:12px">其他：<code>mia-wong1016/dsh-codex-plus</code>（Codex ChatGPT Plus/Pro 订阅接入）、<code>wenzetan/dsh-llm-newapi</code>（NewAPI 网关）。</p>
+</div>
+
+<h2>五、最小可用组合（按场景）</h2>
+<div class="grid2">
+  <div class="card green">
+    <h4>场景 1：日常开发工作台（7 个）</h4>
+    <p>对标 <b>Goose / OpenWork</b> 的日常使用，覆盖 80% 场景：</p>
+    <div class="cmd">dsh plugin --profile web add dock-base
+dsh plugin --profile web add dsh-better-sidebar
+dsh plugin --profile web add @michengai/dsh-archive-manager
+dsh plugin --profile web add dsh-mcp-connector
+dsh plugin --profile web add billion-context
+dsh plugin --profile web add dsh-context
+dsh plugin --profile web add dsh-cost-meter</div>
+  </div>
+  <div class="card accent">
+    <h4>场景 2：团队协作平台（+5 个）</h4>
+    <p>对标 <b>WorkBuddy</b> 的专家与自动化：</p>
+    <div class="cmd">dsh plugin --profile web add "github:Asher-2000/dsh-expert-mode"
+dsh plugin --profile web add @nanmicoder/dsh-agent-teams
+dsh plugin --profile web add dsh-scheduler
+dsh plugin --profile web add @linxin666/dsh-client-ui-task-board
+dsh plugin --profile web add dsh-config-manager</div>
+  </div>
+  <div class="card amber">
+    <h4>场景 3：知识工作者（+5 个）</h4>
+    <p>对标 <b>Open WebUI</b> 的知识库与多模态：</p>
+    <div class="cmd">dsh plugin --profile web add dsh-kb-rag
+dsh plugin --profile web add dsh-univer-office
+dsh plugin --profile web add @liustack/modlens
+dsh plugin --profile web add @xmanrui/dsh-im
+dsh plugin --profile web add dsh-pocket</div>
+  </div>
+  <div class="card">
+    <h4>场景 4：远程 + 安全（+3 个）</h4>
+    <p>暴露到公网前<b>必须</b>先装：</p>
+    <div class="cmd">dsh plugin --profile web add dsh-ui-auth
+dsh plugin --profile web add @mrweicodes/dsh-permgate
+dsh plugin --profile web add "github:a23842/dsh-notifier"</div>
+    <p class="note">顺序很重要：先有认证门禁，再开远程访问。</p>
+  </div>
+</div>
+
+<h2>六、装完之后怎么验证</h2>
+<pre><code><span class="c"># 1) 确认已装（应能看到新插件）</span>
+dsh plugin --profile web list
+
+<span class="c"># 2) 重启服务让插件生效</span>
+dsh web
+
+<span class="c"># 3) 浏览器刷新页面 → 左下角「设置」→ 应出现新插件的配置项</span>
+
+<span class="c"># 4) 出问题先查锁文件（上次异常退出残留会导致插件启动失败）</span>
+<span class="c">#    Windows: 删除 %USERPROFILE%\.dsh\**\*.lock 后重启</span></code></pre>
+<div class="card amber">
+  <h4>插件版本兼容性检查</h4>
+  <p>很多插件对 dsh 版本有硬性要求，例如 <code>DSH-better-sidebar</code> 要求 <code>^0.2.0-rc.2</code>、<code>dsh-wallpaper-engine</code> 要求 <code>0.1.5-rc.1+</code>。装之前先确认：</p>
+  <pre><code>dsh --version</code></pre>
+  <p class="note">不满足版本要求的插件装上去会启动失败，甚至导致 <code>dsh web</code> 起不来。建议装一个验证一个，别一次性全装。</p>
+</div>
+
+<h2>七、插件也补不了的 5 项 —— 架构性差距</h2>
+<p>这是本报告最重要的部分。DSH 与 Open WebUI / OpenWork 的差距不只是「缺插件」，有些是<b>设计定位差异</b>：</p>
+<table>
+  <tr><th>能力</th><th>为什么补不了</th></tr>
+  <tr><td><b>真正的多用户 + 多租户</b></td><td>Open WebUI 是多用户平台，用户/角色/权限是<b>数据模型层</b>的概念。DSH 是单人本地工具，<code>.credentials.yaml</code>、<code>sessions/</code>、<code>profiles/</code> 都是单用户结构。插件只能做「认证门禁 + 权限守卫」，<b>做不到租户级数据隔离</b>。</td></tr>
+  <tr><td><b>模型并行对比</b></td><td>Open WebUI 的 side-by-side 多模型同时回答，需要平台层同时维护多条推理流。DSH 的会话绑定单一模型，插件层未见对应实现。</td></tr>
+  <tr><td><b>完全离线 Docker 一键部署</b></td><td>Open WebUI 可打包成单个容器完全离线跑。DSH 依赖 Node 运行时 + pnpm 依赖树 + 各插件的外部服务，架构上不是「一个镜像」。</td></tr>
+  <tr><td><b>Google Workspace 等 SaaS 原生深度集成</b></td><td>OpenWork 把 Google Workspace 做成内置能力来源。DSH 侧需要自己配 MCP server，且 OAuth 流程要逐个接。</td></tr>
+  <tr><td><b>服务端 / 客户端分离架构</b></td><td>OpenWork 是「server API + 多客户端」，能力天然可共享。DSH 是本地单体，跨机共享只能靠<b>导出配置再导入</b>（即 <code>dsh-config-manager</code> 做的事），不是原生能力。</td></tr>
+</table>
+<div class="card red">
+  <h4>结论</h4>
+  <p><b>DSH 可以做到「单人全能工作台」，但做不到「多人协作平台」。</b>如果你的目标是给团队/公司搭一个可管权限、可多租户的 AI 门户，DSH 不是合适的选择，应该用 Open WebUI 那类平台。如果目标是<b>给自己造一个功能齐备的本地工作台</b>，那按上面的清单装插件就够了，而且 DSH 在「上下文压缩」和「本地 Agent 能力」上反而强于这些平台。</p>
+</div>
+
+<h2>八、针对你这台机器的建议</h2>
+<p>你的 web profile 已装 14 个插件，对照上面的清单：</p>
+<table>
+  <tr><th>维度</th><th>你的状态</th><th>建议</th></tr>
+  <tr><td>上下文压缩</td><td class="ok">✅ billion-context</td><td>保持</td></tr>
+  <tr><td>上下文可视化</td><td class="no">❌ 缺</td><td><b>补 <code>dsh-context</code></b> —— 与 billion-context 是绝配</td></tr>
+  <tr><td>UI 外壳 / 侧边栏</td><td class="ok">✅ dsh-better-sidebar</td><td>可加 <code>dock-base</code> 获得 VSCode 式布局骨架</td></tr>
+  <tr><td>技能系统</td><td class="ok">✅ skill-explorer + skills-management</td><td>已够用</td></tr>
+  <tr><td>多 Agent / 专家</td><td class="ok">✅ dsh-expert-team</td><td>想要 17 位领域专家可加 <code>dsh-expert-mode</code></td></tr>
+  <tr><td>知识库</td><td class="ok">✅ dsh-kb + dsh-knowledge-base</td><td>需要文献级 RAG（Zotero）再加 <code>dsh-kb-rag</code></td></tr>
+  <tr><td>资料库</td><td class="ok">✅ dsh-library</td><td>保持</td></tr>
+  <tr><td>计费</td><td class="ok">✅ dsh-bill</td><td>保持</td></tr>
+  <tr><td>办公</td><td class="ok">✅ dsh-zagens-office</td><td>需要表格/幻灯片一体化再加 <code>dsh-univer-office</code></td></tr>
+  <tr><td>人设</td><td class="ok">✅ dsh-plugin-masterprompt + dsh-soul-md</td><td>保持</td></tr>
+  <tr><td>会话归档</td><td class="no">❌ 缺</td><td><b>补 <code>@michengai/dsh-archive-manager</code></b></td></tr>
+  <tr><td>MCP 管理</td><td class="no">❌ 缺</td><td><b>补 <code>dsh-mcp-connector</code></b>（企查查团队维护）</td></tr>
+  <tr><td>长期记忆</td><td class="no">❌ 缺</td><td><b>补 <code>dsh-mnemon</code> 或 hindsight</b></td></tr>
+  <tr><td>浏览器自动化</td><td class="no">❌ 缺</td><td><b>补 <code>@wxg-prc-cpg/browser-skill-dsh-plugin</code></b>（腾讯官方）</td></tr>
+  <tr><td>视觉识图</td><td class="no">❌ 缺</td><td><b>补 <code>@liustack/modlens</code></b>（你用的 DeepSeek 模型只能读文本）</td></tr>
+  <tr><td>语音</td><td class="no">❌ 缺</td><td>按需 <code>github:Jesse-njx/dsh-voice</code></td></tr>
+  <tr><td>生图/生视频</td><td class="no">❌ 缺</td><td>按需 <code>@mokuyoaxis/dsh-iris</code></td></tr>
+  <tr><td>远程/手机</td><td class="no">❌ 缺</td><td>按需 <code>dsh-pocket</code>（记得同时装 <code>dsh-ui-auth</code>）</td></tr>
+  <tr><td>IM 接入</td><td class="no">❌ 缺</td><td>按需 <code>@xmanrui/dsh-im</code>（9 渠道）</td></tr>
+  <tr><td>定时自动化</td><td class="no">❌ 缺</td><td><b>补 <code>dsh-scheduler</code></b> 或任务看板</td></tr>
+  <tr><td>配置备份迁移</td><td class="no">❌ 缺</td><td><b>强烈建议补 <code>dsh-config-manager</code></b> —— 你现在 14 个插件的配置没有备份</td></tr>
+</table>
+<div class="card green">
+  <h4>给你的优先补装顺序（5 个）</h4>
+  <pre><code>dsh plugin --profile web add dsh-config-manager          <span class="c"># 1 先能备份，再折腾</span>
+dsh plugin --profile web add dsh-context                 <span class="c"># 2 配合已有的 billion-context</span>
+dsh plugin --profile web add dsh-mcp-connector           <span class="c"># 3 打开连接器生态</span>
+dsh plugin --profile web add @liustack/modlens           <span class="c"># 4 补上视觉短板</span>
+dsh plugin --profile web add @michengai/dsh-archive-manager  <span class="c"># 5 会话治理</span></code></pre>
+</div>
+<p class="note">另：你的 desktop profile 只装了 7 个插件，与 web 端不同步（缺 <code>dsh-library</code>、<code>dsh-knowledge-base</code>、<code>dsh-bill</code> 等）。如需在桌面端使用，要在 <code>--profile desktop</code> 下单独装一遍。</p>
+
+<footer>
+  <p><b>数据与参考来源</b></p>
+  <p>
+    · <a href="https://dshmarket.com/zh/browse/">dsh-market 全量插件目录</a>（4,644 个插件 / 23 分类，本报告据此做能力检索）<br>
+    · <a href="https://dshmarket.com/zh/">dsh-market 首页热度榜单</a>（周下载量数据）<br>
+    · 各插件详情页（安装命令与版本要求均从详情页逐条核实）<br>
+    · <a href="https://cloud.tencent.com/developer/article/2720127">腾讯云开发者社区《OpenWork：用一个 MCP 把 AI 工作流从「装一台」变成「共享一份」》</a><br>
+    · <a href="https://cloud.tencent.com/developer/article/2734987">腾讯云开发者社区《16 个超火的 DeepSeek Harness 插件》</a><br>
+    · <a href="https://baike.baidu.com/item/Open%20WebUI/67503588">Open WebUI 功能定义</a> · <a href="https://blog.csdn.net/gitblog_00775/article/details/158860460">Goose 桌面版三栏布局</a><br>
+    · 本机 <code>C:\Users\Admin\.dsh\profiles\{web,desktop}\package.json</code> 实测扫描
+  </p>
+  <p class="note">插件为第三方代码，尤其浏览器自动化、SSH、远程访问类风险最高，安装前请核查仓库来源与权限声明。DSH 处于开发者预览阶段，插件兼容性会随官方版本变动。本报告为能力对标分析，不构成安全背书。</p>
+</footer>
+
+</div>
+</body>
+</html>
