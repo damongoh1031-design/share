@@ -4,7 +4,7 @@ title: Hermes Agent 设置技巧汇总(官方最佳实践 + Reddit 社区实证 
 tags: [hermes-agent, nousresearch, ai-agent, settings, reddit, cli, memory, skills, mcp, cron]
 created: 2026-10-14
 updated: 2026-10-14
-version: 4
+version: 5
 status: active
 source: 官方文档 hermes-agent.nousresearch.com + Reddit 社区(r/openclaw、r/better_claw、r/hermesagent、r/LocalLLaMA、r/AI_Agents,经 cnblogs/百家号转引)+ 中文实战社区 + 本机安装实测(2026-10-14)
 confidence: high(官方文档、本机实测已核实;Reddit 观点为社区转引,个别数字未能独立复核)
@@ -312,7 +312,36 @@ skill 是 SKILL.md 声明触发条件(何时用/何时不用),agent 自动选择
 - 多 profile 分工:研究 profile(排队列长任务+cron 晨报)+ 日常 profile,或单 profile 用 `/personality` 切研究模式。
 - 长研究用 cron + 主频道投递:每天定时跑 arXiv 新论文摘要/竞品监控,结果发 Telegram/飞书。
 
-## 18. 未核实项(v1 原有,续 v2/v3/v4)
+## 19. 知识库方案专章(v5 补充,2026-10-14 官方文档+本机 CLI/skill 实测)
+
+### 19.1 需求 → 方案矩阵
+
+| 需求 | 官方方案 | 社区方案 |
+|---|---|---|
+| 管理 md/pdf 文件 | **llm-wiki skill**(本机已装,v2.1.0):三层结构 raw/(papers/PDF 不可变源)→ entities/concepts/comparisons/queries(agent 维护的互链 md)→ SCHEMA.md;`WIKI_PATH` 环境变量(默认 `~/wiki`);纯 markdir 无数据库,Obsidian/VS Code 直接开 | Obsidian skill(note-taking/obsidian,本机已装):`OBSIDIAN_VAULT_PATH` 配好后全文搜索+新建+**自动双向链接**,读写文件与 Obsidian app 无关 |
+| 嵌入/语义召回 | **外部记忆提供商**:`hermes memory setup`(bundled: honcho/openviking/mem0/holographic/retaindb/byterover;catalog 如 hindsight/supermemory;仅一个可激活;与内置 MEMORY.md/USER.md 并行)——带语义搜索、知识图谱、自动事实提取 | pdf 解析走 `auxiliary.vision`(Gemini Flash 类多模态);自建向量库走 MCP(community:Qdrant/Chroma/Milvus) |
+| 召回 | 三层:①MEMORY.md/USER.md 冻结快照(即时)②`session_search` FTS5 全文(约 20ms,含历史会话)③外部 provider 语义召回;llm-wiki `index.md` 查询 | rag.hybrid_search 混合检索(第三方 skill,见 19.3 纠偏) |
+| 去重 | 内置记忆**重复防护**(自动拒绝完全重复条目);memory 工具 replace/整合;llm-wiki raw 层不可变+log 追加制 | rag import `--upsert` 增量更新(第三方) |
+| 重排 | ⚠ 原生无 rerank;provider 自带相关性排序 | rag.enable_rerank(第三方 skill) |
+
+### 19.2 官方核心:llm-wiki(RAG-alternative)
+
+skill 原版思路:传统 RAG 每次查询从零重新发现知识,llm-wiki **编译一次、持续保鲜**,交叉引用预先建好、矛盾预先标记。分工:人类策展源+指导分析,agent 做总结/交叉引用/归档/维护一致性。文件树:SCHEMA.md / index.md / log.md / raw/(articles,papers,transcripts,assets) / entities+concepts+comparisons+queries。接入 arXiv/PDF 归 raw/papers/,查询结果归档 queries/。
+
+### 19.3 ⚠ 实测纠偏(2026-10-14,本机 v2026.9.24)
+
+- **`hermes rag` 子命令不存在**(`hermes: 'rag' is not a command`);`hermes knowledge` 也不存在;config.yaml 无 `rag.*` 配置节。⇒ 社区热传的 "hermes-rag skill + hermes rag create/import/status + rag.embedding_model/enable_rerank/hybrid_search"(CSDN 2026-04 文)与 PHP 文(2026-05)里的 `hermes knowledge init/compile`**均无法在本机版本复现**,判定为旧版或第三方 skill,引用需谨慎,列入未核实。
+- **`hermes memory --help` 实测**:bundled providers = honcho, openviking, mem0, holographic, retaindb, byterover;"Only one external provider can be active at a time";Built-in memory always active。官方文档称 8 家(bundled 6 + catalog)。
+- 本机已装:`research/llm-wiki`(v2.1.0)、`note-taking/obsidian`、`research/arxiv`、`grounded-citations`、`competitor-news-monitor`。
+
+### 19.4 推荐落地路线(三步,零外部依赖起步)
+
+1. **第一步(今天就能做)**:配 Obsidian——对话里说“把 OBSIDIAN_VAULT_PATH 设成 <vault路径> 写进 .env”,重启会话;PDF/md 归档由 arxiv/pdf skill 摄入。
+2. **第二步**:`WIKI_PATH` 指向 wiki 目录,启用 llm-wiki,喂第一批 PDF/文章进 raw/,让它建 index/entities;配 cron 每周 lint + 归档本周会话精华。
+3. **第三步(需要语义召回时)**:`hermes memory setup` 选 mem0(或 supermemory),与内置记忆并行;大库再考虑 MCP 接 Qdrant(需自建)。
+4. **效果组合拳**:wiki 管结构化知识、MEMORY.md 管高频事实、session_search 管历史回溯、provider 管模糊语义召回,四层互补,不重复建设。
+
+## 20. 未核实项(v1 原有,续 v2/v3/v4/v5)
 
 - Reddit 具体帖子链接未能直接抓取(reddit.com 与 redlib 镜像均被网络策略拦截),社区引述经 cnblogs/百家号 2026-05-08 汇总转引,原帖用户名/票数以该汇总为准。
 - "Reddit 7 月汇总 276 用例"来自知乎文章(含明显营销内容),仅作背景参考,未逐条核实。
