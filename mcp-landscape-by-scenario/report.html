@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 最常用 MCP Server 分场景调研</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bg4:#21262d;
+  --border:#30363d; --border2:#3d444d;
+  --text:#e6edf3; --muted:#8b949e; --dim:#6e7681;
+  --accent:#58a6ff;
+  --s1:#58a6ff; --s2:#3fb950; --s3:#e3b341; --s4:#a371f7; --s5:#2dd4bf;
+  --danger:#ff6b5e; --warn:#e3b341; --ok:#3fb950;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.85em;background:var(--bg4);padding:2px 6px;border-radius:4px;color:#79c0ff}
+pre{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:12px 0}
+pre code{background:none;padding:0;color:#c9d1d9;font-size:13px;line-height:1.65}
+
+.layout{display:flex;max-width:1520px;margin:0 auto}
+nav{width:236px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:26px 14px;border-right:1px solid var(--border)}
+nav .brand{font-size:13px;font-weight:700;margin-bottom:4px;letter-spacing:.3px}
+nav .brand small{display:block;font-weight:400;color:var(--dim);font-size:11px;margin-top:3px;letter-spacing:0}
+nav a{display:block;padding:7px 11px;border-radius:6px;color:var(--muted);font-size:13px;margin-bottom:2px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{background:var(--bg3);color:var(--text);text-decoration:none}
+nav a.active{background:var(--bg3);color:var(--accent);border-left-color:var(--accent)}
+main{flex:1;min-width:0;padding:0 32px 100px}
+
+header.hero{padding:50px 0 32px;border-bottom:1px solid var(--border);margin-bottom:34px}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:-.4px;line-height:1.3;margin-bottom:12px}
+.hero .sub{color:var(--muted);font-size:14.5px;max-width:860px}
+.hero .snap{color:var(--dim);font-size:12.5px;font-family:var(--mono);margin-top:14px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin-top:26px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:15px 16px}
+.stat .n{font-size:23px;font-weight:700;font-family:var(--mono);letter-spacing:-.5px;line-height:1.2}
+.stat .l{font-size:11.5px;color:var(--muted);margin-top:5px}
+.stat.a .n{color:var(--ok)} .stat.b .n{color:var(--danger)}
+.stat.c .n{color:var(--accent)} .stat.d .n{color:var(--s3)}
+
+section{margin-bottom:52px;scroll-margin-top:20px}
+h2{font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:-.2px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h2 .idx{font-family:var(--mono);font-size:12px;color:var(--accent);background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.3);padding:2px 8px;border-radius:5px;font-weight:600}
+h3{font-size:16px;font-weight:650;margin:24px 0 11px}
+p{color:#c9d1d9;margin-bottom:12px}
+.lead{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:920px}
+ul,ol{margin:0 0 14px 22px;color:#c9d1d9}
+li{margin-bottom:6px}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:17px 19px;margin-bottom:13px}
+.card.hl{border-left:3px solid var(--accent)}
+.card.warn{border-left:3px solid var(--warn);background:rgba(227,179,65,.05)}
+.card.danger{border-left:3px solid var(--danger);background:rgba(255,107,94,.05)}
+.card.ok{border-left:3px solid var(--ok);background:rgba(63,185,80,.05)}
+.card .ct{font-weight:650;font-size:14px;margin-bottom:7px}
+.card p:last-child{margin-bottom:0}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;padding:9px 11px;background:var(--bg3);color:var(--muted);font-weight:600;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 11px;border-bottom:1px solid var(--border);color:#c9d1d9;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--bg3)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin:14px 0}
+.tbl-wrap table{margin:0}
+.tbl-wrap th:first-child,.tbl-wrap td:first-child{padding-left:15px}
+.tbl-wrap th:last-child,.tbl-wrap td:last-child{padding-right:15px}
+.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.rk{font-family:var(--mono);color:var(--dim);font-size:12px}
+
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;font-family:var(--mono);letter-spacing:.2px;white-space:nowrap}
+.t-ok{background:rgba(63,185,80,.15);color:#56d364;border:1px solid rgba(63,185,80,.35)}
+.t-warn{background:rgba(227,179,65,.15);color:#e3b341;border:1px solid rgba(227,179,65,.35)}
+.t-bad{background:rgba(255,107,94,.15);color:#ff7b72;border:1px solid rgba(255,107,94,.35)}
+.t-info{background:rgba(88,166,255,.15);color:#79c0ff;border:1px solid rgba(88,166,255,.35)}
+.t-mut{background:var(--bg4);color:var(--muted);border:1px solid var(--border2)}
+.t-off{background:rgba(163,113,247,.15);color:#c4a5ff;border:1px solid rgba(163,113,247,.35)}
+
+/* tabs */
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0 20px}
+.tab{padding:9px 15px;border-radius:8px;background:var(--bg2);border:1px solid var(--border);color:var(--muted);font-size:13.5px;cursor:pointer;font-weight:600;transition:.15s;user-select:none}
+.tab:hover{background:var(--bg3);color:var(--text)}
+.tab.on{color:#0d1117;border-color:transparent}
+.tab.on[data-sc="0"]{background:var(--s1)} .tab.on[data-sc="1"]{background:var(--s2)}
+.tab.on[data-sc="2"]{background:var(--s3)} .tab.on[data-sc="3"]{background:var(--s4)}
+.tab.on[data-sc="4"]{background:var(--s5)}
+.panel{display:none}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+.must{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px;align-items:center}
+.must .lb{font-size:12px;color:var(--dim);font-family:var(--mono);margin-right:2px}
+.chip{background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:6px 11px;font-size:12.5px;font-family:var(--mono);color:#c9d1d9}
+.chip b{color:var(--text)}
+
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.mini{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:14px 15px}
+.mini .mh{font-weight:650;font-size:13.5px;margin-bottom:5px}
+.mini .md{color:var(--muted);font-size:12.5px;line-height:1.6}
+
+.bars{margin:16px 0}
+.bar-row{margin-bottom:12px}
+.bar-lbl{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
+.bar-lbl .nm{color:#c9d1d9} .bar-lbl .vl{font-family:var(--mono);color:var(--muted)}
+.bar-tr{height:9px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.bar-fl{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+
+.callout{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:8px;padding:13px 16px;margin:14px 0;font-size:13.5px;color:#c9d1d9}
+.callout strong{color:var(--text)}
+.src{font-size:11.5px;color:var(--dim);font-family:var(--mono)}
+footer{border-top:1px solid var(--border);padding:26px 0;color:var(--dim);font-size:12.5px;margin-top:40px}
+@media(max-width:900px){
+  nav{display:none} main{padding:0 16px 70px}
+  header.hero{padding:30px 0 22px} .hero h1{font-size:22px}
+  .tab{padding:8px 11px;font-size:12.5px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">最常用 MCP 分场景<small>2026-10-14 · GitHub API 实测</small></div>
+  <a href="#s0" class="active">〇 结论速览</a>
+  <a href="#s1">一 五个场景</a>
+  <a href="#s2">二 陷阱黑名单</a>
+  <a href="#s3">三 横向对比</a>
+  <a href="#s4">四 本机对照</a>
+  <a href="#s5">五 数据可信度</a>
+</nav>
+<main>
+
+<header class="hero">
+  <h1>2026 最常用 MCP Server 分场景调研</h1>
+  <p class="sub">按 <strong>编程开发 · 办公协作 · 网页浏览 · 深度研究 · 日常作业</strong> 五个场景分别调研——每个场景给出首选清单、必装最小集与专属的坑。</p>
+  <p class="snap">数据快照 2026-10-14 · <strong>GitHub REST API 一手核验 87 个仓库</strong>（star / 许可证 / 最后提交 / 归档状态全部为实测值）<br>+ 官方仓库 README、官方 Registry、PulseMCP、Glama 目录、5 路并行研究子代理</p>
+  <div class="stats">
+    <div class="stat a"><div class="n">87</div><div class="l">一手核验仓库数</div></div>
+    <div class="stat b"><div class="n">5</div><div class="l">已归档（archived）</div></div>
+    <div class="stat d"><div class="n">6</div><div class="l">高星但停更 &gt;9 个月</div></div>
+    <div class="stat c"><div class="n">7</div><div class="l">官方参考服务器仅剩</div></div>
+    <div class="stat a"><div class="n">190k</div><div class="l">最高星仓库（markitdown）</div></div>
+    <div class="stat d"><div class="n">5</div><div class="l">调研场景</div></div>
+  </div>
+</header>
+
+<!-- ============ 0 ============ -->
+<section id="s0">
+  <h2><span class="idx">〇</span>结论速览</h2>
+  <p class="lead">六个最重要的判断，每一条后面都有展开。</p>
+
+  <div class="card hl">
+    <div class="ct">① 星数最高的"MCP 仓库"其实不是 MCP Server</div>
+    <p><code>microsoft/markitdown</code> 有 <strong>190,122★</strong>——但它是"任意文档 → Markdown"的<strong>转换库本体</strong>，MCP 服务只是随包捆绑。同理 <code>microsoft/playwright</code>（<strong>97,679★</strong>）是浏览器库，MCP 在 <code>playwright-mcp</code>（<strong>38,117★</strong>）。<strong>引用星数时必须区分"库本体"与"MCP 服务"</strong>——这是本次调研发现的最普遍误引。</p>
+  </div>
+
+  <div class="card danger">
+    <div class="ct">② 官方参考服务器只剩 7 个还活着</div>
+    <p><code>modelcontextprotocol/servers</code>（91,238★）里，<strong>GitHub / Google Drive / Google Maps / Slack / Puppeteer / Postgres / SQLite / Brave Search / Sentry / GitLab / EverArt 全部已归档</strong>，移入 <code>servers-archived</code>。现在活跃的只有：<strong>Filesystem · Memory · Sequential Thinking · Time · Fetch · Git · Everything</strong>。</p>
+  </div>
+
+  <div class="card danger">
+    <div class="ct">③ 有 5 个"热门"仓库已归档（archived）</div>
+    <p><code>browserbase/mcp-server-browserbase</code>（3,401★）· <code>supermemoryai/apple-mcp</code>（3,123★）· <code>semgrep/mcp</code>（687★）· <code>e2b-dev/mcp-server</code>（393★）· <code>oxylabs/oxylabs-mcp</code>（104★）。<strong>按老教程装这些会装到一个死项目。</strong></p>
+  </div>
+
+  <div class="card warn">
+    <div class="ct">④ 高星但已停更的陷阱</div>
+    <p><code>BrowserMCP/mcp</code> 有 <strong>7,182★</strong> 却停更 <strong>18 个月</strong>；飞书官方 <code>larksuite/lark-openapi-mcp</code> 停更 <strong>14 个月</strong>；<code>JetBrains/mcp-jetbrains</code> 停更 9 个月；<code>jerhadf/linear-mcp-server</code> 停更 17 个月（Linear 官方明确说<strong>不要用</strong>）。</p>
+  </div>
+
+  <div class="card hl">
+    <div class="ct">⑤ 办公场景的胜负手不是星数，而是"厂商官方 + 远程 OAuth"</div>
+    <p>办公类 MCP 的 star 普遍只有几千（Notion 4,666★），但价值在<strong>免本地安装、OAuth 授权、企业级权限</strong>。Notion、Atlassian、Slack、Linear、Google、Microsoft、飞书、钉钉走的都是 <strong>Streamable HTTP + OAuth 托管路线</strong>。<strong>不要用 star 数给办公类排序。</strong></p>
+  </div>
+
+  <div class="card warn">
+    <div class="ct">⑥ 星数只是"关注度"，不是"使用量"</div>
+    <p>真正反映使用量的 npm/PyPI 下载量本次<strong>未取得</strong>。本报告的"最常用"判断建立在 <strong>star 数 + 官方目录收录 + 厂商文档推荐</strong> 三个代理指标上。另注意：各家 MCP 目录站的服务器总数互相矛盾（官方 Registry 约 3 万 / Glama 约 6.6 万 / mcptoplist 称 13.5 万），<strong>不要引用任何单一总数</strong>。</p>
+  </div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+  <h2><span class="idx">一</span>五个场景分别调研</h2>
+  <p class="lead">点击下方标签切换场景。所有 Star 数与"最后更新"均为 <strong>2026-10-14 GitHub API 实测值</strong>，非估算。</p>
+
+  <div class="tabs">
+    <div class="tab on" data-sc="0">① 编程开发</div>
+    <div class="tab" data-sc="1">② 办公协作</div>
+    <div class="tab" data-sc="2">③ 网页浏览</div>
+    <div class="tab" data-sc="3">④ 深度研究</div>
+    <div class="tab" data-sc="4">⑤ 日常作业</div>
+  </div>
+
+  <!-- 场景 1 -->
+  <div class="panel on" data-p="0">
+    <div class="must">
+      <span class="lb">必装最小集 →</span>
+      <span class="chip"><b>github-mcp-server</b> 33.6k</span>
+      <span class="chip"><b>context7</b> 63.0k</span>
+      <span class="chip"><b>playwright-mcp</b> 38.1k</span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>名称</th><th class="num">Star</th><th>维护方</th><th>许可证</th><th>最后更新</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td><b>Context7</b></td><td class="num">63,010</td><td><span class="tag t-ok">✅ Upstash</span></td><td>MIT</td><td>2026-10-13</td><td>注入<strong>版本正确的库文档</strong>，治 API 幻觉</td></tr>
+        <tr><td><b>Chrome DevTools MCP</b></td><td class="num">53,500</td><td><span class="tag t-ok">✅ Google</span></td><td>Apache-2.0</td><td>2026-10-14</td><td>驱动真实 Chrome：性能追踪 / 网络 / 控制台</td></tr>
+        <tr><td><b>Playwright MCP</b></td><td class="num">38,117</td><td><span class="tag t-ok">✅ Microsoft</span></td><td>Apache-2.0</td><td>2026-10-08</td><td><strong>无障碍树</strong>驱动，不依赖视觉模型，确定性高</td></tr>
+        <tr><td><b>GitHub MCP Server</b></td><td class="num">33,600</td><td><span class="tag t-ok">✅ GitHub</span></td><td>MIT</td><td>2026-10-13</td><td>仓库 / PR / Issue / Actions / 代码搜索全 API</td></tr>
+        <tr><td><b>Serena</b></td><td class="num">30,250</td><td><span class="tag t-mut">社区</span></td><td>NOASSERTION</td><td>2026-10-13</td><td>LSP 语义级跨文件符号检索与改写</td></tr>
+        <tr><td><b>Apify MCP</b></td><td class="num">11,109</td><td><span class="tag t-ok">✅ Apify</span></td><td>MIT</td><td>2026-10-14</td><td>把 6,000+ 现成爬虫当工具调用</td></tr>
+        <tr><td><b>Desktop Commander</b></td><td class="num">10,046</td><td><span class="tag t-mut">社区</span></td><td>MIT</td><td>2026-10-14</td><td>终端 + 文件 + diff 编辑（⚠️ 权限极大）</td></tr>
+        <tr><td><b>AWS MCP Servers</b></td><td class="num">9,777</td><td><span class="tag t-ok">✅ AWS Labs</span></td><td>Apache-2.0</td><td>2026-10-14</td><td>AWS API / CDK / Cost / Bedrock 全家桶</td></tr>
+        <tr><td><b>git-mcp</b></td><td class="num">8,463</td><td><span class="tag t-mut">社区</span></td><td>Apache-2.0</td><td>2026-05-08</td><td>"和任意仓库文档对话"</td></tr>
+        <tr><td><b>mcp-atlassian</b></td><td class="num">6,000</td><td><span class="tag t-mut">社区</span></td><td>MIT</td><td>2026-09-19</td><td>Jira / Confluence 的本地 stdio 方案</td></tr>
+        <tr><td><b>Cloudflare MCP</b></td><td class="num">4,378</td><td><span class="tag t-ok">✅ Cloudflare</span></td><td>Apache-2.0</td><td>2026-10-09</td><td>Workers / KV / R2 / D1 / DNS</td></tr>
+        <tr><td><b>Azure MCP</b></td><td class="num">3,772</td><td><span class="tag t-ok">✅ Microsoft</span></td><td>MIT</td><td>2026-10-14</td><td>Azure 资源管理（原 <code>microsoft/mcp</code>）</td></tr>
+        <tr><td><b>Grafana MCP</b></td><td class="num">3,559</td><td><span class="tag t-ok">✅ Grafana Labs</span></td><td>Apache-2.0</td><td>2026-10-13</td><td>Prometheus / Loki 查询 + 仪表盘</td></tr>
+        <tr><td><b>postgres-mcp（Pro）</b></td><td class="num">3,396</td><td><span class="tag t-mut">社区</span></td><td>MIT</td><td>2026-08-17</td><td>Postgres + 索引 / 健康度调优</td></tr>
+        <tr><td><b>Supabase MCP</b></td><td class="num">2,950</td><td><span class="tag t-ok">✅ Supabase</span></td><td>Apache-2.0</td><td>2026-10-14</td><td>项目 / SQL / 分支 / 边缘函数</td></tr>
+        <tr><td><b>GitLab MCP</b></td><td class="num">2,037</td><td><span class="tag t-mut">社区</span></td><td>MIT</td><td>2026-10-13</td><td>GitLab Issue / MR / 流水线</td></tr>
+        <tr><td><b>Kubernetes MCP</b></td><td class="num">1,596</td><td><span class="tag t-mut">社区</span></td><td>MIT</td><td>2026-10-02</td><td>kubectl 式集群操作</td></tr>
+        <tr><td><b>Terraform MCP</b></td><td class="num">1,549</td><td><span class="tag t-ok">✅ HashiCorp</span></td><td>MPL-2.0</td><td>2026-10-13</td><td>Registry / Provider / Module 查询</td></tr>
+        <tr><td><b>MongoDB MCP</b></td><td class="num">1,143</td><td><span class="tag t-ok">✅ MongoDB</span></td><td>Apache-2.0</td><td>2026-10-13</td><td>查询 / 聚合 / 索引 / Atlas</td></tr>
+        <tr><td><b>Sentry Toolkit</b></td><td class="num">928</td><td><span class="tag t-ok">✅ Sentry</span></td><td>NOASSERTION</td><td>2026-10-14</td><td>错误分诊 + Seer AI 修复（<strong>原 sentry-mcp 已改名</strong>）</td></tr>
+        <tr><td><b>ClickHouse MCP</b></td><td class="num">887</td><td><span class="tag t-ok">✅ ClickHouse</span></td><td>Apache-2.0</td><td>2026-10-06</td><td>OLAP 分析查询</td></tr>
+        <tr><td><b>Elasticsearch MCP</b></td><td class="num">718</td><td><span class="tag t-ok">✅ Elastic</span></td><td>Apache-2.0</td><td>2026-10-12</td><td>索引检索与映射</td></tr>
+        <tr><td><b>Neon MCP</b></td><td class="num">651</td><td><span class="tag t-ok">✅ Neon</span></td><td>MIT</td><td>2026-10-14</td><td>Serverless Postgres 分支</td></tr>
+        <tr><td><b>Redis MCP</b></td><td class="num">634</td><td><span class="tag t-ok">✅ Redis</span></td><td>MIT</td><td>2026-10-13</td><td>数据操作 + Redis Cloud</td></tr>
+        <tr><td><b>Snowflake MCP</b></td><td class="num">299</td><td><span class="tag t-ok">✅ Snowflake Labs</span></td><td>Apache-2.0</td><td>2026-05-15</td><td>企业数仓查询</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">基线：<code>modelcontextprotocol/servers</code>（91,238★）中的 Filesystem / Memory / Sequential Thinking / Git / Fetch。</p>
+
+    <h3>本场景的坑</h3>
+    <div class="grid g2">
+      <div class="mini"><div class="mh">🗄️ <span class="tag t-bad">已归档</span></div><div class="md"><code>semgrep/mcp</code>（687★）· <code>e2b-dev/mcp-server</code>（393★）——别按老教程装</div></div>
+      <div class="mini"><div class="mh">⏸️ <span class="tag t-warn">停更 9 个月</span></div><div class="md"><code>JetBrains/mcp-jetbrains</code>（962★，最后提交 2026-01-07）</div></div>
+      <div class="mini"><div class="mh">🗑️ Postgres / SQLite 官方版已归档</div><div class="md">应改用 <code>crystaldba/postgres-mcp</code> 或各家云厂商官方版</div></div>
+      <div class="mini"><div class="mh">⚠️ 风险最高的一类</div><div class="md">Desktop Commander（完整 shell 权限）、数据库类（SQL 注入 / 越权）、PAT 类（令牌作用域过宽）。<strong>远程 OAuth 比长效 PAT 更安全</strong></div></div>
+    </div>
+  </div>
+
+  <!-- 场景 2 -->
+  <div class="panel" data-p="1">
+    <div class="must">
+      <span class="lb">必装最小集 →</span>
+      <span class="chip"><b>mcp.notion.com</b> 官方托管</span>
+      <span class="chip"><b>atlassian-mcp-server</b> 1.1k</span>
+      <span class="chip"><b>markitdown</b> 190k</span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>名称</th><th class="num">Star</th><th>维护方</th><th>传输</th><th>认证</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td><b>MarkItDown</b></td><td class="num">190,122</td><td><span class="tag t-ok">✅ Microsoft</span></td><td>stdio（捆绑）</td><td>无</td><td><strong>PDF/PPTX/DOCX/XLSX/图片/音频 → Markdown</strong>，办公文档摄入事实标准</td></tr>
+        <tr><td><b>Composio</b></td><td class="num">30,541</td><td><span class="tag t-mut">第三方</span></td><td>托管</td><td>OAuth</td><td>多工具聚合，宣称 7,500+ 预置连接器</td></tr>
+        <tr><td><b>n8n-MCP</b></td><td class="num">23,064</td><td><span class="tag t-mut">社区</span></td><td>stdio</td><td>无</td><td>把 n8n 自动化工作流接给 Agent</td></tr>
+        <tr><td><b>Notion MCP</b></td><td class="num">4,666</td><td><span class="tag t-ok">✅ Notion</span></td><td><strong>远程 HTTP</strong></td><td><strong>OAuth</strong></td><td>官方托管，<strong>无需本地安装</strong>；搜索/读写页面与数据库</td></tr>
+        <tr><td><b>Atlassian Rovo MCP</b></td><td class="num">1,092</td><td><span class="tag t-ok">✅ Atlassian</span></td><td><strong>远程 HTTP</strong></td><td><strong>OAuth 2.1</strong></td><td>一套覆盖 <strong>Jira + Confluence + JSM + Bitbucket + Compass</strong></td></tr>
+        <tr><td><b>飞书 Lark OpenAPI MCP</b></td><td class="num">836</td><td><span class="tag t-ok">✅ 飞书</span></td><td>stdio / streamable</td><td>App ID + Secret</td><td><span class="tag t-warn">⚠️ 最后更新 2025-08-14，停更 14 个月</span></td></tr>
+        <tr><td><b>jerhadf/linear-mcp-server</b></td><td class="num">346</td><td><span class="tag t-mut">社区</span></td><td>stdio</td><td>API Key</td><td><span class="tag t-bad">⏸️ 停更 17 个月，Linear 官方说不要用</span></td></tr>
+        <tr><td><b>zencoderai/slack-mcp</b></td><td class="num">75</td><td><span class="tag t-mut">社区</span></td><td>stdio</td><td>Token</td><td>接管了已归档的官方 Slack 服务器</td></tr>
+        <tr><td><b>karbassi/slack-mcp</b></td><td class="num">3</td><td><span class="tag t-mut">社区</span></td><td>stdio</td><td>OAuth</td><td><span class="tag t-bad">几乎无人使用</span>（被一些文章误列为替代方案）</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>办公场景的三个结构性特征</h3>
+    <div class="grid g3">
+      <div class="mini"><div class="mh">① 官方走托管，社区走本地</div><div class="md">厂商官方 MCP（Notion / Atlassian / Slack / Linear / Google / Microsoft / 飞书 / 钉钉）普遍是 <code>https://mcp.xxx.com/mcp</code> + OAuth；社区方案是本地 stdio + API Key。<strong>选型优先官方。</strong></div></div>
+      <div class="mini"><div class="mh">② 中国与海外是两套体系</div><div class="md">飞书 <code>open.feishu.cn</code>（国内）与 <code>open.larksuite.com</code>（国际）<strong>区域锁定、应用互不通用</strong>；钉钉需企业内建应用 + 组织管理员；腾讯文档 / 语雀 / 石墨 / WPS 无强势官方 MCP</div></div>
+      <div class="mini"><div class="mh">③ 办公类 star 低 ≠ 不重要</div><div class="md">编程类 Context7 有 63,010★，办公类 Notion 只有 4,666★。办公 MCP 的价值在<strong>厂商信任 + 免安装</strong>，不在社区热度</div></div>
+    </div>
+
+    <div class="card warn">
+      <div class="ct">本场景最需要注意的一条</div>
+      <p style="margin-bottom:0"><strong>飞书官方 MCP 已停更 14 个月</strong>（2025-08-14）——官方仓库却处于停滞状态。中国办公场景目前缺乏活跃的一手方案。</p>
+    </div>
+  </div>
+
+  <!-- 场景 3 -->
+  <div class="panel" data-p="2">
+    <div class="must">
+      <span class="lb">必装最小集 →</span>
+      <span class="chip"><b>chrome-devtools-mcp</b> 53.5k</span>
+      <span class="chip"><b>firecrawl-mcp</b> 7.6k</span>
+      <span class="chip"><b>brave-search-mcp</b> 1.5k</span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>名称</th><th class="num">Star</th><th>维护方</th><th>技术路线</th><th>本地/云</th><th>认证</th></tr></thead>
+      <tbody>
+        <tr><td><b>browser-use</b></td><td class="num">117,918</td><td><span class="tag t-mut">开源社区</span></td><td>DOM + AI</td><td>本地</td><td>LLM Key</td></tr>
+        <tr><td><b>Chrome DevTools MCP</b></td><td class="num">53,500</td><td><span class="tag t-ok">✅ Google</span></td><td>CDP / Puppeteer</td><td>本地</td><td>无（⚠️ 默认开用量统计）</td></tr>
+        <tr><td><b>Playwright MCP</b></td><td class="num">38,117</td><td><span class="tag t-ok">✅ Microsoft</span></td><td><strong>无障碍树</strong></td><td>本地</td><td>无</td></tr>
+        <tr><td><b>Lightpanda</b></td><td class="num">36,456</td><td><span class="tag t-mut">开源</span></td><td>Zig 轻量浏览器</td><td>本地</td><td>无</td></tr>
+        <tr><td><b>Stagehand</b></td><td class="num">25,661</td><td><span class="tag t-mut">Browserbase</span></td><td>DOM + 自然语言</td><td>本地</td><td>LLM Key</td></tr>
+        <tr><td><b>Skyvern</b></td><td class="num">23,197</td><td><span class="tag t-mut">开源 AGPL</span></td><td>视觉 + LLM</td><td>本地/云</td><td>LLM Key</td></tr>
+        <tr><td><b>Apify MCP</b></td><td class="num">11,109</td><td><span class="tag t-ok">✅ Apify</span></td><td>6,000+ 现成爬虫</td><td>云</td><td>Token（含免费额度）</td></tr>
+        <tr><td><b>Steel Browser</b></td><td class="num">7,799</td><td><span class="tag t-mut">开源</span></td><td>开源云浏览器</td><td>自托管/云</td><td>无 / Key</td></tr>
+        <tr><td><b>Firecrawl MCP</b></td><td class="num">7,598</td><td><span class="tag t-ok">✅ Firecrawl</span></td><td>抓取/爬取/结构化抽取</td><td>云</td><td>Key（<strong>无 Key 也有受限免费模式</strong>）</td></tr>
+        <tr><td><b>Exa MCP</b></td><td class="num">5,126</td><td><span class="tag t-ok">✅ Exa</span></td><td>神经 / 语义搜索</td><td>云</td><td>匿名免费 / Key</td></tr>
+        <tr><td><b>Bright Data MCP</b></td><td class="num">2,674</td><td><span class="tag t-ok">✅ Bright Data</span></td><td>代理 + <strong>解验证码</strong></td><td>云</td><td>Token（付费）</td></tr>
+        <tr><td><b>Tavily MCP</b></td><td class="num">2,430</td><td><span class="tag t-ok">✅ Tavily</span></td><td>AI 优化搜索 + 抽取</td><td>云</td><td>Key（免费额度）</td></tr>
+        <tr><td><b>Notte</b></td><td class="num">2,034</td><td><span class="tag t-mut">开源</span></td><td>全栈 Web Agent</td><td>云</td><td>API Key</td></tr>
+        <tr><td><b>DuckDuckGo MCP</b></td><td class="num">1,534</td><td><span class="tag t-mut">社区</span></td><td>搜索（无 Key）</td><td>本地</td><td><strong>无</strong></td></tr>
+        <tr><td><b>Brave Search MCP</b></td><td class="num">1,497</td><td><span class="tag t-ok">✅ Brave</span></td><td>独立索引搜索</td><td>本地/HTTP</td><td>Key（<strong>免费 2,000 次/月</strong>）</td></tr>
+        <tr><td><b>SearXNG MCP</b></td><td class="num">1,302</td><td><span class="tag t-mut">社区</span></td><td>元搜索（自托管）</td><td>本地</td><td><strong>无</strong></td></tr>
+        <tr><td><b>Ref tools</b></td><td class="num">1,180</td><td><span class="tag t-ok">✅ Ref</span></td><td>文档精确引用</td><td>云</td><td>Key（有免费层）</td></tr>
+        <tr><td><b>Jina MCP</b></td><td class="num">880</td><td><span class="tag t-ok">✅ Jina AI</span></td><td>URL → Markdown</td><td>云</td><td><strong>无 Key 可用（限速）</strong></td></tr>
+        <tr><td><b>BrowserMCP/mcp</b></td><td class="num">7,182</td><td><span class="tag t-mut">社区</span></td><td>浏览器扩展</td><td>本地</td><td>无</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">最后一行 <code>BrowserMCP/mcp</code> 虽有 7,182★，但最后提交为 2025-04-24 —— 见「陷阱黑名单」。</p>
+
+    <h3>三条技术路线的分野</h3>
+    <div class="grid g3">
+      <div class="mini"><div class="mh">无障碍树（Accessibility Tree）</div><div class="md"><b>Playwright MCP</b><br>确定性高、无需视觉模型、快、便宜<br><span style="color:var(--warn)">漏掉 canvas / 无标签元素</span></div></div>
+      <div class="mini"><div class="mh">CDP / DOM</div><div class="md"><b>Chrome DevTools MCP</b><br>能拿性能追踪、网络、控制台<br><span style="color:var(--warn)">仅限 Chrome；默认上传用量数据</span></div></div>
+      <div class="mini"><div class="mh">视觉 + LLM</div><div class="md"><b>browser-use / Skyvern / Stagehand</b><br>能处理复杂视觉页面<br><span style="color:var(--warn)">慢、贵、不确定性强、需 LLM Key</span></div></div>
+    </div>
+
+    <h3>免费额度速查（选型关键）</h3>
+    <div class="grid g2">
+      <div class="mini"><div class="mh"><span class="tag t-ok">完全免费</span></div><div class="md">DuckDuckGo · SearXNG · Fetch · markitdown · Lightpanda（无需 Key）</div></div>
+      <div class="mini"><div class="mh"><span class="tag t-info">免费额度</span></div><div class="md">Brave 2,000 次/月 · Tavily 约 1,000 credits/月 · Firecrawl 无 Key 受限可用 / 约 500 credits · Exa 匿名免费 · Jina 约 20 RPM</div></div>
+      <div class="mini"><div class="mh"><span class="tag t-bad">付费为主</span></div><div class="md">Perplexity · Kagi · Bright Data · Oxylabs · ScrapingBee</div></div>
+      <div class="mini"><div class="mh">⚠️ 反爬是本地方案的硬伤</div><div class="md">本地浏览器 MCP <strong>都没有反爬能力</strong>——遇到 Cloudflare / DataDome / 验证码会被拦。需要反爬只能用 Bright Data（明确支持解验证码）、Browserbase、Steel、Firecrawl</div></div>
+    </div>
+  </div>
+
+  <!-- 场景 4 -->
+  <div class="panel" data-p="3">
+    <div class="must">
+      <span class="lb">必装最小集 →</span>
+      <span class="chip"><b>exa-mcp-server</b> 5.1k</span>
+      <span class="chip"><b>tavily-mcp</b> 2.4k</span>
+      <span class="chip"><b>zotero-mcp</b> 5.4k</span>
+      <span class="chip">官方 <b>memory</b> + <b>sequential-thinking</b></span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>名称</th><th class="num">Star</th><th>维护方</th><th>定位</th><th>免费额度</th></tr></thead>
+      <tbody>
+        <tr><td><b>Mem0</b></td><td class="num">67,154</td><td><span class="tag t-ok">✅ Mem0</span></td><td>事实抽取型记忆层</td><td>开源自托管免费</td></tr>
+        <tr><td><b>Graphiti（Zep）</b></td><td class="num">31,730</td><td><span class="tag t-ok">✅ Zep</span></td><td><strong>时序知识图谱记忆</strong></td><td>开源免费；云版付费</td></tr>
+        <tr><td><b>GPT-Researcher</b></td><td class="num">30,085</td><td><span class="tag t-mut">开源</span></td><td>深度研究 Agent（<strong>可被 MCP 驱动</strong>）</td><td>开源免费</td></tr>
+        <tr><td><b>Letta</b></td><td class="num">25,125</td><td><span class="tag t-ok">✅ Letta</span></td><td>OS 式分层记忆 Agent 框架</td><td>开源免费</td></tr>
+        <tr><td><b>Firecrawl MCP</b></td><td class="num">7,598</td><td><span class="tag t-ok">✅ Firecrawl</span></td><td>抓取 + 深度研究模式</td><td>无 Key 受限免费</td></tr>
+        <tr><td><b>Zotero MCP</b></td><td class="num">5,377</td><td><span class="tag t-mut">社区</span></td><td><strong>文献管理器集成（本类最关键）</strong></td><td>免费</td></tr>
+        <tr><td><b>Exa MCP</b></td><td class="num">5,126</td><td><span class="tag t-ok">✅ Exa</span></td><td>神经 / 语义搜索 + 多步 Agent</td><td>匿名免费；API 约 $10 试用</td></tr>
+        <tr><td><b>basic-memory</b></td><td class="num">4,169</td><td><span class="tag t-mut">社区</span></td><td>Markdown 本地知识图谱记忆</td><td>免费（AGPL-3.0）</td></tr>
+        <tr><td><b>arxiv-mcp-server</b></td><td class="num">3,216</td><td><span class="tag t-mut">社区</span></td><td>arXiv 检索/下载/全文 + BibTeX</td><td>免费（无 Key）</td></tr>
+        <tr><td><b>Perplexity Ask MCP</b></td><td class="num">2,564</td><td><span class="tag t-ok">✅ Perplexity</span></td><td>带引用答案合成 + 深度研究</td><td><span class="tag t-bad">基本无免费额度</span></td></tr>
+        <tr><td><b>Tavily MCP</b></td><td class="num">2,430</td><td><span class="tag t-ok">✅ Tavily</span></td><td>为 RAG 优化的搜索 + 抽取</td><td>约 1,000 credits/月</td></tr>
+        <tr><td><b>Ref tools</b></td><td class="num">1,180</td><td><span class="tag t-ok">✅ Ref</span></td><td>保证引用当前文档（防幻觉）</td><td>有免费层</td></tr>
+        <tr><td><b>Jina MCP</b></td><td class="num">880</td><td><span class="tag t-ok">✅ Jina AI</span></td><td>URL → Markdown（含 s.jina.ai）</td><td>无 Key 可用（限速）</td></tr>
+        <tr><td><b>semanticscholar-mcp</b></td><td class="num">7</td><td><span class="tag t-mut">社区</span></td><td>Semantic Scholar 检索</td><td>免费</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>本场景推荐栈</h3>
+    <pre><code>搜索层：  Exa（语义） + Tavily（答案就绪） + Brave（独立索引）
+抽取层：  Firecrawl（JS/PDF） + Jina（轻量）
+文献层：  arXiv + Semantic Scholar + Zotero（引用管理）
+文档层：  Context7 + DeepWiki（代码库文档）
+推理层：  Sequential Thinking
+记忆层：  Memory（官方） / basic-memory / Graphiti</code></pre>
+
+    <div class="grid g2">
+      <div class="mini"><div class="mh">⚠️ Perplexity 基本无免费额度</div><div class="md">研究型高频调用会快速产生费用</div></div>
+      <div class="mini"><div class="mh">⚠️ 学术类 MCP 高度碎片化</div><div class="md">PubMed / OpenAlex / Crossref / Google Scholar <strong>都没有单一权威官方服务器</strong>，全是社区实现。<code>semanticscholar-mcp</code> 只有 7★</div></div>
+      <div class="mini"><div class="mh">⚠️ Zotero 是唯一成熟选择</div><div class="md">EndNote / Mendeley <strong>没有成熟 MCP</strong>（明确缺口）</div></div>
+      <div class="mini"><div class="mh">⚠️ HF Open Deep Research 不能原生被 MCP 驱动</div><div class="md">它是 smolagents 的示例；GPT-Researcher 可以（通过 <code>gptr-mcp</code>）</div></div>
+    </div>
+  </div>
+
+  <!-- 场景 5 -->
+  <div class="panel" data-p="4">
+    <div class="must">
+      <span class="lb">必装最小集 →</span>
+      <span class="chip">官方 <b>filesystem</b> / <b>memory</b> / <b>time</b> / <b>fetch</b></span>
+      <span class="chip"><b>DesktopCommanderMCP</b> 10.0k</span>
+      <span class="chip"><b>ha-mcp</b> 5.1k</span>
+    </div>
+
+    <h3>官方参考服务器（当前活跃的 7 个）</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>名称</th><th>安装</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><b>Filesystem</b></td><td><code>npx -y @modelcontextprotocol/server-filesystem &lt;dir&gt;</code></td><td>沙箱化文件读写，<strong>按目录白名单</strong></td></tr>
+        <tr><td><b>Memory</b></td><td><code>npx -y @modelcontextprotocol/server-memory</code></td><td>知识图谱持久记忆</td></tr>
+        <tr><td><b>Sequential Thinking</b></td><td><code>npx -y @modelcontextprotocol/server-sequential-thinking</code></td><td>结构化多步推理</td></tr>
+        <tr><td><b>Time</b></td><td><code>uvx mcp-server-time</code></td><td>时间 / 时区转换</td></tr>
+        <tr><td><b>Fetch</b></td><td><code>uvx mcp-server-fetch</code></td><td>网页抓取转 Markdown（<strong>不执行 JS</strong>）</td></tr>
+        <tr><td><b>Git</b></td><td><code>uvx mcp-server-git --repository &lt;path&gt;</code></td><td>本地 Git 操作</td></tr>
+        <tr><td><b>Everything</b></td><td><code>npx -y @modelcontextprotocol/server-everything</code></td><td>测试 / 演示用</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">⚠️ 官方仓库 README 明确声明这些是<strong>"参考实现，不是生产就绪"</strong>，并引导用户去官方 Registry 找更广的目录。</div>
+
+    <h3>日常场景首选</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>名称</th><th class="num">Star</th><th>维护方</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><b>Desktop Commander</b></td><td class="num">10,046</td><td><span class="tag t-mut">社区</span></td><td>跨平台终端 + 文件 + diff 编辑（⚠️ 权限极大，需沙箱）</td></tr>
+        <tr><td><b>Home Assistant MCP（ha-mcp）</b></td><td class="num">5,062</td><td><span class="tag t-mut">社区</span></td><td><strong>80+ 工具</strong>：实体 / 自动化 / 设备 / 配置</td></tr>
+        <tr><td><b>Notion MCP</b></td><td class="num">4,666</td><td><span class="tag t-ok">✅ Notion</span></td><td>个人知识库</td></tr>
+        <tr><td><b>Obsidian MCP（StevenStavrakis）</b></td><td class="num">742</td><td><span class="tag t-mut">社区</span></td><td>笔记 CRUD</td></tr>
+        <tr><td><b>Obsidian MCP（cyanheads）</b></td><td class="num">695</td><td><span class="tag t-mut">社区</span></td><td>功能更全的 Obsidian</td></tr>
+        <tr><td><b>Spotify MCP</b></td><td class="num">613</td><td><span class="tag t-mut">社区</span></td><td>播放控制 / 歌单（<span class="tag t-warn">⚠️ 停更 7 个月</span>）</td></tr>
+        <tr><td><b>voska/hass-mcp</b></td><td class="num">346</td><td><span class="tag t-mut">社区</span></td><td>Docker 友好的 HA 入口</td></tr>
+        <tr><td><b>mcp-obsidian（Docker）</b></td><td class="num">66</td><td><span class="tag t-mut">Docker</span></td><td>走 Local REST API</td></tr>
+        <tr><td><b>mcp-stockscreen</b></td><td class="num">49</td><td><span class="tag t-mut">社区</span></td><td>选股筛选</td></tr>
+        <tr><td><b>Yahoo Finance MCP</b></td><td class="num">28</td><td><span class="tag t-mut">社区</span></td><td>行情 / 财报（无 Key）</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">Home Assistant 官方集成位于 <code>home-assistant/core</code>（91,564★，原生 MCP server + client），是<strong>本类唯一"官方原生集成"的品类</strong>。</p>
+
+    <div class="grid g2">
+      <div class="mini"><div class="mh">⚠️ 官方参考服务器大面积归档</div><div class="md">GitHub · Google Drive · Google Maps · Slack · Puppeteer · Postgres · SQLite · Brave Search · Sentry · GitLab · EverArt <strong>全部已归档</strong></div></div>
+      <div class="mini"><div class="mh">⚠️ macOS 自动化没有稳定选择</div><div class="md"><code>supermemoryai/apple-mcp</code>（3,123★）<strong>已归档</strong>；原 <code>dhravya/apple-mcp</code></div></div>
+      <div class="mini"><div class="mh">✅ Home Assistant 是智能家居事实标准</div><div class="md">一个 MCP 统一 Hue / HomeKit / Zigbee 等，无需逐厂商接入</div></div>
+      <div class="mini"><div class="mh">🇨🇳 中国日常工具</div><div class="md"><strong>高德地图 MCP（<code>mcp.amap.com/mcp</code>）是官方且功能最全</strong>（12 项服务，含公交/步行/骑行/驾车路径）。微信 / 百度地图 / 富途 / moomoo 均为社区或不稳定状态 <span class="tag t-warn">[未核实]</span></div></div>
+    </div>
+    <div class="card warn">
+      <div class="ct">⚠️ 金融类 MCP 整体非常不成熟</div>
+      <p style="margin-bottom:0"><code>maxscheijen/mcp-yahoo-finance</code> 只有 <strong>28★</strong>，<code>twolven/mcp-stockscreen</code> 49★。<strong>不要用于真实投资决策。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+  <h2><span class="idx">二</span>陷阱黑名单</h2>
+  <p class="lead">本节是本次调研最有实用价值的部分——<strong>按教程安装会踩到的坑</strong>。全部数据来自 GitHub API 实测。</p>
+
+  <h3>已归档（archived）—— 完全不要用</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>仓库</th><th class="num">Star</th><th>所属场景</th><th>替代方案</th></tr></thead>
+    <tbody>
+      <tr><td><code>browserbase/mcp-server-browserbase</code></td><td class="num">3,401</td><td>网页浏览</td><td><code>browserbase/stagehand</code>（25,661★）</td></tr>
+      <tr><td><code>supermemoryai/apple-mcp</code></td><td class="num">3,123</td><td>日常作业</td><td>暂无稳定替代（原 <code>dhravya/apple-mcp</code>）</td></tr>
+      <tr><td><code>semgrep/mcp</code></td><td class="num">687</td><td>编程开发</td><td>Semgrep CLI 直连</td></tr>
+      <tr><td><code>e2b-dev/mcp-server</code></td><td class="num">393</td><td>编程开发</td><td>改用其他云沙箱方案</td></tr>
+      <tr><td><code>oxylabs/oxylabs-mcp</code></td><td class="num">104</td><td>网页浏览</td><td>Bright Data MCP</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>高星但已停更 —— 高星陷阱</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>仓库</th><th class="num">Star</th><th>最后提交</th><th>停更时长</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>BrowserMCP/mcp</code></td><td class="num">7,182</td><td>2025-04-24</td><td><span class="tag t-bad">约 18 个月</span></td><td>高星陷阱的典型；被大量文章推荐</td></tr>
+      <tr><td><code>jerhadf/linear-mcp-server</code></td><td class="num">346</td><td>2025-05-01</td><td><span class="tag t-bad">约 17 个月</span></td><td>Linear 官方明确说<strong>不要用</strong>，要用 <code>mcp.linear.app</code></td></tr>
+      <tr><td><code>larksuite/lark-openapi-mcp</code></td><td class="num">836</td><td>2025-08-14</td><td><span class="tag t-bad">约 14 个月</span></td><td><strong>飞书官方 MCP</strong>，却处于停滞状态</td></tr>
+      <tr><td><code>hyperbrowserai/mcp</code></td><td class="num">789</td><td>2025-11-20</td><td><span class="tag t-warn">约 11 个月</span></td><td>网页浏览云方案</td></tr>
+      <tr><td><code>JetBrains/mcp-jetbrains</code></td><td class="num">962</td><td>2026-01-07</td><td><span class="tag t-warn">约 9 个月</span></td><td>JetBrains 官方 IDE 集成</td></tr>
+      <tr><td><code>varunneal/spotify-mcp</code></td><td class="num">613</td><td>2026-03-11</td><td><span class="tag t-warn">约 7 个月</span></td><td>最常被引用的 Spotify 服务器</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout">
+    <strong>结论：选型铁律——先看"最后提交时间"，再看 star 数。</strong>本次调研发现至少 6 个高星但停更超过 9 个月的项目，以及 5 个已归档项目。停更的项目再热门也不要用。
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+  <h2><span class="idx">三</span>横向对比</h2>
+
+  <h3>五个场景的"官方 vs 社区"成熟度</h3>
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">编程开发 —— 大厂全部亲自下场</span><span class="vl">★★★★★</span></div><div class="bar-tr"><div class="bar-fl" style="width:96%;background:linear-gradient(90deg,#58a6ff,#79c0ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">网页浏览 —— Google / Microsoft / Brave / Firecrawl 官方</span><span class="vl">★★★★★</span></div><div class="bar-tr"><div class="bar-fl" style="width:94%;background:linear-gradient(90deg,#e3b341,#f0c674)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">深度研究 —— 搜索层官方强，学术层几乎全社区</span><span class="vl">★★★★</span></div><div class="bar-tr"><div class="bar-fl" style="width:78%;background:linear-gradient(90deg,#a371f7,#c4a5ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">办公协作 —— 厂商官方但走托管，中国生态偏弱</span><span class="vl">★★★★</span></div><div class="bar-tr"><div class="bar-fl" style="width:74%;background:linear-gradient(90deg,#3fb950,#56d364)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">日常作业 —— 官方参考服务器大面积归档，靠社区</span><span class="vl">★★☆</span></div><div class="bar-tr"><div class="bar-fl" style="width:45%;background:linear-gradient(90deg,#ff6b5e,#ff9b91)"></div></div></div>
+  </div>
+
+  <h3>选型三条铁律</h3>
+  <div class="grid g3">
+    <div class="mini"><div class="mh">① 先看最后提交时间</div><div class="md">至少 6 个高星项目停更超 9 个月，5 个已归档。<strong>停更的再热门也不用。</strong></div></div>
+    <div class="mini"><div class="mh">② 优先厂商一手维护</div><div class="md">官方服务器在协议跟进、安全修复、认证规范上都有保障；社区服务器容易在 MCP 规范升级后失修。</div></div>
+    <div class="mini"><div class="mh">③ 能用远程 OAuth 就别用长效 PAT</div><div class="md">远程 Streamable HTTP + OAuth 是 2026 主流形态，权限可回收、可审计；长效 PAT 一旦泄露后果严重。</div></div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+  <h2><span class="idx">四</span>对照：你本机当前的 MCP 配置</h2>
+  <p class="lead">本机 <code>~/.workbuddy-ai/mcp.json</code> 目前只配了 3 个，且全部是本地 stdio。</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>名称</th><th>对应场景</th><th>与主流对比</th></tr></thead>
+    <tbody>
+      <tr><td><code>gog</code>（Google Workspace）</td><td>办公协作</td><td>本机自建；对应生态里的 Google Workspace MCP</td></tr>
+      <tr><td><code>web-search</code>（open-websearch）</td><td>网页浏览 / 深度研究</td><td>社区自建；生态里更主流的是 <strong>Brave / Tavily / Exa</strong></td></tr>
+      <tr><td><code>nixos</code>（mcp-nixos）</td><td>编程开发（垂直）</td><td>垂直小众；编程场景主力尚未配置</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="card ok">
+    <div class="ct">缺口最明显的三个</div>
+    <p style="margin-bottom:0"><strong>Context7</strong>（治 API 幻觉，63,010★）· <strong>GitHub MCP</strong>（代码仓库，33,600★）· <strong>Playwright / Chrome DevTools MCP</strong>（网页自动化，38,117★ / 53,500★）。<strong>这三个恰好也是编程场景 star 最高的三个。</strong></p>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+  <h2><span class="idx">五</span>数据可信度</h2>
+
+  <h3>三条必须提醒的口径陷阱</h3>
+  <div class="card danger">
+    <div class="ct">陷阱 ① markitdown 的 190,122★ 是"文档转换库"的星数，不是 MCP Server 的</div>
+    <p style="margin-bottom:0">同理 <code>microsoft/playwright</code>（97,679★）与 <code>microsoft/playwright-mcp</code>（38,117★）是两个仓库。引用时务必区分<strong>库本体</strong>与 <strong>MCP 服务</strong>。</p>
+  </div>
+  <div class="card danger">
+    <div class="ct">陷阱 ② 官方参考服务器的 91,238★ 是整个 monorepo 的星数</div>
+    <p style="margin-bottom:0">不等于里面任一单个服务器（如 Filesystem）的热度。</p>
+  </div>
+  <div class="card danger">
+    <div class="ct">陷阱 ③ star 高 ≠ 活跃</div>
+    <p style="margin-bottom:0"><code>BrowserMCP/mcp</code>（7,182★，停更 18 个月）就是最好的反例。</p>
+  </div>
+
+  <h3>数据分级</h3>
+  <div class="grid g2">
+    <div class="mini"><div class="mh"><span class="tag t-ok">A 级 · 一手实测</span></div><div class="md"><strong>GitHub REST API，2026-10-14</strong><br>全部 star 数、许可证、最后提交日期、归档状态（87 个仓库）</div></div>
+    <div class="mini"><div class="mh"><span class="tag t-info">B 级 · 官方文档</span></div><div class="md">官方仓库 README、厂商文档、官方 Registry<br>安装命令、传输方式、认证要求、工具清单</div></div>
+    <div class="mini"><div class="mh"><span class="tag t-warn">C 级 · 未核实</span></div><div class="md">单一来源 / 子代理估算 / 未能一手核实（见下）</div></div>
+    <div class="mini"><div class="mh">⚠️ 关键缺口</div><div class="md"><strong>npm / PyPI 下载量本次未取得</strong>——这是"最常用"最直接的证据。本报告的判断建立在 star 数 + 目录收录 + 厂商推荐三个<strong>代理指标</strong>上</div></div>
+  </div>
+
+  <h3>明确标注的不确定项</h3>
+  <ul>
+    <li><strong>各家 MCP 目录站的服务器总数互相矛盾</strong>（官方 Registry 约 3 万 / Glama 约 6.6 万 / mcptoplist 称 13.5 万），且约 <strong>80% 的服务器只出现在一个目录里</strong>——<strong>不要引用任何单一总数</strong>。</li>
+    <li><strong>免费额度与定价</strong>（Brave 2,000/月、Tavily 1,000 credits、Firecrawl 500 credits 等）来自文档与二手来源，<strong>未在官方定价页逐一核实</strong>，会变动。</li>
+    <li><strong>办公类的中国生态</strong>：腾讯文档 / 语雀 / 石墨 / WPS / 企业微信 / 百度地图 / 富途 / moomoo 的官方 MCP 状态<strong>未能一手核实</strong>。</li>
+    <li><strong>已核实的仓库改名</strong>：<code>getsentry/sentry-mcp</code> → <code>getsentry/toolkit</code>；<code>ppl-ai/modelcontextprotocol</code> → <code>perplexityai/modelcontextprotocol</code>；<code>dhravya/apple-mcp</code> → <code>supermemoryai/apple-mcp</code>；<code>apify/actors-mcp-server</code> → <code>apify/apify-mcp-server</code>；<code>googleapis/genai-toolbox</code> → <code>googleapis/mcp-toolbox</code>。</li>
+    <li>部分子代理报告中的 star 数为估算值（如曾出现"Chrome DevTools MCP 44.6K"的第三方博客说法），<strong>本报告已全部替换为 API 实测值 53,500</strong>。</li>
+  </ul>
+</section>
+
+<footer>
+  <p style="margin-bottom:8px"><strong style="color:var(--muted)">2026 最常用 MCP Server 分场景调研</strong> · 数据快照 2026-10-14</p>
+  <p class="src">全部 star / 许可证 / 最后提交 / 归档状态来自 GitHub REST API 实测（87 个仓库）。<br>完整核验数据见 <code>data/mcp-verified.json</code>；完整报告见 <code>report.md</code>。</p>
+</footer>
+
+</main>
+</div>
+
+<script>
+// 侧栏高亮
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var secs=[];
+  links.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1)); if(el) secs.push({a:a,el:el});});
+  function onScroll(){
+    var y=window.scrollY+120, cur=secs[0];
+    secs.forEach(function(s){ if(s.el.offsetTop<=y) cur=s; });
+    links.forEach(function(a){a.classList.remove('active')});
+    if(cur) cur.a.classList.add('active');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+  links.forEach(function(a){
+    a.addEventListener('click',function(e){
+      var el=document.getElementById(a.getAttribute('href').slice(1));
+      if(el){e.preventDefault(); window.scrollTo({top:el.offsetTop-16,behavior:'smooth'}); history.replaceState(null,'','#'+el.id);}
+    });
+  });
+})();
+
+// 场景标签切换
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var panels=[].slice.call(document.querySelectorAll('.panel'));
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      var k=t.getAttribute('data-sc');
+      tabs.forEach(function(x){x.classList.remove('on')});
+      panels.forEach(function(p){p.classList.remove('on')});
+      t.classList.add('on');
+      var target=document.querySelector('.panel[data-p="'+k+'"]');
+      if(target) target.classList.add('on');
+      var sec=document.getElementById('s1');
+      if(sec){ var r=sec.getBoundingClientRect(); if(r.top<0) window.scrollTo({top:sec.offsetTop-16,behavior:'smooth'}); }
+    });
+  });
+})();
+
+// 条形图入场动画
+(function(){
+  var bars=[].slice.call(document.querySelectorAll('.bar-fl'));
+  bars.forEach(function(b){b.dataset.w=b.style.width; b.style.width='0';});
+  function run(){ bars.forEach(function(b,i){ setTimeout(function(){ b.style.width=b.dataset.w; }, 70+i*55); }); }
+  var anchor=document.querySelector('.bars');
+  if('IntersectionObserver' in window && anchor){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ run(); io.disconnect(); } });
+    },{threshold:0.15});
+    io.observe(anchor);
+  } else { run(); }
+})();
+</script>
+</body>
+</html>

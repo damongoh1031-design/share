@@ -1,0 +1,869 @@
+{
+  "meta": {
+    "snapshot_date": "2026-10-14",
+    "source": "GitHub REST API 一手核验",
+    "note": "stars/license/pushed_at/archived 均为 2026-10-14 API 实测值。同一仓库出现在多个场景时只查询一次。"
+  },
+  "scenarios": {
+    "编程开发": {
+      "count": 31,
+      "servers": [
+        {
+          "repo": "modelcontextprotocol/servers",
+          "stars": 91238,
+          "license": "NOASSERTION",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "Model Context Protocol Servers"
+        },
+        {
+          "repo": "upstash/context7",
+          "stars": 63010,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
+        },
+        {
+          "repo": "ChromeDevTools/chrome-devtools-mcp",
+          "stars": 53500,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Chrome DevTools for coding agents"
+        },
+        {
+          "repo": "microsoft/playwright-mcp",
+          "stars": 38117,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-08",
+          "archived": false,
+          "desc": "Playwright MCP server"
+        },
+        {
+          "repo": "github/github-mcp-server",
+          "stars": 33601,
+          "license": "MIT",
+          "language": "Go",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "GitHub's official MCP Server"
+        },
+        {
+          "repo": "oraios/serena",
+          "stars": 30250,
+          "license": "NOASSERTION",
+          "language": "Python",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "A powerful MCP toolkit for coding, providing semantic retrieval and editing capabilities  - the IDE for your agent"
+        },
+        {
+          "repo": "modelcontextprotocol/inspector",
+          "stars": 11071,
+          "license": "NOASSERTION",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Visual testing tool for MCP servers"
+        },
+        {
+          "repo": "wonderwhy-er/DesktopCommanderMCP",
+          "stars": 10046,
+          "license": "MIT",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "This is MCP server for Claude that gives it terminal control, file system search and diff file editing capabilities"
+        },
+        {
+          "repo": "awslabs/mcp",
+          "stars": 9777,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Open source MCP Servers for AWS"
+        },
+        {
+          "repo": "idosal/git-mcp",
+          "stars": 8463,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-05-08",
+          "archived": false,
+          "desc": "Put an end to code hallucinations! GitMCP is a free, open-source, remote MCP server for any GitHub project"
+        },
+        {
+          "repo": "sooperset/mcp-atlassian",
+          "stars": 6000,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-09-19",
+          "archived": false,
+          "desc": "MCP server for Atlassian tools (Confluence, Jira)"
+        },
+        {
+          "repo": "cloudflare/mcp-server-cloudflare",
+          "stars": 4378,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-09",
+          "archived": false,
+          "desc": ""
+        },
+        {
+          "repo": "microsoft/mcp",
+          "stars": 3772,
+          "license": "MIT",
+          "language": "C#",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Catalog of official Microsoft MCP (Model Context Protocol) server implementations for AI-powered data access and tool integration"
+        },
+        {
+          "repo": "grafana/mcp-grafana",
+          "stars": 3559,
+          "license": "Apache-2.0",
+          "language": "Go",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "MCP server for Grafana"
+        },
+        {
+          "repo": "crystaldba/postgres-mcp",
+          "stars": 3396,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-08-17",
+          "archived": false,
+          "desc": "Postgres MCP Pro provides configurable read/write access and performance analysis for you and your AI agents."
+        },
+        {
+          "repo": "supabase/mcp",
+          "stars": 2950,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Connect Supabase to your AI assistants"
+        },
+        {
+          "repo": "zereight/gitlab-mcp",
+          "stars": 2037,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "First gitlab mcp for you, building together"
+        },
+        {
+          "repo": "docker/mcp-gateway",
+          "stars": 1600,
+          "license": "MIT",
+          "language": "Go",
+          "pushed_at": "2026-09-23",
+          "archived": false,
+          "desc": "docker mcp CLI plugin / MCP Gateway"
+        },
+        {
+          "repo": "Flux159/mcp-server-kubernetes",
+          "stars": 1596,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-02",
+          "archived": false,
+          "desc": "MCP Server for kubernetes management commands"
+        },
+        {
+          "repo": "hashicorp/terraform-mcp-server",
+          "stars": 1549,
+          "license": "MPL-2.0",
+          "language": "Go",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "The Terraform MCP Server provides seamless integration with Terraform ecosystem, enabling advanced automation and interaction capabilities for Infrastructure as Code (IaC) development."
+        },
+        {
+          "repo": "mongodb-js/mongodb-mcp-server",
+          "stars": 1143,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "A Model Context Protocol server to connect to MongoDB databases and MongoDB Atlas Clusters."
+        },
+        {
+          "repo": "JetBrains/mcp-jetbrains",
+          "stars": 962,
+          "license": "Apache-2.0",
+          "language": "JavaScript",
+          "pushed_at": "2026-01-07",
+          "archived": false,
+          "desc": "A model context protocol server to work with JetBrains IDEs: IntelliJ, PyCharm, WebStorm, etc. Also, works with Android Studio"
+        },
+        {
+          "repo": "getsentry/toolkit",
+          "stars": 928,
+          "license": "NOASSERTION",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Agentic tooling for Sentry"
+        },
+        {
+          "repo": "ClickHouse/mcp-clickhouse",
+          "stars": 887,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-06",
+          "archived": false,
+          "desc": "Connect ClickHouse to your AI assistants."
+        },
+        {
+          "repo": "elastic/mcp-server-elasticsearch",
+          "stars": 718,
+          "license": "Apache-2.0",
+          "language": "Rust",
+          "pushed_at": "2026-10-12",
+          "archived": false,
+          "desc": ""
+        },
+        {
+          "repo": "semgrep/mcp",
+          "stars": 687,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2025-10-28",
+          "archived": true,
+          "desc": "A MCP server for using Semgrep to scan code for security vulnerabilities."
+        },
+        {
+          "repo": "neondatabase/mcp-server-neon",
+          "stars": 651,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "MCP server for interacting with Neon Management API and databases"
+        },
+        {
+          "repo": "redis/mcp-redis",
+          "stars": 634,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "The official Redis MCP Server is a natural language interface designed for agentic applications to manage and search data in Redis efficiently"
+        },
+        {
+          "repo": "docker/mcp-registry",
+          "stars": 572,
+          "license": "MIT",
+          "language": "Go",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Official Docker MCP registry "
+        },
+        {
+          "repo": "e2b-dev/mcp-server",
+          "stars": 393,
+          "license": "Apache-2.0",
+          "language": "JavaScript",
+          "pushed_at": "2026-04-16",
+          "archived": true,
+          "desc": "Giving Claude ability to run code with E2B via MCP (Model Context Protocol)"
+        },
+        {
+          "repo": "Snowflake-Labs/mcp",
+          "stars": 299,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-05-15",
+          "archived": false,
+          "desc": "MCP Server for Snowflake including Cortex AI, object management, SQL orchestration, semantic view consumption, and more"
+        }
+      ],
+      "errors": []
+    },
+    "办公协作": {
+      "count": 9,
+      "servers": [
+        {
+          "repo": "microsoft/markitdown",
+          "stars": 190122,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-04",
+          "archived": false,
+          "desc": "Python tool for converting files and office documents to Markdown."
+        },
+        {
+          "repo": "ComposioHQ/composio",
+          "stars": 30541,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Composio powers 1000+ toolkits, tool search, context management, authentication, and a sandboxed workbench to help you build AI agents that turn intent into action."
+        },
+        {
+          "repo": "czlonkowski/n8n-mcp",
+          "stars": 23064,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "A MCP for Claude Desktop / Claude Code / Windsurf / Cursor to build n8n workflows for you "
+        },
+        {
+          "repo": "makenotion/notion-mcp-server",
+          "stars": 4666,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-09-20",
+          "archived": false,
+          "desc": "Official Notion MCP Server"
+        },
+        {
+          "repo": "atlassian/atlassian-mcp-server",
+          "stars": 1093,
+          "license": "Apache-2.0",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-10",
+          "archived": false,
+          "desc": "Official remote MCP server for Atlassian. Securely connect Jira, Confluence, Jira Service Management, Bitbucket, and Compass to Claude, ChatGPT, Cursor, VS Code, and other AI tools using OAuth 2.1 or API tokens."
+        },
+        {
+          "repo": "larksuite/lark-openapi-mcp",
+          "stars": 836,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2025-08-14",
+          "archived": false,
+          "desc": "飞书/Lark官方 OpenAPI MCP"
+        },
+        {
+          "repo": "jerhadf/linear-mcp-server",
+          "stars": 346,
+          "license": "MIT",
+          "language": "JavaScript",
+          "pushed_at": "2025-05-01",
+          "archived": false,
+          "desc": "A server that integrates Linear's project management system with the Model Context Protocol (MCP) to allow LLMs to interact with Linear."
+        },
+        {
+          "repo": "zencoderai/slack-mcp-server",
+          "stars": 75,
+          "license": "NOASSERTION",
+          "language": "JavaScript",
+          "pushed_at": "2025-07-16",
+          "archived": false,
+          "desc": ""
+        },
+        {
+          "repo": "karbassi/slack-mcp",
+          "stars": 3,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-10",
+          "archived": false,
+          "desc": "MCP server exposing 193 Slack Web API methods as tools for AI agents"
+        }
+      ],
+      "errors": []
+    },
+    "网页浏览": {
+      "count": 24,
+      "servers": [
+        {
+          "repo": "browser-use/browser-use",
+          "stars": 117918,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-09",
+          "archived": false,
+          "desc": "Agents that use the browser."
+        },
+        {
+          "repo": "unclecode/crawl4ai",
+          "stars": 85494,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Open-source web crawler and scraper for LLMs and AI agents: any website into clean, LLM-ready Markdown. Run it yourself, or use Crawl4AI Cloud with one key."
+        },
+        {
+          "repo": "lightpanda-io/browser",
+          "stars": 36456,
+          "license": "AGPL-3.0",
+          "language": "Zig",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Lightpanda: the headless browser designed for AI and automation"
+        },
+        {
+          "repo": "browserbase/stagehand",
+          "stars": 25661,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "The SDK to extract data and interact with any site on the web. Get started with Claude Code, Codex, Eve, Mastra, and more."
+        },
+        {
+          "repo": "Skyvern-AI/skyvern",
+          "stars": 23197,
+          "license": "AGPL-3.0",
+          "language": "Python",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Automate browser based workflows with AI"
+        },
+        {
+          "repo": "googleapis/mcp-toolbox",
+          "stars": 16657,
+          "license": "Apache-2.0",
+          "language": "Go",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "MCP Toolbox for Databases is an open source MCP server for databases."
+        },
+        {
+          "repo": "nanobrowser/nanobrowser",
+          "stars": 14087,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "Open-Source Chrome extension for AI-powered web automation. Run multi-agent workflows using your own LLM API key. Alternative to OpenAI Operator."
+        },
+        {
+          "repo": "apify/apify-mcp-server",
+          "stars": 11109,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "The Apify MCP server enables your AI agents to extract data from social media, search engines, maps, e-commerce sites, or any other website using thousands of ready-made scrapers, crawlers, and automation tools available on the Apify Store."
+        },
+        {
+          "repo": "steel-dev/steel-browser",
+          "stars": 7799,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "🔥 Open Source Browser API for AI Agents & Apps. Steel Browser is a batteries-included browser sandbox that lets you automate the web without worrying about infrastructure."
+        },
+        {
+          "repo": "firecrawl/firecrawl-mcp-server",
+          "stars": 7598,
+          "license": "MIT",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "🔥 Official Firecrawl MCP Server - Adds powerful web scraping and search to Cursor, Claude and any other LLM clients."
+        },
+        {
+          "repo": "BrowserMCP/mcp",
+          "stars": 7182,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2025-04-24",
+          "archived": false,
+          "desc": "Browser MCP is a Model Context Provider (MCP) server that allows AI applications to control your browser"
+        },
+        {
+          "repo": "exa-labs/exa-mcp-server",
+          "stars": 5126,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-07",
+          "archived": false,
+          "desc": "Exa MCP for web search and web crawling!"
+        },
+        {
+          "repo": "browserbase/mcp-server-browserbase",
+          "stars": 3401,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-07-20",
+          "archived": true,
+          "desc": "Allow LLMs to control a browser with Browserbase and Stagehand"
+        },
+        {
+          "repo": "brightdata/brightdata-mcp",
+          "stars": 2674,
+          "license": "MIT",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-11",
+          "archived": false,
+          "desc": "A powerful Model Context Protocol (MCP) server that provides an all-in-one solution for public web access."
+        },
+        {
+          "repo": "perplexityai/modelcontextprotocol",
+          "stars": 2564,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "The official MCP server implementation for the Perplexity API Platform"
+        },
+        {
+          "repo": "tavily-ai/tavily-mcp",
+          "stars": 2430,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-05",
+          "archived": false,
+          "desc": "Production ready MCP server with real-time search, extract, map & crawl."
+        },
+        {
+          "repo": "nottelabs/notte",
+          "stars": 2034,
+          "license": "NOASSERTION",
+          "language": "Python",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Cloud browser infrastructure and web automation platform for your AI and coding agents"
+        },
+        {
+          "repo": "nickclyde/duckduckgo-mcp-server",
+          "stars": 1534,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-09-04",
+          "archived": false,
+          "desc": "A Model Context Protocol (MCP) server that provides web search capabilities through DuckDuckGo, with additional features for content fetching and parsing."
+        },
+        {
+          "repo": "brave/brave-search-mcp-server",
+          "stars": 1497,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": ""
+        },
+        {
+          "repo": "ihor-sokoliuk/mcp-searxng",
+          "stars": 1302,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "Private web search for AI assistants via SearXNG — supports Claude, Cursor, and any MCP client"
+        },
+        {
+          "repo": "jina-ai/MCP",
+          "stars": 880,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-09-18",
+          "archived": false,
+          "desc": "Official Jina AI Remote MCP Server"
+        },
+        {
+          "repo": "hyperbrowserai/mcp",
+          "stars": 789,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2025-11-20",
+          "archived": false,
+          "desc": "A MCP server implementation for hyperbrowser"
+        },
+        {
+          "repo": "kagisearch/kagimcp",
+          "stars": 542,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-07-07",
+          "archived": false,
+          "desc": "The Official Model Context Protocol (MCP) server for Kagi Search & other tools."
+        },
+        {
+          "repo": "oxylabs/oxylabs-mcp",
+          "stars": 104,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-09-07",
+          "archived": true,
+          "desc": "Official Oxylabs MCP integration"
+        }
+      ],
+      "errors": []
+    },
+    "深度研究": {
+      "count": 13,
+      "servers": [
+        {
+          "repo": "mem0ai/mem0",
+          "stars": 67154,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-12",
+          "archived": false,
+          "desc": "The Memory Layer for AI Agents - Drop-in memory infrastructure for AI agents and apps. Context that persists. Built for production."
+        },
+        {
+          "repo": "getzep/graphiti",
+          "stars": 31730,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "Build Real-Time Knowledge Graphs for AI Agents"
+        },
+        {
+          "repo": "assafelovic/gpt-researcher",
+          "stars": 30085,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-10",
+          "archived": false,
+          "desc": "An autonomous agent that conducts deep research on any data using any LLM providers"
+        },
+        {
+          "repo": "letta-ai/letta",
+          "stars": 25125,
+          "license": "Apache-2.0",
+          "language": null,
+          "pushed_at": "2026-09-10",
+          "archived": false,
+          "desc": "Platform for stateful agents: AI with advanced memory that can learn and self-improve over time."
+        },
+        {
+          "repo": "firecrawl/firecrawl-mcp-server",
+          "stars": 7598,
+          "license": "MIT",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "🔥 Official Firecrawl MCP Server - Adds powerful web scraping and search to Cursor, Claude and any other LLM clients."
+        },
+        {
+          "repo": "54yyyu/zotero-mcp",
+          "stars": 5377,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-08",
+          "archived": false,
+          "desc": "Zotero MCP: Connects your Zotero research library with Claude and other AI assistants via the Model Context Protocol to discuss papers, get summaries, analyze citations, and more."
+        },
+        {
+          "repo": "exa-labs/exa-mcp-server",
+          "stars": 5126,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-07",
+          "archived": false,
+          "desc": "Exa MCP for web search and web crawling!"
+        },
+        {
+          "repo": "basicmachines-co/basic-memory",
+          "stars": 4169,
+          "license": "AGPL-3.0",
+          "language": "Python",
+          "pushed_at": "2026-10-12",
+          "archived": false,
+          "desc": "AI conversations that actually remember. Never re-explain your project to your AI again. Join our Discord: https://discord.gg/tyvKNccgqN"
+        },
+        {
+          "repo": "blazickjp/arxiv-mcp-server",
+          "stars": 3216,
+          "license": "Apache-2.0",
+          "language": "Python",
+          "pushed_at": "2026-10-08",
+          "archived": false,
+          "desc": "A local MCP server for agent literature work. Original-LaTeX section reads, BibTeX from arXiv metadata, and topic watches. Papers stay on disk. Search is optional."
+        },
+        {
+          "repo": "tavily-ai/tavily-mcp",
+          "stars": 2430,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-05",
+          "archived": false,
+          "desc": "Production ready MCP server with real-time search, extract, map & crawl."
+        },
+        {
+          "repo": "ref-tools/ref-tools-mcp",
+          "stars": 1180,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-01",
+          "archived": false,
+          "desc": "Helping coding agents never make mistakes working with public or private libraries without wasting the context window."
+        },
+        {
+          "repo": "jina-ai/MCP",
+          "stars": 880,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-09-18",
+          "archived": false,
+          "desc": "Official Jina AI Remote MCP Server"
+        },
+        {
+          "repo": "xbghc/semanticscholar-mcp",
+          "stars": 7,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-04-26",
+          "archived": false,
+          "desc": "Semantic Scholar MCP server for academic paper search"
+        }
+      ],
+      "errors": []
+    },
+    "日常作业": {
+      "count": 10,
+      "servers": [
+        {
+          "repo": "wonderwhy-er/DesktopCommanderMCP",
+          "stars": 10046,
+          "license": "MIT",
+          "language": "JavaScript",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "This is MCP server for Claude that gives it terminal control, file system search and diff file editing capabilities"
+        },
+        {
+          "repo": "homeassistant-ai/ha-mcp",
+          "stars": 5062,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-13",
+          "archived": false,
+          "desc": "The Unofficial and Awesome Home Assistant MCP Server"
+        },
+        {
+          "repo": "supermemoryai/apple-mcp",
+          "stars": 3123,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2025-08-11",
+          "archived": true,
+          "desc": "Collection of apple-native tools for the model context protocol."
+        },
+        {
+          "repo": "StevenStavrakis/obsidian-mcp",
+          "stars": 742,
+          "license": "MIT",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-08",
+          "archived": false,
+          "desc": "A simple MCP server for Obsidian"
+        },
+        {
+          "repo": "cyanheads/obsidian-mcp-server",
+          "stars": 695,
+          "license": "Apache-2.0",
+          "language": "TypeScript",
+          "pushed_at": "2026-10-06",
+          "archived": false,
+          "desc": "Read, write, search, and surgically edit Obsidian vault notes, tags, and frontmatter via MCP. STDIO or Streamable HTTP."
+        },
+        {
+          "repo": "varunneal/spotify-mcp",
+          "stars": 613,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-03-11",
+          "archived": false,
+          "desc": "MCP to connect your LLM with Spotify."
+        },
+        {
+          "repo": "voska/hass-mcp",
+          "stars": 346,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-10",
+          "archived": false,
+          "desc": "Control and query Home Assistant from Claude and other LLMs — a Model Context Protocol (MCP) server."
+        },
+        {
+          "repo": "docker/mcp-obsidian",
+          "stars": 66,
+          "license": "MIT",
+          "language": null,
+          "pushed_at": "2025-05-05",
+          "archived": false,
+          "desc": "MCP server that interacts with Obsidian via the Obsidian rest API community plugin"
+        },
+        {
+          "repo": "twolven/mcp-stockscreen",
+          "stars": 49,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-08-30",
+          "archived": false,
+          "desc": "Stock screening provider for Claude Desktop using MCP"
+        },
+        {
+          "repo": "maxscheijen/mcp-yahoo-finance",
+          "stars": 28,
+          "license": "MIT",
+          "language": "Python",
+          "pushed_at": "2026-10-14",
+          "archived": false,
+          "desc": "A Model Context Protocol (MCP) server for Yahoo Finance."
+        }
+      ],
+      "errors": []
+    }
+  },
+  "reference": [
+    {
+      "repo": "modelcontextprotocol/registry",
+      "stars": 7354,
+      "license": "NOASSERTION",
+      "language": "Go",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "A community driven registry service for Model Context Protocol (MCP) servers."
+    },
+    {
+      "repo": "modelcontextprotocol/python-sdk",
+      "stars": 24570,
+      "license": "MIT",
+      "language": "Python",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "The official Python SDK for Model Context Protocol servers and clients"
+    },
+    {
+      "repo": "modelcontextprotocol/typescript-sdk",
+      "stars": 13577,
+      "license": "NOASSERTION",
+      "language": "TypeScript",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "The official TypeScript SDK for Model Context Protocol servers and clients"
+    },
+    {
+      "repo": "anthropics/skills",
+      "stars": 181005,
+      "license": null,
+      "language": "Python",
+      "pushed_at": "2026-10-09",
+      "archived": false,
+      "desc": "Public repository for Agent Skills"
+    },
+    {
+      "repo": "home-assistant/core",
+      "stars": 91564,
+      "license": "Apache-2.0",
+      "language": "Python",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": ":house_with_garden: Open source home automation that puts local control and privacy first."
+    }
+  ]
+}
