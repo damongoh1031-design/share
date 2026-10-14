@@ -8,8 +8,8 @@
 | 下一版本 | NixOS 26.11「Zokor」（2026 年 11 月底） |
 | 硬件画像 | **AMD 显卡 + AMD CPU + Realtek 有线网卡**（无 NVIDIA、无无线） |
 | 用户画像 | 中文用户 · GNOME 或 KDE · Flatpak · Steam · Vibe Coding |
-| 文档版本 | 1.9 |
-| 核实日期 | 2026-10-12（**第八轮：以官方手册 stable 的结构为骨架重排导航，并补齐第二十六～三十五章**，见附录 B.16） |
+| 文档版本 | 2.0 |
+| 核实日期 | 2026-10-14（**第九轮：以 nix.dev guides 与 NixOS 26.05 release notes 补充，新增第三十六、三十七章，并就地修正 §17.4 / §27.1 / §27.3 / §30.6 / §32.2 / §33.5 / §35.1**，见附录 B.17） |
 | 姊妹文档 | `nixos-ops-guide.md`（通用深度手册，含完整理论推导） |
 
 ---
@@ -58,7 +58,9 @@
 | **三十三** | **内核、引导与「系统切换」的内部机制**（官方 Part IV） | **内核会被移除的硬规则** / `zcat /proc/config.gz` / `extraConfig` / sysctl 引号坑 / **★ `nixos-rebuild switch` 的 12 步动作** / `X-*` 单元标志全集 / activation script / `/etc` overlay / Bootspec / 不可切换系统 |
 | **三十四** | **写 NixOS 模块与测试**（官方 Part IV） | **「能判断 Agent 写的模块对不对」** / 模块四段式 / `mkOption` 参数 / `types.*` 合并行为 / **★ 优先级精确数字** / `warnings` vs `assertions` / `meta.doc` / `disabledModules` / freeform / **给 Agent 的模块提示词模板** / NixOS Tests |
 | **三十五** | **构建镜像：Live ISO、repart 与 Appliance**（官方 Part I 缺口） | 三类频道与升级 / 自动升级的取舍 / **构建 Live ISO（两条路）** / **`nixos-rebuild build-image`** / **`image.repart`** / Nix Store 分区与 Btrfs 子卷 / **Appliance + UKI（没有 `configuration.nix`）** / 六个反模式 |
-| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
+| **三十六** | **nix.dev 官方指南精华**（Best Practices · Troubleshooting · FAQ · Recipes） | **★ 官方最佳实践七条（给 Agent 的代码审查清单）** / **`system.nix`（26.05 新增，不用 channel 也不用 flake）** / npins / **五个报错的官方修法** / **二进位包的官方答案（含两条本指南之前缺的 `nix-ld` 细节）** / 二进制缓存 / post-build-hook / Cachix / direnv / **`mkShellNoCC`** / Python 环境 |
+| **三十七** | **NixOS 26.05 破坏性变更与新增特性总表**（官方 release notes 逐条） | **★ 升级前必查 16 项** / **`fsType` 不再有默认值（官方手册正文已过时）** / **Stage 1 默认改为 systemd** / **Switch inhibitors** / `profiles/hardened` 移除 / `wineWowPackages` 改名（游戏必读） / 网络与桌面变更 / **26.05 变更速查表** |
+| **附录** | A 命令速查 · B 出处汇总（**含 B.10 第二轮复核 · B.11 新增四章 · B.12 第四轮双分支实测 · B.13 Bazzite 对照 · B.14 Aeon 对照 · B.15 二进位包与依赖 · B.16 官方手册骨架核实 · B.17 nix.dev guides + 26.05 release notes**） · C 未核实项 · D 姊妹文档 · E 可补充方向 | 备查 |
 
 > [!TIP]
 > **时间估算**：全新安装 + 跑通本文全部配置，**约 3–4 小时**（含下载时间）。其中装机约 40 分钟，配置与调试约 2–3 小时。
@@ -77,7 +79,7 @@
 
 1. **把官方手册的完整骨架搬过来**（5 个 H1 正文部分 + **177 个叙事章节** + 80 个三级节），你可以按官方顺序查
 2. **给出「官方章节 ↔ 本指南章节」的逐条对照表**，标出覆盖度
-3. **标出缺口，并在第二十六～三十五章补齐**
+3. **标出缺口，并在第二十六～三十五章补齐**（**第九轮又补了第三十六、三十七章** —— 见导航 6 的表尾两行）
 
 > [!NOTE]
 > **本章的数字是实测的，不是估的。**
@@ -266,7 +268,7 @@
 | 27–32 | Test 驱动开发 / 安装器测试 | — | ➖ 贡献向 |
 | 33+ | Modular Services / Portability / Migration | — | ➖ 贡献向 |
 
-### 导航 6 · 缺口汇总（本轮新增的十章）
+### 导航 6 · 缺口汇总（第八轮新增的十章 + 第九轮新增的两章）
 
 | 新章节 | 对应官方 Part | 补的是什么 | 对你为什么有用 |
 |---|---|---|---|
@@ -280,15 +282,16 @@
 | **三十三** | Part IV | 内核 / 系统切换内部 / Bootspec | **理解 `nixos-rebuild switch` 到底做了什么**（报错时能读懂） |
 | **三十四** | Part IV | 写模块 / 选项类型 / 断言 / 测试 | **让 Agent 帮你写模块的前提**（连第十章） |
 | **三十五** | Part I 缺口 | ISO / 镜像 / Appliance / 频道 | 想给别人做装机盘、或做不可变设备时用 |
+| **三十六** | **nix.dev（guides）** | 官方最佳实践 / 排错 / FAQ / Recipes | **给 Agent 的代码审查清单**；不用 channel 也不用 flake 的第四条路 |
+| **三十七** | **release notes 26.05** | 破坏性变更与新增特性总表 | **升级前逐条检查单**；解释「老教程为什么失效」 |
 
 > [!TIP]
 > **阅读建议**：
 > - **纯用户** → 只读 **二十九**（日志）和 **三十**（故障排查），这两章日常最常用
 > - **想深入** → 加读 **二十六**（语法）和 **三十三**（系统切换内部），这两章解释「为什么」
-> - **想改 nixpkgs / 让 Agent 写模块** → 加读 **三十四**
+> - **想改 nixpkgs / 让 Agent 写模块** → 加读 **三十四** 和 **三十六**（§36.1 的七条清单可直接贴给 Agent）
 > - **装机前** → 先读 **二十七**（文件系统与加密）
-
----
+> - **升级 / 别人教程不管用时** → 先读 **三十七**（26.05 变更总表）
 
 ---
 
@@ -5457,6 +5460,42 @@ boot.kernel.sysctl = {
 > [!WARNING]
 > **`system.autoUpgrade.allowReboot = true` 有风险**：它会在更新后自动重启，**可能在你正在工作时重启**。桌面机器建议 `false`，手动选时机。
 
+> [!DANGER]
+> **★ 2026-10-14 第九轮补充：不要去找 `profiles/hardened` —— 它在 26.05 已被官方移除。**
+>
+> **官方 26.05 release notes 原文**（`rl-2605.section.md:202`）：
+>
+> > *"**`profiles/hardened` has been removed**, because:*
+> > - *It **lacks a consistent and transparent baseline or standard**,*
+> > - *It **may introduce unexpected breakage or degrade performance without clear benefit**,*
+> > - *It is **difficult to manage user expectations**, especially since the implications of enabling it are not always obvious,*
+> > - *and as multiple contributors have noted, **it is often more of a "grab bag" of settings than a cohesive security policy**.*
+> >
+> > *See the **NixOS Hardening wiki page** for hardening options."*
+>
+> **★ 官方的这 4 条理由，值得逐条读 —— 因为它们也适用于「你在网上看到的任何一份安全加固清单」**：
+>
+> | 官方理由 | 对你的启发 |
+> |---|---|
+> | *"lacks a consistent and transparent baseline or standard"* | **没有基准** → 你没法判断它「够不够安全」 |
+> | *"may introduce unexpected breakage or degrade performance without clear benefit"* | **可能引入意外破坏 + 降性能，收益不明** |
+> | *"difficult to manage user expectations"* | **开了它你以为安全了，实际不知道开了什么** |
+> | *"a **'grab bag'** of settings rather than a cohesive security policy"* | **官方原话：一袋杂七杂八的设置，不是一套连贯的安全策略** |
+>
+> **所以本章的做法是对的**（上面那份清单是**逐项带理由**的），而 `profiles/hardened` 的做法是错的。
+>
+> **同时移除的安全相关项**：
+> | 项 | 官方措辞 |
+> |---|---|
+> | `linux_hardened` 内核 | *"has been removed due to a lack of maintenance"* |
+> | `services.crabfit` | *"removed because its upstream packages are unmaintained and insecure"* |
+>
+> **⚠️ 网上大量教程推荐 `profiles/hardened`** —— **26.05 起会直接报错「找不到这个模块」。**
+>
+> **官方指的替代文档**：<https://wiki.nixos.org/wiki/NixOS_Hardening>
+>
+> **完整分析见 §37.11。**
+
 ---
 
 ### 17.5 本章的「坑与反直觉」
@@ -10360,6 +10399,53 @@ nix-repl> map (x: x.hostName) config.services.httpd.virtualHosts
 
 > *"You can usually omit the file system type (`fsType`), since `mount` can usually detect the type and load the necessary kernel module automatically. However, **if the file system is needed at early boot (in the initial ramdisk) and is not `ext2`, `ext3` or `ext4`, then it's best to specify `fsType`** to ensure that the kernel module is available."*
 
+> [!DANGER]
+> **★★ 2026-10-14 第九轮修正：上面这段官方手册原文在 26.05 已经过时 —— `fsType` 现在必须显式写。**
+>
+> **官方 26.05 release notes 原文**（`nixos/doc/manual/release-notes/rl-2605.section.md:242`）：
+>
+> > *"The **`fileSystems.<name>.fsType` option no longer has a default value and must be specified by the user**. The value **`"auto"` still works as before, though its use is generally discouraged**."*
+>
+> **源码级核实**（`nixos/modules/tasks/filesystems.nix`，两个分支对比）：
+>
+> | 分支 | `fsType` 定义 |
+> |---|---|
+> | **`nixos-25.11`** | `fsType = mkOption { **default = "auto";** example = "ext3"; type = nonEmptyStr; ... }` |
+> | **`nixos-26.05`** | `fsType = mkOption { example = "ext3"; type = nonEmptyStr; ... }` ← **`default` 被删除** |
+>
+> **所以 26.05 的实际行为**：
+>
+> | 你写的 | 结果 |
+> |---|---|
+> | **省略 `fsType`** | ❌ **求值错误**（选项被使用但未定义） |
+> | `fsType = "auto";` | ⚠️ **仍可用，但官方说 "generally discouraged"** |
+> | **`fsType = "ext4";`** | ✅ **推荐** |
+>
+> **正确写法（26.05）**：
+>
+> ```nix
+> fileSystems."/" = {
+>   device = "/dev/disk/by-label/nixos";
+>   fsType = "ext4";        # ★ 26.05 起必须写
+>   options = [ "defaults" ];
+> };
+> ```
+>
+> **为什么会有这个矛盾**：**官方手册的这段散文（`ch-file-systems`）没有随 25.11 → 26.05 的变更更新**。这是「手册正文 ≠ 模块源码」的一个实例。
+>
+> **判据（可复用的方法）**：
+> 1. **以 release notes 的 `Backward Incompatibilities` 段为准**（比手册正文新）
+> 2. **有疑问时读模块源码的 `mkOption`，看有没有 `default`**
+>    ```bash
+>    curl -s https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/modules/tasks/filesystems.nix \
+>      | grep -A8 'fsType = mkOption'
+>    ```
+> 3. **对比上一版本**（把 URL 里的 `nixos-26.05` 换成 `nixos-25.11`）
+>
+> **⚠️ 对 Vibe Coding 用户的影响**：**Agent 大概率会用训练数据里的「可以省略 `fsType`」写法** —— **你必须主动检查这一条。**
+>
+> **完整分析见 §37.6。**
+
 **官方的一条重要警告（原文）**：
 
 > *"**System startup will fail if any of the filesystems fails to mount, dropping you to the emergency shell.** You can make a mount asynchronous and non-critical by adding `options = [ "nofail" ];`."*
@@ -10570,9 +10656,18 @@ Added to key to device /dev/sda2, slot: 2
 > **这是「你只有一把钥匙」问题的官方解法。**
 
 > [!NOTE]
-> **`systemd.enable = true`（systemd stage 1）在 26.05 的状态**：官方文档把它描述为**可用且有专属调试参数**（`rd.systemd.break=` / `rd.systemd.debug_shell`，见 §30.6）。**它不是实验性的**，但官方仍同时保留 scripted stage 1（标记为 deprecated）。
+> **`boot.initrd.systemd.enable`（systemd stage 1）在 26.05 的状态**：**它已经是默认值。**
 >
-> **对你的建议**：**日常不需要开**（除非你要用 FIDO2 或 TPM2 解锁）。默认的 scripted stage 1 更简单，且官方所有调试参数都覆盖它。
+> **★ 2026-10-14 第九轮修正**：本指南之前写「默认的 scripted stage 1 更简单」—— **这句在 26.05 是错的**。官方 release notes 明确：**26.05 默认就是 systemd stage 1，scripted 已弃用并将于 26.11 移除。**
+>
+> **对你的建议（已修正）**：
+> - **不需要做任何事** —— 默认就是 systemd stage 1
+> - **只有遇到兼容问题时才考虑退回**：`boot.initrd.systemd.enable = false;`（**官方说 "this is discouraged"**）
+> - **FIDO2 / TPM2 解锁**在 systemd stage 1 下是**原生支持**的（`systemd-cryptenroll`）
+>
+> **升级到 26.05 时必查的一条**（官方明确列为「无法自动检测」）：**LUKS 的 `fileSystems."/".device` 必须是 `/dev/mapper/<name>`，且 `<name>` 与 `boot.initrd.luks.devices.<name>` 一致** —— 否则 **systemd 会在等你输口令时超时**。
+>
+> **完整分析见 §37.1。**
 
 ### 27.4 SSHFS：把远程目录挂成本地
 
@@ -11909,12 +12004,29 @@ sudo bootctl cleanup                      # 清理无主文件
 >
 > **26.05 的默认 stage 1 是哪个？**
 >
-> 官方说 scripted stage 1 *"is disabled by default and deprecated"* —— 这句话**有歧义**。结合上下文与 `sec-luks-file-systems`（其中 `boot.initrd.systemd.enable = true` 是**显式开启**才有的），**准确理解是**：
+> **★ 2026-10-14 第九轮：本指南之前在这里做了「推断」，现在有官方明确答案了 —— 推断是错的。**
 >
-> - **26.05 默认仍是 scripted stage 1**（所以 `boot.debug1` 这些参数**默认有效**）
-> - 官方说「disabled by default」指的是**未来方向**，以及「如果**你开了** systemd stage 1，这些参数就失效了」
+> **官方 26.05 release notes 原文（Highlights 第 1 条，`rl-2605.section.md:7`）**：
 >
-> **实操建议**：**先用 `boot.debug1mounts` 试**（如果无效，说明你的系统是 systemd stage 1，改用 `rd.systemd.break=pre-switch-root`）。**两条都试一遍，成本很低。**
+> > *"**Stage 1 (a.k.a. initrd) is now based on systemd by default**, and **the old scripted implementation is deprecated and scheduled for removal in 26.11**.*
+> >
+> > *You can temporarily revert to the scripted stage 1 implementation by **disabling `boot.initrd.systemd.enable`**, but **this is discouraged**."*
+>
+> **所以准确结论是**：
+>
+> | 问题 | 答案 |
+> |---|---|
+> | **26.05 默认** | ✅ **systemd stage 1**（`boot.initrd.systemd.enable` 默认 `true`） |
+> | **scripted stage 1** | ⚠️ **已弃用，26.11 移除** |
+> | **怎么退回 scripted** | `boot.initrd.systemd.enable = false;` —— **官方说 "this is discouraged"** |
+>
+> **本指南之前为什么判断错了**：官方 NixOS 手册 `sec-boot-problems` **同时给了两套调试图参数**（scripted 的 `boot.debug1*` 与 systemd 的 `rd.systemd.*`），**但没说默认是哪个** —— **答案只在 release notes 里，不在手册正文里**。
+>
+> **★ 实操建议（已修正）**：**先用 `rd.systemd.break=pre-switch-root` 试**（26.05 默认是 systemd stage 1，这是对应参数）。**如果无效**（说明你的系统显式退回了 scripted），再改用 `boot.debug1mounts`。
+>
+> **⚠️ 如果你是从 25.11 升级上来的**：**你的系统在升级后默认也切到了 systemd stage 1**（除非你显式设了 `boot.initrd.systemd.enable = false`）。**所以「以前 `boot.debug1mounts` 有效、现在无效」是正常的。**
+>
+> **完整分析见 §37.1。**
 
 **在启动菜单里临时加参数的步骤（GRUB 与 systemd-boot 通用）**：
 
@@ -12635,6 +12747,28 @@ Platform Vendor      Advanced Micro Devices, Inc.
 >
 > **官方只推荐 `clr.icd`**，因为官方文档假设你用 OpenCL 应用。**如果你要跑 AI 训练**，看本指南 §3.4（`hardware.amdgpu.opencl.enable`）。
 >
+> **★ 2026-10-14 第九轮补充：26.05 的 ROCm 版本变化（官方 release notes `:317`）**
+>
+> > *"**`rocmPackages_6` has been removed**. **`rocmPackages` has been updated to ROCm 7.x**. **Out of tree packages may rely on obsolete hipblas APIs or compile time constant warp size and need to be updated.**"*
+>
+> | 项 | 26.05 的状态 |
+> |---|---|
+> | `rocmPackages_6` | ❌ **已移除**（想钉 ROCm 6 的用户没得选了） |
+> | `rocmPackages` | ✅ **现在是 ROCm 7.x** |
+> | `rocmPackages.clr.icd` | ✅ **仍然存在** —— **上面给的配置不用改** |
+>
+> **官方警告的含义**（*"Out of tree packages may rely on obsolete hipblas APIs or compile time constant warp size"*）：
+>
+> | 场景 | 影响 |
+> |---|---|
+> | 用 `rocmPackages.clr.icd` 给 Blender / Darktable 做 OpenCL 加速 | ✅ **不受影响**（只用 ICD loader） |
+> | **自己编译依赖 ROCm 的项目**（如某些 LLM 推理框架） | ⚠️ **可能需要打补丁**（hipblas API 有废弃项） |
+> | **从 nixpkgs 装已打包好的 ROCm 包** | ✅ 不受影响（nixpkgs 已适配） |
+>
+> **判据**：**只要你不自己编译 ROCm 相关代码，这条对你是透明的。**
+>
+> **完整分析见 §37.7。**
+
 > **验证「OpenCL 到底有没有用上 GPU」**：
 > ```bash
 > # Blender：Edit → Preferences → System → 看 Compute Device 能否选到你的 GPU
@@ -13121,6 +13255,46 @@ zcat /proc/config.gz
 > ```
 
 ### 33.5 ★ `nixos-rebuild switch` 到底做了什么（官方 `sec-switching-systems`）
+
+> [!IMPORTANT]
+> **★ 2026-10-14 第九轮补充：在下面这 12 步之前，26.05 还多了一道检查 —— Switch inhibitor。**
+>
+> **官方 26.05 release notes 原文**（`rl-2605.section.md:415`）：
+>
+> > *"**Switch inhibitors were introduced**, which add a **pre-switch check** that compares a list of strings between the previous and the new generation, and **refuses to switch into the new generation when there is a difference between the two lists**.*
+> >
+> > *This allows avoiding switching into a system when for instance **the systemd version changed** by adding `config.systemd.package.version` to the switch inhibitors for your system.*
+> >
+> > *You can still **forcefully switch into any generation by setting `NIXOS_NO_CHECK=1`**."*
+>
+> **完整流程（已更新）**：
+>
+> ```
+> nixos-rebuild switch
+>   ↓
+> ① 求值新配置 → 得到新 generation
+>   ↓
+> ② ★ Switch inhibitor 检查（26.05 新增）
+>      比较「上一代」与「新一代」的 inhibitor 字符串列表
+>      有差异 → ❌ 拒绝切换（提示你重启）
+>   ↓
+> ③ 通过 → 调 switch-to-configuration（下面这 12 步）
+> ```
+>
+> **为什么需要这个机制**：
+>
+> | 场景 | 没有 inhibitor | **有 inhibitor（26.05）** |
+> |---|---|---|
+> | systemd 大版本升级 | `nixos-rebuild switch` **直接热切换** → 可能半死不活 | **拒绝**，提示重启 |
+> | D-Bus 实现切换（26.05 默认改为 `dbus-broker`） | 同上 | **拒绝** |
+>
+> **强制绕过的官方开关**：
+> ```bash
+> sudo NIXOS_NO_CHECK=1 nixos-rebuild switch
+> ```
+> **⚠️ 官方说 "still forcefully switch"** —— **这是逃生舱，不是日常操作。**
+>
+> **完整分析见 §37.5。**
 
 **官方原文（本节是整个 Part IV 里最实用的一段）**：
 
@@ -14122,6 +14296,24 @@ sudo nixos-rebuild switch --upgrade
 > *"The only exception is that a newer NixOS may also have a newer Nix version, which may involve an upgrade of Nix's database schema. This cannot be undone easily, so in that case you will not be able to go back to your original channel."*
 > → **Nix 数据库 schema 升级后不能回退频道**。**升到 unstable 前请三思**。
 > → 这条也是本指南 §30.8「回滚」的一个边界：**generation 能回滚，但 Nix DB schema 不能**。
+>
+> **★ 2026-10-14 第九轮补充：现在有确切版本号了**（来源：nix.dev 的 Nix 手册版本切换器）
+>
+> | Nix 版本 | 对应的 Nixpkgs / NixOS |
+> |---|---|
+> | **Nix 2.34** | **in Nixpkgs 26.05** ← **你用的就是这个** |
+> | Nix 2.35 | latest |
+> | Nix 2.31 | in Nixpkgs 25.11 |
+>
+> **所以「schema 不可逆」的完整因果链是**：
+> **25.11（Nix 2.31）→ 26.05（Nix 2.34）→ Nix 升级 → SQLite schema 升级 → 回不去 25.11**
+>
+> **具体报错与官方修法**（`error: current Nix store schema is version N, but I only support M`）见 **§36.5 ④**。
+>
+> **查你当前的版本**：
+> ```bash
+> nix --version      # 期望：nix (Nix) 2.34.x
+> ```
 
 **自动升级**（官方 `sec-upgrading-automatic`）：
 
@@ -14803,6 +14995,2307 @@ nix-build appliance.nix
 > **本章你至少要记住一条**：`Label` 和 `fileSystems.*.device` 必须一致，否则开机掉 shell。
 
 ---
+
+## 三十六、nix.dev 官方指南精华（Best Practices · Troubleshooting · FAQ · Recipes）
+
+本章补的是 **nix.dev**（Nix 官方文档站）的 **Guides** 部分：
+
+| 官方页 | URL | 本章对应 |
+|---|---|---|
+| Guides 索引 | <https://nix.dev/guides/> | 全章 |
+| Best practices | <https://nix.dev/guides/best-practices> | §36.1 |
+| Troubleshooting | <https://nix.dev/guides/troubleshooting> | §36.5 |
+| Frequently Asked Questions | <https://nix.dev/guides/faq> | §36.6 |
+| Recipes 索引 | <https://nix.dev/guides/recipes/> | §36.7–36.12 |
+| Pinning Nixpkgs（Reference） | <https://nix.dev/reference/pinning-nixpkgs> | §36.4 |
+
+> [!IMPORTANT]
+> **nix.dev 与 nixos.org/manual 的分工（这是理解本章价值的前提）**：
+>
+> | | **nixos.org/manual/nixos/stable** | **nix.dev** |
+> |---|---|---|
+> | 定位 | **参考手册**（reference）—— 每个选项、每个服务的完整说明 | **任务指南**（guides/tutorials）—— 「我想做 X，怎么做」 |
+> | 组织 | 按 Part 划分（安装/配置/管理/开发） | 按 **Diátaxis** 框架（tutorials / guides / reference / concepts） |
+> | 你什么时候查 | 「这个选项叫什么、默认值是什么」 | **「官方推荐的写法是什么」** |
+> | 官方署名 | NixOS 团队 | **Nix 文档团队（Nix documentation team）** |
+>
+> **一句话**：**nixos.org/manual 告诉你「有什么」；nix.dev 告诉你「怎么写才对」。**
+>
+> **本章对你（Vibe Coding 用户）的额外价值**：nix.dev 的 Best practices 是 **Nix 官方唯一一处明确说「不要这么写」的地方**。**这就是你审查 Agent 生成的 Nix 代码的官方依据。**
+
+> [!NOTE]
+> **本章的数字是实测的**（2026-10-14 核实）：
+>
+> | 页面 | 提取方式 | 体积 |
+> |---|---|---|
+> | `/guides/` 的 Markdown 源 | `https://nix.dev/_sources/guides/index.md` | 182 B |
+> | 4 个 guides 子页 | `_sources/guides/{best-practices,troubleshooting,faq}.md` + `recipes/index.md` | 15.4 KB |
+> | 7 个 recipes | `_sources/guides/recipes/*.md` | 22.0 KB |
+> | `reference/pinning-nixpkgs` | `_sources/reference/pinning-nixpkgs.md` | 2.6 KB |
+>
+> **技巧**：**任何 Sphinx 站的 Markdown 源都在 `/_sources/<路径>.md`** —— 比抓 HTML 干净得多，**本指南这一轮全部用的是这个方法**。
+
+---
+
+### 36.1 ★★ 官方最佳实践六条（**给 Agent 的代码审查清单**）
+
+**官方页面**：<https://nix.dev/guides/best-practices>（作者 `domenkozar`，编辑 `fricklerhandwerk` / `infinisil`）。
+
+> [!IMPORTANT]
+> **这一节请当作「Agent 生成 Nix 代码后的验收单」用。**
+>
+> **每条都是官方明确写出的「不要这么做」，而且官方给了替代写法。** 你不需要懂 Nix 语义 —— **只要把 Agent 的输出对着这六条逐条打勾。**
+
+#### ① URL 必须加引号
+
+**官方原文**：
+
+> *"The Nix language syntax supports bare URLs, so one could write `https://example.com` instead of `"https://example.com"`*
+>
+> *"[RFC 45] was accepted to **deprecate unquoted URLs** and provides a number of arguments for how this feature does more harm than good."*
+>
+> **官方 TIP**：*"Always quote URLs."*
+
+| 写法 | 判定 |
+|---|---|
+| `url = "https://example.com";` | ✅ |
+| `url = https://example.com;` | ❌ **已弃用（RFC 45）** |
+
+> [!NOTE]
+> **官方用了「deprecate」这个词** —— 意味着现在还能用，但**未来会变成硬错误**。老教程里大量存在裸 URL。
+
+#### ② 避免 `rec { ... }`，用 `let ... in`
+
+**官方原文**：
+
+> *"`rec` allows you to reference names within the same attribute set. … **A common pitfall is to introduce a hard-to-debug error `infinite recursion`** when shadowing a name. The simplest example for this is:"*
+>
+> ```nix
+> let a = 1; in rec { a = a; }
+> ```
+>
+> **官方 TIP**：*"**Avoid `rec`. Use `let ... in`.**"*
+
+**官方的正确写法**：
+
+```nix
+let
+  a = 1;
+in {
+  a = a;
+  b = a + 2;
+}
+```
+
+**如果确实需要自引用**，官方给的办法是**显式命名属性集**：
+
+```nix
+let
+  argset = {
+    a = 1;
+    b = argset.a + 2;   # ← 通过名字引用自己，而不是 rec
+  };
+in
+  argset
+```
+
+> [!IMPORTANT]
+> **这一条与第三十四章的 `mkIf` vs 裸 `if` 是同一个病根**：
+>
+> **Nix 是惰性语言，自引用/循环引用会变成 `infinite recursion`，而不是报「循环依赖」。**
+>
+> **`let a = 1; in rec { a = a; }` 的错误信息是 `infinite recursion encountered`** —— 你从这个信息里**看不出是 `rec` 的问题**。这就是官方称它为 *"hard-to-debug"* 的原因。
+
+#### ③ 不要在文件顶层用 `with`
+
+**官方原文**：
+
+> *"It's still common to see the following expression in the wild:*
+> ```nix
+> with (import <nixpkgs> {});
+> # ... lots of code
+> ```
+>
+> *This approach has problems:*
+> - ***Static analysis can't reason about the code**, because it would have to actually evaluate this file to see which names are in scope.*
+> - *When more than one `with` is used, **it's not clear anymore where the names are coming from**.*
+> - ***Scoping rules for `with` are not intuitive**, see this Nix issue for details.*"
+>
+> **官方 TIP**：*"**Do not use `with` at the top of a Nix file.** Explicitly assign names in a `let` expression."*
+
+**官方的正确写法**：
+
+```nix
+let
+  pkgs = import <nixpkgs> {};
+  inherit (pkgs) curl jq;
+in
+# ...
+```
+
+**官方还给了「完全避免 `with`」的技巧** —— 把
+
+```nix
+buildInputs = with pkgs; [ curl jq ];
+```
+
+改成
+
+```nix
+buildInputs = builtins.attrValues {
+  inherit (pkgs) curl jq;
+};
+```
+
+> [!TIP]
+> **为什么这条对 Vibe Coding 用户特别重要**：
+>
+> 官方列的第一条理由是 ***"Static analysis can't reason about the code"*** —— 这**正是 LLM / IDE / 静态检查工具失效的原因**。
+>
+> **`with` 会让「这个名字从哪来」变成运行时才知道的事** → Agent 补全、类型提示、未使用变量检测**全部失灵**。
+>
+> **判据**：**只要 Agent 在文件开头写了 `with pkgs;`，就要求它改成 `let ... inherit (pkgs) ...; in`。** 局部的小 `with`（如 `buildInputs = with pkgs; [...]`）官方说 *"usually less problematic"*，但仍有 surprise。
+
+#### ④ 不要用 `<...>` lookup path
+
+**官方原文**：
+
+> *"You will often encounter Nix language code samples that refer to `<nixpkgs>`. `<...>` is special syntax that was introduced in 2011 to conveniently access values from the environment variable `$NIX_PATH`.*
+>
+> *This means **the value of a lookup path depends on external system state**. When using lookup paths, **the same Nix expression can produce different results**.*
+>
+> *In most cases, `$NIX_PATH` is set to the latest channel when Nix is installed, and is therefore **likely to differ from machine to machine**.*
+>
+> *For example, two developers on different machines are likely to have `<nixpkgs>` point to **different revisions** of the Nixpkgs repository. **Builds may work for one and fail for the other, causing confusion.**"*
+>
+> **官方 TIP**：*"Declare dependencies explicitly using the techniques shown in Pinning Nixpkgs. **Do not use lookup paths, except in minimal examples.**"*
+
+**官方给的例外**（有些工具**期望** lookup path 存在）：
+
+> *"Set `$NIX_PATH` to a known value in a central location under version control."*
+>
+> **NixOS 上的做法**（官方明确给出）：
+> ```nix
+> # configuration.nix
+> nix.nixPath = [ /* ... */ ];
+> ```
+> 即官方手册的 [`nix.nixPath`](https://search.nixos.org/options?show=nix.nixPath) 选项。
+
+> [!DANGER]
+> **这条直接解释了本指南反复出现的「同一份配置在我机器上能构建、在别人机器上炸」**。
+>
+> **`<nixpkgs>` 不是「nixpkgs」—— 它是「你这台机器当前 NIX_PATH 指向的那个 nixpkgs」。**
+>
+> **对本指南的影响**：本指南多处示例用了 `import <nixpkgs> {}`（**沿用官方手册和 nix.dev 的示例风格**）。**照抄时请知道这是「最小示例写法」，不是可复现写法。**
+>
+> **生产配置应该用**：`builtins.fetchTarball` + `sha256`（§20 路 B）、`npins`（§36.4）、或 flake（§19/§20）。
+
+#### ⑤ `import <nixpkgs> {}` 也不完全可复现 —— 必须显式传 `config` 和 `overlays`
+
+**官方原文（这是最容易被忽略的一条）**：
+
+> *"To quickly obtain packages for demonstration, we use the following concise pattern: `import <nixpkgs> {}`*
+>
+> *However, **even when `<nixpkgs>` is replaced** as shown in Pinning Nixpkgs, **the result may still not be fully reproducible**. This is because for historical reasons the **Nixpkgs top-level expression by default impurely reads from the file system to obtain configuration parameters**. Systems that have the appropriate files populated may end up with different results.*
+>
+> *It is a well-known problem that cannot be resolved without breaking existing setups."*
+>
+> **官方 TIP**：*"Explicitly set `config` and `overlays` when importing Nixpkgs:"*
+> ```nix
+> import <nixpkgs> { config = {}; overlays = []; }
+> ```
+
+> [!IMPORTANT]
+> **这句话解决了本指南的一个「为什么」**：
+>
+> **为什么第二十四章的 `pkgsUnstable` 必须传 `config.nixpkgs.config` 和 `overlays`？**（HM 官方 FAQ 也这么要求）
+>
+> **因为 nixpkgs 顶层表达式默认会「不纯地」读文件系统来取配置参数** —— 官方原话 *"impurely reads from the file system"*。
+>
+> **所以「import 一份 nixpkgs」不等于「得到确定的包集」** —— 你必须显式传 `config` / `overlays` 才封住这个不纯输入。
+>
+> **官方自述**：*"It is a well-known problem that cannot be resolved without breaking existing setups."* —— **这是官方承认的历史包袱，不会修**。
+
+**官方还解释了为什么教程里常看到 `import <nixpkgs> {}` 这种简写**：
+
+> *"This is what we do in our tutorials to ensure that the examples will behave exactly as expected. **We skip it in minimal examples to reduce distractions.**"*
+
+**所以 nix.dev 自己的示例都写全了**：
+
+```nix
+let
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-23.11";
+  pkgs = import nixpkgs { config = {}; overlays = []; };   # ← 注意这里
+in
+pkgs.mkShellNoCC { ... }
+```
+
+#### ⑥ `//` 是浅合并 —— 要深合并用 `lib.recursiveUpdate`
+
+**官方原文**：
+
+> *"The attribute set update operator merges two attribute sets. … **However, names on the right take precedence, and updates are shallow.**"*
+
+**官方给的例子（说明「浅」有多坑）**：
+
+```nix
+{ a = { b = 1; }; } // { a = { c = 3; }; }
+# 结果：
+{ a = { c = 3; }; }
+```
+
+> *"Here, **key `b` was completely removed**, because the whole `a` value was replaced."*
+
+**官方的正确写法**：
+
+```nix
+let pkgs = import <nixpkgs> {}; in
+pkgs.lib.recursiveUpdate { a = { b = 1; }; } { a = { c = 3;}; }
+# 结果：
+{ a = { b = 1; c = 3; }; }
+```
+
+> [!DANGER]
+> **`//` 是浅合并 —— 这会静默删掉嵌套的键。**
+>
+> **对本指南的影响**：§26.4 讲的 `let` + `//` 抽象技巧，**在只做一层合并时是对的**（本指南的示例都是扁平结构）。**但只要嵌套一层，`//` 就会把整个子树替换掉。**
+>
+> **典型翻车场景**（Agent 常犯）：
+> ```nix
+> # 想「在基础配置上覆盖一个字段」
+> base = { services.foo = { enable = true; port = 8080; }; };
+> override = { services.foo = { port = 9090; }; };
+> result = base // override;
+> # ❌ services.foo.enable 消失了！
+> ```
+
+#### ⑦ 额外一条：`src = ./.;` 会让构建不可复现
+
+**官方原文（`Reproducible source paths`）**：
+
+> *"If the Nix file containing this expression is in `/home/myuser/myproject`, then **the store path of `src` will be `/nix/store/<hash>-myproject`**.*
+>
+> *The problem is that now **your build is no longer reproducible, as it depends on the parent directory name**. That cannot be declared in the source code, and results in an impurity.*
+>
+> *If someone builds the project in a directory with a different name, they will get a **different store path for `src`** and everything that depends on it. **This can be the cause of needless rebuilds.**"*
+>
+> **官方 TIP**：*"Use `builtins.path` with the `name` attribute set to something fixed."*
+> ```nix
+> pkgs.stdenv.mkDerivation {
+>   name = "foo";
+>   src = builtins.path { path = ./.; name = "myproject"; };
+> }
+> ```
+
+> [!TIP]
+> **这条对你有两个具体影响**：
+>
+> | 场景 | 影响 |
+> |---|---|
+> | **Agent 打包本地程序** | 目录名变了 → **store 路径变 → 全部重构建**（哪怕代码一字未改） |
+> | **本指南的 `devShell`**（§15） | 如果你用 `src = ./.;` 并且项目目录名会变，**每次改名都会全量重建** |
+>
+> **判据**：**Agent 写 `src = ./.;` 时，问一句「能不能加 `builtins.path { name = "..."; }`」**。
+
+#### §36.1 的验收清单（可直接贴给 Agent）
+
+```
+请检查你生成的 Nix 代码，逐条确认：
+
+1. 所有 URL 都加了双引号（RFC 45 已弃用裸 URL）
+2. 没有使用 rec { ... }；需要自引用时用「显式命名属性集」的写法
+3. 文件顶层没有 with；用 let ... inherit (pkgs) xxx; in
+4. 没有使用 <nixpkgs> 这类 lookup path（除非是最小示例）
+5. import nixpkgs 时显式传了 config = {}; overlays = [];（或你的实际值）
+6. 需要深合并时用 lib.recursiveUpdate，不用 //
+7. src = ./.; 时加 builtins.path { name = "..."; }
+
+请逐条说明你的代码是怎么满足的，不要只说「已满足」。
+```
+
+---
+
+### 36.2 Nix 版本与 NixOS 26.05 的对应关系（**实测**）
+
+**来源**：nix.dev 侧边栏的「Nix reference manual」版本切换器（<https://nix.dev/> 的导航栏）。
+
+| Nix 版本 | 对应的 Nixpkgs / NixOS | 官方链接 |
+|---|---|---|
+| **Nix 2.34** | **in Nixpkgs 26.05** ← **你用的就是这个** | <https://nix.dev/manual/nix/stable/> |
+| Nix 2.35 | latest | <https://nix.dev/manual/nix/latest/> |
+| Nix 2.34 | in Nixpkgs rolling | <https://nix.dev/manual/nix/rolling/> |
+| Nix 2.31 | in Nixpkgs 25.11 | <https://nix.dev/manual/nix/prev-stable/> |
+| （pre-release） | development | <https://nix.dev/manual/nix/development/> |
+
+> [!IMPORTANT]
+> **这张表解决了一个本指南之前只能「推断」的问题**（见附录 C）：
+>
+> **§35.1 讲的「频道来回切换的唯一不可逆例外」到底是什么？**
+>
+> 官方原文（NixOS 手册 `sec-upgrading`）：
+> *"a newer NixOS may also have a newer Nix version, which may involve **an upgrade of Nix's database schema**. This cannot be undone easily, so in that case you will not be able to go back to your original channel."*
+>
+> **现在有确切版本号了**：
+> - **26.05 → Nix 2.34**
+> - **25.11 → Nix 2.31**
+>
+> **从 25.11 升到 26.05 = Nix 2.31 → 2.34** → **数据库 schema 可能被升级** → **回不去 25.11**。
+>
+> **具体报错**见 §36.5（`error: current Nix store schema is version N, but I only support M`）。
+
+**查你当前的 Nix 版本**：
+
+```bash
+nix --version
+# 期望：nix (Nix) 2.34.x
+```
+
+> [!TIP]
+> **nix.dev 上还有一个你之前不知道的资源**：**整站 PDF** —— <https://nix.dev/nix-dev.pdf>。
+>
+> 离线查阅用，比逐页 curl 快。**但注意它是全站（含 tutorials/concepts/reference），体积不小。**
+
+---
+
+### 36.3 ★★★ `system.nix`：26.05 新增的「不用 channel 也不用 flake」入口
+
+**官方来源**：<https://nix.dev/guides/recipes/dependency-management>（Managing NixOS configurations 一节）。
+
+**官方原文**：
+
+> *"NixOS defaults to using **channels** to locate `nixpkgs`. You can instead pin a version using `npins` from the **`system.nix` entrypoint (available since 26.05)**:"*
+
+```nix
+# system.nix
+let
+  sources = import ./npins;
+in
+import "${sources.nixpkgs}/nixos" {
+  configuration = ./configuration.nix;
+}
+```
+
+**官方原文（26.05 之前怎么做）**：
+
+> *"Before NixOS 26.05's `system.nix` use:"*
+> ```bash
+> sudo NIX_PATH="nixos-config=configuration.nix:nixpkgs=$(nix-instantiate --raw --eval npins -A nixpkgs.outPath)" nixos-rebuild switch
+> ```
+
+**配套的官方配置**：
+
+```nix
+# configuration.nix
+{
+  # ...
+  nix.channel.enable = false;    # ← 关掉 channel
+}
+```
+
+**让 pin 出来的依赖也能当 lookup path 用**（官方给出）：
+
+```nix
+# configuration.nix
+{ lib, ... }:
+let
+  sources = import ./npins;
+in
+{
+  nix.nixPath = lib.mapAttrsToList (k: v: "${k}=${v}") sources;
+}
+```
+
+**让 `nix run nixpkgs#hello` 这类 v3 命令能解析 flake 引用**（官方给出）：
+
+```nix
+# configuration.nix
+{ lib, ... }:
+let
+  sources = import ./npins;
+in
+{
+  experimental-features = "nix-command flakes";
+  nix.registry = lib.mapAttrs (_: path: {
+    to = { type = "path"; inherit path; };
+  }) sources;
+}
+```
+
+> [!IMPORTANT]
+> **这是本指南 §20「不用 flake 的三条路」的第四条路，而且是 26.05 才有的。**
+>
+> **它的定位**：**「我既不想用 channel（不可复现），也不想用 flake（要 `--experimental-features` + 目录结构约束）」**
+>
+> | 方案 | 需要 channel | 需要 flake | 锁定能力 | 26.05 可用 |
+> |---|---|---|---|---|
+> | **channel**（默认） | ✅ | ❌ | ❌ | ✅ |
+> | **flake** | ❌ | ✅ | ✅ 自动（`flake.lock`） | ✅ |
+> | **`builtins.fetchTarball` + sha256** | ❌ | ❌ | ✅ **手工** | ✅ |
+> | **`builtins.fetchGit` + rev** | ❌ | ❌ | ✅ **手工** | ✅ |
+> | **★ `system.nix` + `npins`** | ❌ | ❌ | ✅ **自动**（`npins/sources.json`） | ✅ **26.05 新增** |
+>
+> **对你的意义**：
+> - **不想学 flake 的语法和 `nix-command`/`flakes` 实验特性** → 这是正解
+> - **想「自动锁版本」但不想用 flake** → 这是唯一解（`fetchTarball` 的手工 sha256 要你自己维护）
+> - **`nixos-rebuild switch` 命令不变** —— 它会自动找 `/etc/nixos/system.nix`
+
+**官方原文（26.05 release notes 的补充，见 §37.1）**：
+
+> *"The `system.nix` file has been added as an **alternative entry point to `configuration.nix` (and `flake.nix`)** that allows configuring NixOS **without using `nix-channel`**. This file must evaluate to a NixOS system derivation **or an attribute set of such derivations**, in which case the attribute to build has to be selected with the **`--attr`** option of `nixos-rebuild` or `nixos-install`."*
+>
+> *"The **default location of `system.nix` is `/etc/nixos/system.nix`** and can be changed by setting the **`<nixos-system>` search path**.*
+>
+> *"`nixos-rebuild` and `nixos-install` can now also load a `system.nix` file **in the current directory (only if `--attr` is used)** or from a directory specified with **`--file`**."*
+
+> [!TIP]
+> **官方给的完整 `system.nix` 例子**（不需要 npins，只用 `fetchTarball`）：
+>
+> ```nix
+> # system.nix
+> let
+>   # Pinned Nixpkgs archive
+>   #
+>   # Use `curl -I https://channels.nixos.org/nixos-26.05` to get the
+>   # latest commit of the stable channel and `nix-prefetch-url --unpack`
+>   # to compute its sha256 hash.
+>   nixpkgs = builtins.fetchTarball {
+>     url = "https://github.com/NixOS/nixpkgs/archive/c217913993d6.tar.gz";
+>     sha256 = "026mprs324330pfazlgbw987qmsa8ligglarvqbcxzig2kgw0lqg";
+>   };
+> in
+> import "${nixpkgs}/nixos" {
+>   # Build NixOS using an external configuration.nix file,
+>   # or directly set your options here
+>   configuration = ./configuration.nix;
+> }
+> ```
+>
+> **注意官方注释里的两步取 hash 流程**：
+> 1. `curl -I https://channels.nixos.org/nixos-26.05` → 拿稳定频道最新 commit
+> 2. `nix-prefetch-url --unpack <url>` → 算 sha256
+>
+> **这比「手工维护 sha256」友好，但比 npins 麻烦** —— npins 会把这两步自动化。
+
+**「`system.nix` 必须是 NixOS system derivation 或它的属性集」是什么意思**：
+
+```nix
+# 形式 1：直接是一个 system
+import "${nixpkgs}/nixos" { configuration = ./configuration.nix; }
+
+# 形式 2：属性集 —— 这时必须用 --attr 选
+{
+  desktop = import "${nixpkgs}/nixos" { configuration = ./desktop.nix; };
+  laptop  = import "${nixpkgs}/nixos" { configuration = ./laptop.nix; };
+}
+# 构建：sudo nixos-rebuild switch --attr desktop
+```
+
+> [!NOTE]
+> **形式 2 是「一台机器管理多台机器的配置」的官方原生方案** —— 不需要 flake 的 `nixosConfigurations`。
+>
+> **本指南 §13 的「完整配置」如果你有多台机，可以用这个结构。**
+
+**核实说明（本指南的补充）**：
+
+`nixos/default.nix` 的签名（26.05 实测）：
+
+```nix
+{
+  configuration ? import ./lib/from-env.nix "NIXOS_CONFIG" <nixos-config>,
+  system ? builtins.currentSystem,
+  specialArgs ? { },
+}:
+```
+
+→ **`configuration` 有默认值**（从 `NIXOS_CONFIG` 环境变量或 `<nixos-config>` search path 取）。**所以 `system.nix` 里必须显式传 `configuration`**，否则会退回 channel 行为。
+
+---
+
+### 36.4 npins：比 flake 更轻的 pin 管理器
+
+**官方页面**：<https://nix.dev/guides/recipes/dependency-management>（Automatically managing remote sources with `npins`）。
+
+**官方原文**：
+
+> *"For more automation around handling remote sources, set up `npins` in your project:"*
+
+```bash
+nix-shell -p npins --run "npins init --bare; npins add github nixos nixpkgs --branch nixos-23.11"
+```
+
+> *"This command will fetch the latest revision of the Nixpkgs 23.11 release branch. In the current directory it will generate **`npins/sources.json`**, which will contain a **pinned reference** to the obtained revision. It will also create **`npins/default.nix`**, which exposes those dependencies as an attribute set."*
+
+**官方给的用法**：
+
+```nix
+# default.nix
+{
+  sources ? import ./npins,
+  system ? builtins.currentSystem,
+  pkgs ? import sources.nixpkgs { inherit system; config = {}; overlays = []; },
+}:
+{
+  package = pkgs.hello;
+}
+```
+
+> *"`nix-build` will call the top-level function with the empty attribute set `{}`, or with the attributes passed via `--arg` or `--argstr`. **This pattern allows overriding remote sources programmatically.**"*
+
+**官方给的「覆盖 sources」的例子**：
+
+```bash
+$ nix-shell
+[nix-shell]$ mkdir old && cd old
+[nix-shell]$ npins init --bare
+[nix-shell]$ npins add github nixos nixpkgs --branch nixos-21.11
+```
+
+```nix
+# old/default.nix
+import ../default.nix { sources = import ./npins; }
+```
+
+```bash
+$ nix-build -A build
+$ ./result/bin/hello --version | head -1
+hello (GNU Hello) 2.10
+```
+
+**也可以从命令行覆盖**（官方给出）：
+
+```bash
+nix-build .. -A build --arg sources 'import ./npins'
+```
+
+**从 `niv` 迁移**（官方给出）：
+
+> *"A previous version of this guide recommended using `niv` … If you have a project using `niv`, you can import remote source definitions into `npins`:"*
+> ```bash
+> npins import-niv
+> ```
+> **官方 WARNING**：*"**All the imported entries will be updated**, so they won't necessarily point to the same commits as before."*
+
+> [!IMPORTANT]
+> **npins vs flake 的官方定位对比**（本指南的归纳）：
+>
+> | | **npins** | **flake** |
+> |---|---|---|
+> | 产物 | `npins/sources.json`（版本列表） | `flake.lock` |
+> | 需要实验特性 | ❌ **不需要** | ✅ 需要 `nix-command flakes` |
+> | 目录结构约束 | ❌ 无 | ✅ 必须有 `flake.nix` + git 仓库 |
+> | 输出 schema | ❌ 无（你自己写） | ✅ 标准化（`packages`/`nixosConfigurations`…） |
+> | 官方推荐度 | **guides 里推荐** | **concepts 里有专章，但社区争议仍在** |
+> | 适合 | **「我只要锁定版本，不要新语法」** | 「我要标准化输出 + 生态工具链」 |
+>
+> **对你的实际建议**：
+> - **只想锁定 nixpkgs** → **npins + `system.nix`**（§36.3）**是最小方案**
+> - **想用 `nix run` / `nix develop` / 生态工具** → flake
+> - **两个可以共存**：npins 管 NixOS 系统，flake 管开发环境
+
+> [!NOTE]
+> **npins 的作者与来源**：官方指向 <https://github.com/andir/npins/>。**nix.dev 的 Recipes 里把它当作 `niv` 的继任者**（`niv` 是 Haskell 写的，npins 是 Python 写的）。
+>
+> **本指南的核实边界**：**`npins` 本身不在 nixpkgs 的 NixOS 模块层** —— 它是通过 `nix-shell -p npins` 或 devShell 里的 `packages = [ pkgs.npins ];` 使用的工具，**不是 NixOS 选项**。
+
+---
+
+### 36.5 官方 Troubleshooting：五个报错的官方修法
+
+**官方页面**：<https://nix.dev/guides/troubleshooting>。
+
+> [!IMPORTANT]
+> **这一节的价值在于：这五个错误是官方「专门写了一页」的** —— 意味着它们**足够常见**，而且**有官方认可的修法**（不是社区偏方）。
+>
+> **本指南 §30.9 讲了 `nix-store --verify --repair`，但没讲官方这一页里的 sqlite 修法** —— 两者是**不同层级的修复**（§30.9 修 store，本节修 **Nix 数据库**）。
+
+#### ① 二进制缓存挂了 / 不可达
+
+**官方原文**：
+
+> *"Pass `--option substitute false` to Nix commands."*
+
+```bash
+nixos-rebuild switch --option substitute false
+# 或者
+nix-build --option substitute false
+```
+
+> [!TIP]
+> **这是「缓存服务器故障时先能干活」的官方开关。**
+>
+> **对本指南的实际用途**：§30.10 讲的国内镜像如果临时不可达，**用这个开关强制本地构建**（代价：要自己编译）。
+>
+> **注意 `substitute` 是 `substituters` 的开关，不是清空列表** —— 它只是**不尝试替换**。
+
+#### ② 强制 Nix 重新检查缓存里有没有某个东西
+
+**官方原文**：
+
+> *"Nix keeps track of what's available in binary caches so it doesn't have to query them on every command. **This includes negative answers**, that is, if a given store path cannot be substituted.*
+>
+> *Pass the `--narinfo-cache-negative-ttl` option to set the cache timeout in seconds."*
+
+```bash
+nixos-rebuild switch --option narinfo-cache-negative-ttl 0
+```
+
+> [!DANGER]
+> **这是「我刚推上缓存，为什么 Nix 还说没有」的官方解释。**
+>
+> **Nix 缓存了「否定的答案」** —— 如果某路径曾经不在缓存里，**Nix 会记住「不在」，不会每次重查**。
+>
+> **场景**：你（或 CI）刚把构建产物推上自建缓存（§36.8），本地 Nix 因为之前查过「没有」而**继续本地构建**。
+>
+> **修法**：`--option narinfo-cache-negative-ttl 0` 把否定缓存 TTL 设为 0 秒。
+
+#### ③ ★ `error: querying path in database: database disk image is malformed`
+
+**官方原文**：
+
+> *"This is a **known issue** [NixOS/nix#1353]. Try:"*
+> ```bash
+> $ sqlite3 /nix/var/nix/db/db.sqlite "pragma integrity_check"
+> ```
+> *"Which will print the errors in the database. **If the errors are due to missing references**, the following may work:"*
+> ```bash
+> $ mv /nix/var/nix/db/db.sqlite /nix/var/nix/db/db.sqlite-bkp
+> $ sqlite3 /nix/var/nix/db/db.sqlite-bkp ".dump" | sqlite3 /nix/var/nix/db/db.sqlite
+> ```
+
+> [!DANGER]
+> **这是 Nix **数据库**损坏，不是 store 损坏 —— 与本指南 §30.9 是两件事。**
+>
+> | | §30.9（store 损坏） | 本节（数据库损坏） |
+> |---|---|---|
+> | 文件 | `/nix/store/...` 里的文件 | **`/nix/var/nix/db/db.sqlite`** |
+> | 报错 | 构建/校验失败 | **`database disk image is malformed`** |
+> | 修法 | `nix-store --verify --check-contents --repair` | **`pragma integrity_check` + dump/restore** |
+> | 影响 | 部分包坏 | **所有 Nix 命令都可能失败** |
+>
+> **官方流程的两步**：
+> 1. **诊断**：`pragma integrity_check`（**先看是什么错，别直接修**）
+> 2. **修复**（只在「错误是缺失引用」时）：**备份 → dump → 重新导入**
+>
+> **注意官方的修复是「重新建一个干净的库，把旧库 dump 进去」** —— 这是 SQLite 的标准恢复手法。**原库被改名成 `db.sqlite-bkp` 保留**。
+>
+> **⚠️ 做之前请确保 `/nix/store` 本身没坏** —— 数据库是「store 里有什么」的索引，索引坏了可以重建，**store 坏了重建索引也没用**。
+
+#### ④ ★ `error: current Nix store schema is version 10, but I only support 7`
+
+**官方原文**：
+
+> *"This is a known issue [NixOS/nix#1251].*
+>
+> *It means that **using a new version of Nix upgraded the SQLite schema** of the database, and then **you tried to use an older version of Nix**.*
+>
+> *The solution is to **dump the database, and use the old Nix version to re-import the data**:"*
+> ```bash
+> $ /path/to/nix/unstable/bin/nix-store --dump-db > /tmp/db.dump
+> $ mv /nix/var/nix/db /nix/var/nix/db.toonew
+> $ mkdir /nix/var/nix/db
+> $ nix-store --load-db < /tmp/db.dump
+> ```
+
+> [!IMPORTANT]
+> **★ 这就是 §36.2 讲的「频道不可逆」的具体报错。**
+>
+> **完整因果链**（现在可以闭环了）：
+>
+> 1. 你在 25.11（**Nix 2.31**）
+> 2. 你切到 26.05 频道（**Nix 2.34**）→ **Nix 升级 → SQLite schema 升级**
+> 3. 你想切回 25.11 → **Nix 降级 → 它看不懂新 schema** → **`error: current Nix store schema is version N, but I only support M`**
+>
+> **官方原文**（NixOS 手册 `sec-upgrading`）：*"This cannot be undone easily, so in that case you will not be able to go back to your original channel."*
+>
+> **官方的「不太容易地撤销」方法就是上面这三行**（用**新版** Nix 导出 → 用**旧版** Nix 重新导入）。
+>
+> **⚠️ 注意命令里的路径**：`/path/to/nix/unstable/bin/nix-store` —— **导出必须用「升级后的那个 Nix」**，导入用「你要降级到的那个 Nix」。
+>
+> **对本指南的实际建议**：**升到 26.05 之前先想清楚要不要回去。** 这不是「不可逆」，是「需要手动 dump/load 才能逆」。
+
+#### ⑤ `writing to file: Connection reset by peer`
+
+**官方原文**：
+
+> *"This may mean you are trying to **import too large a file or directory into the Nix store**, or **your machine is running out of resources, such as disk space or memory**.*
+>
+> *Try to **reduce the size of the directory to import**, or run **garbage collection**."*
+
+> [!TIP]
+> **这条与本指南第二十二章的「666 个 derivation 构建地狱」是同一类问题的不同表现**。
+>
+> **排查顺序**：
+> 1. `df -h /nix` —— 磁盘够不够
+> 2. `free -h` —— 内存够不够
+> 3. `nix-collect-garbage -d` 前先想清楚（§30.3）
+> 4. 要 import 的目录是不是误包含了 `.git` / `node_modules` / `target/`（用 `builtins.path` 或 `.gitignore` 风格过滤）
+
+#### ⑥ 官方还提了一条 macOS 的（对你无关，但说明一个机制）
+
+> *"The Nix installer modifies `/etc/zshrc`. When macOS is updated, it will typically overwrite `/etc/zshrc` again."*
+
+**对你（NixOS 用户）的参考价值**：**NixOS 上不存在这个问题** —— 因为 `/etc` 由 NixOS 生成（§33.8）。**这正是 NixOS 相对「在别的发行版上装 Nix」的一个结构性优势。**
+
+---
+
+### 36.6 官方 FAQ：二进位包的官方答案（对照第二十五章）
+
+**官方页面**：<https://nix.dev/guides/faq>（How to run non-nix executables?）。
+
+**官方原文（完整因果）**：
+
+> *"NixOS **cannot run dynamically linked executables intended for generic Linux environments out of the box**. This is because, **by design, it does not have a global library path, nor does it follow the Filesystem Hierarchy Standard (FHS)**."*
+
+**官方给的方案顺序（这是本节最值得对照的部分）**：
+
+| # | 官方方案 | 官方措辞 | 本指南对应 |
+|---|---|---|---|
+| 1 | **用 nixpkgs 里已有的版本** | *"Use the version packaged in Nixpkgs, if there is one."* | §25.4 方案 1 |
+| 2a | **从源码打包** | *"Build from source. Many open-source programs are highly flexible at compile time…"* | §25.4 方案 2 |
+| 2b | **`autoPatchelfHook` 改 ELF header** | *"Modify the program's ELF header … **Do this if building from source isn't feasible.**"* | §25.4 方案 3 |
+| 2c | **`buildFHSEnv` 包一层** | *"Wrap the program to run in an FHS-like environment … **This is a last resort, but sometimes necessary**, for example if the program **downloads and runs other executables**."* | §25.4 方案 4 |
+| 3 | **`nix-ld`** | *"Create a library path that **only applies to unpackaged programs**"* | §25.4 方案 5 |
+| 4 | **`steam-run`** | *"Run your program in the FHS-like environment made for the Steam package"* | §25.4 方案 6 |
+
+**官方给的 `nix-ld` 配置（逐字）**：
+
+```nix
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
+  ];
+```
+
+**官方两条关键补充（本指南第二十五章**没有**这两条）**：
+
+> [!IMPORTANT]
+> **① 启用 `nix-ld` 后必须「登出再登入」**
+>
+> 官方原文：*"Then run `nixos-rebuild switch`, and **log out and back in again to propagate the new environment variables**. (**This is only necessary when enabling `nix-ld`; changes in included libraries take effect immediately on rebuild.**)"*
+>
+> **这是「开了 nix-ld 但没生效」的官方解释**：
+>
+> | 动作 | 需要重新登录吗 |
+> |---|---|
+> | **首次 `programs.nix-ld.enable = true`** | ✅ **必须登出再登入**（要传播环境变量 `NIX_LD` / `NIX_LD_LIBRARY_PATH`） |
+> | **之后改 `programs.nix-ld.libraries`** | ❌ **不需要**（rebuild 后立即生效） |
+>
+> **机制**：环境变量是**会话级**的（由 PAM / systemd user session 注入）→ 改环境变量只影响**新会话**。
+>
+> **本指南 §25.5.4 讲了 nix-ld 的机制，但没讲这个「第一次要重新登录」的操作细节。**
+
+> [!IMPORTANT]
+> **② `nix-ld` 在 x86_64 上不支持 32 位可执行文件**
+>
+> 官方原文（NOTE 块）：*"`nix-ld` does not work for 32-bit executables on `x86_64` machines."*
+>
+> **为什么重要**：**Steam / Wine / 一些老游戏是 32 位**。**如果你用 nix-ld 试图跑 32 位二进制，它不会工作** —— 这不是配置问题，是设计限制。
+>
+> **对本指南的实际影响**（AMD + Steam 用户）：
+> | 场景 | 用 nix-ld？ |
+> |---|---|
+> | 64 位第三方二进制（AppImage / 官方 tarball） | ✅ 可以 |
+> | **32 位游戏 / Wine prefix** | ❌ **不行** → 用 `steam-run` 或 `buildFHSEnv`（`multiPkgs` 支持 32 位） |
+>
+> **这与 §25.5.10 的「三类死路」是同一类**（nix-ld 的能力边界）。
+
+**官方 FAQ 里其他对你有用的条目**：
+
+| 问题 | 官方答案 | 本指南对应 |
+|---|---|---|
+| **怎么自动格式化 Nix 代码？** | *"**`nixfmt`** is the **official formatter** for Nix language code."* 且 *"`nixfmt` is used to format **all code** in Nixpkgs"* | §36.1（让 Agent 输出前跑一遍） |
+| 怎么在 `$HOME` 用 Nix 管 dotfiles？ | 官方直接指向 <https://github.com/nix-community/home-manager> | §19（HM 是官方认可的答案） |
+| 怎么构建某个包的反向依赖？ | `nix-shell -p nixpkgs-review --run "nixpkgs-review wip"` | §34（改 nixpkgs 时用） |
+| 怎么构建自己的 ISO？ | 官方指向 NixOS 手册 `sec-building-image` | §35.2 |
+| 怎么把 NixOS 装到已有 Linux 上？ | 官方列了 4 个工具：`nixos-anywhere` / `nixos-in-place` / `nixos-infect` / `nixos-tests/kexec` | 本指南未展开（附录 E 可补） |
+
+> [!TIP]
+> **`nixfmt` 的实用价值（针对 Vibe Coding）**：
+>
+> **让 Agent 在交付 Nix 代码前跑一遍 `nixfmt`** —— 这有两个好处：
+> 1. **格式统一**（nixpkgs 官方就用它，所以 Agent 的训练数据也是这个风格）
+> 2. **语法错误的早期信号**：**`nixfmt` 解析失败 = 语法错了**，不用等到 `nixos-rebuild` 求值
+>
+> ```bash
+> # 一次性格式化
+> nix-shell -p nixfmt-rfc-style --run "nixfmt configuration.nix"
+> # 或者进 devShell
+> nix-shell -p nixfmt-rfc-style
+> ```
+>
+> **注意包名**：`nixfmt` 在 nixpkgs 里现在叫 **`nixfmt-rfc-style`**（对应 RFC 166 的官方风格）。`pkgs.nixfmt` 是旧版。
+
+---
+
+### 36.7 Recipe：自定义二进制缓存（含官方安全警告）
+
+**官方页面**：<https://nix.dev/guides/recipes/add-binary-cache>。
+
+> [!DANGER]
+> **官方在这一页开头放了一段安全警告 —— 这是本章最需要你先读的一段**：
+>
+> > *"Nix will accept **any requested store object signed with private keys corresponding to the configured public keys**. Access to those private keys thus allows **substituting arbitrary files into your Nix store**. This includes **executables that may run with elevated privileges or automatically**!*
+> >
+> > ***Only add public keys you trust unconditionally.***"
+>
+> **翻译成操作**：**你加进 `trusted-public-keys` 的每一个公钥，都等于「允许它往你的 store 里塞任何东西」。**
+>
+> **对一个会以 root 运行的东西（如 systemd 服务）来说，这等于给那个缓存的所有者 root 权限。**
+>
+> **所以**：**只加你无条件信任的公钥** —— 官方自己的 `cache.nixos.org`、你自己建的缓存。**第三方「加速缓存」要三思。**
+
+**官方给的三种配置方式**：
+
+**① 一次性（命令行）**：
+
+```bash
+nix-build --substituters https://example.org --trusted-public-keys example.org:My56...Q==%
+```
+
+**② 永久，但排在公共缓存之前**（用 `priority`）：
+
+```bash
+$ echo "extra-substituters = https://example.org?priority=30" >> /etc/nix/nix.conf
+$ echo "extra-trusted-public-keys = example.org:My56...Q==%" >> /etc/nix/nix.conf
+```
+
+> **官方原文**：*"To permanently configure **trying the custom cache before the public cache**, add it as `extra-substiters` with **lower `priority` value**"*
+>
+> **注意**：**priority 数字小 = 先试**。（与 §34.5 的「优先级数字小 = 优先」是同一套约定 —— Nix 生态一致。）
+
+**③ 只用自定义缓存**：
+
+```bash
+$ echo "substituters = https://example.org" >> /etc/nix/nix.conf
+$ echo "trusted-public-keys = example.org:My56...Q==%" >> /etc/nix/nix.conf
+```
+
+**NixOS 上的官方写法**：
+
+```nix
+{ ... }: {
+  nix.settings = {
+    substituters = [ "https://example.org?priority=30" ];
+    trusted-public-keys = [ "example.org:My56...Q==%" ];
+  };
+}
+```
+
+> [!IMPORTANT]
+> **`substituters` vs `extra-substituters` 的区别（本指南补充）**：
+>
+> | 选项 | 行为 |
+> |---|---|
+> | `substituters` | **替换**整个列表（**`cache.nixos.org` 会消失**） |
+> | `extra-substituters` | **追加**（保留默认的 `cache.nixos.org`） |
+>
+> **⚠️ NixOS 上有个坑**：`nix.settings.substituters` 是**直接设 `substituters`** —— **如果你在这里只写自建缓存，`cache.nixos.org` 就没了**，所有官方包都要自己编译。
+>
+> **正确做法（要保留官方缓存时）**：
+> ```nix
+> nix.settings = {
+>   substituters = [
+>     "https://mirror.example.cn/nix-channels/store"   # 你的镜像
+>     "https://cache.nixos.org"                        # ★ 别忘官方
+>   ];
+>   trusted-public-keys = [
+>     "mirror.example.cn-1:..."                        # 镜像的公钥
+>     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="   # ★ 官方公钥
+>   ];
+> };
+> ```
+>
+> **官方公钥 `cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=` 是公开固定的**（本指南 §30.10 已给）。
+
+**官方还提了两条 Next steps**：
+
+> - *"Follow the tutorial to set up your own HTTP binary cache"*
+> - **官方 TIP**：*"Use **remote build machines** as **preferred binary caches** to reduce your external traffic."*
+
+> [!TIP]
+> **第二条对本指南第二十二章「666 个 derivation」的直接价值**：
+>
+> **官方建议：把「远程构建机」当作「优先缓存」。**
+>
+> 也就是：**用一台强力机器构建 → 产物自动进缓存 → 弱机器只下载**。
+>
+> **这正是第二十二章那个问题的根治方案之一**（另一个是 §36.8 的 post-build-hook）。
+> 官方教程：<https://nix.dev/tutorials/nixos/distributed-builds-setup>（本指南未展开，属附录 E 可补方向）。
+
+---
+
+### 36.8 Recipe：post-build-hook —— 自动上传构建产物（治「构建地狱」）
+
+**官方页面**：<https://nix.dev/guides/recipes/post-build-hook>（作者 `grahamc` —— **NixOS 的核心贡献者**）。
+
+> [!IMPORTANT]
+> **这个 recipe 是第二十二章「666 个 derivation 构建地狱」的官方根治方案。**
+>
+> **它做的事**：**每次本地构建完，自动签名并上传到你的 S3 兼容缓存。** 下次（包括你自己、包括 Agent、包括别的机器）直接下载。
+
+**官方开头的实现警告（必须先读）**：
+
+> *"This is a simple and working example, but **it is not suitable for all use cases**.*
+>
+> *The post-build hook program **runs after each executed build, and blocks the build loop**. **The build loop exits if the hook program fails.***
+>
+> *Concretely, this implementation will **make Nix slow or unusable when the network connection is slow or unreliable**.*
+>
+> *A more advanced implementation might pass the store paths to a **user-supplied daemon or queue** for processing the store paths **outside of the build loop**."*
+
+> [!DANGER]
+> **「hook 失败 = 构建循环退出」是这段官方警告的核心。**
+>
+> **含义**：**如果你用「网络不好时会上传失败的」hook，你的 Nix 会因为上传失败而停止工作。**
+>
+> **所以官方明确说**：*"will make Nix slow or unusable when the network connection is slow or unreliable."*
+>
+> **对国内用户的现实建议**：**如果你到 S3 的网络不稳，不要直接用这个简单实现** —— 改用「队列 / 后台 daemon」的进阶实现，或者干脆用 §36.9 的 CI 方案（在 CI 机器上上传，不影响本地）。
+
+**完整流程（官方逐字）**：
+
+**Step 1：生成签名密钥对**
+
+```bash
+$ nix-store --generate-binary-cache-key example-nix-cache-1 /etc/nix/key.private /etc/nix/key.public
+$ cat /etc/nix/key.public
+example-nix-cache-1:1/cKDz3QCCOmwcztD2eV6Coggp6rqc9DGjWv7C0G+rM=
+```
+
+> **官方说明**：*"You will **sign paths with the private key**, and **distribute the public key** for verifying the authenticity of the paths."*
+
+**Step 2：所有要访问该缓存的机器配置缓存**
+
+```ini
+# nix.conf
+substituters = https://cache.nixos.org/ s3://example-nix-cache
+trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= example-nix-cache-1:1/cKDz3QCCOmwcztD2eV6Coggp6rqc9DGjWv7C0G+rM=
+```
+
+**Step 3：构建机配置私钥**
+
+```ini
+secret-key-files = /etc/nix/key.private
+```
+
+> **官方说明**：*"Machines that build for the cache must **sign derivations using the private key**."*
+
+**Step 4：写 hook 脚本**
+
+```bash
+#!/bin/sh
+set -eu
+set -f # disable globbing
+export IFS=' '
+echo "Uploading paths" $OUT_PATHS
+exec nix copy --to "s3://example-nix-cache" $OUT_PATHS
+```
+
+**官方对这三行的逐条解释（这一段解释了 shell 编程的细节，值得读）**：
+
+> *"The `$OUT_PATHS` variable is a **space-separated list of Nix store paths**. In this case, we expect and want the shell to **perform word splitting** to make each output path its own argument to `nix store sign`.*
+>
+> *Nix **guarantees the paths will not contain any spaces**, however **a store path might contain glob characters**. The `set -f` **disables globbing** in the shell."*
+
+```bash
+# chmod +x /etc/nix/upload-to-cache.sh
+```
+
+**Step 5：配置 Nix 使用 hook**
+
+```ini
+# nix.conf
+post-build-hook = /etc/nix/upload-to-cache.sh
+```
+
+```bash
+pkill nix-daemon   # 官方给的「重启 nix-daemon」
+```
+
+**Step 6：测试（官方给了一个很干净的测试方法）**
+
+```console
+$ nix-build -E '(import <nixpkgs> {}).writeText "example" (builtins.toString builtins.currentTime)'
+this derivation will be built:
+  /nix/store/s4pnfbkalzy5qz57qs6yybna8wylkig6-example.drv
+building '/nix/store/s4pnfbkalzy5qz57qs6yybna8wylkig6-example.drv'...
+running post-build-hook '/home/grahamc/projects/github.com/NixOS/nix/post-hook.sh'...
+post-build-hook: Signing paths /nix/store/ibcyipq5gf91838ldx40mjsp0b8w9n18-example
+post-build-hook: Uploading paths /nix/store/ibcyipq5gf91838ldx40mjsp0b8w9n18-example
+```
+
+**验证上传成功**（官方的做法：**删掉本地的，再从缓存取回来**）：
+
+```console
+$ rm ./result
+$ nix-store --delete /nix/store/ibcyipq5gf91838ldx40mjsp0b8w9n18-example
+$ nix-store --realise /nix/store/ibcyipq5gf91838ldx40mjsp0b8w9n18-example
+copying path '/nix/store/m8bmqwrch6l3h8s0k3d673xpmipcdpsa-example from 's3://example-nix-cache'...
+```
+
+> [!TIP]
+> **官方这个验证方法是「可复用的诊断模式」**：
+>
+> **「删本地 → 从缓存取」是验证任何缓存是否生效的唯一可靠方法。**
+>
+> **对本指南的应用**（§30.10 国内镜像）：
+> ```bash
+> nix-store --delete <某个你确定在缓存里的路径>
+> nix-store --realise <同一个路径>     # 看它是不是从镜像下载的
+> ```
+> **比「看下载速度」可靠** —— 后者可能是别的缓存。
+
+**官方结论**：
+
+> *"You have configured Nix to **automatically sign and upload every local build** to a remote S3-compatible binary cache.*
+>
+> *Before deploying this to production, be sure to consider the implementation caveats."*
+
+---
+
+### 36.9 Recipe：CI + Cachix（官方推荐的缓存方案）
+
+**官方页面**：<https://nix.dev/guides/recipes/continuous-integration-github-actions>（作者 `domenkozar` —— **Cachix 的作者**）。
+
+**官方原文**：
+
+> *"Nix lets CI **build and cache developer environments for every project on every branch** using binary caches.*
+>
+> *Build time is a key CI metric. **Cachix (below) is the most straightforward caching option.**"*
+
+> *"Using Cachix you'll **never have to waste time building a derivation twice**, and you'll share built derivations with all your developers.*
+>
+> *- **After each job, just-built derivations are pushed to your binary cache.**
+> - **Before each job, derivations to be built are first substituted (if they exist) from your binary cache.**"*
+
+**官方完整流程**：
+
+**1. 建缓存** —— 在 <https://app.cachix.org/cache> 建，然后按 **Push binaries** 标签页的指示做。
+
+**官方建议**：*"It's recommended to have **different binary caches per team**, depending on who will have write/read access to it."*
+
+**2. 配置 GitHub Secret** —— `Settings` → `Secrets and variables` → `Actions` → `New repository secret`，加 `CACHIX_SIGNING_KEY` 和/或 `CACHIX_AUTH_TOKEN`。
+
+**3. 写 workflow**（`.github/workflows/test.yml`，官方逐字）：
+
+```yaml
+name: "Test"
+on:
+  pull_request:
+  push:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v25
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+    - uses: cachix/cachix-action@v14
+      with:
+        name: mycache
+        # If you chose signing key for write access
+        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+        # If you chose API tokens for write access OR if you have a private cache
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - run: nix-build
+    - run: nix-shell --run "echo OK"
+```
+
+**官方说明**：*"Once you commit and push to your GitHub repository, you should see status checks appearing on commits and PRs."*
+
+> [!NOTE]
+> **官方在这里的 `nix_path: nixpkgs=channel:nixos-unstable` 值得注意** ——
+>
+> **它用了 `channel:` 简写**（§36.1 第 ④ 条说「不要用 lookup path」）。**但这是 CI 场景的合理选择**：CI 想要「每次跑最新的 unstable」而不是「锁定版本」。
+>
+> **如果你要可复现的 CI**：改成 `nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/<commit>.tar.gz`（§36.4 的 pinning 方式）。
+>
+> **两种选择都合理，取决于你要「快速发现 breakage」还是「结果可复现」。**
+
+> [!TIP]
+> **对 Vibe Coding 用户的实用价值**：
+>
+> **如果你用 Agent 维护一个 Nix 配置仓库，加一个 Cachix workflow 能带来**：
+> 1. **Agent 改配置后自动验证能不能构建**（不用你本地跑）
+> 2. **构建产物进缓存 → 你自己机器上 `nixos-rebuild` 时直接下载**
+>
+> **官方提到的替代方案**（本指南补充）：**`cachix` 不是唯一选择** —— 你也可以用 GitHub Actions 的 `actions/cache` + `nix copy` 到自己的 S3（§36.8）。
+>
+> **官方给的 Next step**：<https://github.com/nix-dot-dev/getting-started-nix-template>（Nix 项目模板）。
+
+---
+
+### 36.10 Recipe：direnv 自动激活开发环境
+
+**官方页面**：<https://nix.dev/guides/recipes/direnv>。
+
+**官方原文**：
+
+> *"Instead of manually activating the environment for each project, you can **reload a declarative shell every time you enter the project's directory or change the `shell.nix` inside it**.*
+>
+> *1. Make **nix-direnv** available*
+> *2. **Hook it into your shell**"*
+
+**官方给的完整例子**：
+
+```nix
+# shell.nix
+let
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-23.11";
+  pkgs = import nixpkgs { config = {}; overlays = []; };
+in
+
+pkgs.mkShellNoCC {
+  packages = with pkgs; [
+    hello
+  ];
+}
+```
+
+```bash
+$ echo "use nix" > .envrc && direnv allow
+```
+
+```console
+$ cd myproject
+$ which hello
+/nix/store/1gxz5nfzfnhyxjdyzi04r86sh61y4i00-hello-2.12.1/bin/hello
+```
+
+**官方说明**：*"The next time you launch your terminal and enter the top-level directory of your project, `direnv` will automatically launch the shell defined in `shell.nix`. **`direnv` will also check for changes to the `shell.nix` file.**"*
+
+**官方给的 `shellHook` 例子**：
+
+```nix
+pkgs.mkShellNoCC {
+  packages = with pkgs; [ hello ];
+  shellHook = ''
+    hello
+  '';
+}
+```
+
+> *"The running environment should **reload itself after the first interaction** (run any command or press `Enter`)."*
+
+> [!IMPORTANT]
+> **官方用的两个关键组件（缺一不可）**：
+>
+> | 组件 | 作用 | 本指南的对应 |
+> |---|---|---|
+> | **`direnv`** | 检测 `.envrc`，进出目录时触发 | 通用工具 |
+> | **`nix-direnv`** | **让 direnv 缓存 Nix 环境**（否则每次进目录都重求值） | **关键** —— 没有它 direnv + nix 会非常慢 |
+>
+> **NixOS 上的完整配置**（本指南补充，官方只说「Make nix-direnv available」）：
+>
+> ```nix
+> programs.direnv = {
+>   enable = true;
+>   nix-direnv.enable = true;    # ★ 这个才是缓存层
+>   silent = true;               # 可选：不打印加载信息
+> };
+> ```
+>
+> **验证**：
+> ```bash
+> cd ~/myproject && direnv allow && which hello
+> ```
+>
+> **`direnv allow` 是安全机制** —— **每个新的 `.envrc` 都必须手动 allow**（防止 clone 一个仓库就被执行任意代码）。
+
+> [!TIP]
+> **这条对 Vibe Coding 用户的直接价值**：
+>
+> **Agent 经常需要在项目目录里跑命令。用 direnv 后**：
+> - **Agent 一 `cd` 进项目，工具链自动就位**（不用 `nix-shell` 包一层）
+> - **`.envrc` + `shell.nix` 进 git → 你的工具链版本可复现、可 review**
+> - **`.envrc` 也可以 `use flake`**（如果项目用 flake）：
+>   ```bash
+>   echo "use flake" > .envrc && direnv allow
+>   ```
+>
+> **⚠️ 安全提示**：`.envrc` **是可执行代码**。**从不可信仓库 clone 后不要直接 `direnv allow`** —— 先读一遍 `.envrc`。
+
+---
+
+### 36.11 Recipe：`mkShellNoCC` + `inputsFrom`（**官方推荐的 shell 写法**）
+
+**官方页面**：<https://nix.dev/guides/recipes/sharing-dependencies>。
+
+> [!IMPORTANT]
+> **本指南 §15 大量使用了 `pkgs.mkShell` —— 但 nix.dev 的官方 recipe 全部用 `mkShellNoCC`。**
+>
+> **这不是笔误，是官方的新推荐。** 两者区别：
+>
+> | | `mkShell` | **`mkShellNoCC`** |
+> |---|---|---|
+> | 是否包含 C 编译器 | ✅ **自动带 `stdenv.cc`** | ❌ **不带** |
+> | 适合 | 需要编译 C/C++ 的项目 | **不需要 C 工具链的项目**（Python / Node / Rust 的纯运行时） |
+> | 体积 | 大（拖一整个 GCC） | **小** |
+>
+> **来源核实**：`nixos-26.05` 的 `pkgs/build-support/mkshell/default.nix` 里，**`mkShellNoCC` 是这个文件的主要导出**（文件顶部注释即 *"A special kind of derivation that is only meant to be consumed by the nix-shell"*）。
+>
+> **给你的判据**：
+> - **需要 `gcc` / `cc`**（编译原生扩展、C 项目）→ `mkShell`
+> - **不需要**（纯解释型语言、只用现成包）→ **`mkShellNoCC`**（更快、更小）
+>
+> **⚠️ 如果你照抄 nix.dev 的例子报「找不到 gcc」** —— 那就是你需要 `mkShell`。
+
+**官方要解决的问题**：
+
+> *"When packaging software in `default.nix`, you'll want a development environment in `shell.nix` to enter conveniently with `nix-shell` or automatically with `direnv`. **How to share the package's dependencies in `default.nix` with the development environment in `shell.nix`?**"*
+
+**官方的答案（逐字）**：
+
+> *"Use the **`inputsFrom`** attribute to `pkgs.mkShellNoCC`:"*
+
+```nix
+# default.nix
+let
+  pkgs = import <nixpkgs> {};
+  myPackage = pkgs.callPackage ./package.nix {};
+in
+{
+  inherit myPackage;
+  shell = pkgs.mkShellNoCC {
+    inputsFrom = [ myPackage ];
+  };
+}
+```
+
+```nix
+# shell.nix
+(import ./.).shell
+```
+
+**官方给的完整例子（含被引用的包）**：
+
+```nix
+# package.nix
+{ cowsay, runCommand }:
+runCommand "cowsay-output" { buildInputs = [ cowsay ]; } ''
+  cowsay Hello, Nix! > $out
+''
+```
+
+```nix
+# default.nix
+let
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-23.11";
+  pkgs = import nixpkgs { config = {}; overlays = []; };
+  myPackage = pkgs.callPackage ./package.nix {};
+in
+{
+  inherit myPackage;
+  shell = pkgs.mkShellNoCC {
+    inputsFrom = [ myPackage ];
+  };
+}
+```
+
+```nix
+# shell.nix
+(import ./.).shell
+```
+
+**验证**：
+
+```console
+$ nix-shell --pure
+[nix-shell]$ cowsay shell.nix
+```
+
+> [!IMPORTANT]
+> **`inputsFrom` 的机制（源码级核实）**：
+>
+> 从 `nixos-26.05` 的 `pkgs/build-support/mkshell/default.nix`：
+>
+> ```nix
+> mergeInputs =
+>   name:
+>   (attrs.${name} or [ ])
+>   ++
+>     # 1. get all `{build,nativeBuild,...}Inputs` from the elements of `inputsFrom`
+>     # 2. since that is a list of lists, `flatten` that into a regular list
+>     # 3. filter out of the result everything that's in `inputsFrom` itself
+>     # this leaves actual dependencies of the derivations in `inputsFrom`, but never the derivations themselves
+>     (lib.subtractLists inputsFrom (lib.flatten (lib.catAttrs name inputsFrom)));
+> ```
+>
+> **官方源码注释说得很清楚**：
+> - 它把 `inputsFrom` 里每个 derivation 的 `buildInputs` / `nativeBuildInputs` / `propagatedBuildInputs` 全部**拉平**进来
+> - **但把 derivation 自己排除掉**（`subtractLists inputsFrom ...`）
+>
+> **所以 `inputsFrom = [ myPackage ]` 的含义是**：**「把 `myPackage` 的依赖拿进来，但不把 `myPackage` 自己拿进来」**。
+>
+> **源码还显示 `shellHook` 的合并顺序**：
+> ```nix
+> shellHook = lib.concatStringsSep "\n" (
+>   lib.catAttrs "shellHook" (lib.reverseList inputsFrom ++ [ attrs ])
+> );
+> ```
+> → **`inputsFrom` 的 shellHook 按「逆序」先跑，最后跑你自己的。**（**这解释了 §15 里 `shellHook` 顺序问题的机制**。）
+
+> [!TIP]
+> **这条对 Vibe Coding 用户的实际价值**：
+>
+> **场景**：Agent 帮你打包了一个程序（`package.nix`），你想在开发时用同样的依赖。
+>
+> **❌ 常见错误做法**：在 `shell.nix` 里**把依赖再列一遍**
+> → **两份清单会漂移**（改了 `package.nix` 忘了改 `shell.nix`）
+>
+> **✅ 官方做法**：`inputsFrom = [ myPackage ]`
+> → **依赖只有一处定义**（`package.nix`），shell 自动跟随
+>
+> **给 Agent 的提示词**：
+> ```
+> 请用 inputsFrom 让 shell.nix 复用 default.nix 里包的依赖，
+> 不要在两处重复列依赖清单。
+> ```
+
+---
+
+### 36.12 Recipe：Python 开发环境（`withPackages` vs virtualenv）
+
+**官方页面**：<https://nix.dev/guides/recipes/python-environment>。
+
+**官方的核心论点（这是这一页最值得读的一段）**：
+
+> *"It also contains `curl`, a utility to perform web requests, and `jq`, a tool to parse and format JSON documents. **Both of them are not Python packages.***
+>
+> ***If you went with Python's virtualenv, it would not be possible to add these utilities to the development environment without additional manual steps.***"
+
+> [!IMPORTANT]
+> **官方给出的「Nix 开发环境 vs virtualenv」的本质差异**：
+>
+> | | **virtualenv / pip** | **Nix shell** |
+> |---|---|---|
+> | 能管什么 | **只有 Python 包** | **Python 包 + 任何非 Python 工具** |
+> | 加 `curl` / `jq` / `postgresql` | **要额外手工步骤** | **写进同一个 `packages` 列表** |
+> | 版本可复现 | ❌（除非 lock 文件） | ✅ |
+>
+> **官方原话**：*"it would not be possible to add these utilities to the development environment **without additional manual steps**"*
+>
+> **这就是「为什么用 Nix 做开发环境」的官方论据** —— **不是「Nix 更好」，而是「Nix 把语言级和系统级的依赖放进同一个可复现的声明里」。**
+
+**官方完整例子**：
+
+```python
+#!/usr/bin/env python
+# myapp.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return {
+        "message": "Hello, Nix!"
+    }
+
+def run():
+    app.run(host="0.0.0.0", port=5000)
+
+if __name__ == "__main__":
+    run()
+```
+
+```nix
+# shell.nix
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-23.11") {} }:
+
+pkgs.mkShellNoCC {
+  packages = with pkgs; [
+    (python3.withPackages (ps: [ ps.flask ]))
+    curl
+    jq
+  ];
+}
+```
+
+> *"This describes a shell environment with **an instance of `python3` that includes the `flask` package** using `python3.withPackages`."*
+
+**官方给的验证流程**：
+
+```console
+$ nix-shell
+[nix-shell:~]$ python ./myapp.py
+ * Running on http://127.0.0.1:5000
+```
+
+**开另一个终端**：
+
+```console
+$ nix-shell
+[nix-shell:~]$ curl 127.0.0.1:5000
+{"message":"Hello, Nix!"}
+[nix-shell:~]$ curl 127.0.0.1:5000 | jq '.message'
+"Hello, Nix!"
+```
+
+> *"As demonstrated, you can use **both `curl` and `jq`** to test the running web application **without any manual installation**."*
+
+**官方结论**：
+
+> *"You can **commit the files we created to version control and share them with other people**. Others can now use the same shell environment as long as they have Nix installed."*
+
+> [!TIP]
+> **`python3.withPackages` 与本指南 §15 的关系**：
+>
+> **本指南 §15 讲的是「语言工具链」（npm / bun / uv / Python / Rust / Go / TS）**，但**没有明确讲「Python 项目的依赖怎么声明」**。
+>
+> **官方的答案是 `python3.withPackages`**：
+> ```nix
+> (python3.withPackages (ps: [ ps.flask ps.requests ]))
+> ```
+> **`ps` 是「该 Python 版本对应的包集」** —— 所以 `ps.flask` 保证是**与这个 `python3` 兼容的 flask**。
+>
+> **什么时候仍然用 venv / uv？**
+> | 场景 | 用什么 |
+> |---|---|
+> | 项目依赖固定、要可复现 | **`python3.withPackages`**（官方推荐） |
+> | 需要 pip install 一堆东西、边写边加 | venv / uv（**但会失去可复现性**） |
+> | 需要非 Python 工具（psql / curl / jq） | **必须 Nix shell**（virtualenv 做不到） |
+>
+> **本指南 §15 讲的 `uv` 仍在 nixpkgs 里**，**两者可以并用**：用 Nix 提供 `python3` + `uv`，用 uv 管项目内的虚拟环境。
+
+---
+
+### 36.13 六个反模式
+
+| # | 反模式 | 后果 | 官方依据 |
+|---|---|---|---|
+| 1 | 让 Agent 写 Nix 代码但**不用 §36.1 的清单验收** | 生成「能跑但不可复现」的配置（`<nixpkgs>` / 裸 URL / `rec` / 顶层 `with`） | <https://nix.dev/guides/best-practices> |
+| 2 | `import <nixpkgs> {}` 且不传 `config` / `overlays` | **不纯读取文件系统** → 同配置不同结果 | 同上（官方承认是历史包袱） |
+| 3 | 用 `//` 做嵌套配置的覆盖 | **静默删掉整棵子树**（键消失） | 同上（`lib.recursiveUpdate`） |
+| 4 | `trusted-public-keys` 里加来路不明的缓存公钥 | **该缓存可往你 store 塞任意文件（含 root 运行的程序）** | <https://nix.dev/guides/recipes/add-binary-cache> |
+| 5 | 直接上 `post-build-hook` 简单实现 + 不稳的网络 | **hook 失败 → 构建循环退出 → Nix 不可用** | <https://nix.dev/guides/recipes/post-build-hook> |
+| 6 | 把 `shell.nix` 的依赖清单**手抄一遍**（而不是 `inputsFrom`） | 两份清单漂移；改一处忘另一处 | <https://nix.dev/guides/recipes/sharing-dependencies> |
+
+> [!TIP]
+> **本章的四行一句话总结**：
+>
+> **写 Nix 代码** → 对着 §36.1 的七条清单验收（**这是官方唯一说「不要这么写」的地方**）。
+> **不想用 channel 也不想用 flake** → **`system.nix` + npins**（26.05 新增，§36.3/§36.4）。
+> **Nix 数据库坏了 / 降级后报 schema 错** → §36.5 的 sqlite dump/restore（**不是 `--repair`**）。
+> **构建太慢** → §36.8 post-build-hook 或 §36.9 Cachix（**但先读 §36.8 的警告**）。
+>
+> **本章你至少要记住一条**：**`import <nixpkgs> {}` 不是可复现的** —— 官方原话是「不纯地读文件系统」。
+
+---
+
+## 三十七、NixOS 26.05 破坏性变更与新增特性总表（官方 release notes 逐条）
+
+**官方来源**：`nixos/doc/manual/release-notes/rl-2605.section.md`（nixos-26.05 分支，**496 行**）。
+
+**在线地址**：<https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-26.05>
+
+> [!IMPORTANT]
+> **本章的定位：这是「升级到 26.05 时的逐条检查单」，也是「老教程为什么失效」的答案索引。**
+>
+> **为什么单独成章**：
+> 1. **本指南前面的章节大量引用 release notes 的个别条目**（如 §14 引了 `linux_hardened` 移除），但**没有一处把 26.05 的变更集中列出来**
+> 2. **本章的核实过程发现了一批「官方手册正文与 release notes 矛盾」的情况**（最典型的是 `fsType`，见 §37.6）—— **跟着官方手册写配置反而会报错**
+> 3. **官方 release notes 的结构是「Highlights / New Modules / Backward Incompatibilities / Other Notable Changes」** —— 本章**只挑对你有影响的**，按「影响面」重排
+
+> [!NOTE]
+> **本章的筛选原则**（按你的画像：AMD 显卡 / AMD CPU / Realtek 有线网卡 / 中文 / GNOME 或 KDE / Flatpak / Steam / Vibe Coding）：
+>
+> | 收录 | 跳过 |
+> |---|---|
+> | 影响**引导 / 存储 / 内核 / 图形 / 游戏 / 桌面 / 网络 / systemd / 配置语法**的 | Jenkins / Mattermost / Nextcloud / Kubernetes / Dovecot / Ceph / Immich / Grafana / Vikunja / PowerDNS / Tor / UniFi 等**服务类**变更 |
+> | **官方明确说「老写法会报错」的** | 「新增了某个模块」（除非与你相关，如 `hardware.xpadneo`） |
+>
+> **跳过不等于不重要** —— 只是**你不是那些服务的使用者**。**要查完整清单请点上面的在线地址。**
+
+---
+
+### 37.1 ★★★ Stage 1 默认改为 systemd（**这解决了附录 C 的一条存疑项**）
+
+**官方原文（Highlights 第 1 条，`rl-2605.section.md:7`）**：
+
+> *"**Stage 1 (a.k.a. initrd) is now based on systemd by default**, and **the old scripted implementation is deprecated and scheduled for removal in 26.11**.*
+>
+> *You can temporarily revert to the scripted stage 1 implementation by **disabling `boot.initrd.systemd.enable`**, but **this is discouraged**.*
+>
+> *Most incompatibilities will be explained with **assertions during configuration evaluation**, but **be aware of the following that can't be automatically detected**:"*
+
+> [!IMPORTANT]
+> **★ 附录 C 存疑项「26.05 默认的 stage 1 是 scripted 还是 systemd」—— 现在有官方明确答案了。**
+>
+> | 问题 | 答案 |
+> |---|---|
+> | **26.05 默认** | ✅ **systemd stage 1**（`boot.initrd.systemd.enable` 默认 `true`） |
+> | **scripted stage 1** | ⚠️ **已弃用，26.11 移除** |
+> | **怎么退回 scripted** | `boot.initrd.systemd.enable = false;` —— **官方说 "this is discouraged"** |
+> | **为什么本指南之前判断不了** | 官方 NixOS 手册 `sec-boot-problems` **同时给了两套调试图参数**，但**没说默认是哪个** —— 答案只在 release notes 里 |
+>
+> **这条推翻了一个常见认知**：**「NixOS 的 initrd 是 shell 脚本拼的」—— 26.05 起不是了。**
+>
+> **对本指南 §30.6 的影响**：**之前列的两套调试参数，现在应以「systemd stage 1」那一套为主**（`rd.systemd.debug_shell` / `rd.systemd.break=...` / `rd.systemd.log_level=debug` / `SYSTEMD_SULOGIN_FORCE=1`）。
+
+**官方列出的 4 条「无法自动检测」的不兼容（必须人工检查）**：
+
+#### ① LUKS：`fileSystems."/".device` 必须是 `/dev/mapper/<name>`
+
+**官方原文**：
+
+> *"If you use LUKS disk encryption, **ensure that `fileSystems."/".device` is set to `"/dev/mapper/<name>"`, where `<name>` matches the name in your `boot.initrd.luks.devices.<name>` definition**, to avoid **systemd timing out while prompting for a passphrase**.*
+>
+> *If you have a more complex setup, e.g. with **LVM on top of LUKS**, you may need to add **`"x-systemd.device-timeout=infinity"`** to `fileSystems."/".options` instead.*
+>
+> *If you need to disable the timeout **before you can boot into the system**, pass **`systemd.default_device_timeout_sec=infinity`** on the kernel command line."*
+
+> [!DANGER]
+> **这是本节最容易「装完机开不了」的一条。**
+>
+> **症状**：**systemd 在等你输 LUKS 口令时超时** → 掉 emergency shell / 卡住。
+>
+> **原因**：`fileSystems."/".device` 写的路径与 `boot.initrd.luks.devices.<name>` 的名字**对不上** → systemd 找不到设备 → 等超时。
+>
+> **正确写法**（**两个 `<name>` 必须一致**）：
+> ```nix
+> boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/xxxx-...";
+> #                     ^^^^^^^ 名字
+> fileSystems."/".device = "/dev/mapper/crypted";
+> #                                   ^^^^^^^ 必须相同
+> ```
+>
+> **⚠️ 与本指南 §27.2 的关系**：**§27.2 给的是官方 NixOS 手册的 LUKS 流程（`crypted` 这个名字）—— 那个例子恰好是对的**（两边都叫 `crypted`）。**但如果你改了名字，两处都要改。**
+>
+> **LVM on LUKS 的额外处理**：
+> ```nix
+> fileSystems."/".options = [ "x-systemd.device-timeout=infinity" ];
+> ```
+>
+> **已经开不了机的急救**（官方给的）：
+> ```
+> 在内核命令行加：systemd.default_device_timeout_sec=infinity
+> ```
+> **这比「改配置再 rebuild」快** —— 因为你**根本进不去系统**。
+
+#### ② `cryptsetup-askpass` 不再可用
+
+**官方原文**：
+
+> *"The **`cryptsetup-askpass` program is not available**; use **`systemctl default`** instead, which will prompt for passphrases as necessary.*
+>
+> *If you **pipe password responses into SSH over stdin**, use **`ssh -o RequestTTY=force`** to ensure `systemctl default` gets a TTY to prompt on."*
+
+> [!NOTE]
+> **对你的影响**：**如果你用「SSH 进 initrd 远程输 LUKS 口令」的方案，命令变了。**
+>
+> | | scripted stage 1 | **systemd stage 1（26.05 默认）** |
+> |---|---|---|
+> | 输口令的工具 | `cryptsetup-askpass` | **`systemctl default`** |
+> | SSH 管道传密码 | 直接可用 | **必须加 `ssh -o RequestTTY=force`** |
+>
+> **为什么必须加 `RequestTTY=force`**：**`systemctl default` 需要一个 TTY 才能提示**。SSH 默认在「管道输入」时不分配 TTY。
+>
+> **本指南未展开「远程解锁」这个场景** —— 属于附录 E 可补方向。
+
+#### ③ 许多内核参数被 systemd 原生版本取代
+
+**官方原文**：
+
+> *"**Many kernel parameters have been replaced with native systemd versions**; see `sec-boot-problems`."*
+
+> [!IMPORTANT]
+> **这条与 §30.6 的「启动问题内核参数全集」直接相关** —— 但**官方在这里没有列出具体是哪些**。
+>
+> **本指南的诚实标注**：**具体清单官方指向 `sec-boot-problems`，但那一节给的仍是「两套参数并列」的写法**，没有明确标出「哪些是 scripted 专有、哪些是 systemd 专有」。
+>
+> **实用建议**：**优先用 `rd.systemd.*` 系列**（26.05 默认是 systemd stage 1），**旧的裸参数当作 fallback**。
+
+#### ④ `/dev/root` 不再存在
+
+**官方原文**：
+
+> *"`/dev/root` **is not available with the systemd stage 1**. In the old scripted stage 1, `/dev/root` was a **symlink created by the init script from the `root=` kernel command line**. With systemd stage 1, **this symlink is not provided**.*
+>
+> *If your configuration uses `/dev/root` in `fileSystems`, **replace it with a stable device path** such as `/dev/disk/by-label/...`, `/dev/disk/by-uuid/...`, or the appropriate `/dev/mapper/...` path."*
+
+> [!TIP]
+> **这条与本指南 §27.1 的建议完全一致** —— §27.1 早就说「**优先 `by-label` / `by-uuid`**」，理由是「拓扑无关」。
+>
+> **现在多了一个理由**：**`/dev/root` 在 26.05 直接不存在了。**
+>
+> **检查你的配置有没有用到它**：
+> ```bash
+> grep -n '"/dev/root"' /etc/nixos/*.nix
+> ```
+> **有的话立刻改掉。**
+
+---
+
+### 37.2 `system.nix`：新增的配置入口
+
+**官方原文（Highlights，`rl-2605.section.md:18`）**：
+
+> *"The **`system.nix` file has been added as an alternative entry point to `configuration.nix` (and `flake.nix`)** that allows configuring NixOS **without using `nix-channel`**."*
+
+**完整用法见 §36.3**（那里有官方给的完整例子、`--attr` 用法、`<nixos-system>` search path、以及 npins 集成）。
+
+**这里只补一条本指南的定位判断**：
+
+| 你的情况 | 建议 |
+|---|---|
+| **已经在用 channel** | **不必迁移**。channel 仍受支持 |
+| **已经在用 flake** | **不必迁移**。flake 提供更多能力（多机、输出 schema、生态工具） |
+| **想锁定版本但不想学 flake** | ✅ **`system.nix` + npins 是官方给的正解** |
+| **一台机器管多台机的配置** | ✅ `system.nix` 返回属性集 + `--attr`（**不需要 flake 的 `nixosConfigurations`**） |
+
+---
+
+### 37.3 默认内核 6.12 → 6.18
+
+**官方原文（Highlights，`rl-2605.section.md:44`）**：
+
+> *"The **default kernel package has been updated from 6.12 to 6.18**. All supported kernels remain available."*
+
+> [!NOTE]
+> **这条本指南已经引过**（§14 与 §33.1）—— 这里只做汇总。
+>
+> **关键提醒**（来自 §33.1，官方 `sec-kernel-config`）：
+> **非 longterm 内核会在「第一批新稳定内核发布时」从 nixpkgs 删除，即使在 stable 分支。**
+>
+> **所以**：**默认值从 6.12 变 6.18 意味着「6.12 这个长期支持版本仍在，但中间的短期版本已被清掉」**。
+>
+> **正确写法**：
+> ```nix
+> boot.kernelPackages = pkgs.linuxPackages;        # ✅ 跟基座默认（26.05 = 6.18）
+> boot.kernelPackages = pkgs.linuxPackages_latest; # ✅ 追新
+> boot.kernelPackages = pkgs.linuxPackages_zen;    # ✅ 游戏向
+> # boot.kernelPackages = pkgs.linuxPackages_6_18; # ⚠️ 能跑，但写死小版本号迟早被删
+> ```
+
+**同时移除的内核包**（与 §14 呼应）：
+
+| 内核 | 状态 | 官方措辞 |
+|---|---|---|
+| `linux_hardened` / `linuxPackages_hardened` | ❌ 移除 | *"has been removed due to a lack of maintenance"*（`:232`） |
+| `linux-rt` / `linux_rt_*` | ❌ 移除 | *"has been removed due to a lack of maintenance"*（`:236`） |
+| `linux_lqx` / `linux_libre` | ❌ 移除 | 见 §14 |
+
+---
+
+### 37.4 D-Bus 默认实现改为 `dbus-broker`（**这是 switch inhibitor**）
+
+**官方原文（Highlights，`rl-2605.section.md:46`）**：
+
+> *"The **default D-Bus implementation has been switched from `dbus` to `dbus-broker`**. dbus-broker provides **higher performance and reliability** while maintaining compatibility with the D-Bus reference implementation.*
+>
+> *Note that changing `services.dbus.implementation` is a **switch inhibitor**: switching between implementations **requires a reboot rather than just `nixos-rebuild switch`**, because **restarting D-Bus mid-session is unsafe**.*
+>
+> *Users who wish to keep the classic daemon can set: `services.dbus.implementation = "dbus";`"*
+
+> [!IMPORTANT]
+> **这条对你有两层意义**：
+>
+> **① 性能**：**D-Bus 是桌面环境（GNOME / KDE）的核心 IPC 机制** —— 你桌面上几乎所有的「应用间通信」都走它。**官方说 dbus-broker「更高性能、更可靠」。**
+>
+> **② 安全**：**`dbus-broker` 是 systemd 团队的项目，设计上比参考实现更现代**（更好的资源限制与激活机制）。
+>
+> **③ ★ 但注意「switch inhibitor」这个新机制** —— **切换 D-Bus 实现时，`nixos-rebuild switch` 会拒绝，必须重启。**
+>
+> **为什么不能热切**：官方原话 *"restarting D-Bus mid-session is unsafe"* —— **D-Bus 是会话的中枢，重启它等于把桌面拆了重建。**
+>
+> **你不需要做任何事**（默认已经改了）。**只有当你从 25.11 升级过来、或者手动设过 `services.dbus.implementation = "dbus"` 时**，才需要知道：**改这个选项后要重启，不是 switch。**
+
+---
+
+### 37.5 ★★ Switch inhibitors：26.05 新增的「切换前检查」机制
+
+**官方原文（Other Notable Changes，`rl-2605.section.md:415`）**：
+
+> *"**Switch inhibitors were introduced**, which add a **pre-switch check** that compares a list of strings between the previous and the new generation, and **refuses to switch into the new generation when there is a difference between the two lists**.*
+>
+> *This allows avoiding switching into a system when for instance the systemd version changed by adding `config.systemd.package.version` to the switch inhibitors for your system.*
+>
+> *You can still **forcefully switch into any generation by setting `NIXOS_NO_CHECK=1`**."*
+
+> [!IMPORTANT]
+> **★ 这是第三十三章「系统切换内部机制」的一块拼图 —— 本指南之前没有。**
+>
+> **它的位置**：**在 §33.5 的 12 步动作之前**（pre-switch check）。
+>
+> **完整流程现在是这样**：
+> ```
+> nixos-rebuild switch
+>   ↓
+> ① 求值新配置 → 得到新 generation
+>   ↓
+> ② ★ Switch inhibitor 检查（26.05 新增）
+>      比较「上一代」与「新一代」的 inhibitor 字符串列表
+>      有差异 → ❌ 拒绝切换
+>   ↓
+> ③ 通过 → 调 switch-to-configuration（§33.5 的 12 步）
+> ```
+>
+> **默认的 inhibitor 是什么**：官方举的例子是 **`config.systemd.package.version`**（systemd 版本变化）。**意思是「systemd 大版本变了，热切换不安全，请重启」。**
+>
+> **为什么这个机制重要**：
+>
+> | 场景 | 没有 inhibitor | **有 inhibitor** |
+> |---|---|---|
+> | systemd 版本升级 | `nixos-rebuild switch` **直接热切换** → 可能半死不活 | **拒绝**，提示你重启 |
+> | D-Bus 实现切换（§37.4） | 同上 | **拒绝** |
+>
+> **强制绕过的官方开关**：
+> ```bash
+> sudo NIXOS_NO_CHECK=1 nixos-rebuild switch
+> ```
+> **⚠️ 官方说「still forcefully switch」** —— 意思是**这是逃生舱，不是日常操作**。
+>
+> **与 §33.5 的关系**：**§33.5 讲的 12 步动作是「检查通过之后」的事**。**本章补上了「之前还有一道检查」。**
+
+> [!TIP]
+> **这也解释了 §30.8「回滚」的一个边界**：
+>
+> **回滚（选旧 generation）不走 inhibitor 检查** —— 因为 inhibitor 是**切换到新 generation 时**的检查。
+>
+> **但如果你用 `nixos-rebuild switch --rollback` 切到一个「inhibitor 不同」的旧 generation，会不会被拦？**
+> **本指南的推断**：会（因为它是「切换到某个 generation」）。**未实测**，已记入附录 C。
+
+---
+
+### 37.6 ★★ `fileSystems.<name>.fsType` 不再有默认值（**官方手册正文已过时**）
+
+**官方原文（Backward Incompatibilities，`rl-2605.section.md:242`）**：
+
+> *"The **`fileSystems.<name>.fsType` option no longer has a default value and must be specified by the user**. The value **`"auto"` still works as before, though its use is generally discouraged**."*
+
+**源码级核实（本指南实测，`nixos-26.05` 的 `nixos/modules/tasks/filesystems.nix`）**：
+
+```nix
+# 25.11（有默认值）
+fsType = mkOption {
+  default = "auto";        # ← 25.11 有这个
+  example = "ext3";
+  type = nonEmptyStr;
+  ...
+};
+
+# 26.05（默认值被删除）
+fsType = mkOption {
+  example = "ext3";
+  type = nonEmptyStr;      # ← 26.05 没有 default
+  ...
+};
+```
+
+> [!DANGER]
+> **★★ 本指南 §27.1 引用的官方手册原文已经过时 —— 必须修正。**
+>
+> **官方 NixOS 26.05 手册（`ch-file-systems`）仍写着**：
+>
+> > *"**You can usually omit the file system type (`fsType`)**, since `mount` can usually detect the type and load the necessary kernel module automatically. However, if the file system is needed at early boot (in the initial ramdisk) and is not `ext2`, `ext3` or `ext4`, then it's best to specify `fsType`…"*
+>
+> **但 release notes + 模块源码都表明：26.05 里 `fsType` 没有默认值，用户必须指定。**
+>
+> **这是「官方手册正文 ≠ 官方模块源码」的一个实例** —— 手册的这段散文**没有随 25.11 → 26.05 的变更更新**。
+>
+> **实际后果**：
+>
+> | 你写的 | 26.05 的结果 |
+> |---|---|
+> | 省略 `fsType` | ❌ **求值错误**（选项被使用但未定义） |
+> | `fsType = "auto";` | ⚠️ **仍可用，但官方说 "generally discouraged"** |
+> | `fsType = "ext4";` | ✅ **推荐** |
+>
+> **正确写法（26.05）**：
+> ```nix
+> fileSystems."/" = {
+>   device = "/dev/disk/by-label/nixos";
+>   fsType = "ext4";        # ★ 26.05 起必须写
+>   options = [ "defaults" ];
+> };
+> ```
+>
+> **对 Vibe Coding 用户的直接影响**：**Agent 大概率会用训练数据里的「可以省略 fsType」写法** —— **你必须主动检查这一条。**
+
+> [!TIP]
+> **怎么发现这类「手册过时」问题**（可复用的方法）：
+>
+> **① 永远以 release notes 的 `Backward Incompatibilities` 段为准**（比手册正文新）
+> **② 有疑问时读模块源码的 `mkOption`** —— 看有没有 `default`
+> ```bash
+> curl -s https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/modules/tasks/filesystems.nix \
+>   | grep -A8 'fsType = mkOption'
+> ```
+> **③ 对比上一版本的同一文件**（把 URL 里的 `nixos-26.05` 换成 `nixos-25.11`）
+>
+> **本指南这一轮就是用方法 ③ 确认的**（25.11 有 `default = "auto"`，26.05 没有）。
+
+---
+
+### 37.7 ROCm 6 被移除，`rocmPackages` 升到 ROCm 7.x
+
+**官方原文（Backward Incompatibilities，`rl-2605.section.md:317`）**：
+
+> *"**`rocmPackages_6` has been removed**. **`rocmPackages` has been updated to ROCm 7.x**. **Out of tree packages may rely on obsolete hipblas APIs or compile time constant warp size and need to be updated.**"*
+
+> [!IMPORTANT]
+> **对本指南 §32.2（OpenCL on AMD）的影响**：
+>
+> | 项 | 26.05 的状态 |
+> |---|---|
+> | `rocmPackages_6` | ❌ **已移除**（想钉 ROCm 6 的用户没得选了） |
+> | `rocmPackages` | ✅ **现在是 ROCm 7.x** |
+> | `rocmPackages.clr.icd` | ✅ **仍然存在**（§32.2 给的 OpenCL 配置仍然有效） |
+>
+> **好消息**：**§32.2 的写法不用改** —— `hardware.graphics.extraPackages = [ rocmPackages.clr.icd ];` 依然正确。
+>
+> **需要警惕的**：**官方的警告是给「树外包」的** —— *"Out of tree packages may rely on obsolete hipblas APIs or compile time constant warp size"*。
+>
+> **具体含义**：
+> - **`hipblas` API 有废弃项** → 依赖旧 API 的第三方项目**编译会失败**
+> - **"compile time constant warp size"** → **这是 AMD GPU 的一个架构变化**（warp size 曾是编译期常量 64，ROCm 7 时代可能改为运行时可查询）
+>
+> **对你的实际影响**：
+> | 场景 | 影响 |
+> |---|---|
+> | 用 `rocmPackages.clr.icd` 给 Blender / Darktable 做 OpenCL 加速 | ✅ **不受影响**（只用 ICD loader） |
+> | **自己编译依赖 ROCm 的项目**（如某些 LLM 推理框架） | ⚠️ **可能需要打补丁** |
+> | **从 nixpkgs 装已打包好的 ROCm 包** | ✅ 不受影响（nixpkgs 已适配） |
+>
+> **判据**：**只要你不自己编译 ROCm 相关代码，这条对你是透明的。**
+
+---
+
+### 37.8 `nixos-rebuild` 的 Bash 实现被移除（全面 Python 化）
+
+**官方原文（Backward Incompatibilities，`rl-2605.section.md:323`）**：
+
+> *"**The Bash implementation of the `nixos-rebuild` program is removed. All switchable systems now use the Python rewrite.** Any prior usage of **`system.rebuild.enableNg` must now be removed**. If you have any outstanding issues with the new implementation, please open an issue on GitHub."*
+
+> [!IMPORTANT]
+> **对本指南第三十三章的影响**：
+>
+> **§33.5 讲的「`nixos-rebuild switch` 内部做什么」在 26.05 有了实现层的更换** ——
+>
+> | | 25.11 及之前 | **26.05** |
+> |---|---|---|
+> | 实现语言 | **Bash** | **Python**（NG 版本） |
+> | `system.rebuild.enableNg` | 可选开启新版 | **已移除该选项（默认就是新版）** |
+> | `switch-to-configuration` | 独立程序 | **仍然是独立程序**（§33.5 的 12 步动作**不变**） |
+>
+> **关键**：**§33.5 的 12 步动作顺序不受影响** —— 因为那是 `switch-to-configuration` 的行为，**不是 `nixos-rebuild` 脚本本身的行为**。
+>
+> **对你的实际影响**：
+>
+> | 场景 | 影响 |
+> |---|---|
+> | 日常 `nixos-rebuild switch` | ✅ **无感**（命令一样） |
+> | **你写过脚本解析 `nixos-rebuild` 的输出** | ⚠️ **输出格式可能变了** |
+> | 你在配置里写了 `system.rebuild.enableNg = true;` | ❌ **必须删掉**（否则求值报错） |
+>
+> **检查一下**：
+> ```bash
+> grep -rn "enableNg" /etc/nixos/
+> ```
+> **有输出就删掉那一行。**
+
+> [!NOTE]
+> **官方在 26.05 的文档里提到的「Python 重写」其实是 25.11 就开始的 NG 项目** —— **26.05 是「旧实现被彻底移除」的那个版本**。
+>
+> **本指南的核实边界**：**官方没有列出「Python 版的行为差异清单」** —— 只说 *"If you have any outstanding issues … please open an issue"*。
+>
+> **所以「输出格式是否兼容」属于未核实项**（已记入附录 C）。
+
+---
+
+### 37.9 activation script 里 reload / restart systemd unit 已弃用（26.11 移除）
+
+**官方原文（Other Notable Changes，`rl-2605.section.md:413`）**：
+
+> *"**Reloading or restarting systemd units from the NixOS activation script is deprecated, and will be removed in NixOS 26.11.** This deprecation is part of **a bigger effort to deprecate activation scripts altogether**, which will take place over several releases. **There are no in-tree usages of the now-deprecated reload/restart functionality.**"*
+
+> [!IMPORTANT]
+> **★ 这条直接呼应本指南 §33.7「activation script 不要塞重活」—— 现在官方给了时间表。**
+>
+> **完整的时间线**：
+>
+> | 版本 | 状态 |
+> |---|---|
+> | 26.05 | **在 activation script 里 reload/restart unit → 弃用警告** |
+> | **26.11** | **该功能被移除** |
+> | 后续若干版本 | **activation script 整体被弃用**（官方原话 *"a bigger effort to deprecate activation scripts altogether"*） |
+>
+> **为什么官方要弃用 activation script**：
+> **因为它「每次启动和每次 switch 都跑」（§33.7），而且不是声明式的** —— 你写进去的命令**没有幂等性保证，也没有依赖关系管理**。
+>
+> **官方推荐的替代（本指南 §33.7 已给优先级）**：
+> ```
+> StateDirectory / CacheDirectory     ← 最声明式
+>   ↓
+> systemd 服务的 preStart
+>   ↓
+> systemd.tmpfiles.rules
+>   ↓
+> activationScripts                    ← 最后手段
+> ```
+>
+> **❌ 不要写**：
+> ```nix
+> system.activationScripts.myThing = ''
+>   systemctl restart myservice    # ← 26.05 弃用，26.11 移除
+> '';
+> ```
+>
+> **✅ 改成**：
+> ```nix
+> systemd.services.myservice = {
+>   # 让 systemd 自己管重启（§33.6 的 X-RestartIfChanged）
+>   restartTriggers = [ configFile ];
+> };
+> ```
+>
+> **对 Vibe Coding 用户的判据**：**Agent 如果在 `system.activationScripts` 里写了 `systemctl` 命令，要求它改成 `restartTriggers` 或 `preStart`。**
+
+---
+
+### 37.10 `switch-to-configuration` 的 `ExecReload=` 新行为
+
+**官方原文（Other Notable Changes，`rl-2605.section.md:417`）**：
+
+> *"**`switch-to-configuration` now reloads a service instead of restarting it when the only change to its unit is `ExecReload=`**, and **takes no action when `ExecReload=` is removed**. **Previously both cases triggered a restart.**"*
+
+> [!IMPORTANT]
+> **这是 §33.6「单元处理规则」的一条精确补充。**
+>
+> **变更前后对比**：
+>
+> | 变化 | 25.11 及之前 | **26.05** |
+> |---|---|---|
+> | **只改了 `ExecReload=`** | **restart**（服务中断） | ✅ **reload**（不中断） |
+> | **删掉了 `ExecReload=`** | **restart** | ✅ **不动作**（什么都不做） |
+>
+> **为什么这是个改进**：
+> **reload 比 restart 温和** —— reload 让服务自己重读配置（不断连接），restart 是杀掉重建（断所有连接）。
+>
+> **对你的实际影响**（以 §29.4 的自定义服务为例）：
+>
+> ```nix
+> systemd.services.myservice = {
+>   serviceConfig = {
+>     ExecStart = "${pkgs.myservice}/bin/myservice";
+>     ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";   # ← 定义了这个
+>   };
+> };
+> ```
+>
+> **现在：只要你只改 `ExecReload` 那一行，`nixos-rebuild switch` 会用 reload 而不是 restart。**
+>
+> **⚠️ 但注意**：**这依赖服务本身正确处理 `SIGHUP`** —— 如果服务收到 SIGHUP 直接退出，**reload 会变成「服务挂掉」**。
+>
+> **本指南 §29.4 的安全建议仍然有效**：**改服务定义后先 `nixos-rebuild dry-activate` 看它打算做什么**（§33.5 的 TIP）。
+
+---
+
+### 37.11 `profiles/hardened` 被移除（**不是「改名」，是「删掉」**）
+
+**官方原文（Backward Incompatibilities，`rl-2605.section.md:202`）**：
+
+> *"**`profiles/hardened` has been removed**, because:*
+> - *It **lacks a consistent and transparent baseline or standard**,*
+> - *It **may introduce unexpected breakage or degrade performance without clear benefit**,*
+> - *It is **difficult to manage user expectations**, especially since the implications of enabling it are not always obvious,*
+> - *and as multiple contributors have noted, **it is often more of a "grab bag" of settings than a cohesive security policy**.*
+>
+> *See the **NixOS Hardening wiki page** for hardening options."*
+
+> [!IMPORTANT]
+> **★ 这条与本指南第十七章（安全加固）直接相关。**
+>
+> **官方给出的 4 条移除理由，值得逐条读** —— 因为**它们也适用于「你在网上看到的任何一份安全加固清单」**：
+>
+> | 官方理由 | 对你的启发 |
+> |---|---|
+> | *"lacks a consistent and transparent baseline or standard"* | **没有基准** → 你没法判断它「够不够安全」 |
+> | *"may introduce unexpected breakage or degrade performance without clear benefit"* | **可能引入意外破坏 + 降性能，收益不明** |
+> | *"difficult to manage user expectations"* | **开了它你以为安全了，实际不知道开了什么** |
+> | *"a **'grab bag'** of settings rather than a cohesive security policy"* | **官方原话：一袋杂七杂八的设置，不是一套连贯的安全策略** |
+>
+> **本指南的对应建议**（§17.4 已经讲的方向）：
+> **不要找「一键加固」，要按具体威胁逐条配置** ——
+>
+> | 目标 | 用 |
+> |---|---|
+> | 服务隔离 | `systemd.services.<name>.serviceConfig` 的加固项（§29.4） |
+> | 量化服务的暴露面 | `systemd-analyze security <unit>`（§29.4） |
+> | MAC | AppArmor（§17.1） |
+> | 内核加固 | 具体 sysctl（**而不是 `profiles/hardened`**） |
+>
+> **官方指的替代文档**：<https://wiki.nixos.org/wiki/NixOS_Hardening>
+>
+> **⚠️ 网上大量教程推荐 `profiles/hardened`** —— **26.05 起会直接报错「找不到这个模块」。**
+
+**同时移除的安全相关项**：
+
+| 项 | 官方措辞 | 位置 |
+|---|---|---|
+| `linux_hardened` 内核 | *"has been removed due to a lack of maintenance"* | `:232` |
+| `services.crabfit` | *"removed because its upstream packages are unmaintained and insecure"* | `:204` |
+
+---
+
+### 37.12 `wineWowPackages` → `wineWow64Packages`（**游戏用户必读**）
+
+**官方原文（Backward Incompatibilities，`rl-2605.section.md:200`）**：
+
+> *"`opentrack`, `slushload`, `synthesia`, `vtfedit`, `winbox`, **`wineasio`**, and **`yabridge`** use **`wineWow64Packages` instead of `wineWowPackages`** as **wine versions >= 11.0 have deprecated `wineWowPackages`**.*
+>
+> ***As such, the prefixes for these packages are NOT backwards compatible and need to be regenerated with potential for data loss.***"
+
+> [!DANGER]
+> **★ 这是本章对「游戏玩家」最直接的一条 —— 而且官方明确说了「可能丢数据」。**
+>
+> **涉及的两个包对音乐/音频制作玩家很重要**：
+> | 包 | 用途 |
+> |---|---|
+> | **`yabridge`** | **把 Windows VST 插件桥接到 Linux DAW**（Bitwig / Reaper / Ardour） |
+> | **`wineasio`** | **给 Wine 提供 ASIO 音频驱动**（低延迟） |
+>
+> **官方的警告是什么**：
+> **「这些包现在用 `wineWow64Packages` 而不是 `wineWowPackages`，所以它们的 wine prefix 不向后兼容，需要重新生成，可能丢数据。」**
+>
+> **什么叫「prefix 需要重新生成」**：
+> - **Wine prefix** 是 `~/.wine` 那样的目录，**装了你所有 Windows 软件的注册表与文件**
+> - **换 wine 的构建变体（Wow → Wow64）会让旧 prefix 不能用** → **必须重建 → 里面的软件要重装 → 配置丢失**
+>
+> **你的操作顺序（如果从 25.11 升级到 26.05 且用这两个包）**：
+> 1. **先备份** `~/.wine`（或你自定义的 prefix 目录）
+> 2. 备份 yabridge 的配置与插件路径映射
+> 3. 升级到 26.05
+> 4. **重建 prefix**，重装 Windows 侧软件
+> 5. 重新 `yabridgectl sync`
+>
+> **本指南的核实边界**：**本指南第十四章（游戏性能榨干）没有展开 yabridge / wineasio** —— 这属于「音乐制作」而非「游戏」，但**同属 Wine 生态，所以列在这里**。
+>
+> **对你的实际影响**：**如果你不用 yabridge / wineasio，这条对你是透明的**（Steam / Proton 不走这个路径）。
+
+---
+
+### 37.13 网络相关变更（有线用户也要看）
+
+#### ① `networking.wireless` 默认安全加固（**NetworkManager 用户要注意**）
+
+**官方原文（Backward Incompatibilities）**：
+
+> *"The `networking.wireless` module has been **security hardened by default**: the **`wpa_supplicant` daemon now runs under an unprivileged user** with restricted access to the system.*
+>
+> *As part of these changes, **`/etc/wpa_supplicant.conf` has been deprecated**: the NixOS-generated configuration file is now linked to **`/etc/wpa_supplicant/nixos.conf`** and **`/etc/wpa_supplicant/imperative.conf`** has been added for imperatively configuring `wpa_supplicant`.*
+>
+> *If client certificates, keys or other files are needed, these should be stored **under `/etc/wpa_supplicant` and owned by `wpa_supplicant`**.*
+>
+> *…the `ctrl_interface` directory set in `wpa_supplicant`'s conf **must be writeable by the `wpa_supplicant` user**. If you were changing `ctrl_interface` in `extraConfig` or in `/etc/wpa_supplicant/imperative.conf`, **please remove that line**.*
+>
+> *…the `networking.wireless.userControlled.group` option has been removed … and `networking.wireless.userControlled.enable` has been **renamed to `networking.wireless.userControlled`**.*
+>
+> *…the security hardening can be reverted with **`networking.wireless.enableHardening`**.*
+>
+> ***Note for NetworkManager users: before these changes NetworkManager used to spawn its own `wpa_supplicant` daemon, but now it relies on `networking.wireless`. So, if you had `networking.wireless.enable = false` in your configuration, you should remove that line.***"
+
+> [!IMPORTANT]
+> **★ 你是「有线连接（Realtek 螃蟹卡）」用户，但最后那段对你有用。**
+>
+> **如果你的配置里有 `networking.wireless.enable = false;`（很多「纯有线」教程会写这一行来禁用无线）—— 26.05 起应该删掉它。**
+>
+> **为什么**：**NetworkManager 现在依赖 `networking.wireless` 来管理 `wpa_supplicant`**（以前它自己起一个）。**你把它关了，NM 的无线能力会受影响。**
+>
+> **检查你的配置**：
+> ```bash
+> grep -n "networking.wireless" /etc/nixos/*.nix
+> ```
+>
+> **判据**：
+> | 你写的 | 26.05 怎么办 |
+> |---|---|
+> | `networking.wireless.enable = false;` | **删掉这一行** |
+> | `networking.wireless.userControlled.enable = true;` | 改名 → **`networking.wireless.userControlled = true;`** |
+> | `networking.wireless.userControlled.group = "...";` | **该选项已移除** → 用新的 `wpa_supplicant` 组 |
+> | 在 `extraConfig` 里改 `ctrl_interface` | **删掉那一行**（现在由模块管，且必须可写） |
+> | 需要客户端证书 | 放到 `/etc/wpa_supplicant/` 且 **chown 给 `wpa_supplicant`** |
+>
+> **想恢复旧行为**（官方给的开关）：`networking.wireless.enableHardening = false;`
+
+#### ② `networking.resolvconf.enable` 默认值变化
+
+**官方原文（Other Notable Changes，`rl-2605.section.md:456`）**：
+
+> *"`networking.resolvconf.enable` **now defaults to `true` unconditionally** instead of **`!(config.environment.etc ? "resolv.conf")`**. **If you set `environment.etc."resolv.conf"` yourself, then you should also set `networking.resolvconf.enable = false`.**"*
+
+> [!NOTE]
+> **这条对「改过 DNS」的用户重要。**
+>
+> **变更前**：`resolvconf.enable` 的默认值是「**你有没有自己写 `/etc/resolv.conf`**」—— 你写了就自动关。
+>
+> **变更后**：**无条件默认 `true`**。
+>
+> **所以如果你自己写 `/etc/resolv.conf`**：
+> ```nix
+> environment.etc."resolv.conf".text = "...";   # 你自己写的
+> networking.resolvconf.enable = false;          # ★ 26.05 起必须显式加这一行
+> ```
+> **否则 resolvconf 会覆盖你写的文件**（或产生冲突）。
+>
+> **本指南 §4（网络）如果涉及自定义 DNS，需要检查这一条。**
+
+#### ③ `networking.firewall.logRefusedConnections` 默认改为 `false`
+
+**官方原文（Other Notable Changes，`rl-2605.section.md:483`）**：
+
+> *"The `networking.firewall.logRefusedConnections` option **now defaults to `false`**. **Logging of refused or dropped incoming connections can generate a very high volume of kernel log messages on internet-facing systems**, causing the **kernel ring buffer (dmesg) to rotate quickly and potentially discard more relevant diagnostic information**."*
+
+> [!TIP]
+> **这是官方替你做了一个「日志噪音」的取舍。**
+>
+> **变更前**：每个被防火墙拒绝的连接都记一条内核日志 → **面向公网的机器上 dmesg 会被刷爆** → **把真正有用的诊断信息挤掉**。
+>
+> **变更后**：默认不记。
+>
+> **你需要记的时候**（排查「谁在扫我」）：
+> ```nix
+> networking.firewall.logRefusedConnections = true;
+> ```
+> **⚠️ 但排查完记得关掉** —— 否则 dmesg 会快速轮转（**官方给出的理由**）。
+>
+> **与 §29.6（journalctl）的关系**：**这条日志进的是 kernel ring buffer，不是 journal** —— 查它用 `dmesg` 或 `journalctl -k`（§29.6）。
+
+#### ④ 网络接口模块的实现变更（**不需要你做什么，但要知道**）
+
+**官方原文**：
+
+> *"- In the "scripted" backend, **`network-setup.service` has been removed** and the network configuration services are now **part of `network.target`**, which is now **directly pulled into `multi-user.target`**.*
+> *- Interface addresses, routes and default gateways are now **configured asynchronously as soon as the underlying network devices become available** (fixes #154737).*
+> *- In both "networkd" and "scripted" backends, the configuration of name servers is now **part of `network-local-commands.service`** (fixes #445496).*
+> *- The issue that resulted in **a completely unconfigured network if both `resolvconf` was disabled and no default gateway configured**, has also been fixed."*
+
+> [!TIP]
+> **「配置异步进行」这条对你有实际影响**：
+>
+> **含义**：**网络地址/路由现在「设备一出现就配」，而不是等固定的启动阶段。**
+>
+> **好处**：**开机更快**（不用等）。**修复的 #154737 是一个长期存在的老问题。**
+>
+> **副作用**：**如果你有「依赖网络就绪」的自定义服务，`after = [ "network.target" ]` 的语义可能有细微变化** —— **§29.1 讲的「`requires` vs `after`」在这里更要注意**。
+>
+> **官方还顺手修了一个坑**：*"a completely unconfigured network if both `resolvconf` was disabled and no default gateway configured"* —— **「关了 resolvconf 且没配默认网关 → 网络完全没配」这个 bug 修了。**
+
+---
+
+### 37.14 其他与桌面用户相关的变更
+
+| 变更 | 官方措辞要点 | 对你的影响 | 位置 |
+|---|---|---|---|
+| **GNOME 不再装 Geary** | *"no longer installs the Geary e-mail client since it is not part of the GNOME core applications list. **Geary's position in the default favorite apps section has been replaced by GNOME Text Editor.**"* | **GNOME 用户的默认收藏夹会变**（邮件客户端 → 文本编辑器）。想留着：`programs.geary.enable = true;` | `:327` |
+| **`fonts.fontconfig.useEmbeddedBitmaps` 默认 `true`** | *"is now set to `true` by default"* | **★ 中文用户可能受影响** —— 内嵌点阵字体默认启用。**如果中文小字号显示变糊/变清晰，是这个选项。** 想关：`fonts.fontconfig.useEmbeddedBitmaps = false;` | `:442` |
+| **`hardware.xpadneo` 增强** | *"now supports configuring kernel module parameters via a freeform `settings` option, with convenience options for **rumble attenuation** and **controller quirks**"* | **★ 游戏手柄用户** —— Xbox 手柄的**震动强度**和**兼容性怪癖**现在可以声明式配置 | `:427` |
+| **`services.xserver` 对未知驱动报错** | *"will now **throw an error if an X11 driver specified in `videoDriver(s)` cannot be found**. **Previously, unknown drivers would be silently ignored.**"* | **★ 与 §3 的 AMD 配置相关** —— **写错驱动名现在会直接报错**（以前静默忽略）。**这其实是好事**：以前写错你不知道 | `:196` |
+| **`programs.light` 被移除** | *"was removed … `brightnessctl` and `hardware.acpilight` offer replacements"* | **笔记本亮度调节** —— 用 `pkgs.brightnessctl` 或 `hardware.acpilight` | `:346` |
+| **`services.openssh.generateHostKeys`** | *"now supports generating host SSH keys by setting `services.openssh.generateHostKeys = true` **while leaving `services.openssh.enable` disabled**. This is particularly useful for systems that have **no need of an SSH daemon but want SSH host keys** for other purposes such as using **agenix or sops-nix**."* | **★ 用 sops-nix / agenix 的用户** —— **不用开 sshd 也能有 host key** | `:460` |
+| **`services.openssh.banner` 移除** | *"has been removed. Use `services.openssh.settings.Banner` instead."* | SSH 横幅配置要改写法 | `:464` |
+| **`hardware.nvidia.*` 一批变更** | `hardware.nvidia.branch` 新增；EGL external platform ICD 改为从源码构建；`moduleParams` 新增 | **对 AMD 用户不适用**（列出仅供完整性） | `:419-425` |
+| **reiserfs / ecryptfs 支持移除** | *"Support for `reiserfs` in nixpkgs has been removed, following the removal in Linux 6.13"* / *"support for `ecryptfs` … has been removed"* | **老文件系统** —— 你不可能用到，但**如果从老硬盘挂载会失败** | `:335` / `:340` |
+| **`post-resume.target` 移除** | *"has been removed. See `systemd.special(7)` about `sleep.target` for instructions on **ordering a process after resume with `ExecStop=`**"* | **挂起/恢复后要跑东西的场景** —— 改用 `sleep.target` + `ExecStop=` | `:271` |
+| **systemd 不再启动 `nix-env -i` 装的 unit** | *"Removed the ability from systemd to start units installed via `nix-env -i`. **This feature is hardly used**…"* | **强化了 §29.2「不要用命令式管理服务」** | `:228` |
+| **`iw` / `wirelesstools` 不再隐式安装** | *"are no longer installed implicitly if wireless networking has been enabled"* | **无线排查工具要显式装**：`environment.systemPackages = [ pkgs.iw ];` | `:240` |
+| **NixOS 测试驱动支持 `systemd-nspawn` 容器** | *"now supports `systemd-nspawn` containers as an alternative backend to QEMU virtual machines … **because containers can bind-mount host device nodes, they make it possible to exercise GPU/CUDA workloads from within NixOS integration tests**"* | **★ 与 §34.11 的「QEMU 里测配置」相关** —— **现在可以不用 QEMU，更快，而且能测 GPU** | `:50` |
+
+> [!IMPORTANT]
+> **上表里对「中文用户」最需要注意的一条**：**`fonts.fontconfig.useEmbeddedBitmaps = true`（默认变化）**
+>
+> **什么是内嵌点阵字体（embedded bitmaps）**：
+> 一些字体（尤其是**中日韩字体**）内部带了「小字号专用的点阵图」。**开启后，小字号直接用点阵（锐利但可能有锯齿感）；关闭后，小字号走矢量渲染（平滑但可能发虚）。**
+>
+> **官方没说为什么改成默认 `true`** —— 本指南的推断是「锐利优先」。
+>
+> **怎么判断你受影响**：
+> ```nix
+> # 如果你觉得中文小字号变丑了，试试关掉
+> fonts.fontconfig.useEmbeddedBitmaps = false;
+> ```
+> **本指南 §5（中文环境）建议补一个说明**（见 §37.16 的检查单）。
+
+---
+
+### 37.15 26.05 变更速查表（按「会不会影响我」分类）
+
+> [!IMPORTANT]
+> **用法**：**升级到 26.05 前，按这张表从上往下逐行检查你的 `configuration.nix`。**
+
+#### 🔴 必查（不查会报错 / 开不了机）
+
+| # | 检查项 | 命令 / 判据 |
+|---|---|---|
+| 1 | **`fileSystems.*.fsType` 是否都写了** | `grep -n "fileSystems" -A5 /etc/nixos/*.nix` → **每个都有 `fsType`** |
+| 2 | **LUKS 的 `fileSystems."/".device` 是否是 `/dev/mapper/<name>` 且与 `boot.initrd.luks.devices.<name>` 一致** | 见 §37.1 ① |
+| 3 | **有没有用 `/dev/root`** | `grep -n '"/dev/root"' /etc/nixos/*.nix` → **应为空** |
+| 4 | **有没有 `system.rebuild.enableNg`** | `grep -rn "enableNg" /etc/nixos/` → **应为空** |
+| 5 | **有没有用 `profiles/hardened`** | `grep -rn "hardened" /etc/nixos/` → **不应有 `profiles/hardened`** |
+| 6 | **有没有用已移除的内核包**（`linux_lqx` / `linux_libre` / `linux_hardened` / `linux-rt`） | `grep -n "linuxPackages_\|linux_" /etc/nixos/*.nix` |
+| 7 | **有没有用 `rocmPackages_6`** | `grep -n "rocmPackages_6" /etc/nixos/*.nix` → **应为空** |
+| 8 | **有没有 `networking.wireless.enable = false;`** | `grep -n "networking.wireless" /etc/nixos/*.nix` → **删掉这一行** |
+| 9 | **有没有 `networking.wireless.userControlled.enable`**（已改名） | 改成 `networking.wireless.userControlled` |
+| 10 | **有没有自己写 `/etc/resolv.conf`** | 有 → **必须同时 `networking.resolvconf.enable = false;`** |
+| 11 | **有没有在 `activationScripts` 里 `systemctl restart`** | `grep -n "activationScripts" -A10 /etc/nixos/*.nix` → **改成 `restartTriggers`** |
+| 12 | **有没有 `systemd.coredump.extraConfig`** | 已移除 → 用 `systemd.coredump.settings.Coredump` |
+| 13 | **有没有 `systemd.sleep.extraConfig`** | 已移除 → 用 `systemd.sleep.settings.Sleep` |
+| 14 | **有没有 `services.openssh.banner`** | 已移除 → 用 `services.openssh.settings.Banner` |
+| 15 | **有没有 `programs.light`** | 已移除 → 用 `brightnessctl` / `hardware.acpilight` |
+| 16 | **有没有 `services.xserver.videoDrivers` 里写错驱动名** | **26.05 会直接报错**（以前静默忽略） |
+
+#### 🟡 应查（不改也能跑，但行为会变）
+
+| # | 检查项 | 行为变化 |
+|---|---|---|
+| 17 | **`networking.firewall.logRefusedConnections`** | 默认 `false`（dmesg 不再刷屏） |
+| 18 | **`fonts.fontconfig.useEmbeddedBitmaps`** | 默认 `true`（中文小字号观感可能变） |
+| 19 | **D-Bus 实现** | 默认 `dbus-broker`；**改这个选项要重启** |
+| 20 | **只改 `ExecReload=` 的服务** | 现在 **reload 而不是 restart** |
+| 21 | **用 `wineasio` / `yabridge`** | **prefix 需重建，可能丢数据**（先备份） |
+| 22 | **GNOME 用户** | 默认收藏夹里 Geary 换成 GNOME Text Editor |
+| 23 | **用 `nix-env -i` 装过带 unit 的包** | **systemd 不再启动这些 unit** |
+| 24 | **用过 `iw` / `iwconfig`** | 现在要显式安装 |
+
+#### 🟢 可选（新增能力，值得知道）
+
+| # | 新增项 | 价值 |
+|---|---|---|
+| 25 | **`system.nix` 入口** | 不用 channel 也不用 flake 锁定版本（§36.3） |
+| 26 | **Switch inhibitors** | 切换前检查，避免热切换到不安全的状态（§37.5） |
+| 27 | **`services.openssh.generateHostKeys`** | 不开 sshd 也能有 host key（sops-nix / agenix 用户） |
+| 28 | **`hardware.xpadneo.settings` / `rumbleAttenuation` / `quirks`** | 手柄震动强度与兼容性可声明式配置 |
+| 29 | **NixOS 测试驱动支持 `systemd-nspawn`** | 测配置不用 QEMU，**且能测 GPU**（§34.11） |
+| 30 | **`hardware.nvidia.branch` / `moduleParams`** | NVIDIA 用户（与你无关） |
+
+---
+
+### 37.16 六个反模式
+
+| # | 反模式 | 后果 | 正确做法 |
+|---|---|---|---|
+| 1 | **只读官方手册正文，不读 release notes** | 按手册写 `fileSystems` 省略 `fsType` → **求值报错**（§37.6 实证） | **两者都读**；有矛盾时**以 release notes + 模块源码为准** |
+| 2 | 升级到 26.05 后**不检查 LUKS 设备路径** | **开机时 systemd 等口令超时** → 掉 emergency shell | 两个 `<name>` 逐字对齐（§37.1 ①） |
+| 3 | 沿用 `networking.wireless.enable = false;` | **NetworkManager 的无线能力受影响** | 删掉那一行（§37.13 ①） |
+| 4 | 在 `activationScripts` 里 `systemctl restart` | 26.05 弃用警告，**26.11 直接失效** | `restartTriggers` / `preStart`（§37.9） |
+| 5 | 用 `profiles/hardened` 求「一键安全」 | **模块已移除 → 报错**；且官方称其为 *"grab bag"* | 按 §17.4 逐项配置 + `systemd-analyze security` |
+| 6 | 用 `yabridge` / `wineasio` 但升级前不备份 prefix | **官方明说 "potential for data loss"** | **先备份 `~/.wine` 与 yabridge 配置**（§37.12） |
+
+> [!TIP]
+> **本章的四行一句话总结**：
+>
+> **升级前必查 16 项**（§37.15 的 🔴 表）—— **最常踩的是 `fsType` 和 `wireless.enable = false`**。
+> **官方手册正文可能过时** —— **release notes 的 `Backward Incompatibilities` 才是准的**（`fsType` 就是实例）。
+> **26.05 默认 stage 1 = systemd**（scripted 已弃用，26.11 移除）—— **附录 C 的存疑项已解决**。
+> **新增两个好东西**：**`system.nix`**（不用 channel 也不用 flake）与 **switch inhibitors**（切换前安全检查）。
+>
+> **本章你至少要记住一条**：**`fsType` 在 26.05 必须显式写** —— 官方手册说「可以省略」是过时的。
+
+---
+
 
 ## 附录 A：命令速查
 
@@ -15798,6 +18291,125 @@ for(const tag of ["h1","h2","h3","h4"]){
 
 ---
 
+### B.17 第九轮（2026-10-14）nix.dev guides + NixOS 26.05 release notes（本指南 v2.0）
+
+**本轮触发**：用户给出 <https://nix.dev/guides/>，要求「从官方文档补充资料」。
+
+**本轮定位**：第八轮补的是 **reference**（官方手册 = 「有什么」）；本轮补的是 **guides**（nix.dev = 「怎么写才对」）。**两者互补，不重复。**
+
+#### B.17.1 nix.dev 来源清单（全部用 Markdown 源抓取）
+
+**★ 关键技巧**：**任何 Sphinx 站的 Markdown 源都在 `/_sources/<路径>.md`** —— 比抓 HTML 干净得多（无导航、无脚本、无主题包装），本轮全部用此方法。
+
+```bash
+# 对比：HTML 只有 26,649 B 且 <main> 几乎为空（pydata-sphinx-theme 由 JS 渲染）
+curl -sL https://nix.dev/guides/ | wc -c        # → 26649（没用）
+curl -sL https://nix.dev/_sources/guides/index.md   # → 182 B（干净）
+```
+
+| 官方页 | 抓取 URL（`/_sources/` 前缀） | 本地副本 | 体积 |
+|---|---|---|---|
+| Guides 索引 | `https://nix.dev/_sources/guides/index.md` | `.build/nixdev/nixdev-guides.md` | 182 B |
+| Recipes 索引 | `https://nix.dev/_sources/guides/recipes/index.md` | `.build/nixdev/recipes-index.md` | 299 B |
+| **Best practices** | `https://nix.dev/_sources/guides/best-practices.md` | `.build/nixdev/best-practices.md` | 7,504 B |
+| Troubleshooting | `https://nix.dev/_sources/guides/troubleshooting.md` | `.build/nixdev/troubleshooting.md` | 2,933 B |
+| FAQ | `https://nix.dev/_sources/guides/faq.md` | `.build/nixdev/faq.md` | 4,663 B |
+| Recipe: 自定义二进制缓存 | `https://nix.dev/_sources/guides/recipes/add-binary-cache.md` | `.build/nixdev/add-binary-cache.md` | 2,334 B |
+| Recipe: direnv | `https://nix.dev/_sources/guides/recipes/direnv.md` | `.build/nixdev/direnv.md` | 1,610 B |
+| Recipe: 共享依赖（`mkShellNoCC`） | `https://nix.dev/_sources/guides/recipes/sharing-dependencies.md` | `.build/nixdev/sharing-dependencies.md` | 2,676 B |
+| Recipe: 依赖管理（npins） | `https://nix.dev/_sources/guides/recipes/dependency-management.md` | `.build/nixdev/dependency-management.md` | 5,365 B |
+| Recipe: Python 环境 | `https://nix.dev/_sources/guides/recipes/python-environment.md` | `.build/nixdev/python-environment.md` | 3,624 B |
+| Recipe: post-build-hook | `https://nix.dev/_sources/guides/recipes/post-build-hook.md` | `.build/nixdev/post-build-hook.md` | 5,087 B |
+| Recipe: CI + GitHub Actions | `https://nix.dev/_sources/guides/recipes/continuous-integration-github-actions.md` | `.build/nixdev/continuous-integration-github-actions.md` | 2,879 B |
+| Reference: Pinning Nixpkgs | `https://nix.dev/_sources/reference/pinning-nixpkgs.md` | `.build/nixdev/reference-pinning-nixpkgs.md` | 2,630 B |
+| Concepts: Flakes | `https://nix.dev/_sources/concepts/flakes.md` | `.build/nixdev/concepts-flakes.md` | 15,367 B |
+
+**整站 PDF**（离线存档用）：<https://nix.dev/nix-dev.pdf>
+
+**踩坑记录**：`/_sources/guides/recipes/direnv/index.md` 返回 404 —— **direnv 是单文件页，不是目录**。凡 `index.md` 404 就试去掉 `/index`。
+
+#### B.17.2 NixOS 26.05 release notes（一手依据）
+
+| 项 | 值 |
+|---|---|
+| 文件 | `nixos/doc/manual/release-notes/rl-2605.section.md` |
+| 原始 URL | `https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/doc/manual/release-notes/rl-2605.section.md` |
+| 本地副本 | `.build/rl-2605.section.md`（**496 行**） |
+| 在线渲染 | <https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-26.05> |
+| 结构 | `## Highlights`(:3) / `## New Modules`(:60) / `## Backward Incompatibilities`(:173) / `## Other Notable Changes`(:409) |
+
+#### B.17.3 本轮最高价值的 12 条事实（全部有一手出处）
+
+| # | 事实 | 出处 |
+|---|---|---|
+| 1 | **★ `fileSystems.<name>.fsType` 在 26.05 不再有默认值，必须显式写**（`"auto"` 仍可用但官方不鼓励） | release notes `:242` + `filesystems.nix` 源码对比（见 B.17.4） |
+| 2 | **★ 26.05 起 Stage 1（initrd）默认基于 systemd**，旧 scripted 实现已弃用、**26.11 移除** | release notes `:7` |
+| 3 | **★ `system.nix` 是 26.05 新增入口** —— 不用 `nix-channel`、不用 flake 也能 pin 版本 | release notes `:18` |
+| 4 | **★ Switch inhibitors 机制** —— 切换前对比字符串列表，有差异则**拒绝切换**；`NIXOS_NO_CHECK=1` 可绕过 | release notes `:415` |
+| 5 | **`profiles/hardened` 已移除**（4 条官方理由，含「grab bag of settings」） | release notes `:202` |
+| 6 | **D-Bus 默认改为 `dbus-broker`**，且**换实现是 switch inhibitor（需重启而非 `switch`）** | release notes `:46` |
+| 7 | **`wineWowPackages` → `wineWow64Packages`**，官方警告 **prefix 不向后兼容、可能丢数据** | release notes `:200` |
+| 8 | **`nixos-rebuild` 的 Bash 实现被移除**（全面 Python 化），`system.rebuild.enableNg` 必须删 | release notes `:323` |
+| 9 | **`networking.resolvconf.enable` 无条件默认 `true`** → 自己写 `/etc/resolv.conf` 必须显式关 | release notes `:456` |
+| 10 | **`networking.wireless` 安全加固**；**NetworkManager 用户要删掉 `networking.wireless.enable = false`** | release notes `:368-375` |
+| 11 | **`fonts.fontconfig.useEmbeddedBitmaps` 默认 `true`**（中文用户观感可能受影响） | release notes `:442` |
+| 12 | **`rocmPackages_6` 移除，`rocmPackages` 升到 ROCm 7.x** | release notes `:317` |
+
+**其余本轮收录的条目**（全部写进第三十七章）：默认内核 6.12→6.18 / `linux_hardened` 与 `linux-rt` 移除 / `services.xserver` 对未知 X11 驱动改为报错 / activation script 里 reload-restart 弃用（26.11 移除）/ `switch-to-configuration` 的 `ExecReload=` 新行为 / `programs.light` 移除 / `services.openssh.generateHostKeys` 默认 true / `openssh.banner` 移到 `settings.Banner` / `firewall.logRefusedConnections` 默认 false / reiserfs 与 ecryptfs 移除 / `post-resume.target` 移除 / `nix-env -i` 的 unit 不再被启动 / `iw` 与 `wirelesstools` 不再隐式安装 / `hardware.xpadneo` 新增 settings / systemd-nspawn 测试驱动（能测 GPU）。
+
+#### B.17.4 ★ 本轮最重要的方法论发现：官方手册正文与 release notes / 源码矛盾
+
+**实例：`fsType`**
+
+| 来源 | 原文/代码 | 结论 |
+|---|---|---|
+| 官方手册 `ch-file-systems`（26.05） | *"You can usually omit the file system type (`fsType`)"* | **说可以省略** ❌ 已过时 |
+| release notes `:242` | *"The `fileSystems.<name>.fsType` option no longer has a default value and must be specified by the user."* | **说必须写** ✅ 准 |
+| `nixos-25.11/nixos/modules/tasks/filesystems.nix` | `fsType = mkOption { **default = "auto";** example = "ext3"; type = nonEmptyStr; }` | 25.11 确实有默认值 |
+| `nixos-26.05/nixos/modules/tasks/filesystems.nix` | `fsType = mkOption { example = "ext3"; type = nonEmptyStr; }` | **`default` 被删除** ✅ 与 release notes 一致 |
+
+**★ 可复用的三步判据**（遇到「选项到底有没有默认值」的疑问时）：
+
+1. **先看 release notes 的 `Backward Incompatibilities` 段** —— 这是最权威的变更声明
+2. **再读模块源码的 `mkOption`，看有没有 `default`** —— 用 `nixos-26.05/nixos/modules/...` 的原始 URL
+3. **对比上一版本** —— 把 URL 里的分支名从 `nixos-26.05` 换成 `nixos-25.11`，看差异
+
+**为什么这条重要**：**跟着官方手册写配置反而会报错**。手册正文是「用户文档」，release notes 是「变更声明」，两者由不同流程维护，**存在时间差**。
+
+#### B.17.5 ★ 附录 C 一条存疑项的解决
+
+| 存疑项 | 第八轮的推断 | 第九轮的官方答案 | 出处 |
+|---|---|---|---|
+| 26.05 的 Stage 1 默认实现是 scripted 还是 systemd？ | **推断为 scripted**（依据 `boot.initrd.systemd.enable` 的默认值 false） | **systemd** —— *"Stage 1 (a.k.a. initrd) is now based on systemd by default, and the old scripted implementation is deprecated and scheduled for removal in 26.11."* | release notes `:7` |
+
+**为什么第八轮判断错**：**答案只在 release notes 里**，官方手册的 `boot.initrd.systemd.enable` 选项文档没有同步更新默认值说明。**这是「官方只说了一半」的典型案例。**
+
+**由此产生的三条实操修正**（已就地改到 §27.3 / §30.6）：
+
+1. `boot.initrd.systemd.enable` 在 26.05 **已经是 `true`** —— 不要再去「开启」它
+2. 急救参数应**先试 `rd.systemd.break=pre-switch-root`**（systemd stage 1 的原生参数），而不是 scripted 时代的 `break=premount`
+3. **LUKS 用户必查**：`fileSystems."/".device` 必须是 `"/dev/mapper/<name>"`，且 `<name>` 与 `boot.initrd.luks.devices.<name>` 一致（release notes `:9`）
+
+#### B.17.6 nix.dev 的两条本指南之前缺失的关键细节
+
+| 细节 | 官方原文 | 为什么重要 |
+|---|---|---|
+| **启用 `nix-ld` 后必须「登出再登入」** | *"log out and back in again to propagate the new environment variables. (This is only necessary when enabling `nix-ld`; changes in included libraries take effect immediately on rebuild.)"* | 不登出则环境变量不生效，用户会以为配置没起作用 |
+| **`nix-ld` 在 `x86_64` 上不支持 32 位可执行文件** | *"`nix-ld` does not work for 32-bit executables on `x86_64` machines."* | **Steam / Wine 的 32 位游戏不能用 `nix-ld`**，必须走 `steam-run` 或 `buildFHSEnv` 的 `multiPkgs` |
+
+#### B.17.7 本轮建立的工具（可复现，留在 `.build/`）
+
+| 工具 | 用途 |
+|---|---|
+| `.build/splice-36-37.mjs` | 单锚点幂等拼接（ch36 + ch37 插到 `## 附录 A` 之前），含「已存在则中止」断言 |
+| `.build/nixdev/*.md` | nix.dev 官方 Markdown 源本地副本（14 个文件） |
+| `.build/rl-2605.section.md` | NixOS 26.05 release notes 本地副本（496 行） |
+| `.build/validate.mjs` | 章节校验（**注意**：本轮 `files` 数组被改为 `["ch36","ch37"]`，如需校验旧章节要改回） |
+| `.build/build-guide.mjs` | HTML 构建（调用：`node .build/build-guide.mjs <in.md> <out.html> <title> <version>`） |
+
+**本轮新增的 13 个 `nix.dev` 文件 + 1 个 release notes 文件** 都放在 `.build/` 下，**不污染工作区根目录**。
+
+---
 
 ## 附录 C：未核实 / 存疑项
 
@@ -15811,6 +18423,12 @@ for(const tag of ["h1","h2","h3","h4"]){
 
 > [!NOTE]
 > **第三轮（2026-10-12 新增四章）的状态更新**：本表原前 3 条关于 Hermes / OpenClaw 的 `[未核实]` 已被**源码级 + 官方文档级核实解决**，条目标题加删除线（`~~…~~`）并注明 ✅。本轮**新增 6 条**与第十九～二十二章相关的存疑项（见表格下部）。
+
+> [!NOTE]
+> **第九轮（2026-10-14 nix.dev guides + 26.05 release notes）的状态更新**：
+> - **1 条已被官方答案解决** —— ~~「26.05 默认 stage 1 是 scripted 还是 systemd」~~ → **✅ systemd**（见下表第一行）
+> - **新增 14 条**与第三十六、三十七章相关的存疑项（见「附录 C 补充：第九轮」）
+> - **本轮的存疑项特征从「官方原文歧义」转向「官方只说了一半」** —— 详见该补充节的 NOTE
 
 | 项 | 状态 | 说明 |
 |---|---|---|
@@ -15951,7 +18569,7 @@ for(const tag of ["h1","h2","h3","h4"]){
 
 | 项 | 状态 | 说明 |
 |---|---|---|
-| **26.05 默认的 stage 1 是 scripted 还是 systemd** | `[官方措辞有歧义]` | 官方 `sec-boot-problems` 同时给了「scripted stage 1 调试图参数」和「systemd stage 1 替代方案」两套。**官方没有明说 26.05 默认用哪个**。§30.6 已把两套都列出并标注歧义 |
+| ~~**26.05 默认的 stage 1 是 scripted 还是 systemd**~~ | ✅ **第九轮已解决（2026-10-14）** | 官方 26.05 release notes `rl-2605.section.md:7` 明确：*"Stage 1 (a.k.a. initrd) is now based on systemd by default, and the old scripted implementation is deprecated and scheduled for removal in 26.11."* **本指南 §30.6 与 §27.3 的旧推断（「默认仍是 scripted」）已就地修正**，完整分析见 §37.1 |
 | **NixOS 容器「not perfectly isolated」的具体原因** | `[官方结论]` + `[推断·原因]` | 官方原文只说 *"not perfectly isolated"* 并警告「不可给不受信任用户 root」。**具体是哪几项隔离缺失（共享 store / 共享内核 / 无 user namespace？）官方未列举**。§31.1 的推断已标注 |
 | **`image.repart` 的 `repartConfig` 完整键表** | `[官方]`（机制）+ `[未核实]`（全集） | 官方原文只说 *"exposes its entire interface"*，**手册里不列全集**。§35.4 给的 7 个键是从官方各例子里出现的，**不是权威全集** —— 查 `man systemd-repart` |
 | **`sec-building-image` 里「强制设定」的确切清单** | `[推断]` | 官方原文只说 *"know how to enforce configuration settings on which they immediately depend"*，**未列出具体哪些选项**。§35.2 的四项是推断 |
@@ -15970,6 +18588,34 @@ for(const tag of ["h1","h2","h3","h4"]){
 > **为什么 §35 存疑项密集**：因为「构建镜像」是本指南**唯一一章完全没有实操验证**的 —— 它需要额外的硬件/虚拟化环境，而本文的其余章节都能在目标机器上直接跑。
 >
 > **使用建议**：§35 的所有命令**请先在有备份的环境里试**。特别是 §35.6 的 appliance 例子 —— 它是官方示例，但**本文未验证过**。
+
+#### 附录 C 补充：第九轮（2026-10-14 nix.dev guides + 26.05 release notes）的新增存疑项
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| **Switch inhibitor 是否也拦「回滚到旧 generation」** | `[推断]` | 官方只说「拒绝切换到新 generation」。**`nixos-rebuild switch --rollback` 会不会被拦未实测**。§37.5 已标注 |
+| **`NIXOS_NO_CHECK=1` 之外有没有更细粒度的绕过方式** | `[未核实]` | 官方只给了这一个开关。**是否能只绕过某一类 inhibitor 未查** |
+| **26.05 默认的 switch inhibitor 列表到底是什么** | `[官方举例]` + `[未核实]` | 官方只举了 `config.systemd.package.version` 一个例子。**完整默认清单未查** |
+| **Python 版 `nixos-rebuild` 的输出格式与 Bash 版是否兼容** | `[未核实]` | 官方只说「有 issue 请反馈」，**未给行为差异清单**。§37.8 已标注 |
+| **`nix-env -i` 装的 unit 不再被启动 —— 具体影响哪些场景** | `[官方结论]` + `[未核实]`（影响面） | 官方说 *"This feature is hardly used"*，但**没有列出「谁在用」** |
+| **`fonts.fontconfig.useEmbeddedBitmaps = true` 对中文渲染的实际观感影响** | `[官方默认值]` + `[未实测]` | 官方只说默认变了，**没说为什么**。§37.14 的「中文小字号可能变糊/变锐」是**推断** |
+| **`yabridge` / `wineasio` 的 prefix 重建具体步骤** | `[官方警告]` + `[未展开]` | 官方只说 *"need to be regenerated with potential for data loss"*，**没给步骤**。§37.12 的 5 步流程是**推断** |
+| **`system.nix` 与 flake 共存时的优先级** | `[未核实]` | 官方说 `system.nix` 是 *"alternative entry point to `configuration.nix` (and `flake.nix`)"*，**但没说两者同时存在时用哪个** |
+| **`npins` 的实际维护状态与 26.05 兼容性** | `[未实测]` | 官方 guides 推荐它，**但本指南未在 26.05 上实跑过 `npins init`** |
+| **`nixfmt` 的包名（`nixfmt` vs `nixfmt-rfc-style`）在 26.05 的确切状态** | `[未核实]` | §36.6 说「现在叫 `nixfmt-rfc-style`」是**基于 nixpkgs 历史改名的推断**，未逐条核实别名表 |
+| **`systemd-nspawn` 测试后端能否真的跑 GPU 测试** | `[官方声明]` + `[未实测]` | 官方原文 *"make it possible to exercise GPU/CUDA workloads"*，**本指南未验证** |
+| **官方手册正文还有多少处「与 release notes 矛盾」** | `[已知 1 处]` | 已确认 `fsType` 一处（§37.6）。**是否有其他未发现的同类问题未系统扫描** |
+| **`rocmPackages` 7.x 对现有 OpenCL 应用的实际兼容性** | `[官方警告]` + `[未实测]` | 官方警告是给「树外包」的。**用 `clr.icd` 的应用是否受影响未实测** |
+| **nix.dev 的 `_sources/*.md` 是否有未发布的草稿页** | `[未核实]` | 本指南只取了 Guides 下的页面。**`/tutorials/`、`/concepts/` 未系统扫描** |
+
+> [!NOTE]
+> **第九轮存疑项的特征**：**从「官方原文歧义」转向了「官方只说了一半」**。
+>
+> 第八轮的存疑项主要是「官方手册没说清」（stage 1、small 频道）；**第九轮主要是「官方说了结论但没给细节」** —— 如 switch inhibitor 的默认清单、Python 版 `nixos-rebuild` 的行为差异、`yabridge` prefix 的重建步骤。
+>
+> **为什么会出现这种模式**：**release notes 的定位是「告知变更」，不是「教你怎么迁移」** —— 所以它给出「什么变了」和「为什么会变」，**但常常不给出「具体怎么做」**。
+>
+> **★ 本轮最大的收获是一条「方法论」而非一条「事实」**：**官方手册正文可能滞后于 release notes + 模块源码**（`fsType` 实证）。**所以遇到「配置报错但手册说可以」时，先去读 release notes 的 `Backward Incompatibilities`，再读模块源码的 `mkOption`。**
 
 ---
 
@@ -16037,6 +18683,21 @@ for(const tag of ["h1","h2","h3","h4"]){
 > 4. **`systemctl --user enable` 会因 GC 变成死链**（§29.3）—— 一个「静默失效」的经典陷阱
 > 5. **`nix-collect-garbage -d` 会删掉所有回滚能力**（§30.3）
 
+> [!NOTE]
+> **2026-10-14 第九轮更新（以 nix.dev guides + 26.05 release notes 补充，新增第三十六、三十七章）**：这一轮的性质是**「补官方文档的另一半」**。
+>
+> **第八轮补的是 reference**（`nixos.org/manual` = 「有什么选项」）；**第九轮补的是 guides**（`nix.dev` = 「怎么写才对」）+ **release notes**（「26.05 改了什么」）。**三者互补。**
+>
+> **做法**：① 用 **`/_sources/<路径>.md`** 技巧抓下 nix.dev 全部 Guides 的 Markdown 源（14 个文件）→ 写成**第三十六章**（13 节）；② 拉下 **26.05 release notes 的 496 行原文**（`.build/rl-2605.section.md`）→ 按「影响面」重排成**第三十七章**（16 节）；③ **就地修正了 7 处既有章节**。
+>
+> **本轮最高价值的 6 条新事实**：
+> 1. **★ `fileSystems.<name>.fsType` 在 26.05 不再有默认值**（§27.1 / §37.6）—— **官方手册正文说「可以省略」是过时的**，跟着手册写会报错
+> 2. **★ 26.05 默认 Stage 1 = systemd**（§30.6 / §37.1）—— **解决了附录 C 的一条存疑项**（第八轮推断错了）
+> 3. **★ Switch inhibitors 机制**（§33.5 / §37.5）—— 切换前安全检查，补上了第三十三章缺的「pre-switch check」环节
+> 4. **★ `import <nixpkgs> {}` 不是可复现的**（§36.1）—— 官方原话「不纯地读文件系统」，**解释了为什么 §24 的 `pkgsUnstable` 必须显式传 `config` 和 `overlays`**
+> 5. **★ `nix-ld` 在 `x86_64` 上不支持 32 位可执行文件，且启用后必须「登出再登入」**（§36.6）—— **对 Steam / Wine 用户关键**
+> 6. **★ `profiles/hardened` 已移除 + `wineWowPackages` 改名 `wineWow64Packages`**（§17.4 / §37.11 / §37.12）
+
 | 主题 | 为什么值得补 | 需要什么证据 |
 |---|---|---|
 | ~~**Hermes Agent 的 Nix flake 确切用法**~~ | ✅ **已完成**（第二十一章 §21.8–21.10；第二十二章 §22.2–22.7） | 已取官方 `nix/nixosModules.nix` + `homeManagerModules.nix` + `nix-setup.md` 全文 |
@@ -16048,6 +18709,8 @@ for(const tag of ["h1","h2","h3","h4"]){
 | ~~**「稳定基座 + 最新应用」的完整组织方式**~~ | ✅ **已完成（第六轮，第二十四章）**：三条路（Flatpak 优先 / 双 nixpkgs / 混合）+ **HM 官方 FAQ 的 `pkgsUnstable` 写法** + 「稳定」两种含义的辨析 | HM 官方 FAQ `unstable.md` + HM/NixOS 源码核实（见附录 B.14） |
 | ~~**二进位包与依赖问题的完整方案集**~~ | ✅ **已完成（第七轮，第二十五章）**：6 种来源 × 6 类根因 + 14 种方案按侵入性排序 + 常见依赖清单 + 程序类型对照 + 三类死路 + 一页速查 | nixpkgs 模块源码（`nix-ld.nix` / `ldso.nix` / `build-fhsenv-*` / `appimage.nix` / `aliases.nix`）+ 上游 README（见附录 B.15） |
 | ~~**以官方手册结构为骨架重构本指南**~~ | ✅ **已完成（第八轮）**：新增「官方手册骨架导航」章（5 个 Part / 177 个叙事章节双向对照）+ **第二十六～三十五章共 10 章**（配置语法 / 文件系统 / 用户 / systemd / 系统状态 / 容器 / 图形栈 / 内核与系统切换 / 写模块 / 构建镜像） | 官方手册 stable 全文（本地副本）+ 8 组锚点原文提取（见附录 B.16） |
+| ~~**以 nix.dev guides 补充「怎么写才对」**~~ | ✅ **已完成（第九轮）**：**第三十六章**（13 节）—— 官方最佳实践七条 + `system.nix` + npins + 五个报错的官方修法 + 二进位包官方答案 + 4 个 Recipe | nix.dev Guides 全部 Markdown 源（14 个文件，见附录 B.17.1） |
+| ~~**NixOS 26.05 破坏性变更总表**~~ | ✅ **已完成（第九轮）**：**第三十七章**（16 节）—— 升级前必查 16 项 + `fsType` 矛盾实例 + Stage 1 默认变更 + switch inhibitors + 网络与桌面变更 | 26.05 release notes 原文 496 行（`.build/rl-2605.section.md`）+ 25.11/26.05 模块源码对比（见附录 B.17） |
 | **实测基准数据** | 本文多处标 `[未核实]` 就是因为缺可复现的基准（scx 收益、内核切换收益） | 你自己的 A/B 测试 |
 
 #### E.1.1 本轮之后**仍未做**的高价值方向

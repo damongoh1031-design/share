@@ -4,7 +4,7 @@
 
 | id | 标题 | 版本 | 状态 | 更新 | 标签 |
 |---|---|---|---|---|---|
-| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——35 章配置实录 | 1.9 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image |
+| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——37 章配置实录 | 2.0 | stable | 2026-10-14 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, nix-dev, best-practices, system-nix, npins, switch-inhibitor, fsType-required, release-notes-2605, mkShellNoCC, inputsFrom, post-build-hook, cachix, direnv, sphinx-sources-trick, stage1-systemd, dbus-broker, wineWow64Packages, rocm-7, nixfmt |
 | [nixos-operations-guide](./nixos-operations-guide.md) | NixOS 运维指南（26.05）——配置路线、游戏、非 Nix 二进制、混合版本策略、查询工具链、LLM 辅助 | 1.5 | stable | 2026-10-12 | nixos, nix, flakes, home-manager, gaming, steam, appimage, nix-ld, llm-ops, mcp, rolling-release, nixpkgs-unstable, nixhub, flakehub, noogle, systemd-user-service, linger, hermes-agent, openclaw |
 | [distro-ai-collaborative-management](./distro-ai-collaborative-management.md) | 发行版「AI 协同管理」实践全景——哪些发行版真的有 MCP / Skills / AI 运维方案 | 1.0 | stable | 2026-10-12 | linux-distro, mcp, agent-skills, ai-ops, redhat, nixos, opensuse, omarchy, bluefin, clawhub, skills-sh |
 
@@ -64,6 +64,21 @@
 > 5. **`nix-collect-garbage -d` 会删掉所有 generation 的 roots → 失去回滚能力**；且 **`/boot` 满了要「删 generation」+「再 rebuild」两步**（漏第二步不生效）。
 >
 > 另有：**`nixos-rebuild switch` 的 12 步固定动作顺序**；**`X-StopIfChanged` 默认 true**（「新 unit 绝不在旧环境里运行」）；**activation script 每次启动都跑 → 不要塞重活**；**cgroup 默认无内存限制 → `MemoryMax` 治 nix-daemon OOM**；**`users.mutableUsers = false` 时 `useradd` 完全不可用**；**`hashedPassword` 明文进 `/nix/store`**；**`/var/lib/nixos` 存 uid 分配记录，丢了属主乱**；**NixOS 容器「not perfectly isolated」，容器 root 能影响宿主**；**`image.repart` 里 `Label` 与 `fileSystems.*.device` 不一致 → 掉 shell**；**appliance 不适合 generation 更新 → 换整镜像或 A/B（官方点名 Chrome OS）**。
+
+> **v2.0（2026-10-14 第九轮：nix.dev guides + NixOS 26.05 release notes）**：`nixos-amd-teaching-guide.md` 升到 **2.0**（35 章 → 37 章），新增第 18 节。问题原话：「https://nix.dev/guides/ / 从官方文档补充资料」。**本轮定位：第八轮补的是 reference（官方手册 = 「有什么选项」）；第九轮补的是 guides（nix.dev = 「怎么写才对」）+ release notes（「26.05 改了什么」）。**
+>
+> **★ 通用技巧**：**任何 Sphinx 站的 Markdown 源都在 `/_sources/<路径>.md`** —— 比抓 HTML 干净得多（`https://nix.dev/guides/` 的 HTML 只有 26,649 B 且 `<main>` 几乎为空，是 JS 渲染的）。
+>
+> 六条最高价值结论：
+>
+> 1. **★★ `fileSystems.<name>.fsType` 在 26.05 不再有默认值，必须显式写** —— 而**官方手册正文仍说「可以省略」**。这是「**官方手册正文滞后于 release notes + 模块源码**」的实证（源码对比：25.11 有 `default = "auto"`，26.05 删掉了）。**跟着手册写配置反而会报错。**
+> 2. **★★ 26.05 默认 Stage 1（initrd）= systemd** —— scripted 已弃用、**26.11 移除**。**这解决了本 KB 上一版的一条存疑项**（第八轮推断为 scripted，是错的）。急救参数要先试 `rd.systemd.break=pre-switch-root`。
+> 3. **★ Switch inhibitors：26.05 多了一道「切换前检查」** —— 对比字符串列表，有差异则**拒绝切换**；`NIXOS_NO_CHECK=1` 可绕过。**这是第三十三章之前缺的一块拼图。**
+> 4. **★ `import <nixpkgs> {}` 不完全可复现** —— 官方原话 *"by default impurely reads from the file system to obtain configuration parameters"*。**这解释了为什么 `pkgsUnstable` 必须显式传 `config` 和 `overlays`。**
+> 5. **★ `nix-ld` 的两条关键细节** —— ① 启用后**必须「登出再登入」**；② **`x86_64` 上不支持 32 位可执行文件** → **Steam / Wine 的 32 位游戏不能用 nix-ld**，必须走 `steam-run` / `buildFHSEnv`。
+> 6. **★ `profiles/hardened` 已移除 + `wineWowPackages` 改名 `wineWow64Packages`**（官方警告 prefix 不向后兼容、**可能丢数据**，`yabridge` / `wineasio` 用户必查）。
+>
+> 另有：**官方最佳实践七条**（URL 加引号 / 避免 `rec` / 顶层不用 `with` / 不用 `<...>` lookup path / `import <nixpkgs> {}` 不纯 / `//` 是浅合并 / `src = ./.;` 不可复现）—— **这是官方唯一明确说「不要这么写」的地方，可直接作 Agent 代码审查清单**；**`system.nix`**（26.05 新增配置入口，不用 channel 也不用 flake）；**npins**；**自定义二进制缓存的安全警告**（私钥持有者能往 store 里塞任意文件）；**`mkShellNoCC`**（nix.dev recipe 全用它，比 `mkShell` 少带 `stdenv.cc`）；**数据库损坏 ≠ store 损坏**（用 sqlite `.dump` 重建，不要 `--repair`）。
 
 ## 约定
 

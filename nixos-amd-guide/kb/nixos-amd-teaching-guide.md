@@ -1,12 +1,12 @@
 ---
 id: nixos-amd-teaching-guide
-title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——35 章配置实录
-tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, nixos-manual-2605, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, var-lib-nixos, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, build-image, system-autoUpgrade]
+title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——37 章配置实录
+tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run, official-manual-skeleton, nixos-manual-2605, mkForce, mkDefault, mkOverride, option-priority, option-types, externalPath, fileSystems, luks, cryptenroll, userborn, mutableUsers, var-lib-nixos, journalctl, cgroup, MemoryMax, nix-gc, boot-entries, nixos-enter, nixos-container, wayland, rocm-clr-icd, radv, va-api, icd-mismatch, nixos-rebuild-switch, bootspec, uki, image-repart, appliance-image, build-image, system-autoUpgrade, nix-dev, best-practices, system-nix, npins, switch-inhibitor, fsType-required, release-notes-2605, mkShellNoCC, inputsFrom, post-build-hook, cachix, direnv, nix-direnv, sphinx-sources-trick, stage1-systemd, dbus-broker, wineWow64Packages, rocm-7, nixfmt]
 created: 2026-10-12
-updated: 2026-10-12
-version: 1.9
+updated: 2026-10-14
+version: 2.0
 status: stable
-source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）** + **第八轮：NixOS Manual stable（= 26.05）整站拉取 + 脚本骨架统计 + 8 组锚点原文提取（官方手册骨架重构）**）
+source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）** + **第八轮：NixOS Manual stable（= 26.05）整站拉取 + 脚本骨架统计 + 8 组锚点原文提取（官方手册骨架重构）** + **第九轮：nix.dev Guides 全部 Markdown 源（14 个文件，用 `/_sources/<路径>.md` 技巧）+ NixOS 26.05 release notes 原文 496 行 + 25.11/26.05 模块源码对比（nix.dev 精华 + 26.05 破坏性变更总表）**）
 confidence: 已核实
 ---
 
@@ -1036,6 +1036,103 @@ vulkaninfo --summary | head -20                        # 不应出现 llvmpipe /
 
 **详版**：`nixos-amd-guide.md` 「官方手册骨架导航」章 + 第二十六～三十五章 + 附录 B.16。
 
+## 18. 第九轮（v2.0）：nix.dev guides + NixOS 26.05 release notes（第三十六、三十七章）
+
+**本轮定位**：**第八轮补的是 reference**（`nixos.org/manual` = 「有什么选项」）；**第九轮补的是 guides**（`nix.dev` = 「怎么写才对」）+ **release notes**（「26.05 改了什么」）。
+
+**★ 通用技巧**：**任何 Sphinx 站的 Markdown 源都在 `/_sources/<路径>.md`** —— 比抓 HTML 干净得多（无导航/无脚本）。`https://nix.dev/guides/` 的 HTML 只有 26,649 B 且 `<main>` 几乎为空（JS 渲染）；`https://nix.dev/_sources/guides/index.md` 直接给 Markdown。
+
+### 18.1 ★★ 官方最佳实践七条（nix.dev，唯一明确说「不要这么写」的地方）
+
+| # | 规则 | 官方原话 / 依据 |
+|---|---|---|
+| 1 | **URL 必须加引号** | RFC 45 已弃用裸 URL（`url = https://...` 是 deprecated） |
+| 2 | **避免 `rec { ... }`，用 `let ... in`** | *"A common pitfall is to introduce a hard-to-debug error `infinite recursion`"*；最简例 `let a = 1; in rec { a = a; }` |
+| 3 | **文件顶层不要用 `with`** | 三条理由：① *"Static analysis can't reason about the code"* ② 多个 `with` 时 *"it's not clear anymore where the names are coming from"* ③ *"Scoping rules for `with` are not intuitive"*（NixOS/nix#490） |
+| 4 | **不要用 `<...>` lookup path** | *"the value of a lookup path depends on external system state"*、*"likely to differ from machine to machine"* |
+| 5 | **★ `import <nixpkgs> {}` 也不完全可复现** | *"for historical reasons the Nixpkgs top-level expression **by default impurely reads from the file system to obtain configuration parameters**"* |
+| 6 | **`//` 是浅合并** | `{ a = { b = 1; }; } // { a = { c = 3; }; }` → `{ a = { c = 3; }; }`（**键 `b` 被完全删除**）；深合并用 `lib.recursiveUpdate` |
+| 7 | **`src = ./.;` 不可复现** | store 路径取决于父目录名 → 改名导致 **needless rebuilds**；改用 `builtins.path { path = ./.; name = "myproject"; }` |
+
+**③ 的替代写法**（完全避免 `with`）：
+
+```nix
+let pkgs = import <nixpkgs> {}; in
+{ buildInputs = builtins.attrValues { inherit (pkgs) curl jq; }; }
+```
+
+**⑤ 的推论**：**必须显式传 `config = {}; overlays = [];`** —— 这解释了为什么 §15（Aeon 模式）的 `pkgsUnstable` 官方写法里那两行 `config`/`overlays` 是必需的。
+
+**可直接贴给 Agent 的验收清单**：上面七条 + 「所有赋值有明确来源」+ 「不出现裸 URL」。
+
+### 18.2 ★★ NixOS 26.05 升级前必查（release notes `rl-2605.section.md`，496 行）
+
+| 优先级 | 项 | 影响 / 检查命令 |
+|---|---|---|
+| 🔴 | **`fileSystems.<name>.fsType` 不再有默认值** | **必须显式写**；`grep -n "fsType" /etc/nixos/*.nix`（**官方手册正文说「可省略」是过时的**） |
+| 🔴 | **Stage 1（initrd）默认改为 systemd** | scripted 已弃用、26.11 移除；**LUKS 用户必查** `fileSystems."/".device == "/dev/mapper/<name>"` 且与 `boot.initrd.luks.devices.<name>` 一致 |
+| 🔴 | **`profiles/hardened` 已移除** | `grep -rn "profiles.hardened" /etc/nixos/` |
+| 🔴 | **`wineWowPackages` → `wineWow64Packages`** | **官方警告 prefix 不向后兼容、可能丢数据**（`yabridge` / `wineasio` 用户必查） |
+| 🔴 | **`networking.wireless.enable = false` 要删掉**（NetworkManager 用户） | 26.05 起 NM 依赖 `networking.wireless` 拉起 `wpa_supplicant` |
+| 🔴 | **`nixos-rebuild` Bash 实现被移除** | `grep -rn "enableNg" /etc/nixos/`（必须删） |
+| 🔴 | **`networking.resolvconf.enable` 无条件默认 `true`** | 自己写 `/etc/resolv.conf` 时必须显式 `= false` |
+| 🟡 | **D-Bus 默认改为 `dbus-broker`** | 换实现是 **switch inhibitor** → 需重启，不能只 `switch` |
+| 🟡 | **`services.xserver` 对未知 X11 驱动改为报错** | 以前静默忽略 |
+| 🟡 | **`rocmPackages_6` 移除，`rocmPackages` 升到 ROCm 7.x** | 树外包可能依赖旧 hipblas API |
+| 🟡 | **`fonts.fontconfig.useEmbeddedBitmaps` 默认 `true`** | 中文用户观感可能受影响 |
+| 🟡 | **activation script 里 reload/restart unit 已弃用** | 26.11 移除；改用 systemd 原生依赖 |
+| 🟢 | 默认内核 6.12 → 6.18；`linux_hardened` / `linux-rt` 移除；`programs.light` 移除 | 见 §37.3 / §37.14 |
+
+**★ 新增的好东西**：
+
+| 特性 | 说明 |
+|---|---|
+| **`system.nix`** | 26.05 新增配置入口 —— **不用 `nix-channel` 也不用 flake**（默认 `/etc/nixos/system.nix`；可 `--attr` 选属性集） |
+| **Switch inhibitors** | 切换前对比字符串列表，有差异则**拒绝切换**；`NIXOS_NO_CHECK=1` 绕过（例：`config.systemd.package.version`） |
+| **`npins`** | 比 flake 更轻的 pin 管理器（`nix-shell -p npins --run "npins init --bare"`） |
+
+### 18.3 ★ 方法论：官方手册正文可能滞后于 release notes + 源码
+
+**实例 `fsType`**：
+
+| 来源 | 结论 |
+|---|---|
+| 官方手册 `ch-file-systems`（26.05） | *"You can usually omit the file system type (`fsType`)"* ❌ 已过时 |
+| release notes `:242` | *"no longer has a default value and must be specified by the user"* ✅ 准 |
+| `nixos-25.11` 源码 | `fsType = mkOption { default = "auto"; ... }` |
+| `nixos-26.05` 源码 | `fsType = mkOption { example = "ext3"; ... }` ← **`default` 被删除** |
+
+**三步判据**：① 先读 release notes 的 `Backward Incompatibilities` ② 再读模块源码的 `mkOption` 有无 `default` ③ 把 URL 分支名从 `nixos-26.05` 换成 `nixos-25.11` 对比。
+
+**另一实例**：**26.05 默认 stage 1 = systemd** —— 答案只在 release notes `:7`，选项文档没同步。**本指南第八轮的推断（scripted）因此被推翻。**
+
+### 18.4 ★ nix.dev 补上的两条 `nix-ld` 关键细节
+
+| 细节 | 官方原文 |
+|---|---|
+| **启用后必须「登出再登入」** | *"log out and back in again to propagate the new environment variables. (This is only necessary when enabling `nix-ld`; changes in included libraries take effect immediately on rebuild.)"* |
+| **`x86_64` 上不支持 32 位可执行文件** | *"`nix-ld` does not work for 32-bit executables on `x86_64` machines."* → **Steam / Wine 的 32 位游戏必须走 `steam-run` / `buildFHSEnv`（`multiPkgs`）** |
+
+### 18.5 ★ 官方二进制缓存的安全警告（nix.dev recipe）
+
+*"Nix will accept any requested store object signed with private keys corresponding to the configured public keys. Access to those private keys thus allows **substituting arbitrary files into your Nix store**. This includes **executables that may run with elevated privileges or automatically**! **Only add public keys you trust unconditionally.**"*
+
+**★ 配置坑**：`nix.settings.substituters = [...]` 是**直接设 `substituters`**（会丢掉 `cache.nixos.org`）→ 必须显式列出 `"https://cache.nixos.org"` 与官方公钥 `cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=`。
+
+### 18.6 其他可复用事实
+
+| 事实 | 出处 |
+|---|---|
+| **`mkShellNoCC` 是 nix.dev recipe 的默认选择**（比 `mkShell` 少带 `stdenv.cc`，更小更快）；`inputsFrom = [ pkg ]` = 「拿依赖不拿自己」 | `pkgs/build-support/mkshell/default.nix` 源码核实 |
+| **Nix 2.34 = Nixpkgs 26.05**；Nix 2.35 = latest；Nix 2.31 = 25.11 | nix.dev 侧边栏版本切换器 |
+| **`nixfmt` 是 Nix 官方 formatter**（*"used to format all code in Nixpkgs"*）；§36.6 推断包名为 `nixfmt-rfc-style`（**未逐条核实**） | nix.dev FAQ |
+| **post-build-hook 会阻塞构建循环**，hook 失败 → 构建循环退出；官方警告 *"make Nix slow or unusable when the network connection is slow or unreliable"* | nix.dev recipe |
+| **Nix 会缓存「否定的答案」** → 强制重查用 `--option narinfo-cache-negative-ttl 0` | nix.dev troubleshooting |
+| **`error: current Nix store schema is version 10, but I only support 7`** 的官方修法 = `nix-store --dump-db` → 换 db 目录 → `--load-db`（**这就是「频道不可逆」的具体报错**） | nix.dev troubleshooting |
+| **数据库损坏 ≠ store 损坏**：`sqlite3 /nix/var/nix/db/db.sqlite "pragma integrity_check"` → `.dump \| sqlite3` 重建 | nix.dev troubleshooting |
+
+**详版**：`nixos-amd-guide.md` 第三十六章（13 节）+ 第三十七章（16 节）+ 附录 B.17。
+
 ## 可复用操作
 
 ```bash
@@ -1221,6 +1318,32 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 116. **`nix-channel --add` 末尾的 `nixos` 参数不能省** —— 且**频道是按用户设置的**，不加 `sudo` 只影响你自己的用户频道
 117. **频道来回切换只有一个不可逆例外** —— 新版 NixOS 可能带更新版 Nix → **数据库 schema 升级不能撤销** → **回不到原频道**
 118. **`system.autoUpgrade.allowReboot = true` 会在内核/initrd 变化时自动重启** —— 桌面用户建议设 `false`
+119. **★★ `fileSystems.<name>.fsType` 在 26.05 不再有默认值** —— **必须显式写**（`"auto"` 仍可用但官方不鼓励）。**官方手册正文说「可以省略」是过时的** —— 跟着手册写会报错。三步判据：① 读 release notes `Backward Incompatibilities` ② 读模块源码 `mkOption` 有无 `default` ③ 换 URL 分支名对比上一版
+120. **★★ 26.05 默认 Stage 1（initrd）= systemd** —— scripted 已弃用、**26.11 移除**。**急救参数要先试 `rd.systemd.break=pre-switch-root`**（不是 scripted 时代的 `break=premount`）。**LUKS 用户必查**：`fileSystems."/".device == "/dev/mapper/<name>"` 且与 `boot.initrd.luks.devices.<name>` 一致
+121. **★ Switch inhibitors：26.05 多了一道「切换前检查」** —— 对比字符串列表，有差异则**拒绝切换**（例：`config.systemd.package.version`）。`NIXOS_NO_CHECK=1` 可强制绕过
+122. **★ D-Bus 默认改为 `dbus-broker`** —— 换实现是 **switch inhibitor**：需要**重启**，不能只 `nixos-rebuild switch`
+123. **★ `profiles/hardened` 已从 26.05 移除** —— 官方 4 条理由含「grab bag of settings」。同时移除的还有 `linux_hardened` 内核与 `linux-rt`。**不要去照旧教程配它**
+124. **★ `wineWowPackages` → `wineWow64Packages`** —— 官方警告 **prefix 不向后兼容、可能丢数据**。`yabridge` / `wineasio` 用户必查
+125. **★ NetworkManager 用户要删掉 `networking.wireless.enable = false`** —— 26.05 起 NM 不再自己拉 `wpa_supplicant`，改为依赖 `networking.wireless`
+126. **★ `networking.resolvconf.enable` 无条件默认 `true`** —— **自己写 `/etc/resolv.conf` 时必须显式 `= false`**（以前是「有 `/etc/resolv.conf` 就不开」）
+127. **★ `nixos-rebuild` 的 Bash 实现被移除**（全面 Python 化）—— `system.rebuild.enableNg` 必须删
+128. **★ `rocmPackages_6` 移除，`rocmPackages` 升到 ROCm 7.x** —— 树外包可能依赖旧 hipblas API
+129. **★ `fonts.fontconfig.useEmbeddedBitmaps` 默认 `true`** —— 中文用户观感可能受影响
+130. **★ `//` 是浅合并** —— `{ a = { b = 1; }; } // { a = { c = 3; }; }` → **键 `b` 被完全删除**。深合并用 `lib.recursiveUpdate`
+131. **★ `import <nixpkgs> {}` 不完全可复现** —— 官方：*"by default impurely reads from the file system to obtain configuration parameters"*。必须显式传 `config = {}; overlays = [];`
+132. **★ 文件顶层不要用 `with`** —— 官方三条理由：破坏静态分析 / 名字来源不清 / 作用域规则反直觉（NixOS/nix#490）
+133. **★ `src = ./.;` 不可复现** —— store 路径取决于**父目录名** → 目录改名导致 needless rebuilds。用 `builtins.path { path = ./.; name = "myproject"; }`
+134. **★ `nix-ld` 在 `x86_64` 上不支持 32 位可执行文件** —— **Steam / Wine 的 32 位游戏不能用 nix-ld**，必须走 `steam-run` / `buildFHSEnv`（`multiPkgs`）
+135. **★ 启用 `nix-ld` 后必须「登出再登入」** —— 官方：环境变量只在重新登录时传播（**改自带库则 rebuild 立即生效**）
+136. **★ 自定义二进制缓存必须显式保留 `cache.nixos.org`** —— `nix.settings.substituters = [...]` 是**直接设**（会丢掉官方缓存）。公钥也要一起列
+137. **★ 官方对二进制缓存的警告** —— 私钥持有者能往你的 store 里塞任意文件，**包括会自动以高权限运行的可执行文件**。*"Only add public keys you trust unconditionally."*
+138. **★ Nix 会缓存「否定的答案」** —— 强制重查用 `--option narinfo-cache-negative-ttl 0`
+139. **★ `error: current Nix store schema is version 10, but I only support 7`** = 频道不可逆的具体报错。官方修法：`nix-store --dump-db` → 换 db 目录 → `--load-db`
+140. **★ 数据库损坏 ≠ store 损坏** —— `sqlite3 /nix/var/nix/db/db.sqlite "pragma integrity_check"` → `.dump | sqlite3` 重建。**不要直接 `--repair`**
+141. **★ Nix 2.34 = Nixpkgs 26.05**（Nix 2.35 = latest，2.31 = 25.11）—— 这解释了「频道不可逆」的确切版本号
+142. **★ `system.nix` 是 26.05 新增配置入口** —— 不用 `nix-channel` 也不用 flake（默认 `/etc/nixos/system.nix`；`--attr` 选属性集）
+143. **★ `mkShellNoCC` 比 `mkShell` 少带 `stdenv.cc`** —— nix.dev recipe 全用前者；`inputsFrom = [ pkg ]` = 「拿依赖不拿自己」（源码级核实）
+144. **★ post-build-hook 会阻塞构建循环** —— hook 失败 → 构建循环退出；官方警告网络慢时会让 Nix 变慢或不可用
 
 ## 未核实 / 存疑
 
@@ -1310,6 +1433,20 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 | **small 频道「更少更新但关键补丁更快」的准确语义** | 官方原文自相矛盾，本指南的解释是推断 |
 | **`services.userborn.enable` 在 26.05 的稳定性** | 官方标注「实验性」+ 官方推荐 —— **两个信号方向不同**，未实测 |
 | **`system.etc.overlay` 的「已修改文件不被覆盖」实际影响面** | 官方明确 + 未核实（长期使用中会积累多少残留） |
+| **Switch inhibitor 的默认检查清单** | 官方（机制）+ 未核实（除 `systemd.package.version` 外还有哪些项） |
+| **`NIXOS_NO_CHECK=1` 的完整适用边界** | 官方（存在）+ 未核实（是否有绕不过的检查） |
+| **Python 版 `nixos-rebuild` 与旧 Bash 版的行为差异** | 官方（Bash 已移除）+ 未核实（输出/参数是否逐字等价） |
+| **`nixos-rebuild build-image` 在 26.05 的可用变体清单** | 官方（命令存在）+ 未核实（清单未实测输出） |
+| **`wineWow64Packages` 的 prefix 迁移具体步骤** | 官方（警告存在）+ 未核实（官方未给迁移命令） |
+| **`yabridge` / `wineasio` 用户的 prefix 重建流程** | 未核实（官方只警告「可能丢数据」） |
+| **26.05 之后是否还有「官方手册正文与 release notes 矛盾」的其他实例** | 已知 1 处（`fsType`），**未系统扫描** |
+| **`rocmPackages` 7.x 对现有 OpenCL 应用的实际兼容性** | 官方警告（针对树外包）+ 未核实（用 `clr.icd` 的应用是否受影响） |
+| **`system.nix` 与 `flake.nix` 同时存在时的优先级** | 官方（两者都是入口）+ 未核实（冲突时谁赢） |
+| **`npins` 与 NixOS 模块层的集成方式** | 官方（不在 nixpkgs 的模块层）+ 未核实（是否有人写了模块） |
+| **`nixfmt-rfc-style` 的确切包名** | 推断（nix.dev 只说 `nixfmt` 是官方 formatter，未逐条核实包名） |
+| **nix.dev 的 `_sources/*.md` 是否有未发布的草稿页** | 未核实（只取了 Guides 下的页面，`/tutorials/`、`/concepts/` 未系统扫描） |
+| **`systemd-nspawn` 测试后端能否真的跑 GPU/CUDA 测试** | 官方声明 + **未实测** |
+| **`useEmbeddedBitmaps` 默认 `true` 对中文渲染的实际影响** | 官方（默认值变更）+ 未核实（观感差异未实测） |
 
 ## 出处（主要）
 
@@ -1328,6 +1465,26 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 - **nixpkgs 源码**（`nixos-26.05`）：`hardware/graphics.nix`、`services/hardware/amdgpu.nix`、`services/hardware/lact.nix`、`services/x11/xserver.nix`、`i18n/input-method/{default,fcitx5}.nix`、`config/fonts/fontconfig.nix`、`config/users-groups.nix`、`config/zram.nix`、`config/sysctl.nix`、`programs/steam.nix`、`programs/gamescope.nix`、`programs/gamemode.nix`、`programs/nix-ld.nix`、`programs/appimage.nix`、`programs/direnv.nix`、`services/scheduling/scx.nix`、`services/networking/searx.nix`、`services/hardware/udev.nix`、`security/{apparmor,audit,auditd}.nix`、`services/security/{clamav,fail2ban}.nix`、`pkgs/top-level/linux-kernels.nix`、`pkgs/os-specific/linux/kernel/{common-config,zen-kernels,xanmod-kernels}.nix`、`pkgs/os-specific/linux/scx/`、`pkgs/development/web/playwright/driver.nix`、`pkgs/os-specific/linux/{r8168,r8125}`、`doc/release-notes/rl-2605.section.md`
 - **镜像**：https://mirrors.ustc.edu.cn/help/nix-channels.html · https://mirrors.tuna.tsinghua.edu.cn/help/nix-channels/
 - **MCP**：https://github.com/utensils/mcp-nixos
+
+**nix.dev guides（第三十六章，全部用 `/_sources/<路径>.md` 抓 Markdown 源）**
+
+- **★ 通用技巧**：Sphinx 站的 Markdown 源在 `/_sources/<路径>.md`（比抓 HTML 干净）。例：`https://nix.dev/_sources/guides/index.md`
+- **Best practices**（七条的原文出处）：https://nix.dev/guides/best-practices
+- **Troubleshooting**（五个报错的官方修法）：https://nix.dev/guides/troubleshooting
+- **FAQ**（二进位包官方答案 + nix-ld 两条细节 + `nixfmt`）：https://nix.dev/guides/faq
+- **Recipes 索引**：https://nix.dev/guides/recipes/ （`add-binary-cache` / `direnv` / `sharing-dependencies` / `dependency-management` / `python-environment` / `post-build-hook` / `continuous-integration-github-actions`）
+- **Pinning Nixpkgs**：https://nix.dev/reference/pinning-nixpkgs （npins）
+- **整站 PDF**：https://nix.dev/nix-dev.pdf
+- **本地副本**：`.build/nixdev/*.md`（14 个文件）
+- **`mkShellNoCC` / `inputsFrom` 源码**：`nixos-26.05/pkgs/build-support/mkshell/default.nix`
+
+**NixOS 26.05 release notes（第三十七章，一手）**
+
+- **原始 URL**：https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/nixos/doc/manual/release-notes/rl-2605.section.md （**496 行**）
+- **在线渲染**：https://nixos.org/manual/nixos/stable/release-notes.html#sec-release-26.05
+- **`fsType` 矛盾的源码对比**：`nixos-25.11/nixos/modules/tasks/filesystems.nix`（有 `default = "auto"`）vs `nixos-26.05/...`（`default` 已删除）
+- **`system.nix` 入口签名核实**：`nixos-26.05/nixos/default.nix`（`configuration` 有默认值 → `system.nix` 必须显式传）
+- **本地副本**：`.build/rl-2605.section.md`
 
 **CachyOS 对照（第十八章，全部一手）**
 
