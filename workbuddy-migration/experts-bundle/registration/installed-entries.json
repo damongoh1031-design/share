@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "plugins": {
+    "deep-research@experts": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\cache\\experts\\deep-research\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-09-24T04:19:10.762Z",
+        "lastUpdated": "2026-10-13T09:43:56.432Z"
+      }
+    ],
+    "gpt-researcher-team@experts": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\cache\\experts\\gpt-researcher-team\\2.0.0",
+        "version": "2.0.0",
+        "installedAt": "2026-09-24T04:31:45.432Z",
+        "lastUpdated": "2026-09-24T04:31:45.432Z"
+      }
+    ],
+    "operations-customer-experts@experts": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\cache\\experts\\operations-customer-experts\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-12T03:54:13.632Z",
+        "lastUpdated": "2026-10-12T07:44:05.184Z"
+      }
+    ],
+    "education-training-experts@experts": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\cache\\experts\\education-training-experts\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-12T08:37:02.305Z",
+        "lastUpdated": "2026-10-13T09:21:54.695Z"
+      }
+    ],
+    "quality-testing-experts@experts": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\cache\\experts\\quality-testing-experts\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-13T06:16:46.928Z",
+        "lastUpdated": "2026-10-13T06:40:22.346Z"
+      }
+    ],
+    "rimworld-mod-guardian@my-experts": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\Admin\\.workbuddy-ai\\plugins\\cache\\my-experts\\rimworld-mod-guardian\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-10-06T04:16:37.484Z",
+        "lastUpdated": "2026-10-06T04:16:37.484Z"
+      }
+    ]
+  }
+}
