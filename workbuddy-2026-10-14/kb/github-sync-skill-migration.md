@@ -4,7 +4,7 @@ title: github-sync 技能与 GitHub PAT 跨工作区迁移
 tags: [github-sync, skill-migration, pat, workbuddy, 凭据管理]
 created: 2026-10-14
 updated: 2026-10-14
-version: 1
+version: 2
 status: active
 source: 旧工作区 2026-10-14-10-26-42/workbuddy-migration 迁移包实测
 confidence: 已核实
@@ -53,6 +53,7 @@ cp "$SRC/secrets/github-pat.txt" "$DST/token.txt"   # token 文件名必须与 c
 
 # 坑与反直觉
 
+- **Windows clone 报 `Filename too long`**：仓库里曾推过超长路径文件（dotnet 示例，260+ 字符）时，git 默认 checkout 失败。修复：`git config --global core.longpaths true`（已在本机执行），之后删除 `_work` 重跑。
 - `git ls-remote` **不能**验 token：公开仓库无认证也返回 ref，假阳性；必须打 `api.github.com/user`。
 - 创建 PAT 不传 `oauth_access[default_expires_at]` 会「创建即过期」但仍返回 `ghp_` 串，API 一律 401。
 - 迁移包 `secrets/` 含活 PAT，目标仓库是 public，**不要把含 token 的目录推上公网**（本技能目录在 `.workbuddy-ai/skills/` 下，通常不在同步映射内）。
