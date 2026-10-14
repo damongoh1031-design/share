@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "question": "在 Opus 5.5 / GPT-6 Astra 一代模型下，Skills 是否还需要？是否约束了模型能力？哪些仍必备？",
+    "fetched_at": "2026-10-14",
+    "method": "Anthropic 官方工程博客 + agentskills.io 规范与最佳实践（.md 端点原文）+ SKILL.md 原文 + 学术引用 + 独立测评",
+    "key_finding": "需要，但分工迁移：从「补能力短板」转向「注入私有上下文 + 守住硬边界」。数量应减少，单位价值应上升。"
+  },
+  "model_landscape": {
+    "claude_opus_5": {"released": "2026-07-24", "vendor": "Anthropic"},
+    "claude_opus_5_5": {"codename": "claude-wafer-eap", "status": "API 形式提供", "note": "与 Opus 5 的关系未确认"},
+    "gpt_6_astra": {"released": "2026-09-03", "vendor": "OpenAI", "positioning": "新一代通用智能体模型"},
+    "grok_4_7": {"vendor": "xAI"},
+    "uneven_capability_evidence": {
+      "source": "知乎 40 道编程题实测（2026-09-28，单一来源）",
+      "gpt_6_astra": "纯算法题强；并发锁状态机任务正确率掉到 55%",
+      "claude_opus_5_5": "状态机与 SQL 优化通过率最高；首 token 延迟常飙到 1400ms+",
+      "grok_4_7": "延迟最低，综合正确率第二",
+      "implication": "「最强模型」在具体任务上是分层的，针对性 skill 仍有价值"
+    }
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "grade": "A",
+      "source": "Anthropic 官方工程博客《Equipping agents for the real world with Agent Skills》",
+      "date": "2025-10-16",
+      "url": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+      "claim": "模型变强反而更需要 skills（瓶颈从能力迁移到上下文）",
+      "quotes": [
+        "Claude is powerful, but real work requires procedural knowledge and organizational context.",
+        "As model capabilities improve, we can now build general-purpose agents... But as these agents become more powerful, we need more composable, scalable, and portable ways to equip them with domain-specific expertise.",
+        "Building a skill for an agent is like putting together an onboarding guide for a new hire.",
+        "Large language models excel at many tasks, but certain operations are better suited for traditional code execution. For example, sorting a list via token generation is far more expensive than simply running a sorting algorithm.",
+        "many applications require the deterministic reliability that only code can provide",
+        "Claude can run this script without loading either the script or the PDF into context. And because code is deterministic, this workflow is consistent and repeatable.",
+        "we hope to enable agents to create, edit, and evaluate Skills on their own"
+      ]
+    },
+    {
+      "id": "E2",
+      "grade": "A",
+      "source": "agentskills.io 规范首页",
+      "claim": "skills 装的是「模型无从知道的上下文」，不是能力教学",
+      "quotes": [
+        "Agents are increasingly capable, but often don't have the context they need to do real work reliably.",
+        "Skills solve this by packaging procedural knowledge and company-, team-, and user-specific context into portable, version-controlled folders that agents load on demand.",
+        "Repeatable workflows: Turn multi-step tasks into consistent, auditable procedures.",
+        "Cross-product reuse: Build a skill once and use it across any skills-compatible agent."
+      ]
+    },
+    {
+      "id": "E3",
+      "grade": "A",
+      "source": "agentskills.io 最佳实践（skill-creation/best-practices.md）",
+      "claim": "官方给出了可执行的删除标准",
+      "quotes": [
+        "Ask yourself about each piece of content: \"Would the agent get this wrong without this instruction?\" If the answer is no, cut it. If you're unsure, test it. And if the agent already handles the entire task well without the skill, the skill may not be adding value.",
+        "Add what the agent lacks, omit what it knows. Focus on what the agent wouldn't know without your skill: project-specific conventions, domain-specific procedures, non-obvious edge cases, and the particular tools or APIs to use. You don't need to explain what a PDF is, how HTTP works, or what a database migration does.",
+        "Read agent execution traces, not just final outputs. If the agent wastes time on unproductive steps, common causes include instructions that are too vague, instructions that don't apply to the current task (the agent follows them anyway), or too many options presented without a clear default.",
+        "A common pitfall in skill creation is asking an LLM to generate a skill without providing domain-specific context — relying solely on the LLM's general training knowledge. The result is vague, generic procedures (\"handle errors appropriately,\" \"follow best practices for authentication\")",
+        "Match specificity to fragility. Give the agent freedom when multiple approaches are valid and the task tolerates variation... Be prescriptive when operations are fragile, consistency matters, or a specific sequence must be followed.",
+        "Provide defaults, not menus.",
+        "Favor procedures over declarations.",
+        "A data-pipeline skill synthesized from your team's actual incident reports and runbooks will outperform one synthesized from a generic \"data engineering best practices\" article, because it captures your schemas, failure modes, and recovery procedures."
+      ]
+    },
+    {
+      "id": "E4",
+      "grade": "A",
+      "source": "agentskills.io 评估方法（skill-creation/evaluating-skills.md）",
+      "claim": "官方 A/B 评估法：同一 prompt 跑两次，with_skill vs without_skill",
+      "quotes": [
+        "The core pattern is to run each test case twice: once with the skill and once without it (or with a previous version). This gives you a baseline to compare against.",
+        "Start with 2-3 test cases. Don't over-invest before you've seen your first round of results.",
+        "Use realistic context. Real users mention file paths, column names, and personal context. Prompts like \"process this data\" are too vague to test anything useful."
+      ]
+    },
+    {
+      "id": "E5",
+      "grade": "B",
+      "source": "Boris Cherny（Claude Code 创造者）在 Y Combinator 对谈（中文媒体转述）",
+      "date": "2026",
+      "claim": "skills/提示词确实会约束模型，且有消融证据",
+      "quotes": [
+        "为了适配新一代模型 Opus 5，他们删掉了 Claude Code 超过 80% 的系统提示词。",
+        "团队做消融测试时甚至发现，去掉这些提示后，模型有时会显得更聪明一些。",
+        "每次适配新模型，先移除原有系统提示，再逐条恢复并观察每一条的实际影响。"
+      ],
+      "caveat": "未取得英文原文或视频记录"
+    },
+    {
+      "id": "E6",
+      "grade": "B",
+      "source": "OpenAI GPT-6 Astra 官方使用指南（中文媒体转述）",
+      "claim": "越强的模型越会「忠诚执行」错误指令",
+      "quotes": [
+        "新模型能够遵循更长、更复杂的指令，同时也会对 Skill、AGENTS.md 等可访问的指令文件更加敏感。",
+        "含糊或相互冲突的规则，可能让模型过早停下来确认；过宽的测试要求，也可能让一个小修改触发远超必要范围的检查。"
+      ],
+      "caveat": "未取得英文原文"
+    },
+    {
+      "id": "E7",
+      "grade": "C",
+      "source": "ETH Zurich + LogicStar.ai 实验（中文转述）",
+      "claim": "上下文文件成本增加，但成功率无显著提升；且成本与长度无关",
+      "data": {
+        "tasks": "300 个 SWE-bench Lite + 138 个 CTXbench",
+        "auto_generated_files": {"success_rate": "无显著提升", "cost": "+20%"},
+        "human_written_files": {"success_rate": "+2.4%（统计上不显著）", "cost": "同样增加"}
+      },
+      "quotes": [
+        "实验结果与文件长度没有明显关系，成本增加更可能来自每条指令所触发的行为。"
+      ],
+      "caveat": "未读论文原文；该实验测的是常驻上下文文件（AGENTS.md 类），不是按需加载的 skills，不能直接外推"
+    },
+    {
+      "id": "E8",
+      "grade": "B",
+      "source": "Eric Provencher（OpenAI，Codex 开发者体验）",
+      "claim": "为旧模型写的固定路线会压缩模型找更短路径的空间",
+      "quotes": [
+        "Skill 的入口应当尽量像一个简洁的路由器，把详细资料留到真正需要时再加载；",
+        "为旧模型写下的固定路线和繁复配方，则应该重新检查。模型已经能够处理的判断，继续被步骤锁死，反而会压缩它寻找更短路径的空间。"
+      ]
+    },
+    {
+      "id": "E9",
+      "grade": "A",
+      "source": "mattpocock/skills — writing-for-agents SKILL.md",
+      "claim": "no-op 判定是「模型相对的」，且否定式指令有害",
+      "quotes": [
+        "Hunt no-ops sentence by sentence: an instruction the model already obeys by default pays load to say nothing. The test (does it change behaviour versus the default?) is model-relative, not reader-relative: two people disagreeing about a no-op disagree about the default, and settle it by running the document, not by debate.",
+        "When a sentence fails, delete the whole sentence rather than trim words from it.",
+        "Negation is the failure mode beside this lever: steering by prohibition drags the forbidden behaviour into context and makes it more available, not less. Don't think of an elephant, and the elephant is all there is.",
+        "Cache what the agent cannot find by looking: the unwritten convention, the reason behind a choice, the gotcha no config confesses.",
+        "Sediment: stale layers that settle because adding feels safe and removing feels risky, until you must core down through them to find what is still live.",
+        "Sprawl: a document simply too long, even when every line is live and unique. Attention thins across the excess.",
+        "A leading word is a compact concept already living in the model's pretraining that the agent thinks with while running the document. Repeated as a token, never as a sentence, it accumulates a distributed definition and anchors a whole region of behaviour in the fewest tokens, by recruiting priors the model already holds.",
+        "a made-up word recruits no priors: you pay in definition tokens what a pretrained word gives free",
+        "Every word of an always-loaded pointer costs on every turn, so it earns even harder pruning than the body."
+      ]
+    },
+    {
+      "id": "E10",
+      "grade": "C",
+      "source": "北京大学《Meta Context Engineering via Agentic Skill Evolution》(arXiv 2601.21557) + Agent-Skills-for-Context-Engineering README 引用",
+      "claim": "静态技能架构是基石，不是过渡方案",
+      "quotes": [
+        "静态技能架构是 Agent 的基石，而动态演化上下文则是从『手动工程』跨越到『自主进化』的桥梁。",
+        "While static skills are well-recognized [Anthropic, 2025b; Muratcan Koylan, 2025], MCE is among the first to dynamically evolve them, bridging manual skill engineering and autonomous self-improvement."
+      ],
+      "also_cited_by": "Agent Harness Engineering: A Survey (CMU, Yale, JHU, NEU, Tulane, UAB, OSU, Virginia Tech, Amazon, 2026)",
+      "caveat": "未读论文全文"
+    },
+    {
+      "id": "E11",
+      "grade": "A",
+      "source": "Agent-Skills-for-Context-Engineering README",
+      "claim": "上下文受限于注意力机制，不是 token 容量",
+      "quotes": [
+        "The fundamental challenge is that context windows are constrained not by raw token capacity but by attention mechanics.",
+        "As context length increases, models exhibit predictable degradation patterns: the \"lost-in-the-middle\" phenomenon, U-shaped attention curves, and attention scarcity.",
+        "Effective context engineering means finding the smallest possible set of high-signal tokens that maximize the likelihood of desired outcomes."
+      ],
+      "project_self_report": {"case": "Digital Brain", "claim": "token 消耗降低 60%，任务成功率提升 45%", "caveat": "项目自述单一案例，非受控实验"}
+    }
+  ],
+  "five_mechanisms_of_constraint": [
+    {"n": 1, "name": "能力补丁过期", "evidence": "E5（Boris Cherny：删 80%，消融显示删掉后模型有时更聪明）"},
+    {"n": 2, "name": "含糊/冲突规则导致过早停止", "evidence": "E6（GPT-6 Astra 官方指南：越强的模型越会认真执行错误规则）"},
+    {"n": 3, "name": "成本增加但成功率不增，且成本与长度无关", "evidence": "E7（ETH Zurich：+20%/+23% 成本，无显著成功率提升）"},
+    {"n": 4, "name": "锁死判断，压缩模型找更短路径的空间", "evidence": "E8（Eric Provencher）"},
+    {"n": 5, "name": "否定式指令反向激活被禁行为", "evidence": "E9（writing-for-agents：don't think of an elephant）"}
+  ],
+  "open_question": {
+    "question": "skills 的「降方差」价值是否独立于「提成功率」的价值？",
+    "for": "官方定义含 'Repeatable workflows: Turn multi-step tasks into consistent, auditable procedures'——一致性本身即价值",
+    "against": "E7 显示开发者手写上下文文件仅 +2.4% 平均提升且统计不显著，同时增加成本",
+    "resolution": "若组织对「行为可预测」有硬需求（金融/医疗/合规），降方差本身值得成本；否则按成功率判断"
+  }
+}

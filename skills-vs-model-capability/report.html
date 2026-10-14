@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模型越强，Skills 还需要吗？</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.78;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+aside{width:272px;flex:0 0 272px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:7px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1080px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box.pp{border-left-color:var(--pp);background:rgba(188,140,255,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)} .box.pp .t{color:var(--pp)}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+blockquote{border-left:3px solid var(--tx3);padding:2px 0 2px 16px;margin:14px 0;color:var(--tx2);font-style:italic}
+blockquote strong{color:var(--tx);font-style:normal}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.star{color:var(--yl);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:25px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+.mech{display:grid;grid-template-columns:44px 1fr;gap:14px;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px;margin:12px 0}
+.mech .num{font-size:26px;font-weight:700;color:var(--rd);line-height:1.1;font-variant-numeric:tabular-nums}
+.mech .bd h4{margin:0 0 6px;color:var(--tx)}
+.mech .bd p{margin:6px 0;font-size:14px}
+.mech .bd .ev{font-size:12.5px;color:var(--tx3);margin-top:8px}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid var(--bd)}
+.tab{padding:8px 14px;background:transparent;border:1px solid transparent;border-bottom:none;color:var(--tx2);cursor:pointer;font-size:13px;border-radius:7px 7px 0 0;font-family:inherit;transition:.15s;position:relative;top:1px;white-space:nowrap}
+.tab:hover{color:var(--tx);background:var(--bg2)}
+.tab.on{color:var(--ac);background:var(--bg2);border-color:var(--bd);border-bottom-color:var(--bg2);font-weight:600}
+.pane{display:none;padding-top:18px}
+.pane.on{display:block;animation:fi .22s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 18px 60px}
+  h2{font-size:21px}
+  .mech{grid-template-columns:32px 1fr}
+  .mech .num{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>模型越强，Skills 还需要吗？</h1>
+  <div class="sub">Opus 5.5 / GPT-6 Astra 时代的<br>skills 价值分析<br>核验 2026-10-14</div>
+  <nav>
+    <div class="grp">结论</div>
+    <a href="#s0" class="on">〇 先破一个前提</a>
+    <div class="grp">约束机制</div>
+    <a href="#s1">一 五个精确机制</a>
+    <div class="grp">判定方法</div>
+    <a href="#s2">二 官方判定标准（可执行）</a>
+    <div class="grp">必备清单</div>
+    <a href="#s3">三 五类 skill 分类</a>
+    <a href="#s4">　· 如果只能留 5 个</a>
+    <div class="grp">实操</div>
+    <a href="#s5">四 给自己做「减法」</a>
+    <a href="#s6">五 反直觉的结论</a>
+    <div class="grp">附</div>
+    <a href="#s7">六 一个开放问题</a>
+    <a href="#s8">七 数据可信度</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>先破一个前提</h2>
+
+<div class="box danger">
+<div class="t">「模型更强 → skills 更没用」这个推论是错的</div>
+<p>一线厂商和学术界的表述恰好相反：<strong>不是「模型弱所以需要 skills」，而是「模型强了，才更需要 skills」</strong>——因为强模型把瓶颈从「会不会做」推到了「知不知道」。</p>
+</div>
+
+<div class="grid">
+  <div class="card"><div class="k">Claude Opus 5</div><div class="v">2026-07-24</div><div class="d">Anthropic 发布</div></div>
+  <div class="card pp"><div class="k">GPT-6 Astra</div><div class="v">2026-09-03</div><div class="d">OpenAI 发布</div></div>
+  <div class="card rd"><div class="k">Claude Code 删掉</div><div class="v">80%+</div><div class="d">系统提示词（适配 Opus 5）</div></div>
+  <div class="card yl"><div class="k">模型能力</div><div class="v">不均衡</div><div class="d">Astra 并发锁状态机仅 55%</div></div>
+</div>
+
+<h3>证据 1：Anthropic 官方（2025-10-16）</h3>
+<blockquote>
+<p><strong>Claude is powerful, but real work requires procedural knowledge and organizational context.</strong></p>
+<p><strong>As model capabilities improve</strong>, we can now build general-purpose agents that interact with full-fledged computing environments... <strong>But as these agents become more powerful, we need more composable, scalable, and portable ways to equip them with domain-specific expertise.</strong></p>
+</blockquote>
+<p>同一篇文章的类比很精准：</p>
+<blockquote><p>Building a skill for an agent is like putting together an <strong>onboarding guide for a new hire</strong>.</p></blockquote>
+<p>新员工能力再强，也需要知道<strong>你们公司</strong>的报销流程。这就是 skills 的定位。</p>
+
+<h3>证据 2：agentskills.io 规范首句</h3>
+<blockquote>
+<p><strong>Agents are increasingly capable, but often don't have the context they need to do real work reliably.</strong> Skills solve this by packaging <strong>procedural knowledge and company-, team-, and user-specific context</strong> into portable, version-controlled folders that agents load on demand.</p>
+</blockquote>
+
+<h3>证据 3：学术界</h3>
+<p><strong>北京大学通用人工智能国家重点实验室</strong> 2026 年论文《Meta Context Engineering via Agentic Skill Evolution》：</p>
+<blockquote><p><strong>静态技能架构是 Agent 的基石</strong>，而动态演化上下文则是从「手动工程」跨越到「自主进化」的桥梁。</p></blockquote>
+<p>该仓库还被 <strong>CMU / Yale / JHU / NEU / Tulane / UAB / OSU / Virginia Tech / Amazon</strong> 合著的《Agent Harness Engineering: A Survey》(2026) 引用。</p>
+<div class="box ok"><div class="t">「基石」和「桥梁」是两个不同的东西</div><p>skills 是地基，动态上下文演化是在地基上盖的楼。<strong>不是替代关系。</strong></p></div>
+
+<h3>证据 4：模型能力本身是不均衡的</h3>
+<p>一份 2026-09 的 40 道编程题实测：</p>
+<table>
+<thead><tr><th>模型</th><th>纯算法题</th><th>并发锁状态机</th><th>SQL 优化</th><th>首 token 延迟</th></tr></thead>
+<tbody>
+<tr><td>GPT-6 Astra</td><td class="ok-b">强</td><td class="no-b">正确率掉到 55%</td><td>—</td><td>—</td></tr>
+<tr><td>Claude Opus 5.5</td><td>—</td><td class="ok-b">通过率最高</td><td class="ok-b">最高</td><td class="no-b">常飙到 1400ms+</td></tr>
+<tr><td>Grok 4.7</td><td>—</td><td>—</td><td>—</td><td class="ok-b">最低</td></tr>
+</tbody>
+</table>
+<p><strong>「最强模型」在具体任务上是分层的。</strong> 一个针对并发状态机注入团队既有模式的 skill，在 Astra 上依然有价值——因为它的短板恰在那里。</p>
+
+<h3>结论：瓶颈迁移了，不是消失了</h3>
+<table>
+<thead><tr><th></th><th>2023-2024</th><th>2026+</th></tr></thead>
+<tbody>
+<tr><td><strong>瓶颈</strong></td><td>模型会不会做</td><td><strong>模型知不知道</strong></td></tr>
+<tr><td><strong>skills 的作用</strong></td><td>能力补丁（教它怎么做）</td><td><strong>上下文注入</strong>（告诉它你的世界长什么样）</td></tr>
+<tr><td><strong>随模型变强的趋势</strong></td><td class="no-b">贬值</td><td class="ok-b">升值</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+<h2><span class="n">一</span>Skills 确实会约束模型 —— 五个精确机制</h2>
+<p>「约束」这个担忧是对的，但笼统地说「限制能力」不准确。<strong>有五个可验证的具体机制</strong>：</p>
+
+<div class="mech">
+<div class="num">1</div>
+<div class="bd">
+<h4>能力补丁会过期，而过期补丁会主动误导</h4>
+<p><strong>最硬的证据</strong>：2026 年，Claude Code 创造者 <strong>Boris Cherny</strong> 在 Y Combinator 公开对谈中提到，<strong>为了适配 Opus 5，他们删掉了 Claude Code 超过 80% 的系统提示词</strong>。</p>
+<p>更关键的是：</p>
+<blockquote><p>团队做消融测试时甚至发现，<strong>去掉这些提示后，模型有时会显得更聪明一些</strong>。</p></blockquote>
+<p class="ev">这不是理论推演，是产品团队的消融实验。</p>
+</div>
+</div>
+
+<div class="mech">
+<div class="num">2</div>
+<div class="bd">
+<h4>含糊或冲突的规则会让模型过早停止</h4>
+<p><strong>OpenAI 在 GPT-6 Astra 官方使用指南中专门提醒</strong>：</p>
+<blockquote><p>新模型能够遵循更长、更复杂的指令，<strong>同时也会对 Skill、AGENTS.md 等可访问的指令文件更加敏感</strong>。含糊或相互冲突的规则，可能让模型<strong>过早停下来确认</strong>；过宽的测试要求，也可能让一个小修改触发<strong>远超必要范围的检查</strong>。</p></blockquote>
+<p><strong>机制很反直觉</strong>：模型能力弱时，一条多余规则只是一段没发挥作用的文字；<strong>模型执行能力增强后，它更可能认真完成这条规则</strong>——于是多读文件、多做测试、多走流程，甚至因为两个边界互相冲突而停止推进。</p>
+<p class="ev">即：<strong>越强的模型，越会「忠诚地执行」你的错误指令。</strong> 这是「约束」的第二重含义，比第一重更危险。</p>
+</div>
+</div>
+
+<div class="mech">
+<div class="num">3</div>
+<div class="bd">
+<h4>成本增加但成功率不增，且成本与长度无关</h4>
+<p><strong>ETH Zurich 与 LogicStar.ai 的实证研究</strong>（300 个 SWE-bench Lite + 138 个 CTXbench 任务）：</p>
+<table>
+<thead><tr><th>条件</th><th>成功率变化</th><th>成本变化</th></tr></thead>
+<tbody>
+<tr><td><strong>自动生成的</strong>仓库级上下文文件</td><td class="no-b">无显著提升</td><td class="no-b">+20%</td></tr>
+<tr><td><strong>开发者亲手写的</strong>上下文文件</td><td class="warn-b">+2.4%（统计上不显著）</td><td class="no-b">同样增加</td></tr>
+</tbody>
+</table>
+<p><strong>最关键的一个发现</strong>：</p>
+<blockquote><p>实验结果与<strong>文件长度没有明显关系</strong>，成本增加更可能来自<strong>每条指令所触发的行为</strong>。</p></blockquote>
+<p><strong>这句话的分量很重</strong>：删掉一半字数不解决问题。要删的是<strong>会诱发无效行动的指令</strong>。</p>
+<p class="ev">⚠️ 口径提醒：该研究测的是「常驻上下文文件」（AGENTS.md 类，每轮都加载），不是「按需加载的 skills」。skills 因有渐进式披露，理论成本更低。但结论同样适用——<strong>只要一条指令触发了行为，成本就产生了</strong>。</p>
+</div>
+</div>
+
+<div class="mech">
+<div class="num">4</div>
+<div class="bd">
+<h4>锁死判断，压缩模型找更短路径的空间</h4>
+<p><strong>Eric Provencher</strong>（OpenAI，负责 Codex 开发者体验）：</p>
+<blockquote><p>Skill 的入口应当尽量像一个<strong>简洁的路由器</strong>，把详细资料留到真正需要时再加载；<strong>为旧模型写下的固定路线和繁复配方，则应该重新检查</strong>。模型已经能够处理的判断，继续被步骤锁死，<strong>反而会压缩它寻找更短路径的空间</strong>。</p></blockquote>
+<p class="ev">「压缩它寻找更短路径的空间」——这是「约束」的第四重含义：<strong>不是做错，而是做得更笨</strong>。</p>
+</div>
+</div>
+
+<div class="mech">
+<div class="num">5</div>
+<div class="bd">
+<h4>否定式指令会反向激活被禁行为</h4>
+<p><code>writing-for-agents</code>（mattpocock）原文：</p>
+<blockquote><p><strong>Negation</strong> is the failure mode beside this lever: steering by prohibition <strong>drags the forbidden behaviour into context and makes it <em>more</em> available, not less</strong>. <em>Don't think of an elephant</em>, and the elephant is all there is; the negation is a weak modifier the strongly-activated concept overruns, so <strong>the ban half-reads as an instruction to do the thing</strong>.</p></blockquote>
+<p><strong>所以「禁止事项」清单本身就是一种约束伤害</strong>——你越写「不要 X」，X 在上下文里的激活度越高。</p>
+</div>
+</div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+<h2><span class="n">二</span>官方给的判定标准（可执行）</h2>
+<p>好消息是：<strong>Anthropic 在规范里给了明确、可执行的测试</strong>，不需要凭感觉。</p>
+
+<h3>2.1 核心测试：一句话</h3>
+<div class="box ok">
+<div class="t">agentskills.io 最佳实践原文</div>
+<blockquote><p><strong>Ask yourself about each piece of content: "Would the agent get this wrong without this instruction?" If the answer is no, cut it. If you're unsure, test it. And if the agent already handles the entire task well without the skill, the skill may not be adding value.</strong></p></blockquote>
+<p>它同时给出了三件事：</p>
+<ol>
+<li><strong>删除标准</strong>：模型不会做错的，删</li>
+<li><strong>不确定时</strong>：去测，不要辩论</li>
+<li><strong>整份 skill 的判据</strong>：模型本来就能做好整个任务 → 这个 skill 可能没在增加价值</li>
+</ol>
+</div>
+
+<h3>2.2 这个标准是「模型相对的」，不是「读者相对的」</h3>
+<p><code>writing-for-agents</code> 把这一点讲得极清楚：</p>
+<blockquote><p>Hunt <strong>no-ops</strong> sentence by sentence: an instruction the model already obeys by default pays load to say nothing. <strong>The test (does it change behaviour versus the default?) is model-relative, not reader-relative</strong>: two people disagreeing about a no-op disagree about the default, and <strong>settle it by running the document, not by debate</strong>. When a sentence fails, <strong>delete the whole sentence rather than trim words from it</strong>.</p></blockquote>
+<div class="box pp"><div class="t">这解释了为什么这个争论在公司里总是吵不出结果</div><p><strong>「两个人对是不是 no-op 有分歧，本质是对『模型的默认行为是什么』有分歧」</strong>——大家在用自己的模型心智模型辩论。</p></div>
+
+<h3>2.3 官方 A/B 评估法</h3>
+<blockquote><p>The core pattern is to run each test case <strong>twice: once with the skill and once without it</strong> (or with a previous version). This gives you a baseline to compare against.</p></blockquote>
+<pre><code>your-skill/
+├── evals/
+│   └── evals.json          # prompt + expected_output (+ files)
+├── iteration-1/
+│   ├── case-1/
+│   │   ├── with_skill/
+│   │   └── without_skill/   ← 基线
+│   └── case-2/...</code></pre>
+<p><strong>测试用例设计要点</strong>（官方）：</p>
+<ul>
+<li><strong>先写 2-3 个</strong>，不要一开始就投入太多</li>
+<li><strong>变化 prompt</strong>：有的随意（"hey can you clean up this csv"），有的精确（"Parse the CSV at data/input.csv, drop rows where column B is null"）</li>
+<li><strong>至少一个边界条件</strong>（畸形输入、异常请求、指令可能歧义的场景）</li>
+<li><strong>用真实上下文</strong>（真实文件路径、列名）——"process this data" 这种太模糊，测不出东西</li>
+</ul>
+
+<h3>2.4 Boris 的「先全删，再逐条加回」</h3>
+<blockquote><p>每次适配新模型，<strong>先移除原有系统提示，再逐条恢复并观察每一条的实际影响</strong>。</p></blockquote>
+<p><strong>这是把「删」当成默认动作，把「留」当成需要举证的决定。</strong> 与传统习惯（默认保留、偶尔清理）完全相反。</p>
+
+<h3>2.5 诊断信号：从执行轨迹看，不只看最终输出</h3>
+<blockquote><p><strong>Read agent execution traces, not just final outputs.</strong> If the agent wastes time on unproductive steps, common causes include:</p>
+<ul>
+<li>instructions that are <strong>too vague</strong>（agent 试几种方法才找到能用的）</li>
+<li>instructions that <strong>don't apply to the current task</strong>（<strong>agent 还是照做了</strong>）</li>
+<li><strong>too many options presented without a clear default</strong></li>
+</ul>
+</blockquote>
+<p><strong>第二条最关键</strong>：「指令不适用于当前任务，但 agent 还是照做了」——这正是「模型变强反而被约束」的表现。</p>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+<h2><span class="n">三</span>五类 skill 分类</h2>
+<p>把「会不会过期」当坐标轴，所有 skill 可以分成五类。<strong>只有后四类值得留</strong>：</p>
+
+<div class="tabs">
+<button class="tab on" data-t="k1">A 能力补丁 ⚠️</button>
+<button class="tab" data-t="k2">B 私有上下文 ✅</button>
+<button class="tab" data-t="k3">C 硬边界与确定性 ✅</button>
+<button class="tab" data-t="k4">D 随模型变强升值 ✅</button>
+<button class="tab" data-t="k5">E 可审计 ✅</button>
+</div>
+
+<div class="pane on" id="k1">
+<h3>A 类：能力补丁 —— 会过期，应持续瘦身</h3>
+<p><strong>特征</strong>：教模型「怎么做一件通用的事」。</p>
+<table>
+<thead><tr><th>典型 skill</th><th>会过期的部分</th><th>该保留的部分</th></tr></thead>
+<tbody>
+<tr><td><code>tdd</code></td><td>「先写测试再写实现」——模型现在会</td><td class="ok-b">「<strong>接缝（seam）必须先与用户确认</strong>」——团队约定</td></tr>
+<tr><td><code>diagnosing-bugs</code></td><td>「建回路→最小化→假设→插桩」——模型现在会</td><td class="ok-b">「<strong>必须先有能稳定复现的 red 回路，才允许动手修</strong>」——硬门槛</td></tr>
+<tr><td><code>grill-me</code></td><td>「开工前问清需求」——模型现在会</td><td class="ok-b">「<strong>需求未对齐前不许开始实现</strong>」——门禁</td></tr>
+<tr><td><code>code-review</code></td><td>「两轴审查」——模型现在会</td><td class="ok-b">你们的<strong>编码规范</strong> + 原 issue 在哪</td></tr>
+<tr><td><code>brainstorming</code></td><td>大概率整份已是 no-op</td><td>可能无</td></tr>
+<tr><td><code>prototype</code></td><td>部分 no-op</td><td class="ok-b">「原型必须一次性、不进主干」——纪律</td></tr>
+<tr><td><code>implement</code></td><td>「按 spec 施工」流程本身</td><td class="ok-b">「在约定接缝上跑 tdd、收尾跑 code-review」——你们的门禁顺序</td></tr>
+<tr><td><code>to-spec</code> / <code>to-tickets</code></td><td>拆解方法本身</td><td class="ok-b">你们的 issue tracker 与工单格式</td></tr>
+</tbody>
+</table>
+<div class="box warn"><div class="t">处理方式</div><p>不是删掉，而是<strong>只留硬门槛，删掉教学部分</strong>。</p></div>
+</div>
+
+<div class="pane" id="k2">
+<h3>B 类：私有上下文注入 —— 长期有效，随模型变强而升值</h3>
+<p><strong>特征</strong>：装的是模型<strong>不可能知道</strong>的东西。这是官方定义的核心价值。</p>
+<div class="box ok">
+<div class="t">极精确的判据（writing-for-agents 原文）</div>
+<blockquote><p>The <strong>environment</strong> is a source of truth too (<code>package.json</code> scripts, config files, the directory layout, <code>--help</code> output), and a document that restates it is a <strong>cache</strong>: a copy of a lookup, earning its load only when the lookup is expensive. <strong>Cache what the agent cannot find by looking: the unwritten convention, the reason behind a choice, the gotcha no config confesses.</strong></p></blockquote>
+<p>「缓存那些 agent 查不到的东西：<strong>没写下来的约定、某个选择背后的原因、任何配置文件都不会坦白的坑</strong>。」</p>
+</div>
+<table>
+<thead><tr><th>典型 skill</th><th>装的是什么私有信息</th></tr></thead>
+<tbody>
+<tr><td><code>domain-modeling</code> / <code>GLOSSARY.md</code></td><td><strong>你们团队的术语</strong>。原文例子：<code>"the materialization cascade"</code> 替掉 20 个词的描述</td></tr>
+<tr><td><code>codebase-design</code></td><td><strong>你们的架构词汇约定</strong>。硬性要求只能用 module/interface/depth/seam，<strong>不许说 component/service/API/boundary</strong></td></tr>
+<tr><td><code>setup-matt-pocock-skills</code></td><td>你们的 issue tracker 在哪、用什么标签、文档放哪</td></tr>
+<tr><td><code>writing-for-agents</code></td><td>你们给 agent 写文档的规范</td></tr>
+<tr><td><strong>Azure 官方 582 skill</strong></td><td>你们的云账号、RBAC、成本结构、合规要求</td></tr>
+<tr><td><strong>飞书官方 22 skill</strong></td><td>你们公司的文档/审批/OKR/会议结构</td></tr>
+<tr><td><strong>Prisma 95 / Supabase 17 / Clerk 31</strong></td><td>你们的表结构、API、权限模型</td></tr>
+<tr><td><code>extract-design-system</code></td><td>你们的设计令牌</td></tr>
+</tbody>
+</table>
+<div class="box ok"><div class="t">这一类的判断标准</div><p>问「<strong>模型不装这个，能靠搜索/读代码/试错搞明白吗？</strong>」——能，就不必要；不能，就是必备。</p></div>
+</div>
+
+<div class="pane" id="k3">
+<h3>C 类：硬边界与确定性 —— 长期有效</h3>
+<p><strong>特征</strong>：不该交给概率判断的部分。官方校准原则：</p>
+<blockquote><p><strong>Match specificity to fragility.</strong> Give the agent freedom when multiple approaches are valid and the task tolerates variation... <strong>Be prescriptive when operations are fragile, consistency matters, or a specific sequence must be followed.</strong></p></blockquote>
+<table>
+<thead><tr><th>典型 skill</th><th>装的是什么硬边界</th></tr></thead>
+<tbody>
+<tr><td><code>git-guardrails-claude-code</code></td><td>危险 git 命令护栏</td></tr>
+<tr><td><code>handoff</code>（脱敏段）</td><td><em>"Redact any sensitive information, such as API keys, passwords, or personally identifiable information."</em></td></tr>
+<tr><td><code>triage</code>（标注要求）</td><td><em>"Every comment or issue posted... <strong>must</strong> start with: &gt; <em>This was generated by AI during triage.</em>"</em></td></tr>
+<tr><td><code>caveman</code></td><td>确定性压缩，不靠模型自觉</td></tr>
+<tr><td><strong><code>docx</code>/<code>pdf</code>/<code>pptx</code>/<code>xlsx</code></strong></td><td><strong>确定性代码，不是提示词</strong></td></tr>
+</tbody>
+</table>
+<div class="box danger">
+<div class="t">⚠️ 关键补充：能用代码的就不该用自然语言</div>
+<blockquote><p>Large language models excel at many tasks, but certain operations are better suited for traditional code execution. For example, <strong>sorting a list via token generation is far more expensive than simply running a sorting algorithm</strong>. Beyond efficiency concerns, <strong>many applications require the deterministic reliability that only code can provide.</strong></p>
+<p>In our example, the PDF skill includes a pre-written Python script that reads a PDF and extracts all form fields. <strong>Claude can run this script without loading either the script or the PDF into context.</strong> And because code is deterministic, this workflow is consistent and repeatable.</p></blockquote>
+<p><strong>所以 Anthropic 的 <code>docx</code>/<code>pdf</code>/<code>pptx</code>/<code>xlsx</code> 是这一类里最典型的</strong>——它们<strong>不是提示词，是确定性代码</strong>。模型再强，跑排序算法也比逐 token 生成便宜得多。<strong>这类 skill 永远不会因为模型变强而失效。</strong></p>
+</div>
+</div>
+
+<div class="pane" id="k4">
+<h3>D 类：随模型变强而「升值」的新必备</h3>
+<p><strong>特征</strong>：模型越强，越需要它们来管理模型。</p>
+<table>
+<thead><tr><th>skill</th><th>为什么随模型变强而升值</th></tr></thead>
+<tbody>
+<tr><td><code>find-skills</code></td><td>模型越强，自己发现/评估 skill 的能力越强，这个入口价值越高</td></tr>
+<tr><td><code>skill-creator</code></td><td>Anthropic 原话：<em>"we hope to enable agents to <strong>create, edit, and evaluate Skills on their own</strong>"</em></td></tr>
+<tr><td><strong>上下文工程类</strong>（<code>context-compression</code> / <code>filesystem-context</code> / <code>memory-systems</code> / <code>self-managed-context</code>）</td><td><strong>因为瓶颈迁移到了上下文</strong></td></tr>
+<tr><td><code>research</code></td><td>溯源纪律，与模型能力无关，但与「可信度」强相关</td></tr>
+</tbody>
+</table>
+<div class="box">
+<div class="t">为什么上下文工程类会升值</div>
+<blockquote><p>The fundamental challenge is that <strong>context windows are constrained not by raw token capacity but by attention mechanics</strong>. As context length increases, models exhibit predictable degradation patterns: the "lost-in-the-middle" phenomenon, <strong>U-shaped attention curves</strong>, and <strong>attention scarcity</strong>.</p></blockquote>
+<p><strong>窗口再大也解决不了注意力稀缺。</strong> 所以「如何筛选、压缩、调度信息」的重要性只会上升。</p>
+<p>该项目自述实测（Digital Brain 案例）：<strong>用渐进式披露，token 消耗降低 60%，任务成功率提升 45%</strong>（⚠️ 项目自述单一案例，非受控实验）。</p>
+</div>
+</div>
+
+<div class="pane" id="k5">
+<h3>E 类：可审计 / 可复现 —— 合规场景长期有效</h3>
+<p><strong>特征</strong>：不是「模型做不到」，而是「组织需要留痕」。</p>
+<blockquote><p><strong>Repeatable workflows</strong>: Turn multi-step tasks into <strong>consistent, auditable procedures</strong>.<br>
+<strong>Cross-product reuse</strong>: Build a skill once and use it across any skills-compatible agent.</p></blockquote>
+<div class="box ok"><div class="t">这一类与模型能力无关</div><p>只要 AI 参与有合规要求的流程，这一类就永远需要。</p></div>
+<table>
+<thead><tr><th>skill</th><th>为什么</th></tr></thead>
+<tbody>
+<tr><td><code>triage</code></td><td>AI 生成标注留痕</td></tr>
+<tr><td><code>pr</code> / <code>retro</code></td><td>变更与复盘留痕</td></tr>
+<tr><td><code>harness-engineering</code> / <code>evaluation</code> / <code>advanced-evaluation</code></td><td>锁定指标、持久日志、人工审批边界</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+<h2><span class="n">四</span>如果只能留 5 个</h2>
+<p>按「模型不可能知道」排序：</p>
+<table>
+<thead><tr><th>#</th><th>Skill</th><th>为什么它不可替代</th></tr></thead>
+<tbody>
+<tr><td><strong>1</strong></td><td><strong>领域术语表</strong>（<code>GLOSSARY.md</code> / <code>domain-modeling</code>）</td><td>模型猜不出 <code>materialization cascade</code> 指什么</td></tr>
+<tr><td><strong>2</strong></td><td><strong>架构词汇约定</strong>（<code>codebase-design</code>）</td><td>模型默认说 component/service，你们要求说 module/seam</td></tr>
+<tr><td><strong>3</strong></td><td><strong>企业官方 skill</strong>（Azure / 飞书 / Prisma / Supabase）</td><td><strong>你们的账号、表结构、权限模型</strong></td></tr>
+<tr><td><strong>4</strong></td><td><strong>硬边界护栏</strong>（<code>git-guardrails</code> + 脱敏 + 审计标注）</td><td>不该交给概率判断</td></tr>
+<tr><td><strong>5</strong></td><td><strong>确定性代码</strong>（<code>docx</code>/<code>pdf</code>/<code>pptx</code>/<code>xlsx</code>）</td><td>不是提示词，是脚本，永远比 token 生成便宜</td></tr>
+</tbody>
+</table>
+<div class="box ok">
+<div class="t">这五个的共同点</div>
+<p><strong>都不教模型「怎么做」，只告诉模型「你的世界长什么样、边界在哪」。</strong></p>
+</div>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+<h2><span class="n">五</span>给自己做一次「减法」</h2>
+<p>把上面的原则变成可执行流程。<strong>建议在每次模型大版本升级时跑一遍。</strong></p>
+
+<h3>第 1 步：先全删（或全禁用），跑代表性任务</h3>
+<p>学 Boris 的方法：<strong>把「删」当默认，把「留」当需要举证的决定</strong>。</p>
+
+<h3>第 2 步：只把「稳定复现的失败」加回来</h3>
+<p>观察模型在<strong>没有</strong> skills 时：哪里反复失败？哪里反复问你？哪里产出了不符合你们约定的东西？<strong>只对稳定复现的缺口加回指令。</strong></p>
+
+<h3>第 3 步：逐条 A/B 验证</h3>
+<table>
+<thead><tr><th>观察结果</th><th>动作</th></tr></thead>
+<tbody>
+<tr><td>成功率无提升 + 成本上升</td><td class="no-b">删</td></tr>
+<tr><td>成功率提升但不稳定</td><td>再跑几轮</td></tr>
+<tr><td>模型本来就能做好</td><td class="no-b">删（官方原话：<em>"the skill may not be adding value"</em>）</td></tr>
+</tbody>
+</table>
+
+<h3>第 4 步：分类归位</h3>
+<table>
+<thead><tr><th>内容类型</th><th>归到哪</th></tr></thead>
+<tbody>
+<tr><td>私有事实、约定、坑</td><td class="ok-b"><strong>skill</strong>（按需加载）</td></tr>
+<tr><td>确定性逻辑（排序、校验、格式转换）</td><td class="ok-b"><strong>脚本</strong>（不占上下文）</td></tr>
+<tr><td>人的决策（目标、取舍、验收标准）</td><td class="ok-b"><strong>保持为指令</strong></td></tr>
+<tr><td>能力教学（"先思考再回答"）</td><td class="no-b">删</td></tr>
+<tr><td>禁止事项清单</td><td class="warn-b">改写成正面表述</td></tr>
+<tr><td>通用最佳实践（"handle errors appropriately"）</td><td class="no-b">删（官方明确点名这是无效内容）</td></tr>
+</tbody>
+</table>
+
+<h3>第 5 步：定期体检两个失败模式</h3>
+<div class="grid">
+<div class="card rd"><div class="k">Sediment（沉积）</div><div class="d" style="color:var(--tx2);font-size:13px"><em>"stale layers that settle because <strong>adding feels safe and removing feels risky</strong>, until you must core down through them to find what is still live."</em><br><br>症状：文件越改越长，没人敢删</div></div>
+<div class="card rd"><div class="k">Sprawl（蔓延）</div><div class="d" style="color:var(--tx2);font-size:13px"><em>"a document simply too long, <strong>even when every line is live and unique</strong>. Attention thins across the excess."</em><br><br>症状：每行都对，但整体太长</div></div>
+</div>
+<div class="box warn"><div class="t">注意 Sprawl 的定义</div><p><strong>即使每一行都是活的、唯一的，太长也是问题。</strong> 这推翻了「只要没废话就没关系」的直觉。</p></div>
+
+<h3>第 6 步：用「引导词」压缩，而不是加规则</h3>
+<blockquote><p>A <strong>leading word</strong> is a compact concept <strong>already living in the model's pretraining</strong> that the agent thinks with while running the document (<em>lesson</em>, <em>fog of war</em>, <em>tracer bullets</em>). Repeated as a token, never as a sentence, it <strong>accumulates a distributed definition</strong> and anchors a whole region of behaviour in the fewest tokens, <strong>by recruiting priors the model already holds</strong>.</p></blockquote>
+<p><strong>即：模型越强，预训练里「装」的概念越多，一个词能锚定的行为区域越大。</strong> 这本身就是「模型变强让 skills 可以更短」的正面证据。</p>
+<table>
+<thead><tr><th>啰嗦写法</th><th>引导词</th></tr></thead>
+<tbody>
+<tr><td>"fast, deterministic, low-overhead"</td><td><code>tight</code>（a <code>tight</code> loop）</td></tr>
+<tr><td>"a loop you believe in"</td><td><code>red</code>（循环在 bug 上变 <code>red</code>，或不变）</td></tr>
+</tbody>
+</table>
+<p><strong>警告</strong>：<em>"a made-up word recruits no priors: you pay in definition tokens what a pretrained word gives free"</em> —— 自造词没有预训练红利。</p>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+<h2><span class="n">六</span>一个反直觉的结论</h2>
+<div class="box ok">
+<div class="t">模型越强 → skills 的数量应该减少，但单位价值应该上升</div>
+</div>
+<table>
+<thead><tr><th></th><th>模型弱时</th><th>模型强时</th></tr></thead>
+<tbody>
+<tr><td><strong>skills 该装几个</strong></td><td>多（补短板）</td><td class="ok-b"><strong>少</strong>（补上下文）</td></tr>
+<tr><td><strong>每份 skill 该多长</strong></td><td>长（详细步骤）</td><td class="ok-b"><strong>短</strong>（只留私有事实 + 硬边界）</td></tr>
+<tr><td><strong>判断标准</strong></td><td>「有用吗」</td><td class="ok-b">「<strong>它装的是模型不可能知道的东西吗</strong>」</td></tr>
+<tr><td><strong>失效信号</strong></td><td>模型做不对</td><td class="no-b"><strong>模型照做了不该做的指令</strong></td></tr>
+</tbody>
+</table>
+<div class="box danger">
+<div class="t">最后一个变化最重要</div>
+<p>模型弱时，skill 失效的信号是「没效果」；<strong>模型强时，skill 失效的信号是「太有效」</strong>——它忠实地执行了你为旧模型写的补丁，从而多做了无用功。</p>
+</div>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+<h2><span class="n">七</span>一个仍然开放的问题</h2>
+<p>必须诚实标注一个<strong>本轮未能回答</strong>的问题：</p>
+<div class="box pp">
+<div class="t">skills 的「降方差」价值，是否独立于「提成功率」的价值？</div>
+<table>
+<thead><tr><th></th><th>论据</th></tr></thead>
+<tbody>
+<tr><td class="ok-b">支持方</td><td>官方定义含 <em>"Repeatable workflows: Turn multi-step tasks into <strong>consistent, auditable</strong> procedures"</em>——一致性本身就是价值</td></tr>
+<tr><td class="no-b">反对方</td><td>ETH Zurich 实证显示，开发者亲手写的上下文文件只带来 <strong>+2.4% 平均提升，且统计上不显著</strong>，同时增加成本</td></tr>
+</tbody>
+</table>
+<p><strong>这两种说法不矛盾但也不互相支持。</strong> 「一致性」的价值难以用 SWE-bench 这类成功率指标衡量——它衡量的是「每次是否一样」，而不是「是否更对」。</p>
+<p><strong>如果你所在的组织对「行为可预测」有硬需求（金融、医疗、合规），降方差本身就值得成本。否则，按成功率判断即可。</strong></p>
+</div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+<h2><span class="n">八</span>数据可信度</h2>
+
+<h3>8.1 来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span>一手原文</td><td>Anthropic 官方工程博客全文；agentskills.io 规范 + 最佳实践 + 评估方法（<code>.md</code> 端点原文）；<code>writing-for-agents</code> SKILL.md 全文；<code>Agent-Skills-for-Context-Engineering</code> README</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-b">B 级</span>官方转述</td><td>Boris Cherny（Claude Code 创造者）YC 对谈；OpenAI GPT-6 Astra 官方使用指南；Eric Provencher（OpenAI Codex DX）</td><td class="warn-b">中高（<strong>经中文二手转述，未取得英文原文</strong>）</td></tr>
+<tr><td><span class="pill p-y">C 级</span>学术</td><td>北大《Meta Context Engineering via Agentic Skill Evolution》(arXiv 2601.21557)；CMU/Yale 等《Agent Harness Engineering: A Survey》(2026)；ETH Zurich + LogicStar.ai 实验</td><td class="warn-b">中高（<strong>论文原文未逐字核验</strong>）</td></tr>
+<tr><td><span class="pill p-p">D 级</span>实测测评</td><td>40 道编程题三模型对比（知乎，2026-09-28）</td><td class="warn-b">中（单一来源、样本量未知）</td></tr>
+</tbody>
+</table>
+
+<h3>8.2 明确未核实 / 存疑项</h3>
+<ol>
+<li><strong>Boris Cherny 的「80%」和「消融测试显示删掉后更聪明」</strong>：来自中文科技媒体转述的 YC 对谈内容，<strong>未取得英文原文或视频记录</strong>。这是本文最关键的论据之一，建议自行核对原始来源。</li>
+<li><strong>OpenAI GPT-6 Astra 官方使用指南的具体措辞</strong>：同上，为中文转述。</li>
+<li><strong>ETH Zurich + LogicStar.ai 实验</strong>：数据（+20% / +23% / +2.4%）为转述，<strong>未读论文原文</strong>。且该实验测的是「常驻上下文文件」而非「按需加载的 skills」，<strong>不能直接外推</strong>。</li>
+<li><strong>北大论文</strong>：仅确认了「静态技能架构是 Agent 的基石」这句引用，<strong>未读全文</strong>。</li>
+<li><strong><code>Agent-Skills-for-Context-Engineering</code> 的「token 降 60% / 成功率升 45%」</strong>：来自项目自述的单一案例（Digital Brain），<strong>非受控实验</strong>。</li>
+<li><strong>40 道编程题对比</strong>：单一来源，未说明题目分布、重复次数、评分方式。</li>
+<li><strong>Opus 5.5 的状态</strong>：搜索提到代号 <code>claude-wafer-eap</code>，为 API 形式提供；而 <strong>Claude Opus 5 于 2026-07-24 发布</strong>。两者关系（5.5 是 5 的迭代还是下一代）<strong>未确认</strong>。</li>
+<li><strong>「skills 是否约束模型」缺乏受控实验</strong>：本轮所有证据都是间接的（产品团队经验、上下文文件实验、官方指南警告）。<strong>没有见到「同一模型 + 同一任务 + 有/无 skill」的公开对照实验数据。</strong> 这本身是一个值得注意的空白——官方给的 A/B 方法正是为了让你自己做这个实验。</li>
+</ol>
+
+<h3>8.3 本轮方法说明</h3>
+<div class="box ok">
+<div class="t">一个技术细节</div>
+<p>agentskills.io 的文档页正文是 JS 渲染的，直接抓 HTML 只能拿到目录。<strong>在 URL 后加 <code>.md</code> 可以拿到完整 Markdown 原文</strong>（如 <code>https://agentskills.io/skill-creation/best-practices.md</code>），站点还在 <code>/llms.txt</code> 提供了全站文档索引。这个技巧对本轮获取官方原文至关重要。</p>
+</div>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 核验：Anthropic 官方博客 + agentskills.io 规范原文（.md 端点）+ SKILL.md 原文 + 学术引用 + 独立测评 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/evidence.json</code> · <code>data/classification.json</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=btn.getAttribute('data-t');
+    document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    btn.classList.add('on');
+    var el=document.getElementById(t);
+    if(el){el.classList.add('on')}
+  });
+});
+
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+</body>
+</html>
