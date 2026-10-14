@@ -42,11 +42,11 @@
 | **十七** | 安全加固、防病毒与 FHS | SELinux 之问 / ClamAV / 完整 FHS 决策树 |
 | **十八** | 不加外部仓库逼近 CachyOS | ananicy-cpp + CachyOS 官方规则 / scx / sysctl 与 udev 逐条翻译 |
 | **十九** | 三套管理方案的正确定位 | configuration.nix / flake / home-manager 各管什么 + 一页裁决表 |
-| **二十** | flake 进阶 | 多 nixpkgs 输入 / overlay / **只让某个包用 unstable** / `follows` 的坑 / **不用 flake 的三条路** |
+| **二十** | flake 进阶 | 多 nixpkgs 输入 / overlay / **只让某个包用 unstable** / `follows` 的坑 / **不用 flake 的三条路** / ⚠️ **第八轮修正：「只滚 mesa」有 ICD 混版本风险（见 §32.6）** |
 | **二十一** | **Hermes / OpenClaw 落到 NixOS** | 安装 · 管理 · 自启 · **root 权限边界** · HM · flake · 官方 bash（八问全答） |
 | **二十二** | **坑、故障、难点与社区意见** | 666 个 derivation 的构建地狱 / stub-ld / linger 静默失效 / 三方社区态度 |
 | **二十三** | **把 NixOS 用成「Bazzite 模式」** | Bazzite 六层软件层级逐条映射 / `nh` 与 `ujust` 对照 / 掌机工具链在 nixpkgs 的现状 / **四个反模式** |
-| **二十四** | **openSUSE Aeon 模式：稳定基座 + 最新应用** | 「稳定」的两种含义 / Aeon 技术栈拆解 / **三条路（Flatpak 优先 · 双 nixpkgs · 混合）** / HM 官方 FAQ 的 `pkgsUnstable` 写法 |
+| **二十四** | **openSUSE Aeon 模式：稳定基座 + 最新应用** | 「稳定」的两种含义 / Aeon 技术栈拆解 / **三条路（Flatpak 优先 · 双 nixpkgs · 混合）** / HM 官方 FAQ 的 `pkgsUnstable` 写法 / ⚠️ **第八轮修正：路 C 的「只滚 mesa」见 §24.6 警告** |
 | **二十五** | **二进位包与依赖问题：完整手册** | 6 种来源 × 6 类依赖根因 / **★ 26.05 `xorg` 弃用全表** / 诊断命令 / **14 种方案按侵入性排序** / 常见依赖清单 / 程序类型对照 / **三类死路** / 一页速查 |
 | **二十六** | **配置语法、抽象、模块化与 Profiles**（官方 Part II 基础层） | 值类型六种 / `{ config, pkgs, ... }:` 是什么 / 点号语法 ↔ 嵌套 set / `let` + `//` + 函数三层抽象 / `imports` 合并规则 / **官方 11 个 profile** / 六个反模式 |
 | **二十七** | **文件系统、磁盘加密与存储**（官方 Part II 存储） | `fileSystems.*` 完整语义（**挂不上 = 掉 shell**）/ `nofail` / `neededForBoot` / **LUKS 官方完整流程** / FIDO2 + `systemd-cryptenroll` / SSHFS / Overlayfs / 七个反模式 |
@@ -6483,6 +6483,15 @@ in { /* 同上 */ }
 
 `fetchGit` 带 `rev` 时 Nix 会校验取到的 commit 与 `rev` 一致，**这就是「手工锁」**。
 
+> [!WARNING]
+> **把 `mesa` 单独换成 unstable 是有风险的 —— 见 §32.6。**
+>
+> **官方警告**：OpenCL / Vulkan 用 **`dlopen`** 加载 runtime，**不受 Nix 构建期依赖追踪保护**。loader 与 runtime 来自不同 nixpkgs → glibc 符号缺失 → **loader 不报错**。
+>
+> **如果你要滚图形栈**：把 `mesa` + `vulkan-loader` + `libdrm` + `libva` **一起**滚（同源）；或者干脆不滚图形栈，改用 **Flatpak 应用**（自带 runtime）。
+>
+> **只滚一个组件的典型症状**：`vulkaninfo` 里出现 `llvmpipe` / `lavapipe`（= CPU 软渲染），或 `clinfo` 报 `Number of platforms 0`。
+
 #### 四条路对照
 
 | 路 | 需要 channel？ | 需要 flake？ | 锁版本？ | 日常升级 | 适合 |
@@ -8631,6 +8640,28 @@ _module.args.pkgsPath = lib.mkDefault (
 | **系统级应用**（需要所有用户可见） | 26.05 或 `pkgsUnstable`（§20.4） | 声明式、进配置、可回滚 |
 | **用户级 GUI 应用** | **Flatpak**（零构建、追新）或 **HM + unstable**（可复现） | 你自己权衡 |
 | **CLI / 开发工具** | **HM + nixpkgs-unstable** | 免 root、用户级回滚（§19.4 的 5 项好处） |
+
+> [!WARNING]
+> **2026-10-12 第八轮修正：上表第二行的「只把 mesa 取 unstable」有风险，请按下面两种方式之一改。**
+>
+> **官方在 `sec-gpu-accel-common-issues` 明确警告**（原文见 §32.6）：
+> *"The ICD mechanism used by OpenCL and Vulkan loads runtimes into its address space using `dlopen`. **Mixing an ICD loader mechanism and runtimes from different version of nixpkgs may not work.** … **Unfortunately, the loader will generally be quiet about such issues.**"*
+>
+> **问题**：`dlopen` 是**运行时**加载，**不受 Nix 构建期依赖追踪保护**。只把 `mesa` 换成 unstable，而 `vulkan-loader` / `libdrm` 仍是 26.05 → **glibc 符号缺失 → loader 不报错 → 硬件加速静默失效**。
+>
+> **两种改法**：
+>
+> | 改法 | 做法 | 代价 |
+> |---|---|---|
+> | **① 整条链同源（推荐）** | `mesa` + `vulkan-loader` + `libdrm` + `libva` **一起**取 unstable | 多拉几个包，但**ICD 链完整** |
+> | **② 不滚图形栈** | 内核保持基座；**图形栈走 Flatpak 应用**（Flatpak 自带 runtime，不受 nixpkgs glibc 影响） | 系统级 GPU 加速停在 26.05 的 mesa |
+>
+> **验证命令**（改完必跑）：
+> ```bash
+> LD_DEBUG=files clinfo 2>&1 | grep -i "cannot\|error"   # 应无输出
+> vulkaninfo --summary | head -20                        # 不应出现 llvmpipe / lavapipe
+> ```
+> **完整分析见 §32.6。**
 
 完整可抄的三层配置：
 

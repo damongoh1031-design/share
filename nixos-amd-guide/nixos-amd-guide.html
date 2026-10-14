@@ -597,7 +597,7 @@
 <tr>
 <td><strong>二十</strong></td>
 <td>flake 进阶</td>
-<td>多 nixpkgs 输入 / overlay / <strong>只让某个包用 unstable</strong> / <code>follows</code> 的坑 / <strong>不用 flake 的三条路</strong></td>
+<td>多 nixpkgs 输入 / overlay / <strong>只让某个包用 unstable</strong> / <code>follows</code> 的坑 / <strong>不用 flake 的三条路</strong> / ⚠️ <strong>第八轮修正：「只滚 mesa」有 ICD 混版本风险（见 §32.6）</strong></td>
 </tr>
 <tr>
 <td><strong>二十一</strong></td>
@@ -617,7 +617,7 @@
 <tr>
 <td><strong>二十四</strong></td>
 <td><strong>openSUSE Aeon 模式：稳定基座 + 最新应用</strong></td>
-<td>「稳定」的两种含义 / Aeon 技术栈拆解 / <strong>三条路（Flatpak 优先 · 双 nixpkgs · 混合）</strong> / HM 官方 FAQ 的 <code>pkgsUnstable</code> 写法</td>
+<td>「稳定」的两种含义 / Aeon 技术栈拆解 / <strong>三条路（Flatpak 优先 · 双 nixpkgs · 混合）</strong> / HM 官方 FAQ 的 <code>pkgsUnstable</code> 写法 / ⚠️ <strong>第八轮修正：路 C 的「只滚 mesa」见 §24.6 警告</strong></td>
 </tr>
 <tr>
 <td><strong>二十五</strong></td>
@@ -9771,6 +9771,11 @@ in {
 in { /* 同上 */ }
 </code></pre>
 <p><code>fetchGit</code> 带 <code>rev</code> 时 Nix 会校验取到的 commit 与 <code>rev</code> 一致，<strong>这就是「手工锁」</strong>。</p>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong>把 <code>mesa</code> 单独换成 unstable 是有风险的 —— 见 §32.6。</strong></p>
+<p><strong>官方警告</strong>：OpenCL / Vulkan 用 <strong><code>dlopen</code></strong> 加载 runtime，<strong>不受 Nix 构建期依赖追踪保护</strong>。loader 与 runtime 来自不同 nixpkgs → glibc 符号缺失 → <strong>loader 不报错</strong>。</p>
+<p><strong>如果你要滚图形栈</strong>：把 <code>mesa</code> + <code>vulkan-loader</code> + <code>libdrm</code> + <code>libva</code> <strong>一起</strong>滚（同源）；或者干脆不滚图形栈，改用 <strong>Flatpak 应用</strong>（自带 runtime）。</p>
+<p><strong>只滚一个组件的典型症状</strong>：<code>vulkaninfo</code> 里出现 <code>llvmpipe</code> / <code>lavapipe</code>（= CPU 软渲染），或 <code>clinfo</code> 报 <code>Number of platforms 0</code>。</p>
+</div></div>
 <h4>四条路对照</h4>
 <table>
 <thead>
@@ -12810,6 +12815,36 @@ message = &quot;`nixpkgs` options are disabled when `home-manager.useGlobalPkgs`
 <td>免 root、用户级回滚（§19.4 的 5 项好处）</td>
 </tr>
 </tbody></table>
+<div class="callout warn"><div class="callout-h"><span class="callout-i">⚠</span>注意</div><div class="callout-b"><p><strong>2026-10-12 第八轮修正：上表第二行的「只把 mesa 取 unstable」有风险，请按下面两种方式之一改。</strong></p>
+<p><strong>官方在 <code>sec-gpu-accel-common-issues</code> 明确警告</strong>（原文见 §32.6）：
+*&quot;The ICD mechanism used by OpenCL and Vulkan loads runtimes into its address space using <code>dlopen</code>. <strong>Mixing an ICD loader mechanism and runtimes from different version of nixpkgs may not work.</strong> … <strong>Unfortunately, the loader will generally be quiet about such issues.</strong>&quot;*</p>
+<p><strong>问题</strong>：<code>dlopen</code> 是<strong>运行时</strong>加载，<strong>不受 Nix 构建期依赖追踪保护</strong>。只把 <code>mesa</code> 换成 unstable，而 <code>vulkan-loader</code> / <code>libdrm</code> 仍是 26.05 → <strong>glibc 符号缺失 → loader 不报错 → 硬件加速静默失效</strong>。</p>
+<p><strong>两种改法</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>改法</th>
+<th>做法</th>
+<th>代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>① 整条链同源（推荐）</strong></td>
+<td><code>mesa</code> + <code>vulkan-loader</code> + <code>libdrm</code> + <code>libva</code> <strong>一起</strong>取 unstable</td>
+<td>多拉几个包，但<strong>ICD 链完整</strong></td>
+</tr>
+<tr>
+<td><strong>② 不滚图形栈</strong></td>
+<td>内核保持基座；<strong>图形栈走 Flatpak 应用</strong>（Flatpak 自带 runtime，不受 nixpkgs glibc 影响）</td>
+<td>系统级 GPU 加速停在 26.05 的 mesa</td>
+</tr>
+</tbody></table>
+<p><strong>验证命令</strong>（改完必跑）：</p>
+<pre><code class="language-bash">LD_DEBUG=files clinfo 2&gt;&amp;1 | grep -i &quot;cannot\|error&quot;   # 应无输出
+vulkaninfo --summary | head -20                        # 不应出现 llvmpipe / lavapipe
+</code></pre>
+<p><strong>完整分析见 §32.6。</strong></p>
+</div></div>
 <p>完整可抄的三层配置：</p>
 <pre><code class="language-nix"># ─────────── flake.nix ───────────
 {

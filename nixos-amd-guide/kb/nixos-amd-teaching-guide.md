@@ -978,14 +978,23 @@ for(const tag of ["h1","h2","h3","h4"]){
 | **三十四** 写模块与测试 | Part IV | **覆盖优先级精确数字**；**顺序优先级是另一套**；**`types.externalPath` 挡不住 `${}` 插值**；**官方明确不推荐 overlay 换包**；**`mkIf` vs 裸 `if`** |
 | **三十五** 构建镜像 | Part I 缺口 | **三类频道**（stable/unstable/small）；**`nixos-rebuild build-image` 不加参数列全部变体**；**`image.repart` 的 `nixStorePrefix`**；**appliance 不适合 generation 更新 → 换整镜像或 A/B（官方点名 Chrome OS）** |
 
-### 17.4 本轮对既有章节的一处修正
+### 17.4 本轮对既有章节的修正（已就地写入，不只是记在附录）
 
-**第二十章（flake 进阶）原建议「只滚 `mesa`」** —— 依据官方 `sec-gpu-accel-common-issues` 的警告**修正为**：
+**第二十章「不用 flake 的三条路 · 路 C」与 §24.6「路 C：混合（本文推荐）」原建议「只把 `mesa` 取 unstable」** —— 依据官方 `sec-gpu-accel-common-issues` 的警告**就地加了 WARNING callout 并修正为**：
 
-- 只滚**内核 + Flatpak 应用**（Flatpak 自带 runtime，不受 nixpkgs glibc 影响）
-- 或把 **`mesa` 连同 `vulkan-loader`、`libdrm` 一起滚**（保持 ICD 链同版本）
+- ① **整条链同源**：`mesa` + `vulkan-loader` + `libdrm` + `libva` **一起**取 unstable
+- ② **不滚图形栈**：内核保持基座；图形栈走 **Flatpak 应用**（自带 runtime，不受 nixpkgs glibc 影响）
 
-**原因**（官方原文）：*"the loader and the runtime may come from different nixpkgs … the loader will not report an error"* —— 只滚一个组件会产生「看起来正常但硬件加速失效」的**静默故障**。
+**原因**（官方原文）：*"The ICD mechanism used by OpenCL and Vulkan loads runtimes into its address space using `dlopen`. Mixing an ICD loader mechanism and runtimes from different version of nixpkgs may not work. … Unfortunately, the loader will generally be quiet about such issues."*
+
+**验证命令**（改完必跑）：
+
+```bash
+LD_DEBUG=files clinfo 2>&1 | grep -i "cannot\|error"   # 应无输出
+vulkaninfo --summary | head -20                        # 不应出现 llvmpipe / lavapipe
+```
+
+**典型症状**：`vulkaninfo` 出现 `llvmpipe` / `lavapipe`（= CPU 软渲染）；`clinfo` 报 `Number of platforms 0`。
 
 ### 17.5 优先级精确数字（本轮最实用的一张表）
 
