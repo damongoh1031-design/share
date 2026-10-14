@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人助理类 AI Agent 的 MCP 生态调研</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+
+/* sidebar */
+aside{width:262px;flex:0 0 262px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:8px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1080px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.7}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+
+/* callouts */
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)} .box .t{color:var(--ac2)}
+.box p:last-child{margin-bottom:0}
+
+/* tables */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.star{color:var(--yl);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:25px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+
+/* tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid var(--bd);padding-bottom:0}
+.tab{padding:9px 16px;background:transparent;border:1px solid transparent;border-bottom:none;color:var(--tx2);cursor:pointer;font-size:13.5px;border-radius:7px 7px 0 0;font-family:inherit;transition:.15s;position:relative;top:1px}
+.tab:hover{color:var(--tx);background:var(--bg2)}
+.tab.on{color:var(--ac);background:var(--bg2);border-color:var(--bd);border-bottom-color:var(--bg2);font-weight:600}
+.pane{display:none;padding-top:18px}
+.pane.on{display:block;animation:fi .22s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* bar chart */
+.bars{margin:18px 0}
+.bar{display:grid;grid-template-columns:190px 1fr 78px;align-items:center;gap:12px;margin:7px 0;font-size:13px}
+.bar .lbl{color:var(--tx2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .trk{background:var(--bg3);height:22px;border-radius:4px;overflow:hidden;position:relative}
+.bar .fil{height:100%;border-radius:4px;background:linear-gradient(90deg,#1f6feb,#58a6ff);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.bar .val{color:var(--ac2);font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.bar.g .fil{background:linear-gradient(90deg,#238636,#3fb950)}
+.bar.y .fil{background:linear-gradient(90deg,#9e6a03,#d29922)}
+.bar.r .fil{background:linear-gradient(90deg,#a40e26,#f85149)}
+.bar.p .fil{background:linear-gradient(90deg,#6e40c9,#bc8cff)}
+
+/* tier */
+.tier{border:1px solid var(--bd);border-radius:10px;margin:14px 0;overflow:hidden}
+.tier .hd{padding:11px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:9px}
+.t1 .hd{background:rgba(63,185,80,.12);color:var(--gn)}
+.t2 .hd{background:rgba(210,153,34,.12);color:var(--yl)}
+.t3 .hd{background:rgba(248,81,73,.12);color:var(--rd)}
+.tier .bd{padding:4px 16px 12px;background:var(--bg2)}
+
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 20px 60px}
+  .bar{grid-template-columns:110px 1fr 62px;font-size:12px}
+  h2{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>个人助理的 MCP 生态</h1>
+  <div class="sub">OpenClaw · Hermes Agent · Goose · DSH<br>数据核验 2026-10-14</div>
+  <nav>
+    <div class="grp">结论</div>
+    <a href="#s0" class="on">〇 结论速览</a>
+    <a href="#s1">一 前提：个人助理 ≠ MCP 优先</a>
+    <div class="grp">生态</div>
+    <a href="#s2">二 框架 MCP 成熟度分层</a>
+    <a href="#s3">三 社区公认必装清单</a>
+    <a href="#s3c">　· 中国生态必装</a>
+    <a href="#s3d">　· 下载量硬数据</a>
+    <div class="grp">风险</div>
+    <a href="#s4">四 上下文膨胀红线</a>
+    <a href="#s5">五 安全：最危险的宿主</a>
+    <a href="#s6">六 陷阱清单</a>
+    <div class="grp">附录</div>
+    <a href="#s7">七 数据可信度</a>
+    <a href="#s8">八 核验原始数据</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- ============ 0 ============ -->
+<section id="s0">
+<h2><span class="n">〇</span>结论速览</h2>
+
+<div class="box ok">
+<div class="t">最重要的一个结论</div>
+<p><strong>问「OpenClaw / Hermes 上必装什么 MCP」，这个问题本身预设错了一半。</strong>个人助理类软件分成两条截然不同的路线——对 OpenClaw 用户，正确答案是「装 Skills」；对 Hermes / Goose / DSH 用户，MCP 才是主线。</p>
+</div>
+
+<div class="grid">
+  <div class="card"><div class="k">OpenClaw 星数</div><div class="v">391,930</div><div class="d">MIT · 2026-10-14 仍日更</div></div>
+  <div class="card pp"><div class="k">Hermes Agent</div><div class="v">253,604</div><div class="d">MIT · MCP 成熟度最高</div></div>
+  <div class="card pp"><div class="k">DeepSeek Harness</div><div class="v">249,310</div><div class="d">MIT · 裸引擎 + 插件系统</div></div>
+  <div class="card gn"><div class="k">Goose</div><div class="v">55,269</div><div class="d">Apache-2.0 · AAIF 参考实现</div></div>
+</div>
+
+<h3>两条路线，不是同一个东西</h3>
+<table>
+<thead><tr><th>路线</th><th>代表</th><th>扩展的载体</th><th>MCP 的地位</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-y">Skills 优先</span></td><td><strong>OpenClaw</strong><br><span class="star">391,930★</span></td><td><code>SKILL.md</code> + Markdown 人格文件</td><td class="warn-b">配角。能装，但官方与社区的精力都在 Skills 上</td></tr>
+<tr><td><span class="pill p-b">MCP 优先</span></td><td><strong>Goose</strong> <span class="star">55,269★</span><br><strong>Hermes Agent</strong> <span class="star">253,604★</span><br><strong>DSH</strong> <span class="star">249,310★</span></td><td>MCP server</td><td class="ok-b">主角，MCP 就是它的扩展模型</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">本机实证：OpenClaw 里没有一个 MCP 配置文件</div>
+<p>本机 <code>~/.openclaw/workspace/</code> 里躺着 <code>AGENTS.md</code>、<code>BOOTSTRAP.md</code>、<code>IDENTITY.md</code>、<code>SOUL.md</code>、<code>TOOLS.md</code>、<code>USER.md</code>、<code>HEARTBEAT.md</code> 七个 Markdown 文件，<strong>一个 MCP 配置文件都没有</strong>——这不是巧合，是设计。</p>
+</div>
+
+<h3>通用核心「必装 5 件套」（跨框架硬共识）</h3>
+<table>
+<thead><tr><th>#</th><th>能力</th><th>首选实现</th><th>为什么必装</th></tr></thead>
+<tbody>
+<tr><td><strong>1</strong></td><td><strong>文件系统</strong></td><td><code>@modelcontextprotocol/server-filesystem</code></td><td>助理的「手脚」，读写本地文件是其他一切的前提</td></tr>
+<tr><td><strong>2</strong></td><td><strong>网页抓取</strong></td><td>官方 <code>fetch</code> / Firecrawl <span class="star">7,598★</span></td><td>没有它，助理的知识截止在训练日</td></tr>
+<tr><td><strong>3</strong></td><td><strong>持久记忆</strong></td><td>官方 KG Memory / <code>basic-memory</code> <span class="star">4,169★</span> / Graphiti <span class="star">31,730★</span></td><td>个人助理的<strong>灵魂</strong>。没有跨会话记忆就只是聊天窗口</td></tr>
+<tr><td><strong>4</strong></td><td><strong>网络搜索</strong></td><td>Exa <span class="star">5,126★</span> / Brave <span class="star">1,497★</span> / Tavily</td><td>抓取是「给 URL」，搜索是「找 URL」，不可互替</td></tr>
+<tr><td><strong>5</strong></td><td><strong>笔记/知识库</strong></td><td>Notion 官方 <span class="star">4,666★</span> / Obsidian <span class="star">4,476★</span></td><td>让产出落到你自己的知识体系，而非消失在对话里</td></tr>
+</tbody>
+</table>
+
+<div class="box danger">
+<div class="t">一句话警告</div>
+<p><strong>个人助理是 MCP 生态里最危险的宿主</strong>：它拿着你的文件系统权限、邮箱、日历、聊天记录。OpenClaw 已知 <strong>CVE-2026-25253（1-Click RCE，CVSS 8.8）</strong>、<strong>CVE-2026-28363（沙箱逃逸，CVSS 9.9）</strong>，ClawHub 上还爆发过 <strong>ClawHavoc 供应链投毒（341 个恶意技能，投递 Atomic macOS Stealer）</strong>。装之前先过一遍第五章。</p>
+</div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+<h2><span class="n">一</span>先纠正前提：个人助理 ≠ MCP 优先</h2>
+
+<h3>1.1 OpenClaw 的真相：Skills 才是旗舰机制</h3>
+<p>OpenClaw（<code>openclaw/openclaw</code>，<strong>391,930★</strong>，MIT，2025-11-24 建仓，2026-10-14 仍在日更）是当前 GitHub 上星数最高的个人助理项目之一。但它的扩展哲学不是 MCP。</p>
+
+<h4>MCP 在 OpenClaw 里怎么用</h4>
+<ul>
+<li>配置文件 <code>~/.openclaw/openclaw.json</code> 中的 <code>mcp.servers</code> 段</li>
+<li>Control UI（<code>http://127.0.0.1:18789/</code>）→ Settings → MCP → Add server</li>
+<li>CLI：<code>openclaw mcp add / doctor / status / probe / login / reload / configure</code></li>
+<li>传输支持：Streamable HTTP / SSE / Stdio</li>
+<li>反向能力：<code>openclaw mcp serve</code> —— 把 OpenClaw 自己暴露成一个 MCP server 给别的客户端用</li>
+</ul>
+<p>也就是说 MCP 支持是<strong>完整且一等公民级</strong>的。但——</p>
+
+<h4>真正的旗舰是 Skills，通过 ClawHub 分发</h4>
+<ul>
+<li>注册表仓库：<code>openclaw/clawhub</code>（<strong class="star">9,508★</strong>，MIT，官方描述就是 "Skill + Plugin Registry for OpenClaw"）</li>
+<li>安装命令：<code>openclaw skills install @openclaw/demo</code></li>
+<li>Skills 的载体是 <code>SKILL.md</code>，遵循 Agent Skills 开放标准（agentskills.io，2025-12-18 发布）</li>
+</ul>
+
+<h4>本机一手实证（<code>~/.openclaw/</code>）</h4>
+<pre><code>~/.openclaw/
+├── skills/
+│   └── playwriter -> /c/Users/Admin/.agents/skills/playwriter   ← 软链到共享技能目录
+└── workspace/
+    ├── AGENTS.md        ← 工作区宪法
+    ├── BOOTSTRAP.md     ← 首次启动引导（用完即删）
+    ├── IDENTITY.md      ← 助理的自我认知（名字/性格/emoji）
+    ├── SOUL.md          ← 价值观与行为边界
+    ├── TOOLS.md         ← 环境专属笔记（SSH 主机、摄像头名、TTS 音色）
+    ├── USER.md          ← 关于用户本人
+    ├── HEARTBEAT.md     ← 周期性自检任务
+    └── .openclaw/workspace-state.json</code></pre>
+
+<p>本机 <code>AGENTS.md</code> 的会话启动协议原文：</p>
+<pre><code>1. Read `SOUL.md` — this is who you are
+2. Read `USER.md` — this is who you're helping
+3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
+4. If in MAIN SESSION: Also read `MEMORY.md`</code></pre>
+
+<p>以及一句非常能代表这套设计的话：</p>
+<div class="box"><div class="t">Text &gt; Brain</div><p>"Mental notes" don't survive session restarts. <strong>Files do.</strong></p></div>
+
+<p>本机 <code>TOOLS.md</code> 则明确划清了边界：</p>
+<pre><code>Skills define _how_ tools work. This file is for _your_ specifics.
+
+Skills are shared. Your setup is yours. Keeping them apart means you can
+update skills without losing your notes, and share skills without leaking
+your infrastructure.</code></pre>
+
+<div class="box warn">
+<div class="t">结论</div>
+<p>OpenClaw 的架构决策是「<strong>人格与知识用 Markdown 文件承载，能力用 Skills 承载，MCP 作为与外部世界对接的可选通道</strong>」。所以<strong>不存在、也不会有权威的「OpenClaw 必装 MCP 清单」</strong>——社区的能量全在 Skills 上。</p>
+</div>
+
+<h3>1.2 OpenClaw 社区实际在装什么（Skills，非 MCP）</h3>
+<p>由于没有权威 MCP 榜单，社区共识落在 ClawHub 的 Skills 上。综合中文社区榜单出现频率最高的：</p>
+<table>
+<thead><tr><th>Skill</th><th>作用</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>skill-vetter / clawsec</strong></td><td>安全扫描</td><td><span class="pill p-r">第一个该装的</span></td></tr>
+<tr><td><code>tavily-search</code></td><td>联网搜索</td><td>替代内置搜索</td></tr>
+<tr><td><code>find-skills</code></td><td>技能发现</td><td>元技能，用来找别的技能</td></tr>
+<tr><td><code>proactive-agent</code></td><td>主动行为</td><td>配合 HEARTBEAT.md 做定时自检</td></tr>
+<tr><td><code>github</code> / <code>gog</code></td><td>GitHub / Google Workspace</td><td></td></tr>
+<tr><td><code>automation-workflows</code></td><td>工作流编排</td><td></td></tr>
+<tr><td><code>bird</code></td><td>社媒/内容发布</td><td></td></tr>
+<tr><td><code>self-improving-agent</code></td><td>自我改进</td><td>把经验写回文件</td></tr>
+<tr><td><code>feishu-doc</code></td><td>飞书文档</td><td>中国用户高频</td></tr>
+</tbody>
+</table>
+
+<h4>ClawHub 生态的规模信号（已核验）</h4>
+<div class="bars">
+  <div class="bar p"><div class="lbl">last30days-skill</div><div class="trk"><div class="fil" style="width:100%"></div></div><div class="val">64,191★</div></div>
+  <div class="bar p"><div class="lbl">clawhub（注册表）</div><div class="trk"><div class="fil" style="width:14.8%"></div></div><div class="val">9,508★</div></div>
+  <div class="bar p"><div class="lbl">OpenClaw-Medical-Skills</div><div class="trk"><div class="fil" style="width:4.8%"></div></div><div class="val">3,063★</div></div>
+  <div class="bar p"><div class="lbl">nano-banana-pro-prompts</div><div class="trk"><div class="fil" style="width:2.9%"></div></div><div class="val">1,875★</div></div>
+  <div class="bar p"><div class="lbl">openclaw-backup</div><div class="trk"><div class="fil" style="width:1.0%"></div></div><div class="val">659★</div></div>
+</div>
+
+<h3>1.3 Hermes Agent：MCP 是一级公民，但配了「防膨胀」机制</h3>
+<p>Hermes Agent（<code>NousResearch/hermes-agent</code>，<strong>253,604★</strong>，MIT，2025-07-22 建仓）走的是完全相反的路线：<strong>MCP 是核心扩展机制</strong>。</p>
+<p>本机 <code>config.yaml</code> 达 <strong>123,576 字节</strong>，其中第 1523–1600 行是完整的 MCP 配置文档段：</p>
+<pre><code># MCP (Model Context Protocol) Servers
+# Stdio servers (spawn a subprocess):
+#   command / args / env
+# HTTP servers (connect to a URL):
+#   url / headers
+#
+# mcp_servers:
+#   time:
+#     command: uvx
+#     args: ["mcp-server-time"]
+#   filesystem:
+#     command: npx
+#     args: ["-y", "@modelcontextprotocol/server-filesystem", "/home/user"]
+#   notion:
+#     url: https://mcp.notion.com/mcp
+#   github:
+#     command: npx
+#     args: ["-y", "@modelcontextprotocol/server-github"]</code></pre>
+
+<h4>Hermes 的三个设计细节（整个 MCP 生态里最值得学的）</h4>
+<div class="grid">
+<div class="card"><div class="k">① lazy 懒加载</div><div class="d" style="color:var(--tx2);font-size:13px">启动时只从磁盘 schema 缓存登记工具，<strong>首次真正调用才拉起子进程</strong>。这是对「装多了启动就慢」的直接回应。</div></div>
+<div class="card"><div class="k">② MCP 结果单独设溢流阈值</div><div class="d" style="color:var(--tx2);font-size:13px">MCP 工具返回超过 <strong>50,000 字符</strong>就落盘，上下文里只留预览 + 路径（通用默认是 100K）。</div></div>
+<div class="card"><div class="k">③ Sampling 默认开启</div><div class="d" style="color:var(--tx2);font-size:13px">允许 MCP server 反向请求 LLM，带 <code>max_tokens_cap: 4096</code> 与 <code>max_rpm: 10</code> 限流。</div></div>
+</div>
+
+<p>Hermes 配置注释原文（②）：</p>
+<pre><code>MCP tool results (tools named `mcp_*`) spill at a tighter 50,000-char
+threshold than the generic 100K default: MCP servers routinely return
+un-paginated 20-50K payloads that bloat context and slow every
+subsequent turn.</code></pre>
+
+<div class="box warn">
+<div class="t">⚠️ 顺手指出一个陷阱</div>
+<p>Hermes 文档示例里写的是 <code>@modelcontextprotocol/server-github</code> —— <strong>这是已废弃的旧 npm 包</strong>。现在应该用 <code>github/github-mcp-server</code>（33,601★，官方 Go 实现）。<strong>官方文档示例也可能过期，别照抄。</strong></p>
+</div>
+
+<p>Hermes 的人格文件体系（与 OpenClaw 同构但更精简）：<code>SOUL.md</code>（667 字节）、<code>AGENTS.md</code>、<code>hermes-agent/</code>（完整源码 git 仓库，含 <code>README.zh-CN.md</code>）、<code>memories/</code>、<code>sessions/</code>、<code>skills/</code>、<code>knowledge-base/</code>、<code>hooks/</code>、<code>cron/</code>、<code>bot_relay/</code>。</p>
+<p>注意 <code>bot_relay/</code> 与 <code>cron/</code> —— <strong>IM 中继 + 定时任务</strong>，这是「个人助理」区别于「编码助手」的两个标志性目录。</p>
+
+<h3>1.4 三条路线的分野</h3>
+<table>
+<thead><tr><th></th><th><span class="pill p-y">Skills 优先</span></th><th><span class="pill p-b">MCP 优先</span></th><th><span class="pill p-p">混合</span></th></tr></thead>
+<tbody>
+<tr><td><strong>代表</strong></td><td>OpenClaw</td><td>Goose、Hermes、DSH</td><td>LibreChat、LobeChat</td></tr>
+<tr><td><strong>扩展单元</strong></td><td><code>SKILL.md</code></td><td>MCP server</td><td>两者都支持</td></tr>
+<tr><td><strong>分发渠道</strong></td><td>ClawHub <span class="star">9,508★</span></td><td>MCP Registry / npm / PyPI</td><td>各自市场</td></tr>
+<tr><td><strong>优势</strong></td><td>轻、可读、可审查、无需进程</td><td>生态大、跨客户端复用</td><td>灵活</td></tr>
+<tr><td><strong>劣势</strong></td><td>生态碎片化、无统一注册表</td><td>上下文膨胀、进程开销、供应链风险</td><td>概念复杂</td></tr>
+<tr><td><strong>星数</strong></td><td><span class="star">391,930★</span></td><td><span class="star">55,269★ / 253,604★ / 249,310★</span></td><td><span class="star">45,656★ / 83,223★</span></td></tr>
+</tbody>
+</table>
+
+<div class="box"><div class="t">Goose 是最彻底的 MCP 优先者</div><p>它的扩展模型就是「MCP 即扩展」，内置 70+ 扩展，并且是 <strong>AAIF（Agentic AI Foundation）的创始项目与参考实现</strong>。已核验：<code>block/goose</code> <strong>已迁移至 <code>aaif-goose/goose</code></strong>（55,269★，Apache-2.0）——这个迁移本身就是 AAIF 落地的证据。</p></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+<h2><span class="n">二</span>个人助理框架 MCP 成熟度分层</h2>
+<p>按「MCP 是否一等公民 + 是否有官方配置文档 + 是否处理了膨胀问题」三条标准分层：</p>
+
+<div class="tier t1">
+<div class="hd">Tier 1 — MCP 成熟度最高</div>
+<div class="bd">
+<table>
+<thead><tr><th>框架</th><th>星数</th><th>License</th><th>MCP 形态</th><th>亮点</th></tr></thead>
+<tbody>
+<tr><td><strong>Goose</strong><br><code>aaif-goose/goose</code></td><td class="star">55,269★</td><td>Apache-2.0</td><td>MCP 即扩展模型，70+ 内置</td><td>AAIF 创始项目；MCP 的参考实现</td></tr>
+<tr><td><strong>Hermes Agent</strong><br><code>NousResearch</code></td><td class="star">253,604★</td><td>MIT</td><td><code>mcp_servers:</code> 一等配置</td><td><strong>lazy 懒加载 + 50K 溢流 + sampling</strong></td></tr>
+<tr><td><strong>DSH</strong><br><code>deepseek-ai/deepseek-harness</code></td><td class="star">249,310★</td><td>MIT</td><td>原生 MCP 客户端</td><td>Cordis 插件系统可热插拔；裸引擎</td></tr>
+</tbody>
+</table>
+<p style="font-size:13px;color:var(--tx3)"><strong>DSH 补充</strong>：原生 MCP 客户端是 <code>@deepseek-ai/dsh-mcp-client</code>，但 DSH 是「裸引擎」，不预置任何 MCP server。社区方案 <strong><code>dsh-mcp-bridge</code></strong>（Edge-Echo，MIT）一键接入 6 个：<code>everything</code> / <code>memory</code> / <code>filesystem</code> / <code>github</code> / <code>playwright</code> / <code>remote-http</code>。</p>
+</div>
+</div>
+
+<div class="tier t2">
+<div class="hd">Tier 2 — 支持 MCP 但非核心</div>
+<div class="bd">
+<table>
+<thead><tr><th>框架</th><th>星数</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>Open Interpreter</td><td class="star">68,574★</td><td>已转型为「面向开放模型的编码 agent」（Kimi K3 / GLM 5.3）</td></tr>
+<tr><td>OpenManus</td><td class="star">58,637★</td><td>—</td></tr>
+<tr><td>Letta</td><td class="star">25,125★</td><td>原 MemGPT，记忆机制是核心卖点</td></tr>
+<tr><td>Suna</td><td class="star">20,273★</td><td>—</td></tr>
+<tr><td>Agent Zero</td><td class="star">19,458★</td><td>注意：已从 <code>frdel/agent-zero</code> 迁移到 <code>agent0ai/agent-zero</code></td></tr>
+<tr><td>AutoGPT</td><td class="star">187,564★</td><td>平台化转型中，MCP 深度有限</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="tier t3">
+<div class="hd">Tier 3 — MCP 支持薄弱或未核实</div>
+<div class="bd">
+<table>
+<thead><tr><th>框架</th><th>星数</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>Khoj</td><td class="star">37,680★</td><td><span class="pill p-y">未核实 MCP 支持</span>（最近推送 2026-08-02）</td></tr>
+<tr><td>Fabric</td><td class="star">44,254★</td><td>以 prompt 模式为主，非 MCP 架构</td></tr>
+<tr><td>AutoGen</td><td class="star">61,394★</td><td><span class="pill p-r">已半年未更新</span>（2026-04-15）</td></tr>
+<tr><td>AgentVerse</td><td class="star">5,156★</td><td><span class="pill p-r">已 2 年未更新</span>（2024-09-09）</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<h3>中国系个人助理</h3>
+<table>
+<thead><tr><th>项目</th><th>星数</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>CowAgent</strong>（zhayujie）</td><td class="star">47,390★</td><td>开源个人 AI 助理 &amp; Agent Harness，自我进化 + 记忆 + 多平台</td></tr>
+<tr><td><strong>QwenPaw</strong>（agentscope-ai）</td><td class="star">35,668★</td><td>阿里 AgentScope 出品，可本机/云部署，多聊天应用接入</td></tr>
+<tr><td>DeepChat（ThinkInAIXYZ）</td><td class="star">6,360★</td><td>桌面智能助理</td></tr>
+<tr><td>Everywhere（Sylinko）</td><td class="star">6,314★</td><td>屏幕感知型桌面助理，用当前应用上下文 + MCP 工具跨应用操作</td></tr>
+<tr><td>OpenAgent（the-open-agent）</td><td class="star">5,689★</td><td>computer-use + browser-use + 编码 agent</td></tr>
+</tbody>
+</table>
+
+<div class="box warn"><div class="t">一个明显的信息壁垒</div><p>CowAgent（47,390★）与 QwenPaw（35,668★）这两个中国项目的星数<strong>高于多数 Tier 2 框架</strong>，但英文社区几乎不提它们。</p></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+<h2><span class="n">三</span>社区公认必装 MCP（分层清单）</h2>
+
+<div class="tabs">
+<button class="tab on" data-t="t1">通用核心 5 件套</button>
+<button class="tab" data-t="t2">记忆 / 笔记</button>
+<button class="tab" data-t="t3">日历 / 邮件 / 办公</button>
+<button class="tab" data-t="t4">IM / 搜索 / 浏览器</button>
+<button class="tab" data-t="t5">家居 / 媒体 / 财经 / 信息流</button>
+<button class="tab" data-t="t6">开发 / 代码</button>
+</div>
+
+<div class="pane on" id="t1">
+<h4>为什么是这五个</h4>
+<ul>
+<li><strong>Filesystem + Fetch</strong> 是「能干活」的下限</li>
+<li><strong>Memory</strong> 是「像个助理而不是搜索引擎」的分水岭</li>
+<li><strong>Search</strong> 与 <strong>Fetch</strong> 是互补关系：搜索负责发现，抓取负责深入</li>
+<li><strong>Notes</strong> 是让助理的产出<strong>沉淀到你已有的知识体系</strong>，而不是随对话消失</li>
+</ul>
+<table>
+<thead><tr><th>#</th><th>能力</th><th>首选实现</th><th>备选</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>文件系统</strong></td><td><code>@modelcontextprotocol/server-filesystem</code></td><td>DesktopCommanderMCP <span class="star">10,047★</span></td></tr>
+<tr><td>2</td><td><strong>网页抓取</strong></td><td>官方 <code>fetch</code></td><td>Firecrawl <span class="star">7,598★</span> · Apify <span class="star">11,112★</span></td></tr>
+<tr><td>3</td><td><strong>持久记忆</strong></td><td>官方 Knowledge Graph Memory</td><td>basic-memory <span class="star">4,169★</span> · Graphiti <span class="star">31,730★</span> · mcp-memory-service <span class="star">2,013★</span></td></tr>
+<tr><td>4</td><td><strong>网络搜索</strong></td><td>Exa <span class="star">5,126★</span></td><td>Brave 官方 <span class="star">1,497★</span> · Tavily</td></tr>
+<tr><td>5</td><td><strong>笔记/知识库</strong></td><td>Notion 官方 <span class="star">4,666★</span></td><td>mcp-obsidian <span class="star">4,476★</span> · obsidian-local-rest-api <span class="star">3,024★</span></td></tr>
+</tbody>
+</table>
+<div class="box danger"><div class="t">反共识提醒</div><p><strong>不要装第 6、7、8 个「顺便也装上」。</strong>见第四章。</p></div>
+</div>
+
+<div class="pane" id="t2">
+<h4>记忆 / 上下文（个人助理的灵魂）</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>Graphiti</strong>（getzep）</td><td class="star">31,730★</td><td>Apache-2.0</td><td>2026-10-14</td><td>实时知识图谱，企业级</td></tr>
+<tr><td><strong>basic-memory</strong></td><td class="star">4,169★</td><td>AGPL-3.0</td><td>2026-10-12</td><td>基于 Markdown 的本地记忆，<strong>与 Obsidian 天然兼容</strong></td></tr>
+<tr><td>mcp-memory-service（doobidoo）</td><td class="star">2,013★</td><td>Apache-2.0</td><td>2026-10-14</td><td>知识图谱 + 自主整合</td></tr>
+<tr><td>Knowledge Graph Memory（官方）</td><td class="star">含于 91,238★</td><td>—</td><td>—</td><td>官方最常被引用的记忆实现</td></tr>
+<tr><td>mcp-trader（wshobson）</td><td class="star">273★</td><td>—</td><td>2025-08-24</td><td><span class="pill p-r">已归档</span></td></tr>
+</tbody>
+</table>
+
+<h4>笔记 / 知识库</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>Notion 官方</strong>（makenotion）</td><td class="star">4,666★</td><td>MIT</td><td>2026-09-20</td><td>官方维护，<strong>首选</strong></td></tr>
+<tr><td>mcp-obsidian（MarkusPfundstein）</td><td class="star">4,476★</td><td>MIT</td><td>2026-08-31</td><td>走 Obsidian REST API 插件</td></tr>
+<tr><td>obsidian-wiki（Ar9av）</td><td class="star">3,567★</td><td>MIT</td><td>2026-10-13</td><td>让 agent 用 Obsidian 维护「数字大脑」</td></tr>
+<tr><td>obsidian-local-rest-api（coddingtonbear）</td><td class="star">3,024★</td><td>MIT</td><td>2026-10-11</td><td>REST API + MCP，本地 vault</td></tr>
+<tr><td>mcp-notion-server（suekou）</td><td class="star">920★</td><td>MIT</td><td>2026-07-31</td><td>社区版，官方版优先</td></tr>
+<tr><td>obsidian-mcp（StevenStavrakis）</td><td class="star">742★</td><td>MIT</td><td>2026-10-08</td><td>轻量</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="t3">
+<h4>日历 / 邮件 / 办公套件</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>google_workspace_mcp</strong>（taylorwilsdon）</td><td class="star">3,336★</td><td>MIT</td><td>2026-10-09</td><td><strong>一个覆盖 Gmail/Calendar/Docs/Sheets/Slides/Chat/Forms/Tasks/Drive/Search</strong></td></tr>
+<tr><td>keeper.sh（ridafkih）</td><td class="star">1,387★</td><td>AGPL-3.0</td><td>2026-10-13</td><td>通用日历 MCP：Google/Outlook/O365/iCloud 聚合同步</td></tr>
+<tr><td>google-calendar-mcp（nspady）</td><td class="star">1,199★</td><td>MIT</td><td>2026-10-13</td><td>专注日历</td></tr>
+<tr><td>google-docs-mcp（a-bonus）</td><td class="star">673★</td><td>MIT</td><td>2026-10-11</td><td>Docs/Sheets/Drive/Gmail/Calendar</td></tr>
+<tr><td>mcp-email-server（Wh1isper）</td><td class="star">360★</td><td>BSD-3</td><td>2026-10-13</td><td>多账户 IMAP/SMTP，跨三平台</td></tr>
+<tr><td>email-mcp（codefuturist）</td><td class="star">127★</td><td>LGPL-3.0</td><td>2026-10-10</td><td>全功能 IMAP + SMTP</td></tr>
+<tr><td>imap-mcp-server（nikolausm）</td><td class="star">109★</td><td>MIT</td><td>2026-10-13</td><td>AES-256 加密的多邮箱</td></tr>
+<tr><td>Gmail-MCP-Server（GongRzhe）</td><td class="star">1,168★</td><td>MIT</td><td>2025-08-06</td><td><span class="pill p-r">已归档</span>——曾是热门，勿再用</td></tr>
+<tr><td>mcp-atlassian（sooperset）</td><td class="star">6,001★</td><td>MIT</td><td>2026-09-19</td><td>Jira + Confluence</td></tr>
+<tr><td>zapier-mcp</td><td class="star">435★</td><td>MIT</td><td>2026-07-29</td><td>一个 MCP 接 8000+ 应用（官方托管）</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="t4">
+<h4>IM / 沟通</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>slack-mcp-server（korotovsky）</td><td class="star">1,863★</td><td>MIT</td><td>2026-07-16</td><td>无需权限申请、支持 DM/群 DM/GovSlack</td></tr>
+<tr><td>lark-openapi-mcp（飞书官方）</td><td class="star">836★</td><td>MIT</td><td>2025-08-14</td><td><span class="pill p-y">已 14 个月未更新</span></td></tr>
+<tr><td>wecom-bot-mcp-server（loonghao）</td><td class="star">104★</td><td>MIT</td><td>2026-10-13</td><td>企业微信机器人</td></tr>
+<tr><td>open-feishu-mcp-server（ztxtxwd）</td><td class="star">87★</td><td>MIT</td><td>2026-01-27</td><td>飞书社区实现</td></tr>
+</tbody>
+</table>
+
+<h4>搜索 / 抓取 / 浏览器</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>playwright-mcp</strong>（microsoft）</td><td class="star">38,117★</td><td>Apache-2.0</td><td>2026-10-08</td><td>浏览器自动化，<strong>编程场景第一</strong></td></tr>
+<tr><td>apify-mcp-server</td><td class="star">11,112★</td><td>MIT</td><td>2026-10-14</td><td>数千个现成爬虫，社媒/搜索/地图/电商通吃</td></tr>
+<tr><td>firecrawl-mcp-server</td><td class="star">7,598★</td><td>MIT</td><td>2026-10-14</td><td>官方抓取，Cursor/Claude 标配</td></tr>
+<tr><td>mcp-playwright（executeautomation）</td><td class="star">5,665★</td><td>MIT</td><td>2025-12-13</td><td><span class="pill p-y">已被官方版超越</span></td></tr>
+<tr><td>exa-mcp-server</td><td class="star">5,126★</td><td>MIT</td><td>2026-10-07</td><td>语义搜索，AI 原生</td></tr>
+<tr><td>brave-search-mcp-server（官方）</td><td class="star">1,497★</td><td>MIT</td><td>2026-10-14</td><td>官方实现，隐私优先</td></tr>
+<tr><td>BrowserMCP/mcp</td><td class="star">7,182★</td><td>Apache-2.0</td><td>2025-04-24</td><td><span class="pill p-r">停更 18 个月</span></td></tr>
+<tr><td>hyperbrowserai/mcp</td><td class="star">789★</td><td>MIT</td><td>2025-11-20</td><td><span class="pill p-y">停更 11 个月</span></td></tr>
+<tr><td>mcp-server-browserbase</td><td class="star">3,401★</td><td>Apache-2.0</td><td>2026-07-20</td><td><span class="pill p-r">已归档</span></td></tr>
+<tr><td>oxylabs-mcp</td><td class="star">104★</td><td>MIT</td><td>2026-09-07</td><td><span class="pill p-r">已归档</span></td></tr>
+<tr><td>perplexityai/modelcontextprotocol</td><td class="star">2,564★</td><td>MIT</td><td>2026-10-13</td><td>官方 Perplexity API</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="t5">
+<h4>地图 / 智能家居 / 媒体 / 天气</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>ha-mcp</strong>（homeassistant-ai）</td><td class="star">5,062★</td><td>MIT</td><td>2026-10-13</td><td><strong>智能家居首选</strong>；MCP Toplist 全局榜唯一个人用途前 10</td></tr>
+<tr><td>homeassistant-mcp（tevonsb）</td><td class="star">575★</td><td>Apache-2.0</td><td>2026-01-25</td><td>社区版</td></tr>
+<tr><td>hass-mcp（voska）</td><td class="star">346★</td><td>MIT</td><td>2026-10-10</td><td>轻量</td></tr>
+<tr><td>spotify-mcp（varunneal）</td><td class="star">613★</td><td>MIT</td><td>2026-03-11</td><td><span class="pill p-y">停更 7 个月</span></td></tr>
+<tr><td>caiyun-weather（彩云天气官方）</td><td class="star">47★</td><td>MIT</td><td>2026-09-01</td><td>彩云天气官方</td></tr>
+</tbody>
+</table>
+
+<h4>财经 / 翻译 / 信息流</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>TrendRadar</strong>（sansan0）</td><td class="star">62,892★</td><td>GPL-3.0</td><td>2026-10-13</td><td>多平台舆情聚合 + RSS + 智能预警</td></tr>
+<tr><td>zenfeed（glidea）</td><td class="star">1,716★</td><td>AGPL-3.0</td><td>2026-07-10</td><td>AI 增强 RSS</td></tr>
+<tr><td>chubbyskills（chubbyguan）</td><td class="star">1,239★</td><td>MIT</td><td>2026-10-08</td><td>抖音/B站/小红书/公众号/X/播客 → 个人知识库，附 MCP server</td></tr>
+<tr><td>maverick-mcp（wshobson）</td><td class="star">704★</td><td>MIT</td><td>2026-10-13</td><td>Yahoo Finance + 技术分析 + 组合追踪 + 回测</td></tr>
+<tr><td>stock-screener（xang1234）</td><td class="star">349★</td><td>Apache-2.0</td><td>2026-10-14</td><td>覆盖美/中/港/日/印/韩/台等 12 市场，80+ 筛选器</td></tr>
+<tr><td>DeepL 官方</td><td class="star">117★</td><td>MIT</td><td>2026-10-13</td><td>官方翻译</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pane" id="t6">
+<h4>开发 / 代码（个人助理用户也常装）</h4>
+<table>
+<thead><tr><th>MCP</th><th>星数</th><th>License</th><th>最后推送</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>context7</strong>（upstash）</td><td class="star">63,010★</td><td>MIT</td><td>2026-10-13</td><td>实时文档注入，<strong>编程场景 star 第一</strong></td></tr>
+<tr><td>playwright-mcp（microsoft）</td><td class="star">38,117★</td><td>Apache-2.0</td><td>2026-10-08</td><td>浏览器自动化</td></tr>
+<tr><td>github-mcp-server（官方）</td><td class="star">33,601★</td><td>MIT</td><td>2026-10-13</td><td>官方 Go 实现</td></tr>
+<tr><td><strong>DesktopCommanderMCP</strong>（wonderwhy-er）</td><td class="star">10,047★</td><td>MIT</td><td>2026-10-14</td><td>终端控制 + 文件搜索 + diff 编辑，<strong>个人助理场景最对口</strong></td></tr>
+<tr><td>mcp-server-cloudflare</td><td class="star">4,378★</td><td>Apache-2.0</td><td>2026-10-09</td><td>边缘计算</td></tr>
+<tr><td>supabase/mcp</td><td class="star">2,950★</td><td>Apache-2.0</td><td>2026-10-14</td><td>数据库</td></tr>
+<tr><td>getsentry/toolkit</td><td class="star">928★</td><td>NOASSERTION</td><td>2026-10-14</td><td><span class="pill p-y">已从 sentry-mcp 改名</span></td></tr>
+<tr><td>mcp-jetbrains（JetBrains）</td><td class="star">962★</td><td>Apache-2.0</td><td>2026-01-07</td><td><span class="pill p-y">停更 9 个月</span></td></tr>
+<tr><td>linear-mcp-server（jerhadf）</td><td class="star">346★</td><td>MIT</td><td>2025-05-01</td><td><span class="pill p-r">停更 17 个月</span></td></tr>
+<tr><td>semgrep/mcp</td><td class="star">687★</td><td>MIT</td><td>2025-10-28</td><td><span class="pill p-r">已归档</span></td></tr>
+<tr><td>e2b-dev/mcp-server</td><td class="star">393★</td><td>Apache-2.0</td><td>2026-04-16</td><td><span class="pill p-r">已归档</span>（用 <code>e2b-dev/E2B</code> 14,341★ 本体）</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============ 3c ============ -->
+<section id="s3c">
+<h2><span class="n">三·补</span>中国生态必装</h2>
+<p>英文榜单几乎完全覆盖不到这一块。以下为本轮检索一手核验结果：</p>
+<table>
+<thead><tr><th>能力</th><th>推荐</th><th>星数</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td rowspan="2"><strong>地图</strong></td><td><code>sugarforever/amap-mcp-server</code></td><td class="star">131★</td><td>高德地图，支持 stdio/sse/streamable-http</td></tr>
+<tr><td><code>@amap/amap-maps-mcp-server</code></td><td>npm 包</td><td>官方 npm 版，约 42.6 万次采用（<strong>下载量口径，非星数</strong>）</td></tr>
+<tr><td><strong>天气</strong></td><td><code>caiyunapp/mcp-caiyun-weather</code></td><td class="star">47★</td><td>彩云天气官方</td></tr>
+<tr><td rowspan="2"><strong>微信读书</strong></td><td><code>freestylefly/mcp-server-weread</code></td><td class="star">577★</td><td>微信读书 MCP，社区最常引</td></tr>
+<tr><td><code>BENZEMA216/awesome-weread</code></td><td class="star">66★</td><td>基于微信读书<strong>官方 Agent Skill</strong>（2026-05-17 发布）的二创精选</td></tr>
+<tr><td rowspan="2"><strong>飞书</strong></td><td><code>larksuite/lark-openapi-mcp</code></td><td class="star">836★</td><td>官方，<span class="pill p-y">停更 14 个月</span></td></tr>
+<tr><td><code>ztxtxwd/open-feishu-mcp-server</code></td><td class="star">87★</td><td>社区替代</td></tr>
+<tr><td><strong>企业微信</strong></td><td><code>loonghao/wecom-bot-mcp-server</code></td><td class="star">104★</td><td>仍在活跃维护（2026-10-13）</td></tr>
+<tr><td><strong>公众号/RSS</strong></td><td><code>tmwgsicp/wechat-download-api</code></td><td class="star">1,170★</td><td>公众号文章获取 + RSS + 反风控 + MCP 接入</td></tr>
+<tr><td><strong>A股/财经</strong></td><td><code>xang1234/stock-screener</code></td><td class="star">349★</td><td>含中国/中国香港/中国台湾市场</td></tr>
+<tr><td><strong>中国 MCP 索引</strong></td><td><code>zackchewa/awesome-china-mcp</code></td><td class="star">26★</td><td>高德/12306/小红书/飞书/语雀/A股 的策展索引</td></tr>
+<tr><td><strong>企业查询</strong></td><td><code>ballcheung/china-company-check-mcp</code></td><td class="star">1★</td><td>基于 GSXT/SAMR 官方工商数据</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">中国生态的三个现实</div>
+<ol>
+<li><strong>星数普遍很低</strong>（几十到几百），但<strong>采用率高</strong>——中文用户不看 GitHub star，看的是公众号文章和社群推荐。<strong>不要用星数判断中国 MCP 的可用性。</strong></li>
+<li><strong>官方 MCP 普遍停更</strong>：飞书官方 14 个月未更新。企业 IM 类 MCP 的维护质量是短板。</li>
+<li><strong>腾讯文档 MCP 未能找到官方仓库</strong>。本轮检索到的相关仓库均为第三方「灵感源自腾讯文档」的 skill 项目，非官方集成。</li>
+</ol>
+</div>
+</section>
+
+<!-- ============ 3d ============ -->
+<section id="s3d">
+<h2><span class="n">三·补</span>PulseMCP 下载量硬数据</h2>
+<p>星数反映「开发者关注度」，下载量反映「实际装机量」。个人助理场景下，两者差异很大：</p>
+<div class="bars">
+  <div class="bar g"><div class="lbl">Desktop Commander</div><div class="trk"><div class="fil" style="width:100%"></div></div><div class="val">202k</div></div>
+  <div class="bar g"><div class="lbl">Notion</div><div class="trk"><div class="fil" style="width:83.2%"></div></div><div class="val">168k</div></div>
+  <div class="bar g"><div class="lbl">Fetch</div><div class="trk"><div class="fil" style="width:81.2%"></div></div><div class="val">164k</div></div>
+  <div class="bar g"><div class="lbl">Grafana</div><div class="trk"><div class="fil" style="width:76.7%"></div></div><div class="val">155k</div></div>
+  <div class="bar g"><div class="lbl">Supabase</div><div class="trk"><div class="fil" style="width:75.2%"></div></div><div class="val">152k</div></div>
+  <div class="bar g"><div class="lbl">Knowledge Graph Memory</div><div class="trk"><div class="fil" style="width:72.8%"></div></div><div class="val">147k</div></div>
+  <div class="bar y"><div class="lbl">Time</div><div class="trk"><div class="fil" style="width:68.3%"></div></div><div class="val">138k</div></div>
+  <div class="bar g"><div class="lbl">FireCrawl</div><div class="trk"><div class="fil" style="width:67.3%"></div></div><div class="val">136k</div></div>
+  <div class="bar g"><div class="lbl">Stripe</div><div class="trk"><div class="fil" style="width:65.8%"></div></div><div class="val">133k</div></div>
+  <div class="bar g"><div class="lbl">GitLab</div><div class="trk"><div class="fil" style="width:64.9%"></div></div><div class="val">131k</div></div>
+  <div class="bar g"><div class="lbl">Slack</div><div class="trk"><div class="fil" style="width:37.0%"></div></div><div class="val">74.7k</div></div>
+  <div class="bar g"><div class="lbl">Google Workspace</div><div class="trk"><div class="fil" style="width:33.2%"></div></div><div class="val">67k</div></div>
+</div>
+
+<div class="box">
+<div class="t">注意「Time」排第 7</div>
+<p>一个功能极简（就是告诉 LLM 现在几点）的 MCP 却有 <strong>138k 下载</strong>。这说明<strong>个人助理场景里，低价值但高频的基础设施型 MCP 反而装机率最高</strong>。</p>
+</div>
+
+<div class="box warn">
+<div class="t">MCP Toplist 全局榜的偏差</div>
+<p>全局 Top 10 几乎全是编程/dev 工具，唯一个人用途进榜的是 <strong>Home Assistant MCP（#6）</strong>。<strong>结论：全局排行榜不能用来回答「个人助理该装什么」</strong>——这是本次调研最重要的方法论修正之一。</p>
+</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+<h2><span class="n">四</span>上下文膨胀：个人助理场景的头号杀手</h2>
+
+<h3>4.1 硬证据</h3>
+<table>
+<thead><tr><th>证据</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>A</strong> GitHub Copilot CLI issue #3024</td><td>用户装了 20+ 个 MCP，<strong>吃掉 94k / 128k context</strong>，导致启动变慢、崩溃、严重幻觉</td></tr>
+<tr><td><strong>B</strong> Hermes <code>config.yaml</code> 原文</td><td>"MCP servers routinely return un-paginated 20-50K payloads that bloat context and slow every subsequent turn." → 应对：给 <code>mcp_*</code> 工具单独设 <strong>50,000 字符</strong>溢流阈值</td></tr>
+<tr><td><strong>C</strong> Hermes <code>lazy</code> 设计</td><td>启动只登记 schema，首次调用才拉起进程——对「装多了拖慢启动」的正面回答</td></tr>
+<tr><td><strong>D</strong> Hermes <code>inherit_mcp_toolsets</code></td><td>子代理默认继承父级 MCP 工具集，可设 <code>false</code> 做严格交集，避免工具集爆炸式复制</td></tr>
+</tbody>
+</table>
+
+<h3>4.2 最小负载方案</h3>
+<table>
+<thead><tr><th>档位</th><th>MCP 数量</th><th>适用</th><th>context 占用</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">极简</span></td><td><strong>3</strong></td><td>纯聊天 + 文件</td><td class="ok-b">~10-15%</td></tr>
+<tr><td><span class="pill p-b">推荐</span></td><td><strong>5-6</strong></td><td>通用个人助理</td><td class="ok-b">~20-30%</td></tr>
+<tr><td><span class="pill p-y">上限</span></td><td><strong>8</strong></td><td>多角色重度使用</td><td class="warn-b">~35-45%</td></tr>
+<tr><td><span class="pill p-r">红线</span></td><td>&gt;10</td><td>—</td><td class="no-b">&gt;50% 即危险</td></tr>
+</tbody>
+</table>
+
+<h4>实操建议</h4>
+<ol>
+<li><strong>按项目/场景分组，不要全开。</strong>用客户端的分组功能或 Hermes 的 <code>lazy</code>。</li>
+<li><strong>优先选「一个 MCP 覆盖多能力」的。</strong>例如 <code>google_workspace_mcp</code>（3,336★）一个就覆盖 Gmail + Calendar + Docs + Sheets + Slides + Chat + Forms + Tasks + Drive + Search，远优于装 5 个单一 MCP。</li>
+<li><strong>优先选支持工具过滤的。</strong>Hermes 支持 <code>--allow-tool</code> 白名单；本机 WorkBuddy 的 <code>gog</code> 就配了 <code>--allow-tool sheets,drive_search,drive_get,docs_get</code> —— <strong>只开你要用的 4 个工具</strong>，这是最有效的减负手段。</li>
+<li><strong>警惕「工具爆炸」型 MCP。</strong>像 Apify（11,112★）能接数千个爬虫，工具列表可能极长，务必配合白名单。</li>
+</ol>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+<h2><span class="n">五</span>安全：个人助理是最危险的 MCP 宿主</h2>
+<p>个人助理的权限边界覆盖文件系统、邮箱、日历、IM、浏览器——<strong>一旦被攻破，损失是「数字生活的全部」</strong>，而不是「一个项目仓库」。</p>
+
+<h3>5.1 OpenClaw 已知漏洞全谱</h3>
+<table>
+<thead><tr><th>编号</th><th>名称</th><th>严重度</th><th>性质</th></tr></thead>
+<tbody>
+<tr><td><code>CVE-2026-25253</code></td><td>1-Click RCE</td><td class="no-b">CVSS 8.8</td><td>单次点击即可远程代码执行</td></tr>
+<tr><td><code>CVE-2026-25593</code></td><td>ClawJacked</td><td class="no-b">高</td><td>WebSocket 端口暴力破解</td></tr>
+<tr><td><code>CVE-2026-28363</code></td><td>—</td><td class="no-b">CVSS 9.9</td><td>沙箱逃逸</td></tr>
+<tr><td>—</td><td>—</td><td class="no-b">—</td><td><strong>CNNVD 累计 82 个漏洞</strong></td></tr>
+</tbody>
+</table>
+<p><strong>暴露面</strong>：据公开统计，<strong>超过 27 万个 OpenClaw 实例暴露在公网</strong>。</p>
+
+<h3>5.2 ClawHavoc 供应链投毒事件</h3>
+<div class="box danger">
+<div class="t">整个 MCP/Skill 生态迄今最严重的一起供应链攻击</div>
+<ul>
+<li>攻击者在 ClawHub 上传 <strong>341 个恶意技能</strong></li>
+<li>投递载荷：<strong>Atomic macOS Stealer</strong>（窃取钥匙串、浏览器凭证、加密钱包）</li>
+<li>攻击面：<strong>技能安装即执行</strong></li>
+</ul>
+<p><strong>教训</strong>：Skills 和 MCP 一样是<strong>可执行代码</strong>。<code>SKILL.md</code> 里可能藏着 <code>scripts/</code> 目录，装了就等于在本地跑了别人的代码。</p>
+</div>
+
+<h3>5.3 加固清单（按优先级）</h3>
+
+<h4>① 装任何 Skill / MCP 之前先审代码</h4>
+<pre><code># 装之前先看它到底带不带可执行脚本
+find &lt;skill-or-mcp-dir&gt; -name "*.sh" -o -name "*.py" -o -name "*.js" | head
+grep -rn -E "curl|wget|base64 -d|eval|exec|rm -rf" &lt;skill-dir&gt;/</code></pre>
+
+<h4>② 先装安全扫描类 Skill</h4>
+<p>OpenClaw 社区共识是<strong>第一个装 <code>skill-vetter</code> / <code>clawsec</code></strong>，用它扫后续要装的技能。</p>
+
+<h4>③ 绝不给 MCP 超出需要的权限</h4>
+<ul>
+<li>用 <code>--allow-tool</code> 白名单，不要全开</li>
+<li>文件系统 MCP 只挂载必要目录，<strong>绝不挂 <code>~</code> 或 <code>/</code></strong></li>
+<li>邮箱/日历 MCP 用<strong>只读 scope</strong>起步</li>
+</ul>
+
+<h4>④ 不要暴露到公网</h4>
+<ul>
+<li>OpenClaw 默认监听 <code>127.0.0.1:18789</code>，<strong>不要改成 0.0.0.0</strong></li>
+<li>需要异地访问用 Tailscale / WireGuard，不要直接端口转发</li>
+</ul>
+
+<h4>⑤ 中国用户的官方指引</h4>
+<p>工信部针对此类个人助理软件发布了<strong>「六要六不要」加固指南</strong>——涉及账号隔离、最小权限、来源审查等。国内部署建议对照执行。</p>
+
+<h4>⑥ 数据卫生</h4>
+<ul>
+<li>记忆文件（<code>MEMORY.md</code> / <code>memories/</code>）会沉淀个人信息，<strong>不要放进公开 Git 仓库</strong></li>
+<li>本机实测：<code>~/.workbuddy-ai/mcp.json</code> 的 <code>gog</code> 配置里<strong>明文写着个人邮箱</strong>——这类配置文件如果被同步到公开仓库就是直接泄露</li>
+<li>OpenClaw 的做法值得学：<code>AGENTS.md</code> 明确规定 <strong><code>MEMORY.md</code> 只在主会话加载，绝不在共享上下文（Discord/群聊）加载</strong>，理由是 "contains personal context that shouldn't leak to strangers"</li>
+</ul>
+
+<h4>⑦ 销毁式操作走回收站</h4>
+<p>OpenClaw <code>AGENTS.md</code> 的 Red Lines 原文：</p>
+<pre><code>Don't exfiltrate private data. Ever.
+Don't run destructive commands without asking.
+`trash` > `rm` (recoverable beats gone forever)</code></pre>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="s6">
+<h2><span class="n">六</span>陷阱清单（全是实测）</h2>
+
+<h3>6.1 已归档的 MCP（旧教程仍在推荐）</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>appcypher/awesome-mcp-servers</code></td><td class="star">5,795★</td><td>榜单本身归档了</td></tr>
+<tr><td><code>browserbase/mcp-server-browserbase</code></td><td class="star">3,401★</td><td>浏览器自动化</td></tr>
+<tr><td><code>supermemoryai/apple-mcp</code></td><td class="star">3,123★</td><td>Apple 原生工具（已从 <code>dhravya/apple-mcp</code> 改名）</td></tr>
+<tr><td><code>mcp-router/mcp-router</code></td><td class="star">2,137★</td><td>2026-09-18 终止开发支持</td></tr>
+<tr><td><strong><code>GongRzhe/Gmail-MCP-Server</code></strong></td><td class="star">1,168★</td><td><strong>曾是 Gmail 类最热门，已归档</strong></td></tr>
+<tr><td><code>semgrep/mcp</code></td><td class="star">687★</td><td>安全扫描</td></tr>
+<tr><td><code>e2b-dev/mcp-server</code></td><td class="star">393★</td><td>用 <code>e2b-dev/E2B</code>（14,341★）本体</td></tr>
+<tr><td><code>wshobson/mcp-trader</code></td><td class="star">273★</td><td>股票</td></tr>
+<tr><td><code>oxylabs/oxylabs-mcp</code></td><td class="star">104★</td><td>抓取</td></tr>
+<tr><td><code>Beltran12138/wecom-docs-mcp-server</code></td><td class="star">7★</td><td>已被官方 <code>WecomTeam/wecom-cli</code> 取代</td></tr>
+</tbody>
+</table>
+
+<h3>6.2 高星但停更（星数是历史遗产，不代表能用）</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>停更时长</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>BrowserMCP/mcp</code></td><td class="star">7,182★</td><td class="no-b">18 个月</td><td>2025-04-24</td></tr>
+<tr><td><code>jerhadf/linear-mcp-server</code></td><td class="star">346★</td><td class="no-b">17 个月</td><td>2025-05-01</td></tr>
+<tr><td><code>larksuite/lark-openapi-mcp</code></td><td class="star">836★</td><td class="no-b">14 个月</td><td>2025-08-14</td></tr>
+<tr><td><code>hyperbrowserai/mcp</code></td><td class="star">789★</td><td class="warn-b">11 个月</td><td>2025-11-20</td></tr>
+<tr><td><code>executeautomation/mcp-playwright</code></td><td class="star">5,665★</td><td class="warn-b">10 个月</td><td>2025-12-13</td></tr>
+<tr><td><code>JetBrains/mcp-jetbrains</code></td><td class="star">962★</td><td class="warn-b">9 个月</td><td>2026-01-07</td></tr>
+<tr><td><code>varunneal/spotify-mcp</code></td><td class="star">613★</td><td class="warn-b">7 个月</td><td>2026-03-11</td></tr>
+</tbody>
+</table>
+
+<h3>6.3 仓库改名（照抄旧 URL 会 404 或找到错的东西）</h3>
+<table>
+<thead><tr><th>旧名</th><th>新名</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><code>block/goose</code></td><td><strong><code>aaif-goose/goose</code></strong></td><td class="star">55,269★ · AAIF 迁移</td></tr>
+<tr><td><code>deepseek-ai/DeepSeek-Harness</code></td><td><code>deepseek-ai/deepseek-harness</code></td><td class="star">249,310★</td></tr>
+<tr><td><code>mendableai/firecrawl-mcp-server</code></td><td><code>firecrawl/firecrawl-mcp-server</code></td><td class="star">7,598★</td></tr>
+<tr><td><code>supabase-community/supabase-mcp</code></td><td><code>supabase/mcp</code></td><td class="star">2,950★</td></tr>
+<tr><td><code>jlowin/fastmcp</code></td><td><code>PrefectHQ/fastmcp</code></td><td class="star">28,069★</td></tr>
+<tr><td><code>lobehub/lobe-chat</code></td><td><code>lobehub/lobehub</code></td><td class="star">83,223★</td></tr>
+<tr><td><code>danny-avila/LibreChat</code></td><td><code>LibreChat-AI/LibreChat</code></td><td class="star">45,656★</td></tr>
+<tr><td><code>frdel/agent-zero</code></td><td><code>agent0ai/agent-zero</code></td><td class="star">19,458★</td></tr>
+<tr><td><code>All-Hands-AI/OpenHands</code></td><td><code>OpenHands/OpenHands</code></td><td class="star">90,850★</td></tr>
+<tr><td><code>getsentry/sentry-mcp</code></td><td><code>getsentry/toolkit</code></td><td class="star">928★</td></tr>
+<tr><td><code>ppl-ai/modelcontextprotocol</code></td><td><code>perplexityai/modelcontextprotocol</code></td><td class="star">2,564★</td></tr>
+<tr><td><code>dhravya/apple-mcp</code></td><td><code>supermemoryai/apple-mcp</code></td><td class="star">3,123★（已归档）</td></tr>
+<tr><td><code>apify/actors-mcp-server</code></td><td><code>apify/apify-mcp-server</code></td><td class="star">11,112★</td></tr>
+</tbody>
+</table>
+
+<h3>6.4 「MCP 仓库」实为库本体（别搞混）</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>真相</th></tr></thead>
+<tbody>
+<tr><td><code>microsoft/markitdown</code></td><td class="star">190,126★</td><td><strong>文档转 Markdown 的 Python 库</strong>，MCP 只是捆绑功能之一</td></tr>
+<tr><td><code>microsoft/playwright</code></td><td class="star">97,679★</td><td><strong>浏览器自动化框架本体</strong>；真正的 MCP 是 <code>playwright-mcp</code>（38,117★）</td></tr>
+<tr><td><code>modelcontextprotocol/servers</code></td><td class="star">91,238★</td><td><strong>官方参考服务器集合</strong>，不是一个可安装的 MCP</td></tr>
+<tr><td><code>punkpeye/awesome-mcp-servers</code></td><td class="star">96,313★</td><td><strong>榜单</strong>，不是 MCP</td></tr>
+<tr><td><code>steipete/openclaw</code></td><td class="star">20★</td><td><strong>个人 fork</strong>，不是主仓库（主仓库 <code>openclaw/openclaw</code>，391,930★）</td></tr>
+</tbody>
+</table>
+
+<h3>6.5 官方参考服务器的现状</h3>
+<p><code>modelcontextprotocol/servers</code>（91,238★）里，<strong>官方维护的活跃参考服务器只剩 7 个</strong>：</p>
+<p><code>Filesystem</code> · <code>Memory</code> · <code>Sequential Thinking</code> · <code>Time</code> · <code>Fetch</code> · <code>Git</code> · <code>Everything</code></p>
+<div class="box warn">
+<div class="t">已归档的官方/准官方实现（旧教程大量引用）</div>
+<p><code>servers/src/gdrive</code> · <code>servers/src/google-maps</code> · <code>servers/src/slack</code> · <code>servers/src/sqlite</code></p>
+<p><strong>这意味着</strong>：网上大量「官方 GDrive MCP / 官方 Google Maps MCP」教程已经失效。用前务必去仓库确认路径还在不在。</p>
+</div>
+
+<h3>6.6 口径陷阱</h3>
+<table>
+<thead><tr><th>常见说法</th><th>真相</th></tr></thead>
+<tbody>
+<tr><td>「MCP 生态已破 10 万」</td><td>这是 <strong>Linux Foundation 生态口径</strong>；<strong>官方 MCP Registry 约 3.03 万条</strong>（<code>modelcontextprotocol/registry</code>，7,354★）</td></tr>
+<tr><td>「技能描述上限 200 字符」</td><td>规范是 <strong>1,024 字符</strong>（帮助中心写 200 是错的）</td></tr>
+<tr><td>「技能预算是 X words」</td><td>是 <strong>tokens</strong> 不是 words</td></tr>
+<tr><td>「OpenClaw 有 390k star」</td><td class="ok-b">✅ 正确，实测 391,930★（此前腾讯文章说的 280k 是旧数据）</td></tr>
+<tr><td>「Hermes Agent 支持 MCP」</td><td class="ok-b">✅ 正确，且是本轮 MCP 成熟度最高的框架之一</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="s7">
+<h2><span class="n">七</span>数据可信度与方法</h2>
+
+<h3>7.1 本轮数据来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span>一手实测</td><td>主代理 GitHub REST API 直查（81 仓库）+ 本机文件系统实测（<code>~/.openclaw/</code>、<code>%LOCALAPPDATA%/hermes/</code>、<code>~/.dsh/</code>、<code>~/.workbuddy-ai/mcp.json</code>）</td><td class="ok-b">高</td></tr>
+<tr><td><span class="pill p-b">B 级</span>官方文档</td><td>OpenClaw 本机 workspace 文件、Hermes <code>config.yaml</code> 内嵌文档、ClawHub 仓库说明</td><td class="ok-b">中高</td></tr>
+<tr><td><span class="pill p-y">C 级</span>二手聚合</td><td>PulseMCP 下载量、MCP Toplist 排名、中文社区榜单</td><td class="warn-b">中</td></tr>
+<tr><td><span class="pill p-r">D 级</span>受限未核实</td><td>Reddit / Hacker News 直接抓取（<strong>被 403 abuse-block 拦截</strong>），社区共识由排名聚合器 + 下载量信号重建</td><td class="no-b">moderate-confidence</td></tr>
+</tbody>
+</table>
+
+<h3>7.2 明确未核实的项</h3>
+<p>诚实标注，避免以讹传讹：</p>
+<ol>
+<li><strong>Reddit / Hacker News 直接抓取失败</strong>（403）。「社区共识」是从排名聚合器与下载量信号重建的，非直接引语。</li>
+<li><strong>Hermes Web UI 内建的「推荐服务一键安装列表」内容未核实</strong>——本机 <code>config.yaml</code> 里该段全部是注释掉的示例。</li>
+<li><strong>Khoj（37,680★）的 MCP 支持未核实</strong>。</li>
+<li><strong>ClawHub 注册表规模</strong>：不同来源给出 3,286 vs 5,700+ 两个数，未取到权威口径。</li>
+<li><strong>OpenClaw 支持的 IM 平台数「26」</strong>：来自二手转述，未从官方文档核实。</li>
+<li><strong>Hermes-as-MCP-server</strong>（把 Hermes 暴露为 MCP server）能力未核实。</li>
+<li><strong>腾讯文档官方 MCP</strong>：未找到可核验的官方仓库。</li>
+<li><strong>DSH 主仓库 URL</strong>：<code>deepseek-ai/dsh</code> 返回 404，实际仓库是 <code>deepseek-ai/deepseek-harness</code>（249,310★）。</li>
+<li><strong><code>nbonamy/witsy</code></strong>：API 返回仅 8★、2026-04-14 建仓，疑为抢注或同名仓库，<strong>不是</strong>那个知名的 Witsy 客户端，本轮不采信。</li>
+</ol>
+
+<h3>7.3 本机环境实测清单</h3>
+<table>
+<thead><tr><th>项</th><th>实测值</th></tr></thead>
+<tbody>
+<tr><td><strong>OpenClaw</strong></td><td><code>~/.openclaw/</code>，含 <code>skills/</code>（1 个软链 skill）+ <code>workspace/</code>（7 个 Markdown + 1 个 state json），<strong>无 MCP 配置</strong></td></tr>
+<tr><td><strong>Hermes Agent</strong></td><td><code>%LOCALAPPDATA%/hermes/</code>，<code>config.yaml</code> 123,576 字节，含完整 <code>mcp_servers</code> 文档段；<code>SOUL.md</code> 667 字节；有 <code>bot_relay/</code>、<code>cron/</code>、<code>memories/</code>（空）</td></tr>
+<tr><td><strong>DSH</strong></td><td><code>~/.dsh/</code>，profiles 有 <code>desktop</code> 与 <code>web</code> 两个，均为 pnpm workspace；含 <code>.dsh-market/</code> 市场状态</td></tr>
+<tr><td><strong>WorkBuddy</strong></td><td><code>~/.workbuddy-ai/mcp.json</code> <strong>只配了 3 个 MCP</strong>（gog / web-search / nixos，全 stdio）</td></tr>
+<tr><td><strong>重要观察</strong></td><td>编程场景 star 最高的三个 MCP（Context7 63,010★ / Playwright 38,117★ / GitHub 33,601★）<strong>在本机一个都没配</strong>——说明「最热门」与「实际在用」差距很大</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="s8">
+<h2><span class="n">八</span>核验原始数据（节选）</h2>
+<p>完整数据见 <code>data/github-verified.json</code>（81 条）与 <code>data/github-search.json</code>（19 组检索）。</p>
+
+<h3>个人助理 / Agent 框架本体</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>Forks</th><th>License</th><th>建仓</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>openclaw/openclaw</code></td><td class="star">391,930</td><td>82,429</td><td>MIT</td><td>2025-11-24</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>NousResearch/hermes-agent</code></td><td class="star">253,604</td><td>55,022</td><td>MIT</td><td>2025-07-22</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>deepseek-ai/deepseek-harness</code></td><td class="star">249,310</td><td>29,998</td><td>MIT</td><td>2026-08-13</td><td class="ok-b">2026-10-09</td></tr>
+<tr><td><code>Significant-Gravitas/AutoGPT</code></td><td class="star">187,564</td><td>45,943</td><td>NOASSERTION</td><td>2023-03-16</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>OpenHands/OpenHands</code></td><td class="star">90,850</td><td>12,042</td><td>MIT</td><td>2024-03-13</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>openinterpreter/openinterpreter</code></td><td class="star">68,574</td><td>5,900</td><td>Apache-2.0</td><td>2023-07-14</td><td class="ok-b">2026-10-11</td></tr>
+<tr><td><code>microsoft/autogen</code></td><td class="star">61,394</td><td>9,279</td><td>CC-BY-4.0</td><td>2023-08-18</td><td class="warn-b">2026-04-15</td></tr>
+<tr><td><code>FoundationAgents/OpenManus</code></td><td class="star">58,637</td><td>10,172</td><td>MIT</td><td>2025-03-06</td><td class="ok-b">2026-09-30</td></tr>
+<tr><td><code>aaif-goose/goose</code></td><td class="star">55,269</td><td>6,428</td><td>Apache-2.0</td><td>2024-08-23</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>zhayujie/CowAgent</code></td><td class="star">47,390</td><td>—</td><td>MIT</td><td>—</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>khoj-ai/khoj</code></td><td class="star">37,680</td><td>2,511</td><td>AGPL-3.0</td><td>2021-08-16</td><td class="warn-b">2026-08-02</td></tr>
+<tr><td><code>agentscope-ai/QwenPaw</code></td><td class="star">35,668</td><td>—</td><td>Apache-2.0</td><td>—</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>letta-ai/letta</code></td><td class="star">25,125</td><td>2,644</td><td>Apache-2.0</td><td>2023-10-11</td><td class="ok-b">2026-09-10</td></tr>
+<tr><td><code>kortix-ai/suna</code></td><td class="star">20,273</td><td>3,435</td><td>NOASSERTION</td><td>2024-10-05</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>agent0ai/agent-zero</code></td><td class="star">19,458</td><td>3,826</td><td>NOASSERTION</td><td>2024-06-10</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>ThinkInAIXYZ/deepchat</code></td><td class="star">6,360</td><td>—</td><td>Apache-2.0</td><td>—</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>Sylinko/Everywhere</code></td><td class="star">6,314</td><td>—</td><td>NOASSERTION</td><td>—</td><td class="ok-b">2026-10-11</td></tr>
+<tr><td><code>the-open-agent/openagent</code></td><td class="star">5,689</td><td>—</td><td>Apache-2.0</td><td>—</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>OpenBMB/AgentVerse</code></td><td class="star">5,156</td><td>523</td><td>Apache-2.0</td><td>2023-05-06</td><td class="no-b">2024-09-09</td></tr>
+</tbody>
+</table>
+
+<h3>MCP 基础设施</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>License</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>punkpeye/awesome-mcp-servers</code></td><td class="star">96,313</td><td>MIT</td><td class="ok-b">2026-10-09</td></tr>
+<tr><td><code>modelcontextprotocol/servers</code></td><td class="star">91,238</td><td>NOASSERTION</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>PrefectHQ/fastmcp</code></td><td class="star">28,069</td><td>Apache-2.0</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>modelcontextprotocol/python-sdk</code></td><td class="star">24,570</td><td>MIT</td><td class="ok-b">2026-10-13</td></tr>
+<tr><td><code>modelcontextprotocol/typescript-sdk</code></td><td class="star">13,577</td><td>NOASSERTION</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>modelcontextprotocol/inspector</code></td><td class="star">11,071</td><td>NOASSERTION</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>modelcontextprotocol/registry</code></td><td class="star">7,354</td><td>NOASSERTION</td><td class="ok-b">2026-10-11</td></tr>
+<tr><td><code>wong2/awesome-mcp-servers</code></td><td class="star">4,361</td><td>MIT</td><td class="warn-b">2026-07-13</td></tr>
+<tr><td><code>punkpeye/fastmcp</code>（TS 版）</td><td class="star">3,274</td><td>MIT</td><td class="ok-b">2026-10-04</td></tr>
+<tr><td><code>MCPJam/inspector</code></td><td class="star">2,257</td><td>NOASSERTION</td><td class="ok-b">2026-10-14</td></tr>
+</tbody>
+</table>
+
+<h3>MCP 客户端 / 个人助理前端</h3>
+<table>
+<thead><tr><th>仓库</th><th>星数</th><th>License</th><th>最后推送</th></tr></thead>
+<tbody>
+<tr><td><code>lobehub/lobehub</code></td><td class="star">83,223</td><td>NOASSERTION</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>Mintplex-Labs/anything-llm</code></td><td class="star">67,043</td><td>MIT</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>CherryHQ/cherry-studio</code></td><td class="star">52,615</td><td>AGPL-3.0</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>LibreChat-AI/LibreChat</code></td><td class="star">45,656</td><td>MIT</td><td class="ok-b">2026-10-14</td></tr>
+<tr><td><code>chatboxai/chatbox</code></td><td class="star">42,014</td><td>GPL-3.0</td><td class="ok-b">2026-09-24</td></tr>
+</tbody>
+</table>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 数据核验：GitHub REST API 一手直查（81 仓库 + 19 组检索）｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/github-verified.json</code> · <code>data/github-search.json</code> · <code>data/verify_repos.py</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=btn.getAttribute('data-t');
+    document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    btn.classList.add('on');
+    var el=document.getElementById(t);
+    if(el){el.classList.add('on')}
+  });
+});
+
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){
+    a.classList.toggle('on',a.getAttribute('href')==='#'+cur);
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      var f=e.target.querySelector('.fil');
+      if(f&&!f.dataset.done){
+        var w=f.style.width; f.style.width='0';
+        requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=w;})});
+        f.dataset.done='1';
+      }
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.bars').forEach(function(b){obs.observe(b)});
+</script>
+</body>
+</html>

@@ -1,0 +1,792 @@
+{
+  "amap mcp server": [
+    {
+      "repo": "sugarforever/amap-mcp-server",
+      "stars": 131,
+      "license": "MIT",
+      "pushed_at": "2026-09-25",
+      "archived": false,
+      "desc": "高德地图MCP Server，支持stdio, sse和streamable-http"
+    },
+    {
+      "repo": "flyfox666/mcpo_docker_use",
+      "stars": 51,
+      "license": "MIT",
+      "pushed_at": "2025-04-22",
+      "archived": false,
+      "desc": "An example Docker image for mcpo（with npm,curl,nodejs,uv Pre-Built;Pre-Built MCP:amap;baidumap;server-brave-search; tavily;fetch）,"
+    },
+    {
+      "repo": "zxypro1/amap-maps-mcp-server",
+      "stars": 22,
+      "license": null,
+      "pushed_at": "2025-03-27",
+      "archived": false,
+      "desc": "@amap/amap-maps-mcp-server"
+    },
+    {
+      "repo": "eason69113-source/AI_Trip_Planner",
+      "stars": 22,
+      "license": "MIT",
+      "pushed_at": "2025-12-30",
+      "archived": false,
+      "desc": "基于langchain1.1版本和高德mcp server的多智能体agent旅游助手"
+    },
+    {
+      "repo": "ACAne0320/amap-weather-mcp-server",
+      "stars": 17,
+      "license": null,
+      "pushed_at": "2025-04-08",
+      "archived": false,
+      "desc": "基于高德地图 API 的中国城市天气查询 MCP Server"
+    }
+  ],
+  "高德地图 mcp": [
+    {
+      "repo": "Cooosin/AiClient",
+      "stars": 148,
+      "license": "MIT",
+      "pushed_at": "2025-06-17",
+      "archived": false,
+      "desc": "一个能够规划旅游行程的AI智能体：连接小红书搜索、高德地图、和风天气MCP服务"
+    },
+    {
+      "repo": "sugarforever/amap-mcp-server",
+      "stars": 131,
+      "license": "MIT",
+      "pushed_at": "2026-09-25",
+      "archived": false,
+      "desc": "高德地图MCP Server，支持stdio, sse和streamable-http"
+    },
+    {
+      "repo": "yichunfu5-prog/travel-agent",
+      "stars": 101,
+      "license": null,
+      "pushed_at": "2026-05-28",
+      "archived": false,
+      "desc": "> 基于 Multi-Agent 架构的智能旅行规划系统，集成高德地图 MCP 服务，支持 CLI 和 Web 双界面。输入目的地、日期和偏好，AI 自动规划包含天气、景点、酒店、餐饮、交通和预算的完整旅行方案。"
+    },
+    {
+      "repo": "SWUSTcyt/langchain-travel-agent",
+      "stars": 40,
+      "license": null,
+      "pushed_at": "2026-06-26",
+      "archived": false,
+      "desc": "一个基于 **LangChain 1.0**、**阿里通义 Qwen** 和 **MCP(amap-maps)** 的旅游规划 Agent Demo，支持：  - 并行调用高德地图相关工具（搜索 POI、路线规划、天气查询） - 中间件级别的城市约束、工具预算"
+    },
+    {
+      "repo": "zackchewa/awesome-china-mcp",
+      "stars": 26,
+      "license": "CC0-1.0",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "Curated index of MCP servers for Chinese apps — connect your AI agent to 高德地图, 12306, 小红书, 飞书, 语雀, A股 and more. The open-source 'C"
+    }
+  ],
+  "mcp-server amap": [
+    {
+      "repo": "sugarforever/amap-mcp-server",
+      "stars": 131,
+      "license": "MIT",
+      "pushed_at": "2026-09-25",
+      "archived": false,
+      "desc": "高德地图MCP Server，支持stdio, sse和streamable-http"
+    },
+    {
+      "repo": "zxypro1/amap-maps-mcp-server",
+      "stars": 22,
+      "license": null,
+      "pushed_at": "2025-03-27",
+      "archived": false,
+      "desc": "@amap/amap-maps-mcp-server"
+    },
+    {
+      "repo": "eason69113-source/AI_Trip_Planner",
+      "stars": 22,
+      "license": "MIT",
+      "pushed_at": "2025-12-30",
+      "archived": false,
+      "desc": "基于langchain1.1版本和高德mcp server的多智能体agent旅游助手"
+    },
+    {
+      "repo": "ACAne0320/amap-weather-mcp-server",
+      "stars": 17,
+      "license": null,
+      "pushed_at": "2025-04-08",
+      "archived": false,
+      "desc": "基于高德地图 API 的中国城市天气查询 MCP Server"
+    },
+    {
+      "repo": "Keldon-Pro/amap-mcp-streamable_http",
+      "stars": 3,
+      "license": "MIT",
+      "pushed_at": "2025-06-11",
+      "archived": false,
+      "desc": "基于Streamable HTTP的高德地图MCP Server"
+    }
+  ],
+  "feishu mcp server": [
+    {
+      "repo": "DemonDamon/AgenticX",
+      "stars": 412,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "AgenticX is a unified, production-ready multi-agent platform — Python SDK + CLI (agx) + Studio server + Machi desktop app. Feature"
+    },
+    {
+      "repo": "ztxtxwd/open-feishu-mcp-server",
+      "stars": 87,
+      "license": "MIT",
+      "pushed_at": "2026-01-27",
+      "archived": false,
+      "desc": ""
+    },
+    {
+      "repo": "sdd330/feishu-mcp-server",
+      "stars": 53,
+      "license": "MIT",
+      "pushed_at": "2025-03-27",
+      "archived": false,
+      "desc": "MCP server provides feishu related operations"
+    },
+    {
+      "repo": "VienLi/lark-tools-mcp",
+      "stars": 37,
+      "license": "MIT",
+      "pushed_at": "2025-05-14",
+      "archived": false,
+      "desc": "MCP server provides Feishu related operations to AI encoding agents such as cursor  飞书MCP插件，读取文档、发送消息、合同审批、数据处理..... "
+    },
+    {
+      "repo": "wxkingstar/doc-hub-mcp",
+      "stars": 19,
+      "license": null,
+      "pushed_at": "2026-02-28",
+      "archived": false,
+      "desc": "主要聚合了企业微信和飞书开放平台的完整开发者文档，方便在 AI 编程助手中快速检索和查阅接口文档的MCP Server。"
+    }
+  ],
+  "wecom mcp server": [
+    {
+      "repo": "loonghao/wecom-bot-mcp-server",
+      "stars": 104,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "A Python server implementation for WeCom (WeChat Work) bot that follows the Model Context Protocol (MCP). This server provides a s"
+    },
+    {
+      "repo": "gotoolkits/mcp-wecombot-server",
+      "stars": 37,
+      "license": "GPL-3.0",
+      "pushed_at": "2025-01-22",
+      "archived": false,
+      "desc": "An MCP server application that sends various types of messages to the WeCom group robot."
+    },
+    {
+      "repo": "wxkingstar/doc-hub-mcp",
+      "stars": 19,
+      "license": null,
+      "pushed_at": "2026-02-28",
+      "archived": false,
+      "desc": "主要聚合了企业微信和飞书开放平台的完整开发者文档，方便在 AI 编程助手中快速检索和查阅接口文档的MCP Server。"
+    },
+    {
+      "repo": "Beltran12138/wecom-docs-mcp-server",
+      "stars": 7,
+      "license": "MIT",
+      "pushed_at": "2026-08-18",
+      "archived": true,
+      "desc": "[Archived] stdio MCP proxy over WeCom's robot-doc backend. Superseded by the official WecomTeam/wecom-cli v1.1.0 — see README for "
+    },
+    {
+      "repo": "while-coder/sbot",
+      "stars": 6,
+      "license": "MIT",
+      "pushed_at": "2026-10-09",
+      "archived": false,
+      "desc": "Self-hosted AI agent server. Multi-LLM (OpenAI/Claude/Ollama), MCP tools, long-term memory, multi-agent ReAct, Lark/Feishu, Wecom/"
+    }
+  ],
+  "tencent docs mcp": [
+    {
+      "repo": "Alpha-Park/genpark-enterprise-data-lineage-impact-graph-analyzer-skill",
+      "stars": 7,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "Enterprise Data Lineage & Schema Change Blast-Radius Impact Analyzer. Constructs column- and table-level Directed Acyclic Graphs ("
+    },
+    {
+      "repo": "Alpha-Park/genpark-enterprise-knowledge-graph-provenance-tracer-skill",
+      "stars": 7,
+      "license": "MIT",
+      "pushed_at": "2026-09-30",
+      "archived": false,
+      "desc": "Enterprise Knowledge Graph Provenance & Anti-Hallucination Tracer (inspired by Tencent Docs, Meeting & Enterprise Knowledge Bases)"
+    },
+    {
+      "repo": "alphaparkinc/genpark-enterprise-data-lineage-impact-graph-analyzer-skill",
+      "stars": 7,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "Enterprise Data Lineage & Schema Change Blast-Radius Impact Analyzer. Constructs column- and table-level Directed Acyclic Graphs ("
+    },
+    {
+      "repo": "alphaparkinc/genpark-enterprise-knowledge-graph-provenance-tracer-skill",
+      "stars": 7,
+      "license": "MIT",
+      "pushed_at": "2026-09-30",
+      "archived": false,
+      "desc": "Enterprise Knowledge Graph Provenance & Anti-Hallucination Tracer (inspired by Tencent Docs, Meeting & Enterprise Knowledge Bases)"
+    },
+    {
+      "repo": "alphaparkinc/genpark-enterprise-context-permission-boundary-auditor-skill",
+      "stars": 7,
+      "license": "MIT",
+      "pushed_at": "2026-09-29",
+      "archived": false,
+      "desc": "Enterprise Private Context & Role-Based Access Control (RBAC) Governance Sentinel (inspired by WeChat Work, Tencent Docs enterpris"
+    }
+  ],
+  "caiyun weather mcp": [
+    {
+      "repo": "caiyunapp/mcp-caiyun-weather",
+      "stars": 47,
+      "license": "MIT",
+      "pushed_at": "2026-09-01",
+      "archived": false,
+      "desc": "A Model Context Protocol (MCP) server for Caiyun (ColorfulClouds) Weather."
+    },
+    {
+      "repo": "marcusbai/caiyun-weather-mcp",
+      "stars": 10,
+      "license": null,
+      "pushed_at": "2025-11-07",
+      "archived": false,
+      "desc": ""
+    },
+    {
+      "repo": "llfididi/mcp-caiyun-weather",
+      "stars": 0,
+      "license": null,
+      "pushed_at": "2026-03-16",
+      "archived": false,
+      "desc": ""
+    },
+    {
+      "repo": "LKCY23/mcp-server-weather-cuhksz",
+      "stars": 0,
+      "license": "MIT",
+      "pushed_at": "2025-09-09",
+      "archived": false,
+      "desc": "A Model Context Protocol (MCP) server for Caiyun (ColorfulClouds) Weather used for CUHK-SZ project."
+    }
+  ],
+  "weread mcp": [
+    {
+      "repo": "freestylefly/mcp-server-weread",
+      "stars": 577,
+      "license": "MIT",
+      "pushed_at": "2025-05-18",
+      "archived": false,
+      "desc": "微信读书MCP"
+    },
+    {
+      "repo": "ChenyqThu/mcp-server-weread",
+      "stars": 171,
+      "license": null,
+      "pushed_at": "2025-05-15",
+      "archived": false,
+      "desc": ""
+    },
+    {
+      "repo": "BENZEMA216/awesome-weread",
+      "stars": 66,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "基于微信读书官方 Agent Skill 的二创项目精选 · Curated projects built on WeRead's official Agent Skill (released 2026-05-17)"
+    },
+    {
+      "repo": "xJogger/weread-mcp-worker",
+      "stars": 10,
+      "license": "MIT",
+      "pushed_at": "2026-07-12",
+      "archived": false,
+      "desc": "Single-user WeRead MCP server for ChatGPT on Cloudflare Workers"
+    },
+    {
+      "repo": "jiangxi1129/co-read",
+      "stars": 7,
+      "license": "MIT",
+      "pushed_at": "2026-06-26",
+      "archived": false,
+      "desc": "Leave a light on the page — let your AI co-read the books you're reading. Fetches chapters from your weread/jjwxc account, leaves "
+    }
+  ],
+  "mcp obsidian": [
+    {
+      "repo": "PDFMathTranslate/PDFMathTranslate",
+      "stars": 37542,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "[EMNLP 2025 Demo] PDF scientific paper translation with preserved formats - 基于 AI 完整保留排版的 PDF 文档全文双语翻译，支持 Google/DeepL/Ollama/Open"
+    },
+    {
+      "repo": "MarkusPfundstein/mcp-obsidian",
+      "stars": 4476,
+      "license": "MIT",
+      "pushed_at": "2026-08-31",
+      "archived": false,
+      "desc": "MCP server that interacts with Obsidian via the Obsidian rest API community plugin"
+    },
+    {
+      "repo": "basicmachines-co/basic-memory",
+      "stars": 4169,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "AI conversations that actually remember. Never re-explain your project to your AI again. Join our Discord: https://discord.gg/tyvK"
+    },
+    {
+      "repo": "Ar9av/obsidian-wiki",
+      "stars": 3567,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Framework for AI agents to build and maintain a digital brain through Obsidian wiki | Memory System for Agents"
+    },
+    {
+      "repo": "coddingtonbear/obsidian-local-rest-api",
+      "stars": 3024,
+      "license": "MIT",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "A secure REST API and Model Context Protocol (MCP) server for your vault."
+    }
+  ],
+  "mcp home assistant": [
+    {
+      "repo": "homeassistant-ai/ha-mcp",
+      "stars": 5062,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "The Unofficial and Awesome Home Assistant MCP Server"
+    },
+    {
+      "repo": "Coolver/home-assistant-vibecode-agent",
+      "stars": 637,
+      "license": "MIT",
+      "pushed_at": "2026-09-17",
+      "archived": false,
+      "desc": "Home Assistant MCP server agent. Enable Claude Code, Cursor, VS Code or any MCP-enabled IDE to help you vibe-code and manage Home "
+    },
+    {
+      "repo": "tevonsb/homeassistant-mcp",
+      "stars": 575,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-01-25",
+      "archived": false,
+      "desc": "A MCP server for Home Assistant"
+    },
+    {
+      "repo": "voska/hass-mcp",
+      "stars": 346,
+      "license": "MIT",
+      "pushed_at": "2026-10-10",
+      "archived": false,
+      "desc": "Control and query Home Assistant from Claude and other LLMs — a Model Context Protocol (MCP) server."
+    },
+    {
+      "repo": "dujonwalker/project-nova",
+      "stars": 272,
+      "license": null,
+      "pushed_at": "2026-05-28",
+      "archived": false,
+      "desc": "A multi-agent AI architecture that connects 25+ specialized agents through n8n and MCP servers. Project NOVA routes requests to do"
+    }
+  ],
+  "mcp calendar": [
+    {
+      "repo": "taylorwilsdon/google_workspace_mcp",
+      "stars": 3336,
+      "license": "MIT",
+      "pushed_at": "2026-10-09",
+      "archived": false,
+      "desc": "Control Gmail, Google Calendar, Docs, Sheets, Slides, Chat, Forms, Tasks, Search & Drive with AI - Comprehensive Google Workspace "
+    },
+    {
+      "repo": "ridafkih/keeper.sh",
+      "stars": 1387,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Calendar sync tool & universal calendar MCP server. Aggregate, sync and control calendars on Google, Outlook, Office 365, iCloud, "
+    },
+    {
+      "repo": "nspady/google-calendar-mcp",
+      "stars": 1199,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "MCP integration for Google Calendar to manage events."
+    },
+    {
+      "repo": "a-bonus/google-docs-mcp",
+      "stars": 673,
+      "license": "MIT",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "The Ultimate Google Docs, Sheets, Drive, Gmail, & Google Calendar MCP Server. This MCP (primarily for use in Claude Desktop) gains"
+    },
+    {
+      "repo": "markrai/scrumboy",
+      "stars": 445,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "Self-hosted project management • Customizable boards • Cross-project workload and flow analytics • Calendar/Agenda • Sticky-note w"
+    }
+  ],
+  "mcp email imap": [
+    {
+      "repo": "Wh1isper/mcp-email-server",
+      "stars": 360,
+      "license": "BSD-3-Clause",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Full-featured, multi-account MCP email server for Windows, macOS, and Linux—read, search, organize, and send email via IMAP and SM"
+    },
+    {
+      "repo": "agenticmail/agenticmail",
+      "stars": 236,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Email, SMS & phone-call infrastructure for AI agents — send and receive real email and text messages, and place agent-driven outbo"
+    },
+    {
+      "repo": "herald-email/herald-mail-app",
+      "stars": 146,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-12",
+      "archived": false,
+      "desc": "Herald is a terminal email client and inbox cleanup tool with IMAP, AI-assisted triage, MCP tools, and SSH/browser-friendly app mo"
+    },
+    {
+      "repo": "codefuturist/email-mcp",
+      "stars": 127,
+      "license": "LGPL-3.0",
+      "pushed_at": "2026-10-10",
+      "archived": false,
+      "desc": "Email MCP server with full IMAP + SMTP support — read, search, send, manage, and organize email from any AI assistant via the Mode"
+    },
+    {
+      "repo": "nikolausm/imap-mcp-server",
+      "stars": 109,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Full-featured IMAP & SMTP email for AI assistants: search, read, send, organize and clean up multiple mailboxes, with AES-256-encr"
+    }
+  ],
+  "mcp rss": [
+    {
+      "repo": "sansan0/TrendRadar",
+      "stars": 62892,
+      "license": "GPL-3.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "⭐AI-driven public opinion & trend monitor with multi-platform aggregation, RSS, and smart alerts.🎯 告别信息过载，你的 AI 舆情监控助手与热点筛选工具！聚合多平"
+    },
+    {
+      "repo": "KKKKhazix/AIHOT",
+      "stars": 7588,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "一个自己找热点、自己写日报的网站框架。把信源和精选标准换成你的，它就是你的行业热点站。"
+    },
+    {
+      "repo": "glidea/zenfeed",
+      "stars": 1716,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-07-10",
+      "archived": false,
+      "desc": "Make RSS 📰 great again with AI 🧠✨!! 数据打标请联系 glidea123 (数万并发随时狂飙)"
+    },
+    {
+      "repo": "chubbyguan/chubbyskills",
+      "stars": 1239,
+      "license": "MIT",
+      "pushed_at": "2026-10-08",
+      "archived": false,
+      "desc": "把中文全渠道内容（抖音 / B站 / 小红书 / 公众号 / X / 播客）采集进个人知识库的 14 个 AI Skill：图文存图、视频转文字稿、字幕优先免 GPU、RSS/YouTube 订阅调度与每日情报简报，附带知识库 MCP server。｜ Ing"
+    },
+    {
+      "repo": "tmwgsicp/wechat-download-api",
+      "stars": 1170,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-07-27",
+      "archived": false,
+      "desc": "一款完全开源的微信公众号文章获取、RSS 订阅 API 服务，支持整号文章一键导出 7 种格式（Markdown/HTML/Word/PDF/EPUB/Excel/JSON）、IP 代理池反风控、MCP 接入各种 AI Agent 工具。"
+    }
+  ],
+  "mcp translation": [
+    {
+      "repo": "PDFMathTranslate/PDFMathTranslate",
+      "stars": 37542,
+      "license": "AGPL-3.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "[EMNLP 2025 Demo] PDF scientific paper translation with preserved formats - 基于 AI 完整保留排版的 PDF 文档全文双语翻译，支持 Google/DeepL/Ollama/Open"
+    },
+    {
+      "repo": "20000419/fauxnix",
+      "stars": 949,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Run Linux-style commands on Windows via deterministic bash→PowerShell translation. No VM, no WSL. MCP server + CLI built for AI ag"
+    },
+    {
+      "repo": "DeepL/deepl-mcp-server",
+      "stars": 117,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "A Model Context Protocol (MCP) server that provides translation capabilities using the DeepL API."
+    },
+    {
+      "repo": "45645678a/Scholar-mcp",
+      "stars": 95,
+      "license": "MIT",
+      "pushed_at": "2026-04-11",
+      "archived": false,
+      "desc": "Local academic paper MCP server — 9-source search, multi-source download, AI analysis, translation, citation graph, code-based pap"
+    },
+    {
+      "repo": "ApolloVM/apollovm_dart",
+      "stars": 83,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-09-10",
+      "archived": false,
+      "desc": "Portable multi-language VM: parse, run and translate Dart, Java, Kotlin, Go,   C#, JavaScript, TypeScript, Lua and Python — with o"
+    }
+  ],
+  "mcp finance stock": [
+    {
+      "repo": "chengzuopeng/stock-sdk",
+      "stars": 1981,
+      "license": "ISC",
+      "pushed_at": "2026-10-03",
+      "archived": false,
+      "desc": "为前端设计的无需 Python、无需后端服务、零依赖的获取股票数据 JavaScript SDK。"
+    },
+    {
+      "repo": "wshobson/maverick-mcp",
+      "stars": 704,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "Stock market MCP server for Yahoo Finance data, technical analysis, portfolio tracking, and Python backtesting. Runs locally with "
+    },
+    {
+      "repo": "xang1234/stock-screener",
+      "stars": 349,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "CANSLIM & Minervini stock screener for 12 markets (US, China, HK, Japan, India, Korea, Taiwan & more). 80+ filters, StockBee-style"
+    },
+    {
+      "repo": "wshobson/mcp-trader",
+      "stars": 273,
+      "license": null,
+      "pushed_at": "2025-08-24",
+      "archived": true,
+      "desc": "A Model Context Protocol (MCP) server for stock traders"
+    },
+    {
+      "repo": "JesusRS1/stock-trade-finance-api",
+      "stars": 138,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-09-14",
+      "archived": false,
+      "desc": "Stock Trade MCP server in Tiingo with stock prices, news, forex, and fundamentals programmatically via the MCP"
+    }
+  ],
+  "personal assistant mcp": [
+    {
+      "repo": "zhayujie/CowAgent",
+      "stars": 47390,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open-source personal AI assistant & Agent Harness. Plans tasks, runs tools and skills, self-evolves with memory and knowledge. Mul"
+    },
+    {
+      "repo": "agentscope-ai/QwenPaw",
+      "stars": 35668,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Your Personal AI Assistant; easy to install, deploy on your own machine or on the cloud; supports multiple chat apps with easily e"
+    },
+    {
+      "repo": "ThinkInAIXYZ/deepchat",
+      "stars": 6360,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "🐬DeepChat - A smart assistant that connects powerful AI to your personal world"
+    },
+    {
+      "repo": "Sylinko/Everywhere",
+      "stars": 6314,
+      "license": "NOASSERTION",
+      "pushed_at": "2026-10-11",
+      "archived": false,
+      "desc": "On-screen aware AI assistant for your desktop. Uses current app context, multiple LLMs, and MCP tools to help you act across apps."
+    },
+    {
+      "repo": "the-open-agent/openagent",
+      "stars": 5689,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "⚡️next-generation personal AI assistant powered by LLM, RAG and agent loops, supporting computer-use, browser-use and coding agent"
+    }
+  ],
+  "mcp server awesome list": [
+    {
+      "repo": "appcypher/awesome-mcp-servers",
+      "stars": 5795,
+      "license": null,
+      "pushed_at": "2026-05-06",
+      "archived": true,
+      "desc": "Awesome MCP Servers - A curated list of Model Context Protocol servers"
+    },
+    {
+      "repo": "wong2/awesome-mcp-servers",
+      "stars": 4361,
+      "license": "MIT",
+      "pushed_at": "2026-07-13",
+      "archived": false,
+      "desc": "A curated list of Model Context Protocol (MCP) servers"
+    },
+    {
+      "repo": "composio-community/awesome-claude-plugins",
+      "stars": 1943,
+      "license": null,
+      "pushed_at": "2026-07-26",
+      "archived": false,
+      "desc": "A curated list of Plugins that let you extend Claude Code with custom commands, agents, hooks, and MCP servers through the plugin "
+    },
+    {
+      "repo": "YuzeHao2023/Awesome-MCP-Servers",
+      "stars": 1072,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-08-07",
+      "archived": false,
+      "desc": "A curated list of Model Context Protocol (MCP) servers "
+    },
+    {
+      "repo": "rohitg00/awesome-devops-mcp-servers",
+      "stars": 1025,
+      "license": "MIT",
+      "pushed_at": "2026-05-12",
+      "archived": false,
+      "desc": "A curated list of awesome MCP servers focused on DevOps tools and capabilities."
+    }
+  ],
+  "clawhub": [
+    {
+      "repo": "mvanhorn/last30days-skill",
+      "stars": 64191,
+      "license": "MIT",
+      "pushed_at": "2026-10-13",
+      "archived": false,
+      "desc": "AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summ"
+    },
+    {
+      "repo": "openclaw/clawhub",
+      "stars": 9508,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Skill + Plugin Registry for OpenClaw"
+    },
+    {
+      "repo": "FreedomIntelligence/OpenClaw-Medical-Skills",
+      "stars": 3063,
+      "license": null,
+      "pushed_at": "2026-07-21",
+      "archived": false,
+      "desc": "The largest open-source medical AI skills library for OpenClaw🦞."
+    },
+    {
+      "repo": "YouMind-OpenLab/nano-banana-pro-prompts-recommend-skill",
+      "stars": 1875,
+      "license": null,
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "AI skill for OpenClaw & Claude Code — recommend from 10000+ Nano Banana Pro (Gemini) image prompts. Smart search by use case, cont"
+    },
+    {
+      "repo": "LeoYeAI/openclaw-backup",
+      "stars": 659,
+      "license": "MIT",
+      "pushed_at": "2026-03-03",
+      "archived": false,
+      "desc": "One-click backup & restore for OpenClaw instances — workspace, credentials, skills, agent history. Powered by MyClaw.ai"
+    }
+  ],
+  "mcp registry china": [
+    {
+      "repo": "PancrePal-xiaoyibao/chictr-mcp-server",
+      "stars": 5,
+      "license": "Apache-2.0",
+      "pushed_at": "2026-10-04",
+      "archived": false,
+      "desc": "a MCP server to search chichr(chinese clinical trials Registry) for trials info for cancer patients & families"
+    },
+    {
+      "repo": "beepboop2025/palimpsest",
+      "stars": 3,
+      "license": "MIT",
+      "pushed_at": "2026-10-14",
+      "archived": false,
+      "desc": "Open-source, revision-safe China economy observatory and verifiable AI/censorship measurement registry, with public data, MCP and "
+    },
+    {
+      "repo": "JAGAN666/chictr-mcp",
+      "stars": 1,
+      "license": null,
+      "pushed_at": "2026-03-21",
+      "archived": false,
+      "desc": "MCP server for Chinese Clinical Trial Registry (ChiCTR) — search, extract, verify, and translate 100K+ Chinese clinical trials fro"
+    },
+    {
+      "repo": "ballcheung/china-company-check-mcp",
+      "stars": 1,
+      "license": "MIT",
+      "pushed_at": "2026-07-03",
+      "archived": false,
+      "desc": "Free MCP server & Agent Skill to search and verify mainland-China companies from official GSXT/SAMR registry data — company lookup"
+    },
+    {
+      "repo": "bdnhost/claude-skills",
+      "stars": 1,
+      "license": "MIT",
+      "pushed_at": "2026-04-25",
+      "archived": false,
+      "desc": "Curated registry of 250+ verified Claude Code skills — auto-discovered daily from GitHub, classified into 15 categories. Searchabl"
+    }
+  ]
+}
