@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成熟 Harness 深度介绍</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bd:#30363d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ac2:#79c0ff;
+  --rd:#f85149; --gn:#3fb950; --yl:#d29922; --pp:#bc8cff; --tl:#39d353; --or:#ffa657;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.78;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;min-height:100vh}
+aside{width:278px;flex:0 0 278px;background:var(--bg2);border-right:1px solid var(--bd);padding:26px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+aside h1{font-size:15px;padding:0 20px 6px;color:var(--tx);line-height:1.5}
+aside .sub{font-size:11.5px;color:var(--tx3);padding:0 20px 18px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav a{display:block;padding:7px 20px;color:var(--tx2);text-decoration:none;font-size:13.5px;border-left:2px solid transparent;transition:.15s}
+nav a:hover{color:var(--tx);background:var(--bg3);border-left-color:var(--ac)}
+nav a.on{color:var(--ac);border-left-color:var(--ac);background:rgba(88,166,255,.08)}
+nav .grp{font-size:11px;color:var(--tx3);padding:14px 20px 6px;letter-spacing:.07em;text-transform:uppercase}
+main{flex:1;min-width:0;padding:44px 52px 90px;max-width:1090px}
+h2{font-size:26px;margin:0 0 8px;padding-bottom:12px;border-bottom:1px solid var(--bd);letter-spacing:-.01em}
+h2 .n{color:var(--ac);font-weight:400;margin-right:10px}
+h3{font-size:18.5px;margin:34px 0 12px;color:var(--tx)}
+h3::before{content:"";display:inline-block;width:3px;height:15px;background:var(--ac);margin-right:10px;vertical-align:-2px;border-radius:2px}
+h4{font-size:15.5px;margin:22px 0 8px;color:var(--ac2)}
+p{margin:10px 0;color:var(--tx)}
+section{padding-top:34px;scroll-margin-top:20px}
+section:first-child{padding-top:0}
+a{color:var(--ac)}
+code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-family:"SF Mono",Consolas,Monaco,monospace;font-size:12.5px;color:var(--or)}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:12.5px;line-height:1.75}
+pre code{background:none;padding:0;color:var(--tx);font-size:12.5px}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0;color:var(--tx)}
+strong{color:#fff;font-weight:600}
+em{color:var(--ac2);font-style:normal}
+.box{border-radius:8px;padding:15px 18px;margin:18px 0;border-left:3px solid var(--ac);background:rgba(88,166,255,.07)}
+.box.warn{border-left-color:var(--yl);background:rgba(210,153,34,.08)}
+.box.danger{border-left-color:var(--rd);background:rgba(248,81,73,.08)}
+.box.ok{border-left-color:var(--gn);background:rgba(63,185,80,.08)}
+.box.pp{border-left-color:var(--pp);background:rgba(188,140,255,.08)}
+.box .t{font-weight:600;margin-bottom:6px;font-size:14px;color:var(--ac2)}
+.box.warn .t{color:var(--yl)} .box.danger .t{color:var(--rd)} .box.ok .t{color:var(--gn)} .box.pp .t{color:var(--pp)}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+blockquote{border-left:3px solid var(--tx3);padding:2px 0 2px 16px;margin:14px 0;color:var(--tx2);font-style:italic}
+blockquote strong{color:var(--tx);font-style:normal}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto}
+th{background:var(--bg3);text-align:left;padding:10px 12px;font-weight:600;color:var(--tx);border-bottom:1px solid var(--bd);white-space:nowrap;font-size:12.5px}
+td{padding:9px 12px;border-bottom:1px solid rgba(48,54,61,.6);color:var(--tx2);vertical-align:top}
+td strong{color:var(--tx)}
+tr:hover td{background:rgba(88,166,255,.035)}
+.ok-b{color:var(--gn);font-weight:600}
+.no-b{color:var(--rd);font-weight:600}
+.warn-b{color:var(--yl);font-weight:600}
+.c{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.card .k{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card .v{font-size:23px;font-weight:700;color:var(--ac2);font-variant-numeric:tabular-nums;line-height:1.2}
+.card .d{font-size:12.5px;color:var(--tx3);margin-top:5px}
+.card.rd .v{color:var(--rd)} .card.gn .v{color:var(--gn)} .card.yl .v{color:var(--yl)} .card.pp .v{color:var(--pp)}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;margin-right:5px;white-space:nowrap}
+.p-g{background:rgba(63,185,80,.16);color:var(--gn)}
+.p-r{background:rgba(248,81,73,.16);color:var(--rd)}
+.p-y{background:rgba(210,153,34,.16);color:var(--yl)}
+.p-b{background:rgba(88,166,255,.16);color:var(--ac)}
+.p-p{background:rgba(188,140,255,.16);color:var(--pp)}
+.layer{display:grid;grid-template-columns:40px 1fr;gap:14px;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px;margin:12px 0}
+.layer .num{font-size:24px;font-weight:700;color:var(--ac);line-height:1.1;font-variant-numeric:tabular-nums}
+.layer .bd h4{margin:0 0 6px;color:var(--tx)}
+.layer .bd p{margin:6px 0;font-size:14px}
+.layer .bd .meta{font-size:12.5px;color:var(--tx3);margin-top:8px}
+.step{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(48,54,61,.5)}
+.step .n{font-size:13px;font-weight:700;color:var(--bg);background:var(--ac);border-radius:5px;text-align:center;height:22px;line-height:22px;font-variant-numeric:tabular-nums}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--bd);font-size:12.5px;color:var(--tx3)}
+@media(max-width:900px){
+  aside{display:none}
+  main{padding:26px 18px 60px}
+  h2{font-size:21px}
+  .layer{grid-template-columns:30px 1fr}
+  .layer .num{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <h1>成熟 Harness 深度介绍</h1>
+  <div class="sub">Agent = Model + Harness<br>核验 2026-10-14</div>
+  <nav>
+    <div class="grp">基础</div>
+    <a href="#s0" class="on">〇 什么是 Harness</a>
+    <a href="#s1">一 为什么是 2026</a>
+    <a href="#s2">二 六个承重层</a>
+    <a href="#s3">三 循环七步</a>
+    <div class="grp">全景</div>
+    <a href="#s4">四 成熟 Harness 全景</a>
+    <a href="#s4a">　· 厂商官方三家</a>
+    <a href="#s4b">　· 开源成品 Agent</a>
+    <a href="#s4c">　· 沙箱基础设施</a>
+    <a href="#s4d">　· SDK 与评测</a>
+    <div class="grp">深度案例</div>
+    <a href="#s5">五 Claude Managed Agents</a>
+    <a href="#s6">六 DeepSeek Harness</a>
+    <a href="#s7">七 Codex Harness</a>
+    <div class="grp">方法论</div>
+    <a href="#s8">八 研究型 vs 生产型</a>
+    <a href="#s9">九 五组设计取舍</a>
+    <a href="#s10">十 AGENTS.md/Spec/Skills</a>
+    <a href="#s11">十一 企业实践案例</a>
+    <a href="#ev">十二 数据可信度</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+<h2><span class="n">〇</span>什么是 Harness</h2>
+
+<div class="grid">
+  <div class="card gn"><div class="k">公式</div><div class="v" style="font-size:19px">Agent = Model + Harness</div><div class="d">LangChain 提出</div></div>
+  <div class="card"><div class="k">提出时间</div><div class="v">2026-02-05</div><div class="d">Mitchell Hashimoto（HashiCorp 联合创始人）</div></div>
+  <div class="card pp"><div class="k">核心哲学</div><div class="v" style="font-size:19px">人类掌舵，智能体执行</div><div class="d">通过构建系统环境提升效果</div></div>
+</div>
+
+<div class="box ok">
+<div class="t">定义</div>
+<p><strong>Harness 是模型之外的一切代码、配置与执行逻辑。</strong></p>
+<p>「Harness」本意是马具。在 AI 语境中，它指连接「模型（马匹）」和「人类需求（骑手）」的控制框架：<strong>它不参与任务执行本身，但决定任务的方向、节奏与停止时机。</strong></p>
+</div>
+
+<h3>三层关系（是包含关系，不是并列）</h3>
+<table>
+<thead><tr><th>层</th><th>解决什么</th><th>类比</th></tr></thead>
+<tbody>
+<tr><td><strong>Prompt Engineering</strong></td><td>怎么对模型说</td><td>指令</td></tr>
+<tr><td><strong>Context Engineering</strong></td><td>让模型在<strong>这一轮</strong>看到什么</td><td>喂给模型的工作台</td></tr>
+<tr><td><strong>Harness Engineering</strong></td><td><strong>整套系统怎么运行、怎么持久化、怎么验证、怎么兜底</strong></td><td><strong>操作系统</strong></td></tr>
+</tbody>
+</table>
+
+<h3>一个很好用的类比</h3>
+<div class="box">
+<div class="t">引自 Beren Millidge（2023），被 Akshay 的《The Anatomy of an Agent Harness》引用</div>
+<blockquote><p><strong>裸的 LLM 是一颗没有 RAM、没有磁盘、没有 I/O 的 CPU。</strong></p></blockquote>
+<ul>
+<li>上下文窗口充当<strong>内存</strong></li>
+<li>外部数据库充当<strong>磁盘</strong></li>
+<li>工具集充当<strong>设备驱动</strong></li>
+</ul>
+<p><strong>让这台机器持续跑起来的，是外面这套调度、执行、校验和保护机制。</strong></p>
+</div>
+<p><strong>Harness 回答的是一个工程问题：怎样把一个无状态、会推理的模型，变成一个能持续交付结果的系统。</strong></p>
+
+<h3>学术界的定位</h3>
+<p><strong>中国人民大学高瓴人工智能学院</strong>等机构 2026-07 发布全景综述《<strong>Towards Long-Horizon Agents: A Survey</strong>》：</p>
+<blockquote><p>智能体的长程能力源于「<strong>外部脚手架工程（Harness Engineering）</strong>」与「<strong>内部模型优化（Model Optimization）</strong>」的<strong>协同演化</strong>。Harness 作为运行时控制层，负责组织上下文、维护状态、调度工具、编排流程并进行验证与恢复。</p></blockquote>
+<pre><code>Prompt Engineering → Context Engineering → Runtime Harness（2025 至今）</code></pre>
+<p><strong>长程智能体面临的四个挑战</strong>：单步错误积累、目标漂移、上下文腐化、稀疏奖励。</p>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+<h2><span class="n">一</span>为什么 2026 年突然都在讲 Harness</h2>
+
+<h3>证据 1：只换 Harness，不换权重，名次可以跳一个量级</h3>
+<div class="box ok">
+<blockquote><p><strong>LangChain 只换外围基础设施，就把名次从 TerminalBench 2.0 的前 30 名之外拉到第 5。</strong></p></blockquote>
+<p>还有研究项目把「<strong>优化 Harness 本身</strong>」变成了搜索对象，最终拿到 <strong>76.4% 的通过率</strong>。</p>
+</div>
+<div class="box warn"><div class="t">⚠️ 边界</div><p>榜单结果不能直接等同于真实产品体验，单个实验也不能替所有场景下结论。但它至少说明——<strong>Agent 的表现并不只由模型上限决定，还强烈依赖它跑在什么样的系统里。</strong></p></div>
+
+<h3>证据 2：长任务的误差会快速累积</h3>
+<div class="box danger">
+<p>一个 <strong>10 步</strong>流程，如果<strong>每一步</strong>成功率都是 <strong>99%</strong>，最终全链路成功率也只有大约 <strong>90%</strong>。</p>
+<p>任务再拉长，误差就会开始明显堆积。<strong>这就是为什么长任务需要 checkpoint、验证、恢复——而不是靠模型自觉。</strong></p>
+</div>
+
+<h3>证据 3：减法比加法更有效</h3>
+<table>
+<thead><tr><th>案例</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td><strong>Vercel 在 v0 上删掉了 80% 的工具</strong></td><td class="ok-b"><strong>表现反而更好</strong></td></tr>
+<tr><td><strong>Claude Code 靠懒加载</strong></td><td class="ok-b"><strong>实现 95% 的上下文缩减</strong></td></tr>
+<tr><td><strong>Manus 半年内重建 Harness 五次</strong></td><td class="ok-b"><strong>每次都在做减法</strong></td></tr>
+</tbody>
+</table>
+
+<h3>一个投资人的概括</h3>
+<div class="box pp">
+<blockquote><p><strong>Aakash Gupta（SaaS 投资人）</strong>：「<strong>2025 年是 Agent 之年，2026 年是 Harness 之年。模型是商品，Harness 才是护城河。</strong>」</p></blockquote>
+</div>
+
+<h3>一句话总结这一章</h3>
+<div class="box">
+<p><strong>把系统拉垮的，越来越是这些更工程的问题</strong>：上下文会不会逐轮变脏、工具失败后有没有显式反馈、状态能不能跨会话延续、高风险动作有没有权限边界、结果到底由谁验收。</p>
+<p><strong>模型智力在线之后，大家开始重新面对软件工程。</strong></p>
+</div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+<h2><span class="n">二</span>Harness 的六个承重层</h2>
+<p>引用 Akshay 的生产级 Harness 拆解（12 个组件压缩为 6 个核心结构）：</p>
+
+<div class="layer">
+<div class="num">1</div>
+<div class="bd">
+<h4>主循环 —— Harness 的心脏</h4>
+<pre><code>组装输入 → 调用模型 → 解析输出 → 执行工具 → 塞回结果 → 再来一轮</code></pre>
+<p><strong>但难点在循环里每一步到底由谁控制、何时终止、出错后怎么回来。</strong></p>
+<p class="meta">常见失败：无限转圈 / 提前收尾 / 误把中间结果当最终结果</p>
+<blockquote><p>很多人第一次做 Agent，会把注意力放在「模型有没有想明白」。上线以后，<strong>最先暴露的反而是循环失控</strong>。</p></blockquote>
+</div>
+</div>
+
+<div class="layer">
+<div class="num">2</div>
+<div class="bd">
+<h4>工具系统 —— Agent 的手</h4>
+<p>不只是「给几个函数名」。至少还要管四件事：</p>
+<ol>
+<li>工具如何<strong>注册</strong></li>
+<li>参数如何<strong>校验</strong></li>
+<li>执行环境是否<strong>隔离</strong></li>
+<li>结果如何<strong>回写成 Observation</strong></li>
+</ol>
+<table>
+<thead><tr><th></th><th>工具分类</th></tr></thead>
+<tbody>
+<tr><td><strong>Claude Code</strong></td><td><strong>六类</strong>：文件操作、搜索、执行、Web 访问、代码智能、子 Agent 派生</td></tr>
+<tr><td><strong>OpenAI Agents SDK</strong></td><td><strong>三类</strong>：函数工具、托管工具、MCP 工具</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>模型知道可以调用什么工具，只是起点。它能不能在合适的时候调用、带着正确参数调用、在失败后继续恢复，才是 Harness 的事情。</strong></p></blockquote>
+</div>
+</div>
+
+<div class="layer">
+<div class="num">3</div>
+<div class="bd">
+<h4>上下文与记忆 —— 该记什么、什么时候记、什么时候删</h4>
+<p><strong>Claude Code 的三层记忆设计</strong>（值得直接抄）：</p>
+<table>
+<thead><tr><th>层</th><th>内容</th><th>加载方式</th></tr></thead>
+<tbody>
+<tr><td><strong>① 轻量索引</strong></td><td>每条约 <strong>150 字符</strong></td><td class="ok-b"><strong>始终加载</strong></td></tr>
+<tr><td><strong>② 详细主题文件</strong></td><td>具体主题的展开</td><td>按需拉取</td></tr>
+<tr><td><strong>③ 原始会话记录</strong></td><td>完整历史</td><td>只通过搜索访问</td></tr>
+</tbody>
+</table>
+<div class="box warn">
+<p><strong>关键原则</strong>：<strong>成熟系统不会把记忆当真相，而是把它当线索。</strong> 先靠记忆提示方向，再回到真实文件、真实环境和真实状态里确认。</p>
+<p><strong>记忆如果不能被验证，就很容易从「帮助检索」滑向「帮助幻觉」。</strong></p>
+</div>
+</div>
+</div>
+
+<div class="layer">
+<div class="num">4</div>
+<div class="bd">
+<h4>状态与检查点 —— 让长任务可以继续</h4>
+<p>系统需要知道：当前做到哪一步、失败后从哪恢复、哪些中间产物值得保留、哪些只是临时噪音。</p>
+<p><strong>两种实现路径</strong>：</p>
+<ul>
+<li>结构化状态对象做 checkpoint</li>
+<li>把 git commit + 进度文件 + 任务日志一起当作恢复点</li>
+</ul>
+<blockquote><p>实现可以不同，但目的只有一个：<strong>让长任务可以继续，而不是每次都从头赌一遍。</strong></p></blockquote>
+</div>
+</div>
+
+<div class="layer">
+<div class="num">5</div>
+<div class="bd">
+<h4>权限、错误与安全护栏 —— 最被低估的一层</h4>
+<div class="box danger">
+<blockquote><p><strong>一个看起来很能干的 Agent，如果没有权限控制，本质上只是一个事故放大器。</strong></p></blockquote>
+</div>
+<p><strong>核心设计原则：把「模型想做什么」和「系统允许做什么」拆开。</strong></p>
+<table>
+<thead><tr><th>角色</th><th>职责</th></tr></thead>
+<tbody>
+<tr><td><strong>模型</strong></td><td>负责<strong>提出</strong>动作</td></tr>
+<tr><td><strong>工具系统</strong></td><td>负责<strong>决定</strong>这个动作能不能做、要不要用户确认、失败后是重试、回传错误、还是直接终止</td></tr>
+</tbody>
+</table>
+<div class="box ok">
+<div class="t">企业级结论</div>
+<p><strong>权限与治理必须在基础设施层通过沙箱、权限策略等机制强制执行，而非依赖提示词。</strong></p>
+</div>
+</div>
+</div>
+
+<div class="layer">
+<div class="num">6</div>
+<div class="bd">
+<h4>验证与纠偏 —— Demo 和生产的分水岭</h4>
+<blockquote><p><strong>工具给了模型行动能力。验证才给了模型纠错能力。</strong></p></blockquote>
+<p><strong>外部反馈回路的构成</strong>：测试、lint、类型检查、页面截图、端到端操作，甚至<strong>另一个专门负责挑刺的评估器</strong>。</p>
+<div class="box ok">
+<div class="t">一条硬数据</div>
+<p><strong>Claude Code 创始人 Boris Cherny 提到，给模型一种能验证自己工作的方式，质量提升 2 到 3 倍。</strong></p>
+</div>
+<div class="box danger">
+<p><strong>没有验证，Harness 很容易变成「更快地产出错结果」。</strong></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+<h2><span class="n">三</span>一次完整循环的七步</h2>
+<div class="step"><div class="n">1</div><div><strong>组装输入</strong><br><span style="font-size:13.5px;color:var(--tx2)">system prompt + 工具定义 + 记忆 + 会话状态 + 当前任务 → 这一轮实际给模型看的上下文</span></div></div>
+<div class="step"><div class="n">2</div><div><strong>模型推理</strong><br><span style="font-size:13.5px;color:var(--tx2)">模型决定这轮是直接回答，还是先调工具</span></div></div>
+<div class="step"><div class="n">3</div><div><strong>分类输出</strong><br><span style="font-size:13.5px;color:var(--tx2)">只有文本没有 tool call → 这轮可能就该结束；有工具调用 → 进入执行阶段</span></div></div>
+<div class="step"><div class="n">4</div><div><strong>执行工具</strong><br><span style="font-size:13.5px;color:var(--tx2)"><strong>先参数校验 → 再权限检查 → 再决定并发读 / 串行改 / 直接拒绝</strong></span></div></div>
+<div class="step"><div class="n">5</div><div><strong>回写结果</strong><br><span style="font-size:13.5px;color:var(--tx2)">工具输出重新包装成 Observation；<strong>失败也不能静默吞掉，要回成一个明确错误</strong></span></div></div>
+<div class="step"><div class="n">6</div><div><strong>更新状态</strong><br><span style="font-size:13.5px;color:var(--tx2)">会话历史、检查点、工作记忆、<strong>压缩触发条件</strong></span></div></div>
+<div class="step"><div class="n">7</div><div><strong>决定是否继续</strong><br><span style="font-size:13.5px;color:var(--tx2)">回到下一轮，或因任务完成 / 预算用尽 / 达最大轮数 / 用户中断 / 安全护栏触发而终止</span></div></div>
+
+<div class="box warn">
+<p><strong>循环本身往往很朴素。复杂的是每一步背后的工程取舍。</strong></p>
+<p><strong>很多人第一次做 Agent 时会困惑：循环有了，怎么还是不稳？多数时候，有循环不等于有 Harness。</strong></p>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+<h2><span class="n">四</span>成熟 Harness 全景</h2>
+<p><strong>按层次分五类。</strong> 这是本报告最实用的一章。</p>
+
+<h3 id="s4a">4.1 厂商官方 Harness（三家，均已开源或公测）</h3>
+<table>
+<thead><tr><th>Harness</th><th>厂商</th><th>时间</th><th>许可</th><th>核心设计</th></tr></thead>
+<tbody>
+<tr><td><strong>Claude Managed Agents</strong></td><td><strong>Anthropic</strong></td><td>2026-04 公测</td><td>—</td><td><strong>Session / Harness / Sandbox 三分解构</strong>；Brain-Hands 解耦</td></tr>
+<tr><td><strong>Codex Harness</strong></td><td><strong>OpenAI</strong></td><td class="ok-b"><strong>2026-08-19 开源</strong></td><td class="ok-b"><strong>Apache-2.0</strong></td><td><strong>把 Agent 能力嵌入现有业务软件</strong>；<code>app-server</code> + JSON-RPC</td></tr>
+<tr><td><strong>DeepSeek Harness (dsh)</strong></td><td><strong>DeepSeek</strong></td><td class="ok-b"><strong>2026-08-13 v0.1</strong></td><td class="ok-b"><strong>MIT</strong></td><td><strong>一切皆插件</strong>（Cordis）；「Model + Harness = Agent」</td></tr>
+</tbody>
+</table>
+<div class="box">
+<div class="t">三家的定位差异很清晰</div>
+<ul>
+<li><strong>Anthropic</strong> 走「<strong>托管运行时</strong>」路线——把 Harness 做成云服务</li>
+<li><strong>OpenAI</strong> 走「<strong>嵌入现有软件</strong>」路线——明确「避免创建独立的 AI 应用外壳」</li>
+<li><strong>DeepSeek</strong> 走「<strong>微内核 + 插件</strong>」路线——官方定位是「<strong>Agent 微内核操作系统</strong>」</li>
+</ul>
+</div>
+
+<h3 id="s4b">4.2 开源成品 Agent（Harness 运行底座类）</h3>
+<p><strong>特点</strong>：自带完整 Agent 运行环境，不是单一用途 Agent；可以在底座上组装多个不同能力 Agent，支持子 Agent 互相调用、原生 MCP、会话统一管理。</p>
+<table>
+<thead><tr><th>项目</th><th>星数（本会话核验）</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td><strong>OpenHands</strong></td><td class="star">90,850★</td><td>前身 OpenDevin；生产级自主选项；<strong>1880 万美元 A 轮</strong>；AMD / Apple / Google / Amazon / Netflix 在用</td></tr>
+<tr><td><strong>Goose</strong></td><td class="star">55,269★</td><td><strong>AAIF 创始项目</strong>；MCP 即扩展模型，70+ 内置扩展</td></tr>
+<tr><td><strong>Hermes Agent</strong></td><td class="star">253,604★</td><td>持久记忆 + <code>bot_relay</code> + <code>cron</code></td></tr>
+<tr><td><strong>OpenCode</strong></td><td>—</td><td>MIT；相对完整的开发体验；多模型接入、文件操作、会话与工作区体验</td></tr>
+<tr><td><strong>Pi</strong></td><td>—</td><td>可扩展、多 provider 支持</td></tr>
+<tr><td><strong>SWE-agent</strong></td><td>—</td><td>学术路线；SWE-bench 原始实现</td></tr>
+</tbody>
+</table>
+<div class="box warn">
+<div class="t">一个关键判断（知乎，2026-09-01）</div>
+<blockquote><p>截至 2026 年 9 月，OpenCode、Pi 等开源 Coding Agent <strong>已经具备替代 Codex CLI 日常开发能力的实力，但还不能完整替代 Codex 的整套产品体系</strong>。真正的差异已经不只是「谁更会写代码」，而是<strong>模型、Agent 框架、执行环境、上下文管理、云端基础设施和安全机制的综合竞争</strong>。</p></blockquote>
+</div>
+
+<h3 id="s4c">4.3 沙箱基础设施层（Harness 的「Hands」）</h3>
+<div class="box ok">
+<div class="t">2026-04-15 是一个分水岭</div>
+<p>OpenAI Agents SDK 发布，<strong>沙箱成为原生一等公民原语</strong>。它同时做了四件事：</p>
+<ol>
+<li><strong>原生沙箱执行</strong></li>
+<li><strong>Codex 风格的 agent harness</strong></li>
+<li><strong>snapshot / rehydrate 生命周期</strong></li>
+<li><strong>七个内置 provider</strong>：Blaxel、Cloudflare、Daytona、E2B、Modal、Runloop、Vercel（+ bring-your-own）</li>
+</ol>
+<p><strong>关键的抽象是 workspace Manifest</strong>——mount 本地文件、定义输出目录、从 S3/GCS/Azure Blob/Cloudflare 拉数据，而这份工作区描述<strong>跨 provider 可移植</strong>。<code>provider="e2b"</code> 换成 <code>provider="modal"</code>，agent 的代码执行就换了云。</p>
+</div>
+
+<h4>三大沙箱对比（2026-10-08 核价）</h4>
+<table>
+<thead><tr><th>维度</th><th>E2B</th><th>Daytona</th><th>Modal</th></tr></thead>
+<tbody>
+<tr><td><strong>隔离</strong></td><td class="ok-b"><strong>Firecracker microVM</strong>（每沙箱独立内核）</td><td>默认容器；有 Linux VM / Windows VM 类</td><td>默认 gVisor；<strong>VM runtime 2026-10-01 GA</strong></td></tr>
+<tr><td><strong>冷启动</strong></td><td>~150ms（从快照）</td><td class="ok-b"><strong>~71-90ms</strong>（热池/快照）</td><td>亚秒到 2-4s</td></tr>
+<tr><td><strong>Pause with memory</strong></td><td class="ok-b">✅ <strong>resume ~1s，计费停止</strong></td><td>仅 VM 沙箱</td><td>文件系统快照；内存快照实验性且 7 天过期</td></tr>
+<tr><td><strong>Fork</strong></td><td class="ok-b">✅ <strong>一次调用最多 20 份，带内存</strong></td><td>VM 沙箱，带内存</td><td>快照后创建</td></tr>
+<tr><td><strong>连续运行上限</strong></td><td>1h Hobby / 24h Pro</td><td>默认 15 分钟空闲后自动停止</td><td>默认 5 分钟 / 最大 24h</td></tr>
+<tr><td><strong>GPU</strong></td><td class="no-b">❌ 不提供</td><td class="ok-b">✅ <strong>最多 8 GPU</strong></td><td>✅ 仅 gVisor runtime</td></tr>
+<tr><td><strong>许可 / 自托管</strong></td><td class="ok-b"><strong>Apache-2.0，可自托管</strong></td><td class="warn-b">曾 AGPL-3.0；<strong>2026-06 核心转私有</strong>（社区 fork：Nightona）</td><td class="no-b"><strong>闭源云，无自托管</strong></td></tr>
+<tr><td><strong>vCPU 费率</strong></td><td>$0.0504/vCPU-hr</td><td>$0.0504/vCPU-hr</td><td class="no-b">$0.071/vCPU-hr（<strong>40% 溢价</strong>）</td></tr>
+<tr><td><strong>内存费率</strong></td><td>$0.0162/GiB-hr</td><td>与 E2B 持平</td><td>$0.024/GiB-hr</td></tr>
+<tr><td><strong>企业背书</strong></td><td class="ok-b"><strong>88% 的 Fortune 100 已签约</strong>；$21M A 轮</td><td>SOC 2/HIPAA/GDPR；$24M A 轮</td><td>SOC 2 + HIPAA；<strong>$355M C 轮 @ $4.65B</strong></td></tr>
+</tbody>
+</table>
+<p><strong>其他严肃选手</strong>：Fly.io Sprites、Docker Sandboxes、Deno Sandbox、<strong>Cloudflare Sandbox SDK</strong>（1.0 于 2026-09-30 发布，Durable Object 类通过 <code>this.ctx.container</code> 管理沙箱容器）。</p>
+
+<h4>威胁模型（三个让 Docker 容器不够用的原因）</h4>
+<ol>
+<li>通过检索网页内容的<strong>间接 prompt injection</strong></li>
+<li>通过攻击者发布的 Python 包、针对 agent 运行的<strong>供应链攻击</strong></li>
+<li>监管对 agent 能触及客户数据的关注</li>
+</ol>
+<div class="box danger">
+<p><strong>agent 被视为对抗性的。它代码能触及的一切都是爆炸半径的一部分。沙箱的职责是让半径小、有时间界、可审计。</strong></p>
+</div>
+<div class="box warn">
+<div class="t">一个常被忽略的边界</div>
+<p><strong>沙箱是按设计以 session 为界的，而 deployment 恰恰是 session 所不是的一切。</strong> 沙箱不做部署——这是它和「交付一个跑在稳定 URL 后面的应用」之间的鸿沟。</p>
+</div>
+
+<h3 id="s4d">4.4 Agent SDK 层</h3>
+<table>
+<thead><tr><th>SDK</th><th>厂商</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td><strong>Claude Agent SDK</strong></td><td>Anthropic</td><td>与 Claude Code 同源</td></tr>
+<tr><td><strong>OpenAI Agents SDK</strong></td><td>OpenAI</td><td><strong>原生沙箱 + 七 provider + Manifest 抽象 + Temporal 扩展</strong>（sandbox agent 可作为 durable workflow 运行）</td></tr>
+<tr><td><strong>Google ADK</strong></td><td>Google</td><td>—</td></tr>
+<tr><td><strong>AWS Strands Agents</strong></td><td>AWS</td><td>—</td></tr>
+<tr><td><strong>Microsoft Agent Framework</strong></td><td>Microsoft</td><td>AutoGen + Semantic Kernel 合并</td></tr>
+</tbody>
+</table>
+
+<h3>4.5 评测 Harness</h3>
+<table>
+<thead><tr><th>项目</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td><strong>Harbor</strong></td><td>内置 <strong>40+ Agent 集成</strong>（Claude Code、Codex、OpenHands 等），只需 <code>-a claude-code</code> / <code>-a codex</code> / <code>-a openhands</code> 即可在<strong>容器化任务环境</strong>中自动安装并驱动对应智能体完成评测</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+<h2><span class="n">五</span>深度案例一：Claude Managed Agents</h2>
+<p><strong>这是目前公开资料最完整的 Harness 设计。</strong> 它把问题从「怎么写一个更聪明的循环」推进到了「<strong>怎么设计一个能进生产的运行时</strong>」。</p>
+
+<h3>5.1 四阶段演进史</h3>
+<table>
+<thead><tr><th>阶段</th><th>抓手</th><th>局限</th></tr></thead>
+<tbody>
+<tr><td><strong>① 长上下文</strong></td><td>100K / 200K context window</td><td class="no-b"><strong>「长上下文只是工作区变大了，不等于系统有了可靠记忆」</strong></td></tr>
+<tr><td><strong>② workflow vs autonomous loop</strong></td><td>《Building Effective AI Agents》区分两者</td><td>稳定业务流程用 workflow 更便宜、更稳、更易调试</td></tr>
+<tr><td><strong>③ 工具 / 上下文 / 安全</strong></td><td>think tool、multi-agent research、context engineering、Agent Skills、Claude Code sandboxing、MCP</td><td>主题分散，但都指向同一个问题</td></tr>
+<tr><td><strong>④ Runtime 层</strong></td><td><strong>Managed Agents</strong></td><td>—</td></tr>
+</tbody>
+</table>
+<pre><code>思路主线：长上下文 → 工具循环 → 上下文工程 → 安全执行 → 可恢复运行时</code></pre>
+<div class="box">
+<div class="t">第③阶段的共同指向</div>
+<blockquote><p><strong>Agent 一旦开始做真实工作，问题会从「模型会不会回答」转向「系统怎么承载模型行动」。</strong></p></blockquote>
+<ul>
+<li>工具太多，上下文会爆</li>
+<li>任务太长，聊天记录不够用</li>
+<li>执行太自由，安全边界会失控</li>
+<li>多 Agent 太积极，成本和协调复杂度会压上来</li>
+<li><strong>模型升级太快，旧 harness 假设会过期</strong></li>
+</ul>
+</div>
+
+<h3>5.2 核心逻辑：不要把会变化的东西绑死在一起</h3>
+<div class="box danger">
+<blockquote><p><strong>Harnesses encode assumptions that go stale as models improve.</strong>（Harness 会编码当前模型的弱点。）</p></blockquote>
+</div>
+<p><strong>Anthropic 举的具体例子</strong>：</p>
+<blockquote><p><strong>Claude Sonnet 4.5 在接近上下文窗口上限时容易提前结束任务</strong>，所以 harness 加了 <strong>context reset</strong>。到了 <strong>Claude Opus 4.5，这个行为消失了</strong>，原来的 reset 逻辑就开始显得多余。</p></blockquote>
+<div class="box warn"><p><strong>不要把今天模型的缺陷，写成明天系统的架构。</strong></p></div>
+
+<h3>5.3 沉淀出的八个核心接口</h3>
+<pre><code>Session：任务发生过什么
+Harness：下一步怎么调度
+Sandbox：动作在哪里执行
+Tool interface：动作如何被调用
+Credential boundary：动作是否被授权
+Context builder：这次模型该看什么
+Trace / Eval：过程和结果如何被复盘</code></pre>
+<p><strong>这套设计不追求某一个固定 Agent loop 的优雅。它追求的是当模型、工具、执行环境变化时，系统还能继续演进。</strong></p>
+
+<h3>5.4 关键点一：Brain / Hands 解耦</h3>
+<table>
+<thead><tr><th>概念</th><th>组成</th></tr></thead>
+<tbody>
+<tr><td><strong>Brain</strong></td><td>Claude + harness</td></tr>
+<tr><td><strong>Hands</strong></td><td>sandbox、MCP server、外部工具、设备、浏览器、代码执行环境</td></tr>
+</tbody>
+</table>
+<p><strong>早期做法的典型问题</strong>：把 brain 放进 hands 里面（一个容器里跑 harness、存 session、执行工具、放文件系统、有时还放凭证）→ 容器变成 <strong>pet server</strong>（不能轻易丢、不能轻易重启、挂了要救、调试要进去看）。</p>
+<div class="box ok">
+<div class="t">Anthropic 的做法：让 harness 离开 sandbox</div>
+<ul>
+<li>Harness 成为相对<strong>无状态的控制面</strong></li>
+<li>Sandbox 变成<strong>可调用、可重建的执行资源</strong></li>
+<li>二者通过一个极简接口连接：<code>execute(name, input) -&gt; string</code></li>
+</ul>
+<p><strong>三个直接收益</strong>：① Sandbox 挂了，不等于任务死了 ② Brain 可以先工作，sandbox 后加载 ③ 一个 brain 可以调多个 hands</p>
+</div>
+
+<h3>5.5 关键点二：Session 的设计</h3>
+<div class="box pp">
+<blockquote><p><strong>Session is not Claude's context window.</strong></p></blockquote>
+<p><strong>这个区分是全篇最重要的判断。</strong> 很多 Agent 系统把 session、聊天记录、memory、上下文窗口混在一起——短任务还能撑，长任务很容易乱。</p>
+</div>
+<p><strong>一个靠谱的 session 至少应该记录</strong>：</p>
+<pre><code>user_input / model_response / tool_call / tool_result
+file_change / error / retry / approval / checkpoint</code></pre>
+<div class="box ok">
+<div class="t">分工</div>
+<blockquote><p><strong>Prompt 是工作区，Session 是账本。</strong></p></blockquote>
+<ul>
+<li>工作区可以整理、压缩、裁剪、重组</li>
+<li>账本要尽量完整、可查、可恢复</li>
+</ul>
+</div>
+<pre><code>原始事件长期保存
+      ↓
+Context Builder 动态选择
+      ↓
+当前模型调用看到一个高信号上下文</code></pre>
+<blockquote><p><strong>Context engineering 负责「这次模型该看什么」。Session event log 负责「系统到底发生过什么」。</strong></p></blockquote>
+<p><strong>为什么这层不能省</strong>：长任务 Agent 如果没有这一层，后面做 <strong>resume、trace、eval、debug 都会很难</strong>。</p>
+
+<h3>5.6 关键点三：Sandbox 的三个要求</h3>
+<ol>
+<li><strong>要隔离文件系统和网络</strong> —— <strong>模型生成代码必须按不可信代码处理</strong>。否则 prompt injection 可以诱导 Agent 读不该读的文件、访问不该访问的服务，把结果带出去</li>
+<li><strong>不该直接持有长期凭证</strong> —— 只要 sandbox 里有 GitHub token、数据库 key、云服务密钥，Agent 就有机会被诱导读取它们</li>
+<li><strong>要能重建和恢复</strong> —— 长任务一定会遇到失败；如果 sandbox 和 session 绑定太死，失败就会拖垮任务</li>
+</ol>
+
+<h3>5.7 完整架构图（文字版）</h3>
+<table>
+<thead><tr><th>模块</th><th>责任边界</th></tr></thead>
+<tbody>
+<tr><td><strong>Harness</strong></td><td><strong>控制面</strong> —— 负责调度模型、上下文、工具、策略</td></tr>
+<tr><td><strong>Session event log</strong></td><td><strong>持久状态</strong> —— 不跟某个容器绑定</td></tr>
+<tr><td><strong>Context Builder</strong></td><td>从 session、memory、skills、工具结果里<strong>组装高信号上下文</strong></td></tr>
+<tr><td><strong>Tool Router</strong></td><td>把动作<strong>分发</strong>给 MCP、代码执行环境、sandbox 或其他 hand</td></tr>
+<tr><td><strong>Sandbox</strong></td><td><strong>执行动作</strong> —— 可以失败，可以重建</td></tr>
+<tr><td><strong>Credential Proxy / Vault</strong></td><td><strong>管住凭证</strong> —— 不让不可信执行环境直接拿 token</td></tr>
+<tr><td><strong>Trace / Eval</strong></td><td>贯穿整个 run —— 让系统能复盘、回归、对比 harness 改动</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+<h2><span class="n">六</span>深度案例二：DeepSeek Harness（dsh）</h2>
+
+<h3>6.1 基本信息</h3>
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td>开源时间</td><td class="ok-b"><strong>2026-08-13（v0.1 开发者预览）</strong></td></tr>
+<tr><td>许可</td><td class="ok-b"><strong>MIT</strong></td></tr>
+<tr><td>定位</td><td><strong>Agent 微内核操作系统</strong></td></tr>
+<tr><td>官方定义</td><td><strong>Model + Harness = Agent</strong></td></tr>
+<tr><td>核心设计</td><td><strong>一切皆插件（Everything is a Plugin）</strong></td></tr>
+<tr><td>底层框架</td><td><strong>Cordis 插件系统</strong>（论文 <em>A Programming Paradigm for Spatiotemporal Composability</em>）</td></tr>
+<tr><td>对标</td><td><strong>OpenAI Codex</strong> 与 <strong>Anthropic Claude Cowork</strong></td></tr>
+<tr><td>时间线</td><td>2026-05 立项 → 06-10 第一条提交 → 08-13 v0.1</td></tr>
+</tbody>
+</table>
+
+<h3>6.2 核心公式的展开</h3>
+<div class="box">
+<blockquote><p><strong>Model + Harness = Agent</strong></p></blockquote>
+<p>模型负责<strong>预测下一个 token</strong>；<strong>Harness</strong> 决定模型能看到哪些上下文、调用哪些工具、记录什么会话事件、管理哪些文件与子进程。</p>
+<p><strong>把这些「决策权」做成可插拔的插件，就是 dsh 的核心价值。</strong></p>
+</div>
+
+<h3>6.3 一切皆插件</h3>
+<p>所有 Agent 能力都是插件，<strong>模型、工具、会话、沙箱、UI 都能在配置层自由替换</strong>：</p>
+<table>
+<thead><tr><th>插件类型</th><th>决定什么</th></tr></thead>
+<tbody>
+<tr><td><strong>模型插件</strong></td><td>模型适配器（V4-Flash / V4-Pro / OpenAI / Claude / 本地）</td></tr>
+<tr><td><strong>工具插件</strong></td><td>注册可调用工具（读文件 / 跑命令 / 调 API）</td></tr>
+<tr><td><strong>会话插件</strong></td><td>多轮对话 + 上下文窗口</td></tr>
+<tr><td><strong>沙箱插件</strong></td><td>隔离文件系统 + 网络 + 进程</td></tr>
+<tr><td><strong>UI 插件</strong></td><td>Web UI / CLI / Headless 三种使用方式</td></tr>
+</tbody>
+</table>
+<p><strong>启动时通过有序插件树组合这些能力，并叠加 profile / bundle / patch——无需改源码，即可在配置层定制自己的 Agent。</strong></p>
+
+<h3>6.4 四种运行模式</h3>
+<table>
+<thead><tr><th>模式</th><th>适用</th></tr></thead>
+<tbody>
+<tr><td><strong>Standard</strong></td><td>通用对话 / 问答（默认）</td></tr>
+<tr><td><strong>PTC（Programmatic Tool Calling）</strong></td><td>让模型用 <strong>TypeScript 组合多步工具调用</strong>，适合复杂工作流、跨工具编排</td></tr>
+<tr><td><strong>Minimal</strong></td><td>极简、纯模型对话（关闭大部分插件）</td></tr>
+<tr><td><strong>Creator</strong></td><td>自定义 Agent（给开发者最大自由度）</td></tr>
+</tbody>
+</table>
+
+<h3>6.5 三个关键转变（dsh 最有价值的部分）</h3>
+<table>
+<thead><tr><th>从</th><th>到</th><th>机制</th></tr></thead>
+<tbody>
+<tr><td>「框架能力」</td><td class="ok-b"><strong>「可治理运行时」</strong></td><td><strong>自改写运行时 + 沙箱 + fail-closed 设计</strong>，使治理成为动态、可观测的决策引擎</td></tr>
+<tr><td>「日志」</td><td class="ok-b"><strong>「事件-可重放-可审计」</strong></td><td><strong>事件溯源技术</strong>把 Agent 行为转化为<strong>可完整回放和审计的证据链</strong></td></tr>
+<tr><td>依赖「调参 / 自评」</td><td class="ok-b"><strong>「工程纪律与自动化守门」</strong></td><td><strong>代码覆盖率、自动化快照回归测试、死代码检测</strong>等机器强制门禁</td></tr>
+</tbody>
+</table>
+<p><strong>它要解决的是 Agent 从「能跑」到「敢交付」的治理缺口。</strong></p>
+
+<h3>6.6 可观测性</h3>
+<ul>
+<li>每次运行写入<strong>仅追加会话日志</strong></li>
+<li><strong>Trajectory 视图</strong>可查看：系统提示词 / 思维链 / 工具调用 / 子 Agent 调度</li>
+</ul>
+
+<h3>6.7 明确的局限（官方自述）</h3>
+<table>
+<thead><tr><th>局限</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>生产环境关键业务</strong></td><td>官方明确标注「开发者预览阶段，<strong>未来会有破坏性更新</strong>」</td></tr>
+<tr><td><strong>沙箱强度</strong></td><td>官方文档明确：「<strong>filesystem sandbox 不覆盖网络访问和进程可见性</strong>」，需自建加固层</td></tr>
+<tr><td><strong>非 DeepSeek 模型</strong></td><td>虽支持 OpenAI 兼容路由，但工具调用格式 / 推理行为 / 上下文限制<strong>需针对每条路由自测</strong></td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+<h2><span class="n">七</span>深度案例三：Codex Harness</h2>
+
+<h3>7.1 基本信息</h3>
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td>开源时间</td><td class="ok-b"><strong>2026-08-19</strong></td></tr>
+<tr><td>许可</td><td class="ok-b"><strong>Apache-2.0</strong></td></tr>
+<tr><td>迭代起点</td><td>2025 年 4 月</td></tr>
+<tr><td>驱动范围</td><td>Codex App、CLI 和 IDE 扩展</td></tr>
+</tbody>
+</table>
+
+<h3>7.2 设计理念（与 Anthropic 形成鲜明对比）</h3>
+<div class="box ok">
+<blockquote><p><strong>避免创建独立的 AI 应用外壳，而将 Agent 能力直接嵌入现有业务软件。</strong></p></blockquote>
+</div>
+
+<h3>7.3 三个开源组件</h3>
+<table>
+<thead><tr><th>组件</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td><code>codex exec</code></td><td>用于<strong>自动化流水线</strong>的 CLI 工具</td></tr>
+<tr><td><strong>Codex SDK</strong></td><td>提供<strong>编程式接口</strong></td></tr>
+<tr><td><code>app-server</code></td><td><strong>核心引擎</strong> —— 通过 <strong>JSON-RPC 协议</strong>连接业务应用与本地 Agent 进程</td></tr>
+</tbody>
+</table>
+
+<h3>7.4 它为什么被称为「生产级 Agent 的底层架构」</h3>
+<blockquote><p>Codex 通过 CLI 在本地执行可靠的代码改动，拥有<strong>完整的 Agent 循环编排能力</strong>，支持<strong>数百轮工具调用</strong>和<strong>自动上下文管理</strong>。</p></blockquote>
+
+<h3>7.5 行业判断</h3>
+<div class="box pp">
+<blockquote><p><strong>OpenAI 开源 Codex Harness 标志着：Agent 竞赛的重心，正从模型层下移至执行层。</strong></p></blockquote>
+<p>这与 Anthropic 的判断一致：两家在半年内都把 Harness 作为独立资产开源/公测，说明<strong>「模型是商品，Harness 才是护城河」已经从观点变成了动作</strong>。</p>
+</div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+<h2><span class="n">八</span>研究型 vs 生产型 Harness</h2>
+<div class="box warn">
+<div class="t">这是判断一个 Harness 是否「成熟」的核心标准</div>
+<p>很多 Agent demo 看起来很强，进入生产之后变得笨重、昂贵、难调。<strong>原因是研究型 harness 和生产型 harness 的目标不同。</strong></p>
+</div>
+
+<table>
+<thead><tr><th>维度</th><th>研究型 Harness</th><th>生产型 Harness</th></tr></thead>
+<tbody>
+<tr><td><strong>目标</strong></td><td>拉高任务成功率上限</td><td class="ok-b"><strong>在成本、延迟、安全约束下稳定交付</strong></td></tr>
+<tr><td><strong>状态</strong></td><td>transcript、本地文件、临时 progress file</td><td class="ok-b"><strong>外部 session log、checkpoint、event history</strong></td></tr>
+<tr><td><strong>上下文</strong></td><td>尽量多给模型</td><td class="ok-b"><strong>更小、更高信号的上下文集合</strong></td></tr>
+<tr><td><strong>工具</strong></td><td>能接多少接多少</td><td class="ok-b"><strong>动态发现、按需加载、权限收敛</strong></td></tr>
+<tr><td><strong>多 Agent</strong></td><td>优先尝试并行和角色分工</td><td class="ok-b"><strong>只在高价值、可并行任务中启用</strong></td></tr>
+<tr><td><strong>安全</strong></td><td>人工确认、简单隔离</td><td class="ok-b"><strong>sandbox、proxy、vault、scoped credential</strong></td></tr>
+<tr><td><strong>失败恢复</strong></td><td>重跑或人工接管</td><td class="ok-b"><strong>resume、replay、checkpoint、trace</strong></td></tr>
+<tr><td><strong>评估</strong></td><td>看最终 demo 是否完成</td><td class="ok-b"><strong>outcome eval、trace analysis、regression suite</strong></td></tr>
+<tr><td><strong>迭代方式</strong></td><td>加模块、加策略、加 Agent</td><td class="ok-b"><strong>做 ablation，删掉过时策略</strong></td></tr>
+</tbody>
+</table>
+
+<h3>一条关键概念：Harness 策略会被模型升级「重新定价」</h3>
+<blockquote><p>今天 planner 有用，明天可能拖慢系统；今天 evaluator 能救错，明天可能只是在增加成本；今天 context reset 是必要补丁，明天可能成了无用复杂度。</p></blockquote>
+<p><strong>所以生产型 harness 不能只会加东西，也要能删东西。</strong> 每次模型升级，都应该重新测：</p>
+<ul>
+<li>memory 是否有收益</li>
+<li>critic 是否有收益</li>
+<li>tool search 是否有收益</li>
+<li>multi-agent fanout 是否值得</li>
+<li>context reset 是否还需要</li>
+</ul>
+<div class="box ok">
+<blockquote><p><strong>Agent 工程里，能删掉过时复杂度，是一种很实际的能力。</strong></p></blockquote>
+</div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+<h2><span class="n">九</span>Harness 设计的五组取舍</h2>
+<p><strong>没有标准答案，只有取舍。</strong></p>
+
+<h3>9.1 单 Agent 还是多 Agent</h3>
+<blockquote><p>一个常见误区，是<strong>一上来就上多 Agent</strong>。但多 Agent 从来不是白拿的收益——它会带来<strong>额外路由开销、上下文损失、角色边界设计和更多失败点</strong>。</p>
+<p><strong>更稳的顺序通常是：先把单 Agent 做通，再把明显超载的职责拆出去。</strong></p></blockquote>
+
+<h3>9.2 ReAct 还是 Plan-and-Execute</h3>
+<table>
+<thead><tr><th></th><th>优点</th><th>类比</th></tr></thead>
+<tbody>
+<tr><td><strong>ReAct</strong></td><td>灵活，边想边做</td><td>即兴驾驶</td></tr>
+<tr><td><strong>Plan-and-Execute</strong></td><td>稳定，先摊开路线再逐段执行</td><td>先画施工图再开工</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>任务越长、代价越高、回滚越麻烦，越值得把计划层显式拿出来。</strong></p></blockquote>
+
+<h3>9.3 上下文到底怎么管</h3>
+<blockquote><p>很多团队的默认思路是「窗口大一点就好了」。<strong>但窗口变大，不代表中间位置的信息就更容易被利用。</strong></p>
+<p>成熟系统关心的是<strong>信号密度</strong>：哪些信息必须常驻、哪些只在需要时检索、哪些旧 Observation 应该折叠、哪些总结必须进入长期记忆。</p></blockquote>
+
+<h3>9.4 验证交给谁</h3>
+<blockquote><p>让生成器自己验自己，速度很快。<strong>问题是它通常也最容易放过自己。</strong></p>
+<p>所以只要任务一旦碰到代码、页面、部署、数据写入这些「能真测」的地方，<strong>外部验证几乎都是值得补上的</strong>。</p></blockquote>
+
+<h3>9.5 Harness 到底要多厚（最难的一组）</h3>
+<div class="box pp">
+<blockquote><p>Harness 太薄，很多稳定性问题只能靠模型自觉。</p>
+<p>Harness 太厚，系统会变得笨重、昂贵，而且<strong>和当前模型强绑定，模型一升级，很多脚手架可能反而成了负担</strong>。</p>
+<p><strong>好的 Harness 要一边补承重结构，一边等待模型进步后再把不再承重的部分删掉。</strong></p></blockquote>
+</div>
+
+<h3>9.6 一条量化经验</h3>
+<div class="box danger">
+<blockquote><p><strong>当工具数超过 10 个且职责重叠时，模型的调用质量会明显下降。</strong></p></blockquote>
+<p>如果不是明确必要，更稳的做法是<strong>只暴露当前步骤会用到的最小工具集</strong>。</p>
+</div>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+<h2><span class="n">十</span>AGENTS.md / Spec / Skills 也是 Harness</h2>
+<div class="box ok">
+<div class="t">这一节连接了本会话前几轮的所有发现</div>
+<blockquote><p><strong>很多人以为 Harness 只是 Runtime，其实不是。Harness 真正吃力的地方，往往是那些把团队经验外移成工件的层。</strong></p></blockquote>
+<p>这三层解决的是同一个问题：<strong>尽量缩小「必须靠模型临场发挥」的面积。</strong></p>
+</div>
+
+<table>
+<thead><tr><th>层</th><th>回答什么</th><th>类比</th></tr></thead>
+<tbody>
+<tr><td><strong><code>AGENTS.md</code></strong></td><td>这个仓库怎么读 / 哪些规则先于当前任务 / 哪些入口才是标准入口 / 改哪些东西必须联动哪些检查</td><td><strong>仓库地图</strong></td></tr>
+<tr><td><strong>Spec</strong></td><td>这次到底要交付什么 / 哪些边界不能越 / 什么叫「做完了」 / 哪些验收条件必须先对齐</td><td><strong>本轮任务契约</strong></td></tr>
+<tr><td><strong>Skills</strong></td><td>这类问题以后通常怎么做 / 哪些步骤高频而稳定 / 哪些检查和脚手架值得复用</td><td><strong>团队程序性记忆</strong></td></tr>
+</tbody>
+</table>
+
+<p><strong>它们合起来在做同一件事</strong>：</p>
+<ul>
+<li>把知识从<strong>聊天记录</strong>里搬出来</li>
+<li>把规则从 <strong>review 口头提醒</strong>里搬出来</li>
+<li>把经验从<strong>某个资深工程师脑子里</strong>搬出来</li>
+<li>把验证从「我觉得差不多」搬到<strong>系统动作</strong>里</li>
+</ul>
+
+<div class="box pp">
+<div class="t">这条线接回前几轮的发现</div>
+<p><strong>上一轮社区调研的最高分诉求是 <code>AGENTS.md</code> 跨工具标准（Claude Code #6235，4,060 👍）</strong>——现在可以理解它为什么是「最强的单一诉求」：<strong>它不是配置文件偏好问题，它是 Harness 的一层。</strong></p>
+<p><strong>第七轮发现的 Agent Skills 生态（102 家官方厂商、数千个官方 skill）</strong> 同理——<strong>Skills 是 Harness 的程序性记忆层。</strong></p>
+<blockquote><p><strong>门槛在于：软件工程能不能被改造成对 Agent 可见、可验证、可执行的系统。</strong></p></blockquote>
+</div>
+</section>
+
+<!-- 11 -->
+<section id="s11">
+<h2><span class="n">十一</span>企业实践案例</h2>
+<p>Harness Engineering 已经不只停留在软件业。</p>
+<table>
+<thead><tr><th>企业</th><th>领域</th><th>做法</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td><strong>TCL 格创东智</strong></td><td>工业制造</td><td>「章鱼智脑」AgenticAI 平台；企业上下文接入 + <strong>双模双轨双 Know-how</strong> + 智能体协同工程化 + 工业级运维安全</td><td>半导体 AIAuto-Pilot 决策中枢与 CIM 系统协同，<strong>重要异常结案时间缩短至 0.5 小时</strong>；已在泛半导体行业落地数百个 AI/Agent 闭环执行项目</td></tr>
+<tr><td><strong>昕诺飞（Signify）</strong></td><td>智能照明</td><td><strong>六层约束框架</strong>把大模型输出转化为稳定可控的行业控制行为；<strong>三层叠加记忆机制</strong></td><td>应用于 The Edge 等建筑；<strong>7×24 小时不间断在线</strong>，长期不遗忘、不漂移、可追溯</td></tr>
+<tr><td><strong>萤石（Ezviz）</strong></td><td>AIoT</td><td>萤石蓝海 AIoT 一站式工作台（对话式生成 + AIoT 集成 + 一键部署运维 + 应用模板市场）</td><td>AI 巡检数字助手落地某大型跨城企业园区，<strong>覆盖 300+ 固定点位</strong></td></tr>
+<tr><td><strong>明日新程（Nextie）</strong></td><td>群体智能</td><td>李笛（原微软小冰负责人）2025-12 创立；产品「团子」tuanzi.ai 采用多智能体「<strong>认知碰撞</strong>」与收敛机制</td><td>2026-04 获创新工场、Atypical Ventures 领投，奇绩创坛跟投</td></tr>
+</tbody>
+</table>
+
+<h3>两个新衍生概念</h3>
+<table>
+<thead><tr><th>概念</th><th>定义</th></tr></thead>
+<tbody>
+<tr><td><strong>Coordination Engineering（协调工程）</strong></td><td>Harness Engineering 延伸出面向团队协作的范式：在 Harness SDK Agent 个体能力之上<strong>增加协调层</strong>，解决团队编排、任务调度、通信协议等系统工程问题</td></tr>
+<tr><td><strong>Runtime Harness 阶段</strong></td><td>综述把大模型系统演进概括为 Prompt Engineering → Context Engineering → <strong>Runtime Harness</strong>（2025 至今）</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<div class="t">工业场景的一条特殊洞察</div>
+<blockquote><p>工业实践强调<strong>双模双轨协同</strong>：<strong>大模型负责语义理解、任务拆解和决策调度</strong>，而<strong>小模型与工业机理模型承担高确定性执行</strong>——以应对工业场景对确定性、安全性、实时性和可追溯性的严苛要求。</p></blockquote>
+<p><strong>这条对任何高可靠性场景都有借鉴意义</strong>：不是所有环节都该交给概率模型。</p>
+</div>
+</section>
+
+<!-- 12 -->
+<section id="ev">
+<h2><span class="n">十二</span>数据可信度</h2>
+
+<h3>12.1 来源分级</h3>
+<table>
+<thead><tr><th>级别</th><th>来源</th><th>可信度</th></tr></thead>
+<tbody>
+<tr><td><span class="pill p-g">A 级</span>厂商官方</td><td>Claude Managed Agents 架构（Anthropic 官方技术博客的拆解引述）；Codex Harness 开源信息；DeepSeek Harness 官方仓库 README 与文档</td><td class="ok-b"><strong>高</strong></td></tr>
+<tr><td><span class="pill p-g">A 级</span>本会话一手核验</td><td>前十一轮核验的 GitHub 星数（OpenHands 90,850★ / Goose 55,269★ / Hermes 253,604★ 等）；agentskills.io 规范原文；skills.sh 102 家官方厂商</td><td class="ok-b"><strong>高</strong></td></tr>
+<tr><td><span class="pill p-b">B 级</span>学术综述</td><td>《Towards Long-Horizon Agents: A Survey》（中国人民大学高瓴人工智能学院等，2026-07）；<em>Agent Harness Engineering: A Survey</em>（CMU / Yale / JHU / NEU / Tulane / UAB / OSU / Virginia Tech / Amazon，2026）</td><td class="warn-b">中高（<strong>均为引述，未读原文</strong>）</td></tr>
+<tr><td><span class="pill p-b">B 级</span>具名工程解读</td><td>Akshay 的 <em>The Anatomy of an Agent Harness</em>（经中文工程博客转述，含 12 组件拆解与设计取舍）；Anthropic Harness 博客的中文拆解</td><td class="warn-b">中高</td></tr>
+<tr><td><span class="pill p-b">B 级</span>三方定价核验</td><td>E2B / Daytona / Modal 对比（标注「2026-10-08 核价，逐条对照厂商定价页」）</td><td class="warn-b">中高</td></tr>
+<tr><td><span class="pill p-y">C 级</span>百科与媒体</td><td>百度百科「驾驭工程」/「Codex Harness」/「DeepSeek Harness」条目；中文科技媒体解读</td><td class="warn-b">中（<strong>部分引述无原始英文出处</strong>）</td></tr>
+</tbody>
+</table>
+
+<h3>12.2 明确未核实 / 存疑项</h3>
+<ol>
+<li><strong>「Agent Harness Engineering: A Survey」原文未获取</strong>：本轮只拿到引述（开头段落与「reliability depends less on the underlying model than on the infrastructure layer」这一核心论断），<strong>未读到完整 taxonomy</strong>。</li>
+<li><strong>《Towards Long-Horizon Agents: A Survey》原文未获取</strong>：六组件拆分（循环与工作流 / 上下文与记忆 / 工具 / MCP与技能 / 编排 / Hooks与中间件 / 验证）为引述。</li>
+<li><strong>Akshay 的《The Anatomy of an Agent Harness》原文未获取</strong>：12 组件、76.4% 通过率、TerminalBench 2.0 名次等数据均为<strong>中文工程博客转述</strong>。</li>
+<li><strong>LangChain TerminalBench 2.0「前 30 名外 → 第 5」</strong>：转述数据，<strong>未核验榜单</strong>。原引述文章自身也标注了「榜单结果不能直接等同于真实产品体验」。</li>
+<li><strong>「Boris Cherny：质量提升 2-3 倍」</strong>：转述，未取得原始出处。</li>
+<li><strong>DeepSeek Harness 的「三个关键转变」</strong>：来自百度百科对某篇分析的引述，<strong>未读原文</strong>。</li>
+<li><strong>Codex Harness 的组件细节</strong>：来自百度百科条目，<strong>未直接读官方仓库</strong>。</li>
+<li><strong>沙箱定价</strong>：为 2026-10-08 快照，<strong>厂商调价频繁</strong>，签约前需自行核对。</li>
+<li><strong>企业案例数据</strong>（TCL 0.5 小时、萤石 300+ 点位、Signify 六层框架）：来自百度百科引述企业白皮书/公告，<strong>未独立核实</strong>。</li>
+<li><strong>「Hashimoto 于 2026-02-05 首次提出」</strong>：来自百度百科，<strong>未取得原始英文出处</strong>（上一轮已标注同一问题）。</li>
+</ol>
+
+<h3>12.3 本轮方法说明</h3>
+<div class="box warn">
+<div class="t">这轮的抓取困难比上一轮更大</div>
+<ul>
+<li><strong>51CTO 的文章被腾讯云 EdgeOne 拦在验证页</strong>（返回 0 行正文），那篇「一次性总结所有 AI Agent Harness 工具」未能获取</li>
+<li><strong>知乎全文拒绝 WebFetch</strong></li>
+<li><strong>GitHub 页面 HTML 抓取持续失败</strong>（本会话已知问题）</li>
+<li><strong>CSDN 部分文章正文需渲染</strong></li>
+</ul>
+<p><strong>相对可靠的做法</strong>：优先抓取<strong>带具名作者 + 完整方法论 + 原始数字</strong>的工程解读（如那篇 Harness「系统层」文章，含完整六层拆解与设计取舍），以及<strong>能拿到原文的规范类文档</strong>。对于厂商架构，<strong>优先采用有多篇独立来源交叉印证的版本</strong>（Claude Managed Agents 的 Session/Harness/Sandbox 三分解构在至少 4 篇独立文章中一致出现，可信度较高）。</p>
+</div>
+<div class="box danger">
+<div class="t">一个必须说明的边界</div>
+<p><strong>「成熟」的判断标准是公开资料的完整度 + 厂商投入 + 生产案例，不是实际使用体验。</strong> 本轮为桌面调研，<strong>未实际部署运行任何一个 Harness</strong>。</p>
+</div>
+</section>
+
+<footer>
+报告生成：2026-10-14 ｜ 核验：Anthropic Managed Agents 架构拆解 + Codex Harness 开源信息 + DeepSeek Harness 官方文档 + Agent Harness 综述引述 + E2B/Daytona/Modal 三方定价 + 中文工程界 Harness 全景 ｜ 本机环境：Windows 11<br>
+配套文件：<code>report.md</code> · <code>data/harness-landscape.json</code>
+</footer>
+
+</main>
+</div>
+
+<script>
+var links=document.querySelectorAll('nav a');
+var secs=document.querySelectorAll('section');
+function onScroll(){
+  var y=window.scrollY+140,cur=secs[0]?secs[0].id:null;
+  for(var i=0;i<secs.length;i++){if(secs[i].offsetTop<=y){cur=secs[i].id}}
+  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+</body>
+</html>

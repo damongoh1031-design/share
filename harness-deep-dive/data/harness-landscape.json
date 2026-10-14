@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "question": "有什么成熟的 Harness 做深入介绍",
+    "generated_at": "2026-10-14",
+    "formula": "Agent = Model + Harness（LangChain 提出）",
+    "definition": "Harness 是模型之外的一切代码、配置与执行逻辑",
+    "core_philosophy": "人类掌舵，智能体执行（Mitchell Hashimoto, 2026-02-05 首次提出驾驭工程）",
+    "three_stages": ["Prompt Engineering", "Context Engineering", "Runtime Harness（2025 至今）"],
+    "key_thesis": "task execution reliability depends less on the underlying model than on the infrastructure layer that wraps it"
+  },
+  "anatomy_six_layers": [
+    {
+      "n": 1, "name": "主循环",
+      "role": "Harness 的心脏",
+      "surface": "组装输入 → 调用模型 → 解析输出 → 执行工具 → 塞回结果 → 再来一轮",
+      "difficulty": "每一步到底由谁控制、何时终止、出错后怎么回来",
+      "common_failures": ["无限转圈", "提前收尾", "误把中间结果当最终结果"],
+      "quote": "很多人第一次做 Agent，会把注意力放在「模型有没有想明白」。上线以后，最先暴露的反而是循环失控"
+    },
+    {
+      "n": 2, "name": "工具系统",
+      "role": "Agent 的手",
+      "four_duties": ["工具如何注册", "参数如何校验", "执行环境是否隔离", "结果如何回写成 Observation"],
+      "comparison": {
+        "claude_code": "六类：文件操作、搜索、执行、Web 访问、代码智能、子 Agent 派生",
+        "openai_agents_sdk": "三类：函数工具、托管工具、MCP 工具"
+      },
+      "quote": "模型知道可以调用什么工具，只是起点。它能不能在合适的时候调用、带着正确参数调用、在失败后继续恢复，才是 Harness 的事情"
+    },
+    {
+      "n": 3, "name": "上下文与记忆",
+      "role": "该记什么、什么时候记、什么时候删",
+      "claude_code_three_tier": [
+        {"tier": "① 轻量索引", "content": "每条约 150 字符", "loading": "始终加载"},
+        {"tier": "② 详细主题文件", "content": "具体主题的展开", "loading": "按需拉取"},
+        {"tier": "③ 原始会话记录", "content": "完整历史", "loading": "只通过搜索访问"}
+      ],
+      "principle": "成熟系统不会把记忆当真相，而是把它当线索",
+      "warning": "记忆如果不能被验证，就很容易从「帮助检索」滑向「帮助幻觉」"
+    },
+    {
+      "n": 4, "name": "状态与检查点",
+      "role": "让长任务可以继续",
+      "questions": ["当前做到哪一步", "失败后从哪恢复", "哪些中间产物值得保留", "哪些只是临时噪音"],
+      "two_paths": ["结构化状态对象做 checkpoint", "git commit + 进度文件 + 任务日志一起当恢复点"],
+      "quote": "让长任务可以继续，而不是每次都从头赌一遍"
+    },
+    {
+      "n": 5, "name": "权限、错误与安全护栏",
+      "role": "最被低估的一层",
+      "quote": "一个看起来很能干的 Agent，如果没有权限控制，本质上只是一个事故放大器",
+      "design_principle": "把「模型想做什么」和「系统允许做什么」拆开",
+      "split": {"model": "负责提出动作", "tool_system": "负责决定能不能做、要不要确认、失败后重试/回传错误/直接终止"},
+      "enterprise_conclusion": "权限与治理必须在基础设施层通过沙箱、权限策略等机制强制执行，而非依赖提示词"
+    },
+    {
+      "n": 6, "name": "验证与纠偏",
+      "role": "Demo 和生产的分水岭",
+      "quote": "工具给了模型行动能力。验证才给了模型纠错能力。",
+      "feedback_loop": ["测试", "lint", "类型检查", "页面截图", "端到端操作", "另一个专门负责挑刺的评估器"],
+      "hard_data": "Boris Cherny（Claude Code 创始人）：给模型一种能验证自己工作的方式，质量提升 2 到 3 倍",
+      "warning": "没有验证，Harness 很容易变成「更快地产出错结果」"
+    }
+  ],
+  "loop_seven_steps": [
+    {"n": 1, "step": "组装输入", "detail": "system prompt + 工具定义 + 记忆 + 会话状态 + 当前任务"},
+    {"n": 2, "step": "模型推理", "detail": "决定这轮是直接回答还是先调工具"},
+    {"n": 3, "step": "分类输出", "detail": "纯文本无 tool call → 可能结束；有工具调用 → 进入执行"},
+    {"n": 4, "step": "执行工具", "detail": "先参数校验 → 再权限检查 → 再决定并发读 / 串行改 / 直接拒绝"},
+    {"n": 5, "step": "回写结果", "detail": "重新包装成 Observation；失败不能静默吞掉，要回成明确错误"},
+    {"n": 6, "step": "更新状态", "detail": "会话历史、检查点、工作记忆、压缩触发条件"},
+    {"n": 7, "step": "决定是否继续", "detail": "完成 / 预算用尽 / 达最大轮数 / 用户中断 / 安全护栏触发"}
+  ],
+  "why_2026": [
+    {"n": 1, "evidence": "只换 Harness 不换权重，名次可跳一个量级", "data": "LangChain 只换外围基础设施，从 TerminalBench 2.0 前 30 名外拉到第 5；有研究把「优化 Harness」本身当搜索对象，拿到 76.4% 通过率", "caveat": "榜单结果不等于真实产品体验"},
+    {"n": 2, "evidence": "长任务误差快速累积", "data": "10 步流程，每步 99% 成功率 → 全链路只有约 90%"},
+    {"n": 3, "evidence": "减法比加法更有效", "data": ["Vercel 在 v0 上删掉 80% 工具，表现反而更好", "Claude Code 靠懒加载实现 95% 上下文缩减", "Manus 半年内重建 Harness 五次，每次都在做减法"]}
+  ],
+  "landscape": {
+    "vendor_official": [
+      {"name": "Claude Managed Agents", "vendor": "Anthropic", "time": "2026-04 公测", "license": null, "core": "Session / Harness / Sandbox 三分解构；Brain-Hands 解耦", "route": "托管运行时"},
+      {"name": "Codex Harness", "vendor": "OpenAI", "time": "2026-08-19 开源", "license": "Apache-2.0", "core": "把 Agent 能力嵌入现有业务软件；app-server + JSON-RPC", "route": "嵌入现有软件"},
+      {"name": "DeepSeek Harness (dsh)", "vendor": "DeepSeek", "time": "2026-08-13 v0.1", "license": "MIT", "core": "一切皆插件（Cordis）；Model + Harness = Agent", "route": "微内核 + 插件"}
+    ],
+    "open_source_agents": [
+      {"name": "OpenHands", "stars": "90,850★", "note": "前身 OpenDevin；生产级自主选项；1880 万美元 A 轮；AMD/Apple/Google/Amazon/Netflix 在用"},
+      {"name": "OpenCode", "stars": null, "note": "MIT；相对完整的开发体验；多模型接入、文件操作、会话与工作区体验"},
+      {"name": "Pi", "stars": null, "note": "可扩展、多 provider 支持"},
+      {"name": "Goose", "stars": "55,269★", "note": "AAIF 创始项目；MCP 即扩展模型，70+ 内置扩展"},
+      {"name": "Hermes Agent", "stars": "253,604★", "note": "持久记忆 + bot_relay + cron"},
+      {"name": "SWE-agent", "stars": null, "note": "学术路线；SWE-bench 原始实现"}
+    ],
+    "sandbox_infra": {
+      "watershed": "2026-04-15 OpenAI Agents SDK 发布，沙箱成为原生一等公民原语",
+      "four_things": ["原生沙箱执行", "Codex 风格的 agent harness", "snapshot / rehydrate 生命周期", "七个内置 provider + bring-your-own"],
+      "providers": ["Blaxel", "Cloudflare", "Daytona", "E2B", "Modal", "Runloop", "Vercel"],
+      "key_abstraction": "workspace Manifest - mount 本地文件、定义输出目录、从 S3/GCS/Azure Blob/Cloudflare 拉数据，跨 provider 可移植",
+      "comparison": {
+        "note": "2026-10-08 核价",
+        "rows": [
+          {"dim": "隔离", "e2b": "Firecracker microVM（每沙箱独立内核）", "daytona": "默认容器；有 Linux VM / Windows VM 类", "modal": "默认 gVisor；VM runtime 2026-10-01 GA"},
+          {"dim": "冷启动", "e2b": "~150ms（从快照）", "daytona": "~71-90ms（热池/快照）", "modal": "亚秒到 2-4s"},
+          {"dim": "Pause with memory", "e2b": "✅ resume ~1s，计费停止", "daytona": "仅 VM 沙箱", "modal": "文件系统快照；内存快照实验性且 7 天过期"},
+          {"dim": "Fork", "e2b": "✅ 一次调用最多 20 份，带内存", "daytona": "VM 沙箱，带内存", "modal": "快照后创建"},
+          {"dim": "连续运行上限", "e2b": "1h Hobby / 24h Pro", "daytona": "默认 15 分钟空闲后自动停止", "modal": "默认 5 分钟 / 最大 24h"},
+          {"dim": "GPU", "e2b": "❌ 不提供", "daytona": "✅ 最多 8 GPU", "modal": "✅ 仅 gVisor runtime"},
+          {"dim": "许可 / 自托管", "e2b": "Apache-2.0，可自托管", "daytona": "曾 AGPL-3.0；2026-06 核心转私有（社区 fork：Nightona）", "modal": "闭源云，无自托管"},
+          {"dim": "vCPU 费率", "e2b": "$0.0504/vCPU-hr", "daytona": "$0.0504/vCPU-hr", "modal": "$0.071/vCPU-hr（40% 溢价）"},
+          {"dim": "内存费率", "e2b": "$0.0162/GiB-hr", "daytona": "与 E2B 持平", "modal": "$0.024/GiB-hr"},
+          {"dim": "企业背书", "e2b": "88% 的 Fortune 100 已签约；$21M A 轮", "daytona": "SOC 2/HIPAA/GDPR；$24M A 轮", "modal": "SOC 2 + HIPAA；$355M C 轮 @ $4.65B"}
+        ]
+      },
+      "other_players": ["Fly.io Sprites", "Docker Sandboxes", "Deno Sandbox", "Cloudflare Sandbox SDK（1.0 于 2026-09-30）"],
+      "threat_model": ["通过检索网页内容的间接 prompt injection", "通过攻击者发布的 Python 包、针对 agent 运行的供应链攻击", "监管对 agent 能触及客户数据的关注"],
+      "key_insight": "agent 被视为对抗性的。它代码能触及的一切都是爆炸半径的一部分。沙箱的职责是让半径小、有时间界、可审计",
+      "often_missed_boundary": "沙箱是按设计以 session 为界的，而 deployment 恰恰是 session 所不是的一切"
+    },
+    "agent_sdks": [
+      {"name": "Claude Agent SDK", "vendor": "Anthropic", "note": "与 Claude Code 同源"},
+      {"name": "OpenAI Agents SDK", "vendor": "OpenAI", "note": "原生沙箱 + 七 provider + Manifest 抽象 + Temporal 扩展（sandbox agent 可作为 durable workflow 运行）"},
+      {"name": "Google ADK", "vendor": "Google", "note": null},
+      {"name": "AWS Strands Agents", "vendor": "AWS", "note": null},
+      {"name": "Microsoft Agent Framework", "vendor": "Microsoft", "note": "AutoGen + Semantic Kernel 合并"}
+    ],
+    "eval_harness": [
+      {"name": "Harbor", "note": "内置 40+ Agent 集成（Claude Code、Codex、OpenHands 等），只需 -a claude-code / -a codex / -a openhands 即可在容器化任务环境中自动安装并驱动对应智能体完成评测"}
+    ]
+  },
+  "case_claude_managed_agents": {
+    "four_phases": [
+      {"phase": "① 长上下文", "grip": "100K / 200K context window", "limit": "长上下文只是工作区变大了，不等于系统有了可靠记忆"},
+      {"phase": "② workflow vs autonomous loop", "grip": "《Building Effective AI Agents》区分两者", "limit": "稳定业务流程用 workflow 更便宜、更稳、更易调试"},
+      {"phase": "③ 工具 / 上下文 / 安全", "grip": "think tool、multi-agent research、context engineering、Agent Skills、Claude Code sandboxing、MCP", "limit": "主题分散但都指向同一个问题"},
+      {"phase": "④ Runtime 层", "grip": "Managed Agents", "limit": null}
+    ],
+    "mainline": "长上下文 → 工具循环 → 上下文工程 → 安全执行 → 可恢复运行时",
+    "core_logic": "不要把会变化的东西绑死在一起",
+    "key_quote": "Harnesses encode assumptions that go stale as models improve.",
+    "concrete_example": "Claude Sonnet 4.5 接近上下文上限时容易提前结束任务 → harness 加了 context reset；到 Claude Opus 4.5 这个行为消失了 → reset 逻辑变多余",
+    "lesson": "不要把今天模型的缺陷，写成明天系统的架构",
+    "eight_interfaces": ["Session：任务发生过什么", "Harness：下一步怎么调度", "Sandbox：动作在哪里执行", "Tool interface：动作如何被调用", "Credential boundary：动作是否被授权", "Context builder：这次模型该看什么", "Trace / Eval：过程和结果如何被复盘"],
+    "brain_hands_decoupling": {
+      "brain": "Claude + harness",
+      "hands": "sandbox、MCP server、外部工具、设备、浏览器、代码执行环境",
+      "early_problem": "把 brain 放进 hands 里 → 容器变成 pet server（不能轻易丢、挂了要救、调试要进去看）",
+      "solution": "让 harness 离开 sandbox；harness 成为相对无状态的控制面，sandbox 变成可调用、可重建的执行资源",
+      "interface": "execute(name, input) -> string",
+      "three_benefits": ["Sandbox 挂了，不等于任务死了", "Brain 可以先工作，sandbox 后加载", "一个 brain 可以调多个 hands"]
+    },
+    "session_design": {
+      "key_statement": "Session is not Claude's context window.",
+      "should_record": ["user_input", "model_response", "tool_call", "tool_result", "file_change", "error", "retry", "approval", "checkpoint"],
+      "division": "Prompt 是工作区，Session 是账本",
+      "structure": "原始事件长期保存 → Context Builder 动态选择 → 当前模型调用看到一个高信号上下文",
+      "boundary": "Context engineering 负责「这次模型该看什么」；Session event log 负责「系统到底发生过什么」"
+    },
+    "sandbox_three_requirements": [
+      "要隔离文件系统和网络 - 模型生成代码必须按不可信代码处理",
+      "不该直接持有长期凭证",
+      "要能重建和恢复（snapshot / resume）"
+    ],
+    "architecture_modules": [
+      {"module": "Harness", "responsibility": "控制面 - 调度模型、上下文、工具、策略"},
+      {"module": "Session event log", "responsibility": "持久状态 - 不跟某个容器绑定"},
+      {"module": "Context Builder", "responsibility": "从 session、memory、skills、工具结果里组装高信号上下文"},
+      {"module": "Tool Router", "responsibility": "把动作分发给 MCP、代码执行环境、sandbox 或其他 hand"},
+      {"module": "Sandbox", "responsibility": "执行动作 - 可以失败，可以重建"},
+      {"module": "Credential Proxy / Vault", "responsibility": "管住凭证 - 不让不可信执行环境直接拿 token"},
+      {"module": "Trace / Eval", "responsibility": "贯穿整个 run - 让系统能复盘、回归、对比 harness 改动"}
+    ]
+  },
+  "case_deepseek_harness": {
+    "basic": {"open_source": "2026-08-13（v0.1 开发者预览）", "license": "MIT", "positioning": "Agent 微内核操作系统", "definition": "Model + Harness = Agent", "core_design": "一切皆插件（Everything is a Plugin）", "base_framework": "Cordis 插件系统（论文 A Programming Paradigm for Spatiotemporal Composability）", "benchmark_against": "OpenAI Codex 与 Anthropic Claude Cowork", "timeline": "2026-05 立项 → 06-10 第一条提交 → 08-13 v0.1"},
+    "formula_expansion": "模型负责预测下一个 token；Harness 决定模型能看到哪些上下文、调用哪些工具、记录什么会话事件、管理哪些文件与子进程",
+    "plugin_types": [
+      {"type": "模型插件", "decides": "模型适配器（V4-Flash / V4-Pro / OpenAI / Claude / 本地）"},
+      {"type": "工具插件", "decides": "注册可调用工具（读文件 / 跑命令 / 调 API）"},
+      {"type": "会话插件", "decides": "多轮对话 + 上下文窗口"},
+      {"type": "沙箱插件", "decides": "隔离文件系统 + 网络 + 进程"},
+      {"type": "UI 插件", "decides": "Web UI / CLI / Headless 三种使用方式"}
+    ],
+    "composition": "启动时通过有序插件树组合，叠加 profile / bundle / patch - 无需改源码即可在配置层定制",
+    "four_modes": [
+      {"mode": "Standard", "use": "通用对话 / 问答（默认）"},
+      {"mode": "PTC（Programmatic Tool Calling）", "use": "让模型用 TypeScript 组合多步工具调用，适合复杂工作流、跨工具编排"},
+      {"mode": "Minimal", "use": "极简、纯模型对话（关闭大部分插件）"},
+      {"mode": "Creator", "use": "自定义 Agent（给开发者最大自由度）"}
+    ],
+    "three_shifts": [
+      {"from": "「框架能力」", "to": "「可治理运行时」", "mechanism": "自改写运行时 + 沙箱 + fail-closed 设计，使治理成为动态、可观测的决策引擎"},
+      {"from": "「日志」", "to": "「事件-可重放-可审计」", "mechanism": "事件溯源技术把 Agent 行为转化为可完整回放和审计的证据链"},
+      {"from": "依赖「调参 / 自评」", "to": "「工程纪律与自动化守门」", "mechanism": "代码覆盖率、自动化快照回归测试、死代码检测等机器强制门禁"}
+    ],
+    "purpose": "解决 Agent 从「能跑」到「敢交付」的治理缺口",
+    "observability": ["每次运行写入仅追加会话日志", "Trajectory 视图可查看系统提示词 / 思维链 / 工具调用 / 子 Agent 调度"],
+    "stated_limits": [
+      "生产环境关键业务：官方标注「开发者预览阶段，未来会有破坏性更新」",
+      "沙箱强度：官方文档明确「filesystem sandbox 不覆盖网络访问和进程可见性」，需自建加固层",
+      "非 DeepSeek 模型：工具调用格式 / 推理行为 / 上下文限制需针对每条路由自测"
+    ]
+  },
+  "case_codex_harness": {
+    "basic": {"open_source": "2026-08-19", "license": "Apache-2.0", "iteration_start": "2025-04", "drives": "Codex App、CLI 和 IDE 扩展"},
+    "design_philosophy": "避免创建独立的 AI 应用外壳，而将 Agent 能力直接嵌入现有业务软件",
+    "components": [
+      {"name": "codex exec", "role": "用于自动化流水线的 CLI 工具"},
+      {"name": "Codex SDK", "role": "提供编程式接口"},
+      {"name": "app-server", "role": "核心引擎 - 通过 JSON-RPC 协议连接业务应用与本地 Agent 进程"}
+    ],
+    "why_production_grade": "通过 CLI 在本地执行可靠的代码改动，拥有完整的 Agent 循环编排能力，支持数百轮工具调用和自动上下文管理",
+    "industry_judgment": "Agent 竞赛的重心，正从模型层下移至执行层"
+  },
+  "research_vs_production": {
+    "note": "判断一个 Harness 是否「成熟」的核心标准",
+    "rows": [
+      {"dim": "目标", "research": "拉高任务成功率上限", "production": "在成本、延迟、安全约束下稳定交付"},
+      {"dim": "状态", "research": "transcript、本地文件、临时 progress file", "production": "外部 session log、checkpoint、event history"},
+      {"dim": "上下文", "research": "尽量多给模型", "production": "更小、更高信号的上下文集合"},
+      {"dim": "工具", "research": "能接多少接多少", "production": "动态发现、按需加载、权限收敛"},
+      {"dim": "多 Agent", "research": "优先尝试并行和角色分工", "production": "只在高价值、可并行任务中启用"},
+      {"dim": "安全", "research": "人工确认、简单隔离", "production": "sandbox、proxy、vault、scoped credential"},
+      {"dim": "失败恢复", "research": "重跑或人工接管", "production": "resume、replay、checkpoint、trace"},
+      {"dim": "评估", "research": "看最终 demo 是否完成", "production": "outcome eval、trace analysis、regression suite"},
+      {"dim": "迭代方式", "research": "加模块、加策略、加 Agent", "production": "做 ablation，删掉过时策略"}
+    ],
+    "repricing_concept": "Harness 策略会被模型升级「重新定价」",
+    "retest_checklist": ["memory 是否有收益", "critic 是否有收益", "tool search 是否有收益", "multi-agent fanout 是否值得", "context reset 是否还需要"],
+    "quote": "Agent 工程里，能删掉过时复杂度，是一种很实际的能力"
+  },
+  "design_tradeoffs": [
+    {"n": 1, "tradeoff": "单 Agent 还是多 Agent", "guidance": "一上来就上多 Agent 是常见误区。多 Agent 会带来额外路由开销、上下文损失、角色边界设计和更多失败点。更稳的顺序是先做通单 Agent，再把明显超载的职责拆出去"},
+    {"n": 2, "tradeoff": "ReAct 还是 Plan-and-Execute", "guidance": "ReAct 灵活（即兴驾驶），Plan-and-Execute 稳定（先画施工图）。任务越长、代价越高、回滚越麻烦，越值得把计划层显式拿出来"},
+    {"n": 3, "tradeoff": "上下文到底怎么管", "guidance": "窗口变大不代表中间位置的信息就更容易被利用。成熟系统关心信号密度"},
+    {"n": 4, "tradeoff": "验证交给谁", "guidance": "让生成器自己验自己，速度很快，但它通常也最容易放过自己。碰到代码、页面、部署、数据写入这些「能真测」的地方，外部验证几乎都值得补上"},
+    {"n": 5, "tradeoff": "Harness 到底要多厚", "guidance": "太薄则稳定性只能靠模型自觉；太厚则笨重、昂贵、和当前模型强绑定。好的 Harness 要一边补承重结构，一边等待模型进步后再把不再承重的部分删掉"}
+  ],
+  "quantitative_rule": "当工具数超过 10 个且职责重叠时，模型的调用质量会明显下降 - 只暴露当前步骤会用到的最小工具集",
+  "agents_md_spec_skills": {
+    "thesis": "很多人以为 Harness 只是 Runtime，其实不是。Harness 真正吃力的地方，往往是那些把团队经验外移成工件的层",
+    "shared_goal": "尽量缩小「必须靠模型临场发挥」的面积",
+    "layers": [
+      {"layer": "AGENTS.md", "answers": ["这个仓库怎么读", "哪些规则先于当前任务", "哪些入口才是标准入口", "改哪些东西必须联动哪些检查"], "metaphor": "仓库地图"},
+      {"layer": "Spec", "answers": ["这次到底要交付什么", "哪些边界不能越", "什么叫「做完了」", "哪些验收条件必须先对齐"], "metaphor": "本轮任务契约"},
+      {"layer": "Skills", "answers": ["这类问题以后通常怎么做", "哪些步骤高频而稳定", "哪些检查和脚手架值得复用"], "metaphor": "团队程序性记忆"}
+    ],
+    "four_moves": ["把知识从聊天记录里搬出来", "把规则从 review 口头提醒里搬出来", "把经验从某个资深工程师脑子里搬出来", "把验证从「我觉得差不多」搬到系统动作里"],
+    "link_to_prior_rounds": "上一轮社区调研最高分诉求是 AGENTS.md 跨工具标准（Claude Code #6235，4,060 👍）- 它不是配置文件偏好，它是 Harness 的一层。第七轮发现的 Agent Skills 生态同理"
+  },
+  "enterprise_cases": [
+    {"company": "TCL 格创东智", "field": "工业制造", "approach": "「章鱼智脑」AgenticAI 平台；企业上下文接入 + 双模双轨双 Know-how + 智能体协同工程化 + 工业级运维安全", "result": "半导体 AIAuto-Pilot 决策中枢与 CIM 系统协同，重要异常结案时间缩短至 0.5 小时；已在泛半导体行业落地数百个 AI/Agent 闭环执行项目"},
+    {"company": "昕诺飞（Signify）", "field": "智能照明", "approach": "六层约束框架把大模型输出转化为稳定可控的行业控制行为；三层叠加记忆机制", "result": "应用于 The Edge 等建筑；7×24 小时不间断在线，长期不遗忘、不漂移、可追溯"},
+    {"company": "萤石（Ezviz）", "field": "AIoT", "approach": "萤石蓝海 AIoT 一站式工作台（对话式生成 + AIoT 集成 + 一键部署运维 + 应用模板市场）", "result": "AI 巡检数字助手落地某大型跨城企业园区，覆盖 300+ 固定点位"},
+    {"company": "明日新程（Nextie）", "field": "群体智能", "approach": "李笛（原微软小冰负责人）2025-12 创立；产品「团子」tuanzi.ai 采用多智能体「认知碰撞」与收敛机制", "result": "2026-04 获创新工场、Atypical Ventures 领投，奇绩创坛跟投"}
+  ],
+  "derived_concepts": [
+    {"name": "Coordination Engineering（协调工程）", "definition": "Harness Engineering 延伸出面向团队协作的范式：在 Harness SDK Agent 个体能力之上增加协调层，解决团队编排、任务调度、通信协议等系统工程问题"},
+    {"name": "Runtime Harness 阶段", "definition": "综述把大模型系统演进概括为 Prompt Engineering → Context Engineering → Runtime Harness（2025 至今）"}
+  ],
+  "industrial_insight": "工业实践强调双模双轨协同：大模型负责语义理解、任务拆解和决策调度，而小模型与工业机理模型承担高确定性执行 - 不是所有环节都该交给概率模型",
+  "unverified": [
+    "Agent Harness Engineering: A Survey 原文未获取，只拿到引述",
+    "Towards Long-Horizon Agents: A Survey 原文未获取，六组件拆分为引述",
+    "Akshay 的 The Anatomy of an Agent Harness 原文未获取，12 组件与数据均为中文工程博客转述",
+    "LangChain TerminalBench 2.0「前 30 名外 → 第 5」为转述数据，未核验榜单",
+    "Boris Cherny「质量提升 2-3 倍」为转述，未取得原始出处",
+    "DeepSeek Harness「三个关键转变」来自百度百科对某篇分析的引述",
+    "Codex Harness 组件细节来自百度百科条目，未直接读官方仓库",
+    "沙箱定价为 2026-10-08 快照，厂商调价频繁",
+    "企业案例数据（TCL 0.5 小时、萤石 300+ 点位、Signify 六层框架）未独立核实",
+    "Hashimoto 2026-02-05 首次提出驾驭工程 - 未取得原始英文出处"
+  ],
+  "run_gaps": {
+    "blocked_sources": ["51CTO（腾讯云 EdgeOne 验证页拦截，返回 0 行正文）- 「一次性总结所有 AI Agent Harness 工具」未能获取", "知乎全文拒绝 WebFetch", "GitHub 页面 HTML 抓取失败（本会话已知问题）", "CSDN 部分文章正文需渲染"],
+    "reliable_approach": "优先抓取带具名作者 + 完整方法论 + 原始数字的工程解读，以及能拿到原文的规范类文档。厂商架构优先采用多篇独立来源交叉印证的版本（Claude Managed Agents 三分解构在至少 4 篇独立文章中一致出现）",
+    "important_boundary": "「成熟」的判断标准是公开资料完整度 + 厂商投入 + 生产案例，不是实际使用体验。本轮为桌面调研，未实际部署运行任何一个 Harness"
+  }
+}
