@@ -4,7 +4,7 @@
 
 | id | 标题 | 版本 | 状态 | 更新 | 标签 |
 |---|---|---|---|---|---|
-| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——24 章配置实录 | 1.7 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps |
+| [nixos-amd-teaching-guide](./nixos-amd-teaching-guide.md) | NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——25 章配置实录 | 1.8 | stable | 2026-10-12 | nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run |
 | [nixos-operations-guide](./nixos-operations-guide.md) | NixOS 运维指南（26.05）——配置路线、游戏、非 Nix 二进制、混合版本策略、查询工具链、LLM 辅助 | 1.5 | stable | 2026-10-12 | nixos, nix, flakes, home-manager, gaming, steam, appimage, nix-ld, llm-ops, mcp, rolling-release, nixpkgs-unstable, nixhub, flakehub, noogle, systemd-user-service, linger, hermes-agent, openclaw |
 | [distro-ai-collaborative-management](./distro-ai-collaborative-management.md) | 发行版「AI 协同管理」实践全景——哪些发行版真的有 MCP / Skills / AI 运维方案 | 1.0 | stable | 2026-10-12 | linux-distro, mcp, agent-skills, ai-ops, redhat, nixos, opensuse, omarchy, bluefin, clawhub, skills-sh |
 
@@ -38,6 +38,16 @@
 > 3. **三条路**：A（Aeon 式：基座极简 + Flatpak + Distrobox）/ B（双 nixpkgs：官方 FAQ 写法）/ **C（混合，推荐：只把 mesa 取 unstable + 应用按需）**。NixOS 比 Aeon 多一个能力：**基座、组件、应用可各自有各自的新鲜度与回滚粒度**。
 >
 > 另有一处**诚实的短板**：**Aeon 有「启动失败自动回滚」，NixOS 没有开箱实现**（需手动在启动菜单选旧 generation）。这是本文档找到的唯一 NixOS 明显不如 Aeon 的一项。
+>
+> **v1.8（2026-10-12 第七轮：二进位包与依赖问题完整手册）**：`nixos-amd-teaching-guide.md` 升到 **1.8**（24 章 → 25 章），新增第 16 节。问题原话：「NixOS 如何使用二进位包？如何解决依赖问题？给出全面的方式，考虑所有的可能和程式类型、常见依赖」。方法：**全部取 nixpkgs `nixos-26.05` 分支模块源码 + 上游项目 README**，不依赖任何二手教程。
+>
+> 三条最高价值结论：
+>
+> 1. **★★ `xorg` 包集在 26.05 已弃用，全部 `libX*` 改名 `libx*`**（`aliases.nix:1178-1207`，2026-02-06；弃用公告 `rl-2605.section.md:235`，2026-01-29）。`pkgs.xorg.libX11` 现在会打弃用警告。**网上所有 nix-ld 教程（含大量 LLM 训练数据）用的都是旧写法** —— 这是本轮影响面最广的一条。
+> 2. **NixOS 是「主动删除」`/lib64/ld-linux-x86-64.so.2`**（`config/ldso.nix` 的 `systemd.tmpfiles.rules` **`r` 规则**），不是「本来就没有」。**这解释了为什么报错是 `No such file or directory`。** `programs.nix-ld` 用 `L+` 符号链接把它换回来。
+> 3. **`programs.nix-ld` 自带 14 个基础库**（不是「默认空」）+ **nixpkgs 的 python / node 不走 nix-ld** → **pip / npm 原生模块失败时开 nix-ld 没用**，要用官方 wrapper 设 `LD_LIBRARY_PATH`。
+>
+> 另有：**14 种方案按侵入性排序**（从「直接用 nixpkgs 版」到「Distrobox 容器」）；**`buildFHSEnv` = `buildFHSEnvBubblewrap`**（chroot 版已弃用），其 `/etc` 是从宿主 `--ro-bind` 的 **30 项**（解释了「为什么在里面改字体不生效」）；**三类死路**（内核模块 / setuid / glibc 硬冲突）。
 
 ## 约定
 

@@ -1,12 +1,12 @@
 ---
 id: nixos-amd-teaching-guide
-title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——24 章配置实录
-tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps]
+title: NixOS 26.05 教学指南（AMD 平台 · 中文用户 · Vibe Coding）——25 章配置实录
+tags: [nixos, amd-gpu, amdgpu, realtek, r8169, fcitx5, gnome, kde-plasma, flatpak, steam, gamescope, scx, sched-ext, linux-zen, cachyos, ananicy-cpp, ananicy-rules-cachyos, bore, zram, thp, ksm, kyber, vibe-coding, hermes-agent, openclaw, codex, mcp, searxng, nix-ld, devshell, apparmor, fhs, china-mirror, flake, nixpkgs-unstable, overlay, home-manager, nix-openclaw, systemd-user-service, linger, bazzite, ujust, rpm-ostree, nh, distrobox, waydroid, lanzaboote, inputplumber, powerstation, bazaar, atomic-update, aeon, microos, transactional-update, pkgsUnstable, useGlobalPkgs, pkgsPath, stable-base-rolling-apps, buildFHSEnv, buildFHSEnvBubblewrap, autoPatchelfHook, patchelf, nix-alien, nix-index, appimage, binfmt, ldso, xorg-deprecation, libx11, glibc-mismatch, steam-run]
 created: 2026-10-12
 updated: 2026-10-12
-version: 1.7
+version: 1.8
 status: stable
-source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）**）
+source: 本次会话（nixpkgs nixos-26.05 源码逐条比对 + torvalds/linux 源码 + CachyOS-Settings/ananicy-rules/zen-kernel 上游源码 + NixOS Wiki 官方页 + 多路并行子代理调研 + 本人 curl 实测 + **第二轮全量源码复核** + **第三轮：Hermes/OpenClaw 的 Nix 生态调研（官方 flake 源码 + 官方文档 + GitHub issue + NixOS Discourse）** + **第四轮：nixos-26.05/nixos-unstable 双分支逐包版本实测** + **第五轮：Bazzite 官方文档 + nixos-26.05 源码逐条核实（Bazzite 使用模式映射）** + **第六轮：LWN 一手技术分析 + Aeon 官网 + Home Manager 官方 FAQ（unstable.md）+ HM/NixOS 源码核实（Aeon 模式映射）** + **第七轮：nixpkgs 模块源码逐文件核实（nix-ld.nix / ldso.nix / build-fhsenv-* / appimage.nix / aliases.nix / rl-2605.section.md）+ nix-ld 与 nix-alien 官方 README（二进位包与依赖问题）**）
 confidence: 已核实
 ---
 
@@ -792,6 +792,131 @@ Aeon 的判据是**风险**（*"every extra package in the host incurs extra ris
 
 **详版**：`nixos-amd-guide.md` 第二十四章（10 节）+ 附录 B.14。
 
+## 16. 第七轮（v1.8）：二进位包与依赖问题完整手册（第二十五章）
+
+### 16.1 ★★ 本轮最重要的时效性发现：26.05 `xorg` 包集弃用 + `libX*` → `libx*` 全表改名
+
+**这是唯一一条「不知道就会照着旧教程配错」的事实，且影响网上绝大多数 nix-ld 教程（含 LLM 训练数据）。**
+
+| 证据 | 位置 |
+|---|---|
+| `xorg` 包集已弃用 | `nixos/doc/manual/release-notes/rl-2605.section.md:235`（2026-01-29）+ `pkgs/top-level/aliases.nix:2361` |
+| 全部 `libX*` → `libx*` | `pkgs/top-level/aliases.nix:1178-1207`（2026-02-06） |
+
+| 旧写法（会打弃用警告） | 26.05 新写法 |
+|---|---|
+| `pkgs.xorg.libX11` | `pkgs.libx11` |
+| `pkgs.xorg.libXext` | `pkgs.libxext` |
+| `pkgs.xorg.libXrender` | `pkgs.libxrender` |
+| `pkgs.xorg.libXi` | `pkgs.libxi` |
+| `pkgs.xorg.libXcomposite` | `pkgs.libxcomposite` |
+| `pkgs.xorg.libXdamage` | `pkgs.libxdamage` |
+| `pkgs.xorg.libXrandr` | `pkgs.libxrandr` |
+| `pkgs.xorg.libXcursor` | `pkgs.libxcursor` |
+| `pkgs.xorg.libXfixes` | `pkgs.libxfixes` |
+| `pkgs.xorg.libXtst` | `pkgs.libxtst` |
+| `pkgs.xorg.libXScrnSaver` | `pkgs.libxscrnsaver` |
+| `pkgs.xorg.libXxf86vm` | `pkgs.libxxf86vm` |
+| `pkgs.xorg.libxcb` | `pkgs.libxcb` |
+| `pkgs.xorg.libXau` | `pkgs.libxau` |
+| `pkgs.xorg.libXdmcp` | `pkgs.libxdmcp` |
+| `pkgs.xorg.libXshmfence` | `pkgs.libxshmfence` |
+| `pkgs.xorg.libXfont` | **`pkgs.libxfont_1`**（注意：数字在后，不是 `libxfont1`） |
+| `pkgs.xorg.libXfont2` | **`pkgs.libxfont_2`** |
+
+> **旧名仍可用**（`aliases.nix` 保留了映射），但会打弃用警告，**未来版本会移除**。
+
+### 16.2 「二进位包」的 6 种来源 × 「依赖问题」的 6 类根因
+
+**来源**（决定用哪种方案）：① nixpkgs 里就有 ② 官方预编译二进制 ③ 第三方包管理器下载的（npm/pip） ④ AppImage ⑤ 安装器/归档（`.run`/`.deb`/`.rpm`/`.tar.gz`） ⑥ 容器镜像/跨架构
+
+**根因**（决定能不能修）：
+
+| # | 根因 | 报错 | 能修吗 |
+|---|---|---|---|
+| 1 | 动态链接器路径写死 | `No such file or directory`（其实缺 `/lib64/ld-linux-x86-64.so.2`） | ✅ 容易（nix-ld） |
+| 2 | 共享库缺失 | `cannot open shared object file: libfoo.so.1` | ✅ 容易（nix-ld + libraries） |
+| 3 | 文件系统布局假设 | 找不到 `/usr/share/xxx`、`/opt/xxx` | ✅ 中等（FHS env） |
+| 4 | **glibc 版本不匹配** | `version 'GLIBC_2.38' not found` | ⚠️ 难（FHS env / 容器） |
+| 5 | 运行时外部命令 / shebang | `bad interpreter`、`python3: command not found` | ✅ 容易（wrapProgram） |
+| 6 | 内核接口 / setuid / 驱动 | `modprobe: module not found` | ❌ **不能这么修** |
+
+> **第 1、2 类占 90%，`programs.nix-ld` 一条配置解决。** 判别：`cannot open shared object file`（好办）vs `version 'GLIBC_2.xx' not found`（难办）。
+
+### 16.3 NixOS 为什么会有这个问题的机制根源（源码级）
+
+| 事实 | 证据文件 |
+|---|---|
+| **NixOS 用 `systemd.tmpfiles.rules` 的 `r` 规则（删除）主动删掉 `/lib64/ld-linux-x86-64.so.2`** —— 不是「本来就没有」 | `nixos/modules/config/ldso.nix` |
+| `programs.nix-ld` 启用后把该路径换成 **`L+` 符号链接** 指向 nix-ld 的 loader；导出 `NIX_LD` + `NIX_LD_LIBRARY_PATH` | `nixos/modules/programs/nix-ld.nix` |
+| **`programs.nix-ld` 模块自带 14 个基础库**（不是「默认空」）：`zlib` `zstd` `stdenv.cc.cc` `curl` `openssl` `attr` `libssh` `bzip2` `libxml2` `acl` `libsodium` `util-linux` `xz` `systemd` | 同上 |
+| **`programs.nix-ld` 不影响系统自带程序** —— nixpkgs 构建的 ELF 里硬编码了 store 里的 loader 绝对路径，不经过该符号链接 | 机制推断（nix-ld README） |
+| **nixpkgs 的 python / node 不走 nix-ld**（已指向 store 里的 glibc）→ pip/npm 原生模块失败时开 nix-ld **没用**，要用官方 wrapper | nix-ld 官方 README |
+| nix-ld **不支持非 NixOS**，**只支持 x86_64 / aarch64** | 同上 |
+
+### 16.4 14 种方案按「侵入性」排序（从低到高）
+
+| # | 方案 | 适用 | 侵入性 |
+|---|---|---|---|
+| 1 | **直接用 nixpkgs 版** | 有的话永远首选 | 无 |
+| 2 | `nix shell` / `nix run` 临时 | 试一下 | 无 |
+| 3 | **`programs.nix-ld`** | 第 1、2 类根因（90%） | 极低 |
+| 4 | `programs.nix-ld.libraries = [...]` | 补缺库 | 极低 |
+| 5 | **`programs.appimage`** | AppImage | 低 |
+| 6 | `pkgs.patchelf` 改二进制 | 单文件、可改 | 低（但破坏签名） |
+| 7 | `autoPatchelfHook` | 打包成 derivation | 中 |
+| 8 | `wrapProgram` / `makeWrapper` | 缺外部命令、shebang | 中 |
+| 9 | **`pkgs.buildFHSEnv`**（= `buildFHSEnvBubblewrap`） | 第 3、4 类根因 | 中高 |
+| 10 | **`steam-run ./binary`** | 借 Steam 的 FHS 环境 | 低（但依赖 steam） |
+| 11 | `pkgs.dpkg` / `rpm` 解包到用户目录 | `.deb` / `.rpm` | 中 |
+| 12 | **`nix-alien`**（`nix run github:thiagokokada/nix-alien -- ./myapp`） | 自动诊断 + 生成配置 | 低（**不在 nixpkgs**） |
+| 13 | **Distrobox 容器** | 什么都不想管 / glibc 冲突 | 高（但是终极方案） |
+| 14 | `boot.binfmt.emulatedSystems` | 跨架构 | 高 |
+
+### 16.5 `buildFHSEnv` 的关键参数（源码核实）
+
+- **`pkgs.buildFHSEnv` = `buildFHSEnvBubblewrap`**（`all-packages.nix:360-362`）；`buildFHSEnvChroot` 已弃用
+- 目录布局：`/lib32`（multiPkgs 32 位）+ `/lib64`（multiPkgs + targetPkgs 64 位）+ **`/lib` → `/lib64` 符号链接**
+- **永远自动包含**：`glibcLocales` `glibc`（或 `glibc_multi`）`gcc.cc.lib` `bashInteractiveFHS` `coreutils` `less` `shadow` `su` `gawk` `diffutils` `findutils` …
+- **`/etc` 从宿主 `--ro-bind` 30 项**：`passwd` `group` `shadow` `hosts` `resolv.conf` `nsswitch.conf` `sudoers` `localtime` `zoneinfo` `machine-id` `os-release` `pam.d` `fonts` `alsa` `ssl/certs` `ca-certificates` `dconf` …
+  - → 这解释了**为什么 FHS 环境能读宿主 `/etc/passwd`、能用系统字体、能解析 DNS、能验证 TLS**，也解释了**为什么在里面改字体/证书不生效**
+- 参数：`targetPkgs` / `multiPkgs` / `multiArch` / `includeClosures` / `runScript` / `unshare*`（默认全 `false`）/ `privateTmp` / `chdirToPwd`（默认 `true`）/ `dieWithParent`（默认 `true`）/ `extraInstallCommands` / `extraPreBwrapCmds` / `extraBwrapArgs`
+- 实现细节：有个**静态编译的 `container-init` shim** 先跑 `ldconfig` 再 `exec` 真 `/init`（防止 `LD_PRELOAD` 与 **fhsenv in fhsenv** 场景崩溃 —— 源码注释明确提到 Steam 包装的游戏）
+
+### 16.6 `programs.appimage` 的关键事实
+
+- 选项只有 **`enable` / `package` / `binfmt`**（**没有 `extraPkgs`**）
+- `binfmt` 注册的 magic 是 **`AI\x01` 与 `AI\x02`**（AppImage type 1 / type 2）
+- 不注册 binfmt 时用 `appimage-run ./foo.AppImage`
+
+### 16.7 三类「解决不了」的情况（诚实交代）
+
+| 类型 | 为什么不行 | 正确做法 |
+|---|---|---|
+| **内核模块 / DKMS 驱动** | nix-ld / FHS 都在用户态，**碰不到内核** | `boot.extraModulePackages` / `boot.kernelModules`，或换内核 |
+| **需要 setuid 的程序** | Nix store 是只读的、**不能 setuid** | `security.wrappers`（且二进制必须已在 store 里） |
+| **glibc 版本硬冲突** | 换 loader 不够，需要**整套配套 glibc** | 容器（Distrobox）—— 别折腾 glibc |
+
+### 16.8 一页速查
+
+| 问题 | 一行答案 |
+|---|---|
+| `No such file or directory` 但文件存在 | `programs.nix-ld.enable = true;` |
+| `libfoo.so.1: cannot open shared object file` | nix-ld + `programs.nix-ld.libraries` |
+| 不知道缺哪个库 | `readelf -d ./myapp \| grep NEEDED` / `nix-alien-find-libs ./myapp` |
+| 某个 `.so` 属于哪个包 | `nix-locate --top-level libfoo.so.1`（需先 `nix-index` 建库） |
+| 自动搞定 | `nix run github:thiagokokada/nix-alien -- ./myapp` |
+| AppImage 双击没反应 | `programs.appimage = { enable = true; binfmt = true; };` |
+| 硬编码 `/usr/lib` | `pkgs.buildFHSEnv { ... }` |
+| 借 Steam 运行时 | `steam-run ./binary` |
+| `GLIBC_2.xx not found` | 容器 —— 别折腾 glibc |
+| pip 装的原生模块加载不了 | nixpkgs python **不走 nix-ld** → 官方 wrapper 设 `LD_LIBRARY_PATH` |
+| 26.05 `pkgs.xorg.libX11` 报弃用 | 改 **`pkgs.libx11`**（§16.1 全表） |
+| 内核模块 / setuid | ❌ nix-ld / FHS 都不行 → §16.7 |
+| 跨架构 | `boot.binfmt.emulatedSystems = [ "aarch64-linux" ];` |
+
+**详版**：`nixos-amd-guide.md` 第二十五章（11 节）+ 附录 B.15。
+
 ## 可复用操作
 
 ```bash
@@ -927,6 +1052,16 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 66. **`useGlobalPkgs = false` 会让 HM 自己 import 一份 nixpkgs** —— 多一次求值，且 HM 的包与系统包**哈希不同、无法共享**（同一 Firefox 会被 build 两份）
 67. **Aeon 有「启动失败自动回滚」，NixOS 没有开箱实现** —— NixOS 要在启动菜单手动选旧 generation。这是本文档找到的**唯一 NixOS 明显不如 Aeon 的一项**
 68. **NixOS 的 `switch` 不需要重启，Aeon 的 `transactional-update` 需要** —— 所以 NixOS 能做到「Aeon 式原子性 + 不重启」
+69. **★★ 26.05 的 `xorg` 包集已弃用，`libX*` 全部改名 `libx*`** —— `pkgs.xorg.libX11` 现在会打弃用警告。**网上所有 nix-ld 教程（含大量 LLM 训练数据）用的都是旧写法**。全表见 §16.1
+70. **`libXfont` → `libxfont_1`、`libXfont2` → `libxfont_2`**（**数字在下划线后面**）—— 按 `libxfont1` / `libxfont2` 写会找不到
+71. **NixOS 是「主动删除」`/lib64/ld-linux-x86-64.so.2`** —— 用 `systemd.tmpfiles.rules` 的 **`r` 规则**（`config/ldso.nix`），不是「本来就没有」。**这解释了为什么报错是 `No such file or directory` 而不是「找不到库」**
+72. **`programs.nix-ld.libraries` 默认不是空** —— 模块自带 **14 个基础库**（zlib/zstd/stdenv.cc.cc/curl/openssl/attr/libssh/bzip2/libxml2/acl/libsodium/util-linux/xz/systemd）。**「默认空」是误读**
+73. **nixpkgs 的 python / node 不走 nix-ld** —— 它们已指向 store 里的 glibc。**pip / npm 装的原生模块加载失败时，开 nix-ld 没用**，要用官方 wrapper 设 `LD_LIBRARY_PATH`
+74. **`buildFHSEnv` 的 `/etc` 是从宿主 `--ro-bind` 进来的（30 项）** —— 所以 FHS 环境能读宿主 `/etc/passwd`、用系统字体、解析 DNS、验证 TLS；**也所以在里面改字体/证书不生效**
+75. **`pkgs.buildFHSEnv` = `buildFHSEnvBubblewrap`** —— `buildFHSEnvChroot` 已弃用。**不是 chroot，是 bubblewrap 沙箱**
+76. **`programs.appimage` 只有 `enable` / `package` / `binfmt` 三个选项** —— **没有 `extraPkgs`**（网上有教程这么写）。binfmt 注册的 magic 是 `AI\x01` / `AI\x02`
+77. **nix-ld 修不了内核模块和 setuid 程序** —— 前者在用户态够不到内核（用 `boot.extraModulePackages`），后者 Nix store 是只读的不能 setuid（用 `security.wrappers`，且二进制必须已在 store 里）
+78. **`GLIBC_2.xx not found` 不要试图用 nix-ld / FHS 修** —— 换 loader 不够，需要整套配套 glibc。**唯一现实解是容器（Distrobox）**
 
 ## 未核实 / 存疑
 
@@ -991,6 +1126,18 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 | `kyber` vs `none` 在 NVMe 上的实际差异 | 未核实（两者都可用，无一手对比数据） |
 | CachyOS 各 scx 调度器的默认选择 | 部分未核实（只知它提供 `scx-scheds`） |
 | nixpkgs 中其它 CachyOS 相关包的覆盖度 | 未核实（只逐项核实了 `ananicy-rules-cachyos` 与若干 404） |
+| **`programs.nix-ld.libraries` 的「万能起步集」覆盖度** | 经验值（按类别拼的集合，非官方；无「跑 N 个程序成功 M 个」的统计） |
+| **nix-ld 的 `NIX_LD_LIBRARY_PATH` 边界** | 官方（机制）+ 未核实（「程序内部再 exec 子进程」「setuid 程序」两类边界未实测） |
+| **`buildFHSEnv` 的 `/etc` 30 项绑定是否会变** | 核实·源码（2026-10 快照）+ 未核实（上游可能增删，使用前 `grep -n ro-bind` 复验） |
+| **`xorg` 包集别名会保留到哪个版本** | 未核实（`aliases.nix` 保留映射，但**未标注移除时间表**） |
+| **`libX*` → `libx*` 改名对下游包的影响** | 未核实（别名层做了兼容，用户手写旧名会警告；**长期是否硬失败未确认**） |
+| **AppImage type 3 是否可用** | 核实·源码（只注册 `AI\x01`/`AI\x02`）+ 未核实（type 3 未确认） |
+| **nix-alien 在 26.05 的可用性** | 未核实（是否已适配 `xorg` 改名未验证） |
+| **`steam-run` 对非游戏二进制的边界** | 官方（机制）+ 未核实（Steam FHS 带游戏向库，对非游戏程序是否有副作用未实测） |
+| **`nix-locate` 数据库的体积与建库耗时** | 未核实（首次约几分钟、数百 MB 是估计） |
+| **`dpkg`/`rpm` 解包 `.deb`/`.rpm` 的完整流程** | 推断（逻辑成立，未端到端实测真实 `.deb`） |
+| **`boot.binfmt.emulatedSystems` 的性能代价** | 官方（机制）+ 未核实（倍率未测；需要 JIT 的程序可能直接不工作） |
+| **`programs.nix-ld` 与 `programs.appimage` 同时开启是否冲突** | 未核实（机制不同，理论不冲突，未实测共存） |
 
 ## 出处（主要）
 
@@ -1051,3 +1198,24 @@ export PLAYWRIGHT_BROWSERS_PATH="$(nix-build '<nixpkgs>' -A playwright-driver.br
 - `home-manager/release-26.05/modules/modules.nix:119-122`（`pkgsPath` / `pkgs` 的 `mkDefault` 默认值）
 - 分支探测：`home-manager/release-26.05`、`nixpkgs/nixpkgs-unstable`、`nixpkgs/nixos-unstable`、`nixpkgs/nixos-26.05` 均存在（HTTP 200）
 
+
+**nixpkgs 模块源码（第七轮，二进位包与依赖，逐文件核实）**
+
+- `nixos/modules/config/ldso.nix` —— **`environment.ldso` 用 `systemd.tmpfiles.rules` 的 `r` 规则主动删除 `/lib64/ld-linux-x86-64.so.2`**
+- `nixos/modules/programs/nix-ld.nix` —— 模块全文；**自带 14 个基础库**（zlib/zstd/stdenv.cc.cc/curl/openssl/attr/libssh/bzip2/libxml2/acl/libsodium/util-linux/xz/systemd）；`L+` 符号链接；导出 `NIX_LD` + `NIX_LD_LIBRARY_PATH`
+- `nixos/modules/programs/appimage.nix` —— 选项只有 `enable`/`package`/`binfmt`；binfmt magic `AI\x01`/`AI\x02`
+- `pkgs/top-level/all-packages.nix:360-362` —— **`buildFHSEnv = buildFHSEnvBubblewrap`**
+- `pkgs/build-support/build-fhsenv-bubblewrap/default.nix` —— 目录布局（`/lib32` + `/lib64` + `/lib`→`/lib64`）、自动包含的基础包、**`/etc` 的 30 项 `--ro-bind`**、`container-init` 静态 shim 的设计理由（源码注释原文）
+- `pkgs/build-support/build-fhsenv-common.nix` —— `buildFHSEnv` 全部参数（`targetPkgs`/`multiPkgs`/`multiArch`/`includeClosures`/`runScript`/`unshare*`/`privateTmp`/`chdirToPwd`/`dieWithParent`/`extraInstallCommands`/`extraPreBwrapCmds`/`extraBwrapArgs`）
+- `pkgs/games/steam/fhsenv.nix` —— `steam-run` 是 `buildFHSEnv` 的一层包装
+- **`nixos/doc/manual/release-notes/rl-2605.section.md:235`** —— **`xorg` 包集弃用公告**（2026-01-29）
+- **`pkgs/top-level/aliases.nix:1178-1207`** —— **全部 `libX*` → `libx*` 改名映射**（2026-02-06）
+- **`pkgs/top-level/aliases.nix:2361`** —— `xorg` 包集别名条目
+
+**上游项目 README（第七轮）**
+
+- **nix-ld**：https://github.com/Mic92/nix-ld —— 三个 FHS 弱点原文、**nixpkgs python/node 不走 nix-ld**、`pythonld` wrapper 写法、**不支持非 NixOS**、**只支持 x86_64/aarch64**
+- **nix-alien**：https://github.com/thiagokokada/nix-alien —— `nix-alien` / `nix-alien-ld` / `nix-alien-find-libs` 三个命令、`-l`/`-p` 参数、dlopen 局限、**不在 nixpkgs**、`follows` 不受支持
+- **nix-index**：https://github.com/nix-community/nix-index —— `nix-locate --top-level` 的用法与「需先 `nix-index` 建库」的前置条件
+
+- 完整逐条出处见交付物 `nixos-amd-guide.md` 附录 B（含 **B.15 二进位包与依赖专节**）

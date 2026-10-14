@@ -1,0 +1,7 @@
+{
+  "name": "quality-testing-experts",
+  "version": "1.0.0",
+  "description": "QA, performance testing, API testing, accessibility audit experts",
+  "agents": "./agents/",
+  "expertType": "agent"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "operations-customer-experts",
+  "version": "1.0.0",
+  "description": "Customer support, platform operations, infrastructure operations experts",
+  "agents": "./agents/",
+  "expertType": "agent"
+}
