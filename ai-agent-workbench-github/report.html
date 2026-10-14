@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub 上的 AI Agent 通用工作台全景 · 2026</title>
+<style>
+  :root{
+    --bg:#0b0f14; --bg2:#111720; --card:#151c26; --card2:#1a2330;
+    --bd:#243040; --bd2:#2f3f52;
+    --tx:#e6edf3; --tx2:#9fb0c3; --tx3:#6b7f95;
+    --cA:#58a6ff; --cB:#3fb950; --cC:#ff6b5e; --cD:#e3b341; --cE:#a371f7; --cF:#2dd4bf;
+    --up:#3fb950; --down:#ff6b5e; --warn:#e3b341;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--tx);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px 80px}
+  a{color:var(--cA);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* HERO */
+  .hero{padding:64px 0 40px;border-bottom:1px solid var(--bd);position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-160px;left:-100px;width:520px;height:520px;
+    background:radial-gradient(circle,rgba(88,166,255,.16),transparent 70%);pointer-events:none}
+  .hero::after{content:"";position:absolute;top:-120px;right:-140px;width:460px;height:460px;
+    background:radial-gradient(circle,rgba(163,113,247,.14),transparent 70%);pointer-events:none}
+  .tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--cA);border:1px solid rgba(88,166,255,.35);border-radius:999px;
+    padding:5px 14px;margin-bottom:20px;background:rgba(88,166,255,.07)}
+  h1{font-size:44px;line-height:1.2;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;
+    background:linear-gradient(100deg,#fff 10%,#9fc7ff 50%,#c9a7ff 90%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .sub{font-size:17px;color:var(--tx2);max-width:760px;margin-bottom:28px}
+  .stats{display:flex;flex-wrap:wrap;gap:14px;position:relative;z-index:2}
+  .stat{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px 22px;min-width:132px}
+  .stat .n{font-size:26px;font-weight:800;color:#fff;line-height:1.2}
+  .stat .n small{font-size:14px;font-weight:600;color:var(--tx3)}
+  .stat .l{font-size:12.5px;color:var(--tx3);margin-top:2px}
+
+  /* SECTION */
+  section{padding:56px 0 8px}
+  h2{font-size:26px;font-weight:750;letter-spacing:-.01em;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+  h2 .idx{font-size:13px;font-weight:700;color:var(--bg);background:var(--cA);
+    width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none}
+  .lede{color:var(--tx2);font-size:15px;margin-bottom:26px;max-width:900px}
+
+  /* KEY FINDINGS */
+  .findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+  .finding{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--bd);
+    border-radius:14px;padding:22px;position:relative;overflow:hidden}
+  .finding::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cA)}
+  .finding.f2::before{background:var(--cC)}
+  .finding.f3::before{background:var(--cD)}
+  .finding h3{font-size:16px;font-weight:700;margin-bottom:8px;color:#fff}
+  .finding p{font-size:14px;color:var(--tx2)}
+  .finding .hl{color:var(--tx);font-weight:600}
+
+  /* CATEGORY MAP */
+  .catgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .catcard{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:20px;
+    cursor:pointer;transition:.18s;border-top:3px solid var(--bd2)}
+  .catcard:hover{transform:translateY(-3px);border-color:var(--bd2);background:var(--card2)}
+  .catcard[data-c="A"]{border-top-color:var(--cA)} .catcard[data-c="B"]{border-top-color:var(--cB)}
+  .catcard[data-c="C"]{border-top-color:var(--cC)} .catcard[data-c="D"]{border-top-color:var(--cD)}
+  .catcard[data-c="E"]{border-top-color:var(--cE)} .catcard[data-c="F"]{border-top-color:var(--cF)}
+  .catcard .cid{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--tx3)}
+  .catcard h3{font-size:17px;margin:6px 0 8px;color:#fff}
+  .catcard p{font-size:13.5px;color:var(--tx2);min-height:62px}
+  .catcard .meta{display:flex;gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid var(--bd);
+    font-size:12.5px;color:var(--tx3)}
+  .catcard .meta b{color:var(--tx);font-weight:700}
+
+  /* TOOLBAR */
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:22px;
+    position:sticky;top:0;z-index:20;background:rgba(11,15,20,.92);backdrop-filter:blur(10px);
+    padding:14px 0;border-bottom:1px solid var(--bd)}
+  .chip{font-size:13px;padding:7px 15px;border-radius:999px;border:1px solid var(--bd2);
+    background:var(--card);color:var(--tx2);cursor:pointer;transition:.15s;white-space:nowrap}
+  .chip:hover{border-color:var(--tx3);color:var(--tx)}
+  .chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx);font-weight:700}
+  .chip[data-c="A"].on{background:var(--cA);border-color:var(--cA);color:#06121f}
+  .chip[data-c="B"].on{background:var(--cB);border-color:var(--cB);color:#06170c}
+  .chip[data-c="C"].on{background:var(--cC);border-color:var(--cC);color:#1c0805}
+  .chip[data-c="D"].on{background:var(--cD);border-color:var(--cD);color:#1a1303}
+  .chip[data-c="E"].on{background:var(--cE);border-color:var(--cE);color:#150a24}
+  .chip[data-c="F"].on{background:var(--cF);border-color:var(--cF);color:#04201d}
+  .search{margin-left:auto;background:var(--card);border:1px solid var(--bd2);border-radius:9px;
+    padding:8px 14px;color:var(--tx);font-size:13.5px;width:230px;outline:none;font-family:inherit}
+  .search:focus{border-color:var(--cA)}
+  .search::placeholder{color:var(--tx3)}
+
+  /* PROJECT CARDS */
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+  .pcard{background:var(--card);border:1px solid var(--bd);border-radius:13px;overflow:hidden;
+    transition:.18s;display:flex;flex-direction:column}
+  .pcard:hover{border-color:var(--bd2);background:var(--card2)}
+  .pcard.dead{opacity:.62}
+  .pcard.dead:hover{opacity:.85}
+  .phead{padding:18px 18px 14px;border-bottom:1px solid var(--bd);cursor:pointer}
+  .prow{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .pname{font-size:16.5px;font-weight:750;color:#fff;line-height:1.35}
+  .pname .cat{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;
+    margin-right:8px;vertical-align:2px;letter-spacing:.05em}
+  .cat.A{background:rgba(88,166,255,.18);color:var(--cA)}
+  .cat.B{background:rgba(63,185,80,.18);color:var(--cB)}
+  .cat.C{background:rgba(255,107,94,.18);color:var(--cC)}
+  .cat.D{background:rgba(227,179,65,.18);color:var(--cD)}
+  .cat.E{background:rgba(163,113,247,.18);color:var(--cE)}
+  .cat.F{background:rgba(45,212,191,.18);color:var(--cF)}
+  .stars{font-size:14px;font-weight:800;color:var(--cD);white-space:nowrap;
+    background:rgba(227,179,65,.1);padding:3px 9px;border-radius:7px;border:1px solid rgba(227,179,65,.2)}
+  .pmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .pill{font-size:11px;color:var(--tx2);background:var(--bg2);border:1px solid var(--bd);
+    padding:2px 8px;border-radius:6px}
+  .pill.lic-ok{color:var(--up);border-color:rgba(63,185,80,.3);background:rgba(63,185,80,.08)}
+  .pill.lic-warn{color:var(--warn);border-color:rgba(227,179,65,.3);background:rgba(227,179,65,.08)}
+  .pill.lic-bad{color:var(--down);border-color:rgba(255,107,94,.3);background:rgba(255,107,94,.08)}
+  .pill.st-live{color:var(--up);border-color:rgba(63,185,80,.3);background:rgba(63,185,80,.08)}
+  .pill.st-slow{color:var(--warn);border-color:rgba(227,179,65,.3);background:rgba(227,179,65,.08)}
+  .pill.st-dead{color:var(--down);border-color:rgba(255,107,94,.3);background:rgba(255,107,94,.08)}
+  .ppos{padding:14px 18px;font-size:13.5px;color:var(--tx2);flex:1}
+  .pbody{display:none;padding:0 18px 18px;border-top:1px solid var(--bd)}
+  .pcard.open .pbody{display:block}
+  .sec{margin-top:14px}
+  .sec .t{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--tx3);margin-bottom:7px}
+  .sec ul{list-style:none}
+  .sec li{font-size:13px;color:var(--tx2);padding-left:16px;position:relative;margin-bottom:5px}
+  .sec li::before{content:"▸";position:absolute;left:0;color:var(--cA)}
+  .sec.lim li::before{content:"▸";color:var(--down)}
+  .kv{font-size:13px;color:var(--tx2)}
+  .kv b{color:var(--tx);font-weight:600}
+  .repolink{display:inline-block;margin-top:12px;font-size:12.5px;font-weight:600}
+
+  /* BAR CHART */
+  .chart{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:24px 26px}
+  .bar{display:grid;grid-template-columns:172px 1fr 76px;align-items:center;gap:12px;
+    padding:5px 0;font-size:13px}
+  .bar .nm{color:var(--tx2);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar .track{background:var(--bg2);border-radius:5px;height:17px;overflow:hidden}
+  .bar .fill{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .bar .vl{color:var(--tx);font-weight:700;font-variant-numeric:tabular-nums;font-size:12.5px}
+  .bar.dead .nm{text-decoration:line-through;opacity:.6}
+  .bar.dead .vl{color:var(--down)}
+
+  /* TABLE */
+  .tblwrap{overflow-x:auto;border:1px solid var(--bd);border-radius:13px;background:var(--card)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+  th{background:var(--bg2);color:var(--tx2);font-weight:700;font-size:12px;letter-spacing:.05em;
+    text-transform:uppercase;text-align:left;padding:13px 16px;border-bottom:1px solid var(--bd2);white-space:nowrap}
+  td{padding:12px 16px;border-bottom:1px solid var(--bd);color:var(--tx2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--bg2)}
+  td b{color:var(--tx)}
+
+  /* TRENDS */
+  .trends{display:grid;gap:13px}
+  .trend{background:var(--card);border:1px solid var(--bd);border-left:3px solid var(--cE);
+    border-radius:11px;padding:18px 22px}
+  .trend h3{font-size:15.5px;color:#fff;margin-bottom:6px;font-weight:700}
+  .trend p{font-size:13.5px;color:var(--tx2)}
+
+  /* DECISION TREE */
+  .tree{background:var(--bg2);border:1px solid var(--bd);border-radius:13px;padding:24px;
+    font-family:"SF Mono",Consolas,Monaco,monospace;font-size:13px;line-height:2;
+    color:var(--tx2);white-space:pre;overflow-x:auto}
+  .tree b{color:var(--cA);font-weight:700}
+  .tree i{color:var(--warn);font-style:normal}
+  .tree u{color:var(--up);text-decoration:none}
+
+  /* ALERT */
+  .alert{background:linear-gradient(150deg,rgba(255,107,94,.09),rgba(255,107,94,.03));
+    border:1px solid rgba(255,107,94,.32);border-radius:13px;padding:22px 24px;margin-top:18px}
+  .alert h3{color:var(--cC);font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:9px}
+  .alert ul{list-style:none;display:grid;gap:8px}
+  .alert li{font-size:13.5px;color:var(--tx2);padding-left:18px;position:relative}
+  .alert li::before{content:"!";position:absolute;left:0;top:0;color:var(--cC);font-weight:900}
+  .alert li b{color:var(--tx)}
+
+  /* FOOTER */
+  footer{margin-top:64px;padding-top:28px;border-top:1px solid var(--bd);
+    font-size:12.5px;color:var(--tx3)}
+  footer p{margin-bottom:6px}
+
+  .empty{text-align:center;padding:60px;color:var(--tx3);font-size:14px;display:none}
+
+  @media(max-width:640px){
+    h1{font-size:31px} .wrap{padding:0 16px 60px}
+    .bar{grid-template-columns:100px 1fr 62px;font-size:12px}
+    .search{margin-left:0;width:100%}
+    .pgrid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="tag">Deep Research · 2026-10-14</span>
+    <h1>GitHub 上的 AI Agent 通用工作台全景</h1>
+    <p class="sub">「通用工作台」不是一类产品，而是六个层次分明的赛道。本报告基于 GitHub API 一手抓取与多方交叉验证，梳理 49 个代表性开源项目，回答「有多少种、各有什么特色、怎么选」。</p>
+    <div class="stats">
+      <div class="stat"><div class="n">6</div><div class="l">大类赛道</div></div>
+      <div class="stat"><div class="n">49</div><div class="l">代表性项目</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">已停运/归档</div></div>
+      <div class="stat"><div class="n">39.2<small>万</small></div><div class="l">OpenClaw Star 数</div></div>
+      <div class="stat"><div class="n">100<small>%</small></div><div class="l">A类框架支持 MCP</div></div>
+    </div>
+  </div>
+
+  <section>
+    <h2><span class="idx">1</span>三个最关键的判断</h2>
+    <p class="lede">如果只读三句话，读这三句。</p>
+    <div class="findings">
+      <div class="finding">
+        <h3>重心从「框架」转向「运行时 + 协议」</h3>
+        <p>2026 年最热的不是某个编排框架，而是 <span class="hl">OpenClaw</span>（39.2 万 Star，GitHub 历史星标第一）这种「本地优先的个人 Agent 运行时」，以及 <span class="hl">MCP</span>（工具连接标准）与 <span class="hl">A2A</span>（Agent 间协作标准）。框架层反而在收敛——微软已把 AutoGen 与 Semantic Kernel 合并。</p>
+      </div>
+      <div class="finding f2">
+        <h3>可视化平台跑出四强，但许可证是最大的坑</h3>
+        <p>n8n（20.7 万）、Dify（15.8 万）、Langflow（15.6 万）星标量级远超其他，加上字节 Coze Studio 入局。但四家中 <span class="hl">只有 Langflow 是纯 MIT</span>；n8n 是 Sustainable Use License（非 OSI 开源），Dify / FastGPT / Coze Studio 都是「基于 Apache 2.0 附加条件」的自定义许可。</p>
+      </div>
+      <div class="finding f3">
+        <h3>2026 年出现一波明显的「停运潮」</h3>
+        <p>49 个项目中 <span class="hl">已有 5 个停止维护或归档</span>：Flowise（2026-08 归档）、Roo Code（2026-05 停运）、Void（已弃用）、Bytebot（2025-09 归档）、Devika（2025-09 后无提交）；Aider、bolt.diy 也进入停滞/维护模式。<span class="hl">选型第一步是看活跃度，不是看 Star 数。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">2</span>分类地图：六大赛道</h2>
+    <p class="lede">点击卡片可跳转到对应类别的项目列表。</p>
+    <div class="catgrid" id="catgrid"></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">3</span>项目详情（49 个）</h2>
+    <p class="lede">点击卡片标题可展开查看编排范式、记忆机制、沙箱隔离、特色与局限。支持按类别筛选与关键词搜索。</p>
+    <div class="toolbar">
+      <div class="chip on" data-c="ALL">全部 49</div>
+      <div class="chip" data-c="A">A 框架/SDK</div>
+      <div class="chip" data-c="B">B 可视化平台</div>
+      <div class="chip" data-c="C">C 通用智能体</div>
+      <div class="chip" data-c="D">D 编码工作台</div>
+      <div class="chip" data-c="E">E 基础设施</div>
+      <div class="chip" data-c="F">F 研究型</div>
+      <input class="search" id="search" placeholder="搜索项目名 / 特色关键词…">
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <div class="empty" id="empty">没有匹配的项目，试试其他关键词。</div>
+  </section>
+
+  <section>
+    <h2><span class="idx">4</span>Star 排行（2026-10-14 快照）</h2>
+    <p class="lede">划掉的是已停运/归档项目——它们的 Star 是历史存量，不代表可维护性。</p>
+    <div class="chart" id="chart"></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">5</span>许可证风险矩阵</h2>
+    <p class="lede">商用前必须确认。很多「开源」项目的许可证其实带有转售限制。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>风险</th><th>许可证类型</th><th>项目</th></tr></thead>
+        <tbody>
+          <tr><td><b style="color:var(--up)">最宽松</b></td><td>MIT</td><td>LangGraph、CrewAI、OpenAI Agents SDK、Claude Agent SDK、LlamaIndex、Pydantic AI、Langflow、AnythingLLM、OpenClaw、OpenHands、OpenManus、Browser Use、Composio、Langfuse(核心)、bolt.diy</td></tr>
+          <tr><td><b style="color:var(--up)">宽松</b></td><td>Apache-2.0</td><td>Google ADK、smolagents、Agno、Haystack、RAGFlow、Bisheng、Coze Studio、UI-TARS、Open Interpreter、Cline、Continue、Aider、A2A、Letta、E2B、GPT-Researcher</td></tr>
+          <tr><td><b style="color:var(--warn)">需注意</b></td><td>附加商业条款 / 双轨许可</td><td>Dify、FastGPT、Flowise、Mastra、n8n（Sustainable Use）、Langfuse(ee/)、AutoGPT(Platform: Polyform Shield)</td></tr>
+          <tr><td><b style="color:var(--down)">限制强</b></td><td>AGPL-3.0 / 自定义不明</td><td>Khoj（AGPL）、OWL（协议文件缺失）、Suna（NOASSERTION）、Agent Zero（自定义）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">6</span>2026 年五大趋势</h2>
+    <div class="trends">
+      <div class="trend"><h3>① 从「框架」到「运行时」</h3><p>竞争重心从「怎么编排」转向「跑在哪里、记得住什么、连得上什么」。OpenClaw 的 Gateway 网关架构、Suna 的每会话沙箱、Letta 的记忆操作系统，都是运行时层的创新。</p></div>
+      <div class="trend"><h3>② 协议层完成标准化</h3><p>MCP（Anthropic → Linux Foundation 旗下 AAIF）+ A2A（Google → Linux Foundation）构成「下层连接工具、上层连接 Agent」的双层标准栈。任何不支持 MCP 的工作台在 2026 年都算生态落后。</p></div>
+      <div class="trend"><h3>③ 沙箱隔离成为分水岭</h3><p>从 OpenClaw 的「裸奔」到 E2B 的 Firecracker microVM 硬件级隔离，安全边界正在成为通用工作台的核心竞争力，也是监管关注焦点。</p></div>
+      <div class="trend"><h3>④ 记忆成为下一个差异化战场</h3><p>Letta 的 OS 式分层记忆 vs Mem0 的事实抽取中间件，两条路线尚未分出胜负。基准数字的「罗生门」（厂商自报 vs 第三方质疑）说明这个领域还不够成熟。</p></div>
+      <div class="trend"><h3>⑤ IDE 插件赛道洗牌</h3><p>Roo Code 停运、Void 弃用、Aider 停滞，而云端 Agent 兴起——说明「VS Code 插件」这一形态可能正在被「云端沙箱 Agent」取代。</p></div>
+    </div>
+
+    <div class="alert">
+      <h3>⚠️ 必须知道的安全风险（OpenClaw）</h3>
+      <ul>
+        <li><b>工信部 2026-03-12 发布安全预警</b>；国家互联网应急中心列举密钥泄露、重要信息误删、功能插件（Skills）投毒、隐私泄露等风险。</li>
+        <li><b>提示词注入</b>：网页/邮件中的隐藏恶意指令可诱导其泄露密钥或执行高危操作。</li>
+        <li><b>ClawJacked 远程控制漏洞</b>：诱导用户访问恶意网页即可远程控制本地 Agent。</li>
+        <li><b>权限失控</b>：默认系统级权限，可能误删文件/生产数据，造成不可逆损失。</li>
+        <li><b>建议</b>：务必跑在独立虚拟机/容器中，用 E2B 等硬件级隔离方案「戴安全锁」，并严格审查第三方 Skills。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">7</span>选型决策树</h2>
+    <div class="tree" id="tree"></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">8</span>数据可信度说明</h2>
+    <p class="lede">本次调研对每条数据都做了来源标注，以下为需特别注意的未完全核实项。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>项目</th><th>未核实内容</th></tr></thead>
+        <tbody>
+          <tr><td><b>MCP 生态规模</b></td><td>媒体广泛报道的「破 10 万 Server」与官方 Registry ~9,652 条口径严重不符，疑为多目录聚合夸大</td></tr>
+          <tr><td><b>Mem0 基准成绩</b></td><td>官方自报 LOCOMO 92.5，但声明仅适用于托管平台；Zep/Hindsight/Honcho 公开质疑，无第三方复现</td></tr>
+          <tr><td><b>Agno 性能宣传</b></td><td>「快 5000 倍」未经独立验证，属营销口径</td></tr>
+          <tr><td><b>OpenHands SWE-bench</b></td><td>~53% 来自二手来源，具体模型/版本需以官方为准</td></tr>
+          <tr><td><b>OWL / Suna / Agent Zero 许可证</b></td><td>GitHub 识别为 NOASSERTION 或未检测到标准协议文件，具体条款未一手确认</td></tr>
+          <tr><td><b>A2A v1.0 GA 日期</b></td><td>2026-03 与 2026-07 两种说法并存</td></tr>
+          <tr><td><b>Open Deep Research</b></td><td>独立仓库 2026-10-14 返回 404，现作为 smolagents 示例分发</td></tr>
+          <tr><td><b>各项目 notable_users</b></td><td>多数来自第三方博客/发布会报道，未经官方逐一确认</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>调研方法</b>：所有 Star / License / 语言 / 提交时间优先通过 <code>api.github.com/repos/{owner}/{repo}</code> 一手抓取；项目定位、架构、社区评价通过官方 README/文档与多方来源交叉验证；存在冲突的信息在报告中明确标注而非选择性呈现。</p>
+    <p><b>数据快照</b>：2026-10-14 · Star 数会随时间变化 · 共 6 大类 49 个项目</p>
+  </footer>
+</div>
+
+<script>
+const CATS = {
+  A:{n:"开发者框架 / Agent SDK", c:"--cA", d:"用代码编排 Agent，自由度最高，面向工程师。2026 年从百花齐放走向整合收敛。"},
+  B:{n:"可视化 / 低代码平台",   c:"--cB", d:"拖拽编排、开箱即用、可自托管，面向业务与团队。"},
+  C:{n:"通用自主智能体",         c:"--cC", d:"「你说它做」，能操作电脑、浏览器、文件系统。2026 年最热、也最危险的一类。"},
+  D:{n:"Agent-IDE / 编码工作台", c:"--cD", d:"以编码为唯一场景的 Agent 工作台。2026 年出现明显洗牌。"},
+  E:{n:"基础设施 / 运行时 / 协议",c:"--cE", d:"不是工作台本身，但决定工作台的能力上限：连接、记忆、沙箱、观测。"},
+  F:{n:"知识库 / 研究型工作台",   c:"--cF", d:"以调研与知识生产为核心，是通用工作台在垂直方向的收敛形态。"}
+};
+
+const P = [
+ // ===== A =====
+ {c:"A",n:"LangGraph",r:"langchain-ai/langgraph",s:43238,l:"MIT",lk:"ok",lg:"Python/TS",st:"live",p:"图状态机式低层 Agent 编排框架，工业界事实标准之一",o:"图状态机（节点/边/条件边），支持循环、并行、子图；内置 supervisor / swarm 多 Agent 模式",m:"短期 thread 状态 + 长期 BaseStore 跨会话持久化",sb:"不内置，需外接 E2B 等",mc:"支持",h:["图状态机范式，比线性链更适合复杂可控流程","持久化执行：断点续跑与故障恢复","原生 human-in-the-loop：interrupt() + checkpoint","内置多种多 Agent 编排模式"],x:["学习曲线陡峭，抽象层厚","高级能力依赖 LangChain 商业平台","API 迭代频繁，迁移成本高"]},
+ {c:"A",n:"CrewAI",r:"crewAIInc/crewAI",s:59675,l:"MIT",lk:"ok",lg:"Python",st:"live",p:"以角色扮演为核心、轻量易上手的多 Agent 协作框架",o:"角色扮演 + 多 Agent：Agent/Task/Crew/Process（顺序/层级）；Flows 提供事件驱动编排",m:"内置短期/长期/实体记忆，跨会话持久",sb:"不内置强隔离，可自行接 Docker/E2B",mc:"支持 MCP + A2A",h:["角色扮演范式，上手门槛低、代码量少","Crews + Flows 双模式：自主协作 vs 精确控制","原生支持 MCP 与 A2A，内置记忆与 RAG 工具","配套 CrewAI Studio 可视化"],x:["高自由度带来不确定性与高 token 消耗","低层控制力弱于 LangGraph","部分高级能力需付费平台"]},
+ {c:"A",n:"OpenAI Agents SDK",r:"openai/openai-agents-python",s:30023,l:"MIT",lk:"ok",lg:"Python/JS",st:"live",p:"OpenAI 官方轻量级多 Agent 工作流 SDK，配套 Responses API 与 AgentKit 生态",o:"Agent + handoffs（交接）+ guardrails + sessions；支持 agents-as-tools",m:"sessions 会话记忆；长期记忆需自行实现",sb:"Computer Use / Code Interpreter 在 OpenAI 托管隔离环境执行",mc:"原生支持",h:["官方轻量：核心抽象仅 Agent/Handoff/Guardrail/Session","与 OpenAI 平台深度协同：Hosted Tools","AgentKit 生态：可视化 Agent Builder + ChatKit + Evals","原生 handoff 多 Agent 交接与 guardrails 安全护栏"],x:["对 OpenAI 平台绑定较强","部分能力依赖 OpenAI 云服务与计费","复杂状态/持久化不如 LangGraph 成熟"]},
+ {c:"A",n:"Google ADK",r:"google/adk-python",s:21826,l:"Apache-2.0",lk:"ok",lg:"Python/Go/Java/TS",st:"live",p:"Google 开源的代码优先 Agent 开发工具包，与 Gemini/Vertex AI 深度绑定",o:"Agent + Workflow 双范式：内置顺序、并行、循环、路由、重试；层级多 Agent + A2A",m:"Session/State + 长期记忆（可插拔存储后端）",sb:"提供代码执行工具（可对接 Vertex AI 沙箱）",mc:"原生支持 MCP + A2A",h:["Agent + Workflow 双范式，2.0 内置工作流/路由/循环/重试/并行","多语言：Python/Java/Go/TypeScript 一致 API","与 Google 生态深度绑定：Gemini、Vertex AI、Google Search","内置评估与部署到 Vertex AI Agent Engine 的路径"],x:["最佳体验偏向 Google/Gemini 生态","多语言 API 与文档成熟度不一","ADK 2.0 相对新，最佳实践仍在沉淀"]},
+ {c:"A",n:"Microsoft Agent Framework",r:"microsoft/agent-framework",s:14120,l:"MIT",lk:"ok",lg:"Python/.NET",st:"live",p:"微软把 AutoGen 与 Semantic Kernel 合并后的统一企业级 Agent 框架（1.0 GA 2026-04）",o:"工作流 + 多 Agent 编排：顺序、并发、交接(handoff)、群聊",m:"会话线程状态 + 长期记忆（可接 Azure AI Search）",sb:"不内置，依赖 Azure/容器",mc:"原生支持 MCP + A2A",h:["统一底座：合并 AutoGen（对话式多 Agent）与 Semantic Kernel（企业插件/流程）","跨语言一致性：Python 与 .NET API 对齐","工作流 + Agent 双范式","企业就绪：Azure AI Foundry + OpenTelemetry"],x:["相对年轻，生态不如 LangChain/CrewAI 成熟","两套旧框架合并带来迁移成本","社区规模较小"]},
+ {c:"A",n:"Claude Agent SDK",r:"anthropics/claude-agent-sdk-python",s:8273,l:"MIT",lk:"ok",lg:"Python/TS",st:"live",p:"Anthropic 官方 Agent SDK，源自 Claude Code",o:"主 Agent 循环 + 子代理(subagents)委派；通过 hooks/commands/skills 扩展",m:"上下文管理与 compaction；CLAUDE.md 提供项目级上下文",sb:"可执行代码/操作文件系统，支持沙箱与权限隔离配置",mc:"原生支持",h:["源自 Claude Code 的成熟 Agent 运行时","原生支持子代理(subagents)与 Skills，便于层级委派","完善的权限与 hooks 机制","原生 MCP 支持"],x:["与 Claude 模型/Anthropic 生态绑定较强","依赖 Claude Code 运行时，跨厂商灵活性有限","生态规模小于其他主流框架"]},
+ {c:"A",n:"LlamaIndex",r:"run-llama/llama_index",s:50433,l:"MIT",lk:"ok",lg:"Python",st:"live",p:"以数据/RAG 为中心的 Agent 框架，从数据接入到检索问答全链路",o:"事件驱动 Workflows + 单 Agent 循环 + 多 Agent 协作",m:"短期会话 + 长期向量记忆（chat store 持久化）",sb:"无独立沙箱",mc:"支持",h:["以数据为中心：LlamaHub 300+ 数据连接器","事件驱动 Workflows 编排引擎，支持流式/分支/中断","从 QueryEngine 到 Agent 的完整跃迁路径","与 LlamaParse/LlamaCloud 企业文档解析深度集成"],x:["公司战略重心转向 LlamaParse 商业平台，开源框架更新放缓","集成包庞大导致依赖管理复杂","抽象层多，深度定制学习曲线高"]},
+ {c:"A",n:"Agno（原 Phidata）",r:"agno-agi/agno",s:34000,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"主打高性能、无依赖的多模态 Agent 运行时",o:"Agent / Team（路由·协作·协调三模式）/ Workflow（DAG）三层抽象",m:"内置会话记忆 + 长期记忆 + 知识库",sb:"支持代码执行（可集成沙箱环境）",mc:"支持（AgentOS MCP endpoint）",h:["高性能主张：纯 Python 无依赖架构","AgentOS 运行时层：提供 API、控制台、监控与部署","多模态 + 多 Agent：Team 提供三种协作模式","内置记忆与知识库，支持状态持久化"],x:["「快 5000 倍」宣传未获独立验证，营销色彩重","版本迭代极快，API 变动频繁","部分高级能力绑定 AgentOS"]},
+ {c:"A",n:"smolagents",r:"huggingface/smolagents",s:27944,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"HuggingFace 出品的极简 Code-Agent 框架，核心理念「代码即动作」",o:"单 Agent 循环 + 多 Agent 层级协作（managed agents）",m:"短期会话记忆，无内置长期记忆",sb:"多后端可选：E2B / Docker / Modal / WebAssembly",mc:"支持（ToolCollection.from_mcp）",h:["「代码即动作」范式：直接生成 Python 代码调用工具，省去 JSON 序列化","极简核心实现（千行代码量级）","多沙箱执行后端可选","工具可在 Hugging Face Hub 分享与加载"],x:["「代码即动作」带来安全风险，必须依赖沙箱隔离","生态规模小于老牌框架","复杂生产级编排能力弱于图编排框架"]},
+ {c:"A",n:"Mastra",r:"mastra-ai/mastra",s:24972,l:"Apache-2.0 + 企业许可",lk:"warn",lg:"TypeScript",st:"live",p:"TypeScript 原生 AI Agent/应用框架，TS 阵营代表",o:"Agent + Workflow（基于 XState）+ 多 Agent 网络；支持挂起/恢复",m:"内置记忆系统（对话历史、工作记忆、语义记忆）",sb:"无内置强沙箱",mc:"原生支持（客户端 + 服务端双向）",h:["TypeScript 原生、端到端类型安全，与 Node/Next.js 无缝集成","一体化能力：Agent + 工作流引擎 + 记忆 + RAG + 可观测性","原生 MCP 客户端与服务端","本地 Playground 调试 + Mastra Cloud 一键部署"],x:["仅限 TS/JS 生态","部分功能位于 ee/ 目录，采用企业许可","项目较新，大规模生产案例仍在积累"]},
+ {c:"A",n:"Haystack",r:"deepset-ai/haystack",s:24800,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"生产级 LLM/Agent 编排框架，强调「显式控制」的模块化 Pipeline",o:"模块化 Pipeline（DAG）+ Agent 工作流（支持多 Agent）",m:"短期会话 + 可扩展长期记忆（存储组件）",sb:"无内置沙箱",mc:"支持（MCPTool 等）",h:["组件化模块设计，Pipeline 显式可控","深厚的检索/RAG 能力（检索-重排-生成链路完整）","企业级支持：deepset AI Platform + NVIDIA 企业 AI 工厂合作","统一支持 Agent、RAG、多模态、语义搜索"],x:["1.x → 2.x API 大改，迁移成本高","组件抽象较重，简单场景上手繁琐","Agent 编排灵活度略低于图编排框架"]},
+ {c:"A",n:"Pydantic AI",r:"pydantic/pydantic-ai",s:16900,l:"MIT",lk:"ok",lg:"Python",st:"live",p:"以类型安全与 Pydantic 校验为核心的 Python Agent 框架",o:"类型化单 Agent 循环 + 多 Agent（委托/handoff）+ pydantic-graph 图状态机",m:"消息历史（短期）；长期需外接持久化",sb:"无内置沙箱",mc:"支持（原生 MCP 客户端）",h:["以 Pydantic 类型校验为核心，输出/依赖/工具接口类型安全","类 FastAPI 的开发者体验：依赖注入 + Logfire 可观测","pydantic-graph 提供类型化图状态机","同一 Agent 可跨 Web/终端/语音/队列运行"],x:["生态相对较新，第三方集成少于 LangChain","偏重后端工程，非工程背景学习曲线陡","复杂多 Agent 编排能力相对有限"]},
+ // ===== B =====
+ {c:"B",n:"n8n",r:"n8n-io/n8n",s:207314,l:"Sustainable Use（非 OSI 开源）",lk:"warn",lg:"TypeScript",st:"live",p:"通用自动化工作流平台，近两年成长为 AI Agent 编排热门选择",o:"工作流 DAG + AI Agent 节点（由 LangChain 驱动）+ 子工作流",m:"AI 节点支持会话记忆",sb:"代码节点执行 JS/Python，隔离取决于部署",mc:"原生双向：既作客户端，也可暴露为服务器",h:["400+ 集成 + 通用自动化基因，可直接编排真实业务系统","同时作为 MCP 客户端与服务端，实现双向 AI 互操作","可视化画布 + 自定义代码混合编程"],x:["非 OSI 开源，禁止 SaaS 转售","学习曲线陡；企业功能需付费版","AI Agent 能力偏通用自动化，深度较浅"]},
+ {c:"B",n:"Dify",r:"langgenius/dify",s:158414,l:"Dify OSL（Apache 2.0 附加条件）",lk:"warn",lg:"TypeScript + Python",st:"live",p:"开源 LLM 应用与 Agent 工作流平台，LLMOps 一体化",o:"工作流 DAG（Chatflow / Workflow 双范式）+ Agent 节点",m:"会话变量 + 对话记忆（短期）；长期依赖知识库检索",sb:"代码执行节点在受限沙箱运行 Python/Node.js",mc:"原生支持（客户端/服务端）",h:["LLMOps 全家桶：Prompt 编排、RAG、Agent、可观测性、标注反馈闭环","双工作流范式：Chatflow（对话流）与 Workflow（自动化流）分离","模型/工具/向量库高度可插拔，并提供 BaaS API"],x:["SSO/RBAC/多租户等企业特性仅企业版","自定义许可禁止直接作为云服务转售","复杂多 Agent 协作不如代码框架灵活"]},
+ {c:"B",n:"Langflow",r:"langflow-ai/langflow",s:155643,l:"MIT",lk:"ok",lg:"Python",st:"live",p:"基于 LangChain 的可视化拖拽式 Agent 与工作流构建工具",o:"工作流 DAG + 多 Agent",m:"会话记忆组件",sb:"支持代码执行组件（Python）",mc:"支持（MCP 组件/可暴露为服务器）",h:["深度绑定 LangChain 组件生态，节点数量与集成广度领先","基于 React Flow 的画布，流程可即时导出为 API 或嵌入组件","MIT 许可最宽松，商用限制少"],x:["LangChain 概念多，非技术用户学习曲线陡","复杂流程生产部署仍需额外工程化","第三方组件质量参差，版本兼容问题多"]},
+ {c:"B",n:"RAGFlow",r:"infiniflow/ragflow",s:92178,l:"Apache-2.0",lk:"ok",lg:"Go + Python + TS",st:"live",p:"以「深度文档理解」为核心差异化的开源 RAG 引擎 + Agent 平台",o:"可视化工作流 DAG + Agent 内多轮工具调用",m:"会话级短期记忆",sb:"提供代码执行组件（容器隔离为主）",mc:"支持",h:["DeepDoc 文档解析引擎：OCR + 版面分析 + 表格结构识别","模板化分块：按论文/手册/简历/表格/书籍/法律/PPT 等类型选择策略","RAG 与 Agent 融合：回答可点击溯源到原文切片","工程化完整：可视化知识库管理、GraphRAG、多向量库后端"],x:["资源占用高，Docker 部署对内存/GPU 有要求","解析质量依赖 DeepDoc 模型，极端版式仍可能错位","版本迭代快，API/界面变动频繁"]},
+ {c:"B",n:"AnythingLLM",r:"Mintplex-Labs/anything-llm",s:67040,l:"MIT",lk:"ok",lg:"JavaScript",st:"live",p:"「一体化、本地优先」的私有化知识库与 Agent 应用，主打桌面端开箱即用",o:"单 Agent + Agent 技能 + Agent Flows",m:"工作区级记忆 + 长期记忆（@agent 记忆）",sb:"桌面端可执行代码并访问本地文件系统（隔离性弱）",mc:"原生支持",h:["桌面端 + 一键部署：单机安装即获完整知识库+Agent，内置本地 LLM，真正离线可用","工作区(Workspace)隔离模型，轻量管理多主题知识库","隐私优先/数据自持，文档与向量可完全留在本机","MIT 许可，商用限制最少"],x:["复杂多应用编排与权限体系弱于 Dify","桌面端 Agent 可访问本地文件系统，沙箱隔离弱","部分高级功能与商业版绑定"]},
+ {c:"B",n:"Khoj",r:"khoj-ai/khoj",s:37679,l:"AGPL-3.0",lk:"bad",lg:"Python",st:"slow",p:"「个人 AI 第二大脑」：把本地/在线文档与联网检索统一为可问答、可自动化的个人助手",o:"单 Agent + 自定义 Agent + 定时自动化 + 深度研究模式",m:"长期记忆（可开关，默认开启）",sb:"提供代码执行工具，能力有限",mc:"[不确定]",h:["「第二大脑」定位独特：深度绑定 Obsidian/Emacs 与 WhatsApp 等入口","多端 + 离线：桌面/移动/浏览器插件多入口，支持本地模型","内置定时自动化（Scheduled Automations）"],x:["AGPL-3.0 对闭源商用/二次分发限制强","2.0 仍处 beta，稳定性与 API 变动风险高","近期提交频率低于同类头部项目"]},
+ {c:"B",n:"FastGPT",r:"labring/FastGPT",s:29817,l:"FastGPT OSL（Apache 2.0 附加条件）",lk:"warn",lg:"TypeScript",st:"live",p:"国产知识库问答 + 可视化工作流编排平台，以 RAG 与私有化部署见长",o:"工作流 DAG（Flow）+ Agent（工具调用/任务规划）",m:"会话记忆 + 知识库长期检索",sb:"支持代码节点执行",mc:"支持",h:["知识库/RAG 能力突出：完整的数据导入、切分、混合检索与重排流水线","可视化 Flow 工作流 + Agent 编排一体化","国产化适配好：中文文档、私有化部署、Sealos 生态集成"],x:["自定义许可对大规模商用有限制","生态/插件规模小于 Dify/n8n","复杂 Agent 逻辑表达能力有限"]},
+ {c:"B",n:"Coze Studio",r:"coze-dev/coze-studio",s:21709,l:"Apache-2.0（附商标条款）",lk:"ok",lg:"TypeScript + Go",st:"live",p:"字节跳动扣子（Coze）的开源版，全栈式 AI Agent 开发平台",o:"工作流 DAG + 单 Agent / 多 Agent 模式",m:"会话变量 + 对话记忆（短期）",sb:"含代码节点执行能力",mc:"通过插件/MCP 客户端方式支持",h:["全栈开源：后端 Go（微服务 + DDD），前端 React + TypeScript","复用扣子 SaaS 插件生态（通过 MCP 协议调用）","低代码一体化：Agent、工作流、插件、知识库、Prompt 在同一平台闭环"],x:["官方部署以 Docker 一键部署为主，大规模扩展能力受限","近期提交放缓，生态/文档成熟度不及 Dify","二次开发门槛高（Go 微服务 + DDD）"]},
+ {c:"B",n:"Bisheng（毕昇）",r:"dataelement/bisheng",s:12047,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"面向企业的国产开源 LLM 应用开发平台（LLMOps），覆盖工作流、RAG、Agent、模型管理、评测、SFT",o:"可视化工作流 DAG + Agent（ReAct 类自主循环）",m:"会话级短期记忆",sb:"提供代码节点/代码执行能力",mc:"较新版本支持 MCP 接入",h:["企业级功能最全的一档：原生集成模型管理、评测、SFT 微调、数据集管理、可观测性","国产化/信创友好：中文优先、支持国产大模型与本地化部署","强大的文档解析与 OCR 能力（中文复杂文档）"],x:["部署与运维较重，组件多、资源要求高","社区规模与生态小于 Dify/RAGFlow，英文资料少","部分高级能力面向企业版"]},
+ {c:"B",n:"Flowise",r:"FlowiseAI/Flowise",s:55500,l:"Apache-2.0（附商业条款）",lk:"warn",lg:"TypeScript",st:"dead",dead:1,p:"拖拽式 LLM 应用/Agent 编排平台，基于 Node/TypeScript 技术栈",o:"工作流 DAG + 多 Agent（Multi-Agent / Supervisor 模式）",m:"会话记忆与向量记忆",sb:"支持代码节点执行",mc:"支持（MCP 工具节点）",h:["Node/TypeScript 技术栈，npm 安装即用","提供 Chatflow / Agentflow / 工具链多类画布","企业版提供 RBAC、多工作区"],x:["⚠️ 开源仓库已于 2026-08-13 归档，停止活跃维护，长期可持续性存疑","RBAC/多工作区需付费企业版","大规模工作流性能与维护风险高"]},
+ // ===== C =====
+ {c:"C",n:"OpenClaw",r:"openclaw/openclaw",s:391937,l:"MIT",lk:"ok",lg:"TypeScript / Node.js",st:"live",p:"本地优先的开源个人 AI 助手/Agent 运行时，把 LLM 变成能自主操作电脑的「数字员工」",o:"Gateway 网关为中心的调度架构：约 26 个消息平台桥接收敛到单个长驻 Node.js 进程，再调度 LLM/工具/记忆；含心跳定时任务",m:"本地持久记忆：文件驱动 + 双模记忆系统，跨会话「越用越聪明」",sb:"⚠️ 无沙箱隔离——默认获取系统级读写、命令执行权限，直接操作用户真实系统",mc:"原生支持（并同时使用 Skills 技能机制）",h:["Gateway 为中心的消息总线架构：20+ IM 平台桥接收敛为单一长驻进程","本地优先与数据主权：数据与记忆存于本地，MIT 协议可商用","开放的技能生态：官方 ClawHub 技能市场 + 社区数千扩展技能 + 心跳任务 + 双模记忆","增长极快：2026 年成为 GitHub 历史星标第一的项目"],x:["安全风险极高：工信部 2026-03-12 发布预警；密钥泄露、信息误删、Skills 投毒、隐私泄露","提示词注入：网页/邮件中的隐藏恶意指令可诱导泄露密钥或执行高危操作","ClawJacked 远程控制漏洞：诱导访问恶意网页即可远程控制本地 Agent","权限失控：默认系统级权限，可能误删文件/生产数据，造成不可逆损失"]},
+ {c:"C",n:"AutoGPT",r:"Significant-Gravitas/AutoGPT",s:187566,l:"混合/自定义（Polyform Shield + MIT）",lk:"warn",lg:"Python",st:"live",p:"2023 年引爆自主智能体赛道的鼻祖，现演进为可视化 Agent 编排平台（Builder）",o:"双轨：Platform 采用 DAG 工作流引擎；Classic 保留单 Agent 自由循环（think→act→observe）",m:"内置记忆系统 + 工作流持久化",sb:"Docker 容器化部署，执行隔离",mc:"[不确定]",h:["双轨架构：Classic（自由循环）+ Platform（可视化 DAG），平衡自主性与可控性","DAG 执行引擎：每步有状态检查点、可观测","Block 积木式 Builder：拖拽连线即可组合可运行的 Agent","把「黑盒」Agent 变成「白盒」"],x:["早期自主循环易陷入死循环、API 费用失控","可视化平台学习曲线较陡","许可为混合/自定义条款，商用需核对"]},
+ {c:"C",n:"OpenHands（原 OpenDevin）",r:"OpenHands/OpenHands",s:90847,l:"MIT",lk:"ok",lg:"TypeScript + Python",st:"live",p:"开源 AI 软件工程智能体（Devin 的开源替代），可在 Docker 沙箱内完成完整开发闭环",o:"单 Agent 自主循环（CodeAct：以可执行代码作为统一动作空间）+ 多 Agent 委派",m:"会话内上下文记忆 + 事件流与状态持久化",sb:"Docker 容器沙箱隔离，代码执行不污染宿主",mc:"支持",h:["CodeAct 架构：把「动作」统一为可执行代码，端到端自主性更强","SWE-bench Verified 实测约 53%+（顶级模型下），开源编码智能体第一梯队","Docker 沙箱 + 模型无关设计","GitHub 原生集成：可 @OpenHands 自动修复 Issue 并提交 PR"],x:["大型遗留系统的深层架构理解仍依赖人类","顶级模型 API 成本可能不菲","敏感代码库需审慎配置网络与文件权限"]},
+ {c:"C",n:"Open Interpreter",r:"OpenInterpreter/open-interpreter",s:68574,l:"Apache-2.0",lk:"ok",lg:"Rust（2026 年由 Python 重写）",st:"live",p:"终端里的 AI 编码智能体，专为低成本开源模型（Kimi、GLM、DeepSeek、Qwen）优化",o:"单 Agent 循环（读代码→改文件→跑命令→审变更），基于 OpenAI Codex 架构重写",m:"支持会话恢复（resume）",sb:"本地沙箱执行代码（macOS/Linux/Windows）",mc:"未明确支持（主题含 ACP 协议）",h:["2026 年用 Rust 重写，性能与启动体验显著提升","专为低成本开源模型调优，打破「AI 编程代理只配旗舰模型」的假设","支持随时恢复会话","由经典「本地执行代码」项目演进为聚焦终端编码代理"],x:["定位已从「通用本地代码执行」收缩为「编码代理」","依赖开源模型能力上限","Rust 重写后与旧版插件不兼容"]},
+ {c:"C",n:"OpenManus",r:"FoundationAgents/OpenManus",s:58635,l:"MIT",lk:"ok",lg:"Python",st:"live",p:"MetaGPT 团队开源的「Manus 平替」，宣称「无需邀请码即可实现任何想法」",o:"单 Agent 循环（OpenManus Agent）+ 可选多 Agent 工作流（官方标注 unstable）",m:"短期会话记忆",sb:"本地直接执行代码、操作文件与浏览器；无内置强隔离",mc:"原生支持（Browser Use 作为默认 MCP 服务器）",h:["3 小时极速原型 + MetaGPT 团队背书","默认集成 Browser Use（MCP 形式）+ crawl4ai，开箱具备浏览器操作与网页抓取","配套 OpenManus-RL（与 UIUC 合作，基于 GRPO 强化学习调优）","支持通过 config.toml 挂载多 Agent 与 DataAnalysis Agent"],x:["定位为「简单实现/原型」，多 Agent 流程被标注 unstable","依赖外部 LLM API key，复杂任务 token 消耗大","文档简略，内置 RAG/长期记忆有限"]},
+ {c:"C",n:"Suna / Kortix",r:"kortix-ai/suna",s:20273,l:"自定义（NOASSERTION）",lk:"bad",lg:"TypeScript",st:"live",p:"开源「AI 操作系统」，自我定位为 Claude Cowork / ChatGPT Work 的开源替代",o:"以「会话(session)」为单位的单 Agent 执行 + 组织级多 Agent 并行；每 session 独立沙箱与独立 git 分支",m:"公司级「记忆」：以文件/git 仓库形式持久化，可版本化、可 diff、可 grep",sb:"每会话独立云沙箱（microVM 或容器）+ 独立分支；凭证服务端代理",mc:"支持（另有 OpenAPI/GraphQL/HTTP）",h:["每会话一个隔离云沙箱 + 独立 git 分支，产物经 change request 审批合并，天然可审计可回滚","「一切即代码」：Agent、技能、记忆、连接器、触发器均为 git 文件，可版本化","企业级治理：Allow-Ask-Block 审批门、审计轨迹、SAML SSO/SCIM","多入口：Web、Slack、Teams、CLI、桌面与移动端统一到同一会话"],x:["许可为非标准协议，核心价值依赖 Kortix Cloud","架构偏重，部署与运维门槛高、资源占用大","产品定位/命名较新，生态与文档仍在快速演进"]},
+ {c:"C",n:"OWL（Optimized Workforce Learning）",r:"camel-ai/owl",s:20151,l:"[不确定] 未检测到标准协议文件",lk:"bad",lg:"Python",st:"live",p:"基于 CAMEL 框架的开源多智能体协作通用智能体",o:"多 Agent 协作：基于 CAMEL 的 role-playing 机制（User Agent + Assistant Agent 动态对话协商）",m:"CAMEL ChatAgent 记忆机制（短期会话，可选长期/向量记忆）",sb:"本地执行代码与浏览器操作；无内置强隔离",mc:"原生支持（MCPToolkit）",h:["GAIA 基准表现领先：发布时 58.18 平均分、开源框架第一；后续提升至 69.09","原生集成 MCP，整合 CAMEL 生态上百种工具包","基于 CAMEL 的多智能体 role-playing 协作范式，动态分工而非固定 DAG","提供 Docker 与 Streamlit Web UI"],x:["许可协议不清晰，商用合规性存疑","多智能体协作对模型能力与 token 消耗要求高","无强沙箱隔离，工具调用稳定性与安全需自行加固"]},
+ {c:"C",n:"Agent Zero",r:"agent0ai/agent-zero",s:19458,l:"自定义开源协议（非 OSI）",lk:"bad",lg:"Python",st:"live",p:"具备完整（Docker 隔离）计算机环境的通用自主智能体框架，面向技术用户/开发者",o:"单 Agent 循环 + 层级式多 Agent（上级 Agent 可派生下属 Agent 并行协作）",m:"持久记忆（跨会话保留，基于文件/向量方式）",sb:"Docker 容器隔离为最大特色——默认在隔离的 Kali Linux 容器中运行",mc:"支持（作为 MCP 客户端）",h:["默认 Docker 容器隔离：Agent 在独立 Linux 环境中拥有完整终端、文件系统与浏览器","层级多 Agent 架构：可自行派生下属 Agent 协同完成复杂任务","「透明 + 可定制」：提示词、工具(instruments)、记忆均可修改","模型无关（LiteLLM），自带 Web UI"],x:["采用自定义（非标准 OSI）协议，商用条款需自行确认","Docker 运行带来资源占用与部署门槛，学习曲线陡","个人开发者主导，长期治理存在不确定性"]},
+ {c:"C",n:"Devika",r:"stitionai/devika",s:19553,l:"MIT",lk:"ok",lg:"Python",st:"dead",dead:1,p:"首个开源 Agentic Software Engineer，最初作为 Devin 的开源替代",o:"多 Agent 协作（规划/研究/编码等子 Agent 分工，角色扮演式）",m:"短期会话记忆",sb:"本地执行（隔离能力有限）",mc:"不支持（项目早于 MCP 生态）",h:["早期 Devin 开源平替的先驱，多 Agent 分工（规划-研究-编码）设计清晰","模型无关 + 本地部署 + Web UI，上手门槛低","曾以「开源 Devin」概念迅速走红"],x:["⚠️ 维护基本停滞（最后提交 2025-09-25），长期选型风险高","完成度与稳定性不足，复杂任务常需人工干预","本地执行隔离性弱"]},
+ {c:"C",n:"UI-TARS",r:"bytedance/UI-TARS",s:11596,l:"Apache-2.0",lk:"ok",lg:"Python（Desktop 为 TS）",st:"slow",p:"字节出品的原生 GUI 智能体，用自研视觉语言模型直接「看屏幕、点按钮、填表」",o:"单 Agent 端到端（VLM 一体化集成感知-推理-行动，无预定义规则）",m:"[不确定]",sb:"在自有电脑/VM 上运行，可结合虚拟机隔离",mc:"Agent TARS 侧支持 MCP",h:["端到端 VLM 专为 GUI grounding 训练，论文公开（arXiv:2501.12326）","具备开放词汇定位与像素级操作能力，可驱动无 DOM 的 canvas/桌面应用","一仓库双形态：UI-TARS Desktop（约 3.8 万星）+ Agent TARS","已推出 GUI+DOM 混合浏览器模式，代表纯像素路线向混合收敛"],x:["grounding 坐标定位是最大失败点，点错像素会「静默成功」于错误目标","每步截图导致 Token 成本高","直接操控真实桌面「破坏半径」大，严肃使用必须跑在沙箱/VM 中"]},
+ {c:"C",n:"Bytebot",r:"bytebot-ai/bytebot",s:11075,l:"Apache-2.0",lk:"ok",lg:"TypeScript",st:"dead",dead:1,p:"自托管的 AI 桌面代理，在容器化 Linux 桌面环境中通过自然语言命令自动完成电脑任务",o:"单 Agent 循环",m:"[不确定]",sb:"Docker 容器化 Linux 桌面，天然隔离",mc:"支持",h:["自带完整虚拟桌面：容器化 Linux + NoVNC，浏览器即可观看与接管","三套 API：Agent API、ComputerUse API、MCP","开源自托管，任务全程可视化，支持随时人工接管"],x:["⚠️ 项目已归档停更（2025-09-12），选型风险高","依赖截图的 computer-use 路线，grounding 与稳定性/成本存在通病","维护方信息与社区活跃度低"]},
+ // ===== D =====
+ {c:"D",n:"Cline",r:"cline/cline",s:70289,l:"Apache-2.0",lk:"ok",lg:"TypeScript",st:"live",p:"VS Code / JetBrains 内最流行的开源自主编码 Agent 插件",o:"单 Agent 循环，核心为 Plan/Act（规划/执行）两阶段模式",m:"通过 .clinerules 规则文件 + Memory Bank 模式实现跨会话项目记忆",sb:"无隔离沙箱，直接在本机工作区读写文件并执行终端命令",mc:"原生支持",h:["Plan/Act 两阶段执行范式：先规划后执行","Checkpoint 快照机制：每步改动可回滚，配合 diff 预览","原生 MCP 支持 + BYOK：模型与工具均开放","提供 IDE 插件 / CLI / SDK 三种形态"],x:["Token 消耗大、成本高，需自备 API Key","复杂任务可能偏离目标或陷入循环","默认逐步审批在长任务中点击负担重"]},
+ {c:"D",n:"Aider",r:"Aider-AI/aider",s:49539,l:"Apache-2.0",lk:"ok",lg:"Python",st:"slow",p:"终端内的 AI 结对编程工具，以 git 原生工作流为核心",o:"单 Agent 循环，通过 /chat、/code 等斜杠命令驱动",m:"以会话历史 + git 提交记录承载；无长期向量记忆",sb:"本地执行，直接读写文件与 git；无隔离沙箱",mc:"不支持 MCP",h:["git 原生：每次 AI 修改自动生成 commit，可随时回滚、可追溯","仓库地图(repo map)：基于 tree-sitter 提取符号构建结构化代码库地图","纯终端工作流，模型无关且支持本地模型","可脚本化/批处理，适合融入 CI"],x:["无 GUI，仅终端形态，门槛较高","活跃度下降（2026-05 后无提交），新特性迭代停滞","工具能力偏窄（无浏览器/MCP）"]},
+ {c:"D",n:"Continue",r:"continuedev/continue",s:36218,l:"Apache-2.0",lk:"ok",lg:"TypeScript",st:"live",p:"可自托管模型的开源编码助手/Agent，强调企业私有化部署",o:"单 Agent 循环 + 可配置的 Assistants/规则体系",m:"规则文件 + @-提及上下文管理，无长期向量记忆",sb:"本地执行（读写文件/终端），无隔离沙箱",mc:"支持",h:["补全 + 聊天 + Agent 三位一体的深度 IDE 集成","config.yaml / Hub 可编程配置助手、模型与上下文","强私有化/自托管能力，数据不出内网","企业化支持：商业实体运营，文档较完善"],x:["功能面广、配置项多，config 上手成本高","纯 Agent 自主能力相对偏弱，更偏「辅助」定位","部分高级能力与企业版绑定"]},
+ {c:"D",n:"Void",r:"voideditor/void",s:28759,l:"Apache-2.0",lk:"ok",lg:"TypeScript",st:"dead",dead:1,p:"开源的 AI 代码编辑器（VS Code fork），定位为 Cursor 的开源替代方案",o:"单 Agent 循环，支持内联改写、聊天与基础 Agent 模式",m:"无长期记忆机制",sb:"本地编辑，无隔离沙箱",mc:"不支持 MCP",h:["基于 VS Code fork 的开源 AI 编辑器，Cursor 开源替代路线代表","隐私友好：模型自带 Key、代码不上传第三方","开源可控，支持本地模型（Ollama）"],x:["⚠️ 已弃用并归档（2026-06-02 最后提交），2026 年初起停止主动开发","功能相较 Cursor 明显「极简」，缺代码库索引、MCP、Rules","社区生态难以为继"]},
+ {c:"D",n:"Roo Code",r:"RooCodeInc/Roo-Code",s:24281,l:"Apache-2.0",lk:"ok",lg:"TypeScript",st:"dead",dead:1,p:"由 Cline 分叉演进的编码 Agent，主打「一整个 AI 开发团队」（多模式 Modes）",o:"多角色模式编排：内置 Code / Architect / Ask / Debug 等 Mode，可自定义并限定工具权限",m:"通过 .roorules / 自定义规则文件与 Mode 级指令实现持久化上下文",sb:"本地执行，无隔离沙箱",mc:"原生支持（对 MCP 集成激进）",h:["模式系统(Modes)：内置+可自定义角色，可限定每个 Mode 的工具权限","对 MCP 集成激进，支持 MCP 服务市场式扩展","规则文件高度可定制，适合团队固化规范"],x:["⚠️ 官方已于 2026-05-15 停运、仓库归档，存在安全与兼容性风险","新用户不建议再选；老用户需迁移到 Kilo Code / Zoo Code / CodeDeeper 等 fork","MCP 激进集成带来配置复杂度与稳定性波动"]},
+ {c:"D",n:"bolt.diy",r:"stackblitz-labs/bolt.diy",s:20000,l:"MIT",lk:"ok",lg:"TypeScript",st:"slow",p:"bolt.new 的官方开源版本，在浏览器内生成/运行/部署全栈 Web 应用",o:"单 Agent 循环：提示词 → 生成代码 → 实时预览 → 迭代修改",m:"会话内上下文 + 项目快照机制",sb:"浏览器内 WebContainers 沙箱（隔离的 Node.js 运行时），不触碰本机文件系统",mc:"支持",h:["基于 WebContainers 的浏览器内全栈运行环境，无需本地安装 Node","22+ 模型提供方自由选择（区别于 bolt.new/v0 的单一模型策略）","一键部署到 Netlify / Vercel / GitHub Pages，并提供 Electron 桌面端","内置 Supabase 集成、数据可视化图表与 MCP 工具"],x:["处于维护模式，不再新增功能，长期演进存疑","依赖 WebContainers API，企业部署受商业许可条款约束","面向原型/中小项目，复杂大型工程能力有限"]},
+ // ===== E =====
+ {c:"E",n:"Browser Use",r:"browser-use/browser-use",s:117914,l:"MIT",lk:"ok",lg:"Python",st:"live",p:"为工作台提供「网页操作执行层」——让 Agent 像人一样操作浏览器的最流行开源库",o:"单 Agent 循环：任务规划 → 感知页面(DOM+Vision) → LLM 推理 → 执行动作 → 观察 → 循环",m:"短期会话上下文 + 可配置 Agent 记忆",sb:"浏览器级隔离：本地独立 Chromium 实例（Playwright/CDP），云版提供托管沙箱",mc:"支持（可作为 MCP Server 被其他 Agent 调用）",h:["DOM + Vision 混合感知路线：解析结构化 DOM/可访问性信息并辅以视觉","2.0 动作抽象升级：从 click(xpath=...) 改为语义定位 click('search button')","内置自我纠正机制，检测到错误时可重试或调整策略","提供自研 ChatBrowserUse 优化模型与云托管服务"],x:["Token 消耗较高：DOM 树体量大，长任务上下文成本显著","复杂/强动态或强反爬页面稳定性有限","依赖浏览器运行环境，云版有额外成本"]},
+ {c:"E",n:"Mem0",r:"mem0ai/mem0",s:67149,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"通用「Agent 记忆层」（drop-in memory infrastructure），可插入任意 Agent 框架",o:"自身不做编排，是记忆中间件；可嵌入 LangChain、CrewAI 等各类框架",m:"上下文查重→LLM 抽取事实→去重与 embedding→实体抽取链接，落 SQL + 向量库 + 实体库；v3 改为单遍 ADD-only",sb:"无",mc:"支持（提供 Mem0 的 MCP 服务器）",h:["事实抽取 + 混合检索路线（语义向量 + BM25 + 实体匹配 + 时间感知）","v3 单遍 ADD-only 管线，简化写入并提升吞吐","产品形态齐全：开源库 / 自托管 / 云三档并存","官方论文 arXiv:2504.19413 声称 LOCOMO 相对 OpenAI Memory 提升 26%"],x:["基准数字可信度存疑：官方声明高分「仅反映托管平台」，开源版跑不出宣传分数","英文硬编码：BM25 与实体抽取硬编码英文，中文场景为硬伤","v3 add 管线在 batch embedding 部分失败时会静默丢记忆"]},
+ {c:"E",n:"Langfuse",r:"langfuse/langfuse",s:35800,l:"MIT + 企业版双轨（ee/）",lk:"warn",lg:"TypeScript",st:"live",p:"开源的 LLM/Agent 可观测性与评测平台",o:"自身不做编排，是可观测性/评测层，可追踪 LangChain、LangGraph、LlamaIndex 等框架",m:"无（非记忆系统）",sb:"无",mc:"支持（提供 Langfuse MCP 服务器）",h:["原生支持 OpenTelemetry/OTLP","ClickHouse OLAP 后端 + 队列化 trace 摄取，支撑高吞吐与大规模分析","开源可自托管、数据主权可控，与 Langfuse Cloud 同一代码库","集成评测能力：LLM-as-a-Judge、代码评测器、提示管理与 A/B 实验"],x:["非记忆/编排产品，只做观测与评测","自托管架构较重：需维护 Postgres + ClickHouse + Redis + S3","部分企业级功能位于 ee/ 目录，需商业 license key"]},
+ {c:"E",n:"Composio",r:"ComposioHQ/composio",s:30541,l:"MIT",lk:"ok",lg:"TypeScript",st:"live",p:"面向开发者的「Agent 工具集成与认证平台」，把 Agent 的「意图」转为「行动」",o:"自身不做 Agent 编排，提供工具/认证/触发层；含 Tool Router（按意图解析并路由工具）",m:"会话级 context management；长期记忆需搭配 Mem0/Letta",sb:"有：提供预接用户已连接账户与 1600+ 工具的沙箱工作台",mc:"原生双向：既是 MCP 服务器，也能接入外部 MCP 服务器",h:["1600+ 应用的工具集成 + 托管认证（OAuth/API key/token 按 per-user 作用域隔离并自动刷新）","per-user 隔离的 MCP 会话，支持会话复用","Tool Router 按意图解析工具、按需「just in time」暴露并收窄作用域","Triggers 事件订阅：订阅任意 toolkit 的事件并路由到 Agent"],x:["强依赖云托管，自托管能力边界有限，存在数据/凭证集中风险","工具数量口径不一致（1000+ toolkits vs 1600+ apps）","作为中间层会引入额外网络跳数与延迟"]},
+ {c:"E",n:"A2A（Agent2Agent）",r:"a2aproject/A2A",s:26141,l:"Apache-2.0",lk:"ok",lg:"规范 / 多语言 SDK",st:"live",p:"为工作台提供「Agent 间协作层」——让不同框架、不同组织的 Agent 相互发现、委托任务（类比「Agent 的 TCP/IP」）",o:"多 Agent 协作范式：Agent Card 能力发现 + Task 生命周期状态机 + Artifact 产物交付",m:"协议无内置记忆；任务上下文通过 Task 与 Artifact 传递",sb:"无沙箱能力",mc:"与 MCP 互补：A2A 负责 Agent↔Agent，MCP 负责 Agent↔Tool",h:["Agent Card（/.well-known/agent.json）能力发现机制，类似 DNS","标准化 Task 生命周期状态机 + Artifact 产物交付，实现跨组织「黑盒协作」","支持 JSON-RPC / gRPC / HTTP+JSON 多种协议绑定，支持 SSE 流式与异步长任务","已纳入 Linux Foundation；IBM 的 ACP 已合并入 A2A"],x:["生态与采用度明显小于 MCP，落地案例仍以 Google 及云厂商为主","v1.0 GA 精确时间说法不一（2026-03 vs 2026-07）","跨组织调用面临网络不确定性与信任鉴权复杂度"]},
+ {c:"E",n:"Letta（原 MemGPT）",r:"letta-ai/letta",s:25125,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"面向开发者的「有状态 Agent 运行时 / 记忆操作系统」",o:"单 Agent 循环为核心，强调 Agent 自主调度自身记忆；引入 sleep-time compute（睡眠时后台整理记忆）",m:"核心差异化：分层记忆（OS 式）——core memory（常驻上下文、Agent 自我改写）、archival memory（向量长期记忆）、recall memory（对话回溯）",sb:"支持工具调用与代码执行",mc:"支持 MCP",h:["OS 式分层记忆：LLM 视为 CPU、上下文视为内存、archival memory 视为磁盘","core memory 可自我编辑：Agent 主动改写 human/persona block，实现跨会话身份连续性","sleep-time compute：非交互时后台自主整理记忆、提炼图谱、合并相似上下文","ADE（Agent Development Environment）提供记忆可视化查看与编辑"],x:["较重：是完整 Agent 运行时而非轻量库","记忆管理逻辑复杂、学习曲线陡","长期记忆检索与 sleep-time compute 带来额外 token 与算力消耗"]},
+ {c:"E",n:"E2B",r:"e2b-dev/E2B",s:14339,l:"Apache-2.0",lk:"ok",lg:"Python SDK（核心含 Go/Rust）",st:"live",p:"为工作台提供「Agent 专用云端沙箱执行环境」——让 Agent 安全执行代码、操作文件/浏览器/桌面",o:"无编排能力：定位为执行底座，由上层 Agent/框架调用",m:"无 Agent 记忆；沙箱文件系统在会话生命周期内持久，支持快照/恢复",sb:"核心能力：基于 AWS Firecracker microVM 的硬件级隔离（非普通容器），亚秒级启动，支持代码执行、文件系统、浏览器与完整 Linux 桌面",mc:"提供 MCP 集成",h:["基于 Firecracker microVM 的硬件级安全隔离，相比 Docker 容器提供更强逃逸防护","极快启动（亚秒级）并支持快照/恢复（pause/resume）","一套环境内同时提供代码执行、文件系统、浏览器、桌面（VM）","开源 core 支持自托管/on-prem 部署"],x:["自托管部署与运维复杂度高（Firecracker/基础设施编排）","云托管版按用量计费，大规模长任务成本可能较高","隔离越强、环境初始化与调试成本越高"]},
+ {c:"E",n:"MCP（Model Context Protocol）",r:"modelcontextprotocol/modelcontextprotocol",s:9448,l:"MIT（规范仓库识别为 Other）",lk:"warn",lg:"TypeScript（规范）+ 多语言 SDK",st:"live",p:"为工作台提供统一的「工具与数据源接入层」——Agent 与外部工具之间的即插即用标准（类比「Agent 的 USB-C」）",o:"面向单 Agent 的工具调用循环（Agent-to-Tool），Client-Server 架构，JSON-RPC 2.0",m:"协议不内置记忆；官方参考实现提供 Memory Server 示例（基于知识图谱）",sb:"无内置沙箱；代码执行类 Server 需自行提供隔离环境",mc:"协议本身即 MCP（原生）",h:["Client-Server 架构 + 三大原语 Tools/Resources/Prompts，统一模型与外部世界的连接方式","传输层同时支持本地 stdio 与远程 Streamable HTTP（含 SSE）","2025-12 捐赠至 Linux Foundation 旗下 AAIF，OpenAI/Google/Microsoft 等共同支持","生态规模庞大且高度分散：官方 Registry 约 9,652 条（2026-05）、Glama 索引 66,701（2026-08）"],x:["生态质量参差：arXiv《Exposed by Design》审计 414 个公网 Server 显示 91.8% 未启用 OAuth","工具过多易触发「工具幻觉」与上下文污染","规范/治理主体已迁移至 AAIF，版本与兼容性管理成本高"]},
+ // ===== F =====
+ {c:"F",n:"GPT-Researcher",r:"assafelovic/gpt-researcher",s:30084,l:"Apache-2.0",lk:"ok",lg:"Python",st:"live",p:"自主深度研究 Agent：给定主题自动检索、抓取、归纳并生成带引用的研究报告",o:"「规划器-执行器」（planner-executor）范式 + 多 Agent 并行（基于 LangGraph/deepagents）",m:"研究过程内上下文累积；v3.7.0 引入基于「有用性」的上下文过滤(Jev)",sb:"支持执行代码（本地文件研究与数据处理）",mc:"支持（MCPRetriever）",h:["多 Agent 并行研究架构：规划器拆解子问题、多个研究 Agent 并行检索写作","v3.7.0 的 Jev 上下文过滤：按「对回答的有用性」而非向量相似度筛选内容","检索器插件化：20+ 检索器（Tavily/Serper/Bing/arXiv/PubMed 等）","工程化成熟：自托管前端、WebSocket 流式"],x:["Token 与 API 成本较高（多 Agent 并行检索+长上下文）","报告质量高度依赖模型与检索源质量，存在幻觉/来源偏差风险","v3.7.0 起要求 Python 3.12+，默认上下文过滤行为变化"]},
+ {c:"F",n:"Open Deep Research（HuggingFace）",r:"huggingface/smolagents/tree/main/examples/open_deep_research",s:null,l:"Apache-2.0（随 smolagents）",lk:"ok",lg:"Python",st:"slow",p:"对 OpenAI Deep Research 的开源复现，偏参考实现/示例",o:"单 Agent 与多 Agent 层级两种模式：用 smolagents CodeAgent 编写动作；GAIA 提交采用 manager + 子 agent 层级结构",m:"无独立长期记忆（研究过程式上下文）",sb:"CodeAgent 以代码写动作，可配合 E2B 等远程沙箱",mc:"[不确定]",h:["以「用代码写动作」为核心范式（smolagents CodeAgent），区别于 GPT-Researcher 的 JSON 工具调用","官方公布 GAIA 验证集 55% pass@1（对比 OpenAI 原版 Deep Research 的 67%）","多 Agent 层级结构（manager + 子 agent）用于 GAIA 提交","公开可复现的数据增强方法（把 PDF/xls 转为 png 截图喂入）"],x:["偏参考实现/示例，非产品化：无 GUI、无知识库管理","依赖付费搜索 API 与模型 API（默认 o1 需 tier-3 权限）","独立仓库状态不明（2026-10-14 返回 404）"]}
+];
+
+/* ---------- 分类卡片 ---------- */
+const catCount = {};
+P.forEach(p=>catCount[p.c]=(catCount[p.c]||0)+1);
+const med = c => {const a=P.filter(p=>p.c===c).map(p=>p.s||0).sort((x,y)=>x-y);
+  const m=Math.floor(a.length/2); return a.length%2?a[m]:Math.round((a[m-1]+a[m])/2);};
+document.getElementById('catgrid').innerHTML = Object.keys(CATS).map(k=>`
+  <div class="catcard" data-c="${k}" onclick="jump('${k}')">
+    <div class="cid">类别 ${k}</div>
+    <h3>${CATS[k].n}</h3>
+    <p>${CATS[k].d}</p>
+    <div class="meta"><span><b>${catCount[k]}</b> 个项目</span><span>Star 中位数 <b>${(med(k)/10000).toFixed(1)}万</b></span></div>
+  </div>`).join('');
+
+/* ---------- 项目卡片 ---------- */
+const stMap = {live:['st-live','活跃'],slow:['st-slow','放缓/维护'],dead:['st-dead','停运/归档']};
+function card(p){
+  const st = stMap[p.st];
+  const star = p.s ? (p.s>=10000 ? (p.s/10000).toFixed(1)+'万' : p.s.toLocaleString()) : '—';
+  return `<div class="pcard ${p.dead?'dead':''}" data-c="${p.c}" data-k="${(p.n+' '+p.p+' '+p.h.join(' ')+' '+p.x.join(' ')+' '+p.r).toLowerCase()}">
+    <div class="phead" onclick="this.parentNode.classList.toggle('open')">
+      <div class="prow">
+        <div class="pname"><span class="cat ${p.c}">${p.c}</span>${p.n}</div>
+        <div class="stars">★ ${star}</div>
+      </div>
+      <div class="pmeta">
+        <span class="pill ${st[0]}">${st[1]}</span>
+        <span class="pill lic-${p.lk}">${p.l}</span>
+        <span class="pill">${p.lg}</span>
+      </div>
+    </div>
+    <div class="ppos">${p.p}</div>
+    <div class="pbody">
+      <div class="sec"><div class="t">编排范式</div><div class="kv">${p.o}</div></div>
+      <div class="sec"><div class="t">记忆机制</div><div class="kv">${p.m}</div></div>
+      <div class="sec"><div class="t">沙箱 / 执行环境</div><div class="kv">${p.sb}</div></div>
+      <div class="sec"><div class="t">MCP 支持</div><div class="kv">${p.mc}</div></div>
+      <div class="sec"><div class="t">差异化特色</div><ul>${p.h.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <div class="sec lim"><div class="t">局限与风险</div><ul>${p.x.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <a class="repolink" href="https://github.com/${p.r}" target="_blank" rel="noopener">→ github.com/${p.r}</a>
+    </div>
+  </div>`;
+}
+const grid=document.getElementById('pgrid'), empty=document.getElementById('empty');
+function render(){
+  const c=state.cat, q=state.q;
+  const list=P.filter(p=>(c==='ALL'||p.c===c) && (!q||(p.n+' '+p.p+' '+p.h.join(' ')+' '+p.x.join(' ')+' '+p.r).toLowerCase().includes(q)));
+  grid.innerHTML=list.map(card).join('');
+  empty.style.display=list.length?'none':'block';
+}
+const state={cat:'ALL',q:''};
+document.querySelectorAll('.chip').forEach(el=>el.onclick=()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on'); state.cat=el.dataset.c; render();
+});
+document.getElementById('search').oninput=e=>{state.q=e.target.value.trim().toLowerCase();render();};
+function jump(k){
+  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.c===k));
+  state.cat=k; render();
+  document.getElementById('pgrid').scrollIntoView({behavior:'smooth',block:'start'});
+}
+render();
+
+/* ---------- Star 排行 ---------- */
+const sorted=[...P].sort((a,b)=>(b.s||0)-(a.s||0)).filter(p=>p.s);
+const max=sorted[0].s;
+const CVC={A:'#58a6ff',B:'#3fb950',C:'#ff6b5e',D:'#e3b341',E:'#a371f7',F:'#2dd4bf'};
+document.getElementById('chart').innerHTML=sorted.map(p=>`
+  <div class="bar ${p.dead?'dead':''}">
+    <div class="nm" title="${p.n}">${p.n}</div>
+    <div class="track"><div class="fill" style="width:${(p.s/max*100).toFixed(1)}%;background:${CVC[p.c]}"></div></div>
+    <div class="vl">${p.s.toLocaleString()}</div>
+  </div>`).join('');
+
+/* ---------- 决策树 ---------- */
+document.getElementById('tree').innerHTML =
+`你的需求是什么？
+│
+├─ 要嵌入自有系统、需要精细控制流程
+│   └─ → <b>A 类</b>：LangGraph（复杂流程）/ CrewAI（快速协作）/ Mastra（TS 栈）
+│
+├─ 团队里有非工程师，要可视化搭
+│   ├─ 要宽松许可      → <u>Langflow（MIT）</u> / <u>Bisheng（Apache-2.0）</u>
+│   ├─ 要编排真实业务系统 → n8n <i>（注意许可）</i>
+│   ├─ 要 LLMOps 全家桶  → Dify <i>（注意许可）</i>
+│   └─ 要处理复杂扫描件  → RAGFlow
+│
+├─ 想让它直接操作我的电脑 / 浏览器
+│   ├─ 个人使用、数据留本地 → OpenClaw <i>（⚠️ 必须加沙箱隔离！）</i>
+│   ├─ 要企业级治理与审计   → Suna / Kortix
+│   ├─ 要 Docker 隔离      → Agent Zero / OpenHands
+│   └─ 要网页自动化        → Browser Use
+│
+├─ 主要是写代码
+│   ├─ VS Code 内        → Cline
+│   ├─ 要企业私有化       → Continue
+│   ├─ 终端党、重 git 追溯 → Aider
+│   └─ 浏览器内生成全栈应用 → bolt.diy
+│
+├─ 要给它加「记忆」
+│   ├─ 只给现有应用加记忆   → Mem0 <i>（⚠️ 中文场景需注意）</i>
+│   └─ 要有状态 Agent 运行时 → Letta
+│
+└─ 要做深度调研
+    └─ → GPT-Researcher`;
+</script>
+</body>
+</html>

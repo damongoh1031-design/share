@@ -1,0 +1,86 @@
+topic: GitHub 上的 AI Agent 通用工作台全景
+version: 1
+# detail_level 分层：极简 / 简要 / 详细
+categories:
+
+  一_基本信息:
+    - name: name
+      description: 项目名称（中英文名，如 "Dify（Dify.AI）"）
+      detail_level: 极简
+    - name: repo_url
+      description: GitHub 仓库完整 URL（精确到 owner/repo）
+      detail_level: 极简
+    - name: stars
+      description: GitHub Star 数量，必须注明统计日期；若为量级估算需标注"约"
+      detail_level: 简要
+    - name: license
+      description: 开源协议（如 Apache-2.0 / MIT / AGPL-3.0 / BSL / 混合商业许可）
+      detail_level: 简要
+    - name: language
+      description: 主要编程语言（TypeScript / Python / Go / Rust 等）
+      detail_level: 简要
+    - name: maintainer
+      description: 维护方：公司、基金会或社区，注明国家/地区
+      detail_level: 简要
+    - name: activity
+      description: 2025—2026 年活跃度：最新版本号或最近提交时间，是否仍在积极维护
+      detail_level: 简要
+
+  二_定位与形态:
+    - name: category
+      description: 所属类别，只能取以下之一：A开发者框架SDK / B可视化低代码平台 / C通用自主智能体 / D Agent-IDE编码工作台 / E基础设施与协议 / F知识库与研究型工作台
+      detail_level: 简要
+    - name: positioning
+      description: 一句话定位 + 目标用户（开发者 / 非技术业务人员 / 企业团队 / 个人用户）
+      detail_level: 详细
+    - name: deployment
+      description: 部署形态：云托管 SaaS / 自托管 Docker / 桌面端 / 纯库(SDK) / CLI / 浏览器插件
+      detail_level: 简要
+    - name: interface
+      description: 交互界面形态：代码 API / 可视化画布 / 聊天窗口 / 终端 TUI / 浏览器
+      detail_level: 简要
+
+  三_核心能力:
+    - name: orchestration
+      description: 编排范式：单 Agent 循环 / 多 Agent 协作 / 图状态机 / 工作流 DAG / 角色扮演 / 对话协商
+      detail_level: 详细
+    - name: model_support
+      description: 模型支持：是否模型无关、支持的模型清单与接入方式（API / 本地 Ollama 等）
+      detail_level: 简要
+    - name: tool_calling
+      description: 工具调用能力：内置工具数量与类型、自定义工具方式、是否支持代码执行
+      detail_level: 详细
+    - name: mcp_support
+      description: 是否支持 MCP（Model Context Protocol）：原生支持 / 通过插件 / 不支持
+      detail_level: 简要
+    - name: memory
+      description: 记忆机制：无 / 短期会话 / 长期向量记忆 / 跨会话持久记忆，及实现方式
+      detail_level: 详细
+    - name: rag
+      description: RAG 与知识库能力：是否内置、支持的数据源与检索方式
+      detail_level: 简要
+    - name: human_in_loop
+      description: 人机协作：审批、中断、步骤回放、人工接管等控制机制
+      detail_level: 简要
+    - name: sandbox
+      description: 沙箱与执行环境：是否可执行代码、操作文件系统 / 浏览器 / 操作系统，隔离方式
+      detail_level: 简要
+
+  四_特色与评价:
+    - name: highlights
+      description: 差异化特色 2—4 条，必须具体（技术机制、架构设计、独有功能），禁止营销话术
+      detail_level: 详细
+    - name: use_cases
+      description: 典型使用场景 2—3 个，具体到任务类型
+      detail_level: 简要
+    - name: limitations
+      description: 局限与坑：学习曲线、稳定性、Token 消耗、许可限制、社区/文档短板
+      detail_level: 详细
+    - name: community
+      description: 社区与生态：贡献者规模、插件/模板市场、文档语言（是否有中文文档）
+      detail_level: 简要
+    - name: notable_users
+      description: 知名使用方或标志性案例（如无则填"暂无公开信息"）
+      detail_level: 极简
+
+uncertain: []

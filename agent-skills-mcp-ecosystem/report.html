@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 扩展生态深度调研 · Skills / MCP / SKILL.md</title>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --bg4:#21262d;
+  --border:#30363d; --border2:#3d444d;
+  --text:#e6edf3; --muted:#8b949e; --dim:#6e7681;
+  --accent:#58a6ff;
+  --c-skill:#2dd4bf; --c-mcp:#58a6ff; --c-a2a:#a371f7; --c-agents:#e3b341;
+  --danger:#ff6b5e; --warn:#e3b341; --ok:#3fb950;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.86em;background:var(--bg4);padding:2px 6px;border-radius:4px;color:#79c0ff}
+pre{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:12px 0}
+pre code{background:none;padding:0;color:#c9d1d9;font-size:13px;line-height:1.6}
+
+.layout{display:flex;max-width:1500px;margin:0 auto;gap:0}
+nav{
+  width:230px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;
+  padding:26px 14px;border-right:1px solid var(--border);
+}
+nav .brand{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:.3px}
+nav .brand small{display:block;font-weight:400;color:var(--dim);font-size:11px;margin-top:3px;letter-spacing:0}
+nav a{
+  display:block;padding:7px 11px;border-radius:6px;color:var(--muted);
+  font-size:13px;margin-bottom:2px;border-left:2px solid transparent;transition:.15s;
+}
+nav a:hover{background:var(--bg3);color:var(--text);text-decoration:none}
+nav a.active{background:var(--bg3);color:var(--accent);border-left-color:var(--accent)}
+main{flex:1;min-width:0;padding:0 34px 100px}
+
+header.hero{
+  padding:52px 0 34px;border-bottom:1px solid var(--border);margin-bottom:38px;
+}
+.hero h1{font-size:31px;font-weight:700;letter-spacing:-.4px;line-height:1.3;margin-bottom:12px}
+.hero .sub{color:var(--muted);font-size:14.5px;max-width:800px;margin-bottom:6px}
+.hero .snap{color:var(--dim);font-size:12.5px;font-family:var(--mono);margin-top:14px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:26px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:15px 16px}
+.stat .n{font-size:24px;font-weight:700;font-family:var(--mono);letter-spacing:-.5px;line-height:1.2}
+.stat .l{font-size:11.5px;color:var(--muted);margin-top:5px;letter-spacing:.2px}
+.stat.s1 .n{color:var(--c-skill)} .stat.s2 .n{color:var(--c-mcp)}
+.stat.s3 .n{color:var(--c-a2a)} .stat.s4 .n{color:var(--c-agents)}
+.stat.s5 .n{color:var(--danger)} .stat.s6 .n{color:var(--ok)}
+
+section{margin-bottom:56px;scroll-margin-top:20px}
+h2{
+  font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:-.2px;
+  display:flex;align-items:center;gap:10px;
+}
+h2 .idx{
+  font-family:var(--mono);font-size:12px;color:var(--accent);
+  background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.3);
+  padding:2px 8px;border-radius:5px;font-weight:600;
+}
+h3{font-size:16.5px;font-weight:650;margin:26px 0 12px;color:var(--text)}
+h4{font-size:14px;font-weight:650;margin:18px 0 8px;color:var(--muted)}
+p{color:#c9d1d9;margin-bottom:12px}
+.lead{color:var(--muted);font-size:14px;margin-bottom:22px;max-width:900px}
+ul,ol{margin:0 0 14px 22px;color:#c9d1d9}
+li{margin-bottom:6px}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card.hl{border-left:3px solid var(--accent)}
+.card.warn{border-left:3px solid var(--warn);background:rgba(227,179,65,.05)}
+.card.danger{border-left:3px solid var(--danger);background:rgba(255,107,94,.05)}
+.card.ok{border-left:3px solid var(--ok);background:rgba(63,185,80,.05)}
+.card .ct{font-weight:650;font-size:14px;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.card p:last-child{margin-bottom:0}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th{
+  text-align:left;padding:10px 12px;background:var(--bg3);color:var(--muted);
+  font-weight:600;font-size:12px;letter-spacing:.4px;text-transform:uppercase;
+  border-bottom:1px solid var(--border);
+}
+td{padding:10px 12px;border-bottom:1px solid var(--border);color:#c9d1d9;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--bg3)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin:14px 0}
+.tbl-wrap table{margin:0}
+.tbl-wrap th:first-child,.tbl-wrap td:first-child{padding-left:16px}
+.tbl-wrap th:last-child,.tbl-wrap td:last-child{padding-right:16px}
+
+.tag{
+  display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  font-family:var(--mono);letter-spacing:.2px;white-space:nowrap;
+}
+.t-ok{background:rgba(63,185,80,.15);color:#56d364;border:1px solid rgba(63,185,80,.35)}
+.t-warn{background:rgba(227,179,65,.15);color:#e3b341;border:1px solid rgba(227,179,65,.35)}
+.t-bad{background:rgba(255,107,94,.15);color:#ff7b72;border:1px solid rgba(255,107,94,.35)}
+.t-info{background:rgba(88,166,255,.15);color:#79c0ff;border:1px solid rgba(88,166,255,.35)}
+.t-mut{background:var(--bg4);color:var(--muted);border:1px solid var(--border2)}
+
+/* 四层结构 */
+.layers{display:flex;flex-direction:column;gap:9px;margin:20px 0}
+.layer{
+  display:flex;align-items:center;gap:16px;padding:15px 18px;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--border);position:relative;
+}
+.layer .badge{
+  width:44px;height:44px;flex-shrink:0;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;font-family:var(--mono);font-weight:700;font-size:15px;
+}
+.layer .body{flex:1;min-width:0}
+.layer .nm{font-weight:650;font-size:14.5px;margin-bottom:2px}
+.layer .ds{color:var(--muted);font-size:12.5px}
+.layer .an{color:var(--dim);font-size:12px;font-style:italic;white-space:nowrap}
+.l-cap .badge{background:rgba(45,212,191,.15);color:var(--c-skill);border:1px solid rgba(45,212,191,.35)}
+.l-con .badge{background:rgba(88,166,255,.15);color:var(--c-mcp);border:1px solid rgba(88,166,255,.35)}
+.l-col .badge{background:rgba(163,113,247,.15);color:var(--c-a2a);border:1px solid rgba(163,113,247,.35)}
+.l-rul .badge{background:rgba(227,179,65,.15);color:var(--c-agents);border:1px solid rgba(227,179,65,.35)}
+
+/* 三级加载 */
+.levels{display:flex;flex-direction:column;gap:0;margin:18px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.lvl{display:flex;gap:0;border-bottom:1px solid var(--border)}
+.lvl:last-child{border-bottom:none}
+.lvl .lv-n{
+  width:86px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg3);font-family:var(--mono);padding:14px 6px;gap:3px;
+}
+.lvl .lv-n b{font-size:16px}
+.lvl .lv-n span{font-size:10px;color:var(--dim);text-align:center;line-height:1.3}
+.lvl .lv-b{flex:1;padding:14px 18px;background:var(--bg2)}
+.lvl .lv-b .h{font-weight:650;font-size:13.5px;margin-bottom:3px}
+.lvl .lv-b .d{color:var(--muted);font-size:12.5px}
+.lvl .lv-t{
+  width:130px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  padding:12px;background:var(--bg2);border-left:1px solid var(--border);
+}
+.lvl .lv-t code{font-size:12px;background:rgba(88,166,255,.1);color:#79c0ff;border:1px solid rgba(88,166,255,.25)}
+.lvl.l1 .lv-n b{color:var(--c-skill)} .lvl.l2 .lv-n b{color:var(--accent)} .lvl.l3 .lv-n b{color:var(--c-a2a)}
+
+/* 时间线 */
+.timeline{position:relative;margin:22px 0 22px 8px;padding-left:26px;border-left:2px solid var(--border)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{
+  content:"";position:absolute;left:-33px;top:5px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--border2);
+}
+.tl-item.cur::before{background:var(--danger);border-color:var(--danger);box-shadow:0 0 0 4px rgba(255,107,94,.15)}
+.tl-item.first::before{background:var(--accent);border-color:var(--accent)}
+.tl-item.gov::before{background:var(--c-a2a);border-color:var(--c-a2a)}
+.tl-v{font-family:var(--mono);font-size:13px;font-weight:650;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tl-d{color:var(--muted);font-size:13px}
+
+/* 条形对比 */
+.bars{margin:16px 0}
+.bar-row{margin-bottom:13px}
+.bar-lbl{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
+.bar-lbl .nm{color:#c9d1d9}
+.bar-lbl .vl{font-family:var(--mono);color:var(--muted)}
+.bar-tr{height:9px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.bar-fl{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.bar-note{font-size:11.5px;color:var(--dim);margin-top:4px}
+
+/* 网格卡 */
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+.mini{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:14px 15px}
+.mini .mh{font-weight:650;font-size:13.5px;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.mini .md{color:var(--muted);font-size:12.5px;line-height:1.6}
+.mini .mmeta{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
+
+/* 决策树 */
+.tree{font-family:var(--mono);font-size:12.5px;line-height:1.9;background:var(--bg2);
+  border:1px solid var(--border);border-radius:10px;padding:18px 20px;overflow-x:auto;white-space:pre;color:#c9d1d9}
+.tree b{color:var(--c-skill)} .tree i{color:var(--accent);font-style:normal}
+.tree em{color:var(--c-a2a);font-style:normal} .tree u{color:var(--c-agents);text-decoration:none}
+
+.callout{
+  background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--accent);
+  border-radius:8px;padding:13px 16px;margin:14px 0;font-size:13.5px;color:#c9d1d9;
+}
+.callout strong{color:var(--text)}
+
+footer{border-top:1px solid var(--border);padding:26px 0;color:var(--dim);font-size:12.5px;margin-top:40px}
+.src-note{font-size:12px;color:var(--dim);font-family:var(--mono)}
+
+@media(max-width:900px){
+  nav{display:none}
+  main{padding:0 18px 70px}
+  header.hero{padding:32px 0 24px}
+  .hero h1{font-size:23px}
+  .layer{flex-wrap:wrap} .layer .an{display:none}
+  .lvl .lv-t{display:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">AI Agent 扩展生态<small>Skills · MCP · SKILL.md</small></div>
+  <a href="#s0" class="active">〇 结论速览</a>
+  <a href="#s1">一 SKILL.md 规范</a>
+  <a href="#s2">二 MCP 协议 2026</a>
+  <a href="#s3">三 市场与工具链</a>
+  <a href="#s4">四 安全风险全景</a>
+  <a href="#s5">五 四者关系辨析</a>
+  <a href="#s6">六 本机环境盘点</a>
+  <a href="#s7">七 选型决策树</a>
+  <a href="#s8">八 数据可信度</a>
+</nav>
+<main>
+
+<header class="hero">
+  <h1>AI Agent 扩展生态深度调研</h1>
+  <p class="sub">技能（Skills）· 协议（MCP）· 辅助工具链 · SKILL.md 规范 —— 一次把"Agent 的扩展面"讲清楚</p>
+  <p class="snap">数据快照 2026-10-14 · 一手源：agentskills.io · modelcontextprotocol.io · Linux Foundation · GitHub/GitLab Advisory DB · 本机实测</p>
+  <div class="stats">
+    <div class="stat s1"><div class="n">4</div><div class="l">生态分层（能力/连接/协作/规则）</div></div>
+    <div class="stat s2"><div class="n">5</div><div class="l">MCP 规范版本（→2026-07-28）</div></div>
+    <div class="stat s3"><div class="n">2</div><div class="l">2025-12 同时被中立化的标准</div></div>
+    <div class="stat s4"><div class="n">7+</div><div class="l">已确认 MCP 组件 CVE</div></div>
+    <div class="stat s5"><div class="n">82%</div><div class="l">MCP Server 存在路径穿越风险</div></div>
+    <div class="stat s6"><div class="n">49</div><div class="l">本机用户级 Skills（实测）</div></div>
+  </div>
+</header>
+
+<!-- ============ 0 ============ -->
+<section id="s0">
+  <h2><span class="idx">〇</span>结论速览</h2>
+  <p class="lead">六个最重要的判断，后面每一节都在展开它们。</p>
+
+  <div class="card hl">
+    <div class="ct">① 2026 年扩展生态已收敛为"四层结构"，彼此不是竞品</div>
+    <p>能力层 <strong>Agent Skills</strong> 管"怎么做事"，连接层 <strong>MCP</strong> 管"能碰什么"，协作层 <strong>A2A</strong> 管"Agent 之间怎么配合"，规则层 <strong>AGENTS.md</strong> 管"在本仓库要守什么规矩"。选型的第一步是判断你缺的是哪一层。</p>
+  </div>
+
+  <div class="card hl">
+    <div class="ct">② 两个标准在 2025 年 12 月同时被"中立化"</div>
+    <p>MCP 于 <strong>2025-12-09</strong> 随 <strong>Agentic AI Foundation（AAIF）</strong> 捐给 Linux Foundation（与 Block 的 goose、OpenAI 的 AGENTS.md 同为创始项目）；Agent Skills 于 <strong>2025-12-18</strong> 作为开放标准发布到 agentskills.io。扩展标准不再由单一厂商控制——这是 2026 年最重要的结构性变化。</p>
+  </div>
+
+  <div class="card danger">
+    <div class="ct">③ MCP 在 2026-07-28 完成问世以来最大重构</div>
+    <p>核心从"有状态双向会话"改为<strong>无状态请求/响应</strong>：移除 <code>initialize</code> 握手与 <code>Mcp-Session-Id</code>，新增 <code>server/discover</code>，Roots / Sampling / Logging 正式废弃。<strong>网上绝大多数 MCP 教程仍是旧模型</strong>——按新规范实现时这是头号踩坑点。</p>
+  </div>
+
+  <div class="card danger">
+    <div class="ct">④ 安全是这个生态当前最大的短板</div>
+    <p>已确认的 MCP 组件 RCE/SSRF 漏洞至少 7 个（多个 CVSS ≥9.0）。Invariant Labs 早在 2025-04 就公开了<strong>工具投毒</strong>这一基础攻击面，至今无生态级强制签名机制。更关键的是：<strong>Skills 与 MCP 共用同一条信任链</strong>——第三方技能以 Agent 同等权限运行，恶意 SKILL.md 即等于完全接管 Agent。</p>
+  </div>
+
+  <div class="card warn">
+    <div class="ct">⑤ "MCP 服务器破 10 万"是营销口径</div>
+    <p>该数字出自 Linux Foundation 新闻稿，指"整个生态广泛发布的服务器"，<strong>不等于官方 Registry 的收录量</strong>（官方 Registry 2026-09 约 3 万条）。第三方目录站的 13.7 万等数字互相重复计数，不可比。</p>
+  </div>
+
+  <div class="card ok">
+    <div class="ct">⑥ 本机环境已是一个相当完整的"扩展面"实例</div>
+    <p>实测：<strong>49 个</strong>用户级 Skills、<strong>57 个</strong>已装插件、<strong>5 个</strong>插件市场、<strong>3 个</strong> MCP Server、<strong>13 个</strong>可用连接器。其中"调研 + 抓取"类技能占了 35%，并出现了 4 个"元技能"（审计 Agent 自身）。</p>
+  </div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+  <h2><span class="idx">一</span>SKILL.md 规范：Agent Skills 开放标准</h2>
+  <p class="lead">Anthropic 2025-10 推出，2025-12-18 发布为开放标准，规范主页 <code>agentskills.io/specification</code>。</p>
+
+  <div class="card">
+    <div class="ct">核心定义（官方原文）</div>
+    <p style="font-style:italic;color:var(--muted)">"Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks."</p>
+    <p>一个 Skill = 一个文件夹：<code>SKILL.md</code>（元数据 + 指令）+ 可选的脚本、参考资料、模板。它把"领域流程知识"从提示词里剥离，做成<strong>可组合、可移植、按需加载</strong>的模块。</p>
+  </div>
+
+  <h3>frontmatter 字段（权威：agentskills.io/specification）</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>字段</th><th>必需</th><th>约束</th></tr></thead>
+    <tbody>
+      <tr><td><code>name</code></td><td><span class="tag t-bad">必需</span></td><td><strong>≤64 字符</strong>。仅小写字母/数字/连字符。不得以连字符开头结尾，不得连续连字符。<strong>必须与父目录名一致</strong></td></tr>
+      <tr><td><code>description</code></td><td><span class="tag t-bad">必需</span></td><td><strong>≤1,024 字符</strong>。必须同时说明<strong>做什么</strong>和<strong>何时用</strong>，含具体关键词</td></tr>
+      <tr><td><code>license</code></td><td><span class="tag t-mut">可选</span></td><td>许可证名称或指向随附许可证文件</td></tr>
+      <tr><td><code>compatibility</code></td><td><span class="tag t-mut">可选</span></td><td><strong>≤500 字符</strong>。环境要求。官方称"大多数技能不需要"</td></tr>
+      <tr><td><code>metadata</code></td><td><span class="tag t-mut">可选</span></td><td>任意 string→string 键值对，用于规范外的扩展属性</td></tr>
+      <tr><td><code>allowed-tools</code></td><td><span class="tag t-mut">可选</span></td><td>空格分隔的预授权工具列表。<strong>实验性</strong>，各实现支持度不一</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <div class="ct">⚠️ 三个必须记住的规范细节</div>
+    <ul style="margin-bottom:0">
+      <li><strong>规范里没有 <code>version</code> 和 <code>model</code> 顶层字段</strong>——版本类信息放进 <code>metadata</code> 映射。</li>
+      <li><strong>description 上限是 1,024 字符（规范），不是 200 字符</strong>——Anthropic 帮助中心文章与此冲突，且列出一个规范中不存在的 <code>dependencies</code> 字段。<strong>以规范为准</strong>。</li>
+      <li>非法 name 示例：<code>PDF-Processing</code>（大写）、<code>-pdf</code>（连字符开头）、<code>pdf--processing</code>（连续连字符）。</li>
+    </ul>
+  </div>
+
+  <h3>渐进式披露：三级加载模型</h3>
+  <p>这是 Agent Skills 最重要的工程机制，也是它区别于"把提示词塞进系统提示"的关键。</p>
+  <div class="levels">
+    <div class="lvl l1">
+      <div class="lv-n"><b>L1</b><span>元数据</span></div>
+      <div class="lv-b"><div class="h">name + description</div><div class="d">启动时对<strong>所有技能</strong>全部加载。这是唯一的常驻部分，也是<strong>唯一的触发机制</strong>——写得含糊就永远触发不了。</div></div>
+      <div class="lv-t"><code>~100 tokens</code></div>
+    </div>
+    <div class="lvl l2">
+      <div class="lv-n"><b>L2</b><span>指令</span></div>
+      <div class="lv-b"><div class="h">SKILL.md 正文</div><div class="d">技能被激活时加载。官方要求正文<strong>保持在 500 行以内</strong>；预算单位是 <strong>tokens 不是 words</strong>。</div></div>
+      <div class="lv-t"><code>&lt;5,000 tokens</code></div>
+    </div>
+    <div class="lvl l3">
+      <div class="lv-n"><b>L3</b><span>资源</span></div>
+      <div class="lv-b"><div class="h">scripts/ · references/ · assets/</div><div class="d">仅在需要时按需读取。不设上限，但应拆分、单文件小而聚焦。</div></div>
+      <div class="lv-t"><code>按需</code></div>
+    </div>
+  </div>
+
+  <h3>目录结构与示例</h3>
+<pre><code>skill-name/
+├── SKILL.md          # 必需：元数据 + 指令
+├── scripts/          # 可选：可执行代码（Python / Bash / JS）
+├── references/       # 可选：按需加载的参考文档
+├── assets/           # 可选：模板、图片、查找表
+└── ...               # 其他任意文件</code></pre>
+<pre><code>---
+name: pdf-processing
+description: Extract text and tables from PDF files, fill forms, and merge
+  documents. Use when working with PDF files or when the user mentions
+  forms, extraction, or PDF merging.
+---</code></pre>
+
+  <h3>产品采用情况（截至 2026）</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>产品</th><th>技能目录约定</th></tr></thead>
+    <tbody>
+      <tr><td>Claude Code / 应用 / API / Agent SDK</td><td><code>.claude/skills/</code>（Anthropic 全产品线）</td></tr>
+      <tr><td>GitHub Copilot / Visual Studio</td><td><code>.github/skills/</code>、<code>~/.copilot/skills/</code>，兼容 <code>.claude/skills/</code>、<code>.agents/skills/</code></td></tr>
+      <tr><td>Cursor</td><td><code>.cursor/skills/</code>（可用 <code>@skill-name</code> 调用）</td></tr>
+      <tr><td>Codex CLI</td><td><code>.codex/skills/</code></td></tr>
+      <tr><td>Gemini CLI</td><td><code>.gemini/skills/</code></td></tr>
+      <tr><td>Antigravity / OpenCode</td><td><code>.agent/skills/</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Microsoft Azure Agent Skills</strong>：官方目录 <strong>193 个技能</strong>，"遵循 Agent Skills 开放标准"，明确列出兼容 GitHub Copilot、Claude Code、Cursor、Gemini CLI、Codex CLI、Antigravity、OpenCode。</p>
+
+  <div class="card danger">
+    <div class="ct">⚠️ 未证实、勿引用的数字</div>
+    <p>中文技术博客流传的"<strong>33+ 个 Agent 产品已采用</strong>""<strong>85,000+ / 280,000+ 公开技能</strong>"等，<strong>均来自二手来源（CSDN/知乎/腾讯云）</strong>，非一手。Anthropic 新闻页中合作伙伴表述多为前瞻性语言（"plans to leverage"），属营销证言。</p>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+  <h2><span class="idx">二</span>MCP 协议 2026 现状</h2>
+  <p class="lead">"AI 应用的 USB-C 接口"。JSON-RPC 2.0 · 三大原语 Tools / Resources / Prompts。</p>
+
+  <h3>规范版本史（一手：官方 changelog）</h3>
+  <p class="src-note">版本号 = 最后一次向后不兼容变更的日期；兼容编辑不升版本。</p>
+  <div class="timeline">
+    <div class="tl-item first">
+      <div class="tl-v">2024-11-05 <span class="tag t-mut">Final</span></div>
+      <div class="tl-d">首次公开发布。传输：stdio + HTTP+SSE。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-v">2025-03-26 <span class="tag t-mut">Final</span></div>
+      <div class="tl-d">引入 <strong>Streamable HTTP</strong>（取代 HTTP+SSE）；引入 <strong>OAuth 2.1 授权</strong>；JSON-RPC 批处理；工具注解。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-v">2025-06-18 <span class="tag t-mut">Final</span></div>
+      <div class="tl-d">移除批处理；<strong>结构化工具输出</strong>；<strong>elicitation</strong>；Server 归类为 OAuth Resource Server；<strong>强制 RFC 8707 resource indicators</strong>。</div>
+    </div>
+    <div class="tl-item gov">
+      <div class="tl-v">2025-11-25 <span class="tag t-mut">Final</span></div>
+      <div class="tl-d">一周年版本。实验性 <strong>tasks</strong>；URL 模式 elicitation；采纳<strong>特性生命周期与废弃政策</strong>。</div>
+    </div>
+    <div class="tl-item gov">
+      <div class="tl-v">2025-12-09 <span class="tag t-info">治理</span></div>
+      <div class="tl-d"><strong>Agentic AI Foundation（AAIF）成立</strong>，MCP 捐给 Linux Foundation（与 Block goose、OpenAI AGENTS.md 同为创始项目）。</div>
+    </div>
+    <div class="tl-item cur">
+      <div class="tl-v">2026-07-28 <span class="tag t-bad">Current</span></div>
+      <div class="tl-d"><strong>无状态核心</strong> —— 自发布以来最大架构变更（详见下）。</div>
+    </div>
+  </div>
+
+  <h3>2026-07-28 主要变更</h3>
+  <div class="grid g2">
+    <div class="mini"><div class="mh">🔻 移除</div><div class="md"><code>initialize</code> 握手 · <code>Mcp-Session-Id</code> · 协议级会话 · <code>ping</code> · <code>logging/setLevel</code> · SSE 可恢复性</div></div>
+    <div class="mini"><div class="mh">🔺 新增</div><div class="md"><code>server/discover</code>（强制）· <code>subscriptions/listen</code> · <strong>MRTR</strong> 多轮往返 · 必填 <code>resultType</code> 字段</div></div>
+    <div class="mini"><div class="mh">⚙️ 重构</div><div class="md">每请求在 <code>_meta</code> 携带协议版本与客户端能力；不匹配返回 <code>UnsupportedProtocolVersionError</code></div></div>
+    <div class="mini"><div class="mh">🗑️ 废弃</div><div class="md"><strong>Roots · Sampling · Logging</strong> 废弃；HTTP+SSE 正式重分类；RFC 7591 动态注册 → Client ID Metadata Documents。保证 <strong>≥12 个月</strong>废弃窗口</div></div>
+  </div>
+
+  <h3>Registry 数量口径：三个数字，三种含义</h3>
+  <p>这是最容易被误引的地方。</p>
+  <div class="bars">
+    <div class="bar-row">
+      <div class="bar-lbl"><span class="nm">Linux Foundation 新闻稿（生态口径）</span><span class="vl">10,000+</span></div>
+      <div class="bar-tr"><div class="bar-fl" style="width:24%;background:linear-gradient(90deg,#e3b341,#f0c674)"></div></div>
+      <div class="bar-note">指"整个生态广泛发布的 MCP server"，非 Registry 收录量</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl"><span class="nm">官方 Registry 自身 API（2026-09-10）</span><span class="vl">约 30,375</span></div>
+      <div class="bar-tr"><div class="bar-fl" style="width:55%;background:linear-gradient(90deg,#58a6ff,#79c0ff)"></div></div>
+      <div class="bar-note">2026-05 约 9,652 → 2026-07 约 16,967 → 2026-09 约 30,375（含版本共 99,114 条）</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl"><span class="nm">第三方聚合站 mcptoplist（跨站，去重情况不明）</span><span class="vl">137,138</span></div>
+      <div class="bar-tr"><div class="bar-fl" style="width:100%;background:linear-gradient(90deg,#ff6b5e,#ff9b91)"></div></div>
+      <div class="bar-note">存在重复计数、含废弃/重复 Server、为营销夸大</div>
+    </div>
+  </div>
+  <div class="callout"><strong>结论：</strong>任何具体数字都应视为自报、未经验证。可辩护的表述是——"MCP 从 2024 年底的少数参考 Server，发展为 2025–2026 年横跨多个注册表的广谱生态，可信的数量级在数万量级及以上。"</div>
+  <p class="src-note">结构性问题：官方 Registry 中 62% 的 Server 发布后从未更新；前 50 名发布者占 24.6%（存在大量批量自动发布）。</p>
+
+  <h3>官方 SDK（分层）</h3>
+  <div class="grid g3">
+    <div class="mini"><div class="mh"><span class="tag t-ok">Tier 1</span></div><div class="md">TypeScript · Python · C# · Go · Rust · Ruby</div></div>
+    <div class="mini"><div class="mh"><span class="tag t-info">Tier 2</span></div><div class="md">Java</div></div>
+    <div class="mini"><div class="mh"><span class="tag t-mut">Tier 3</span></div><div class="md">Swift · PHP · Kotlin</div></div>
+  </div>
+
+  <h3>治理：AAIF 成员</h3>
+  <div class="card">
+    <div class="ct">白金成员</div>
+    <p>AWS · Anthropic · Block · Bloomberg · Cloudflare · Google · Microsoft · OpenAI</p>
+    <div class="ct" style="margin-top:12px">黄金成员（部分）</div>
+    <p style="margin-bottom:0">Adyen · Cisco · Datadog · <strong>Docker</strong> · Ericsson · IBM · JetBrains · Okta · Oracle · Salesforce · SAP · Shopify · Snowflake · Temporal · Twilio</p>
+  </div>
+  <div class="callout">MCP 不再由单一厂商控制，成为<strong>厂商中立的公共基础设施</strong>，创始治理来自 Anthropic、OpenAI、Block 三方。<br>下一届 MCP Dev Summit：<strong>2026-04-02~03，纽约</strong>。</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+  <h2><span class="idx">三</span>市场、目录站与辅助工具链</h2>
+
+  <h3>MCP 目录站对比</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>名称</th><th>官方？</th><th>规模</th><th>质量信号</th></tr></thead>
+    <tbody>
+      <tr><td><strong>官方 MCP Registry</strong><br><span class="src-note">registry.modelcontextprotocol.io</span></td><td><span class="tag t-ok">✅ 官方</span></td><td>约 30.4k（2026-09）</td><td>只存元数据；命名空间归属经 GitHub/DNS 验证；preview</td></tr>
+      <tr><td><strong>Smithery</strong><br><span class="src-note">smithery.ai</span></td><td><span class="tag t-mut">第三方</span></td><td>约 4.8–5k</td><td>已被 <strong>Arcade 收购</strong>；托管+计费+网关</td></tr>
+      <tr><td><strong>Glama</strong><br><span class="src-note">glama.ai/mcp/servers</span></td><td><span class="tag t-mut">第三方</span></td><td><strong>约 66k+</strong></td><td>原始数量最大；自动索引任意公开仓库；需自行甄别</td></tr>
+      <tr><td><strong>mcp.so</strong></td><td><span class="tag t-mut">第三方</span></td><td>约 8k+</td><td>中文社区流行；<strong>运营方无法核实</strong></td></tr>
+      <tr><td><strong>PulseMCP</strong><br><span class="src-note">pulsemcp.com</span></td><td><span class="tag t-info">伙伴</span></td><td>精选子集</td><td>实现官方 Registry API 规范；带流行度/安全分析富化</td></tr>
+      <tr><td><strong>awesome-mcp-servers</strong></td><td><span class="tag t-mut">第三方</span></td><td>96.3k stars</td><td>MIT；外链指向 Glama</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="card danger">
+    <div class="ct">⚠️ 需警惕的聚合站（数量互相矛盾、来源不明）</div>
+    <p style="margin-bottom:0">mcptoplist.com（称 137,138）· mcpfind.org（称 38,294+）· mcp.ad（称 33,000+）· unyly.org（称 108,000+）· martechdb.com —— <strong>不建议作为选型依据</strong>。</p>
+  </div>
+
+  <h3>开发工具</h3>
+  <div class="grid g2">
+    <div class="mini">
+      <div class="mh">🔧 MCP Inspector <span class="tag t-ok">官方</span></div>
+      <div class="md">可视化测试/调试。v2 含四客户端：Web / CLI / TUI / mcpdo。<br><code>npx @modelcontextprotocol/inspector</code>，需 Node ≥22.19.0。密钥存 OS keychain。</div>
+    </div>
+    <div class="mini">
+      <div class="mh">📦 mcp-publisher <span class="tag t-ok">官方</span></div>
+      <div class="md">官方 Registry 发布工具。发布 <code>server.json</code>，处理 GitHub OAuth/OIDC + DNS/HTTP 归属验证。<strong>这是正确的发布方式</strong>（不是给仓库提 PR）。</div>
+    </div>
+    <div class="mini">
+      <div class="mh">⚡ @smithery/cli <span class="tag t-mut">第三方</span></div>
+      <div class="md"><code>npx -y @smithery/cli install &lt;server&gt; --client claude</code>。绑定 Smithery 托管。</div>
+    </div>
+    <div class="mini">
+      <div class="mh">❓ <code>mcp</code> CLI</div>
+      <div class="md"><strong>未能核实存在单一官方 <code>mcp</code> 二进制。</strong>官方 CLI 是 <code>mcp-publisher</code> 与 <code>mcp-inspector</code>/<code>mcpdo</code>。社区有多个 "mcp-cli" 项目但未验证。</div>
+    </div>
+  </div>
+
+  <h3>Agent Skills 市场与集合</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>名称</th><th>维护方</th><th>可信度</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><strong>anthropics/skills</strong></td><td>Anthropic 官方</td><td><span class="tag t-ok">高</span></td><td>约 <strong>180.9k stars</strong>。含 skills/ · spec/ · template/。文档创建类技能源码可见但<strong>非开源</strong></td></tr>
+      <tr><td><strong>anthropics/claude-plugins-official</strong></td><td>Anthropic 官方</td><td><span class="tag t-ok">高</span></td><td>"官方、Anthropic 管理的高质量插件目录"</td></tr>
+      <tr><td>awesome-claude-skills</td><td>社区</td><td><span class="tag t-warn">中</span></td><td>精选列表；偏"精选"而非"穷举"</td></tr>
+      <tr><td>obra/superpowers</td><td>社区</td><td><span class="tag t-warn">中</span></td><td>流行插件市场</td></tr>
+      <tr><td>SkillsMP<br><span class="src-note">skillsmp.com</span></td><td>独立，非官方</td><td><span class="tag t-bad">低</span></td><td><strong>自称数量自相矛盾（25,000+ vs 700,000+）</strong> —— 典型 SEO 信号问题</td></tr>
+      <tr><td>SkillsHunt / agenticmarket.dev</td><td>不明</td><td><span class="tag t-bad">低</span></td><td>营销味重，来源不可验证</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout"><strong>可信度指引：</strong>唯一的一手技能来源是 <code>anthropics/skills</code> 与 <code>anthropics/claude-plugins-official</code>。其余均为社区。对宣称海量技能数的站点应保持怀疑——它们没有 MCP Registry 那样的归属/验证模型。</div>
+
+  <h3>评测基准</h3>
+  <div class="grid g3">
+    <div class="mini"><div class="mh">MCP-Bench</div><div class="md">通过 MCP server 评测工具使用型 Agent 的多步真实任务。<span class="tag t-info">ICLR 2026</span></div></div>
+    <div class="mini"><div class="mh">MCPAgentBench</div><div class="md">MCP 工具使用的真实任务基准，带难度感知</div></div>
+    <div class="mini"><div class="mh">OSWorld-MCP</div><div class="md">GUI + MCP 集成评测；新指标 TIR / ACS</div></div>
+  </div>
+
+  <h3>配置文件格式（易踩坑）</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>客户端</th><th>位置</th><th>顶层键</th></tr></thead>
+    <tbody>
+      <tr><td>Claude Desktop</td><td><code>%APPDATA%\Claude\claude_desktop_config.json</code></td><td><code>mcpServers</code></td></tr>
+      <tr><td>Cursor</td><td><code>~/.cursor/mcp.json</code></td><td><code>mcpServers</code></td></tr>
+      <tr><td>VS Code</td><td><code>.vscode/mcp.json</code></td><td><strong style="color:var(--warn)"><code>servers</code></strong> ⚠️ 不是 mcpServers</td></tr>
+      <tr><td>GitHub Copilot CLI</td><td><code>.mcp.json</code></td><td><code>mcpServers</code> ⚠️ <strong>不支持 .vscode/mcp.json</strong></td></tr>
+      <tr><td>Claude Code</td><td>插件内 <code>.mcp.json</code></td><td><code>mcpServers</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+  <h2><span class="idx">四</span>安全风险全景</h2>
+  <p class="lead">本节把"已披露确认的漏洞"与"理论攻击类别"严格分开。</p>
+
+  <h3>MCP 攻击类别</h3>
+  <div class="grid g2">
+    <div class="mini"><div class="mh">🎯 工具投毒 <span class="tag t-bad">已确认</span></div><div class="md">恶意指令藏在工具 <code>description</code> 中，模型读到但用户看不到，含 Unicode 不可见字符（如 U+2063）。Invariant Labs 2025-04 公开，是该领域基础攻击面。</div></div>
+    <div class="mini"><div class="mh">🪤 拉地毯 Rug Pull <span class="tag t-bad">已确认</span></div><div class="md">Server 通过审查时工具良性，<strong>批准后</strong>静默改变描述或实现。安装时静态审查无法防护。</div></div>
+    <div class="mini"><div class="mh">👥 工具遮蔽/同名冲突</div><div class="md">恶意 Server 静默覆盖良性 Server 的同名工具，Agent 以为在调 A 实际调 B。</div></div>
+    <div class="mini"><div class="mh">💉 工具输出中的提示注入 <span class="tag t-bad">已确认</span></div><div class="md">工具返回的不可信内容携带指令。对应 Simon Willison 的<strong>"致命三要素"</strong>。</div></div>
+    <div class="mini"><div class="mh">🎭 混淆代理 <span class="tag t-info">官方规范</span></div><div class="md">权限高于调用方的代理被诱骗代调用方行事（如静态 client ID 被冒用）。</div></div>
+    <div class="mini"><div class="mh">🔑 Token 透传 <span class="tag t-bad">明令禁止</span></div><div class="md">Server 接受客户端 token 却不校验是否签发给本 Server，破坏下游限流/审计。</div></div>
+    <div class="mini"><div class="mh">🕵️ 会话劫持 <span class="tag t-info">官方规范</span></div><div class="md">可预测 session ID。缓解：≥128 位熵、密码学安全随机、服务端用户绑定、提权后轮换。</div></div>
+    <div class="mini"><div class="mh">💻 本地 Server 沦陷 <span class="tag t-info">官方规范</span></div><div class="md">通过 <code>npx</code>/<code>uvx</code> 运行不可信本地 Server 在开发机执行任意代码；STDIO 启动命令即信任边界。</div></div>
+  </div>
+
+  <h3>已确认的真实事件（CVE）</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>CVE</th><th>组件</th><th>类型</th><th>严重度</th><th>来源</th></tr></thead>
+    <tbody>
+      <tr><td><code>CVE-2025-49596</code></td><td>Anthropic MCP Inspector (&lt;0.14.1)</td><td>缺认证 → CSRF → 未授权 <strong>RCE</strong>（零点击）</td><td><span class="tag t-bad">9.4–9.6 Critical</span></td><td>Oligo Security · GitLab Advisory DB</td></tr>
+      <tr><td><code>CVE-2025-6514</code></td><td>mcp-remote</td><td>OS <strong>命令注入</strong> → RCE</td><td><span class="tag t-bad">9.6</span></td><td>JFrog Security</td></tr>
+      <tr><td><code>CVE-2025-53110</code></td><td>Anthropic Filesystem MCP Server</td><td>目录穿越 → 沙箱逃逸</td><td><span class="tag t-warn">—</span></td><td>被引（二手）</td></tr>
+      <tr><td><code>CVE-2025-53107</code></td><td>@cyanheads/git-mcp-server</td><td>命令注入 / RCE</td><td><span class="tag t-warn">—</span></td><td>GitHub Advisory DB</td></tr>
+      <tr><td><code>CVE-2025-58358</code></td><td>mcp-markdownify-server</td><td>命令注入</td><td><span class="tag t-warn">7.5 High</span></td><td>GitLab Advisory DB</td></tr>
+      <tr><td><code>CVE-2025-65513</code></td><td>Fetch MCP Server (≤1.0.2)</td><td><strong>SSRF</strong> — 私有 IP 未校验</td><td><span class="tag t-bad">Critical</span></td><td>SentinelOne / ZDI</td></tr>
+      <tr><td><code>CVE-2025-53967</code></td><td>Framelink Figma MCP Server</td><td>未净化 URL → 命令注入 → RCE</td><td><span class="tag t-warn">High</span></td><td>mcpsec.dev</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>已确认的研究发现（非 CVE）</h4>
+  <ul>
+    <li><strong>GitHub MCP server 私有仓库泄露</strong>（Invariant Labs，2025-05）：恶意公开 issue 可劫持 Agent，强迫其通过新 PR 读取并外泄<strong>私有</strong>仓库数据。影响约 14k stars 的集成。</li>
+    <li><strong>Supabase MCP "致命三要素"</strong>（General Analysis，约 2025-07）：提示注入 → 数据外泄。无编号 CVE。</li>
+    <li><strong>Asana MCP server 数据泄露</strong>：中文安全媒体报导，<strong>未找到 CVE ID</strong> —— 视为"据报道"。</li>
+    <li><strong>Cycode 发现官方 MCP Python SDK 缺陷</strong>（1.9.1–2.1.1）：恶意 Server 可窃取 OAuth 凭据。⚠️ <strong>厂商自报，无 CVE ID</strong>。</li>
+    <li><strong>OX Security 架构性披露</strong>（2026-04-15）：STDIO 启动命令未被当作信任边界，导致 RCE。声称规模 <strong>&gt;20 万 server / &gt;3.2 万仓库</strong> —— ⚠️ 自估，未经独立验证。</li>
+  </ul>
+
+  <h4>厂商扫描研究（方向性）</h4>
+  <div class="bars">
+    <div class="bar-row">
+      <div class="bar-lbl"><span class="nm">Endor Labs：使用易受路径穿越影响的文件操作</span><span class="vl">82%</span></div>
+      <div class="bar-tr"><div class="bar-fl" style="width:82%;background:linear-gradient(90deg,#ff6b5e,#ff9b91)"></div></div>
+      <div class="bar-note">样本 2,614 个 MCP 实现</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl"><span class="nm">BlueRock：远程 Server 存在潜在 SSRF 风险</span><span class="vl">36.7%</span></div>
+      <div class="bar-tr"><div class="bar-fl" style="width:36.7%;background:linear-gradient(90deg,#e3b341,#f0c674)"></div></div>
+      <div class="bar-note">扫描 7,000 个 MCP server</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl"><span class="nm">Endor Labs：依赖不安全的长效静态凭据</span><span class="vl">53%</span></div>
+      <div class="bar-tr"><div class="bar-fl" style="width:53%;background:linear-gradient(90deg,#e3b341,#f0c674)"></div></div>
+      <div class="bar-note">样本 5,200+ 个开源服务</div>
+    </div>
+  </div>
+
+  <h3>Skills 特有风险</h3>
+  <div class="card danger">
+    <div class="ct">核心风险 —— SKILL.md 内的提示注入</div>
+    <p>Skill 是"YAML 元数据 + 自然语言指令"的文件夹，而 Agent 会<strong>忠实执行</strong>其中的指令。恶意的或被入侵的 SKILL.md 可以指示 Agent 外泄密钥、执行脚本、关闭防护——这是工具投毒在"技能内容"上的对应物。</p>
+  </div>
+  <div class="card warn">
+    <div class="ct">供应链风险</div>
+    <p style="margin-bottom:0">Docker 的 "coding agent horror stories"（2026-05）把<strong>恶意技能与插件供应链</strong>列为头号风险：第三方技能/插件以<strong>与 Agent 本身相同的权限</strong>运行，故恶意技能 = Agent 完全沦陷。</p>
+  </div>
+  <div class="callout">
+    <strong>为什么"安装前先读 SKILL.md"是推荐防御：</strong>因为技能没有成熟的审查/注册机制，且以 Agent 权限执行，社区防御只能是人工检查。<strong>但这很弱</strong>——rug pull/动态更新与混淆（Unicode 隐藏）指令可绕过静态阅读。
+  </div>
+
+  <h3>缓解最佳实践</h3>
+  <div class="grid g3">
+    <div class="mini"><div class="mh">👤 人在环</div><div class="md">工具调用与安装 server/技能都需人工批准</div></div>
+    <div class="mini"><div class="mh">🔒 最小权限</div><div class="md">限定工具权限；禁止读取 <code>~/.aws</code>、<code>~/.ssh</code>、<code>.env</code></div></div>
+    <div class="mini"><div class="mh">📦 沙箱化</div><div class="md">容器 + 网络出口控制，遏制被入侵的 server/技能</div></div>
+    <div class="mini"><div class="mh">✅ 白名单</div><div class="md">只信任已知 server/技能；阻止 <code>npx</code>/<code>uvx</code> 自动执行</div></div>
+    <div class="mini"><div class="mh">📌 锁版本</div><div class="md">监控 rug pull，更新时重新审查</div></div>
+    <div class="mini"><div class="mh">🏭 供应链治理</div><div class="md">把 MCP server 当作受治理的软件供应链组件，而非随手装的插件</div></div>
+  </div>
+  <div class="callout">
+    <strong>2026 新增 —— 企业托管授权（EMA）：</strong>MCP 扩展于 <strong>2026-07-13 升为稳定</strong>。企业可通过自家 IdP（Entra、Okta）集中控制 MCP server 访问，取代逐 server 同意提示。服务端支持：Asana、Atlassian、Canva、Figma、Granola、Linear、Supabase，Slack 进行中。
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+  <h2><span class="idx">五</span>四者关系辨析</h2>
+  <p class="lead">这是最容易被混淆的一组概念——它们不是竞品，是不同层的东西。</p>
+
+  <div class="layers">
+    <div class="layer l-cap">
+      <div class="badge">能力</div>
+      <div class="body"><div class="nm">Agent Skills · <code>SKILL.md</code></div><div class="ds">针对特定任务的按需指令 + 脚本 + 资源。Anthropic 发起，开放标准</div></div>
+      <div class="an">员工手册</div>
+    </div>
+    <div class="layer l-con">
+      <div class="badge">连接</div>
+      <div class="body"><div class="nm">MCP</div><div class="ds">Agent 能碰到的外部工具与数据源。Client-Server · JSON-RPC 2.0</div></div>
+      <div class="an">USB-C 接口</div>
+    </div>
+    <div class="layer l-col">
+      <div class="badge">协作</div>
+      <div class="body"><div class="nm">A2A</div><div class="ds">Agent 之间如何发现与协作。Agent Card + Task 生命周期</div></div>
+      <div class="an">工单系统</div>
+    </div>
+    <div class="layer l-rul">
+      <div class="badge">规则</div>
+      <div class="body"><div class="nm">AGENTS.md / CLAUDE.md</div><div class="ds">仓库级常驻行为指令。始终加载</div></div>
+      <div class="an">公司章程</div>
+    </div>
+  </div>
+
+  <h3>常被混淆的文件名</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>文件</th><th>归属</th><th>作用</th><th>加载模型</th></tr></thead>
+    <tbody>
+      <tr><td><code>SKILL.md</code></td><td>Anthropic · <strong>Agent Skills 开放标准</strong></td><td><strong>能力包</strong>：按需指令 + 脚本 + 资源</td><td><span class="tag t-ok">渐进式/按需</span></td></tr>
+      <tr><td><code>AGENTS.md</code></td><td>开放跨工具约定，现由 <strong>AAIF</strong> 托管</td><td><strong>仓库级常驻指令</strong>（项目约定、约束）</td><td><span class="tag t-info">始终加载</span></td></tr>
+      <tr><td><code>CLAUDE.md</code></td><td>Anthropic · Claude Code 专用</td><td>项目"记忆"/指令，根目录自动加载</td><td><span class="tag t-info">始终加载</span></td></tr>
+      <tr><td><code>.cursorrules</code></td><td>Cursor（旧）</td><td>已被 <code>.cursor/rules/</code> 取代</td><td><span class="tag t-info">始终加载</span></td></tr>
+      <tr><td><code>skills.md</code></td><td>—</td><td><strong>不是标准</strong>。标准化文件名是大写 <code>SKILL.md</code></td><td><span class="tag t-mut">—</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <strong>关键对比：</strong><code>AGENTS.md</code>/<code>CLAUDE.md</code> = 常驻的行为规则（"宪法"）；<code>SKILL.md</code> = 按需的专项能力（"技能证书"）。二手来源概括为"AGENTS.md 管路由/选择，Skill 管执行"。
+  </div>
+  <div class="card ok">
+    <div class="ct">Skill vs MCP（官方口径）</div>
+    <p style="margin-bottom:0;font-style:italic;color:var(--muted)">"MCP connects Claude to external services and data sources. Skills provide <strong>procedural knowledge</strong>—instructions for how to complete specific tasks."</p>
+    <p style="margin-top:10px;margin-bottom:0">即：<strong>MCP 给工具，Skills 教怎么用这些工具</strong>。常见建议是把 MCP 当作基础设施、Agent Skills 当作应用层，叠在一起用。</p>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="s6">
+  <h2><span class="idx">六</span>本机环境实测盘点</h2>
+  <p class="lead">一手实测数据（2026-10-14 扫描本机 <code>~/.workbuddy-ai/</code>），可作为"扩展面"的真实案例。</p>
+
+  <div class="stats" style="margin-bottom:26px">
+    <div class="stat s1"><div class="n">49</div><div class="l">用户级 Skills</div></div>
+    <div class="stat s2"><div class="n">57</div><div class="l">已安装插件</div></div>
+    <div class="stat s3"><div class="n">5</div><div class="l">插件市场</div></div>
+    <div class="stat s4"><div class="n">3</div><div class="l">已配置 MCP Server</div></div>
+    <div class="stat s5"><div class="n">13</div><div class="l">可用连接器</div></div>
+    <div class="stat s6"><div class="n">184</div><div class="l">SKILL.md 总数（含插件）</div></div>
+  </div>
+
+  <h3>49 个用户级 Skills 的领域分布</h3>
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">调研 / 研究</span><span class="vl">9</span></div><div class="bar-tr"><div class="bar-fl" style="width:100%;background:linear-gradient(90deg,#2dd4bf,#5eead4)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">浏览器自动化 / 抓取</span><span class="vl">8</span></div><div class="bar-tr"><div class="bar-fl" style="width:89%;background:linear-gradient(90deg,#2dd4bf,#5eead4)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">工程 / 运维</span><span class="vl">6</span></div><div class="bar-tr"><div class="bar-fl" style="width:67%;background:linear-gradient(90deg,#58a6ff,#79c0ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">文档 / 知识管理</span><span class="vl">6</span></div><div class="bar-tr"><div class="bar-fl" style="width:67%;background:linear-gradient(90deg,#58a6ff,#79c0ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">系统诊断 / 平台</span><span class="vl">4</span></div><div class="bar-tr"><div class="bar-fl" style="width:44%;background:linear-gradient(90deg,#a371f7,#c4a5ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">元技能（对 Agent 自身）</span><span class="vl">4</span></div><div class="bar-tr"><div class="bar-fl" style="width:44%;background:linear-gradient(90deg,#a371f7,#c4a5ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">检索 / 资讯</span><span class="vl">4</span></div><div class="bar-tr"><div class="bar-fl" style="width:44%;background:linear-gradient(90deg,#a371f7,#c4a5ff)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">业务 / 垂直</span><span class="vl">4</span></div><div class="bar-tr"><div class="bar-fl" style="width:44%;background:linear-gradient(90deg,#e3b341,#f0c674)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">游戏</span><span class="vl">2</span></div><div class="bar-tr"><div class="bar-fl" style="width:22%;background:linear-gradient(90deg,#e3b341,#f0c674)"></div></div></div>
+    <div class="bar-row"><div class="bar-lbl"><span class="nm">输出风格</span><span class="vl">1</span></div><div class="bar-tr"><div class="bar-fl" style="width:11%;background:linear-gradient(90deg,#8b949e,#b1bac4)"></div></div></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:20px">
+    <div class="card hl">
+      <div class="ct">观察 ① 调研 + 抓取占 35%</div>
+      <p style="margin-bottom:0">17/49 个技能围绕"信息获取与研究报告"构建——与本会话正在做的 deep-research 任务高度一致。</p>
+    </div>
+    <div class="card hl">
+      <div class="ct">观察 ② 出现"元技能"这一类</div>
+      <p style="margin-bottom:0">4 个技能把 Agent 自身当调研对象：审计 Agent 框架、给 Agent 做 MBTI 诊断、任务对齐/实施。</p>
+    </div>
+    <div class="card ok">
+      <div class="ct">观察 ③ 渐进式披露实践良好</div>
+      <p style="margin-bottom:0">几乎全部技能的 description 都写明"做什么 + 何时用"，并带中文触发关键词。</p>
+    </div>
+    <div class="card warn">
+      <div class="ct">观察 ④ 一处卫生问题</div>
+      <p style="margin-bottom:0"><code>skills/</code> 下同时存在 <code>malaysia-phone-osint/</code> 目录与 <code>malaysia-phone-osint.zip</code>（重复包），建议清理 zip。</p>
+    </div>
+  </div>
+
+  <h3>已配置的 MCP Server（3 个）</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>名称</th><th>传输</th><th>配置要点</th></tr></thead>
+    <tbody>
+      <tr><td><strong>gog</strong></td><td><span class="tag t-info">stdio</span></td><td>本地 <code>gog.exe mcp</code>，仅放行 <code>sheets,drive_search,drive_get,docs_get</code> —— <strong>最小权限的好范例</strong></td></tr>
+      <tr><td><strong>web-search</strong></td><td><span class="tag t-info">stdio</span></td><td>本地 Node 运行 open-websearch，默认 duckduckgo，允许 5 个引擎</td></tr>
+      <tr><td><strong>nixos</strong></td><td><span class="tag t-info">stdio</span></td><td><code>uvx mcp-nixos</code> —— 查 NixOS/nixpkgs 生态</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">三者<strong>全部使用 stdio 传输</strong>，且全部为<strong>本地可执行</strong>（无远程 HTTP server）。按第四章，"本地 Server 沦陷"正是 stdio 模式的主要风险面——但这三个来源均为可信本地二进制，风险可控。</div>
+
+  <h3>插件来源分布</h3>
+  <div class="grid g3">
+    <div class="mini"><div class="mh">workbuddy-builtin</div><div class="md"><strong>45</strong> 个内置插件</div></div>
+    <div class="mini"><div class="mh">experts</div><div class="md"><strong>5</strong> 个专家包（deep-research、gpt-researcher-team 等）</div></div>
+    <div class="mini"><div class="mh">codebuddy-plugins-official</div><div class="md"><strong>3</strong> 个（agent-browser、find-skills、playwright-cli）</div></div>
+    <div class="mini"><div class="mh">workbuddy-connector-plugins-official</div><div class="md"><strong>2</strong> 个（github、notion）</div></div>
+    <div class="mini"><div class="mh">cb_teams_marketplace</div><div class="md"><strong>1</strong> 个（document-skills）</div></div>
+    <div class="mini"><div class="mh">my-experts</div><div class="md"><strong>1</strong> 个自建专家</div></div>
+  </div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="s7">
+  <h2><span class="idx">七</span>选型决策树</h2>
+  <div class="tree">问题 1：你要解决的是"Agent <b>不知道怎么做</b>"，还是"Agent <b>碰不到某个系统</b>"？
+
+  ├─ 不知道<i>怎么做</i> ────────────→ <b>Agent Skills（SKILL.md）</b>
+  │                                   写清流程/示例/边界，确定性步骤就捆脚本
+  ├─ 碰不到<i>某个系统/数据</i> ─────→ <i>MCP Server</i>
+  │                                   本地系统走 stdio，远程走 Streamable HTTP
+  └─ 两者都要 ───────────────────→ <b>叠加</b>：MCP 提供工具，Skill 教怎么用
+
+问题 2：你的规则是"<u>全局</u>"还是"<u>本仓库</u>"？
+
+  ├─ 全局行为约束 ───────→ 系统提示 / 自定义指令
+  ├─ 本仓库约定 ─────────→ <u>AGENTS.md</u>（跨工具）/ <u>CLAUDE.md</u>（Claude Code）
+  └─ 特定任务的按需流程 ─→ <b>Skill</b>
+
+问题 3：多个 Agent 要互相配合？
+  └──────────────────────→ <em>A2A</em>（Agent Card + Task 生命周期）
+
+问题 4：去哪里找现成的？
+  ├─ 官方技能 ───────→ github.com/anthropics/skills
+  ├─ 官方插件 ───────→ github.com/anthropics/claude-plugins-official
+  ├─ 官方 MCP server → registry.modelcontextprotocol.io
+  ├─ 三方 MCP server → PulseMCP → Smithery → Glama（数量最大需甄别）
+  ├─ 调试 MCP server → <i>MCP Inspector</i>（官方）
+  ├─ 发布 MCP server → <i>mcp-publisher</i>（官方）
+  └─ 创作技能 ───────→ <b>skill-creator</b> 元技能
+
+问题 5：怎么降低风险？
+  ① 装前读一遍 SKILL.md / 查 MCP server 来源与提交历史
+  ② 权限最小化（本机 gog 的 --allow-tool 白名单就是好做法）
+  ③ 能沙箱就沙箱；能锁版本就锁版本（防 rug pull）
+  ④ 敏感操作走人在环审批
+  ⑤ 别用来源不明的"技能市场"站点</div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="s8">
+  <h2><span class="idx">八</span>数据可信度与口径问题</h2>
+
+  <h3>三个必须记住的"口径陷阱"</h3>
+  <div class="card danger">
+    <div class="ct">陷阱 ① "MCP 服务器破 10 万" ≠ 官方 Registry 收录量</div>
+    <p style="margin-bottom:0">前者是 LF 新闻稿的<strong>生态口径</strong>，后者 2026-09 约 3 万条。第三方站的 13.7 万等数字存在重复计数。</p>
+  </div>
+  <div class="card danger">
+    <div class="ct">陷阱 ② 技能预算单位是 tokens 不是 words</div>
+    <p style="margin-bottom:0">官方要求 <code>SKILL.md</code> 正文 <strong>&lt;5,000 tokens / &lt;500 行</strong>。</p>
+  </div>
+  <div class="card danger">
+    <div class="ct">陷阱 ③ description 长度上限是 1,024 字符（规范），不是 200 字符（帮助中心）</div>
+    <p style="margin-bottom:0">以 agentskills.io 规范为准。</p>
+  </div>
+
+  <h3>明确标注的不确定项</h3>
+  <ul>
+    <li><strong>Trail of Bits 的 MCP 攻击类别论文</strong>：未找到可确证的单一权威来源 —— 缺口</li>
+    <li><strong>modelcontextprotocol.io 与 invariantlabs.ai</strong>：直接抓取返回空，细节依赖二手汇总</li>
+    <li><strong>agentskills.io</strong>：JS 重，直接抓取未渲染</li>
+    <li><strong>Registry 上线时间（2025-09-08）与 API 冻结（2025-10-24）</strong>：来自二手来源，未在官方英文页确认</li>
+    <li><strong>A2A 捐给 Linux Foundation（2025-06）</strong>：本次未独立核实，标为待确认</li>
+    <li><strong><code>mcp</code> CLI</strong>：未发现单一官方二进制</li>
+    <li><strong>mcp.so 运营方</strong>：无法核实</li>
+    <li><strong>"OAuth 2026 强制迁移（2026-10-01 停用旧认证）"</strong>：仅见一篇 CSDN 帖，<strong>未被一手来源印证，疑似不实</strong></li>
+    <li><strong>各类"技能数量"</strong>：skillsmp 自称 25,000+ vs 700,000+ 自相矛盾；"85,000+/280,000+" 均来自二手聚合，<strong>不可引用</strong></li>
+    <li><strong>OX Security 规模数字</strong>（&gt;20 万 server / &gt;3.2 万仓库）：自估，未独立验证</li>
+    <li><strong>Cycode / Asana 事件</strong>：厂商自报或中文媒体报导，<strong>无 CVE ID</strong></li>
+  </ul>
+
+  <div class="card ok">
+    <div class="ct">可辩护的表述</div>
+    <p style="margin-bottom:0">"MCP 从 2024 年底的少数参考 Server，发展为 2025–2026 年横跨多个注册表的广谱生态，可信的数量级在<strong>数万量级及以上</strong>。" —— 而不是引用任何单一具体数字。</p>
+  </div>
+</section>
+
+<footer>
+  <p style="margin-bottom:8px"><strong style="color:var(--muted)">AI Agent 扩展生态深度调研</strong> · 数据快照 2026-10-14</p>
+  <p class="src-note">一手源：agentskills.io/specification · modelcontextprotocol.io（spec + changelog）· linuxfoundation.org · GitHub Advisory Database · GitLab Advisory Database · JFrog / Oligo Security / Invariant Labs / Elastic Security Labs · 本机 ~/.workbuddy-ai 实测</p>
+  <p class="src-note" style="margin-top:8px">标注 [不确定] 的为未能一手核实项。完整报告见 report.md。</p>
+</footer>
+
+</main>
+</div>
+
+<script>
+// 侧栏高亮
+(function(){
+  var links = document.querySelectorAll('nav a');
+  var secs = [];
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el) secs.push({a:a, el:el});
+  });
+  function onScroll(){
+    var y = window.scrollY + 120;
+    var cur = secs[0];
+    for(var i=0;i<secs.length;i++){
+      if(secs[i].el.offsetTop <= y) cur = secs[i];
+    }
+    links.forEach(function(a){a.classList.remove('active')});
+    if(cur) cur.a.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  links.forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if(el){ e.preventDefault(); window.scrollTo({top: el.offsetTop - 16, behavior:'smooth'}); history.replaceState(null,'','#'+id); }
+    });
+  });
+})();
+
+// 条形图入场动画
+(function(){
+  var bars = document.querySelectorAll('.bar-fl');
+  bars.forEach(function(b){ b.dataset.w = b.style.width; b.style.width = '0'; });
+  function run(){
+    bars.forEach(function(b,i){
+      setTimeout(function(){ b.style.width = b.dataset.w; }, 60 + i*45);
+    });
+  }
+  if('IntersectionObserver' in window){
+    var seen = new WeakSet();
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting && !seen.has(e.target)){ seen.add(e.target); run(); io.disconnect(); }
+      });
+    }, {threshold:0.15});
+    var first = document.querySelector('.bars');
+    if(first) io.observe(first);
+  } else { run(); }
+})();
+</script>
+</body>
+</html>

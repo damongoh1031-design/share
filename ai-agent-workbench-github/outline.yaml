@@ -1,0 +1,174 @@
+topic: GitHub 上的 AI Agent 通用工作台全景
+topic_slug: ai-agent-workbench-github
+created: 2026-10-14
+time_range: 2025-01-01 至今
+deliverable:
+  - report.md（Markdown 结构化报告）
+  - report.html（HTML 可视化报告）
+
+# 六大类别 —— 这是"有多少种"的答案骨架
+categories:
+  A开发者框架SDK: 用代码编排 Agent，自由度最高，面向工程师
+  B可视化低代码平台: 拖拽编排、开箱即用、可自托管，面向业务/团队
+  C通用自主智能体: "你说它做"的通用助理，能操作电脑/浏览器/文件，面向个人与泛用户
+  D Agent-IDE编码工作台: 以编码为核心场景的 Agent 工作台
+  E基础设施与协议: 决定工作台能力上限的运行时/协议/工具层
+  F知识库与研究型工作台: 以调研与知识生产为核心
+
+items:
+  # ---------- A 开发者框架 / Agent SDK ----------
+  - name: LangGraph
+    category: A开发者框架SDK
+    description: LangChain 出品的图状态机式 Agent 编排框架，工业界事实标准之一
+  - name: Microsoft Agent Framework
+    category: A开发者框架SDK
+    description: 微软把 AutoGen 与 Semantic Kernel 合并后的统一 Agent 框架，1.0 GA
+  - name: CrewAI
+    category: A开发者框架SDK
+    description: 角色化多 Agent 协作框架，轻量、上手快
+  - name: OpenAI Agents SDK
+    category: A开发者框架SDK
+    description: OpenAI 官方 Agent SDK（由 Swarm 演进），含 AgentKit 生态
+  - name: Claude Agent SDK
+    category: A开发者框架SDK
+    description: Anthropic 官方 Agent SDK，前身为 Claude Code SDK
+  - name: Google ADK
+    category: A开发者框架SDK
+    description: Google Agent Development Kit，与 Gemini/Vertex 深度绑定
+  - name: LlamaIndex
+    category: A开发者框架SDK
+    description: 数据/RAG 为中心的 Agent 框架，已扩展 LlamaAgents 工作流
+  - name: smolagents
+    category: A开发者框架SDK
+    description: HuggingFace 出品的极简 Code-Agent 框架，代码即动作
+  - name: Pydantic AI
+    category: A开发者框架SDK
+    description: 以类型安全与 Pydantic 校验为核心的 Python Agent 框架
+  - name: Agno
+    category: A开发者框架SDK
+    description: 原 Phidata，主打高性能多模态 Agent 运行时
+  - name: Mastra
+    category: A开发者框架SDK
+    description: TypeScript 原生 Agent 框架，面向 Node/前端开发者
+  - name: Haystack
+    category: A开发者框架SDK
+    description: deepset 出品的生产级 LLM/Agent 编排框架
+
+  # ---------- B 可视化 / 低代码平台 ----------
+  - name: Dify
+    category: B可视化低代码平台
+    description: 开源 LLM 应用与 Agent 工作流平台，LLMOps 一体化
+  - name: Coze Studio
+    category: B可视化低代码平台
+    description: 字节跳动扣子开源版，全栈式 Agent 开发平台
+  - name: Langflow
+    category: B可视化低代码平台
+    description: 基于 LangChain 的可视化拖拽式 Agent 构建工具
+  - name: Flowise
+    category: B可视化低代码平台
+    description: 拖拽式 LLM 应用/Agent 编排平台，Node 技术栈
+  - name: n8n
+    category: B可视化低代码平台
+    description: 通用自动化工作流平台，近两年成为 AI Agent 编排热门选择
+  - name: FastGPT
+    category: B可视化低代码平台
+    description: 国产知识库问答 + 工作流编排平台
+  - name: RAGFlow
+    category: B可视化低代码平台
+    description: 以深度文档解析见长的 RAG 引擎与 Agent 平台
+  - name: Bisheng
+    category: B可视化低代码平台
+    description: 国产开源 LLM 应用平台（毕昇），含工作流与知识库
+  - name: AnythingLLM
+    category: B可视化低代码平台
+    description: 一体化私有化知识库与 Agent 桌面/自托管应用
+  - name: Khoj
+    category: B可视化低代码平台
+    description: 个人 AI 第二大脑，支持本地文档与联网检索
+
+  # ---------- C 通用自主智能体（用户重点） ----------
+  - name: OpenClaw
+    category: C通用自主智能体
+    description: 2026 年最火的开源个人 Agent 框架/工作台，本地执行 + 消息网关 + 技能库 + 心跳任务
+  - name: OpenManus
+    category: C通用自主智能体
+    description: MetaGPT 团队开源的 Manus 平替，通用任务智能体
+  - name: OWL
+    category: C通用自主智能体
+    description: CAMEL-AI 出品的开源多智能体协作通用智能体，多任务基准表现领先
+  - name: Agent Zero
+    category: C通用自主智能体
+    description: 具备 Docker 隔离运行环境的通用自主智能体，面向技术用户
+  - name: Suna
+    category: C通用自主智能体
+    description: Kortix 出品的开源通用型 AI Agent，Manus 开源替代
+  - name: OpenHands
+    category: C通用自主智能体
+    description: 原 OpenDevin，开源软件工程智能体，能写代码/跑命令/浏览网页
+  - name: Open Interpreter
+    category: C通用自主智能体
+    description: 让 LLM 在本地执行代码的经典开源项目
+  - name: UI-TARS
+    category: C通用自主智能体
+    description: 字节跳动出品的 GUI 智能体，原生操作图形界面
+  - name: Bytebot
+    category: C通用自主智能体
+    description: 自带虚拟桌面环境的开源 Computer-Use Agent
+  - name: Devika
+    category: C通用自主智能体
+    description: 早期开源 Devin 平替，面向软件工程任务的自主智能体
+  - name: AutoGPT
+    category: C通用自主智能体
+    description: 2023 年引爆赛道的自主智能体鼻祖，现演进为可视化 Agent 平台
+
+  # ---------- D Agent-IDE / 编码工作台 ----------
+  - name: Cline
+    category: D Agent-IDE编码工作台
+    description: VS Code 内最流行的开源编码 Agent 插件之一
+  - name: Roo Code
+    category: D Agent-IDE编码工作台
+    description: 由 Cline 分叉演进的编码 Agent，强调模式化与自定义
+  - name: Continue
+    category: D Agent-IDE编码工作台
+    description: 可自托管模型的开源编码助手/Agent，支持 IDE 集成
+  - name: Aider
+    category: D Agent-IDE编码工作台
+    description: 终端内的 AI 结对编程工具，git 原生
+  - name: bolt.diy
+    category: D Agent-IDE编码工作台
+    description: bolt.new 的开源版，浏览器内全栈应用生成
+  - name: Void
+    category: D Agent-IDE编码工作台
+    description: 开源 AI 代码编辑器，Cursor 的开源替代路线
+
+  # ---------- E 基础设施 / 运行时 / 协议 ----------
+  - name: MCP
+    category: E基础设施与协议
+    description: Anthropic 主导的模型上下文协议，Agent 连接外部工具的事实标准
+  - name: A2A
+    category: E基础设施与协议
+    description: Google 主导的 Agent-to-Agent 协议，解决 Agent 间协作互通
+  - name: Browser Use
+    category: E基础设施与协议
+    description: 让 Agent 操作浏览器的最流行开源库
+  - name: E2B
+    category: E基础设施与协议
+    description: Agent 专用云端沙箱执行环境
+  - name: Letta
+    category: E基础设施与协议
+    description: 原 MemGPT，主打有状态/长期记忆 Agent 运行时
+  - name: Mem0
+    category: E基础设施与协议
+    description: 通用 Agent 记忆层，跨会话长期记忆
+  - name: Composio
+    category: E基础设施与协议
+    description: Agent 工具集成与认证平台，数千工具即插即用
+  - name: Langfuse
+    category: E基础设施与协议
+    description: 开源 LLM/Agent 可观测性与评测平台
+
+execution:
+  batch_size: 8
+  items_per_agent: 6
+  output_dir: ./results
+  agent: deep-research-expert

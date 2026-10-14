@@ -1,0 +1,309 @@
+{
+  "meta": {
+    "topic": "AI Agent 扩展生态：Skills / MCP / 辅助工具 / SKILL.md 规范",
+    "snapshot_date": "2026-10-14",
+    "data_sources": [
+      "agentskills.io/specification（一手规范）",
+      "modelcontextprotocol.io specification + changelog（一手规范）",
+      "linuxfoundation.org 新闻稿（一手治理信息）",
+      "GitHub Advisory Database / GitLab Advisory Database（CVE 交叉印证）",
+      "JFrog / Oligo Security / Invariant Labs / Elastic Security Labs（安全研究）",
+      "本机 ~/.workbuddy-ai 实测（一手环境数据）"
+    ],
+    "note": "标注 uncertain=true 的为未能一手核实项。不编造、不填补。"
+  },
+
+  "ecosystem_layers": [
+    {
+      "layer": "能力层",
+      "standard": "Agent Skills",
+      "artifact": "SKILL.md",
+      "manages": "Agent 怎么做事（程序性知识）",
+      "analogy": "员工手册",
+      "loading": "progressive/on-demand",
+      "governance": "Anthropic 发起，2025-12-18 发布为开放标准（agentskills.io）"
+    },
+    {
+      "layer": "连接层",
+      "standard": "MCP",
+      "artifact": "MCP Server / Client",
+      "manages": "Agent 能碰什么（工具与数据）",
+      "analogy": "USB-C 接口",
+      "loading": "n/a",
+      "governance": "Anthropic 发起，2025-12-09 随 AAIF 捐给 Linux Foundation"
+    },
+    {
+      "layer": "协作层",
+      "standard": "A2A",
+      "artifact": "Agent Card / Task",
+      "manages": "Agent 之间怎么配合",
+      "analogy": "工单系统",
+      "loading": "n/a",
+      "governance": "Google 发起；据报已纳入 Linux Foundation",
+      "uncertain": true,
+      "uncertain_note": "捐赠时间（2025-06）本次未独立核实"
+    },
+    {
+      "layer": "规则层",
+      "standard": "AGENTS.md",
+      "artifact": "AGENTS.md / CLAUDE.md",
+      "manages": "仓库级常驻行为规则",
+      "analogy": "公司章程",
+      "loading": "always-loaded",
+      "governance": "开放约定，现由 AAIF 托管"
+    }
+  ],
+
+  "skill_md_spec": {
+    "source": "https://agentskills.io/specification",
+    "frontmatter_fields": [
+      { "name": "name", "required": true, "constraints": "≤64 字符；仅小写字母/数字/连字符；不得以连字符开头或结尾；不得连续连字符；必须与父目录名一致" },
+      { "name": "description", "required": true, "constraints": "≤1,024 字符；非空；必须说明「做什么」和「何时用」并含关键词" },
+      { "name": "license", "required": false, "constraints": "许可证名称或指向随附许可证文件" },
+      { "name": "compatibility", "required": false, "constraints": "≤500 字符；环境要求；官方称大多数技能不需要" },
+      { "name": "metadata", "required": false, "constraints": "任意 string→string 键值对" },
+      { "name": "allowed-tools", "required": false, "constraints": "空格分隔的预授权工具列表；实验性" }
+    ],
+    "non_standard_fields": ["version", "model"],
+    "non_standard_note": "规范中无 version / model 顶层字段；版本类信息应放进 metadata。部分实现自行扩展额外 frontmatter 键，属实现私有。",
+    "doc_conflict": {
+      "issue": "Anthropic 帮助中心文章称 description 上限 200 字符，并列出规范中不存在的 dependencies 字段",
+      "resolution": "以 agentskills.io 规范为准（1,024 字符）"
+    },
+    "progressive_disclosure": [
+      { "level": 1, "content": "name + description（元数据）", "when": "启动时对所有技能全部加载", "budget": "~100 tokens" },
+      { "level": 2, "content": "SKILL.md 正文", "when": "技能被激活时", "budget": "<5,000 tokens；正文保持在 500 行以内" },
+      { "level": 3, "content": "scripts/ references/ assets/", "when": "仅在需要时按需读取", "budget": "不设上限，应拆分" }
+    ],
+    "directory_structure": ["SKILL.md（必需）", "scripts/（可选，可执行代码）", "references/（可选，参考文档）", "assets/（可选，模板/图片/查找表）"],
+    "validation_tool": "skills-ref validate ./my-skill",
+    "adoption": {
+      "anthropic": [".claude/skills/（Claude Code / 应用 / API / Agent SDK）"],
+      "github_copilot": [".github/skills/", "~/.copilot/skills/", "兼容 .claude/skills/ 与 .agents/skills/"],
+      "cursor": [".cursor/skills/"],
+      "codex_cli": [".codex/skills/"],
+      "gemini_cli": [".gemini/skills/"],
+      "antigravity_opencode": [".agent/skills/"],
+      "azure_agent_skills": { "skill_count": 193, "compatible_assistants": ["GitHub Copilot", "Claude Code", "Cursor", "Gemini CLI", "Codex CLI", "Antigravity", "OpenCode"] }
+    },
+    "unverified_claims": [
+      "「33+ 个 Agent 产品已采用」——二手来源",
+      "「2026 年初 85,000+ 公开技能」——二手来源",
+      "「280,000+ 公开技能」——二手来源"
+    ]
+  },
+
+  "mcp": {
+    "intro": "开放标准，连接 AI 应用与外部系统。Client-Server，JSON-RPC 2.0，UTF-8。",
+    "primitives": [
+      { "name": "Tools", "control": "model-controlled", "desc": "模型可调用的可执行函数；支持结构化输出（2025-06-18 加入）" },
+      { "name": "Resources", "control": "application-controlled", "desc": "应用暴露给模型的只读上下文数据，以 URI 寻址" },
+      { "name": "Prompts", "control": "user-controlled", "desc": "可复用的模板化工作流/消息" }
+    ],
+    "spec_versions": [
+      { "version": "2024-11-05", "status": "Final", "changes": "首次公开发布；stdio + HTTP+SSE" },
+      { "version": "2025-03-26", "status": "Final", "changes": "引入 Streamable HTTP（取代 HTTP+SSE）；引入 OAuth 2.1 授权；JSON-RPC 批处理；工具注解" },
+      { "version": "2025-06-18", "status": "Final", "changes": "移除批处理；结构化工具输出；elicitation；Server 归类为 OAuth Resource Server；强制 RFC 8707 resource indicators" },
+      { "version": "2025-11-25", "status": "Final", "changes": "实验性 tasks；URL 模式 elicitation；采纳特性生命周期与废弃政策" },
+      { "version": "2026-07-28", "status": "Current", "changes": "无状态核心：移除 initialize 握手与 Mcp-Session-Id；新增 server/discover；引入 MRTR；必填 resultType；Roots/Sampling/Logging 废弃；RFC 7591 动态注册废弃" }
+    ],
+    "transports": [
+      { "name": "stdio", "usage": "本地 Server", "note": "客户端把 Server 作为子进程启动" },
+      { "name": "Streamable HTTP", "usage": "远程 Server", "note": "取代 2024-11-05 的 HTTP+SSE" },
+      { "name": "HTTP+SSE", "usage": "已废弃", "note": "2025-03-26 起废弃，2026-07-28 正式重分类" }
+    ],
+    "authorization": {
+      "model": "OAuth 2.1",
+      "key_standards": ["RFC 9728（受保护资源元数据）", "RFC 8707（resource indicators，强制）", "RFC 9207（iss 参数）"],
+      "deprecated": "RFC 7591 动态客户端注册 → Client ID Metadata Documents",
+      "ema_stable_date": "2026-07-13"
+    },
+    "governance": {
+      "foundation": "Agentic AI Foundation (AAIF), Linux Foundation",
+      "announced": "2025-12-09",
+      "founding_projects": ["Anthropic MCP", "Block goose", "OpenAI AGENTS.md"],
+      "platinum_members": ["AWS", "Anthropic", "Block", "Bloomberg", "Cloudflare", "Google", "Microsoft", "OpenAI"],
+      "gold_members_sample": ["Adyen", "Cisco", "Datadog", "Docker", "Ericsson", "IBM", "JetBrains", "Okta", "Oracle", "Salesforce", "SAP", "Shopify", "Snowflake", "Temporal", "Twilio"],
+      "next_summit": "2026-04-02~03 纽约"
+    },
+    "registry": {
+      "url": "https://registry.modelcontextprotocol.io",
+      "official": true,
+      "metadata_only": true,
+      "status": "preview",
+      "api_version": "v0.1（2025-10-24 冻结）",
+      "counts": [
+        { "scope": "Linux Foundation 新闻稿（生态口径）", "value": "10,000+", "verified": false, "note": "指整个生态广泛发布的 server，非 Registry 收录量" },
+        { "scope": "官方 Registry 自身 API 2026-05", "value": "~9,652", "verified": true },
+        { "scope": "官方 Registry 自身 API 2026-07", "value": "~16,967", "verified": true },
+        { "scope": "官方 Registry 自身 API 2026-09-10", "value": "~30,375", "verified": true, "note": "含版本共 99,114 条记录" },
+        { "scope": "Glama（第三方自动索引）", "value": "~66,000+", "verified": false },
+        { "scope": "mcptoplist（跨站聚合，去重不明）", "value": "137,138", "verified": false }
+      ],
+      "structural_notes": ["62% 的 Server 发布后从未更新", "前 50 名发布者占 24.6%", "存在批量自动发布（如某发布者一人发 1,505 个单功能微工具）"]
+    },
+    "sdk_tiers": {
+      "tier1": ["TypeScript", "Python", "C#", "Go", "Rust", "Ruby"],
+      "tier2": ["Java"],
+      "tier3": ["Swift", "PHP", "Kotlin"]
+    }
+  },
+
+  "marketplaces_and_tools": {
+    "mcp_directories": [
+      { "name": "Official MCP Registry", "url": "registry.modelcontextprotocol.io", "official": true, "scale": "~30.4k (2026-09)", "quality": "high" },
+      { "name": "Smithery", "url": "smithery.ai", "official": false, "scale": "~4.8-5k", "note": "已被 Arcade 收购", "quality": "medium" },
+      { "name": "Glama", "url": "glama.ai/mcp/servers", "official": false, "scale": "~66k+", "note": "数量最大，自动索引任意公开仓库", "quality": "medium" },
+      { "name": "mcp.so", "url": "mcp.so", "official": false, "scale": "~8k+", "note": "运营方无法核实", "quality": "low", "uncertain": true },
+      { "name": "PulseMCP", "url": "pulsemcp.com", "official": false, "scale": "精选子集", "note": "实现官方 Registry API 规范，带富化", "quality": "medium-high" },
+      { "name": "awesome-mcp-servers", "url": "github.com/punkpeye/awesome-mcp-servers", "official": false, "scale": "96.3k stars", "quality": "medium" }
+    ],
+    "flagged_aggregators": [
+      { "url": "mcptoplist.com", "claim": "137,138 servers", "reason": "重复计数、来源不明" },
+      { "url": "mcpfind.org", "claim": "38,294+ servers", "reason": "来源不明" },
+      { "url": "mcp.ad", "claim": "33,000+ servers", "reason": "来源不明" },
+      { "url": "unyly.org", "claim": "108,000+ servers", "reason": "营销措辞" }
+    ],
+    "mcp_dev_tools": [
+      { "name": "MCP Inspector", "official": true, "pkg": "@modelcontextprotocol/inspector", "clients": ["Web", "CLI", "TUI", "mcpdo"], "requires": "Node >=22.19.0" },
+      { "name": "mcp-publisher", "official": true, "purpose": "官方 Registry 发布工具", "repo": "github.com/modelcontextprotocol/registry" },
+      { "name": "@smithery/cli", "official": false, "purpose": "安装/管理 MCP server" },
+      { "name": "mcp CLI", "official": null, "note": "未能核实存在单一官方二进制", "uncertain": true }
+    ],
+    "skills_marketplaces": [
+      { "name": "anthropics/skills", "official": true, "stars": 180900, "quality": "high", "note": "含 skills/ spec/ template/；文档创建类技能源码可见但非开源" },
+      { "name": "anthropics/claude-plugins-official", "official": true, "quality": "high", "note": "官方高质量插件目录" },
+      { "name": "awesome-claude-skills", "official": false, "quality": "medium" },
+      { "name": "obra/superpowers", "official": false, "quality": "medium" },
+      { "name": "SkillsMP", "url": "skillsmp.com", "official": false, "quality": "low", "note": "自称数量自相矛盾（25,000+ vs 700,000+）" },
+      { "name": "SkillsHunt", "url": "skillshunt.org", "official": false, "quality": "low" },
+      { "name": "agenticmarket.dev", "official": false, "quality": "low" }
+    ],
+    "skill_tooling": [
+      { "name": "skill-creator", "official": true, "purpose": "创建/改进技能并度量表现（元技能）" },
+      { "name": "Claude Code plugin system", "official": true, "manifest": ".claude-plugin/plugin.json", "marketplace": ".claude-plugin/marketplace.json" },
+      { "name": "skills-ref", "official": true, "purpose": "技能 frontmatter 校验参考库" }
+    ],
+    "benchmarks": [
+      { "name": "MCP-Bench", "maintainer": "Tiamat-Tech", "note": "ICLR 2026 poster" },
+      { "name": "MCPAgentBench", "maintainer": "学术 (Liu et al., 2025)" },
+      { "name": "OSWorld-MCP", "maintainer": "研究项目", "metrics": ["Accuracy", "TIR", "ACS"] },
+      { "name": "ToolBench / BFCL", "maintainer": "社区/学术", "note": "MCP 之前的基线" }
+    ],
+    "config_formats": [
+      { "client": "Claude Desktop", "path_win": "%APPDATA%\\Claude\\claude_desktop_config.json", "key": "mcpServers" },
+      { "client": "Cursor", "path_win": "%USERPROFILE%\\.cursor\\mcp.json", "key": "mcpServers" },
+      { "client": "VS Code", "path": ".vscode/mcp.json", "key": "servers", "warning": "键是 servers 不是 mcpServers" },
+      { "client": "GitHub Copilot CLI", "path": ".mcp.json", "key": "mcpServers", "warning": "不支持 .vscode/mcp.json" },
+      { "client": "Claude Code", "path": "插件内 .mcp.json", "key": "mcpServers" }
+    ]
+  },
+
+  "security": {
+    "attack_classes": [
+      { "name": "工具投毒 Tool Poisoning", "status": "confirmed", "source": "Invariant Labs, 2025-04", "desc": "恶意指令藏在工具 description 中，含 Unicode 不可见字符" },
+      { "name": "拉地毯 Rug Pull", "status": "confirmed_concept", "source": "Invariant Labs", "desc": "批准后静默改变工具描述或实现" },
+      { "name": "工具遮蔽 / 同名冲突", "status": "described", "desc": "恶意 Server 静默覆盖良性 Server 的同名工具" },
+      { "name": "工具输出中的提示注入", "status": "confirmed", "desc": "对应 Simon Willison 的 lethal trifecta" },
+      { "name": "混淆代理 Confused Deputy", "status": "official_spec", "desc": "官方规范收录" },
+      { "name": "Token 透传", "status": "official_forbidden", "desc": "官方明令禁止的反模式" },
+      { "name": "会话劫持", "status": "official_spec", "desc": "官方规范收录" },
+      { "name": "本地 Server 沦陷", "status": "official_spec", "desc": "STDIO 启动命令即信任边界" }
+    ],
+    "cves": [
+      { "id": "CVE-2025-49596", "component": "Anthropic MCP Inspector (<0.14.1)", "type": "缺认证 → CSRF → 未授权 RCE（零点击）", "severity": "9.4-9.6 Critical", "source": "Oligo Security / GitLab Advisory DB", "verified": true },
+      { "id": "CVE-2025-6514", "component": "mcp-remote", "type": "OS 命令注入 → RCE", "severity": "9.6", "source": "JFrog Security", "verified": true },
+      { "id": "CVE-2025-53110", "component": "Anthropic Filesystem MCP Server", "type": "目录穿越 → 沙箱逃逸", "severity": "n/a", "source": "二手", "verified": false },
+      { "id": "CVE-2025-53107", "component": "@cyanheads/git-mcp-server", "type": "命令注入 / RCE", "severity": "n/a", "source": "GitHub Advisory DB", "verified": true },
+      { "id": "CVE-2025-58358", "component": "mcp-markdownify-server", "type": "命令注入", "severity": "7.5 High", "source": "GitLab Advisory DB", "verified": true },
+      { "id": "CVE-2025-65513", "component": "Fetch MCP Server (<=1.0.2)", "type": "SSRF", "severity": "Critical", "source": "SentinelOne / ZDI", "verified": true },
+      { "id": "CVE-2025-53967", "component": "Framelink Figma MCP Server", "type": "未净化 URL → 命令注入 → RCE", "severity": "High", "source": "mcpsec.dev", "verified": true }
+    ],
+    "research_findings": [
+      { "name": "GitHub MCP server 私有仓库泄露", "source": "Invariant Labs, 2025-05", "verified": true },
+      { "name": "Supabase MCP 致命三要素", "source": "General Analysis, ~2025-07", "verified": true, "note": "无编号 CVE" },
+      { "name": "Asana MCP server 数据泄露", "source": "中文安全媒体", "verified": false, "note": "未找到 CVE ID" },
+      { "name": "官方 MCP Python SDK OAuth 凭据窃取 (1.9.1-2.1.1)", "source": "Cycode", "verified": false, "note": "厂商自报，无 CVE ID" },
+      { "name": "OX Security 架构性披露（STDIO 信任边界）", "source": "OX Security, 2026-04-15", "verified": false, "note": "声称 >20万 server / >3.2万仓库受影响，自估未独立验证" }
+    ],
+    "vendor_scans": [
+      { "source": "Endor Labs", "finding": "82% 的 MCP server 使用易受路径穿越影响的文件操作", "sample": 2614 },
+      { "source": "Endor Labs", "finding": "53% 依赖不安全的长效静态凭据", "sample": 5200 },
+      { "source": "BlueRock", "finding": "36.7% 的远程 server 存在潜在 SSRF 风险", "sample": 7000 }
+    ],
+    "mitigations": [
+      "人在环审批（工具调用与安装）",
+      "最小权限（禁止读取 ~/.aws、~/.ssh、.env）",
+      "沙箱化（容器 + 网络出口控制）",
+      "白名单（阻止 npx/uvx 自动执行）",
+      "锁版本 + 监控 rug pull",
+      "把 MCP server 当作受治理的软件供应链组件",
+      "SLSA provenance / 签名（新兴，尚未普及）"
+    ]
+  },
+
+  "local_inventory": {
+    "scanned_path": "~/.workbuddy-ai/",
+    "scan_date": "2026-10-14",
+    "counts": {
+      "user_skills": 49,
+      "skill_md_total_incl_plugins": 184,
+      "installed_plugins": 57,
+      "marketplaces": 5,
+      "mcp_servers_configured": 3,
+      "connectors_available": 13
+    },
+    "mcp_servers": [
+      { "name": "gog", "transport": "stdio", "note": "本地 gog.exe mcp；仅放行 sheets,drive_search,drive_get,docs_get；最小权限范例" },
+      { "name": "web-search", "transport": "stdio", "note": "本地 Node open-websearch；默认 duckduckgo，允许 5 个引擎" },
+      { "name": "nixos", "transport": "stdio", "note": "uvx mcp-nixos" }
+    ],
+    "plugin_sources": {
+      "workbuddy-builtin": 45,
+      "experts": 5,
+      "codebuddy-plugins-official": 3,
+      "workbuddy-connector-plugins-official": 2,
+      "cb_teams_marketplace": 1,
+      "my-experts": 1
+    },
+    "skill_domains": [
+      { "domain": "调研 / 研究", "count": 9 },
+      { "domain": "浏览器自动化 / 抓取", "count": 8 },
+      { "domain": "工程 / 运维", "count": 6 },
+      { "domain": "文档 / 知识管理", "count": 6 },
+      { "domain": "系统诊断 / 平台", "count": 4 },
+      { "domain": "元技能（对 Agent 自身）", "count": 4 },
+      { "domain": "检索 / 资讯", "count": 4 },
+      { "domain": "业务 / 垂直", "count": 4 },
+      { "domain": "游戏", "count": 2 },
+      { "domain": "输出风格", "count": 1 },
+      { "domain": "其他", "count": 1 }
+    ],
+    "observations": [
+      "调研 + 抓取占 17/49（约 35%），环境围绕信息获取与研究报告构建",
+      "出现 4 个「元技能」，把 Agent 自身当作调研对象",
+      "技能 description 普遍遵循渐进式披露，写明「做什么 + 何时用」并带中文触发关键词",
+      "卫生问题：skills/ 下同时存在 malaysia-phone-osint/ 目录与 malaysia-phone-osint.zip（重复包），建议清理"
+    ]
+  },
+
+  "data_credibility": {
+    "pitfalls": [
+      { "claim": "MCP 服务器破 10 万", "reality": "LF 新闻稿的生态口径，非官方 Registry 收录量（2026-09 约 3 万条）" },
+      { "claim": "技能预算单位是 words", "reality": "官方单位是 tokens；SKILL.md 正文 <5,000 tokens / <500 行" },
+      { "claim": "description 上限 200 字符", "reality": "规范为 1,024 字符；200 字符来自帮助中心，与规范冲突" }
+    ],
+    "uncertain_items": [
+      "Trail of Bits 的 MCP 攻击类别论文：未找到可确证的单一权威来源（缺口）",
+      "modelcontextprotocol.io 与 invariantlabs.ai 直接抓取返回空，细节依赖二手汇总",
+      "agentskills.io JS 重，直接抓取未渲染",
+      "Registry 上线时间（2025-09-08）与 API 冻结（2025-10-24）来自二手来源",
+      "A2A 捐给 Linux Foundation（2025-06）本次未独立核实",
+      "mcp CLI：未发现单一官方二进制",
+      "mcp.so 运营方：无法核实",
+      "「OAuth 2026 强制迁移」仅见一篇 CSDN 帖，疑似不实",
+      "各类技能数量（85,000+ / 280,000+）来自二手聚合，不可引用",
+      "OX Security 规模数字（>20 万 server / >3.2 万仓库）为自估"
+    ]
+  }
+}
