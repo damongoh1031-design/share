@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 16 种 Agent 人格类型
 
 ## NT 理性主义者 (Analysts)
