@@ -2,6 +2,7 @@
 name: agent-harness-extension-audit
 description: 审计本机已安装的 AI agent 框架（Hermes Agent、DeepSeek Harness/DSH、WorkBuddy、OpenClaw 等）的「扩展面」——MCP 目录、内置/可选技能、插件目录、记忆提供方、搜索后端——先读本地源码与文档建立权威能力图谱，再体检用户实际配置，最后映射到用户目标给出落地方案。当用户问「XX agent 要装什么 MCP / 技能」「怎么提升 XX 的搜索/记忆/知识库能力」「我的 XX 配置有什么问题」时使用。核心价值：**不靠模型记忆猜能力，而是从本机仓库读出精确的条目清单与数量**。
 agent_created: true
+type: Checklist
 ---
 
 # 本地 Agent 框架扩展面审计
