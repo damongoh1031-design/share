@@ -3,11 +3,12 @@ id: kde-vs-gnome-desktop-comparison
 title: KDE Plasma vs GNOME 六维对比（纠错 / 支援 / 响应 / UX / 游戏 / 稳定）
 tags: [linux, desktop-environment, kde-plasma, gnome, wayland, hdr, vrr, gaming, lts, linux-desktop]
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 version: 1.0.0
 status: stable
 source: 官方发布说明/发布日历 + Phoronix/TechPowerUp 独立实测 + 基金会财报（3 并行子代理 + 主调研员二次核实）
 confidence: 已核实
+type: Checklist
 ---
 
 # KDE Plasma vs GNOME 六维对比
