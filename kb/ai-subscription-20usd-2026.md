@@ -1,10 +1,10 @@
 ---
 id: ai-subscription-20usd-2026
-title: "20美元档 AI 订阅横评：v4 法律场景导向复核事实库（2026-10-15）"
+title: "20美元档 AI 订阅横评事实库：v4.2 四榜单交叉 + ChatGPT Go 档位（2026-10-15）"
 tags: [ai-subscription, chatgpt-plus, claude-pro, gemini, grok, perplexity, legal-ai]
 created: 2026-10-15
 updated: 2026-10-15
-version: 6
+version: 7
 status: stable
 source: "本次会话实测（41+ 次定向检索 + 2026-10-15 四榜单官网直抓：livebench.ai / cursor.com/cursorbench / arena.ai/leaderboard + AA 经搜索快照交叉）"
 confidence: "已核实"
@@ -61,6 +61,21 @@ v4 重写版完成：旧版四类错误已纠正（Sora 已关停、Copilot Pro 
 - LiveBench 2.0 分项【核】：Reasoning Argon 95.1 > Astra 92.7 > Opus 5.5 92.2；Coding Fable 5.1 97.7 > Opus 5.5 96.3 > 6.1 Sol 96.0；Agentic Opus 5.5 85.0 > Astra 82.4 > Fable 80.8；每成功任务成本 6.1 Sol $0.73 < Argon $1.83 < Astra $3.44 < Opus 5.5 $4.22 < Fable $4.53。
 - **结论修正**：Opus 5.5 的"第一"仅成立于 AA 指数与 Arena 智能体榜；LiveBench 综合第一是 Fable 5.1；文本盲测第一是 Argon；编程综合最强是 Opus 5.5。**不存在全面第一模型**。
 - 抓取方式：artificialanalysis.ai 为 JS 渲染 SPA，直接抓取返回空白，经官网搜索快照 + 多信源交叉确认（58/53/53/53/52 各信源一致）；livebench.ai / cursor.com/cursorbench / arena.ai 可直连抓取。
+
+### 1.3 ChatGPT Go 档位模型权限（2026-10-15 核，v6 新增）
+
+价格 $8/月（美国价，本地化定价）；2025-08 印度首发，2026-01-16 全球 170+ 国上线；中国大陆/中国香港不在支持名单。仅月付，无年付。
+
+| 产品 | Go 可用模型 | 不可用 | 信源/日期 |
+|---|---|---|---|
+| Chat 聊天（默认） | **GPT-6 Luna**（2026-10-08 起；此前 GPT-5.6 Luna） | GPT-6 Sol、GPT-5.6 Sol、GPT-6 Pro/Astra、legacy（4o/GPT-5.x 直选） | openai.com/index/gpt-6-for-everyone；智源社区/百家号 2026-10-07~08；帮助中心 |
+| Chat 的 Think（思考） | Luna 系（帮助中心口径 Think 用 GPT-5.6 Luna；10-08 后是否切 GPT-6 Luna 官方未明写【疑】） | Sol 系 | 帮助中心 2026-08 版 + 推断 |
+| ChatGPT Work | 桌面 App 可用 **GPT-6 Luna**（2026-09-22 起）；7–9 月规则为 Terra | Sol/Terra/Luna（Plus 起）、Astra | OpenAI 9-22 公告（百家号转引）；帮助中心模型表 |
+| Codex | Free/Go 用 **Terra**（GPT-5.6 家族）；桌面 App 可用 GPT-6 Luna | GPT-6 Sol、GPT-6.1 Sol、Astra | 帮助中心 "GPT-6 and other models in ChatGPT"（2026-10-10 更新） |
+
+- Go 权益：免费档全部 + 10 倍于免费档的图像/文件上传/数据分析额度；无限日常文本聊天（Free/Go 均无限）；更长记忆/上下文；projects/tasks/自定义 GPTs/Library；语音同免费档；**API 不含**。
+- Go**不含 Codex 订阅额度**：Codex CLI 可用性对 Free/Go 有限，额度口径未查到公开数字【缺】；GPT-6.1 Sol（2026-09-29 上线）仅 Plus/Pro/Business/Enterprise/Edu。
+- 反直觉：Go 的 Chat 默认模型（GPT-6 Luna）与 Plus（GPT-6 Sol）同属 GPT-6 代，**差距在 thinking 档位与 Work/Codex 权限**，不在"能不能用 GPT-6"。
 
 ## 二、法律场景选型结论
 
