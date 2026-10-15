@@ -8,17 +8,20 @@ tags:
   - goose
   - AI Agent
   - 文档复核
+  - 官方文档抓取
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.0
+version: 1.1
 status: stable
-source: 本次会话实测（GitHub REST API + 仓库原文 + LF Insights API）
+source: 本次会话实测（GitHub REST API + 仓库原文 + 官方文档库全量抓取 + LF Insights API）
 confidence: 已核实
 ---
 
 ## TL;DR
 
 **对话式研究产出的报告，通病是"数字会漂、排名会算错、产物会被笼统归类"。** 复核一份 GitHub 研究报告的正确姿势不是重读文字，而是**把每个数值当成待验证断言，用 API 重采一遍**。本轮对 goose 报告 v1.1 的复核中，14 个仓库的全部硬指标重采一次，就抓出 3 处实质错误（含 1 处排名算错、1 处口径混淆、1 处重大遗漏）。
+
+**第二类盲点更隐蔽：只查 API 与仓库治理文件，会漏掉整个官方文档站。** goose 的功能层能力（内置扩展清单、CLI 命令表、上下文管理参数、GDK、Roaming）**全部只存在于 `documentation/` 目录**。v2.1 对 173 篇文档做全量抓取后，补出 13 项缺失事实。
 
 ---
 
@@ -50,7 +53,30 @@ confidence: 已核实
 | 源码 / 脚本 | 2 / 1 | — |
 | **Linux 合计占比** | **24 / 40 = 60%** | — |
 
-> 关键：**Flatpak ID 为 `io.github.block.Goose`**——迁移至 AAIF 后仍保留 block 命名空间，属迁移遗留。
+> 关键：**Flatpak ID 为 `io.github.block.Goose`**——迁移至 AAIF 后仍保留 block 命名空间，属迁移遗留。Homebrew cask 名同样仍是 `block-goose`。
+
+### goose 官方文档能力快照（2026-10-15 全量抓取 `documentation/docs/`）
+
+| 维度 | 实测值 | 备注 |
+|---|---|---|
+| 文档总量 | **173 篇** md/mdx · 247 个文件条目 · 约 **1.33 MB** | 密度 ≈ 每千星 3.1 篇 |
+| 分区 | `mcp/` 74 · `guides/` 57 · `tutorials/` 18 · `experimental/` 8 · `gdk/` 5 · `troubleshooting/` 4 · `getting-started/` 3 · `goose-architecture/` 3 · `quickstart.md` 1 | 8 个顶层分区 + 1 个根文件 |
+| 官方架构 | **三组件**（Interface / Agent / Extensions）+ **六步交互循环** | `goose-architecture.md` |
+| Context Revision 机制 | ① 小模型摘要 ② 全量而非语义检索 ③ 算法删除 ④ 操作级优化（find-and-replace / ripgrep / 输出摘要） | 官方明确列出，比"compaction"精确 |
+| 错误处理 | 错误**作为 tool response 送回模型**，不中断流程 | 无效 JSON、缺失工具等 |
+| 内置扩展 | **14 个** = 5 基础（Developer / Computer Controller / Memory / Tutorial / Auto Visualiser）+ 9 平台（Analyze / Extension Manager / Skills / Summon / Apps / Chat Recall / Code Mode / Todo / Top of Mind） | 前 5 个平台扩展默认启用；内置扩展本身也是可复用的独立 MCP server |
+| MCP 扩展目录 | **73 个**（精确化 README 的"70+"） | `mcp/` 74 篇含 1 个模板 |
+| CLI 子命令 | 20+ 个，分 6 组：核心维护 / 会话管理 / 任务执行 / 扩展技能本地模型 / 自动化协议 / 终端集成 | **无 `task` 子命令**——社区教程中的 `goose task "..."` 是伪造用法 |
+| 斜杠命令 | **15 个**，含 `/mode`、`/compact`、`/skills`、`/t` | `/summarize` 已弃用 |
+| 自动压缩触发 | `min(GOOSE_AUTO_COMPACT_THRESHOLD × 上下文窗口, GOOSE_AUTO_COMPACT_TOKEN_LIMIT)` = `min(80%, 225,000)`，先到者为准 | 225,000 是为 OpenAI 长上下文定价档留余量 |
+| 上下文超限策略 | 4 种：Summarize / Truncate / Clear / Prompt | Desktop 只用 summarize；CLI 交互默认 prompt、headless 默认 summarize |
+| Max Turns 默认 | **1000**（`GOOSE_MAX_TURNS`） | 官方建议：5–10 探索 / 25–50 中等 / 100+ 复杂自动化 |
+| 上下文限制解析优先级 | 5 级：全局 env → 显式配置 → provider 运行时发现 → 规范元数据 → 默认 **128,000** | — |
+| GDK | SDK（Rust / Python / Kotlin **进程内库**）+ ACP（stdio / HTTP / WebSocket） | goose 是可被嵌入的 agent 运行时，不只是终端产品 |
+| Roaming Agents | iroh(QUIC) 点对点 ACP 传输；公钥互认（类比 WireGuard）；**实验性且不含在发布二进制中**，需 `cargo build --features roaming` | 可编译为 wasm，浏览器标签页即 roam peer |
+| 实验性功能 | Ollama Tool Shim（为无原生 tool calling 的模型提供工具调用）/ Remote Access / VS Code 扩展 | Tool Shim 默认后端 `ollama` + `mistral-nemo` |
+
+> **官方文档滞后于实际产物**：Linux 桌面安装页只写 DEB（`sudo dpkg -i`），但实际每版同时发布 RPM + DEB + Flatpak。**以 assets 为准，不以文档为准**。
 
 ---
 
@@ -153,6 +179,36 @@ print('total',len(d['assets'])); print(dict(c))
 "
 ```
 
+### 3.4 官方文档库全量抓取（v2.1 新增方法）
+
+**动机**：只查 API 与仓库治理文件，会系统性地漏掉功能层能力。文档站的正文在仓库里，用 Git Trees API 一次拿到全量清单。
+
+```bash
+export TOKEN=<your_github_pat>
+R=aaif-goose/goose
+
+# ① 全量枚举文档清单（Git Trees API，一次请求拿整棵树）
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/repos/$R/git/trees/main?recursive=1" \
+  | python -c "
+import sys,json
+for t in json.load(sys.stdin)['tree']:
+    p=t['path']
+    if p.startswith('documentation/docs/') and p.endswith(('.md','.mdx')):
+        print(p)
+"
+
+# ② 批量下载正文（raw.githubusercontent 直取，不走 API 额度）
+#    单篇：https://raw.githubusercontent.com/$R/main/documentation/docs/<path>
+
+# ③ 提取 frontmatter + 一级标题 + 字数，做分区归类
+#    统计口径：篇数 / 分区 / 正文总字节 → 文档密度（篇 ÷ 千星）
+```
+
+**分区计数方法**：按 `documentation/docs/` 之后的第一级目录名分组，根目录文件单列。
+
+**产出**：173 篇 → 8 个顶层分区 + 1 个根文件；正文约 1.33 MB。据此把 README 的"70+ 扩展"精确到 **73 个**，并发现 14 个内置扩展、20+ CLI 子命令、15 个斜杠命令等此前完全缺失的能力清单。
+
 ---
 
 ## 四、坑与反直觉
@@ -175,6 +231,16 @@ print('total',len(d['assets'])); print(dict(c))
 10. **公开仓库推送前必须清理本地路径。** 附录命令里的 `cat ~/.workbuddy-ai/skills/.../token.txt` 虽不含凭据，但暴露本机目录结构，应泛化为 `export TOKEN=<your_github_pat>`。
 11. **同步多会话共用仓库时推单文件而非目录。** `sync.py` 对目录执行 `rmtree + copytree`（镜像覆盖），会静默删除或回退别人的文件。`--src file --dest path/file` 走 `copy2`，零风险。
 
+### 文档站侧的坑（v2.1 实测）
+
+12. **API + 治理文件 ≠ 完整能力图谱。** `repos` / `contributors` / `releases` / `GOVERNANCE.md` 拿到的全是"项目健康度"维度；功能维度（内置扩展、CLI 命令、上下文参数、SDK/协议）**只在文档目录里**。只查前者会把报告写成"只有规模数据、没有能力细节"。
+13. **README 的概数要回落到文档目录去精确化。** "70+ extensions" 的真实值是文档目录下的 73 篇扩展文档；"15+ providers" 同理。**概数是下限，不是事实值。**
+14. **社区教程会伪造 CLI 用法。** 某评测文章里的 `goose task "..."` 在官方 20+ 子命令中不存在——对应能力由 `session` 与 `run` 提供。**凡引用社区命令，先回官方 CLI 文档核对**。
+15. **官方文档会滞后于发布产物。** Linux 桌面安装页只写 DEB，实际同时发 RPM 与 Flatpak。**发布渠道以 release assets 为准**。
+16. **文档正文可能有动态渲染组件。** Docusaurus 的 `<RateLimits />`、`<OnboardingProviderSetup />`、各平台安装按钮组件，其最终内容在 Markdown 源中不可见——抓 Markdown 会漏掉这部分，需标注为不确定性。
+17. **品牌迁移会在多处留下旧命名空间。** Flatpak ID `io.github.block.Goose`、Homebrew cask `block-goose` 都仍是 `block`。**别只查一处就断言"已完全迁移"**。
+18. **HTML 报告加指标带时注意项数与列数的整除关系。** 7 项塞进 6 列网格会剩 5 个空槽（背景色透出，视觉上像坏块）。宽屏用 `repeat(7,minmax(0,1fr))`，中屏回落到 4 列、窄屏 2 列，并注意 `.hero .kpis` 的特异性会盖过媒体查询里的 `.kpis`。
+
 ---
 
 ## 五、未核实 / 存疑
@@ -188,3 +254,6 @@ print('total',len(d['assets'])); print(dict(c))
 | WorkBuddy Linux GUI 成熟度 | 2026-06 来源与 2026-10 官方教程矛盾，需实测 |
 | AAIF 成员公司完整名单 | 部分来自百科 / 媒体转述 |
 | 订阅 OAuth 用于第三方客户端的合规性 | 判断项，非事实 |
+| 部分官方文档由 Docusaurus 组件动态渲染 | `<RateLimits />` 等组件的最终内容在 Markdown 源中不可见 |
+| Roaming Agents 的正式可用时间 | 官方标记实验性且不含在发布二进制中，无 GA 计划 |
+| `goose serve` 的生产可用性 | 官方要求 `GOOSE_SERVER__SECRET_KEY`，未给多租户指引 |

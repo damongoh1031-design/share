@@ -4,9 +4,7 @@
 
 | 文档 | 主题 | 版本 | 更新 |
 |---|---|---|---|
-| [goose-report-api-verification.md](goose-report-api-verification.md) | 研究报告的 API 级复核方法论 + goose 权威事实快照（2026-10-15）：14 款竞品实时数据、v1.54.0 发布物逐条分类（Linux 占 24/40）、3 处实质错误复盘（排名算错 / 口径混淆 / Flatpak 遗漏）、11 条坑 | 1.0 | 2026-10-15 |
+| [goose-report-api-verification.md](goose-report-api-verification.md) | 研究报告的 API 级复核方法论 + goose 权威事实快照（2026-10-15）：14 款竞品实时数据、v1.54.0 发布物逐条分类（Linux 占 24/40）、官方文档库全量抓取法（173 篇 → 14 内置扩展 / 73 MCP / 20+ CLI 子命令 / 上下文参数 / GDK / Roaming）、3 处实质错误复盘、18 条坑 | 1.1 | 2026-10-15 |
 | [opencode-go-third-party-api.md](opencode-go-third-party-api.md) | OpenCode Go API 供第三方客户端调用：`x-opencode-session` 硬门槛、端点别名与协议分流、客户端三档可用性、**Goose 原生接入**、Open WebUI v0.12.2 接入（`{{CHAT_ID}}` 模板）、NewAPI 中转请求头覆盖、实测报错矩阵 | 1.2 | 2026-10-15 |
 | [ai-subscription-20usd-2026.md](ai-subscription-20usd-2026.md) | 20 美元档 AI 订阅横评事实库：v4.2 四榜单交叉（LiveBench 2.0 / CursorBench 4.0 / Arena / AA）+ ChatGPT Go 档位模型权限 | 7 | 2026-10-15 |
 | [workbuddy-user-skills-migration-bundle.md](workbuddy-user-skills-migration-bundle.md) | WorkBuddy 资产跨 IDE 迁移打包：skills（48 个）+ PAT + 专家包（6 包 26 agents），含去密、`_work`/`.in_use` 剔除、恢复步骤与踩坑 | 1.1.0 | 2026-10-14 |
-| [db1-shopee-driver-runbook.md](db1-shopee-driver-runbook.md) | DB1 电话反查驱动器运行手册：gog token / 沙箱代理 / stdout 编码四道关卡 + WMI+VBS 脱离会话启动 + 跑到 10000 行的持久循环（✅ 2026-10-15 已完成：A 列最终 3071） | 5 | 2026-10-15 |
-| [db1-driver-jsonl-duplicate-recovery.md](db1-driver-jsonl-duplicate-recovery.md) | DB1 反查驱动器因残留 JSONL 重复行导致写前 assert 中止与幂等恢复 | 1 | 2026-10-09 |
