@@ -11,9 +11,9 @@ tags:
   - 中转
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.1
+version: 1.2
 status: stable
-source: 官方文档 https://opencode.ai/v2/docs/console/go + 本机 curl 实测（2026-10-15）+ open-webui v0.12.2 源码核对（2026-10-15）
+source: 官方文档 https://opencode.ai/v2/docs/console/go + 本机 curl 实测（2026-10-15）+ open-webui v0.12.2 源码核对 + aaif-goose/goose main 源码核对（2026-10-15）
 confidence: 已核实
 ---
 
@@ -23,7 +23,7 @@ confidence: 已核实
 
 OpenCode Go 的推理端点对第三方客户端只有一个硬门槛：**每个请求必须带非空的 `x-opencode-session` 请求头**，否则网关在鉴权之前直接返回 `400 MissingSessionID`；`User-Agent` 需自报客户端身份（非通用 SDK/HTTP 库名），但实测不在鉴权路径上拦截。
 
-客户端选择标准就一条：**能不能让每个对话带一个不同的、稳定的 session 值**。Open WebUI v0.12.2 可用（连接 Headers 填 `{"x-opencode-session": "{{CHAT_ID}}"}`，已核对源码）。
+客户端选择标准就一条：**能不能让每个对话带一个不同的、稳定的 session 值**。已核实：**Goose 原生支持**（内置 `opencode_go` provider，自动发该头）；**Open WebUI v0.12.2 可用**（连接 Headers 填 `{"x-opencode-session": "{{CHAT_ID}}"}`）。
 
 ## 基础事实
 
@@ -32,8 +32,8 @@ OpenCode Go 的推理端点对第三方客户端只有一个硬门槛：**每个
 | 计划 | Go `$10/月`；Go Plus `$40/月`（单人 workspace，不能邀请成员） |
 | 鉴权 | `Authorization: Bearer <OPENCODE_API_KEY>`（Console 里签发的 Go key） |
 | 密钥获取 | https://opencode.ai/console → 订阅 Go → 复制 API key |
-| Go 端点根 | `https://opencode.ai/inference/go/v1/` |
-| Zen 端点根（按量付费，非订阅） | `https://opencode.ai/inference/v1/` |
+| Go 端点根 | `https://opencode.ai/inference/go/v1/` ≡ `https://opencode.ai/zen/go/v1/`（**同一网关的别名**，实测两者 `/models` 返回完全相同的 37 个模型） |
+| Zen 端点根（按量付费，非订阅） | `https://opencode.ai/inference/v1/` ≡ `https://opencode.ai/zen/v1/`（85 个模型，是 Go 的超集） |
 | 模型清单（免鉴权可读） | `curl https://opencode.ai/inference/go/v1/models` |
 | 限额口径 | 每模型月度美元额度；5 小时 = 20%、周 = 50%、月 = 100% |
 | 超额兜底 | Console 里开 `Use balance` 后回落到按量付费余额 |
@@ -95,12 +95,101 @@ step-5-preview-free  cat-jam-free        omen-alpha
 
 | 档 | 类型 | 代表 | 结论 |
 |---|---|---|---|
-| 1 | 原生发 session 头的 coding agent | Claude Code、Codex、ZCode、Pi、jcode ≥0.81.6、Kilo Code CLI、Hermes（含 PR #101864） | 官方已验证，直接填 base_url + key 即可 |
+| 1 | 原生发 session 头的 coding agent | Claude Code、Codex、ZCode、Pi、jcode ≥0.81.6、Kilo Code CLI、Hermes（含 PR #101864）、**Goose** | 直接填 base_url + key 即可 |
 | 2 | 支持自定义请求头 + 支持会话级变量插值的通用客户端 | **Open WebUI v0.12.2** | 可用，见下方配置 |
 | 3 | 中转层注入 | NewAPI / One-API / LiteLLM / 自写反代 | 万能兜底，任何客户端都能救 |
 | ✗ | 纯静态 header、无会话变量的客户端 | 多数 Chat UI、脚本直连 | 功能可通，但所有对话共用一个 session → prompt cache 失效 + 高风险特征 |
 
+**Goose 归入档 1**，但注意：opencode 官方的「Validated clients」名单里**没有 Goose**；是 Goose 自己内置了适配（见下节）。两边口径不一致。
+
 **不要用脚本直连。** Go 官方口径：只允许常见的 agent 工具，禁止脚本调用（Zen 无此限制）。
+
+## Goose 接入（原生支持，已核实）
+
+**结论：Goose 不需要任何 hack，它内置了 `opencode_go` provider，会自动发 `x-opencode-session`。**
+
+仓库：`https://github.com/aaif-goose/goose`（已从 Block 捐给 AAIF / Linux 基金会，55k stars，main 分支 2026-10-15 仍在活跃提交）
+
+### 方式 A：用内置 provider（推荐，零配置）
+
+内置定义文件：`crates/goose-providers/src/declarative/definitions/opencode_go.json`
+
+```json
+{
+  "name": "opencode_go",
+  "engine": "openai",
+  "display_name": "OpenCode Go",
+  "api_key_env": "OPENCODE_API_KEY",
+  "base_url": "https://opencode.ai/zen/go/v1",
+  "session_id_header_override": "x-opencode-session",
+  "catalog_provider_id": "opencode-go",
+  "dynamic_models": true,
+  "preserves_thinking": true,
+  "supports_streaming": true
+}
+```
+
+用法：
+
+```bash
+export OPENCODE_API_KEY="sk-你的-go-key"
+goose session start --provider opencode_go
+# 或在 config.yaml 里设 GOOSE_PROVIDER: opencode_go
+# Desktop：Settings → Models → Configure providers → OpenCode Go → 粘贴 key
+```
+
+### 方式 B：自定义 provider（需要覆盖 User-Agent 时）
+
+写 `custom_providers/opencode_go_custom.json`：
+
+| 系统 | 目录 |
+|---|---|
+| Windows | `%APPDATA%\Block\goose\config\custom_providers\` |
+| macOS / Linux | `~/.config/goose/custom_providers/` |
+
+```json
+{
+  "name": "opencode_go_custom",
+  "engine": "openai",
+  "display_name": "OpenCode Go",
+  "api_key_env": "OPENCODE_API_KEY",
+  "base_url": "https://opencode.ai/zen/go/v1",
+  "session_id_header_override": "x-opencode-session",
+  "headers": { "User-Agent": "goose-coding-agent/1.0" },
+  "dynamic_models": true,
+  "supports_streaming": true,
+  "requires_auth": true
+}
+```
+
+```bash
+goose session start --provider opencode_go_custom
+```
+
+### 为什么 session 能自动对上（源码依据）
+
+| 环节 | 位置 | 内容 |
+|---|---|---|
+| 默认头名 | `crates/goose/src/session_context.rs:5` | `pub const SESSION_ID_HEADER: &str = "agent-session-id";` |
+| 头名可被 provider 覆盖 | 同文件 `session_id_request_builder_with_header_override()` | 传入 override 则替换头名，否则用默认 |
+| 值从哪来 | `current_session_id()`（task-local `SESSION_ID`） | goose 的会话 ID，**整个会话恒定、跨会话不同** ✅ 正好符合 Go 的要求 |
+| openai 引擎接线 | `crates/goose/src/providers/openai_def.rs::from_custom_config()` 第 214 行 | `session_id_request_builder_with_header_override(config.session_id_header_override)` |
+| 实际注入 | `session_context.rs` 闭包 | 每次请求先 `remove` 该头，再 `insert` 当前 session id |
+
+### 已知问题
+
+1. **Goose 没给 openai provider 设自定义 `User-Agent`** → 落到 reqwest 默认值（`reqwest/0.12.x`），这是"通用 HTTP 库名"，违反 Go 的要求 2。用方式 B 的 `headers` 覆盖。
+2. **Desktop 不能在 UI 里配自定义头**（官方文档明说），必须手改 JSON 文件；CLI `goose configure` 只允许给 OpenAI 兼容 provider 配自定义头。
+3. **内置静态模型表已过期。** `opencode_go.json` 里列的是 `kimi-k2.5`、`deepseek-v4-flash`、`glm-5`、`mimo-v2-pro`、`mimo-v2-omni`、`qwen3.5-plus` —— 这些在当前 Go `/models` 里**多数已不存在**（现为 `deepseek-v4.1-flash`、`glm-5.1/5.2/5.3`、`mimo-v2.5/-pro`、`qwen3.7-plus/3.8-*`）。因为 `dynamic_models: true`，运行时以实时 `/models` 为准，静态表只是兜底，但别照抄它选模型。
+4. **协议限制**：Goose 的 `opencode_go` 用 `engine: openai` → 只走 `/chat/completions`。Go 的 Claude Haiku 5.5 / MiniMax / Qwen3.8 / Qwen3.7 Plus 在 `/v1/messages`，Grok / GPT Luna / Muse Spark 在 `/v1/responses` —— 这些模型在 Goose 里大概率用不了。可用的：GLM 系列、Kimi 系列、LongCat、DeepSeek、MiMo、Hy3/Hy4、Space Bunny、免费系列。
+5. **Goose 用 `/zen/go/v1` 而非文档写的 `/inference/go/v1`** —— 实测两者是同一网关的别名（`/models` 返回完全一致的 37 个模型，缺 session 时同样返回 `400 MissingSessionID`），不必改。
+
+### 验证方法
+
+```bash
+goose session start --provider opencode_go
+# 发一条消息后看 OpenCode Console 的用量页是否出现该请求
+```
 
 ## Open WebUI 接入（已核实可行，v0.12.2）
 
@@ -270,3 +359,7 @@ curl -s https://opencode.ai/inference/go/v1/models | head -c 300
 - `omen-alpha`（出现在 `/models` 返回中，37 个模型之一）在官方文档模型表中未列出，用途未知。
 - **把 `/v1/messages` 家族的模型名（如 `claude-haiku-5-5`）POST 到 `/v1/chat/completions` 会怎样** —— 无真实 key，鉴权先失败，无法判定是"网关拒绝"还是"自动转发"。文档的端点表暗示每个模型只在对应协议上服务，未实测。
 - Open WebUI 的 `{{CHAT_ID}}` 模板变量是从哪个版本开始支持的（v0.12.2 已核实存在，更早版本未逐个核对）。
+- **Goose 的 `agent-session-id` 值是否为标准 UUID**（`current_session_id()` 返回 goose 内部 session id，未实测其格式；Go 当前只判非空，暂不影响）。
+- **Goose 内置 `opencode_go` provider 需要哪个 goose 版本起才有**（main 分支已核实；未回溯 release tag）。
+- **Goose 与 OpenCode 官方的适配关系**：opencode 的 Validated clients 名单里没有 Goose，Goose 侧却已内置适配 —— 谁先适配、是否会长期维护，均未核实。
+- Goose 官方文档 `documentation/docs/getting-started/providers.md` 里**完全没有提 OpenCode**，`session_id_header_override` 字段也只在代码和单测中出现，未文档化。
