@@ -3,11 +3,12 @@ id: rolling-distro-selection-nixos-arch-opensuse
 title: 滚动发行版选型：NixOS / Arch Linux / openSUSE Tumbleweed·Slowroll 五维对比
 tags: [linux, rolling-release, nixos, arch-linux, opensuse, tumbleweed, slowroll, unattended-ops, distro-selection]
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 version: 1.0.0
 status: stable
 source: 官方文档/Wiki/新闻页 + 仓库元数据实测（3 个并行研究子代理），2 项存疑点主调研员二次核实
 confidence: 已核实
+type: Checklist
 ---
 
 # 滚动发行版选型：NixOS / Arch / openSUSE TW·Slowroll
