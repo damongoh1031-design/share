@@ -2,6 +2,7 @@
 user-invocable: true
 allowed-tools: Read, Write, Glob, WebSearch, Task, AskUserQuestion
 description: 对目标话题进行初步调研，生成调研outline。用于学术调研、benchmark调研、技术选型等场景。
+type: Checklist
 ---
 
 # Research Skill - 初步调研
