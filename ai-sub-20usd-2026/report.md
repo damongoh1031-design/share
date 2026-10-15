@@ -1,94 +1,124 @@
 # 20美元档 AI 订阅深度横评：ChatGPT Plus / Claude Pro / Gemini AI Pro / Grok $8 档
 
-> 调研日期：2026年10月15日 ｜ 数据来源：各官方定价页与帮助中心、Artificial Analysis、LMArena 周榜、多家科技媒体与中文社区实测（知乎/什么值得买/CSDN/腾讯云等）。价格与权益变动极快，请以官网实时信息为准。
+> 调研日期：2026年10月15日（v3 复核版：v2 纠正「Sora 仍在订」与 Hermes Agent 订阅转 API 后，于 2026-10-15 重新联网二次核实——① Sora 2026-03-24 宣布关停、04-26 App/网页下线、09-24 API 关闭；② Hermes Agent v0.14 `hermes proxy` 可将 ChatGPT（Codex OAuth 设备登录）/Claude Pro/SuperGrok 订阅转本地 OpenAI 兼容 API，驱动 Codex CLI、Aider 等；③ ChatGPT Go $8（2026-01 全球推出）；④ Claude Opus 5.5（2026-09-22）AA 智能指数 58 居首；⑤ Gemini 2026-10-09 起免费版仅 Flash-Lite、AI Pro $19.99 获 Deep Think；⑥ X Subscription Plus $8（2026-10-13，含 Grok API 额度 + Cursor）；⑦ Perplexity Pro $20 = 600 次 Pro Search + 20 次 Deep Research/月）｜ 数据来源：各官方定价页与帮助中心、Artificial Analysis、LMArena 周榜、IT之家、智源社区/新智元、知乎、什么值得买、CSDN、腾讯云等。价格与权益变动极快，请以官网实时信息为准。
 
 ## 执行摘要（TL;DR）
 
-1. **ChatGPT Plus（$20）是大多数人的默认首选**：模型矩阵最全（聊天 GPT-6 Sol，Work/Codex 还能限用 GPT-6 Astra），视频（Sora）、编程（Codex）、深度研究、智能体（Work）全线覆盖，网页免费登录即可用。
-2. **Claude Pro（$20）是“最高智力 + 最强文字”的偏科生**：Claude Opus 5.5 是 2026年10月 Artificial Analysis 智能指数第一名（58），中文文学写作被公认为最细腻；但网页/编程额度偏紧（Opus 约45条/5小时，Claude Code 每周40–80小时 Sonnet）。
-3. **Gemini AI Pro（$19.99）买的是生态与上下文**：100万 tokens 上下文、Gemini 4 Argon、Deep Think、2TB 存储、Veo 视频、以及独门福利——**Antigravity 编程 IDE 里可以直接调用 Claude Opus 5.5**。2026年10月起改为按算力计费，免费版只剩 Flash-Lite。
-4. **Grok 的“8美金”档已升级为捆绑订阅**：2026-10-13 起 $8/月的 X Subscription Plus = Grok（基础档）+ X Premium + \*\*Grok API 额度\** + Cursor，是四家最低档中唯一捆绑 API 的；但最新旗舰 Grok 4.7 需 $30 档，顶级 Heavy 模型在 $300 档。Grok 的独特价值是**实时 X 数据**与编码智能体强度，弱项是文字打磨。
-5. **第三方客户端（Hermes / OpenClaw）的一条铁律**：2026年4月起 Anthropic 禁止 Claude Code 订阅额度被第三方工具消耗，各家订阅账号基本都不能正规喂给第三方智能体——**唯一例外是 $8 的 X Subscription Plus 自带 Grok API 额度**。第三方客户端请一律自备 API key（按量付费）。
-6. 补充对照：**Copilot Pro（$20）\*\*需叠加 M365 授权（实际 $30–40/月），只推荐 Office 重度用户；**&#x50;erplexity Pro（$20）\*\*是带引用检索与研究专家（600次 Pro Search + 20次 Deep Research/月），适合做第二订阅而非主力助手。
+1. **ChatGPT Plus（$20）是大多数人的默认首选**：模型矩阵最全（聊天 GPT-6 Sol，Work/Codex 还能限用 GPT-6 Astra），Codex 编程、深度研究、Work 智能体全线覆盖，无广告。注意：**Sora 视频生成已于 2026-04-26 关停**（API 于 2026-09-24 停止），已购额度可转用于 Codex。
+2. **Claude Pro（$20）是“最高智能 + 最低幻觉倾向 + 最强文字”的偏科生**：Claude Opus 5.5 是 2026年10月 Artificial Analysis 智能指数第一名（58），中文文学写作被公认为最细腻；但网页/编程额度偏紧（Opus 约45条/5小时，Claude Code 每周40–80小时 Sonnet）。
+3. **Gemini AI Pro（$19.99）买的是生态、低幻觉与长上下文**：100万 tokens 上下文、Gemini 4 Argon、Deep Think、2TB 存储、Veo 视频、独门福利——**Antigravity 编程 IDE 里可以直接调用 Claude Opus 5.5**。**幻觉率仅15%（AA 口径，45分以上模型中最低）**、GraphWalks 长上下文命中 84.2% 第一。
+4. **Grok 的“8美金”档已升级为捆绑订阅**：2026-10-13 起 $8/月的 X Subscription Plus = Grok（基础档）+ X Premium + **Grok API 额度** + Cursor。**第三方生态开放度四家第一**：xAI 官方支持 Hermes Agent（OAuth 直连、100万上下文）。最新旗舰 Grok 4.7 需 $30 档，顶级 Heavy 模型在 $300 档。Grok 独特价值是实时 X 数据，弱项是文字打磨与幻觉数据缺位。
+5. **第三方客户端（Hermes Agent / OpenClaw）真相（v2 纠正）**：**Hermes Agent v0.14 的 `hermes proxy` 确实能把 ChatGPT（Codex OAuth 设备登录）、Claude Pro、SuperGrok 订阅一行命令转成本地 OpenAI 兼容 API 端点**，驱动 Aider、Codex CLI 等。但 Anthropic 反制锋利：有 Claude Max 用户因目录残留 hermes.md 被倒扣 $200.98 API 账单——可用但有风险。
+6. 补充对照：**Copilot Pro（$20）**需叠加 M365 授权（实际 $30–40/月），只推荐 Office 重度用户；**Perplexity Pro（$20）**是带引用检索与研究专家（600次 Pro Search + 20次 Deep Research/月），适合做第二订阅而非主力助手。
 
 ## 一、横向对比总表（2026-10-15）
 
-| 维度     | ChatGPT Plus $20                              | Claude Pro $20                 | Gemini AI Pro $19.99                                  | Grok $8 档                                                                         |
-| ------ | --------------------------------------------- | ------------------------------ | ----------------------------------------------------- | --------------------------------------------------------------------------------- |
-| 档位体系   | Free/Go $8/Plus $20/Pro $100/Pro $200         | Free/Pro $20/Max $100/Max $200 | 免费/AI Plus $4.99/AI Pro $19.99/AI Ultra $99.99–199.99 | X Subscription Plus $8/Premium $30/Super $100/Ultra $200；SuperGrok $30/Heavy $300 |
-| 聊天最高模型 | GPT-6 Sol（中/高）                                | Claude Opus 5.5                | Gemini 4 Argon + Deep Think                           | Grok 基础档（最新4.7需$30档）                                                              |
-| 顶级模型获取 | GPT-6 Pro(Astra) 锁 $100+；Plus 仅 Work/Codex 限用 | Opus 5.5 即当前全球智能第一             | Argon 第一梯队（AA 53）                                     | Heavy 模型锁 $300                                                                    |
-| 消息额度   | 滚动窗口，Sol 约10–100条/5h（社区观测）                    | Opus 约45条/5h；Sonnet 更高；独立配额池   | 算力计量：5h窗口+周上限，Pro=免费4倍                                | 限额提升但非顶级；官方未固定公布                                                                  |
-| 深度研究   | 有月度限制（账户内查询）                                  | Research 功能可用                  | Deep Research（耗算力高）                                   | DeepSearch（$30档近无感）                                                               |
-| 视频生成   | Sora 约50条/月（10秒级）                             | 无                              | Veo 3/Flow 积分制（$25起充）                                 | Imagine（SuperGrok 20倍、720p/30s）                                                   |
-| 编程工具   | Codex + Work 智能体                              | Claude Code（周40–80h Sonnet）    | Antigravity（含 Claude 5.5！）                            | Grok Build + 捆绑 Cursor                                                            |
-| 上下文    | 150万（5.6系）/Astra 输出128K                       | 200K 级                         | 100万                                                  | 128K（SuperGrok）                                                                   |
-| 捆绑权益   | 无广告、Projects、GPTs                             | Projects、Artifacts、MCP 连接器     | 2TB 存储、NotebookLM Plus、Workspace                      | X Premium 社交 + Grok API + Cursor                                                  |
-| 第三方客户端 | ✗（仅 API 按量）                                   | ✗（2026-04起明令禁止订阅喂第三方）          | ✗（CLI 免费登录已关）                                         | ✓ 唯一自带 API 额度的低价档                                                                 |
-| 广告     | 无                                             | 无                              | 无                                                     | $8 档基础 X 权益（去广告看档位）                                                               |
+| 维度 | ChatGPT Plus $20 | Claude Pro $20 | Gemini AI Pro $19.99 | Grok $8 档 |
+|---|---|---|---|---|
+| 档位体系 | Free/Go $8/Plus $20/Pro $100/Pro $200 | Free/Pro $20/Max $100/Max $200 | 免费/AI Plus $4.99/AI Pro $19.99/AI Ultra $99.99–199.99 | X Subscription Plus $8/Premium $30/Super $100/Ultra $200；SuperGrok $30/Heavy $300 |
+| 聊天最高模型 | GPT-6 Sol（中/高） | Claude Opus 5.5 | Gemini 4 Argon + Deep Think | Grok 基础档（最新4.7需$30档） |
+| 顶级模型获取 | GPT-6 Pro(Astra) 锁 $100+；Plus 仅 Work/Codex 限用 | Opus 5.5 即当前全球智能第一 | Argon 第一梯队（AA 53） | Heavy 模型锁 $300 |
+| 消息额度 | 滚动窗口，Sol 约10–100条/5h（社区观测） | Opus 约45条/5h；Sonnet 更高；独立配额池 | 算力计量：5h窗口+周上限，Pro=免费4倍 | 限额提升但非顶级；官方未固定公布 |
+| 深度研究 | 有月度限制（账户内查询） | Research 功能可用 | Deep Research（耗算力高） | DeepSearch（$30档近无感） |
+| 视频生成 | **无（Sora 2026-04-26 已关停）** | 无 | Veo 3/Flow 积分制（$25起充） | Imagine（SuperGrok 20倍、720p/30s） |
+| 编程工具 | Codex + Work 智能体 | Claude Code（周40–80h Sonnet） | Antigravity（含 Claude 5.5！） | Grok Build + 捆绑 Cursor |
+| 上下文 | 150万（5.6系）/Astra 输出128K | 200K 级 | 100万 | 128K（SuperGrok）；Hermes 接入 4.3 可达100万 |
+| 幻觉率（AA） | GPT-6 Astra 51%（GPT系85–92%口径见正文） | Opus 4.7 36%（最低幻觉倾向） | **Argon 15%（≥45分模型中最低）** | 无权威数据 |
+| 长上下文命中 | Astra 71.8%（GraphWalks） | 约65%（MRCR 迭代回退） | **84.2%（GraphWalks 第一）** | MRCR 数据缺失 |
+| 捆绑权益 | 无广告、Projects、GPTs | Projects、Artifacts、MCP 连接器 | 2TB 存储、NotebookLM Plus、Workspace | X Premium 社交 + Grok API + Cursor |
+| 第三方客户端 | △ Hermes proxy 可转（Codex OAuth，有风险） | △ Hermes proxy 可转，但有倒扣$200.98账单风控 | ✗（CLI 免费登录已关） | ✓ xAI 官方支持 Hermes + 自带 API |
+| 广告 | 无 | 无 | 无 | $8 档基础 X 权益（去广告看档位） |
 
 ## 二、可用模型的最高智力对比（2026年10月）
 
-| 模型（所属订阅可用的最高档）                                | Artificial Analysis 智能指数 | LMArena / 其他                    | 备注                                         |
-| --------------------------------------------- | ------------------------ | ------------------------------- | ------------------------------------------ |
-| Claude Opus 5.5（Claude Pro $20）               | **58（第一）**               | 周榜前四占其三位，opus-5.5-high ELO 1507 | 智能体榜 Opus 5.5 Max 72% 登顶                   |
-| Claude Sonnet 5.5（Claude/Google Antigravity）  | 56                       | —                               | 价格约旗舰60%，速度+30%                            |
-| Meta Muse Wonder Full                         | 56                       | —                               | 非订阅对照                                      |
-| GPT-6 Astra（ChatGPT $100+/Google Antigravity） | 53                       | —                               | GPT-6 Pro 底座                               |
-| Gemini 4 Argon（Gemini AI Pro $19.99）          | 53                       | 独立综合榜约第4                        | 13/18基准第一（谷歌自报）；长上下文 84.2% 显著领先            |
-| Grok 4.3（历史口径）                                | 53                       | —                               | 2026-05 数据                                 |
-| Grok 4.7（Grok $30 档）                          | 46（第二梯队第一）               | 编码智能体指数 56                      | CursorBench 46.3%、Terminal-Bench 4.0 38.0% |
+| 模型（所属订阅可用的最高档） | Artificial Analysis 智能指数 | LMArena / 其他 | 备注 |
+|---|---|---|---|
+| Claude Opus 5.5（Claude Pro $20） | **58（第一）** | 周榜前四占其三位，opus-5.5-high ELO 1507 | 智能体榜 Opus 5.5 Max 72% 登顶 |
+| Claude Sonnet 5.5（Claude/Google Antigravity） | 56 | — | 价格约旗舰60%，速度+30% |
+| Meta Muse Wonder Full | 56 | — | 非订阅对照 |
+| GPT-6 Astra（ChatGPT $100+/Google Antigravity） | 53 | — | GPT-6 Pro 底座 |
+| Gemini 4 Argon（Gemini AI Pro $19.99） | 53 | 独立综合榜约第4 | DeepSWE v1.1 77.9% 第一；Vals Index 68.90% 登顶 |
+| Grok 4.3（历史口径） | 53 | — | 2026-05 数据 |
+| Grok 4.7（Grok $30 档） | 46（第二梯队第一） | 编码智能体指数 56 | DeepSWE 71.0%；实测有“跑分强落地翻车”样本 |
 
-> 编程专项：Terminal-Bench 2.1 GPT-5.6 Sol 88.8%（Ultra 91.9%）> Claude Mythos 5 88.0%；SWE-bench Verified GPT-5.5 88.7%（2026-06）> Claude Opus 4.7 87.6%。**结论：ChatGPT 系略擅长端到端编程，Claude 系综合智能与智能体任务更强，Gemini 长上下文无敌，Grok 编码智能体进步快但仍差一档。**
+> 编程专项：Terminal-Bench 2.1 GPT-5.6 Sol 88.8%（Ultra 91.9%）> Claude Mythos 5 88.0%；Terminal-Bench 4.0 Opus 5.5 66.4% > Argon 57.4%；FrontierSWE v2 GPT-6 Astra 65.5% > Argon 55.0%。**结论：ChatGPT 系擅长端到端编程，Claude 系综合智能与智能体任务更强，Gemini 长上下文与低幻觉无敌，Grok 编码智能体进步快但仍差一档。**
+
+## 二·补、幻觉率对比（越低越好）
+
+| 模型 | AA-Omniscience 幻觉率 | 其他口径 |
+|---|---|---|
+| Gemini 4 Argon | **15%（≥45分模型中最低）** | 工具幻觉率 0.18%（LMArena 智能体周榜头部最低，2026-10-12） |
+| Claude Opus 4.7 | 36% | Claude 系“非幻觉率”历来大幅领先 GPT 系 |
+| GPT-6 Astra | 51% | GPT-5.5 高达 86%，GPT 全系 85–92% |
+| Grok 4.7 | 无权威数据 [不确定] | 实时 X 数据可降低事实幻觉，引用规范性弱 |
+
+学术引用实测（2026-06，50篇论文）：Perplexity Pro 幻觉率4%（96%引用真实）> Gemini Pro 16% > **ChatGPT Plus 24%（仅76%真实）**。
+注意：AA-Omniscience 奖励“宁可拒答也不乱答”，对回答倾向积极的模型天然不严；引用类幻觉更贴近日常使用体感。
+
+## 二·补2、长上下文命中对比（越高越好）
+
+| 模型 | GraphWalks 256K–1M | MRCR v2 @1M（大海捞针） | 备注 |
+|---|---|---|---|
+| Gemini 4 Argon | **84.2%** | 前代3.0 Pro @28k 77.0%，1M衰减 | 100万统一输入输出 token |
+| GPT-6 Astra | 71.8% | GPT-5.5 约74.x（5.4仅36.6%） | 5.6系标称150万上下文 |
+| Claude Opus 5.5 | 约65% | Opus 4.6 78.3% → 4.7 32.2%（迭代回退） | 优势在理解/改写而非纯检索 |
+| Grok 4.7 | 缺权威数据 [不确定] | 缺 | Hermes 接入 4.3 可达100万 token |
+
+> 行业警示：MRCR“大海捞针”类测试被第三方复核批评——多数高分是在固定文档位置下取得，与真实“从文档堆里找答案”差距不小。长上下文请以实际文档测试为准。
 
 ## 三、世界知识对比
 
 - **时效性之王：Grok**——实时 X 平台数据，追热点/舆情/突发新闻无对手。
-- **带引用之王：Perplexity Pro**——每论断编号引用可验证；但引用错误率免费37%/Pro 45%（哥伦比亚新闻评论基准，受测产品中最差），且无跨会话 AI 记忆。
-- **Gemini**——100万上下文 + 联网搜索，长文档/代码库知识工作最强，多方称幻觉率最低。
-- **ChatGPT / Claude**——联网搜索均支持；世界知识问答非其宣传重点（SimpleQA 类权威成绩未逐项核实）。
-- 各家知识截止时间均未获得官方逐项数据，[不确定]，建议以“联网搜索 +  Deep Research”实际体验为准。
+- **带引用之王：Perplexity Pro**——每论断编号引用可验证；引用错误率两极（CJR 基准免费37%/Pro 45% 最差，但学术引用实测仅4%），且无跨会话 AI 记忆。
+- **Gemini**——100万上下文 + 联网搜索，长文档/代码库知识工作最强，幻觉率与引用真实性（84%）均优于 ChatGPT（76%）。
+- **ChatGPT / Claude**——联网搜索均支持；世界知识问答与引用真实性非其最强项。
+- 各家知识截止时间均未获得官方逐项数据，[不确定]，建议以联网搜索 + Deep Research 实际体验为准。
 
 ## 四、文字与写作能力对比
 
-| 场景        | 第一                                  | 第二              | 第三                     |
-| --------- | ----------------------------------- | --------------- | ---------------------- |
-| 中文文学/细腻文笔 | **Claude**（“文科生AI”，AI味最淡，心理描写与对话出色） | GPT-5.6         | Gemini                 |
-| 英文学术/格式规范 | **GPT-5.6**（45.0分，APA 执行最准）         | Claude 4.8      | Gemini 3.5             |
-| 中文学术写作    | **GPT-5.6**（8.8）                    | Claude 4.8（8.5） | Gemini 3.5（8.2，中英差距最大） |
-| 摘要与结论质量   | **Claude**（9.1，能准确提炼全文核心）           | GPT-5.6         | Gemini                 |
-| 信息型/数据型写作 | Grok（实时数据支撑）                        | GPT             | Claude                 |
+| 场景 | 第一 | 第二 | 第三 |
+|---|---|---|---|
+| 中文文学/细腻文笔 | **Claude**（“文科生AI”，AI味最淡，心理描写与对话出色） | GPT-5.6 | Gemini |
+| 英文学术/格式规范 | **GPT-5.6**（45.0分，APA 执行最准） | Claude 4.8 | Gemini 3.5 |
+| 中文学术写作 | **GPT-5.6**（8.8） | Claude 4.8（8.5） | Gemini 3.5（8.2，中英差距最大） |
+| 摘要与结论质量 | **Claude**（9.1，能准确提炼全文核心） | GPT-5.6 | Gemini |
+| 信息型/数据型写作 | Grok（实时数据支撑） | GPT | Claude |
 
-## 五、第三方客户端可用性（Hermes Agent / OpenClaw 专题）
+## 五、第三方客户端可用性（Hermes Agent / OpenClaw 专题，v2 修订）
 
-- **Hermes 与 OpenClaw**是两款开源、可 Docker 自托管的 AI 智能体框架（NAS 即可部署）：OpenClaw 主打网关/技能/本地记忆的“连接与控制”；Hermes 主打安全、配额记忆与 SOP 技能复用、Cron+沙箱无人值守。
-- 二者都通过 **API key**（OpenRouter / 官方 API / 中转站）接入模型，不依赖也不支持任何订阅账号登录。
-- **政策红线**：2026-04-04 起 Anthropic 明确 Claude Code 订阅额度不得被 OpenClaw 等第三方工具消耗，须按 API 另行付费；ChatGPT/Gemini 的第三方网页会话逆向方案违反条款且有封号风险（国内 API 中转站 2026年6月起遭整治）。
-- **唯一甜点**：$8 X Subscription Plus 内含 Grok API 使用权限——额度内可直接喂 Hermes/OpenClaw/Cursor，是“8美金买 AI 订阅”里罕见的开放通道。
+- **Hermes 与 OpenClaw**是两款开源、可 Docker 自托管的 AI 智能体框架（NAS 即可部署，OpenClaw 已 37万+ star）：OpenClaw 主打网关/技能/本地记忆的“连接与控制”；Hermes 主打安全、配额记忆与 SOP 技能复用、Cron+沙箱无人值守，现已上 PyPI（`pip install hermes-agent`）。
+- **重大纠正：Hermes Agent v0.14（2026-05）的 `hermes proxy` 可以把订阅“变”成 API**——本地拉起 HTTP 端口暴露 OpenAI 兼容 API，实际请求穿透 OAuth 授权走订阅额度：
+  - **ChatGPT 订阅 → Codex**：经 Codex OAuth 设备登录（需在 ChatGPT 网页设置开启“设备登录”开关），$20 Plus 即可驱动 Codex CLI / Aider（用户指出的正确事实，初版报告遗漏）；
+  - **Claude Pro 订阅**：同样可转本地 API 驱动 Aider / Claude Code；
+  - **SuperGrok 订阅**：xAI 官方背书——Hermes OAuth 直连 Grok 4.3 全栈（文本/语音/图像/视频/转录），100万上下文 + 跨请求 prompt 缓存，官网有接入指南（x.ai/news/grok-hermes）；OpenClaw 5.18 也修复了 Grok OAuth PKCE 认证。
+- **风险红线**：Anthropic 2026-04-04 起明令订阅额度不得被 OpenClaw 等第三方工具消耗；一名 Claude Max $200 用户仅因目录残留 hermes.md 文件触发风控，被倒扣 $200.98 API 账单。Hermes proxy 对 ChatGPT/Claude 属于“能用但随时可能被封/被计费”的灰色通道；**唯一低风险的是 xAI 官方支持的 Grok 通道与 $8 档自带的 Grok API 额度**。
+- 各家官方 API 均可单独按量付费（OpenAI/Anthropic/Google/xAI），第三方客户端的正规姿势是自备 API key。
 
 ## 六、购买建议（按人群）
 
-| 人群            | 推荐                             | 理由                               |
-| ------------- | ------------------------------ | -------------------------------- |
-| 大多数个人用户       | **ChatGPT Plus $20**           | 全能、生态最大、无短板                      |
-| 文字工作者/深度思考    | **Claude Pro $20**             | 智能第一、中文文笔第一                      |
-| Google 生态/长文档 | **Gemini AI Pro $19.99**       | 1M 上下文 + Antigravity 送 Claude 旗舰 |
-| 预算优先/爱折腾智能体   | **Grok $8 捆绑档**                | 唯一含 API 的低价订阅；要旗舰加钱到 $30         |
-| 研究者/事实核查      | + **Perplexity Pro $20**（第二订阅） | 带引用检索独一档                         |
-| Office 重度办公   | Copilot Pro（仅在已有 M365 时考虑）     | 与主力订阅重叠，勿叠加                      |
+| 人群 | 推荐 | 理由 |
+|---|---|---|
+| 大多数个人用户 | **ChatGPT Plus $20** | 全能、生态最大、无短板（视频已无 Sora，需视频请用 Gemini/Grok） |
+| 文字工作者/深度思考 | **Claude Pro $20** | 智能第一、幻觉倾向最低、中文文笔第一 |
+| Google 生态/长文档/洁癖党 | **Gemini AI Pro $19.99** | 1M 上下文 + 幻觉率15% + Antigravity 送 Claude 旗舰 |
+| 预算优先/爱折腾智能体 | **Grok $8 捆绑档** | 唯一含 API 且官方支持 Hermes 的低价订阅；要旗舰加钱到 $30 |
+| 研究者/事实核查 | + **Perplexity Pro $20**（第二订阅） | 带引用检索独一档 |
+| Office 重度办公 | Copilot Pro（仅在已有 M365 时考虑） | 与主力订阅重叠，勿叠加 |
 
 ---
 
+
 ## 目录
 
-1. [OpenAI ChatGPT Plus](#openai-chatgpt-plus) — 全能型选手：模型矩阵最全、生态最大，视频/编程/智能体/多模态均衡，$20 档的大多数人默认首选
-2. [Anthropic Claude Pro](#anthropic-claude-pro) — 最高智力与文字写作的双料冠军，长文创作、深度推理、代码质量首选
-3. [Google Gemini AI Pro](#google-gemini-ai-pro) — 适合 Google 生态重度用户、需要 100万上下文与长视频/文档理解的用户
-4. [Grok 8美元档（X Subscription Plus / X Premium）](#grok-8-x-subscription-plus-x-premium) — $8 档的捆绑（Grok 基础 + X Premium + Grok API + Cursor）在低价档中性价比独特
+1. [OpenAI ChatGPT Plus](#openai-chatgpt-plus) — 全能型选手：模型矩阵最全、生态最大，编程/智能体/研究/多模态均衡（注意 Sora 视频已关停），$20 档的大多数人默认首选
+2. [Anthropic Claude Pro](#anthropic-claude-pro) — 最高智力、最低幻觉倾向与文字写作的双料冠军，长文创作、深度推理、代码质量首选
+3. [Google Gemini AI Pro](#google-gemini-ai-pro) — 幻觉率最低、长上下文命中最强、生态捆绑最厚（2TB+Antigravity 送 Claude 旗舰），适合 Google 生态重度用户与长文档/代码库场景
+4. [Grok 8美元档（X Subscription Plus / X Premium）](#grok-8-x-subscription-plus-x-premium) — $8 档捆绑（Grok 基础 + X Premium + Grok API + Cursor）在低价档中性价比与开放度双第一
 5. [Microsoft Copilot Pro（补充对照）](#microsoft-copilot-pro) — 只推荐给已深度依赖 Microsoft 365 的办公用户
 6. [Perplexity Pro（补充对照）](#perplexity-pro) — 检索、事实核查、带引用研究类工作的利器，适合记者/分析师/学者作为第二订阅
 
 ---
+
 
 ## 1. OpenAI ChatGPT Plus
 
@@ -98,7 +128,7 @@ $20/月。2026年档位体系：Free $0 / Go $8（2026-01推出，含广告）/ 
 
 ### 福利权益
 
-GPT-6 Sol（思考中/高）聊天；GPT-6 Astra 在 ChatGPT 工作（Work）与 Codex 中使用；Sora 视频生成（约50条/月、10秒级，2026-02数据）；Deep Research；Codex 编程；Projects/记忆；自定义 GPTs；无广告；高峰期优先访问。
+GPT-6 Sol（思考中/高）聊天；GPT-6 Astra 在 ChatGPT 工作（Work）与 Codex 中使用；Deep Research；Codex 编程；Projects/记忆；自定义 GPTs；无广告；高峰期优先访问。注意：Sora 视频生成已于2026-04-26关停（API 于2026-09-24停止）——Greg Brockman 统一 ChatGPT/Codex/API 产品线时关停了视频生成等支线业务，已购 Sora 额度可转用于 Codex。
 
 ### 可用的最高模型
 
@@ -106,15 +136,23 @@ GPT-6 Sol（思考中/高）聊天；GPT-6 Astra 在 ChatGPT 工作（Work）与
 
 ### 第三方客户端 / 订阅通道支持
 
-官方 API 单独计费（GPT-5.6 Sol/Terra/Luna 已上 API）。第三方客户端历史上有网页会话逆向方案，违反使用条款且有封号风险；2026年6月起国内 API 中转站（购买 ChatGPT/Claude 订阅封装转卖）遭监管整治。Hermes / OpenClaw 等开源智能体需 API key 接入，订阅账号不能正规用于第三方客户端。
+官方 API 单独计费（GPT-5.6 Sol/Terra/Luna 已上 API）。第三方'订阅转API'通道已存在：Hermes Agent v0.14（2026-05）的 hermes proxy 一行命令可把 ChatGPT 订阅（经 Codex OAuth 设备登录，需在 ChatGPT 网页设置开启'设备登录'开关）与 Claude Pro、SuperGrok 订阅转为本地 OpenAI 兼容 API 端点，驱动 Codex CLI、Aider 等（端点为标准 OpenAI 兼容格式，Cline、opencode 等一切支持自定义 base_url 的客户端理论上均可接入，官方与社区示例为 Codex CLI / Aider）；OpenAI 对此的默许度与封禁边界不明，使用有风险。国内 API 中转站2026年6月起遭监管整治。
 
 ### 内置工具与智能体
 
-Deep Research、Codex（CLI/桌面/云端/IDE）、ChatGPT Work 智能体、Sora 视频、DALL·E/GPT Image 图像、代码解释器与数据分析、Canvas、联网搜索、语音模式、Tasks 定时任务。
+Deep Research、Codex（CLI/桌面/云端/IDE）、ChatGPT Work 智能体、DALL·E/GPT Image 图像生成、代码解释器与数据分析、Canvas、联网搜索、语音模式、Tasks 定时任务。Sora 已关停（2026-04-26）。
 
 ### 模型智力（基准成绩）
 
-GPT-5.6 Sol：Terminal-Bench 2.1 标准模式88.8%、Ultra 模式91.9%（超过 Claude Mythos 5 的88.0%）；SWE-bench Verified：GPT-5.5 于2026-06以88.7%反超 Claude Opus 4.7 的87.6%；Artificial Analysis：GPT-6 Astra 53分。LMArena 周榜（2026-10-12）：gpt-5.5 第29名。各榜单口径不一，需交叉参考。
+GPT-5.6 Sol：Terminal-Bench 2.1 标准模式88.8%、Ultra 模式91.9%（超过 Claude Mythos 5 的88.0%）；FrontierSWE v2 65.5%（第一，高于 Gemini Argon 55.0%）；SWE-bench Verified：GPT-5.5 于2026-06以88.7%反超 Claude Opus 4.7 的87.6%；Artificial Analysis：GPT-6 Astra 53分。LMArena 周榜（2026-10-12）：gpt-5.5 第29名。各榜单口径不一，需交叉参考。
+
+### 幻觉率对比
+
+AA-Omniscience 幻觉率：GPT-5.5 高达86%（GPT 全系85–92%，AA 2026-08 将'非幻觉率'计入智能指数后 GPT 系得分极低）；GPT-6 Astra 51%（2026-10）。学术引用实测（2026-06）：ChatGPT Plus 引用真实存在率仅76%、幻觉率24%（Perplexity Pro 96%/4%，Gemini Pro 84%/16%）。注意该指标奖励'宁可拒答也不乱答'，对回答倾向积极的模型天然不友好。
+
+### 长上下文命中
+
+GraphWalks（256K–1M）：GPT-6 Astra 71.8%，低于 Gemini 4 Argon 84.2%、高于 Claude 系约65%；MRCR v2 @1M（大海捞针）：GPT-5.5 约74.x（GPT-5.4 仅36.6%，迭代大幅改善）；GPT-5.6 系标称150万上下文。长程命中处于第二梯队，非其最强项。
 
 ### 文字与写作能力
 
@@ -122,9 +160,11 @@ GPT-5.6 Sol：Terminal-Bench 2.1 标准模式88.8%、Ultra 模式91.9%（超过 
 
 ### 总结定位
 
-全能型选手：模型矩阵最全、生态最大，视频/编程/智能体/多模态均衡，$20 档的大多数人默认首选；但顶级模型（GPT-6 Pro/Astra 聊天）被锁在 $100 以上档位。
+全能型选手：模型矩阵最全、生态最大，编程/智能体/研究/多模态均衡（注意 Sora 视频已关停），$20 档的大多数人默认首选；顶级模型（GPT-6 Pro/Astra 聊天）被锁在 $100 以上档位。
 
 > 数据缺口（证据不足，未收录）：额度限制、世界知识。
+
+
 
 ## 2. Anthropic Claude Pro
 
@@ -142,15 +182,19 @@ Claude Opus 5.5 + Sonnet 5.5 全模型访问；Claude Code（Web/CLI/桌面/IDE 
 
 ### 可用的最高模型
 
-Claude Opus 5.5（2026-09-22 发布，5.5系列首款，全平台同步上线，定价与前代 Opus 4.8 一致）与 Claude Sonnet 5.5（2026-09-29 发布：性能逼近旗舰、价格约为旗舰60%、生成速度提升30%+，部分编程测试超过 Opus 5.5）；Haiku 5.5 计划后续发布。Claude Code 默认模型为 Opus 5.5（v2.1.284 起 sonnet 别名指向 Sonnet 5.5）。
+Claude Opus 5.5（2026-09-22 发布，5.5系列首款，全平台同步上线，定价与前代 Opus 4.8 一致）与 Claude Sonnet 5.5（2026-09-29 发布：性能逼近旗舰、价格约为旗舰60%、生成速度提升30%+，部分编程测试超过 Opus 5.5）；Haiku 5.5 亦已发布。Claude Code 默认模型为 Opus 5.5（v2.1.284 起 sonnet 别名指向 Sonnet 5.5）。
 
 ### 第三方客户端 / 订阅通道支持
 
-2026-04-04 起 Anthropic 明确：Claude Code 订阅用户使用 OpenClaw 等第三方集成工具不再消耗订阅额度，须按 API 独立按量付费。第三方客户端（Hermes / OpenClaw / Cline / Roo 类）一律走 API key；把订阅账号喂给第三方工具有封号风险。
+双面政策：一方面 2026-04-04 起 Anthropic 明令 Claude Code 订阅额度不得被 OpenClaw 等第三方集成工具消耗，须按 API 另行按量付费；另一方面 Hermes Agent v0.14（2026-05）的 hermes proxy 可把 Claude Pro 订阅经 OAuth 转为本地 OpenAI 兼容 API，驱动 Aider/Claude Code。风险极高：一名 Claude Max $200 用户因工作目录残留 hermes.md 文件触发 Anthropic 第三方调用风控，被倒扣 $200.98 API 账单（宁可错杀式反制）。常规使用请坚持以官方客户端，第三方通道需自担封号与账单风险。
 
 ### 模型智力（基准成绩）
 
-Artificial Analysis 智能指数58（2026-10 第一，领先 GPT-6 Astra / Claude Fable 5.1 的53 与 Gemini 4 Argon 的53、Grok 4.7 的46）；LMArena 周榜（2026-10-12）包揽前四，claude-opus-5.5-high ELO 1507 位列第二（与第三名分差在误差范围内）；智能体榜 Opus 5.5 Max 72% 登顶；SWE-bench Verified 87.6%（Opus 4.7，2026-06，后被 GPT-5.5 88.7% 反超）；Terminal-Bench 2.1：Claude Mythos 5 88.0%，略低于 GPT-5.6 Sol Ultra 91.9%。
+Artificial Analysis 智能指数58（2026-10 第一，领先 GPT-6 Astra / Claude Fable 5.1 的53 与 Gemini 4 Argon 的53、Grok 4.7 的46）；LMArena 周榜（2026-10-12）包揽前四，claude-opus-5.5-high ELO 1507 位列第二（与第三名分差在误差范围内）；智能体榜 Opus 5.5 Max 72% 登顶；SWE-bench Verified 87.6%（Opus 4.7，2026-06，后被 GPT-5.5 88.7% 反超）；Terminal-Bench 4.0 66.4%（第一）；Terminal-Bench 2.1：Claude Mythos 5 88.0%，略低于 GPT-5.6 Sol Ultra 91.9%。
+
+### 长上下文命中
+
+GraphWalks（256K–1M）：Claude 系约65%，低于 Gemini 4 Argon 84.2% 与 GPT-6 Astra 71.8%；MRCR v2 @1M（大海捞针）：Opus 4.6 78.3% → Opus 4.7 32.2%（出现明显迭代回退，纯长针命中不稳定）。实际长文本优势在理解、改写与写作而非纯检索精度。
 
 ### 文字与写作能力
 
@@ -158,9 +202,11 @@ Artificial Analysis 智能指数58（2026-10 第一，领先 GPT-6 Astra / Claud
 
 ### 总结定位
 
-最高智力与文字写作的双料冠军，长文创作、深度推理、代码质量首选；$20 档网页/编程额度对重度用户偏紧，适合中高强度而非全天候使用。
+最高智力、最低幻觉倾向与文字写作的双料冠军，长文创作、深度推理、代码质量首选；$20 档网页/编程额度对重度用户偏紧，适合中高强度而非全天候使用。
 
-> 数据缺口（证据不足，未收录）：内置工具与智能体、世界知识。
+> 数据缺口（证据不足，未收录）：内置工具与智能体、幻觉率对比、世界知识。
+
+
 
 ## 3. Google Gemini AI Pro
 
@@ -178,26 +224,35 @@ Google One 2TB 云存储；NotebookLM Plus；Deep Research；Veo 3 / Flow / Whis
 
 ### 可用的最高模型
 
-Gemini 4 Argon（2026-09-30 发布、10-13 面向 AI Pro/Ultra 及付费 API 全面开放）：输出上限100万 tokens，谷歌自报18项基准13项第一，Vals Index（金融/编码/法律等经济领域）第一。Deep Think（最大程度并行推理）2026年10月起下放给 AI Pro（原 Ultra 独占）。Antigravity 内还可调用 Claude Opus 5.5 / Sonnet 5.5。API 需单独按量付费（Argon 推广价输入$2/输出$10 每百万 tokens，11-30 后恢复 $4/$20）。
+Gemini 4 Argon（2026-09-30 发布、10-13 面向 AI Pro/Ultra 及付费 API 全面开放）：输出上限100万 tokens，谷歌自报18项基准13项第一，Vals Index 第一（68.90%）。Deep Think（最大程度并行推理）2026年10月起下放给 AI Pro（原 Ultra 独占）。Antigravity 内还可调用 Claude Opus 5.5 / Sonnet 5.5。API 需单独按量付费（Argon 推广价输入$2/输出$10 每百万 tokens，11-30 后恢复 $4/$20；缓存命中输入低至$0.10）。
 
 ### 第三方客户端 / 订阅通道支持
 
-Gemini CLI 免费登录已于 2026-06-18 关闭，2026年9月起不受限的 Standard key 停用，第三方工具必须用开通计费的 API key。Hermes / OpenClaw 等开源智能体客户端均通过 API key（Gemini API / Vertex AI / OpenRouter）接入，不支持订阅账号直接登录。
+Gemini CLI 免费登录已于 2026-06-18 关闭，2026年9月起不受限的 Standard key 停用，第三方工具必须用开通计费的 API key。Hermes / OpenClaw 等开源智能体客户端均通过 API key（Gemini API / Vertex AI / OpenRouter）接入，Google 官方未提供'订阅转 API'或订阅账号登录第三方客户端的通道。
 
 ### 内置工具与智能体
 
 Deep Research、Deep Think、Gems、Canvas、Veo 3/Flow/Whisk 图像与视频生成、NotebookLM、Gemini Live 语音、联网搜索、Antigravity 智能体 IDE（多模型）、AI Studio。
 
-
 ### 模型智力（基准成绩）
 
-Gemini 4 Argon：Artificial Analysis 智能指数53（第一名为 Claude Opus 5.5 的58，Meta Muse Wonder Full 与 Claude Sonnet 5.5 为56）；独立综合榜约第4名、距榜首约5分。长上下文 GraphWalks（256K–1M）84.2%，显著高于 GPT-6 Astra 71.8% 与两款 Claude 的约65%；长视频理解 LVBench 91.7%（当前最好）；图表理解 Chartography 71.6%。
+Gemini 4 Argon：Artificial Analysis 智能指数53（第一名为 Claude Opus 5.5 的58，Meta Muse Wonder Full 与 Claude Sonnet 5.5 为56）；独立综合榜约第4名、距榜首约5分。DeepSWE v1.1（长程软件工程）77.9% 高于 Opus 5.5 74.2% 与 GPT-6 Astra 74.1%；CWE-bench v1 68% 并列第一；AutomationBench 51.3% vs Opus 5.5 42.5%。弱项：FrontierSWE v2 55.0% 低于 GPT-6 Astra 65.5%；Terminal-Bench 4.0 57.4% 低于 Opus 5.5 66.4%。
+
+### 幻觉率对比
+
+Artificial Analysis 幻觉率仅15%——综合智能指数达到45分以上的模型中最低（GPT-6 Astra 为51%）；LMArena 智能体周榜（2026-10-12）工具幻觉率0.18%，为当前头部模型中最低。学术引用实测（2026-06）：Gemini Pro 引用真实存在率84%、幻觉率16%。谷歌称'行业最低幻觉率'；注意 Argon 开放后 Flash 系幻觉有所上升。
+
+### 长上下文命中
+
+GraphWalks（256K–1M）：84.2% 显著领先 GPT-6 Astra 71.8% 与 Claude 系约65%——长上下文命中第一；前代 Gemini 3.0 Pro MRCR v2 @28k 77.0%，1M 长度仍有衰减；API 提供100万统一输入输出 token。
 
 ### 总结定位
 
-适合 Google 生态重度用户、需要 100万上下文与长视频/文档理解的用户；算力计费模式下额度要精打细算，且能以 Antigravity 白嫖 Claude 旗舰是其独有附加值。
+幻觉率最低、长上下文命中最强、生态捆绑最厚（2TB+Antigravity 送 Claude 旗舰），适合 Google 生态重度用户与长文档/代码库场景；算力计费模式下额度要精打细算。
 
 > 数据缺口（证据不足，未收录）：世界知识、文字与写作能力。
+
+
 
 ## 4. Grok 8美元档（X Subscription Plus / X Premium）
 
@@ -211,15 +266,15 @@ $8 档即捆绑三重权益：X Premium 社交会员（蓝V、减少广告、长
 
 ### 可用的最高模型
 
-$8 档不含最新旗舰（Premium $30 才有'最新 Grok 模型使用权限'）。当前 xAI 旗舰为 Grok 4.7（2026-09-22 发布，2.1万亿参数，较4.6增长40%；定位编程与知识工作）；Grok 4.8（2.5万亿参数、C++软件栈）已完成训练并启动强化学习，待发布；SuperGrok Heavy 独占 Grok 4 Heavy 顶级模型。
+$8 档不含最新旗舰（Premium $30 才有'最新 Grok 模型使用权限'）。当前 xAI 旗舰为 Grok 4.7（2026-09-22 发布，2.1万亿参数，较4.6增长40%；定位编程与知识工作）；Grok 4.8（2.5万亿参数、C++软件栈）已完成训练并启动强化学习，待发布；SuperGrok Heavy 独占 Grok 4 Heavy 顶级模型。注意：Grok 4.3 经 Hermes OAuth 接入时上下文可拉满100万 token。
 
 ### 第三方客户端 / 订阅通道支持
 
-独有优势：$8 X Subscription Plus 内含 Grok API 使用权限——四家最低档中唯一捆绑 API 额度的订阅，额度内可直接喂给 Hermes / OpenClaw 等第三方智能体或 Cursor。历史上也存在网页会话逆向的第三方 Grok 客户端。
+四家中第三方生态最开放：① xAI 官方深度支持 Hermes Agent——SuperGrok OAuth 即可调用 Grok 4.3 全套能力（文本/语音/图像/视频/转录），上下文拉满100万并默认开启跨请求 prompt 缓存（官网专设接入指南 x.ai/news/grok-hermes）；② OpenClaw 5.18 修复 Grok OAuth PKCE 认证，原生打通 Grok；③ $8 X Subscription Plus 自带 Grok API 使用权限，额度内可直接喂任何第三方客户端；④ Hermes proxy 亦可将订阅转本地 OpenAI 兼容 API。
 
 ### 内置工具与智能体
 
-DeepSearch、Think、Aurora 图像生成、Imagine 视频生成（SuperGrok 下 720p/30秒）、语音模式、Expert 模式（4个AI智能体协作）、Grok Build（CLI/编码智能体）、实时联网（X 数据）、Grok Bot（$30+）、捆绑 Cursor。
+DeepSearch、Think、Aurora 图像生成、Imagine 视频生成（SuperGrok 下 720p/30秒）、语音模式、Expert 模式（4个AI智能体协作）、Grok Build（CLI/编码智能体）、实时联网（X 数据）、Grok Bot（$30+）、捆绑 Cursor、x_search（OAuth/API Key 双通道）。
 
 ### 模型智力（基准成绩）
 
@@ -235,9 +290,11 @@ Grok 4.7：Artificial Analysis 智能指数46（第二梯队第一，低于 Clau
 
 ### 总结定位
 
-$8 档的捆绑（Grok 基础 + X Premium + Grok API + Cursor）在低价档中性价比独特；想要完整 Grok 旗舰体验实际需 $30（SuperGrok / X Subscription Premium）， Heavy 档 $300 才解锁顶级模型。
+$8 档捆绑（Grok 基础 + X Premium + Grok API + Cursor）在低价档中性价比与开放度双第一；想要完整 Grok 旗舰体验实际需 $30（SuperGrok / X Subscription Premium），Heavy 档 $300 才解锁顶级模型。
 
-> 数据缺口（证据不足，未收录）：额度限制。
+> 数据缺口（证据不足，未收录）：额度限制、幻觉率对比、长上下文命中。
+
+
 
 ## 5. Microsoft Copilot Pro（补充对照）
 
@@ -265,7 +322,9 @@ Office 场景写作强（润色、总结、格式转换、邮件）；自由创�
 
 只推荐给已深度依赖 Microsoft 365 的办公用户；AI 能力与 ChatGPT Plus/Claude Pro 高度重叠，不建议叠加购买。
 
-> 数据缺口（证据不足，未收录）：额度限制、可用的最高模型、模型智力（基准成绩）、世界知识。
+> 数据缺口（证据不足，未收录）：额度限制、可用的最高模型、模型智力（基准成绩）、幻觉率对比、长上下文命中、世界知识。
+
+
 
 ## 6. Perplexity Pro（补充对照）
 
@@ -293,6 +352,10 @@ Sonar API 单独计费；订阅本身未发现可接入 Hermes/OpenClaw 等第�
 
 Deep Research、Computer 智能体（跨 Gmail/Slack/GitHub/Notion/Salesforce 执行多步任务）、Comet 浏览器智能体、Spaces、Labs（Max）、流式过程透明（Searching→Reading→Writing）。
 
+### 幻觉率对比
+
+引用口径两极：哥伦比亚新闻评论基准——免费版37%引用错误率、Pro 45%（受测 AI 搜索引擎中最差）；但学术文献引用实测（2026-06）幻觉率仅4%（50篇测试论文96%引用真实存在，优于 ChatGPT Plus 24%、Gemini Pro 16%）。
+
 ### 世界知识
 
 品类最强的带引用检索：每个论断有编号引用、来源面板可点击验证；但哥伦比亚新闻评论基准测试显示引用错误率免费版37%、Pro 45%（受测 AI 搜索引擎中最差）；无跨会话持久 AI 记忆，研究不累积。
@@ -305,4 +368,5 @@ Deep Research、Computer 智能体（跨 Gmail/Slack/GitHub/Notion/Salesforce �
 
 检索、事实核查、带引用研究类工作的利器，适合记者/分析师/学者作为第二订阅；不适合作为唯一通用 AI 助手（信任基石有裂缝）。
 
-> 数据缺口（证据不足，未收录）：模型智力（基准成绩）。
+> 数据缺口（证据不足，未收录）：模型智力（基准成绩）、长上下文命中。
+

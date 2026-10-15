@@ -39,7 +39,7 @@ FIELD_ORDER = ["pricing", "benefits", "limits", "top_models",
 
 REPORT_HEADER = """# 20美元档 AI 订阅深度横评：ChatGPT Plus / Claude Pro / Gemini AI Pro / Grok $8 档
 
-> 调研日期：2026年10月15日（v2 修订版：纠正“Sora 仍在订”错误、补充 Hermes Agent 对 Codex 订阅的支持、新增幻觉率与长上下文命中对比）｜ 数据来源：各官方定价页与帮助中心、Artificial Analysis、LMArena 周榜、IT之家、智源社区/新智元、知乎、什么值得买、CSDN、腾讯云等。价格与权益变动极快，请以官网实时信息为准。
+> 调研日期：2026年10月15日（v3 复核版：v2 纠正「Sora 仍在订」与 Hermes Agent 订阅转 API 后，于 2026-10-15 重新联网二次核实——① Sora 2026-03-24 宣布关停、04-26 App/网页下线、09-24 API 关闭；② Hermes Agent v0.14 `hermes proxy` 可将 ChatGPT（Codex OAuth 设备登录）/Claude Pro/SuperGrok 订阅转本地 OpenAI 兼容 API，驱动 Codex CLI、Aider 等；③ ChatGPT Go $8（2026-01 全球推出）；④ Claude Opus 5.5（2026-09-22）AA 智能指数 58 居首；⑤ Gemini 2026-10-09 起免费版仅 Flash-Lite、AI Pro $19.99 获 Deep Think；⑥ X Subscription Plus $8（2026-10-13，含 Grok API 额度 + Cursor）；⑦ Perplexity Pro $20 = 600 次 Pro Search + 20 次 Deep Research/月）｜ 数据来源：各官方定价页与帮助中心、Artificial Analysis、LMArena 周榜、IT之家、智源社区/新智元、知乎、什么值得买、CSDN、腾讯云等。价格与权益变动极快，请以官网实时信息为准。
 
 ## 执行摘要（TL;DR）
 
