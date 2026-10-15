@@ -11,9 +11,9 @@ tags:
   - 中转
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.0
+version: 1.1
 status: stable
-source: 官方文档 https://opencode.ai/v2/docs/console/go + 本机 curl 实测（2026-10-15）
+source: 官方文档 https://opencode.ai/v2/docs/console/go + 本机 curl 实测（2026-10-15）+ open-webui v0.12.2 源码核对（2026-10-15）
 confidence: 已核实
 ---
 
@@ -22,6 +22,8 @@ confidence: 已核实
 ## 一句话结论
 
 OpenCode Go 的推理端点对第三方客户端只有一个硬门槛：**每个请求必须带非空的 `x-opencode-session` 请求头**，否则网关在鉴权之前直接返回 `400 MissingSessionID`；`User-Agent` 需自报客户端身份（非通用 SDK/HTTP 库名），但实测不在鉴权路径上拦截。
+
+客户端选择标准就一条：**能不能让每个对话带一个不同的、稳定的 session 值**。Open WebUI v0.12.2 可用（连接 Headers 填 `{"x-opencode-session": "{{CHAT_ID}}"}`，已核对源码）。
 
 ## 基础事实
 
@@ -86,6 +88,69 @@ step-5-preview-free  cat-jam-free        omen-alpha
 | Zen 端点 `/inference/v1/chat/completions` 不带 session | **401**（直接鉴权失败，**不要求** session） |
 
 结论：当前 session 校验**只做非空判断**，不校验 UUID 格式；但官方明确说未来会收紧。UA 要求未在鉴权路径上强制（风控可能事后判定）。
+
+## 客户端可用性：三档
+
+判断标准只有一条：**客户端能不能让"每个对话带一个不同的、稳定的 `x-opencode-session`"**。
+
+| 档 | 类型 | 代表 | 结论 |
+|---|---|---|---|
+| 1 | 原生发 session 头的 coding agent | Claude Code、Codex、ZCode、Pi、jcode ≥0.81.6、Kilo Code CLI、Hermes（含 PR #101864） | 官方已验证，直接填 base_url + key 即可 |
+| 2 | 支持自定义请求头 + 支持会话级变量插值的通用客户端 | **Open WebUI v0.12.2** | 可用，见下方配置 |
+| 3 | 中转层注入 | NewAPI / One-API / LiteLLM / 自写反代 | 万能兜底，任何客户端都能救 |
+| ✗ | 纯静态 header、无会话变量的客户端 | 多数 Chat UI、脚本直连 | 功能可通，但所有对话共用一个 session → prompt cache 失效 + 高风险特征 |
+
+**不要用脚本直连。** Go 官方口径：只允许常见的 agent 工具，禁止脚本调用（Zen 无此限制）。
+
+## Open WebUI 接入（已核实可行，v0.12.2）
+
+### 配置
+
+Admin → Settings → Connections → OpenAI → 添加连接：
+
+| 字段 | 值 |
+|---|---|
+| API Base URL | `https://opencode.ai/inference/go/v1` |
+| API Key | Go 订阅的 API key |
+| Headers | 见下方 JSON |
+| Model IDs (Filter) | 只保留 `/chat/completions` 家族的模型（见下方说明） |
+
+Headers 字段填：
+
+```json
+{
+  "x-opencode-session": "{{CHAT_ID}}",
+  "User-Agent": "openwebui-coding-agent/1.0"
+}
+```
+
+### 为什么这样能行（源码依据）
+
+`open-webui/open-webui` v0.12.2：
+
+| 机制 | 位置 | 说明 |
+|---|---|---|
+| 连接级自定义请求头 | `AddConnectionModal.svelte` 的 `Headers` 字段 → `config.headers` → `OPENAI_API_CONFIGS` | 后端 `utils/headers.py::get_headers_and_cookies` 里 `if config.get('headers')` → `headers.update(custom_headers)`，最后应用，会覆盖默认值 |
+| 模板变量插值 | `utils/headers.py::parse_custom_headers` | 值里支持占位符，发送前替换 |
+| chat_id 传入 | `routers/openai.py` 第 1512 行 | 主 `/chat/completions` 路径**传了 `metadata`**，所以 `{{CHAT_ID}}` 可用 |
+| 触发条件 | `env.py` | `ENABLE_FORWARD_USER_INFO_HEADERS` 只影响 `X-OpenWebUI-*` 系列头；**自定义 `headers` 不依赖它**，默认即生效 |
+
+### 可用的模板变量（`parse_custom_headers` 完整清单）
+
+| 变量 | 来源 |
+|---|---|
+| `{{CHAT_ID}}` | `metadata.chat_id` ← **推荐用于 session** |
+| `{{MESSAGE_ID}}` / `{{USER_MESSAGE_ID}}` | 消息级 ID（**不要**用于 session，每轮都变） |
+| `{{USER_ID}}` / `{{USER_NAME}}` / `{{USER_EMAIL}}` / `{{USER_ROLE}}` / `{{USER_GROUPS}}` / `{{USER_GROUP_IDS}}` | 当前用户 |
+| `{{USER_AGENT}}` | 发起请求的浏览器 UA（不是 agent UA，别用它当 `User-Agent`） |
+| `{{MODEL_ID}}` / `{{TASK}}` / `{{FILE_ID}}` / `{{FILE_NAME}}` / `{{FILE_CONTENT_TYPE}}` / `{{AUTH_TYPE}}` | 其他上下文 |
+
+### 边界情况（会踩）
+
+1. **只保留 `/chat/completions` 家族模型。** Go 按模型族分流：Claude Haiku 5.5 / MiniMax / Qwen 走 `/v1/messages`，Grok / GPT Luna / Muse Spark 走 `/v1/responses`。Open WebUI 的 OpenAI 连接固定 POST 到 `{base_url}/chat/completions`，那批模型大概率报错。用连接的 `Model IDs (Filter)` 字段只留 GLM / Kimi / LongCat / DeepSeek / MiMo / Hy / Space Bunny / 免费系列。
+2. **`/responses` 和 embeddings 路径不传 metadata**（`routers/openai.py` 第 1715、1849 行），所以那些路径下 `{{CHAT_ID}}` 会替换成空串 → 触发 `400 MissingSessionID`。走 OpenAI 兼容的 `/chat/completions` 才安全。
+3. **临时对话 / 频道消息**若没有 `chat_id`，`{{CHAT_ID}}` 同样为空 → 400。这类场景改走中转层兜底。
+4. **Open WebUI 是聊天 UI，不是 coding agent。** 能通不代表安全：Go 明确说"Traffic is monitored for abuse"，聊天式流量与 agent 流量形态差异明显，长期用有被判定风险。生产用建议换档 1 的客户端或加中转层。
 
 ## 已验证 / 已知有问题的第三方客户端（官方列表）
 
@@ -203,3 +268,5 @@ curl -s https://opencode.ai/inference/go/v1/models | head -c 300
 - 2026-09-06 之前社区流传的"session 是带签名和时效的 JWT"说法（CSDN 个别文章）**与实测矛盾** —— 实测非空字符串即通过。该说法标记为**不可信**。
 - Go 端点的速率/并发限制未在文档中给出具体数值。
 - `omen-alpha`（出现在 `/models` 返回中，37 个模型之一）在官方文档模型表中未列出，用途未知。
+- **把 `/v1/messages` 家族的模型名（如 `claude-haiku-5-5`）POST 到 `/v1/chat/completions` 会怎样** —— 无真实 key，鉴权先失败，无法判定是"网关拒绝"还是"自动转发"。文档的端点表暗示每个模型只在对应协议上服务，未实测。
+- Open WebUI 的 `{{CHAT_ID}}` 模板变量是从哪个版本开始支持的（v0.12.2 已核实存在，更早版本未逐个核对）。
