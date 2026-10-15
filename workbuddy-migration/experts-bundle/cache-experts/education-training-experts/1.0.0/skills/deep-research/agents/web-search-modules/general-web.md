@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # General Web Module
 
 > 从 web-search-agent.md 提取的通用网页搜索策略
