@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 研究报告：NixOS 生态两个 MCP 的构建解剖 —— `JEFF7712/nix-agent` 与 `utensils/mcp-nixos`
 
 **版本** v1
