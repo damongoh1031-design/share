@@ -3,11 +3,12 @@ id: workbuddy-user-skills-migration-bundle
 title: WorkBuddy 用户级 skills + GitHub PAT + 专家包跨 IDE 迁移打包方法
 tags: [workbuddy, skills, migration, github, pat, experts, agents, 备份, 安全]
 created: 2026-10-14
-updated: 2026-10-14
+updated: 2026-10-15
 version: 1.1.0
 status: stable
 source: 本会话实测（本机 win32 / WorkBuddy AI）
 confidence: 已核实
+type: Checklist
 ---
 
 ## 一句话结论
