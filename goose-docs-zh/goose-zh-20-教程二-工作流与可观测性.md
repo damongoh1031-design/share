@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # goose 官方文档中文手册：第 20 章　教程（二）：工作流与可观测性
 
 ## Ralph Loop
@@ -2085,4 +2089,3 @@ Features
 ```
 
 ---
-
