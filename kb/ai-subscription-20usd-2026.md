@@ -4,7 +4,7 @@ title: "20美元档 AI 订阅横评：v4 法律场景导向复核事实库（202
 tags: [ai-subscription, chatgpt-plus, claude-pro, gemini, grok, perplexity, legal-ai]
 created: 2026-10-15
 updated: 2026-10-15
-version: 4
+version: 5
 status: stable
 source: "本次会话实测（41+ 次定向检索：OpenAI/微软官方帮助页、智源社区/新智元、IT之家、DoNews、虎嗅、什么值得买、百家号、搜狐、helicsnews、CSDN、知乎、澎湃、律协指引）"
 confidence: "已核实"
@@ -35,6 +35,19 @@ v4 重写版完成：旧版四类错误已纠正（Sora 已关停、Copilot Pro 
 | 律师 AI 执业指引 | 深圳律协八章三十五条（2026-09-02，含数据保密、跨境传输、输出核验）；全国律协常顾指引（2026-08-04）；宁夏指引（2026-03-22：私有化、脱敏、严禁直接采信、留痕） | 深圳律协、全国律协、宁夏律协 |
 | AI 幻觉司法责任 | 全国首例 AI 幻觉侵权案终审：使用者承担全部过错责任；2024 年杨某案：AI 虚假案例提交法院被训诫 | 百家号 2026-09-01、微信公号 2026-10-15 |
 
+### 1.1 七维详细对比关键数据（2026-10-15 补）
+
+| 模型 | 上下文 | 输出 | 命中（GraphWalks） | 幻觉 | 智能 | 知识截止 | GPQA |
+|---|---|---|---|---|---|---|---|
+| Claude Opus 5.5 | 100 万【疑，百科】 | 128K | 约 65% | 59%（最高推理） | 58 | 未官宣 | 【缺】 |
+| GPT-6 Astra | **105 万**（输入上限 92.2 万） | 128K | 71.8% | 45–51% | 53 | **2026-04-30** | 【缺】 |
+| Gemini 4 Argon | 100 万 | **100 万**（1.1M 疑） | **84.2%** | **15%** | 53 | 未官宣 | 【缺】 |
+| Sonnet 5.5 / Fable 5.1 / GPT-6.1 Sol / Grok 4.7 | 部分缺 | — | — | Fable 73% | 56 / 53 / 52 / 46 疑 | — | 【缺】 |
+
+- AA 智能指数构成（v4.1）：GDPval 20% + Terminal-Bench 16% + τ³-Banking 14% + HLE 12% + AA-Omniscience 12% + SciCode 8% + **GPQA 仅 6%** + CritPt 6% + AA-LCR 6%【核】。
+- GPQA Diamond 现行三家旗舰 2026-10 分值无可靠公开信源，不估计【缺】；历史参考（2025）：Gemini 3 Pro 91.9 / Deep Think 93.8 > GPT-5 Pro 89.4 > Grok 4 Heavy 88.9 > Opus 4.1 80.9【观】。
+- Opus 5.5 其他【核，百科】：GDPval-AA v2.1 1846 Elo > Astra 1542；Vals RSI 全球第一；Terminal-Bench 4.0 66.4% vs Astra 57.9%；平均每任务生成 11.9 万 token（Astra 2.7 万）。Argon ERQA 87% 第一；LVBench 91.7%。
+
 ## 二、法律场景选型结论
 
 | 场景 | 首选 | 理由 |
@@ -62,7 +75,8 @@ cd ai-sub-20usd-2026 && python generate_html.py
 4. **生成式流水线"改 JSON 忘重跑"会静默留旧版**：本仓库 v1→v2 就犯过；交付前 grep 关键词自检（Sora/Hermes/停售）。
 5. **AA-Omniscience 奖励"说不知道"**：低幻觉率部分来自模型更爱拒答；法律场景这是优点，但通用问答场景可能显得"答不上来"。
 6. **Grok 档位与分数信源混乱**：3/4/5 档说法并存；Grok 4.6 有信源称 AA 61 而 4.7 旧口径 46，未解。
-7. **Anthropic 训练授权弹窗默认"开"**：注销/换机重登后要复查设置。
+7. **并发会话回退事故（2026-10-15）**：共享 GitHub 仓库（github-sync 的 _work 克隆）出现非本会话提交；本地 report.md 曾被并行操作回退成旧版。防御：写完关键文件立即 grep 关键词自检 + 立刻同步远端 + 用 git log 核对推送内容。
+8. **Anthropic 训练授权弹窗默认"开"**：注销/换机重登后要复查设置。
 
 ## 五、未核实 / 存疑
 
