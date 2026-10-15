@@ -12,7 +12,7 @@ tags:
   - docusaurus
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.0
+version: 1.1
 status: stable
 source: 本项目实测（2026-10-15，22 章 / 173 页全量翻译 + 审计 + GitHub 同步）
 confidence: 已核实
@@ -183,7 +183,47 @@ EOF
 
 ---
 
-## 6. 未核实项
+## 6. 覆盖范围与未覆盖清单（2026-10-15 全量核查）
+
+### 已覆盖
+
+`documentation/docs/**/*.{md,mdx}` —— **173 个文件 / 1,351,256 B** → 22 章 / 173 页面节 / 1,287,572 B。
+
+### 未覆盖：合计 1,435,014 B（≈ 已覆盖规模的 106%，约 200 个文件）
+
+| 类别 | 路径模式 | 数量 | 字节 | 性质 |
+|---|---|---|---|---|
+| **博客文章** | `documentation/blog/<date>-<slug>/index.{md,mdx}` | **112** | 977,567 | 文档站 `/blog/`；2024×4、2025×78、2026×30 |
+| Recipe 模板库 | `documentation/src/pages/recipes/data/recipes/**.yaml` | 67 | 298,025 | 站点 Recipe 库数据（含 `ralph-loop.sh`） |
+| 仓库根文档 | `<repo-root>/*.md` | 16 | 118,749 | README / CONTRIBUTING / GOVERNANCE / SECURITY / RELEASE / RELEASE_CHECKLIST / I18N / MAINTAINERS / BUILDING_DOCKER / BUILDING_LINUX / CUSTOM_DISTROS / RISCV_SETUP / CODE_OF_CONDUCT / AGENTS / CLAUDE / MERGE_FIXES |
+| documentation 级 | `documentation/{README,AGENTS,CLAUDE}.md` + `documentation/automation/**/*.md` | 6 | 28,745 | 文档站仓库自身的说明与自动化文档 |
+| blog 目录说明 | `documentation/blog/README.md` | 1 | 4,986 | 博客投稿规范 |
+| 站点页面 | `documentation/src/pages/grants.md` | 1 | 4,758 | `/grants` 页 |
+| 文档示例文件 | `documentation/docs/docker/{Dockerfile,docker-compose.yml}` | 2 | 3,867 | 被 docs 页引用的示例 |
+| 站点数据说明 | `documentation/src/pages/{community/data,recipes/data/recipes}/README.md` | 2 | 3,303 | 数据目录说明 |
+| 侧栏元数据 | `documentation/docs/**/_category_.json` | 17 | 2,271 | Docusaurus 侧栏分类，无正文，通常不需译 |
+
+**口径说明**：本项目立项范围是「文档站正文页（`docs/`）」。博客、仓库根治理文档、Recipe 数据**不在此范围**；若目标是「goose 全量中文资料」，则上述 1.37 MB 仍是缺口。
+
+### 核查方法（可复用）
+
+```bash
+# 用 Git Trees API 一次拿全树，按路径模式分组统计（含 size 字段）
+# 关键：不要只看 documentation/docs/，要枚举 documentation/ 的全部子目录
+# 实测 documentation/ 顶层 = docs(224) / blog(332) / src(163) / static(87) / automation(12) / scripts(9) / plugins(3)
+```
+
+判定「译文是否漏译」的三项检查（本项目实测结论：无漏译）：
+
+| 检查 | 方法 | 结果 |
+|---|---|---|
+| 源覆盖 | 磁盘源文件集 ↔ `groups.json` ↔ 译文 `> 原文：` URL 集，三方求差 | 173 / 173 / 173，无差 |
+| 逐页体积比 | 每页 `译文节字节 / 源文件字节` | 中位 **94%**；仅 4 页 <80%，均为 300–600 B 极短页（中文/英文字节比在小样本上波动），最低 60% |
+| 逐页指标 | 图片 / 围栏行 / 标题 / 表格行 逐页比对 | 围栏行 **2331 : 2331 完全一致**；图片 29 : 29；其余差异经逐条目视确认为**源文件压行 / 缩进代码块导致的统计假阳性**，非译文缺失 |
+
+---
+
+## 7. 未核实项
 
 | 项 | 说明 |
 |---|---|
@@ -195,4 +235,5 @@ EOF
 
 ## 修订记录
 
+- **1.1**（2026-10-15）：补第 6 节「覆盖范围与未覆盖清单」——用 Trees API 全树枚举发现 `docs/` 之外尚有 **1,435,014 B / 约 200 个文件**未覆盖（博客 112 篇 977,567 B 为主）；补「译文是否漏译」三项核查方法与实测结论；修正 `tutorials/subagents.md` 一处 frontmatter `image:` 泄漏为正文图。
 - **1.0**（2026-10-15）：首次沉淀。记录 22 章 / 173 页全量完成、流水线 7 步、审计五项判据、围栏感知解析规则、8 条坑。
