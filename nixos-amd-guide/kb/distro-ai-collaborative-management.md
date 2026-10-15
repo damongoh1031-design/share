@@ -3,11 +3,12 @@ id: distro-ai-collaborative-management
 title: 发行版「AI 协同管理」实践全景——哪些发行版真的有 MCP / Skills / AI 运维方案
 tags: [linux-distro, mcp, agent-skills, ai-ops, redhat, nixos, opensuse, omarchy, bluefin, clawhub, skills-sh]
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 version: 1.0
 status: stable
 source: 本次会话（GitHub 仓库 + 官方文档/博客 + NixOS Discourse + Arch BBS + HN + skills.sh + clawhub.ai）
 confidence: 已核实
+type: Checklist
 ---
 
 ## TL;DR
