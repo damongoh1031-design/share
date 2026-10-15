@@ -2,6 +2,7 @@
 name: moli
 description: Windows 本机无头浏览器 moli（CLI，已安装于 C:\Users\Admin\.workbuddy-ai\tools\moli\moli.exe）。当需要抓取网页并输出 markdown/HTML/JSON/截图/PDF、在页面中执行 JS、或启动 CDP/WebDriver 服务端时使用。适用于无 Docker、无 Playwright、无编译工具链的轻量渲染场景。2026-10-13 本机实测：fetch、markdown、--eval、--layout 截图全部通过。
 agent_created: true
+type: Checklist
 ---
 
 # Moli 无头浏览器（本机已安装）
