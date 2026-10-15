@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # Linux 发行版深度研究报告
 
 **Arch · NixOS · openSUSE · Fedora · Debian · Ubuntu（+ Alpine / Gentoo 参照）**
