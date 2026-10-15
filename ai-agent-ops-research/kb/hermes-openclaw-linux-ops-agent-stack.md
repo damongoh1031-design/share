@@ -3,11 +3,12 @@ id: hermes-openclaw-linux-ops-agent-stack
 title: 用 Hermes Agent / OpenClaw 做 Linux（Arch、NixOS、Fedora/Debian/Ubuntu、RHEL 系、openSUSE）运维：profile / MCP / 技能 / 知识库选型
 tags: [Hermes-Agent, OpenClaw, MCP, NixOS, Arch-Linux, Fedora, Debian, Ubuntu, RHEL, Red-Hat, openSUSE, AUR, systemd, knowledge-base, llm-wiki, agent-profile, sandbox, security]
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 version: 5
 status: stable
 source: 本机 Hermes 仓库源码与官方文档审计 + GitHub API / raw 核验 + PyPI + Arch 官方包库 API + Fedora mdapi + Debian sources API + r/NixOS、r/archlinux、r/Fedora、r/linuxadmin 原帖实抓 + clawhub.ai / skills.sh / AUR RPC 实测 + CISA KEV 披露 + Red Hat 官方文档与源码（rhel-lightspeed）
 confidence: 已核实
+type: Checklist
 ---
 
 # 用 Hermes Agent / OpenClaw 做 Linux 运维
