@@ -3,11 +3,12 @@ id: fresh-software-smooth-upgrade-distros
 title: 不选纯滚动：如何拿到「新软件（≤1 个月滞后）+ 平滑升级」
 tags: [linux, distro-selection, fedora, fedora-atomic, bazzite, opensuse-aeon, manjaro, debian-testing, flatpak, distrobox, immutable-os]
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 version: 1.0.0
 status: stable
 source: 官方文档/Wiki/FESCo 工单 + Phoronix + Repology 方法论（3 并行子代理 + 主调研员二次核实）
 confidence: 已核实
+type: Checklist
 ---
 
 # 不选纯滚动：新软件 + 平滑升级的发行版方案
