@@ -1,12 +1,13 @@
 ---
 name: deep-research
-description: "Structured deep research workflow with human-in-the-loop control. Use /research to generate research outline, /research-deep for parallel web search across items, /research-report to compile markdown reports. Supports academic research, benchmark research, technology selection, market analysis, and due diligence. Triggers: 'deep research', 'research topic', 'benchmark comparison', 'technology survey', 'market analysis'. Requires: WebSearch capability."
-description_zh: "结构化深度调研工作流，支持大纲生成、并行搜索、报告输出"
-description_en: "Structured deep research workflow: outline, parallel search, report generation"
+description: 'Structured deep research workflow with human-in-the-loop control. Use /research to generate research outline, /research-deep for parallel web search across items, /research-report to compile markdown reports. Supports academic research, benchmark research, technology selection, market analysis, and due diligence. Triggers: ''deep research'', ''research topic'', ''benchmark comparison'', ''technology survey'', ''market analysis''. Requires: WebSearch capability.'
+description_zh: 结构化深度调研工作流，支持大纲生成、并行搜索、报告输出
+description_en: 'Structured deep research workflow: outline, parallel search, report generation'
 version: 1.0.0
 homepage: https://github.com/Weizhena/Deep-Research-skills
 license: MIT
 allowed-tools: Read, Write, Glob, WebSearch, Task, AskUserQuestion
+type: Checklist
 ---
 
 # Deep Research — 结构化深度调研工作流
