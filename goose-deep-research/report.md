@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # goose 深度研究报告 v2.2
 
 **副标题**：开源 AI Agent 的治理样本与竞争格局
