@@ -9,11 +9,13 @@ tags:
   - AI Agent
   - 文档复核
   - 官方文档抓取
+  - 源码审计
+  - 供应链安全
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.1
+version: 1.2
 status: stable
-source: 本次会话实测（GitHub REST API + 仓库原文 + 官方文档库全量抓取 + LF Insights API）
+source: 本次会话实测（GitHub REST API + 仓库原文 + 官方文档库全量抓取 + 源码全量文件树枚举 + code search 字符串检索 + LF Insights API）
 confidence: 已核实
 ---
 
@@ -22,6 +24,8 @@ confidence: 已核实
 **对话式研究产出的报告，通病是"数字会漂、排名会算错、产物会被笼统归类"。** 复核一份 GitHub 研究报告的正确姿势不是重读文字，而是**把每个数值当成待验证断言，用 API 重采一遍**。本轮对 goose 报告 v1.1 的复核中，14 个仓库的全部硬指标重采一次，就抓出 3 处实质错误（含 1 处排名算错、1 处口径混淆、1 处重大遗漏）。
 
 **第二类盲点更隐蔽：只查 API 与仓库治理文件，会漏掉整个官方文档站。** goose 的功能层能力（内置扩展清单、CLI 命令表、上下文管理参数、GDK、Roaming）**全部只存在于 `documentation/` 目录**。v2.1 对 173 篇文档做全量抓取后，补出 13 项缺失事实。
+
+**第三类盲点最反直觉：官方文档写的是"设计意图"，源码写的是"实际实现"，两者会不一致。** 典型例子：官方 2026-04 博客宣布"桌面端用 Tauri 重写"，路线图状态 🚧 in progress——**但全仓库检索 `tauri` 只命中 2 个文件，且无任何 Tauri 依赖或构建配置**；`ui/desktop/package.json` 实测仍是 **Electron 43.4.0**。若只读文档，会把"计划"写成"既成事实"。**判定这类落差最有效的手段是字符串级全仓库检索（GitHub code search）**，而不是读文档或读 README。
 
 ---
 
@@ -77,6 +81,40 @@ confidence: 已核实
 | 实验性功能 | Ollama Tool Shim（为无原生 tool calling 的模型提供工具调用）/ Remote Access / VS Code 扩展 | Tool Shim 默认后端 `ollama` + `mistral-nemo` |
 
 > **官方文档滞后于实际产物**：Linux 桌面安装页只写 DEB（`sudo dpkg -i`），但实际每版同时发布 RPM + DEB + Flatpak。**以 assets 为准，不以文档为准**。
+
+### goose 源码级事实快照（2026-10-15 全量文件树枚举 `main`）
+
+| 维度 | 实测值 | 备注 |
+|---|---|---|
+| 全量文件树 | **3,038 个文件 / 52 个顶层条目** | Git Trees API `?recursive=1`，`truncated: false` |
+| 顶层目录体量 | `crates/` 806 · `ui/` 645 · `documentation/` 173 · `bin/` 39 · `.github/workflows/` **43** · `scripts/` 30 · `services/` 29 · `buzz/` 11 · `examples/` 11 · `evals/` 10 · `oidc-proxy/` 8 · `vendor/v8/` 2 | — |
+| Rust workspace 版本 | **1.55.0**（工作区） | 最新发布仍是 **v1.54.0** → 存在未发布的 1.55.0 |
+| MSRV / 工具链 | `rust-version = "1.94.1"` / `rust-toolchain.toml` channel **1.99.0** | **MSRV ≠ 实际构建工具链**，别混用 |
+| 版本双轨制 | 核心 crate 走 workspace `1.55.0`；GDK 系列（`goose-providers` 等 7 个）走 **`0.1.0-alpha.12`** | 由 `release-plz.toml` 的 `version_group = "gdk"` 控制 |
+| 核心 crate 模块地图 | `crates/goose/src/` **374 个源文件** | `agents/` 97 · `providers/` 66 · `acp/` 48 |
+| 提供方实现 | `providers/` **66 个文件、30+ 家**（直连 + ACP 两类），**7 种 wire format** | README 的 "15+ providers" 是下限 |
+| **桌面端** | **Electron 43.4.0** + Electron Forge 7.11.2（`maker-deb`/`rpm`/`flatpak`/`squirrel`/`zip`）+ React 19.2.8 + Vite 8.2.1 | **不是 Tauri**（见下方落差表） |
+| npm 分发渠道 | `@aaif/goose-acp`（用户实际安装）+ 5 个平台包 `goose-binary-{darwin,linux,win32}-*` | 官方文档未收录 |
+| 体积预算 | `lean` profile：macOS **17,825,792 B** / 其他 **23,068,672 B** | `Justfile` 的 `check-lean-size` 在 CI 里卡 |
+| Actions 供应链 | 43 个 workflow **全部钉完整 commit SHA**；OpenSSF Scorecard 每周四 12:19 UTC 运行并 `publish_results: true` | — |
+| 自更新验签 | `update = ["dep:sigstore-verify", "dep:snap"]` | `goose update` 走 sigstore 签名校验 |
+| CI 免长期密钥 | `oidc-proxy/`（Cloudflare Worker）用 GitHub OIDC token 换上游访问；限速 **2 req/s**、每 token ≤ **200 次**、token ≤ **20 分钟** | — |
+| Terminal-Bench 自报（89 任务，sonnet-4-6） | goose+code-mode **57.3%** / goose(developer,todo) **50.6%** / opencode 52.8% / pi 47.2% | **仓库自报内部评测，非第三方榜单** |
+
+### 源码 vs 文档的 8 处落差（2026-10-15）
+
+| # | 文档/README 口径 | 源码口径 | 性质 |
+|---|---|---|---|
+| 1 | "2.0 beta 起桌面端改用 **Tauri** 重写" | 全仓库仅 2 处提 Tauri、**无任何 Tauri 代码**；实测 **Electron 43.4.0** | **把计划当既成事实** |
+| 2 | "works with **15+ providers**" | `providers/` 66 文件、**30+ 家** | 概数下限 |
+| 3 | "**70+** 官方扩展（MCP）" | 文档目录 73 个，但 `AGENTS.md` 声明**该目录正在退役**，改用官方 MCP Registry 与 `server.json`（Discussion #10830） | 战略变化 |
+| 4 | "2.0 beta：**新 TUI**" | `ui/text/README.md`：该 ACP TUI **已弃用、源码移除**，npm `@aaif/goose` 标记 deprecated | 实验终止 |
+| 5 | "第三方平台 **Buzz** 以原生 ACP harness 集成 goose" | `buzz/` 是**仓库自带的 Nostr issue 同步自动化**（目标 `buzz.gdk.so`），不是第三方集成案例 | 误读 |
+| 6 | 安全体系"**三件套**" | `security/` 实为 **7 个模块**，含未见于文档的 **`egress_inspector.rs`**；另有 `permission/permission_judge.rs` | 不完整 |
+| 7 | 分发渠道（未提 npm） | `ui/goose-binary/` 5 个平台包 + `@aaif/goose-acp` | 遗漏 |
+| 8 | `.goosehints` 仍描述 `goose-server`（goosed）与 `goose-bench` crate | 15 个 crate 中**二者均不存在**（已被 ACP 架构取代） | **仓库内文档债** |
+
+> 另有一项非错误但值得记录的发现：仓库根有 `MERGE_FIXES.md`（针对 `unroll-agent-loop` 分支的内部合并修复笔记，自称"合并前应删除"），意外披露了状态机重构进度与测试现状（`cargo test -p goose` 仅剩 4 个 jsonwebtoken 库测试 + 6 个依赖网络的 provider 测试失败）。
 
 ---
 
@@ -209,6 +247,74 @@ for t in json.load(sys.stdin)['tree']:
 
 **产出**：173 篇 → 8 个顶层分区 + 1 个根文件；正文约 1.33 MB。据此把 README 的"70+ 扩展"精确到 **73 个**，并发现 14 个内置扩展、20+ CLI 子命令、15 个斜杠命令等此前完全缺失的能力清单。
 
+### 3.5 源码维度复核（v2.2 新增方法）
+
+**动机**：文档是"设计意图"，源码是"实际实现"。要判定某能力"已落地 / 仍在计划中"，唯一硬证据是源码。
+
+```bash
+export TOKEN=<your_github_pat>
+R=aaif-goose/goose
+
+# ① 全量文件树（一次请求拿整棵树；务必检查 truncated 字段，为 true 时结果不完整）
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/repos/$R/git/trees/main?recursive=1" \
+  | python -c "
+import sys,json
+d=json.load(sys.stdin)
+print('truncated=',d.get('truncated'),' files=',len(d['tree']))
+print('top-level=',len(set(t['path'].split('/')[0] for t in d['tree'])))
+"
+
+# ② 字符串级全仓库检索 —— 判定「计划 vs 既成事实」的关键手段
+#    搜 tauri 只命中 2 个文件且无构建配置 ⇒ Tauri 重写未落地
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/search/code?q=tauri+repo:$R" \
+  | python -c "import sys,json;d=json.load(sys.stdin);print(d['total_count']);[print(' -',i['path']) for i in d.get('items',[])]"
+
+# ③ 依赖树真相（框架版本只能从 package.json / Cargo.toml 读，README 会滞后）
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://raw.githubusercontent.com/$R/main/ui/desktop/package.json" \
+  | python -c "
+import sys,json
+d=json.load(sys.stdin); dd=d.get('devDependencies',{})
+for k in ['electron','@electron-forge/cli','vite']: print(k,'=',dd.get(k))
+print('react =',d.get('dependencies',{}).get('react'))
+"
+
+# ④ 工作区版本 vs 最新发布（判断是否存在「已 bump 未发布」）
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://raw.githubusercontent.com/$R/main/Cargo.toml" | head -20
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/repos/$R/releases/latest" \
+  | python -c "import sys,json;print('latest tag =',json.load(sys.stdin)['tag_name'])"
+
+# ⑤ 发布产物版本间 diff（定位「何时新增了什么」，比读 CHANGELOG 可靠）
+for v in v1.51.0 v1.52.0; do
+  curl -s -H "Authorization: Bearer $TOKEN" \
+    "https://api.github.com/repos/$R/releases/tags/$v" \
+    | python -c "import sys,json;print('\n'.join(sorted(a['name'] for a in json.load(sys.stdin)['assets'])))" > /tmp/$v.txt
+done
+diff /tmp/v1.51.0.txt /tmp/v1.52.0.txt
+```
+
+**用 Git Trees 做体量统计的固定口径**（直接可复用）：
+
+```bash
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/repos/$R/git/trees/main?recursive=1" \
+  | python -c "
+import sys,json,collections
+t=json.load(sys.stdin)['tree']
+c=collections.Counter(x['path'].split('/')[0] for x in t)
+for k,v in c.most_common(15): print('%-42s %7d' % (k,v))
+print('TOTAL %d files / %d top-level' % (len(t), len(c)))
+"
+```
+
+**产出**：15 个 crate 的真实职责与版本双轨制、374 个核心源文件模块地图、66 个提供方文件、桌面端 Electron 真相、43 个 workflow 的质量体系、安全与供应链源码口径、Terminal-Bench 自报数据；**并纠正 4 处"把计划当既成事实"的表述**（Tauri / Buzz / providers / `.goosehints`）。
+
+**输出格式注意**：`print('%-42s %7d B' % ...)` 这类**纯 ASCII 格式串**比带中文的模板更稳——中文宽度不定，且容易触发 locale 编码问题。
+
 ---
 
 ## 四、坑与反直觉
@@ -239,7 +345,18 @@ for t in json.load(sys.stdin)['tree']:
 15. **官方文档会滞后于发布产物。** Linux 桌面安装页只写 DEB，实际同时发 RPM 与 Flatpak。**发布渠道以 release assets 为准**。
 16. **文档正文可能有动态渲染组件。** Docusaurus 的 `<RateLimits />`、`<OnboardingProviderSetup />`、各平台安装按钮组件，其最终内容在 Markdown 源中不可见——抓 Markdown 会漏掉这部分，需标注为不确定性。
 17. **品牌迁移会在多处留下旧命名空间。** Flatpak ID `io.github.block.Goose`、Homebrew cask `block-goose` 都仍是 `block`。**别只查一处就断言"已完全迁移"**。
-18. **HTML 报告加指标带时注意项数与列数的整除关系。** 7 项塞进 6 列网格会剩 5 个空槽（背景色透出，视觉上像坏块）。宽屏用 `repeat(7,minmax(0,1fr))`，中屏回落到 4 列、窄屏 2 列，并注意 `.hero .kpis` 的特异性会盖过媒体查询里的 `.kpis`。
+18. **HTML 报告加指标带时注意项数与列数的整除关系。** 7 项塞进 6 列网格会剩 5 个空槽（背景色透出，视觉上像坏块）。宽屏用 `repeat(7,minmax(0,1fr))`，中屏回落到 4 列、窄屏 2 列，并注意 `.hero .kpis` 的特异性会盖过媒体查询里的 `.kpis`。（v2.2 增至 8 项时同步把宽屏列数改为 `repeat(8,…)`。）
+
+### 源码侧的坑（v2.2 实测）
+
+19. **"路线图 in progress" ≠ "已落地"。** 官方博客/路线图写的功能，若源码里搜不到实现，就**不能写成已具备**。判定方法：`/search/code?q=<关键字>+repo:<R>` + 检查 `Cargo.toml` / `package.json` 是否有对应依赖。goose 的 Tauri 就是典型案例。
+20. **README 的能力概数一律是下限，且可能已过期。** "15+ providers" 实际 30+ 家；"70+ extensions" 实际 73 个且**目录正在退役**。概数要回落到源码/目录去精确化，并顺手核对"是否仍在维护"。
+21. **`rust-version` ≠ 实际工具链。** `Cargo.toml` 的 `rust-version` 是 MSRV（声明下限），`rust-toolchain.toml` 的 channel 才是 CI 实际用的版本。goose 是 1.94.1 vs 1.99.0。**两个数都对，但回答的是不同问题。**
+22. **同一 workspace 可能有多个版本号。** goose 的核心 crate 走 workspace `1.55.0`，GDK 系列 7 个 crate 走独立的 `0.1.0-alpha.12`（`release-plz.toml` 的 `version_group = "gdk"`）。**看到"版本号"先问是哪个包。**
+23. **发布产物 diff 能定位"何时新增了什么"。** 对比相邻 tag 的 asset 名集合即可：goose v1.48–v1.51 均为 37 个，**v1.52.0 起 40 个**（新增 2 个 macOS zip + `mac-update-requirements.json`）。这比读 CHANGELOG 可靠，也解释了"为什么某版本后数量变了"。
+24. **仓库内文档本身会滞后于架构。** `.goosehints` 仍描述已被 ACP 架构取代的 `goose-server`（goosed）与 `goose-bench` crate——这两个 crate 在 15 个 crate 里**根本不存在**。**仓库内的 agent 提示文件不是可信来源。**
+25. **自研评测数据要标"自报"。** goose 仓库内 `evals/harbor/README.md` 给出 Terminal-Bench 读数（89 任务，goose+code-mode 57.3%），但 harness 由 goose 团队自维护、各任务模型参数不完全等同。**可作"官方给出的对标读数"引用，不可当中立排名。**
+26. **无头浏览器整页截图有像素预算上限。** 报错形如 `RGBA image 1920x23456 requires 180142080 bytes, exceeding the 134217728-byte decoded image budget`。解法：用 JS 把无关 section `remove()` 掉逐节渲染。另两个必踩点：① `file://` 被拒（需起本地 http 服务，且**必须用后台任务启动**，`(… &)` 子 shell 会被回收）；② 删掉 sidebar 后主内容被压成窄条——因为 `.shell{grid-template-columns:264px minmax(0,1fr)}` 仍保留首列，需显式 `gridTemplateColumns='1fr'`。
 
 ---
 
@@ -247,13 +364,15 @@ for t in json.load(sys.stdin)['tree']:
 
 | 事项 | 状态 |
 |---|---|
-| goose 2.0 GA 时间 | 未公布，稳定线仍为 1.x |
+| goose 2.0 GA 时间 | 未公布，稳定线仍为 1.x；Tauri 迁移亦未落地 |
 | Flatpak 是否已正式上架 Flathub 商店 | 产物已发布，未核验商店条目 |
 | `goose-cli` 在主流发行版官方源的收录范围 | repology 有收录，范围未逐一核实 |
-| Pi 在 Terminal-Bench 的具体排名 | 单一社区来源，未见官方榜单 |
+| ~~Pi 在 Terminal-Bench 的具体排名~~ | **部分解决（v2.2）**：官方第三方榜单仍未出现，但 goose 仓库内有同模型对标数据（89 任务，pi 47.2% vs goose 50.6%），**属仓库自报** |
+| ~~goose 桌面的实现框架~~ | **已解决（v2.2）**：源码实测 **Electron 43.4.0 + Forge 7.11.2**，Tauri 未落地 |
 | WorkBuddy Linux GUI 成熟度 | 2026-06 来源与 2026-10 官方教程矛盾，需实测 |
 | AAIF 成员公司完整名单 | 部分来自百科 / 媒体转述 |
 | 订阅 OAuth 用于第三方客户端的合规性 | 判断项，非事实 |
 | 部分官方文档由 Docusaurus 组件动态渲染 | `<RateLimits />` 等组件的最终内容在 Markdown 源中不可见 |
 | Roaming Agents 的正式可用时间 | 官方标记实验性且不含在发布二进制中，无 GA 计划 |
 | `goose serve` 的生产可用性 | 官方要求 `GOOSE_SERVER__SECRET_KEY`，未给多租户指引 |
+| MCP 扩展目录退役的具体时间表 | `AGENTS.md` 只声明"正在退役"，未给截止日 |

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>goose 深度研究报告 v2.1 · 开源 AI Agent 的治理样本与竞争格局</title>
-<meta name="description" content="aaif-goose/goose 深度研究报告 v2.1：2026-10-15 全量复核 + 官方文档补全版，含 18 项勘误、13 项文档补充、14 款竞品实时数据对比与 Linux 分发专项分析。">
+<title>goose 深度研究报告 v2.2 · 开源 AI Agent 的治理样本与竞争格局</title>
+<meta name="description" content="aaif-goose/goose 深度研究报告 v2.2：2026-10-15 全量复核 + 官方文档 + 源码三级补全版，含 18 项勘误、13 项文档补充、8 项源码维度修正与补充、14 款竞品实时数据对比与 Linux 分发专项分析。">
 <style>
 /* ============ 设计令牌 ============ */
 :root{
@@ -174,7 +174,7 @@ h1{
 .kpi{background:var(--surface);padding:15px 16px}
 /* 封面 7 项指标带：宽屏一行铺满，中屏 4 列，窄屏 2 列 */
 .hero .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (min-width:1200px){.hero .kpis{grid-template-columns:repeat(7,minmax(0,1fr))}}
+@media (min-width:1200px){.hero .kpis{grid-template-columns:repeat(8,minmax(0,1fr))}}
 @media (max-width:1040px){.hero .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .kpi-v{font-size:22px;font-weight:730;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
 .kpi-l{font-size:11.5px;color:var(--text-3);margin-top:3px;letter-spacing:.01em}
@@ -488,9 +488,9 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
 <aside class="sidebar">
   <div class="side-brand">
     <div class="side-mark">G</div>
-    <div class="side-title">goose 深度研究<br>报告 v2.1</div>
+    <div class="side-title">goose 深度研究<br>报告 v2.2</div>
   </div>
-  <div class="side-sub">2026-10-15 复核 + 文档补全版</div>
+  <div class="side-sub">2026-10-15 复核 + 文档与源码双补全版</div>
 
   <div class="toc-h">目录</div>
   <ul class="toc" id="toc">
@@ -498,13 +498,14 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
     <li><a href="#s1"><span class="num">1</span>研究方法</a></li>
     <li><a href="#s2"><span class="num">2</span>项目画像</a></li>
     <li><a href="#s3"><span class="num">3</span>官方文档全景</a></li>
-    <li><a href="#s4"><span class="num">4</span>竞品全景对比</a></li>
-    <li><a href="#s5"><span class="num">5</span>Linux 专项</a></li>
-    <li><a href="#s6"><span class="num">6</span>优势与劣势</a></li>
-    <li><a href="#s7"><span class="num">7</span>社区与官方声音</a></li>
-    <li><a href="#s8"><span class="num">8</span>选型建议</a></li>
-    <li><a href="#s9"><span class="num">9</span>不确定性清单</a></li>
-    <li><a href="#s10"><span class="num">10</span>参考来源</a></li>
+    <li><a href="#s4"><span class="num">4</span>源码级架构</a></li>
+    <li><a href="#s5"><span class="num">5</span>竞品全景对比</a></li>
+    <li><a href="#s6"><span class="num">6</span>Linux 专项</a></li>
+    <li><a href="#s7"><span class="num">7</span>优势与劣势</a></li>
+    <li><a href="#s8"><span class="num">8</span>社区与官方声音</a></li>
+    <li><a href="#s9"><span class="num">9</span>选型建议</a></li>
+    <li><a href="#s10"><span class="num">10</span>不确定性清单</a></li>
+    <li><a href="#s11"><span class="num">11</span>参考来源</a></li>
     <li><a href="#sa"><span class="num">A</span>复核命令</a></li>
   </ul>
 
@@ -512,7 +513,7 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
     <b>研究对象</b><br><code>aaif-goose/goose</code><br><br>
     <b>数据时点</b><br>2026-10-15<br>GitHub REST API 实时值<br><br>
     <b>对比范围</b><br>14 款产品<br>重点对比 5 款<br><br>
-    <b>本版变更</b><br>勘误 18 项<br>文档补充 13 项<br>新增第 3 章（13 节）
+    <b>本版变更</b><br>勘误 18 项<br>文档补充 13 项<br>源码补充 8 项<br>新增第 3、4 章
   </div>
 </aside>
 
@@ -520,13 +521,14 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
 <main class="main">
 
 <header class="hero">
-  <div class="eyebrow"><span class="dot"></span>深度研究报告 · v2.1 官方文档补全版</div>
+  <div class="eyebrow"><span class="dot"></span>深度研究报告 · v2.2 源码级补全版</div>
   <h1>goose：开源 AI Agent 的<br>治理样本与竞争格局</h1>
   <p class="lede">
     一款由 <b>Linux 基金会</b>托管、用 <b>Rust</b> 写的本地优先通用 Agent。它在 14 款竞品中星数只排第 9，
     却是唯一由基金会治理、唯一获官方 <b>Healthy</b> 健康分、Linux 分发格式最完整的那一个。
-    本版在 v2.0 全量 API 复核（修正 v1.1 的 <b>18 处问题</b>）基础上，<b>全量抓取 173 篇官方文档</b>，
-    补齐官方架构、内置扩展、CLI 命令表、上下文管理与 GDK 等能力图谱。
+    本版在 v2.0 全量 API 复核（修正 v1.1 的 <b>18 处问题</b>）、v2.1 全量抓取 <b>173 篇官方文档</b>之后，
+    再对仓库 <code>main</code> 分支做<b>全量文件树枚举（3,038 个文件）</b>，补出实现层事实，
+    并纠正 <b>4 处把计划当成既成事实</b>的表述。
   </p>
 
   <div class="kpis">
@@ -565,6 +567,11 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
       <div class="kpi-l">官方文档篇数</div>
       <div class="kpi-n">v2.1 全量抓取</div>
     </div>
+    <div class="kpi">
+      <div class="kpi-v">3,038</div>
+      <div class="kpi-l">源码文件</div>
+      <div class="kpi-n">v2.2 全量枚举</div>
+    </div>
   </div>
 
   <div class="meta-row">
@@ -572,7 +579,8 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
     <span><b>许可证</b> Apache-2.0</span>
     <span><b>托管</b> Agentic AI Foundation</span>
     <span><b>数据截止</b> 2026-10-15</span>
-    <span><b>官方文档</b> 173 篇全量抓取</span>
+    <span><b>官方文档</b> 173 篇</span>
+    <span><b>源码</b> 3,038 文件全量枚举</span>
   </div>
 </header>
 
@@ -587,6 +595,9 @@ details[open] summary{border-bottom:1px solid var(--border);background:var(--sur
 <p class="sec-note"><b>v2.1 新增</b> — 本章补全 v2.0 缺失的官方文档维度：对文档库 <b>173 篇</b> Markdown 全量抓取归类，
 补齐官方架构三组件与六步交互循环、14 个内置扩展、73 个 MCP 扩展、完整 CLI 命令表、上下文管理参数级细节、
 GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
+<p class="sec-note"><b>v2.2 新增</b> — 本章补全前两版都缺失的<b>实现层事实</b>：对仓库 <code>main</code> 分支全量枚举 <b>3,038 个文件</b>，
+核对 15 个 crate 的真实职责与特性矩阵、66 个提供方文件、桌面端依赖树（Electron）、43 个 workflow 的质量体系、安全与供应链源码口径，
+并修正 <b>4 处"把计划当既成事实"</b>的表述（见第 4 章）。</p>
 
 <div class="cards">
   <div class="card">
@@ -603,7 +614,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
   </div>
   <div class="card">
     <div class="card-h"><span class="card-i">4</span>形态与场景最宽</div>
-    <p>唯一同时提供<b>原生桌面 + CLI + API + TUI</b> 四形态，且定位"not just code"——研究、写作、数据分析、自动化皆可。</p>
+    <p>唯一同时提供<b>原生桌面 + CLI + API</b> 三种稳定形态（TUI 实验已于 2026 年终止，见 4.13），且定位"not just code"——研究、写作、数据分析、自动化皆可。</p>
   </div>
   <div class="card r">
     <div class="card-h"><span class="card-i">5</span>星数与声量是最大短板</div>
@@ -618,11 +629,13 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 
 <!-- ================= 0. 勘误 ================= -->
 <section id="s0">
-<h2><span class="h2n">0</span>修订说明：v1.1 → v2.1 勘误与补充清单</h2>
+<h2><span class="h2n">0</span>修订说明：v1.1 → v2.2 勘误与补充清单</h2>
 <p class="sec-note">
   v1.0 为对话式研究，v1.1 做过一轮修正。<strong>v1.0 → v2.0</strong>：以 <strong>2026-10-15 GitHub REST API 全量重采 + 仓库原文逐条比对</strong>
   为基础复核，发现并修正 18 处问题（见 0.1–0.5）。<strong>v2.0 → v2.1</strong>：补全官方文档维度，对仓库 <code>documentation/docs/</code> 下
-  <strong>173 篇 Markdown / MDX 全量抓取</strong>（约 1.33 MB）并逐篇归类，共 <strong>13 项补充</strong>（见 0.6）。以下为完整记录，供独立核查。
+  <strong>173 篇 Markdown / MDX 全量抓取</strong>（约 1.33 MB）并逐篇归类，共 <strong>13 项补充</strong>（见 0.6）。
+  <strong>v2.1 → v2.2</strong>：转向<b>源码</b>，对 <code>main</code> 分支做<strong>全量文件树枚举（3,038 个文件 / 52 个顶层条目）</strong>并逐目录核对，
+  发现 <strong>4 处需修正</strong>与 <strong>4 处需补充</strong>（见 0.7）。以下为完整记录，供独立核查。
 </p>
 
 <div class="callout bad">
@@ -724,7 +737,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </tbody>
 </table>
 </div>
-<p class="sec-note">全部 14 款产品的 stars / forks / issues / contributors 均已在第 4.1 节刷新为同一时点实测值，v1.1 中 6 处缺失值（标"—"）已补齐。</p>
+<p class="sec-note">全部 14 款产品的 stars / forks / issues / contributors 均已在第 5.1 节刷新为同一时点实测值，v1.1 中 6 处缺失值（标"—"）已补齐。</p>
 
 <h3>0.4 口径与精度改进（6 处）</h3>
 <div class="tw">
@@ -751,8 +764,8 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr><td>版权政策</td><td>贡献者保留版权；代码 Apache-2.0、文档 CC-BY-4.0</td><td><span class="tag tag-t">成立</span> GOVERNANCE.md 原文</td></tr>
 <tr><td>治理变更</td><td>需 Core Maintainers 多数通过 + LF Projects, LLC 批准</td><td><span class="tag tag-t">成立</span> GOVERNANCE.md 原文</td></tr>
 <tr><td>死锁裁决</td><td>创始人 Bradley Axen 打破僵局</td><td><span class="tag tag-t">成立</span> 原文："goose's creator, Bradley Axen, steps in as a tie breaker"</td></tr>
-<tr><td>模型接入</td><td>15+ provider</td><td><span class="tag tag-t">成立</span> README："works with 15+ providers"</td></tr>
-<tr><td>扩展生态</td><td>70+ 官方扩展（MCP）</td><td><span class="tag tag-t">成立</span> README："Connect to 70+ extensions via the Model Context Protocol"</td></tr>
+<tr><td>模型接入</td><td>15+ provider</td><td><span class="tag tag-t">成立</span> README："works with 15+ providers"（<b>v2.2 精确化</b>：源码实测 30+ 家，见 4.6）</td></tr>
+<tr><td>扩展生态</td><td>70+ 官方扩展（MCP）</td><td><span class="tag tag-t">成立</span> README："Connect to 70+ extensions via the Model Context Protocol"（<b>v2.2</b>：目录 73 个，且该目录正在退役，见 4.13）</td></tr>
 <tr><td>发行机制</td><td>官方提供 CUSTOM_DISTROS 机制</td><td><span class="tag tag-t">成立</span> 仓库根目录存在 <code>CUSTOM_DISTROS.md</code></td></tr>
 <tr><td>关键文件</td><td>RISCV_SETUP.md / BUILDING_LINUX.md / flake.nix</td><td><span class="tag tag-t">成立</span> 三个文件均 HTTP 200 存在</td></tr>
 </tbody>
@@ -777,13 +790,35 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr><td class="c">10</td><td><b>上下文管理参数级细节</b>：自动压缩触发 <code>min(80% 上下文, 225,000)</code>、<code>GOOSE_CONTEXT_STRATEGY</code>、Max Turns 默认 1000、上下文限制 5 级解析优先级</td><td class="c">3.8</td><td class="c"><span class="tag tag-t">新事实</span></td></tr>
 <tr><td class="c">11</td><td><b>GDK</b>（SDK 支持 Rust / Python / Kotlin + ACP 三传输）</td><td class="c">3.10</td><td class="c"><span class="tag tag-t">新事实</span></td></tr>
 <tr><td class="c">12</td><td><b>Roaming Agents</b>：基于 iroh(QUIC) 的点对点 ACP 传输、公钥互认、需 opt-in 构建、含 wasm 与 Web 客户端</td><td class="c">3.11</td><td class="c"><span class="tag tag-t">新事实</span></td></tr>
-<tr><td class="c">13</td><td><b>官方 Linux 桌面文档滞后</b>：文档只写 DEB，实际发布 RPM + DEB + Flatpak</td><td class="c">3.13 / 5.1</td><td class="c"><span class="tag tag-r">差异发现</span></td></tr>
+<tr><td class="c">13</td><td><b>官方 Linux 桌面文档滞后</b>：文档只写 DEB，实际发布 RPM + DEB + Flatpak</td><td class="c">3.13 / 6.1</td><td class="c"><span class="tag tag-r">差异发现</span></td></tr>
 </tbody>
 </table>
 </div>
 <div class="callout warn">
   <div class="ic">!</div>
-  <div><p><span class="t">同时修正的 v2.0 判断</span> — v2.0 将"第三方教程、插件、主题数量全面落后"列为 goose 劣势。该判断在<b>第三方生态</b>层面成立，但<b>官方文档覆盖度并不薄弱</b>（73 个扩展各有独立文档页，文档密度约每千星 3.1 篇）。v2.1 已在第 3.1 与第 6.2 节区分这两个层面。</p></div>
+  <div><p><span class="t">同时修正的 v2.0 判断</span> — v2.0 将"第三方教程、插件、主题数量全面落后"列为 goose 劣势。该判断在<b>第三方生态</b>层面成立，但<b>官方文档覆盖度并不薄弱</b>（73 个扩展各有独立文档页，文档密度约每千星 3.1 篇）。v2.1 已在第 3.1 与第 7.2 节区分这两个层面。</p></div>
+</div>
+
+<h3>0.7 v2.1 → v2.2 源码维度修正与补充（8 项）</h3>
+<p class="sec-note">v2.1 补全了官方文档维度，但<b>文档写的是"设计意图"，源码写的是"实际实现"</b>。v2.2 对仓库 <code>main</code> 分支做全量文件树枚举（3,038 个文件，<code>truncated: false</code>）并逐目录核对源码与配置，发现 <b>4 处需修正</b>、<b>4 处需补充</b>。</p>
+<div class="tw">
+<table>
+<thead><tr><th class="c">#</th><th>项</th><th class="c">落点</th><th class="c">性质</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td><b>桌面端不是 Tauri</b>：全仓库仅 2 处提及 Tauri、无任何 Tauri 代码，<code>ui/desktop</code> 实测仍是 <b>Electron 43.4.0</b>；Tauri 是官方路线图第 3 项（🚧 in progress），<b>未落地</b></td><td class="c">2.4 / 4.7 / 4.13</td><td class="c"><span class="tag tag-r">实质修正</span></td></tr>
+<tr><td class="c">2</td><td><b>Buzz 不是第三方 ACP 集成</b>：<code>buzz/</code> 是仓库自带的 <b>Nostr issue 同步自动化</b>（目标 <code>buzz.gdk.so</code>），不是外部产品案例</td><td class="c">4.11 / 4.13</td><td class="c"><span class="tag tag-r">实质修正</span></td></tr>
+<tr><td class="c">3</td><td><b>提供方数量精确化</b>："15+ providers" → <code>providers/</code> 共 <b>66 个文件、30+ 家</b>（直连 + ACP 两类）</td><td class="c">2.4 / 4.6</td><td class="c"><span class="tag tag-b">精确化</span></td></tr>
+<tr><td class="c">4</td><td><b><code>.goosehints</code> 存在文档债</b>：仍描述已不存在的 <code>goose-server</code>（goosed）与 <code>goose-bench</code> crate</td><td class="c">4.13</td><td class="c"><span class="tag tag-a">文档债</span></td></tr>
+<tr><td class="c">5</td><td><b>MCP 扩展目录正在退役</b>：<code>AGENTS.md</code> 声明改用官方 <b>MCP Registry</b> 与 <code>server.json</code>，不再接受新增第三方条目（Discussion #10830）</td><td class="c">4.13</td><td class="c"><span class="tag tag-t">战略变化</span></td></tr>
+<tr><td class="c">6</td><td><b>ACP TUI 已弃用</b>：<code>ui/text/</code> 源码移除，npm 包 <code>@aaif/goose</code> 标记 deprecated</td><td class="c">4.13</td><td class="c"><span class="tag tag-t">新事实</span></td></tr>
+<tr><td class="c">7</td><td><b>安全模块实为 7 个</b>（v2.0 称"三件套"），含官方文档未提及的 <code>egress_inspector.rs</code>（出站检查）与 <code>permission/permission_judge.rs</code></td><td class="c">4.10</td><td class="c"><span class="tag tag-t">新事实</span></td></tr>
+<tr><td class="c">8</td><td><b>npm 分发渠道</b>：<code>@aaif/goose-acp</code> + 5 个平台包 <code>goose-binary-*</code>（官方文档未收录）</td><td class="c">4.8</td><td class="c"><span class="tag tag-t">新事实</span></td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div><p><span class="t">方法论要点</span> — 判定"计划 vs 既成事实"用的是<b>字符串级全仓库检索</b>（GitHub code search）：搜 <code>tauri</code> 只命中 2 个文件、且无任何 Tauri 依赖或构建配置，即可反证"Tauri 重写"未落地。这条方法同样适用于其他项目。</p></div>
 </div>
 </section>
 
@@ -807,7 +842,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <div class="callout">
   <div class="ic">§</div>
   <div><p><span class="t">诚实性声明</span></p>
-  <p>本报告对未经第二来源交叉验证的说法，一律在正文标注"社区称""本文判断""待验证"，并在第 9 节集中列出不确定性清单。所有 GitHub 数值均为 API 实时返回值，未做估算。</p></div>
+  <p>本报告对未经第二来源交叉验证的说法，一律在正文标注"社区称""本文判断""待验证"，并在第 10 节集中列出不确定性清单。所有 GitHub 数值均为 API 实时返回值，未做估算。</p></div>
 </div>
 </section>
 
@@ -877,7 +912,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr><td>2026-03-19</td><td>支持用 Claude / ChatGPT / Gemini 订阅经 ACP 接入</td><td>功能发布</td></tr>
 <tr><td>2026-03-25</td><td><code>aaif-goose</code> GitHub 组织建立</td><td>迁移前置</td></tr>
 <tr><td>2026-04-07</td><td>官方博客《goose has a new home》宣布迁入 AAIF</td><td>治理落地</td></tr>
-<tr><td>2026-04-08</td><td>goose 2.0 beta：Tauri 重写桌面、全新 TUI、统一 ACP</td><td>架构换代（beta）</td></tr>
+<tr><td>2026-04-08</td><td>goose 2.0 beta：<b>宣布</b> Tauri 重写桌面、全新 TUI、统一 ACP（<b>截至 2026-10，前两项均未落地</b>，见 4.7 / 4.13）</td><td>架构换代（beta）</td></tr>
 <tr><td>2026-09-16</td><td>官方博客《Agentic State Machines》：用可重入状态机取代经典 agent loop</td><td>内核换代</td></tr>
 <tr><td>2026-10-08</td><td>v1.54.0 发布（40 个产物，含 4 Flatpak）</td><td>当前稳定版</td></tr>
 </tbody>
@@ -890,13 +925,13 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <table>
 <thead><tr><th>层</th><th>实现</th></tr></thead>
 <tbody>
-<tr><td>内核</td><td>Rust（15 个 crate 的工作区），工具链锁定 1.99.0</td></tr>
-<tr><td>界面</td><td>TypeScript（<code>ui/</code>，约 345 万字节）；2.0 beta 起桌面端改用 Tauri 重写</td></tr>
-<tr><td>形态</td><td>原生桌面应用（macOS / Linux / Windows）+ CLI + API + TUI</td></tr>
+<tr><td>内核</td><td>Rust（15 个 crate 的工作区），MSRV <b>1.94.1</b>、工具链锁定 <b>1.99.0</b></td></tr>
+<tr class="hl"><td>界面</td><td>TypeScript（<code>ui/</code>，约 345 万字节）；桌面端实测为 <b>Electron 43.4.0 + Electron Forge 7.11.2 + React 19.2.8 + Vite 8.2.1</b>。<b>v2.2 修正</b>：v2.0/v2.1 称"2.0 beta 起改用 Tauri 重写"有误——Tauri 仍在官方路线图（in progress），<b>源码中不存在 Tauri 代码</b>（见 4.7）</td></tr>
+<tr><td>形态</td><td>原生桌面应用（macOS / Linux / Windows）+ CLI + API（<b>ACP TUI 已于 2026 年弃用</b>，见 4.13）</td></tr>
 <tr><td>Agent 循环</td><td>经典 agent loop → <b>可重入状态机</b>（对话即状态，每个行为是一个 Operation）。官方架构文档给出正式定义：<b>三组件（Interface / Agent / Extensions）+ 六步交互循环</b>，详见 3.2</td></tr>
 <tr class="hl"><td>错误处理</td><td>不中断流程：捕获传统错误与执行错误（无效 JSON、缺失工具等），<b>作为 tool response 送回模型</b>由其自行解决</td></tr>
 <tr class="hl"><td>嵌入方式</td><td><b>GDK</b>：SDK（Rust / Python / Kotlin 进程内库）+ ACP（stdio / HTTP / WebSocket），详见 3.10</td></tr>
-<tr><td>工具协议</td><td>MCP（客户端 + 服务端），70+ 官方扩展</td></tr>
+<tr><td>工具协议</td><td>MCP（客户端 + 服务端），<b>73 个</b>官方扩展（该目录正在退役，改用官方 MCP Registry，见 4.13）</td></tr>
 <tr><td>客户端协议</td><td>ACP（Agent Client Protocol）：goose 作 <b>server</b>，可被 Zed / JetBrains / VS Code 接入；同时可把 Claude Code、Codex 等 ACP agent 当作自己的 LLM provider</td></tr>
 <tr><td>本地推理</td><td>独立 crate <code>goose-local-inference</code>（llama.cpp），无需 API key、无网络亦可运行</td></tr>
 <tr><td>分发</td><td>RPM / DEB / Flatpak / tarball（gnu + musl）/ Nix flake / 部分发行版仓库 / 官方一行脚本</td></tr>
@@ -909,7 +944,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <table>
 <thead><tr><th>能力</th><th>说明</th></tr></thead>
 <tbody>
-<tr><td>模型接入</td><td>15+ provider（Anthropic / OpenAI / Google / Ollama / OpenRouter / Azure / Bedrock / Databricks 等）；支持订阅复用（Claude / ChatGPT / Gemini via ACP）</td></tr>
+<tr><td>模型接入</td><td><b>30+ 家</b> provider（<code>providers/</code> 66 个文件；Anthropic / OpenAI / Google / Ollama / OpenRouter / Azure / Bedrock / Databricks 等）；支持订阅复用（Claude / ChatGPT / Gemini via ACP）</td></tr>
 <tr><td>Recipes</td><td>YAML 可移植工作流：指令 + 扩展 + 参数 + subrecipes，团队共享、可跑 CI</td></tr>
 <tr><td>Subagents</td><td>派生子代理并行处理代码审查 / 研究 / 文件处理；v1.54.0 起支持前台 subagent</td></tr>
 <tr><td>MCP Apps</td><td>扩展可在桌面端内渲染交互式 UI（按钮、表单、可视化）</td></tr>
@@ -958,7 +993,6 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 3. 官方文档能力全景 ================= -->
 <!-- ================= 3. 官方文档能力全景 ================= -->
 <section id="s3">
 <h2><span class="h2n">3</span>官方文档能力全景</h2>
@@ -1098,7 +1132,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </tbody>
 </table>
 </div>
-<p class="sec-note"><b>与 v2.0 的对应</b>：v2.0 引用 README 的 "70+ 官方扩展" 表述成立，现可精确为 <b>73 个</b>（文档目录口径）。</p>
+<p class="sec-note"><b>与 v2.0 的对应</b>：v2.0 引用 README 的 "70+ 官方扩展" 表述成立，现可精确为 <b>73 个</b>（文档目录口径）。<b>v2.2 补充</b>：<code>AGENTS.md</code> 声明该目录<b>正在退役</b>，改用官方 MCP Registry 与 <code>server.json</code>（见 4.13）。</p>
 
 <h3>3.5 CLI 命令全表（官方文档口径）</h3>
 <div class="callout bad">
@@ -1333,7 +1367,8 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
   </div>
 </div>
 
-<h3>3.9 安全体系（官方三件套）</h3>
+<h3>3.9 安全体系（官方口径）</h3>
+<p class="sec-note"><b>v2.2 补充</b>：源码中 <code>security/</code> 实为 <b>7 个模块</b>（含未见于文档的 <code>egress_inspector.rs</code>），另有 <code>permission/permission_judge.rs</code>。本节为官方文档口径，源码口径见 <b>4.10</b>。</p>
 <p>官方 <code>guides/security/</code> 给出三项机制（v2.0 仅列举名称，此处补全定位）：</p>
 <div class="tw">
 <table>
@@ -1450,7 +1485,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 <div class="callout bad">
   <div class="ic">!</div>
-  <div><p><span class="t">差异结论</span> — <b>官方 Linux 桌面文档滞后于实际产物</b>：文档只写 DEB，但实际同时发布 RPM 与 Flatpak（见 5.1）。RPM 与 Flatpak 用户目前只能自行从 Release 页面获取。</p></div>
+  <div><p><span class="t">差异结论</span> — <b>官方 Linux 桌面文档滞后于实际产物</b>：文档只写 DEB，但实际同时发布 RPM 与 Flatpak（见 6.1）。RPM 与 Flatpak 用户目前只能自行从 Release 页面获取。</p></div>
 </div>
 
 <h4>其他安装 / 配置要点</h4>
@@ -1474,11 +1509,472 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 4. 竞品对比 ================= -->
-<section id="s4">
-<h2><span class="h2n">4</span>竞品全景对比</h2>
 
-<h3>4.1 GitHub 硬数据总表（按 stars 降序，2026-10-15 实时采集）</h3>
+<!-- ================= 4. 源码级架构 ================= -->
+<section id="s4">
+<h2><span class="h2n">4</span>源码级架构与工程实践</h2>
+<div class="callout">
+  <div class="ic">新</div>
+  <div><p><span class="t">本章为 v2.2 新增</span> — v2.1 补全了官方文档维度，但文档描述的是"设计意图"，源码反映的是"实际实现"。本章基于 <code>main</code> 分支<b>全量文件树（3,038 个文件，未截断）</b>逐目录核对，补出前两版都缺失的实现层事实，并<b>纠正 4 处把计划当成既成事实的表述</b>。</p></div>
+</div>
+
+<h3>4.1 仓库全貌（全量枚举）</h3>
+<p>Git Trees API 递归枚举 <code>main</code> 分支：<b>3,038 个文件</b>（<code>truncated: false</code>），<b>52 个顶层条目</b>。</p>
+<div class="tw">
+<table>
+<thead><tr><th>目录</th><th class="n">文件数</th><th>内容</th></tr></thead>
+<tbody>
+<tr class="hl"><td><code>crates/</code></td><td class="n"><b>806</b></td><td>15 个 Rust crate（详见 4.2）</td></tr>
+<tr class="hl"><td><code>ui/</code></td><td class="n"><b>645</b></td><td>桌面端（608）+ 3 个 npm 包 + 平台二进制包</td></tr>
+<tr><td><code>documentation/</code></td><td class="n">173 篇</td><td>官方文档站（v2.1 已全量抓取）</td></tr>
+<tr><td><code>bin/</code></td><td class="n">39</td><td>Hermit 管理的可复现工具链</td></tr>
+<tr class="hl"><td><code>.github/workflows/</code></td><td class="n"><b>43</b></td><td>CI/CD 与自动化</td></tr>
+<tr><td><code>scripts/</code></td><td class="n">30</td><td>基准后处理、复现脚本、诊断工具</td></tr>
+<tr><td><code>services/</code></td><td class="n">29</td><td><code>ask-ai-bot</code>（Discord 支持机器人）</td></tr>
+<tr><td><code>buzz/</code></td><td class="n">11</td><td>GitHub issue ↔ Nostr 社区同步自动化</td></tr>
+<tr><td><code>evals/</code></td><td class="n">10</td><td><code>harbor</code> Terminal-Bench 评测工具</td></tr>
+<tr><td><code>examples/</code></td><td class="n">11</td><td><code>mcp-wiki</code>、<code>plugins/hello-hooks</code></td></tr>
+<tr><td><code>oidc-proxy/</code></td><td class="n">8</td><td>Cloudflare Worker OIDC 代理</td></tr>
+<tr><td><code>vendor/v8/</code></td><td class="n">2</td><td>本地补丁的 v8 crate（Code Mode 用）</td></tr>
+<tr><td><code>workflow_recipes/</code></td><td class="n">3</td><td>发布风险检查 recipe</td></tr>
+<tr><td>根级配置文件</td><td class="n">15+</td><td><code>Cargo.toml</code> / <code>Justfile</code> / <code>deny.toml</code> / <code>flake.nix</code> / <code>AGENTS.md</code> 等</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>4.2 15 个 crate 的真实职责</h3>
+<div class="tw">
+<table>
+<thead><tr><th>crate</th><th>版本</th><th>职责</th><th class="n">源文件</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>goose</b></td><td>1.55.0（workspace）</td><td>核心：agent 循环、provider 层、扩展、会话、权限、安全、ACP server</td><td class="n"><b>447</b></td></tr>
+<tr><td>goose-cli</td><td>1.55.0</td><td>CLI：子命令 + 交互会话 + recipe 解析</td><td class="n">53</td></tr>
+<tr><td>goose-mcp</td><td>1.55.0</td><td>随附 MCP server：autovisualiser / computercontroller / memory / tutorial / peekaboo</td><td class="n">43</td></tr>
+<tr><td>goose-roaming</td><td>1.55.0</td><td>iroh P2P 传输（11 个模块）</td><td class="n">17</td></tr>
+<tr class="hl"><td>goose-providers</td><td>0.1.0-alpha.12</td><td>GDK 提供方实现</td><td class="n">87</td></tr>
+<tr><td>goose-provider-types</td><td>0.1.0-alpha.12</td><td>提供方类型 + 7 种 wire format + canonical 模型目录</td><td class="n">47</td></tr>
+<tr><td>goose-sdk</td><td>0.1.0-alpha.12</td><td>GDK 入口（uniffi 绑定，<code>cdylib</code>/<code>staticlib</code>/<code>rlib</code>）</td><td class="n">34</td></tr>
+<tr><td>goose-local-inference</td><td>0.1.0-alpha.12</td><td>本地推理：llama.cpp + MLX + 工具模拟</td><td class="n">25</td></tr>
+<tr><td>goose-agent</td><td>0.1.0-alpha.12</td><td>GDK 的 Agent Loop（支持 wasm32）</td><td class="n">14</td></tr>
+<tr><td>goose-context-management</td><td>0.1.0-alpha.12</td><td>会话压缩（结构化）</td><td class="n">12</td></tr>
+<tr><td>goose-sdk-types</td><td>0.1.0-alpha.12</td><td>GDK 共享类型</td><td class="n">7</td></tr>
+<tr><td>goose-download-manager</td><td>0.1.0-alpha.12</td><td>模型与资源下载</td><td class="n">3</td></tr>
+<tr><td>goose-acp-macros</td><td>—</td><td>ACP 过程宏</td><td class="n">2</td></tr>
+<tr><td>goose-test</td><td>—</td><td>MCP 录制回放、<code>capture</code> bin</td><td class="n">7</td></tr>
+<tr><td>goose-test-support</td><td>—</td><td><code>mcp_fixture_server</code>、OTel、会话测试夹具</td><td class="n">8</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+  <div class="ic">§</div>
+  <div><p><b>版本双轨制</b>：4 个核心 crate 用 workspace 版本 <code>1.55.0</code>；7 个 GDK crate 独立走 <code>0.1.0-alpha.12</code>。由 <code>release-plz.toml</code> 的 <code>version_group = "gdk"</code> 控制，只对 GDK 系列开启独立发布（其中 <code>goose-local-inference</code> 与 <code>goose-providers</code> 关闭 semver 检查，因为 <code>--all-features</code> 会拉入 cuda/vulkan 加速器依赖，发布机上没有 CUDA Toolkit）。</p></div>
+</div>
+
+<h3>4.3 工作区配置（<code>Cargo.toml</code> / <code>rust-toolchain.toml</code>）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td><code>edition</code> / <code>version</code></td><td>2021 / <b>1.55.0</b></td></tr>
+<tr><td><code>rust-version</code>（MSRV）</td><td><b>1.94.1</b></td></tr>
+<tr><td><code>rust-toolchain.toml</code> channel</td><td><b>1.99.0</b></td></tr>
+<tr><td><code>license</code> / <code>authors</code></td><td>Apache-2.0 / <code>AAIF &lt;ai-oss-tools@block.xyz&gt;</code></td></tr>
+<tr><td>workspace members</td><td><code>crates/*</code> + <code>vendor/v8</code>（后者仅为让 <code>cargo-machete</code> 不误报）</td></tr>
+<tr><td>resolver</td><td><code>"2"</code></td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout bad">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">版本状态（重要）</span> — <code>main</code> 分支的工作区版本<b>已 bump 到 1.55.0</b>，但 <b>GitHub 最新发布仍是 <code>v1.54.0</code>（2026-10-08）</b>。即 1.55.0 处于开发中、尚未发布。引用"当前版本"时必须区分<b>仓库版本</b>与<b>发布版本</b>。</p>
+    <p style="margin-top:8px">另需注意 <b>MSRV ≠ 工具链</b>：<code>rust-version = "1.94.1"</code> 是声明的支持下限，<code>rust-toolchain.toml</code> 的 <code>1.99.0</code> 才是实际构建版本。</p>
+  </div>
+</div>
+
+<h4>自定义 profile</h4>
+<div class="tw">
+<table>
+<thead><tr><th>profile</th><th>配置</th><th>意图</th></tr></thead>
+<tbody>
+<tr class="hl"><td><code>dev.package."*"</code></td><td><code>debug = false</code></td><td>注释原文：第三方 rlib 的 DWARF 占每包 <b>50–70%</b>，去掉后调试构建显著变小、链接更快；<code>*</code> 匹配依赖但不匹配 workspace 成员，<b>第一方 crate 保留完整调试信息</b></td></tr>
+<tr class="hl"><td><code>lean</code></td><td><code>opt-level="z"</code> + <code>lto="fat"</code> + <code>codegen-units=1</code> + <code>panic="abort"</code> + <code>strip="symbols"</code></td><td>体积优先的嵌入式 agent 二进制</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>依赖治理</h4>
+<div class="cards">
+  <div class="card">
+    <div class="card-h"><span class="card-i">1</span>本地补丁</div>
+    <p><code>[patch.crates-io]</code>：<code>v8 = { path = "vendor/v8" }</code>（供 Code Mode 执行 JS）+ <code>cudaforge</code> 从 git 精确 <code>rev</code> 拉取。</p>
+  </div>
+  <div class="card g">
+    <div class="card-h"><span class="card-i">2</span>精确钉扎（=）</div>
+    <p><code>llama-cpp-2</code> / <code>llama-cpp-sys-2</code> = <code>0.1.146</code>；AWS 五个 SDK crate 全部精确钉扎；<code>icu_calendar</code> / <code>icu_locale</code> = <code>2.1.1</code>（注释说明是绕 <code>temporal_rs</code> 0.1 经 <b>PCTX</b> 引入的 unstable feature 问题，等 PCTX 升级后可移除）。</p>
+  </div>
+  <div class="card a">
+    <div class="card-h"><span class="card-i">3</span>Lint 与卫生</div>
+    <p>workspace clippy：<code>uninlined_format_args = "allow"</code>、<code>string_slice = "warn"</code>；<code>clippy.toml</code> 设 <code>too-many-lines-threshold = 200</code>。</p>
+  </div>
+  <div class="card r">
+    <div class="card-h"><span class="card-i">4</span>依赖门禁</div>
+    <p><code>deny.toml</code>：<code>yanked = "deny"</code>、<code>unmaintained = "none"</code>、<code>unsound = "none"</code>，唯一豁免 <code>RUSTSEC-2023-0071</code>（rsa Marvin 时序侧信道——注释说明无安全升级路径，且可达路径经 <code>jsonwebtoken</code>）。<code>cargo-machete</code> 豁免项均注明原因。</p>
+  </div>
+</div>
+<p class="sec-note"><b>平台细节</b>：<code>.cargo/config.toml</code> 给 Windows MSVC 加链接参数 <code>/FORCE:MULTIPLE /STACK:8388608</code>（<b>8 MB 栈</b>）；<code>wasm32-unknown-unknown</code> 用 <code>wasm-bindgen-test-runner</code>。</p>
+
+<h3>4.4 特性矩阵（feature flags）</h3>
+<p><code>goose</code> crate 的 <code>default = []</code>（<b>空</b>），能力全部由可选特性拼装。<code>goose-cli</code> 的默认特性有 <b>18 个</b>：</p>
+<div class="tw">
+<table>
+<thead><tr><th>特性</th><th>作用</th><th>关键依赖</th></tr></thead>
+<tbody>
+<tr class="hl"><td><code>code-mode</code></td><td>用 JS 编排工具调用</td><td><code>pctx_code_mode 0.5.0</code></td></tr>
+<tr><td><code>tree-sitter</code></td><td>代码结构分析（9 种语言）</td><td>tree-sitter + go / java / javascript / kotlin / python / ruby / rust / swift / typescript</td></tr>
+<tr class="hl"><td><code>local-inference</code></td><td>本地推理 + <b>本地 Whisper 听写</b></td><td>candle-core/nn/transformers、tokenizers、<b>symphonia</b>（音频解码）、<b>rubato</b>（重采样）</td></tr>
+<tr><td><code>aws-providers</code></td><td>Bedrock + SageMaker TGI</td><td>AWS SDK（精确钉扎）</td></tr>
+<tr class="hl"><td><code>live-voice</code></td><td>实时语音</td><td><code>goose-providers/live-websocket</code>（tokio-tungstenite）</td></tr>
+<tr><td><code>telemetry</code> / <code>otel</code></td><td>遥测与 OpenTelemetry</td><td>opentelemetry 0.32 全家桶</td></tr>
+<tr><td><code>rustls-tls</code> / <code>native-tls</code></td><td>TLS 二选一</td><td>aws-lc-rs / openssl</td></tr>
+<tr><td><code>system-keyring</code></td><td>系统凭据库</td><td>keyring（macOS apple-native / Linux sync-secret-service / Windows windows-native）</td></tr>
+<tr class="hl"><td><code>update</code></td><td>自更新</td><td><b><code>sigstore-verify</code> + <code>snap</code></b></td></tr>
+<tr><td><code>bundled-mcp</code></td><td>内置 MCP server 打进二进制</td><td><code>goose-mcp</code></td></tr>
+<tr><td><code>scheduler</code> / <code>platform-apps</code> / <code>chat-recall</code> / <code>acp-http</code></td><td>定时任务 / Apps / 会话检索 / ACP over HTTP</td><td>tokio-cron-scheduler 等</td></tr>
+<tr><td><code>cuda</code> / <code>vulkan</code> / <code>mlx</code></td><td>加速器三选</td><td>对应 candle / llama.cpp / safemlx</td></tr>
+<tr><td><code>portable-default</code></td><td>便携构建组合</td><td>上述大部分 + 不含 <code>local-inference</code></td></tr>
+<tr><td><code>online-model-meta</code></td><td>在线获取模型元数据</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout ok">
+  <div class="ic">✓</div>
+  <div><p><span class="t">实测确认</span> — <code>roaming</code> <b>不在 <code>goose-cli</code> 的默认特性里</b>（需显式 <code>--features roaming</code>，并拉入 <code>goose-roaming</code> + <code>qrcode</code> + <code>fs2</code> + <code>agent-client-protocol</code>）。这与官方文档"不含在正式发布二进制中"完全一致，属源码级交叉验证。</p></div>
+</div>
+
+<h4>lean 构建与体积预算（CI 强制）</h4>
+<p><code>just build-lean</code> = <code>cargo build -p goose --bin goose-acp --profile lean --no-default-features --features native-tls,online-model-meta</code>。<code>just check-lean-size</code> 在 CI 里卡体积上限：</p>
+<div class="kpis" style="margin-bottom:18px">
+  <div class="kpi"><div class="kpi-v">17.0<span style="font-size:14px;color:var(--text-3)"> MiB</span></div><div class="kpi-l">macOS 预算</div><div class="kpi-n">17,825,792 B</div></div>
+  <div class="kpi"><div class="kpi-v">22.0<span style="font-size:14px;color:var(--text-3)"> MiB</span></div><div class="kpi-l">其他平台预算</div><div class="kpi-n">23,068,672 B</div></div>
+  <div class="kpi"><div class="kpi-v">lean</div><div class="kpi-l">profile</div><div class="kpi-n">opt-level=z + fat LTO</div></div>
+</div>
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div><p>Justfile 注释解释了为何不能用单一跨平台数值：ELF 比 Mach-O 多带 DWARF <code>.eh_frame</code>（Mach-O 用紧凑 unwind 信息）与 <code>.rela.dyn</code> 相对重定位表，同一份代码在 Linux 上就是更大——单一阈值要么在 Linux 上永远达不到，要么在 macOS 上失去回归信号价值。</p></div>
+</div>
+
+<h3>4.5 goose 核心 crate 的模块地图（374 个源文件）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>模块</th><th class="n">文件</th><th>内容</th></tr></thead>
+<tbody>
+<tr class="hl"><td><code>agents/</code></td><td class="n"><b>97</b></td><td><code>state_machine/</code>(40)、<code>platform_extensions/</code>(21)、<code>extension_manager/</code>(5)、<code>snapshots/</code>(4)、<code>subagent_execution_tool/</code>(2)</td></tr>
+<tr class="hl"><td><code>providers/</code></td><td class="n"><b>66</b></td><td>提供方实现（见 4.6）</td></tr>
+<tr class="hl"><td><code>acp/</code></td><td class="n"><b>48</b></td><td><code>server/</code>(33)、<code>transport/</code>(3)、<code>mcp_app_proxy.rs</code>、<code>handoff.rs</code>、<code>response_builder.rs</code>、<code>tool_call_notifier.rs</code></td></tr>
+<tr><td><code>config/</code></td><td class="n">23</td><td><code>migrations.rs</code>、<code>permission.rs</code>、<code>declarative_providers.rs</code>、<code>experiments.rs</code>、<code>paths.rs</code>、<code>tls.rs</code>、<code>signup_openrouter/</code>、<code>signup_tetrate/</code></td></tr>
+<tr><td><code>session/</code></td><td class="n">19</td><td><code>session_manager.rs</code>、<code>chat_history_search.rs</code>、<code>export_html/</code>(6)、<code>import_formats/</code>(4)、<code>legacy.rs</code>、<code>diagnostics.rs</code></td></tr>
+<tr><td><code>recipe/</code></td><td class="n">11</td><td><code>manifest.rs</code>、<code>template_recipe.rs</code>、<code>validate_recipe.rs</code>、<code>build_recipe/</code>、<code>local_recipes.rs</code></td></tr>
+<tr class="hl"><td><code>security/</code></td><td class="n">7</td><td><code>adversary_inspector.rs</code>、<code>classification_client.rs</code>、<b><code>egress_inspector.rs</code></b>、<code>patterns.rs</code>、<code>scanner.rs</code>、<code>security_inspector.rs</code></td></tr>
+<tr><td><code>skills/</code></td><td class="n">7</td><td><code>builtin.rs</code>、<code>builtins/</code>、<code>client.rs</code>、<code>supporting_files.rs</code></td></tr>
+<tr><td><code>live_voice/</code></td><td class="n">7</td><td><code>interaction.rs</code>、<code>service.rs</code>、<code>transcript.rs</code></td></tr>
+<tr><td><code>prompts/</code></td><td class="n">7</td><td>内嵌提示词（见下）</td></tr>
+<tr><td><code>dictation/</code></td><td class="n">6</td><td><code>whisper.rs</code> + <code>whisper_data/</code></td></tr>
+<tr><td><code>plugins/</code></td><td class="n">6</td><td><code>discovery.rs</code>、<code>formats/</code>(3)、<code>mcp_servers.rs</code></td></tr>
+<tr><td><code>slash_commands/</code></td><td class="n">6</td><td><code>recipe_slash_command.rs</code>、<code>skill_slash_command.rs</code></td></tr>
+<tr><td><code>goose_apps/</code></td><td class="n">5</td><td><code>app.rs</code>、<code>cache.rs</code>、<code>resource.rs</code>、<code>clock.html</code></td></tr>
+<tr><td><code>gateway/</code></td><td class="n">5</td><td><code>telegram.rs</code>、<code>pairing.rs</code>、<code>handler.rs</code>、<code>manager.rs</code></td></tr>
+<tr><td><code>permission/</code></td><td class="n">4</td><td><code>permission_inspector.rs</code>、<b><code>permission_judge.rs</code></b>、<code>permission_store.rs</code></td></tr>
+<tr><td><code>execution/</code> · <code>hints/</code> · <code>otel/</code> · <code>tracing/</code> · <code>scheduler/</code></td><td class="n">3 各</td><td><code>active_run.rs</code>、<code>load_hints.rs</code>、<code>otlp.rs</code>、<b><code>langfuse_layer.rs</code></b>、<code>full.rs</code></td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note"><b>7 个内嵌提示词</b>（<code>prompts/*.md</code>，编译进二进制）：<code>system.md</code>、<code>tiny_model_system.md</code>、<code>subagent_system.md</code>、<code>permission_judge.md</code>、<code>session_name.md</code>、<code>apps_create.md</code>、<code>apps_iterate.md</code>。</p>
+
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">源码里才有的模块（官方文档未提及）</span></p>
+    <p><b>实时语音</b>：<code>live_voice/</code>（interaction / service / transcript，配 <code>live-voice</code> 特性走 WebSocket）</p>
+    <p><b>本地听写</b>：<code>dictation/whisper.rs</code> + 内嵌 whisper 数据（本地 Whisper 转写；<code>test_whisper</code> 示例需 <code>local-inference</code>）</p>
+    <p><b>消息网关</b>：<code>gateway/telegram.rs</code> + <code>pairing.rs</code>（配对码）</p>
+    <p><b>出站检查</b>：<code>security/egress_inspector.rs</code> —— 官方只列了"安全三件套"，源码里是 7 个模块、四类检查器</p>
+    <p><b>模型判官</b>：<code>permission/permission_judge.rs</code> + <code>prompts/permission_judge.md</code>（用模型判断该不该批准工具调用）</p>
+    <p><b>其他</b>：<code>posthog.rs</code>（产品分析）、<code>instance_id.rs</code>、<code>doctor.rs</code>、<code>checks/</code>、<code>sources.rs</code> / <code>source_roots.rs</code>、<code>moim.rs</code>、<code>reply_parts.rs</code>、<code>large_response_handler.rs</code>、<code>tool_schema_normalize.rs</code>、<code>final_output_tool.rs</code></p>
+    <p><b>观测后端</b>：<code>tracing/langfuse_layer.rs</code>（Langfuse）+ <code>otel/otlp.rs</code> + <code>trace_context.rs</code></p>
+  </div>
+</div>
+
+<h3>4.6 提供方实现全景（远超"15+"）</h3>
+<p>README 说 "works with 15+ providers"。源码 <code>crates/goose/src/providers/</code> 有 <b>66 个文件</b>，实际实现如下：</p>
+<div class="tw">
+<table>
+<thead><tr><th>类别</th><th>实现</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>直连 API</b></td><td>Anthropic、OpenAI、Google、Azure（含 Azure AI Foundry）、AWS Bedrock、AWS SageMaker TGI、GCP Vertex AI、Databricks（v1 + v2）、Snowflake、Ollama（本地 + Cloud）、OpenRouter、LiteLLM、HuggingFace、xAI、NanoGPT、Tetrate、Avian、Gondola、KimiCode、Muse Code、GitHub Copilot、本地推理</td></tr>
+<tr class="hl"><td><b>把别的 agent 当 provider（经 ACP）</b></td><td><code>claude_acp</code>、<code>codex_acp</code>、<code>copilot_acp</code>、<code>pi_acp</code>、<code>amp_acp</code>、<code>cursor_agent</code>；另有 <code>gemini_cli</code>、<code>claude_code</code>、<code>codex</code> 直连封装</td></tr>
+<tr><td><b>声明式提供方定义</b>（<code>*_def.rs</code>，10 个）</td><td>anthropic / azure_foundry / databricks / databricks_v2 / google / muse_code / ollama / openai / openrouter / snowflake</td></tr>
+</tbody>
+</table>
+</div>
+<div class="cards">
+  <div class="card">
+    <div class="card-h"><span class="card-i">1</span>7 种 wire format</div>
+    <p><code>goose-provider-types/src/formats/</code>：anthropic、databricks、google、ollama、openai、<b>openai_responses</b>、snowflake。</p>
+  </div>
+  <div class="card g">
+    <div class="card-h"><span class="card-i">2</span>canonical 模型目录</div>
+    <p><code>canonical/</code>（catalog / model / <b>models_dev</b> / name_builder / registry + <code>data/</code>）。<code>just build-canonical-models</code> 从 <b>models.dev</b> 重建，产物 <code>canonical_models.json</code> + <code>provider_metadata.json</code> <b>检入仓库</b>；<code>just prepare-release</code> 每次发版都重建 —— 即模型元数据是<b>随版本快照固定的生成物</b>。</p>
+  </div>
+  <div class="card a">
+    <div class="card-h"><span class="card-i">3</span>成本与用量</div>
+    <p><code>canonical_cost.rs</code>（成本表）、<code>usage_estimator.rs</code>（用量估算）。</p>
+  </div>
+  <div class="card r">
+    <div class="card-h"><span class="card-i">4</span>鉴权矩阵</div>
+    <p><code>oauth.rs</code> + <code>oauth_device_flow.rs</code>（设备码）、<code>command_auth.rs</code>（外部命令取 token）、<code>azureauth.rs</code> / <code>gcpauth.rs</code> / <code>huggingface_auth.rs</code> / <code>xai_oauth.rs</code> / <code>gemini_oauth.rs</code>。</p>
+  </div>
+</div>
+<p class="sec-note"><b>可测试性支撑</b>：<code>provider_registry.rs</code>、<code>provider_secrets.rs</code>、<code>private_file.rs</code>（权限受限的密钥文件）、<code>provider_test.rs</code>、<code>testprovider.rs</code>。</p>
+
+<h3>4.7 桌面端真相：Electron，不是 Tauri（v2.2 修正）</h3>
+<p><code>ui/desktop/package.json</code> 实测：</p>
+<div class="tw">
+<table>
+<thead><tr><th>项</th><th>值</th></tr></thead>
+<tbody>
+<tr><td>包名 / 版本</td><td><code>goose-app</code> / <b>1.55.0</b></td></tr>
+<tr class="hl"><td>运行时</td><td><b>Electron 43.4.0</b></td></tr>
+<tr class="hl"><td>构建</td><td><b>Electron Forge 7.11.2</b> + <code>plugin-vite</code> / <code>plugin-fuses</code>（安全熔断）/ <code>plugin-auto-unpack-natives</code></td></tr>
+<tr><td>前端</td><td>React <b>19.2.8</b> + Vite <b>8.2.1</b></td></tr>
+<tr><td>主进程入口</td><td><code>.vite/build/main.js</code></td></tr>
+<tr class="hl"><td>打包 maker</td><td><code>maker-deb</code> / <code>maker-rpm</code> / <code>maker-flatpak</code> / <code>maker-squirrel</code>（Windows）/ <code>maker-zip</code></td></tr>
+<tr><td>依赖规模</td><td>58 deps + 51 devDeps</td></tr>
+<tr><td>测试</td><td>vitest（单元 / 集成）+ Playwright（<code>test-e2e*</code>）</td></tr>
+<tr><td>i18n</td><td>react-intl / FormatJS + ICU MessageFormat，<code>@formatjs/cli</code> 抽取，已校验 <b>es / ja</b> 语言包</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout bad">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">全仓库检索 "tauri" 只命中 2 个文件</span> — 一篇官方博客与 <code>goose-roaming/README.md</code>（后者写的是 "No Tauri, no local bridge"）。<b>仓库内不存在任何 Tauri 代码。</b></p>
+    <p style="margin-top:8px">官方 2026-04-08 博客（issue #6642）把 "Desktop rewrite to Tauri" 列为路线图第 3 项，状态 <b>🚧 In progress</b>，原文："Electron app being replaced with a Tauri-based desktop client on ACP"。</p>
+    <p style="margin-top:8px">v2.0 / v2.1 写成"<b>2.0 beta 起桌面端改用 Tauri 重写</b>"，等于<b>把计划当成了既成事实</b>。源码实测：截至 2026-10-15，桌面端<b>仍是 Electron 43.4.0</b>，Tauri 迁移未落地。同时这也说明 v2.0 把它列为"劣势"（架构过渡期风险）是成立的——只是表述方式错了。</p>
+  </div>
+</div>
+<h4>由 Electron 反向解释的两个既有事实</h4>
+<div class="cards">
+  <div class="card">
+    <div class="card-h"><span class="card-i">1</span>DEB / RPM / Flatpak 的来源</div>
+    <p>是 Electron Forge 的 <code>maker-deb</code> / <code>maker-rpm</code> / <code>maker-flatpak</code>，而不是 Rust 侧打包。这解释了为什么三种包格式能同时齐备。</p>
+  </div>
+  <div class="card g">
+    <div class="card-h"><span class="card-i">2</span>mac-update-requirements.json</div>
+    <p>v1.52.0 起新增的发布产物，是 Electron 自动更新的 macOS 清单文件，与 <code>maker-squirrel</code> 生态一致。</p>
+  </div>
+</div>
+<p class="sec-note"><b>其他桌面端源码事实</b>：<code>entitlements.plist</code> 含麦克风权限（配合听写 / 语音）；<code>forge.deb.desktop</code> / <code>forge.rpm.desktop</code> 为桌面入口文件模板；桌面会<b>内嵌 goose CLI 二进制</b>到 <code>ui/desktop/src/bin/</code>（Justfile <code>copy-binary</code> 任务），并支持 <code>GOOSE_EXTERNAL_BACKEND=true</code> 走外部 ACP 后端。</p>
+
+<h3>4.8 分发与打包（源码口径）</h3>
+<h4>npm 渠道（官方文档未收录）</h4>
+<div class="tw">
+<table>
+<thead><tr><th>包</th><th>作用</th></tr></thead>
+<tbody>
+<tr class="hl"><td><code>@aaif/goose-acp</code></td><td><b>用户实际安装的包</b>，自动装对应平台包并提供 <code>goose</code> 命令</td></tr>
+<tr><td><code>@aaif/goose-binary-darwin-arm64</code></td><td>macOS Apple Silicon</td></tr>
+<tr><td><code>@aaif/goose-binary-darwin-x64</code></td><td>macOS Intel</td></tr>
+<tr><td><code>@aaif/goose-binary-linux-arm64</code></td><td>Linux ARM64</td></tr>
+<tr><td><code>@aaif/goose-binary-linux-x64</code></td><td>Linux x64</td></tr>
+<tr><td><code>@aaif/goose-binary-win32-x64</code></td><td>Windows x64</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div><p><code>publish-npm.yml</code> 从<b>精确版本号的 Release</b> 下载二进制并打包；默认只上传为 workflow artifact，需手动把 <code>publish</code> 输入置为 true 才真正发布到受保护的 npm production 环境。</p></div>
+</div>
+
+<h4>ACP 类型是代码生成的，且产物检入仓库</h4>
+<pre><code>Rust 类型
+  └─ generate-acp-schema bin ─► crates/goose/acp-schema.json + acp-meta.json
+        └─ ui/goose-acp-client/generate-schema.ts ─► src/generated/（TypeScript）
+              └─ documentation/scripts/generate-acp-docs.js ─► 文档</code></pre>
+<p class="sec-note"><code>just check-acp-artifacts</code> 在 CI 里校验这些生成物是否过期，过期直接失败。</p>
+
+<h4>发布产物口径与变化</h4>
+<div class="kpis" style="margin-bottom:18px">
+  <div class="kpi"><div class="kpi-v">40</div><div class="kpi-l">v1.54.0 产物</div><div class="kpi-n">rpm4 + deb4 + flatpak4 + zip9 + tarball17 + 2</div></div>
+  <div class="kpi"><div class="kpi-v">24<span style="font-size:14px;color:var(--text-3)"> / 40</span></div><div class="kpi-l">Linux 相关</div><div class="kpi-n">12 包 + 12 CLI tarball</div></div>
+  <div class="kpi"><div class="kpi-v">37<span style="font-size:14px;color:var(--text-3)"> → 40</span></div><div class="kpi-l">v1.52.0 起变化</div><div class="kpi-n">+2 macOS zip + 更新清单</div></div>
+</div>
+<div class="callout ok">
+  <div class="ic">✓</div>
+  <div><p><span class="t">新发现</span> — v1.48.0 至 v1.51.0 均为 <b>37 个</b>产物，<b>v1.52.0 起变为 40 个</b>：新增的是 2 个 macOS 桌面 zip（<code>Goose-darwin-{arm64,x64}.zip</code>）与 <code>mac-update-requirements.json</code>。Linux 相关的 24 个口径未变，与 v2.0 结论一致。</p></div>
+</div>
+
+<h4>发布节奏（<code>RELEASE.md</code>）</h4>
+<div class="tw">
+<table>
+<thead><tr><th>阶段</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>minor 版本</td><td><b>每周一次</b>。<code>minor-release.yaml</code> 每周二自动开版本 bump PR</td></tr>
+<tr><td>合并后</td><td>自动创建 <code>release/&lt;version&gt;</code> 分支与带 QA 清单的发布 PR</td></tr>
+<tr><td>打 tag</td><td><code>git tag v&lt;V&gt; &amp;&amp; git push origin v&lt;V&gt;</code> 触发 <code>release.yml</code> 构建发布；发布 PR 自动关闭</td></tr>
+<tr><td>patch 分支</td><td>minor 打 tag 后<b>立即自动创建下一个 patch 分支</b>并开 PR</td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note"><code>just prepare-release &lt;version&gt;</code> 一次完成 Cargo / npm 版本 bump 与 <b>canonical 模型目录重建</b>。manpage 由 <code>clap_mangen</code> 生成到 <code>target/man/</code>。Windows 目标固定 MSVC，且必须在 Windows 主机上构建。</p>
+
+<h3>4.9 质量保障体系（43 个 workflow）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>机制</th><th>说明</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>MCP 客户端一致性测试</b></td><td><code>just mcp-conformance</code> 用官方 <code>@modelcontextprotocol/conformance@0.2.0-alpha.10</code> 跑自研 <code>mcp_conformance_driver</code>；套件分 all / core / extensions / backcompat / auth / metadata / draft / <b>sep-835</b>；默认 spec 版本 <b>2025-11-25</b>；支持 <code>expected-failures</code> 基线文件</td></tr>
+<tr class="hl"><td><b>MCP 录制回放</b></td><td><code>GOOSE_RECORD_MCP=1 cargo test --test mcp_integration_test</code> → 录制到 <code>crates/goose/tests/mcp_replays/</code>，回归不依赖网络</td></tr>
+<tr class="hl"><td><b>模型工具调用一致性扫描</b></td><td><code>model-toolcall-conformance.yml</code> 每日 03:00 UTC 扫 OpenRouter 前 10 个支持工具调用的模型，报告"哪些模型真能驱动 goose 的 MCP 工具调用"。<b>刻意不做 PR 门禁</b>——注释原文：它打第三方网络，失败通常意味着提供方或模型回退，而非 goose 改动</td></tr>
+<tr><td><b>自测 recipe</b></td><td>仓库根 <code>goose-self-test.yaml</code>：goose 用自己测自己（"第一人称集成测试"）。17 个阶段含 Azure AI Foundry 路由、Databricks 网关、声明式视觉、thinking 保留、Z.AI Coding Plan 流式工具调用、ACP thinking-effort 发现、GDK 观测钩子、<b>有上限 / 无上限自动压缩阈值</b>、嵌套委派拦截</td></tr>
+<tr><td><b>用 goose 修自己的 issue</b></td><td><code>goose-issue-solver.yml</code> 由 <code>issue_comment</code> 触发，用内置 recipe（developer + todo 扩展）解 GitHub issue；另有 <code>goose-pr-reviewer.yml</code>、<code>goose-release-notes.yml</code></td></tr>
+<tr><td><b>CI 结构</b></td><td><code>dorny/paths-filter</code> 跳过纯文档改动；独立 job 检查 npm 包（<code>npm-versions.mjs check</code> + <code>goose-acp test</code> + 打包）</td></tr>
+<tr><td><b>测试基建</b></td><td><code>insta</code>（快照）、<code>mockall</code>、<code>wiremock</code>、<code>ctor</code>/<code>dtor</code>、<code>env-lock</code>、<code>serial_test</code>、<code>test-case</code>；<code>goose-test</code> 的 <code>capture</code> bin、<code>goose-test-support</code> 的 <code>mcp_fixture_server</code></td></tr>
+<tr><td><b>快照资产</b></td><td><code>agents/snapshots/</code>（4 个）；提示词改动会触发平台扩展提示词快照差异</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout ok">
+  <div class="ic">✓</div>
+  <div>
+    <p><span class="t"><code>goose-issue-solver</code> 的 recipe 顺带是一份公开的代码规范</span>（原文摘录）：</p>
+    <p>路径用 <code>PathBuf</code> 不用 <code>String</code>；有限集合用枚举不用字符串比较；<code>Vec&lt;T&gt;</code> 而非 <code>Option&lt;Vec&lt;T&gt;&gt;</code>（空 vec 即"无"）；新增结构体字段加 <code>#[serde(default)]</code>；<b>修 bug 先写失败测试</b>；删功能时同步删测试；<b>不加向后兼容垫片，直接改调用方</b>；只保留 WHY 注释、不写 WHAT 注释；错误信息要说"怎么修"而不只是"哪里错"。</p>
+  </div>
+</div>
+
+<h3>4.10 安全与供应链（源码口径）</h3>
+<p>官方文档只讲"有什么能力"，供应链层面的事实只能从 workflow、Cargo 与脚本里读出来。</p>
+<div class="tw">
+<table>
+<thead><tr><th>措施</th><th>源码证据</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>Actions 全部钉到完整 commit SHA</b></td><td>43 个 workflow 中形如 <code>actions/checkout@3d3c42e5…  # v7.0.1</code>，不用浮动 tag</td></tr>
+<tr class="hl"><td><b>OpenSSF Scorecard</b></td><td>每周四 12:19 UTC 运行，<code>publish_results: true</code>、<code>id-token: write</code>、<code>persist-credentials: false</code></td></tr>
+<tr><td><b>依赖门禁</b></td><td><code>cargo-deny</code>（拒绝 yanked）+ <code>cargo-machete</code>（未使用依赖，豁免项注明原因）+ <code>dependabot-auto-merge</code> + quarantine 窗口</td></tr>
+<tr class="hl"><td><b>自更新验签</b></td><td><code>update = ["dep:sigstore-verify", "dep:snap"]</code> —— <code>goose update</code> 走 <b>sigstore 签名校验</b> + snap 压缩</td></tr>
+<tr class="hl"><td><b>CI 免长期密钥</b></td><td><code>oidc-proxy/</code>（Cloudflare Worker）用 GitHub Actions OIDC token 换上游 API 访问；校验 JWKS / issuer / audience / <code>iat</code> 年龄 / 仓库 / ref；限速 <b>2 req/s</b>、每 token 最多 <b>200 次</b>、token 最长 <b>20 分钟</b></td></tr>
+<tr><td><b>密钥存储</b></td><td><code>keyring</code> 分平台后端（apple-native / sync-secret-service / windows-native）+ <code>private_file.rs</code>（权限受限文件兜底）</td></tr>
+<tr><td><b>构建溯源</b></td><td>SLSA 构建溯源（v2.0 已记录）+ <code>scorecard.yml</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout bad">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">官方对提示注入的自述（<code>SECURITY.md</code> 原文）</span></p>
+    <p style="margin-top:8px">"In some circumstances, goose may follow commands found embedded in content even if those commands conflict with the task given to goose."</p>
+    <p style="margin-top:8px">官方建议：用<b>专用 VM / 容器</b>运行；对重大变更<b>逐条人工确认</b>；只接入<b>已审阅</b>的 MCP 扩展。漏洞经 GitHub Security tab 私下上报，升级联系人 = <b>AAIF Open Source Governance Committee</b>（<code>open-source-governance@block.xyz</code>）。</p>
+  </div>
+</div>
+
+<h4>安全模块的实际组成（修正 v2.0 的"三件套"说法）</h4>
+<div class="cards">
+  <div class="card">
+    <div class="card-h"><span class="card-i">7</span><code>security/</code> 模块数</div>
+    <p>v2.0 写作"安全三件套"，源码实测为 <b>7 个模块</b>，其中包含官方文档未提及的 <b><code>egress_inspector.rs</code></b>（出站流量检查）。</p>
+  </div>
+  <div class="card g">
+    <div class="card-h"><span class="card-i">+</span>权限判定独立成模块</div>
+    <p>另有 <code>permission/permission_judge.rs</code>，把"是否允许"的判定从执行路径中拆出，便于单测与审计。</p>
+  </div>
+</div>
+
+<h3>4.11 周边资产（源码枚举）</h3>
+<p>仓库里除了 15 个 crate，还有一批<b>不进入发布产物、但真实存在并持续运行</b>的工程资产。这些在官方文档与 README 里都没有系统呈现。</p>
+<div class="tw">
+<table>
+<thead><tr><th>资产</th><th>性质</th></tr></thead>
+<tbody>
+<tr class="hl"><td><code>buzz/</code>（11 文件，Node）</td><td>把 goose 的 GitHub issue 与公开社区 <b><code>buzz.gdk.so</code></b> 打通：用 <b>Nostr</b> 密钥创建 issue 频道、加成员、发摘要、同步话题；有一个名为 <b>Doose</b> 的 agent 身份（由 Buzz Desktop 运行）在被显式 @ 时评审 issue</td></tr>
+<tr class="hl"><td><code>services/ask-ai-bot/</code></td><td><b>Discord 支持机器人</b>（Bun + TypeScript）：回复控制在 <b>120 词</b>内，检索文档 / 源码 / GitHub 评论 / 发布记录，用 Anthropic API；日志刻意<b>不含</b>提示词与工具输入输出</td></tr>
+<tr><td><code>evals/harbor/</code></td><td>Terminal-Bench 风格评测工具（Python：<code>runner.py</code> / <code>reporter.py</code> / <code>agent.py</code> / <code>cmd.py</code> + recipes），数据见 4.12</td></tr>
+<tr><td><code>oidc-proxy/</code></td><td>Cloudflare Worker（见 4.10），为 CI 提供免长期密钥的上游访问</td></tr>
+<tr><td><code>workflow_recipes/release_risk_check/</code></td><td>发布风险检查 recipe（yaml + python + sh）</td></tr>
+<tr><td><code>examples/</code></td><td><code>mcp-wiki</code>（Python MCP 示例）、<code>plugins/hello-hooks</code>（Open Plugins hooks 示例）</td></tr>
+<tr class="hl"><td><code>scripts/</code>（30）</td><td>基准后处理（含 <b>LLM judges</b>）、<code>provider-error-proxy</code>（复现提供方错误的 Python 代理）、<code>goose-db-helper.sh</code>、<code>diagnostics-viewer.py</code>、<code>test_compaction.sh</code> / <code>test_subagents.sh</code> / <code>test_subrecipes.sh</code> / <code>test_mcp.sh</code> / <code>test_local_model_smoke.sh</code> / <code>test_openrouter_toolcalls.sh</code>、<code>setup-riscv.sh</code></td></tr>
+<tr class="hl"><td><code>bin/</code>（39）</td><td><b>Hermit</b> 管理的可复现工具链：cmake 4.2.3 / just 1.40.0 / node 24.10.0 / pnpm 10.30.3 / protoc 31.1 / rustup 1.28.2 / <b>temporal-cli 1.3.0</b>。官方 setup 第一步就是 <code>source bin/activate-hermit</code></td></tr>
+<tr><td><code>vendor/v8/</code></td><td>本地打过补丁的 v8 crate（Code Mode 的 JS 运行时）</td></tr>
+<tr><td>开发环境</td><td><code>.devcontainer/</code>、<code>.blox/workstation.yaml</code>、<code>.intersect/intersect-config.yaml</code>、<code>test_acp_client.py</code></td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout ok">
+  <div class="ic">✓</div>
+  <div><p><span class="t">两个值得单独指出的点</span> — ①<code>temporal-cli</code> 出现在 Hermit 工具链里，说明 goose 的<b>长时任务编排</b>方向已在工程侧布局；②<code>vendor/v8/</code> 存在本地补丁，意味着 Code Mode 的 JS 运行时<b>不是</b>直接吃上游 crates.io 版本，而是自维护分支（这也解释了 4.12 里 code-mode 为何能拿到最高分）。</p></div>
+</div>
+
+<h3>4.12 Terminal-Bench 自报数据（仓库内 <code>evals/harbor/</code>）</h3>
+<p><code>evals/harbor/README.md</code> 直接给出了 <code>terminal-bench/terminal-bench-2</code>（<b>89 个任务</b>）的实测结果，除小模型对照外模型统一为 <code>claude-sonnet-4-6</code>：</p>
+<div class="tw">
+<table>
+<thead><tr><th>任务</th><th style="text-align:right">通过率</th><th>说明</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>goose + code-mode</b></td><td style="text-align:right"><b>57.3%</b></td><td>仓库内最高</td></tr>
+<tr class="hl"><td>code-mode + summon</td><td style="text-align:right">57.3%</td><td>并列第一</td></tr>
+<tr><td>harbor 原版 Goose harness</td><td style="text-align:right">55.1%</td><td>用于校验适配器无损耗</td></tr>
+<tr><td>goose + summon</td><td style="text-align:right">55.1%</td><td>—</td></tr>
+<tr><td>opencode</td><td style="text-align:right">52.8%</td><td>同模型</td></tr>
+<tr><td>goose（developer, todo）</td><td style="text-align:right">50.6%</td><td>标准配置</td></tr>
+<tr><td>goose 1.30（developer, todo）</td><td style="text-align:right">50.6%</td><td>存量版本</td></tr>
+<tr><td>goose（仅 developer）</td><td style="text-align:right">48.3%</td><td>—</td></tr>
+<tr><td>pi</td><td style="text-align:right">47.2%</td><td>同模型</td></tr>
+<tr><td>nemotron-3-nano-30b-a3b</td><td style="text-align:right">1.1%</td><td>小模型对照</td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note"><b>原文关键读数</b>：code-mode 两项并列 <b>57.3%</b>；标准 goose（50.6%）与 opencode（52.8%）大致同级、<b>高于 pi（47.2%）</b>；pi 同时消耗最多算力（<b>24.4h</b>，原文 "slowest <i>and</i> lowest scoring"）。</p>
+
+<div class="callout bad">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">引用限定（必须保留）</span> — 这是<b>仓库内自报的内部评测</b>，不是第三方榜单。harness 由 goose 团队自己维护；各任务的模型与参数不完全等同（如 <code>nemotron-full</code> 用的不是 sonnet，不能与其他行直接比）。<b>可作为"goose 官方给出的对标读数"引用，不可当作中立排名。</b></p>
+    <p style="margin-top:8px">这同时回答了 v2.0 / v2.1 不确定性清单第 6 项（"Pi 在 Terminal-Bench 的具体排名——未见官方榜单"）：官方榜单仍未出现，但 goose 仓库内已有一份同模型对标数据。</p>
+  </div>
+</div>
+
+<h3>4.13 源码揭示的 8 处修正与补充</h3>
+<p>本轮把文档表述逐条拉回源码核对，发现 <b>4 处需要修正</b>（把计划/推测当成了既成事实）与 <b>4 处需要补充</b>（源码里有、文档里没有）。</p>
+<div class="tw">
+<table>
+<thead><tr><th style="width:34px">#</th><th>原表述（v2.0 / v2.1）</th><th>源码证据</th><th style="width:96px">处理</th></tr></thead>
+<tbody>
+<tr class="hl"><td>1</td><td>"2.0 beta 起桌面端改用 <b>Tauri</b> 重写"</td><td>全仓库仅 2 处提 Tauri，无任何 Tauri 代码；<code>ui/desktop</code> 是 <b>Electron 43.4.0 + Forge 7.11.2</b></td><td><b>修正</b>：Tauri 是路线图第 3 项（in progress），<b>未落地</b></td></tr>
+<tr><td>2</td><td>"works with <b>15+ providers</b>"</td><td><code>providers/</code> 66 个文件，直连 + ACP 两类共 30+ 家</td><td><b>精确化</b></td></tr>
+<tr class="hl"><td>3</td><td>"70+ 官方扩展（MCP）"</td><td>文档目录 73 个（v2.1 已精确化）；但 <code>AGENTS.md</code> 声明<b>该目录正在退役</b>，改用官方 <b>MCP Registry</b> 与 <code>server.json</code>，不再接受新增第三方条目（Discussion #10830）</td><td><b>补充战略变化</b></td></tr>
+<tr class="hl"><td>4</td><td>"2.0 beta：新 TUI"</td><td><code>ui/text/README.md</code>：该 ACP TUI <b>已弃用、源码移除、npm 包 <code>@aaif/goose</code> 标记 deprecated</b></td><td><b>补充</b>：TUI 实验已终止，官方推荐 CLI 或桌面端</td></tr>
+<tr class="hl"><td>5</td><td>"第三方平台 <b>Buzz</b> 以原生 ACP harness 集成 goose"</td><td><code>buzz/</code> 是<b>仓库自带的 Nostr issue 同步自动化</b>，目标是 <code>buzz.gdk.so</code>（与 GDK 同域），不是第三方 ACP 集成案例</td><td><b>修正</b></td></tr>
+<tr><td>6</td><td>安全体系"<b>三件套</b>"</td><td><code>security/</code> 有 7 个模块，含官方文档未提的 <b><code>egress_inspector.rs</code></b>（出站检查）；另有 <code>permission/permission_judge.rs</code></td><td><b>补充</b></td></tr>
+<tr><td>7</td><td>分发渠道（未提 npm）</td><td><code>ui/goose-binary/</code> 5 个平台包 + <code>@aaif/goose-acp</code> 包装包</td><td><b>补充</b></td></tr>
+<tr class="hl"><td>8</td><td><code>.goosehints</code> 仍描述 <code>goose-server</code>（goosed）与 <code>goose-bench</code> crate</td><td>15 个 crate 中<b>二者均不存在</b>（已被 ACP 架构取代）</td><td><b>文档债</b>：仓库内的 agent 提示文件滞后于实际架构</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">同源发现（非错误，但值得记录）</span> — 仓库根目录存在 <code>MERGE_FIXES.md</code>，是一份针对 <code>unroll-agent-loop</code> 分支的内部合并修复笔记，自称"分支合并前应删除"。</p>
+    <p style="margin-top:8px">它意外提供了状态机重构的进度与测试现状：<code>cargo test -p goose</code> 仅剩 <b>4 个 jsonwebtoken 库测试</b>与 <b>6 个依赖网络的 provider 测试</b>失败。属透明但未清理的内部文档。</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= 5. 竞品对比 ================= -->
+<section id="s5">
+<h2><span class="h2n">5</span>竞品全景对比</h2>
+
+<h3>5.1 GitHub 硬数据总表（按 stars 降序，2026-10-15 实时采集）</h3>
 <div class="tw">
 <table>
 <thead><tr>
@@ -1561,12 +2057,12 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
   <div><p><span class="t">结论</span> — goose 的月均增速（约 2,127）显著低于同期新锐（Pi 约 8,230、opencode 约 11,865）。<b>"开源最早"没有转化为"声量最大"</b>，这是 goose 最真实的处境。</p></div>
 </div>
 
-<h3>4.2 定位差异表</h3>
+<h3>5.2 定位差异表</h3>
 <div class="tw">
 <table>
 <thead><tr><th>产品</th><th>定位</th><th>主打形态</th><th>是否仅限编程</th><th>治理主体</th></tr></thead>
 <tbody>
-<tr class="hl"><td><b>goose</b></td><td>通用本地 agent</td><td>桌面 + CLI + API + TUI</td><td><b>否</b></td><td><b>Linux 基金会 AAIF</b></td></tr>
+<tr class="hl"><td><b>goose</b></td><td>通用本地 agent</td><td>桌面 + CLI + API（TUI 已弃用）</td><td><b>否</b></td><td><b>Linux 基金会 AAIF</b></td></tr>
 <tr><td>opencode</td><td>终端 coding agent</td><td>终端 TUI + 桌面（beta）</td><td>是</td><td>Anomaly 商业公司</td></tr>
 <tr><td>Pi Agent</td><td>agent 工具包全家桶</td><td>终端 TUI（另有 Web / SDK）</td><td>是</td><td>Mario Zechner（个人 / 小团队）</td></tr>
 <tr><td>Claude Code</td><td>终端 agentic coding</td><td>终端</td><td>是</td><td>Anthropic</td></tr>
@@ -1588,14 +2084,14 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
   <div><p><span class="t">结构性观察</span> — 14 款产品中，<b>仅 goose 由基金会托管</b>；<b>仅 goose 与 OpenWork / WorkBuddy 提供原生桌面</b>；<b>仅 goose 不限编程场景且同时具备四形态</b>。这三个"唯一"构成了 goose 的差异化基础。</p></div>
 </div>
 
-<h3>4.3 与五款重点产品的逐一对比</h3>
+<h3>5.3 与五款重点产品的逐一对比</h3>
 <div class="tw">
 <table>
 <thead><tr><th>对比对象</th><th>goose 的优势</th><th>goose 的劣势</th><th>竞争关系</th></tr></thead>
 <tbody>
 <tr>
 <td><b>opencode</b><br><span class="sec-note">213,573 ★</span></td>
-<td>基金会治理；原生桌面四形态；场景不限编程；MCP 70+ 官方扩展；ACP 双向；完整安全体系</td>
+<td>基金会治理；原生桌面四形态；场景不限编程；MCP 73 个官方扩展；ACP 双向；完整安全体系</td>
 <td>星数仅其 1/4；月均增速约 1/5.6；第三方教程 / 插件 / 主题全面落后；背后无公司全职投入</td>
 <td><b>最直接对手</b>：宽松许可证 + 终端 agent + 多模型自由，几乎全维度重叠</td>
 </tr>
@@ -1628,11 +2124,11 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 5. Linux 专项 ================= -->
-<section id="s5">
-<h2><span class="h2n">5</span>Linux 环境专项对比</h2>
+<!-- ================= 6. Linux 专项 ================= -->
+<section id="s6">
+<h2><span class="h2n">6</span>Linux 环境专项对比</h2>
 
-<h3>5.1 goose v1.54.0 发布产物逐条清点（40 个）</h3>
+<h3>6.1 goose v1.54.0 发布产物逐条清点（40 个）</h3>
 <div class="callout bad">
   <div class="ic">!</div>
   <div><p><span class="t">勘误要点</span> — v1.1 曾把"40 个产物"误述为"40 个 Linux 相关产物"。逐条分类后：<b>Linux 相关实为 24 个，占 60%</b>。</p></div>
@@ -1681,12 +2177,12 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <li><b>musl 静态链接变体</b>：<code>*-unknown-linux-musl</code> 可在 Alpine 等无 glibc 环境直接运行，是服务器 / 容器场景的关键能力。</li>
 </ol>
 
-<h3>5.2 安装渠道与形态对比</h3>
+<h3>6.2 安装渠道与形态对比</h3>
 <div class="tw">
 <table>
 <thead><tr><th>产品</th><th>Linux 安装方式</th><th>Linux 形态</th><th>运行时依赖</th><th>本地模型</th><th class="c">适配评分</th></tr></thead>
 <tbody>
-<tr class="hl"><td><b>goose</b></td><td><b>RPM / DEB / Flatpak</b> / CLI tarball（gnu + musl）/ 官方一行脚本 / Nix flake / 部分发行版仓库</td><td>原生桌面 + CLI + TUI</td><td>Rust 单二进制（musl 变体零依赖）</td><td><b>内置 llama.cpp</b></td><td class="c"><span class="stars">★★★★<span class="off">★</span></span></td></tr>
+<tr class="hl"><td><b>goose</b></td><td><b>RPM / DEB / Flatpak</b> / CLI tarball（gnu + musl）/ 官方一行脚本 / Nix flake / 部分发行版仓库</td><td>原生桌面 + CLI</td><td>Rust 单二进制（musl 变体零依赖）</td><td><b>内置 llama.cpp</b></td><td class="c"><span class="stars">★★★★<span class="off">★</span></span></td></tr>
 <tr><td>opencode</td><td><b>pacman 官方源</b> / AUR / brew / Nix / mise / npm</td><td>终端 TUI + 桌面（deb / rpm / AppImage）</td><td>Node / Bun</td><td>多 provider</td><td class="c"><span class="stars">★★★★<span class="off">★</span></span></td></tr>
 <tr><td>Pi Agent</td><td>curl install.sh / npm / Nix（x86-64 + ARM64）</td><td>仅终端 TUI</td><td><b>Node 22.19+</b></td><td>统一 LLM API</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
 <tr><td>Codex</td><td>npm / brew / GitHub 二进制</td><td>终端</td><td>Rust 单二进制</td><td>有限</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
@@ -1703,9 +2199,9 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </tbody>
 </table>
 </div>
-<p class="sec-note">评分维度：安装渠道丰富度 / 形态完整度 / 依赖链轻量 / 服务器场景适配（各 1 星，半星用于区分同档）。<b>goose 扣半星原因</b>：Tauri 桌面端在部分发行版仍需补 WebKit / GTK 依赖，开箱体验不如 Arch 官方源的 opencode。</p>
+<p class="sec-note">评分维度：安装渠道丰富度 / 形态完整度 / 依赖链轻量 / 服务器场景适配（各 1 星，半星用于区分同档）。<b>goose 扣半星原因</b>：桌面端（Electron）在部分发行版仍需补 GTK / 图形依赖，开箱体验不如 Arch 官方源的 opencode。</p>
 
-<h3>5.3 三个 Linux 特有事实</h3>
+<h3>6.3 三个 Linux 特有事实</h3>
 <ol>
 <li><b>发布物不会说谎</b>：goose 单版 24 个 Linux 产物、覆盖 4 种原生包格式；opencode 则直接进了 <b>Arch 官方仓库</b>。这两款是 Linux 打包最认真的。</li>
 <li><b>依赖链三档</b>：
@@ -1718,7 +2214,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <li><b>桌面 Linux 是小众需求</b>：仅 goose、opencode、OpenWork、WorkBuddy 提供 Linux 桌面版，其余全部为终端 / IDE / 服务端形态——桌面 Linux 用户的选择面远窄于 Windows / macOS。</li>
 </ol>
 
-<h3>5.4 分场景结论</h3>
+<h3>6.4 分场景结论</h3>
 <div class="tw">
 <table>
 <thead><tr><th>场景</th><th>推荐</th><th>理由</th></tr></thead>
@@ -1732,7 +2228,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </table>
 </div>
 
-<h3>5.5 goose 在 Linux 上的优势与短板</h3>
+<h3>6.5 goose 在 Linux 上的优势与短板</h3>
 <div class="cards">
   <div class="card g">
     <div class="card-h"><span class="card-i">＋</span>优势</div>
@@ -1744,18 +2240,18 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
   </div>
   <div class="card r">
     <div class="card-h"><span class="card-i">－</span>短板</div>
-    <p><b>1.</b> 桌面端处于 Tauri 2.0 beta 过渡架构，部分发行版需补 WebKit / GTK 依赖。</p>
-    <p style="margin-top:9px"><b>2.</b> 社区打包质量参差；<code>goose-cli</code> 在主流发行版<b>官方源</b>的收录范围仍未逐一核实（见第 9 节）。</p>
+    <p><b>1.</b> 桌面端仍为 <b>Electron</b>（Tauri 迁移未落地，见 4.7），部分发行版需补 GTK / 图形依赖。</p>
+    <p style="margin-top:9px"><b>2.</b> 社区打包质量参差；<code>goose-cli</code> 在主流发行版<b>官方源</b>的收录范围仍未逐一核实（见第 10 节）。</p>
     <p style="margin-top:9px"><b>3.</b> 首次配置门槛依旧存在（provider 配置、keyring 处理、PATH 调整）。</p>
   </div>
 </div>
 </section>
 
-<!-- ================= 6. 优劣势 ================= -->
-<section id="s6">
-<h2><span class="h2n">6</span>优势与劣势总分析</h2>
+<!-- ================= 7. 优劣势 ================= -->
+<section id="s7">
+<h2><span class="h2n">7</span>优势与劣势总分析</h2>
 
-<h3>6.1 优势（按不可替代程度排序）</h3>
+<h3>7.1 优势（按不可替代程度排序）</h3>
 <div class="tw">
 <table>
 <thead><tr><th class="c">#</th><th>优势</th><th>说明</th><th>是否可被复制</th></tr></thead>
@@ -1763,9 +2259,9 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr class="hl"><td class="c">1</td><td><b>治理中立性</b></td><td>14 款对比产品中唯一由 Linux 基金会 AAIF 托管；贡献者保留版权；治理变更需 LF Projects 批准</td><td>极难（需捐给基金会）</td></tr>
 <tr><td class="c">2</td><td><b>工程健康度</b></td><td>453 贡献者 + 480 open issues（issues/stars 比 0.87%，全表最优）；约 5–7 天一版</td><td>中等</td></tr>
 <tr><td class="c">3</td><td><b>第三方权威背书</b></td><td>LF Insights 官方健康分 <b>Healthy</b>，可直接用于企业采购与合规论证</td><td>难（需实际达标）</td></tr>
-<tr><td class="c">4</td><td><b>形态与场景最宽</b></td><td>桌面 + CLI + API + TUI 四形态；不限编程场景</td><td>中等（需资源投入）</td></tr>
-<tr><td class="c">5</td><td><b>协议站位</b></td><td>MCP 最早最深度集成者（70+ 扩展）+ ACP server（可被 Zed / JetBrains / VS Code 接入，也可把 Claude Code / Codex 当 provider）</td><td>较难（协议基础设施属性）</td></tr>
-<tr><td class="c">6</td><td><b>模型自由度 + 离线</b></td><td>15+ provider、订阅复用、内置 llama.cpp 本地推理、Mesh LLM 路由</td><td>中等</td></tr>
+<tr><td class="c">4</td><td><b>形态与场景最宽</b></td><td>桌面 + CLI + API 三形态（TUI 已弃用）；不限编程场景</td><td>中等（需资源投入）</td></tr>
+<tr><td class="c">5</td><td><b>协议站位</b></td><td>MCP 最早最深度集成者（73 个扩展）+ ACP server（可被 Zed / JetBrains / VS Code 接入，也可把 Claude Code / Codex 当 provider）</td><td>较难（协议基础设施属性）</td></tr>
+<tr><td class="c">6</td><td><b>模型自由度 + 离线</b></td><td>30+ 家 provider、订阅复用、内置 llama.cpp 本地推理、Mesh LLM 路由</td><td>中等</td></tr>
 <tr><td class="c">7</td><td><b>Linux 分发完整度</b></td><td>24 个 Linux 产物 / 4 种包格式 / 双 libc / vulkan / Nix / RISCV</td><td>中等</td></tr>
 <tr><td class="c">8</td><td><b>安全体系</b></td><td>macOS 沙箱、提示注入检测、权限控制、Adversary mode、SLSA 溯源；四层结构：执行前检测 → 执行中监视 → 权限约束 → 供应链溯源</td><td>较难（开源阵营唯一成体系）</td></tr>
 <tr class="hl"><td class="c">9</td><td><b>文档与开发者接口完备度</b></td><td><b>173 篇官方文档</b>，73 个扩展各有独立页；<b>GDK</b> 同时提供 SDK（Rust / Python / Kotlin 进程内库）与 ACP（stdio / HTTP / WebSocket）两种嵌入方式</td><td>中等（需持续投入）</td></tr>
@@ -1773,7 +2269,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </table>
 </div>
 
-<h3>6.2 劣势（按影响程度排序）</h3>
+<h3>7.2 劣势（按影响程度排序）</h3>
 <div class="tw">
 <table>
 <thead><tr><th class="c">#</th><th>劣势</th><th>说明</th><th>可缓解性</th></tr></thead>
@@ -1783,14 +2279,14 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr><td class="c">3</td><td><b>无托管与协作体系</b></td><td>无多租户、SSO、审计后台；企业需自建定制发行版（官方提供 CUSTOM_DISTROS 机制）</td><td>中（可外部集成）</td></tr>
 <tr><td class="c">4</td><td><b>一方模型优化深度不足</b></td><td>跨模型通用换来单模型深度折损（"通用性税"），编程基准通常不敌 Claude Code / Codex</td><td>低</td></tr>
 <tr><td class="c">5</td><td><b>记忆架构偏被动</b></td><td>有 Memory Extension + compaction + 独立 context-management crate，但社区评价仍偏"文件式 / 被动式"</td><td>中（已在改进）</td></tr>
-<tr><td class="c">6</td><td><b>架构过渡期风险</b></td><td>2.0 beta（Tauri / 新 TUI / 状态机）未完全收敛</td><td>高（时间可解）</td></tr>
+<tr><td class="c">6</td><td><b>架构过渡期风险</b></td><td>2.0 beta 未完全收敛：<b>Tauri 桌面重写</b>与状态机重构仍在进行中（<b>新 TUI 已终止</b>，见 4.7 / 4.13）</td><td>高（时间可解）</td></tr>
 <tr><td class="c">7</td><td><b>决策集中度</b></td><td>453 贡献者背后实际决策仍为 7 名 Core Maintainer</td><td>中</td></tr>
 <tr><td class="c">8</td><td><b>品牌迁移遗留</b></td><td>Flatpak ID 等标识仍沿用 <code>block</code> 命名空间，品牌与仓库归属存在过渡期不一致</td><td>高（可修正）</td></tr>
 </tbody>
 </table>
 </div>
 
-<h3>6.3 一个需要注意的判断项（非事实）</h3>
+<h3>7.3 一个需要注意的判断项（非事实）</h3>
 <div class="callout warn">
   <div class="ic">!</div>
   <div>
@@ -1800,11 +2296,11 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 7. 社区声音 ================= -->
-<section id="s7">
-<h2><span class="h2n">7</span>社区与官方声音</h2>
+<!-- ================= 8. 社区声音 ================= -->
+<section id="s8">
+<h2><span class="h2n">8</span>社区与官方声音</h2>
 
-<h3>7.1 官方叙事（goose-docs.ai 博客，2026）</h3>
+<h3>8.1 官方叙事（goose-docs.ai 博客，2026）</h3>
 <div class="tw">
 <table>
 <thead><tr><th>时间</th><th>主题</th><th>信号</th></tr></thead>
@@ -1816,7 +2312,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr><td>2026-04</td><td>内置 llama.cpp 本地推理（Private by Default）</td><td>隐私与离线</td></tr>
 <tr><td>2026-04</td><td>Mesh LLM 跨模型路由</td><td>模型自由度</td></tr>
 <tr><td>2026-04</td><td>goose 迁入 AAIF</td><td>治理落地</td></tr>
-<tr><td>2026-04</td><td>goose 2.0 beta：Tauri 桌面重写、新 TUI、统一 ACP</td><td>架构换代</td></tr>
+<tr><td>2026-04</td><td>goose 2.0 beta：<b>宣布</b> Tauri 桌面重写、新 TUI、统一 ACP（源码核对：桌面端仍为 Electron，TUI 已弃用）</td><td>架构换代</td></tr>
 <tr><td>2026-05</td><td>Hooks（Open Plugins 规范）、goose as conductor 多代理编排</td><td>可编程性</td></tr>
 <tr><td>2026-06</td><td>自改进 agent 仍需人类（Terminal-Bench / Harbor 失败即 bug 报告）</td><td>工程务实</td></tr>
 <tr><td>2026-07</td><td>Issues as the new PRs（agent 把 ready issue 转代码）</td><td>贡献流程再造</td></tr>
@@ -1825,7 +2321,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </table>
 </div>
 
-<h3>7.2 社区评价</h3>
+<h3>8.2 社区评价</h3>
 <div class="cards">
   <div class="card g">
     <div class="card-h"><span class="card-i">＋</span>正面</div>
@@ -1842,9 +2338,9 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 8. 选型建议 ================= -->
-<section id="s8">
-<h2><span class="h2n">8</span>选型建议</h2>
+<!-- ================= 9. 选型建议 ================= -->
+<section id="s9">
+<h2><span class="h2n">9</span>选型建议</h2>
 <div class="tw">
 <table>
 <thead><tr><th>需求</th><th>推荐</th><th>说明</th></tr></thead>
@@ -1865,9 +2361,9 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 9. 不确定性 ================= -->
-<section id="s9">
-<h2><span class="h2n">9</span>不确定性清单（诚实声明）</h2>
+<!-- ================= 10. 不确定性 ================= -->
+<section id="s10">
+<h2><span class="h2n">10</span>不确定性清单（诚实声明）</h2>
 <div class="tw">
 <table>
 <thead><tr><th class="c">#</th><th>事项</th><th>状态</th></tr></thead>
@@ -1877,10 +2373,10 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 <tr><td class="c">3</td><td>goose 2.0 GA 时间</td><td>未公布；稳定线仍为 1.x</td></tr>
 <tr><td class="c">4</td><td><code>goose-cli</code> 在主流发行版官方源的收录范围</td><td>repology 有收录，具体范围未逐一核实</td></tr>
 <tr><td class="c">5</td><td>goose Flatpak 是否已正式上架 Flathub</td><td>产物已发布，但未核验 Flathub 商店条目</td></tr>
-<tr><td class="c">6</td><td>Pi 在 Terminal-Bench 的具体排名</td><td>单一社区来源，未见官方榜单</td></tr>
+<tr class="hl"><td class="c">6</td><td>Pi 在 Terminal-Bench 的具体排名</td><td><b>部分解决（v2.2）</b>：官方第三方榜单仍未出现，但 goose 仓库内已有同模型对标数据——89 个任务，pi <b>47.2%</b> vs goose <b>50.6%</b>（见 4.12）。该数据为<b>仓库自报</b>，非中立排名</td></tr>
 <tr><td class="c">7</td><td>AAIF 成员公司完整名单</td><td>部分细节来自百科 / 媒体转述</td></tr>
 <tr><td class="c">8</td><td>订阅 OAuth 的合规判定</td><td>本文判断，非事实</td></tr>
-<tr><td class="c">9</td><td>goose 1.x 桌面的具体实现框架</td><td>未逐一验证（仅确认 2.0 采用 Tauri）</td></tr>
+<tr class="hl"><td class="c">9</td><td>goose 桌面的具体实现框架</td><td><b>已解决（v2.2）</b>：源码实测为 <b>Electron 43.4.0 + Forge 7.11.2</b>；Tauri 迁移<b>未落地</b>（见 4.7）</td></tr>
 <tr><td class="c">10</td><td>社区打包质量与 repology 收录明细</td><td>未逐条核对各发行版仓库版本</td></tr>
 <tr class="hl"><td class="c">11</td><td>部分官方文档由 Docusaurus 组件动态渲染</td><td>如 <code>&lt;RateLimits /&gt;</code>、<code>&lt;OnboardingProviderSetup /&gt;</code>、各平台安装按钮组件，其最终内容在 Markdown 源中不可见</td></tr>
 <tr class="hl"><td class="c">12</td><td>Roaming 的正式可用时间</td><td>官方标记为实验性且<b>不含在发布二进制中</b>，需自行编译启用；尚无 GA 计划</td></tr>
@@ -1890,9 +2386,9 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 </div>
 </section>
 
-<!-- ================= 10. 参考来源 ================= -->
-<section id="s10">
-<h2><span class="h2n">10</span>参考来源</h2>
+<!-- ================= 11. 参考来源 ================= -->
+<section id="s11">
+<h2><span class="h2n">11</span>参考来源</h2>
 
 <h4>官方</h4>
 <ul>
@@ -1949,7 +2445,7 @@ GDK 与 Roaming Agents 等能力图谱（见第 3 章）。</p>
 
 <!-- ================= 附录 A ================= -->
 <section id="sa">
-<h2><span class="h2n">A</span>附录：v2.1 复核方法可复现命令</h2>
+<h2><span class="h2n">A</span>附录：v2.2 复核方法可复现命令</h2>
 <details open>
 <summary>展开命令清单（可直接粘贴执行）</summary>
 <div class="d-body">
@@ -1993,7 +2489,52 @@ for t in json.load(sys.stdin)['tree']:
 
 <span class="cmt"># 8) 单篇文档正文（示例：架构文档）</span>
 curl -s -H "Authorization: Bearer $TOKEN" \
-  https://raw.githubusercontent.com/aaif-goose/goose/main/documentation/docs/goose-architecture/goose-architecture.md</code></pre>
+  https://raw.githubusercontent.com/aaif-goose/goose/main/documentation/docs/goose-architecture/goose-architecture.md
+
+<span class="cmt"># ---------- 以下为 v2.2 源码维度新增 ----------</span>
+
+<span class="cmt"># 9) 源码全量文件树（一次拿到整棵树，务必检查 truncated 字段）</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/repos/aaif-goose/goose/git/trees/main?recursive=1" \
+  | python -c "
+import sys,json
+d=json.load(sys.stdin)
+print('truncated=',d.get('truncated'),' files=',len(d['tree']))
+print('top-level=',len(set(t['path'].split('/')[0] for t in d['tree'])))
+"
+
+<span class="cmt"># 10) 字符串级全仓库检索 —— 判定"计划 vs 既成事实"的关键手段</span>
+<span class="cmt">#     搜 tauri 只命中 2 个文件且无构建配置 ⇒ Tauri 重写未落地</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/search/code?q=tauri+repo:aaif-goose/goose" \
+  | python -c "import sys,json;d=json.load(sys.stdin);print(d['total_count']);[print(' -',i['path']) for i in d.get('items',[])]"
+
+<span class="cmt"># 11) 桌面端依赖真相（Electron / Forge / React / Vite 版本）</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://raw.githubusercontent.com/aaif-goose/goose/main/ui/desktop/package.json \
+  | python -c "
+import sys,json
+d=json.load(sys.stdin)
+dd=d.get('devDependencies',{})
+for k in ['electron','@electron-forge/cli','vite']:
+    print(k,'=',dd.get(k))
+print('react =',d.get('dependencies',{}).get('react'))
+"
+
+<span class="cmt"># 12) 工作区版本 vs 最新发布（判断是否有未发布改动）</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://raw.githubusercontent.com/aaif-goose/goose/main/Cargo.toml | head -20
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://api.github.com/repos/aaif-goose/goose/releases/latest \
+  | python -c "import sys,json;print('latest tag =',json.load(sys.stdin)['tag_name'])"
+
+<span class="cmt"># 13) 发布产物版本间 diff（定位"何时新增了什么"）</span>
+for v in v1.51.0 v1.52.0; do
+  curl -s -H "Authorization: Bearer $TOKEN" \
+    https://api.github.com/repos/aaif-goose/goose/releases/tags/$v \
+    | python -c "import sys,json;print('\n'.join(sorted(a['name'] for a in json.load(sys.stdin)['assets'])))" &gt; /tmp/$v.txt
+done
+diff /tmp/v1.51.0.txt /tmp/v1.52.0.txt</code></pre>
 </div>
 </details>
 
@@ -2005,7 +2546,8 @@ curl -s -H "Authorization: Bearer $TOKEN" \
 <tr><td>v1.0</td><td>2026-10-14</td><td>对话式研究，含时间线图表</td></tr>
 <tr><td>v1.1</td><td>2026-10-15</td><td>首轮勘误 10 项 + 4 项新增事实</td></tr>
 <tr><td><b>v2.0</b></td><td>2026-10-15</td><td>全量重采 API 复核，勘误 18 项（3 实质错误 / 6 重要遗漏 / 3 数据过期 / 6 口径改进），新增 Flatpak 与 DEB、LF 官方健康分、15 个 crate 结构、Core Maintainers 实名、issues/stars 比与增速对比</td></tr>
-<tr class="hl"><td><b>v2.1</b></td><td><b>2026-10-15</b></td><td><b>官方文档补全版：全量抓取 173 篇官方文档（约 1.33 MB），新增第 3 章「官方文档能力全景」（13 节），补齐官方架构三组件与六步循环、14 个内置扩展、73 个 MCP 扩展分类、完整 CLI 命令表、15 个斜杠命令、上下文管理参数级细节、GDK、Roaming Agents、实验性功能；修正 v2.0 关于"生态薄弱"的表述（区分官方文档与第三方生态）</b></td></tr>
+<tr><td><b>v2.1</b></td><td>2026-10-15</td><td>官方文档补全版：全量抓取 173 篇官方文档（约 1.33 MB），新增第 3 章「官方文档能力全景」（13 节），补齐官方架构三组件与六步循环、14 个内置扩展、73 个 MCP 扩展分类、完整 CLI 命令表、15 个斜杠命令、上下文管理参数级细节、GDK、Roaming Agents、实验性功能；修正 v2.0 关于"生态薄弱"的表述（区分官方文档与第三方生态）</td></tr>
+<tr class="hl"><td><b>v2.2</b></td><td><b>2026-10-15</b></td><td><b>源码级补全版：对仓库 <code>main</code> 分支做全量文件树枚举（3,038 个文件 / 52 个顶层条目），新增第 4 章「源码级架构与工程实践」（13 节），覆盖 15 个 crate 的真实职责、特性矩阵与模块地图、66 个提供方文件、桌面端 Electron 真相、npm 分发渠道、43 个 workflow 的质量保障体系、安全与供应链源码口径、周边资产与 Terminal-Bench 自报数据；<b>修正 4 处"把计划当既成事实"的表述</b>（Tauri / Buzz / providers / .goosehints），并把不确定性清单第 6、9 项标记为已解决</b></td></tr>
 </tbody>
 </table>
 </div>
@@ -2015,7 +2557,7 @@ curl -s -H "Authorization: Bearer $TOKEN" \
   <div class="foot-grid">
     <div>
       <b>报告</b><br>
-      goose 深度研究报告 v2.1<br>
+      goose 深度研究报告 v2.2<br>
       开源 AI Agent 的治理样本与竞争格局<br>
       数据截止 2026-10-15
     </div>
@@ -2025,6 +2567,7 @@ curl -s -H "Authorization: Bearer $TOKEN" \
       仓库治理文件原文比对<br>
       发布产物逐条清点<br>
       官方文档库全量抓取（173 篇）<br>
+      源码全量文件树枚举（3,038 文件）<br>
       LF Insights 官方健康分
     </div>
     <div>
@@ -2036,14 +2579,14 @@ curl -s -H "Authorization: Bearer $TOKEN" \
     </div>
     <div>
       <b>版本</b><br>
-      v2.1（2026-10-15）<br>
-      取代 v2.0<br>
-      勘误 18 项 · 文档补充 13 项
+      v2.2（2026-10-15）<br>
+      取代 v2.1<br>
+      勘误 18 项 · 文档 13 项 · 源码 8 项
     </div>
   </div>
   <p style="margin:0">
     本报告基于公开数据独立编写。所有 GitHub 数值为 API 实时返回值，采集时点 2026-10-15。
-    对未经第二来源验证的说法已逐条标注，详见第 9 节。
+    对未经第二来源验证的说法已逐条标注，详见第 10 节。
   </p>
 </footer>
 
