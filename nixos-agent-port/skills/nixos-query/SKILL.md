@@ -1,19 +1,21 @@
 ---
 name: nixos-query
-description: "Query nixpkgs/NixOS facts with the mcp-nixos MCP server — packages, options, Home Manager, nix-darwin, Nixvim, NVF, flakes, FlakeHub, Noogle, the binary cache, store paths, and package version history. Use before writing any package name, option path, or version into a config; and when asked whether something exists, what it is called, or which commit shipped it."
+description: Query nixpkgs/NixOS facts with the mcp-nixos MCP server — packages, options, Home Manager, nix-darwin, Nixvim, NVF, flakes, FlakeHub, Noogle, the binary cache, store paths, and package version history. Use before writing any package name, option path, or version into a config; and when asked whether something exists, what it is called, or which commit shipped it.
 version: 1.0.0
 author: 从 utensils/mcp-nixos 的源码与官方文档转换而来（Hermes Agent 适配）
 license: MIT
 platforms: [linux, macos, windows]
-metadata:
-  hermes:
-    tags: [NixOS, nixpkgs, mcp-nixos, package-search, option-search, version-history, binary-cache, anti-hallucination]
-    category: devops
-    related_skills: [nixos-ops, fastmcp]
-    requires_toolsets: [mcp]
-prerequisites:
-  commands: [uvx]
-  mcp_servers: [nixos]
+metadata: '{hermes: {
+   tags: [NixOS, nixpkgs, mcp-nixos, package-search, option-search, version-history, binary-cache, anti-hallucination],
+   category: devops,
+   related_skills: [nixos-ops, fastmcp],
+   requires_toolsets: [mcp]
+}}'
+prerequisites: '{
+   commands: [uvx],
+   mcp_servers: [nixos]
+}'
+type: Checklist
 ---
 
 # nixos-query — 用 mcp-nixos 查证 Nix 世界的事实
