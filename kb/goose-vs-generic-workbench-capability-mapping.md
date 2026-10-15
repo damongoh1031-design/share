@@ -13,7 +13,7 @@ tags:
   - workbuddy
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.0
+version: 1.1
 status: stable
 source: goose 官方文档库（documentation/ 全量 173 篇，本地抓取快照 2026-10-15）+ 源码级事实快照（v2.2 报告）+ 本文判断
 confidence: 已核实
@@ -21,7 +21,7 @@ confidence: 已核实
 
 # goose 能力对标速查
 
-## TL;DR
+## 一句话结论
 
 goose 的「专家团」= **Custom Agents**（`~/.agents/agents/*.md` + `@name` 提及 / `Delegate to` 委派）；它有 Skills / Recipes / Plugins / Hooks / Subagents / Slash Commands，但**没有**向量知识库（无切片·无嵌入·无重排·无语义召回）、**没有** PDF 生成、**没有**多模型同屏对话、**没有**内建 planner。系统耦合极深：Developer extension 的 `shell` 以当前用户权限直接执行任意命令，且默认权限模式（Completely Autonomous）**不询问**。
 
@@ -300,6 +300,39 @@ Hook 可拦截的事件（与系统耦合相关的）：`BeforeShellExecution` /
 | 知识库 | **无 RAG** | 常自带 |
 | PDF 产出 | **不能生成** | 常自带 |
 | 可分享性 | Recipe deeplink / GitHub 库 / Plugin 包 | 视产品 |
+
+---
+
+## 13. 中文文档状态与翻译进度（2026-10-15）
+
+### 官方是否有中文
+
+**截至 2026-10-15，goose 官方文档没有官方中文版本。** 官方 Docusaurus 配置 `documentation/docusaurus.config.ts` 明确写 `defaultLocale: "en"`、`locales: ["en"]`，且仓库 `documentation/` 下没有 `i18n/` 目录。第三方中文介绍/教程不等于官方逐页翻译。
+
+### 手册规模与当前进度
+
+| 项目 | 状态（截至 2026-10-15 15:02 GMT+8） |
+|---|---|
+| 源语料 | `aaif-goose/goose/documentation/docs/`，173 个 Markdown / MDX 页面，1,351,256 字节 |
+| 分章 | 22 章，`groups.json` 核验覆盖 173/173 页；无重复、无遗漏 |
+| 已产出 | 第 01–12 章、第 21–22 章，共 14/22 章、81/173 页面节 |
+| 已产出体积 | 已完成章节共 696,849 字节；对应源文 727,232 字节，约 96% |
+| 未产出 | 第 13–20 章共 8 章；需补译后才能形成全量版 |
+| 手册总目录 / 单文件完整版 | 尚未生成，须在 22 章到齐并审计后生成 |
+| GitHub | 2026-10-15 曾推送第一批快照 commit `4909720`；它不是最终完整手册。第 06 章与后续修改尚未纳入最终 push |
+
+### 阻塞原因与恢复
+
+多名并行翻译代理收到 **429 too many requests / usage exceeds frequency limit**。系统给出的额度恢复时间为 **2026-10-16 11:41:47（UTC+8）**。失败的是额度/频率限制，不代表源文档缺失；尚未产出的章节不得用摘要或猜测填充。
+
+恢复后按顺序完成：第 13–20 章 → 全量审计（页数、标题、来源 URL、相对资源链接、代码围栏、译文体积）→ 生成 README 与单文件完整版 → 一次性同步全部交付物 → 远端 API 直读哈希复核。
+
+---
+
+## 修订记录
+
+- **1.1**（2026-10-15）：核实 goose 官方文档仅启用英文 locale；补记中文手册 22 章分组、14 章/81 页完成进度、部分 GitHub commit 与 429 额度恢复时间。
+- **1.0**（2026-10-15）：初版 goose 能力对标速查。
 
 ---
 
