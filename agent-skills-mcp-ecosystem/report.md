@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # AI Agent 扩展生态深度调研：Skills · MCP · 辅助工具 · SKILL.md 规范
 
 > **调研对象**：AI Agent 的"扩展面"——技能（Skills）、协议（MCP）、辅助工具链、以及 SKILL.md 规范本身
