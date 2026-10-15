@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 用 AI Agent 管理 Linux 运维：全发行版深度研究报告
 
 **版本** v1.1 · **成稿日期** 2026-10-12 · **覆盖发行版** NixOS / Arch / Fedora / Debian / Ubuntu / RHEL 系 / openSUSE
