@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>goose 深度研究报告 v2.0 · 开源 AI Agent 的治理样本与竞争格局</title>
+<meta name="description" content="aaif-goose/goose 深度研究报告 v2.0：2026-10-15 全量复核版，含 18 项勘误、14 款竞品实时数据对比与 Linux 分发专项分析。">
+<style>
+/* ============ 设计令牌 ============ */
+:root{
+  --bg:#f6f6f4;
+  --surface:#ffffff;
+  --surface-2:#fbfbf9;
+  --surface-3:#f2f2ef;
+  --border:#e4e4e0;
+  --border-strong:#d0d0ca;
+  --text:#1b1b19;
+  --text-2:#54534d;
+  --text-3:#8b8a82;
+  --brand:#3b52c4;
+  --brand-ink:#2a3b96;
+  --brand-soft:#eef1fd;
+  --brand-line:#c7cff5;
+  --amber:#a16207;
+  --amber-soft:#fef7e6;
+  --amber-line:#f0dba8;
+  --rose:#b42318;
+  --rose-soft:#fef3f2;
+  --rose-line:#f3c9c4;
+  --teal:#0f766e;
+  --teal-soft:#effaf8;
+  --teal-line:#b8e3dd;
+  --code-bg:#f3f4f2;
+  --shadow:0 1px 2px rgba(24,24,20,.04), 0 8px 24px -12px rgba(24,24,20,.12);
+  --radius:14px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e1013;
+    --surface:#171a1f;
+    --surface-2:#1c2026;
+    --surface-3:#232830;
+    --border:#2a2f38;
+    --border-strong:#3a4150;
+    --text:#eceef1;
+    --text-2:#a8aeb8;
+    --text-3:#767d89;
+    --brand:#8ba0f7;
+    --brand-ink:#b3c1fb;
+    --brand-soft:#1b2340;
+    --brand-line:#2f3d70;
+    --amber:#e3b341;
+    --amber-soft:#2a2413;
+    --amber-line:#4a3d1a;
+    --rose:#f2857c;
+    --rose-soft:#2b1a18;
+    --rose-line:#4d2b27;
+    --teal:#5fd3c4;
+    --teal-soft:#12251f;
+    --teal-line:#1f4740;
+    --code-bg:#1e232a;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+}
+
+/* ============ 基础 ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:15.5px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:2px}
+
+/* ============ 布局 ============ */
+.shell{
+  display:grid;
+  grid-template-columns:264px minmax(0,1fr);
+  gap:0;
+  max-width:1360px;
+  margin:0 auto;
+  align-items:start;
+}
+.sidebar{
+  position:sticky;top:0;
+  height:100vh;
+  overflow-y:auto;
+  padding:34px 22px 40px 30px;
+  border-right:1px solid var(--border);
+  background:var(--bg);
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+.main{
+  min-width:0;
+  padding:0 46px 90px;
+  max-width:1000px;
+}
+
+/* ============ 侧栏 ============ */
+.side-brand{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:6px;
+}
+.side-mark{
+  width:34px;height:34px;flex:0 0 34px;border-radius:9px;
+  background:linear-gradient(140deg,var(--brand),var(--brand-ink));
+  display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;
+  box-shadow:var(--shadow);
+}
+.side-title{font-size:14px;font-weight:650;letter-spacing:.01em;line-height:1.3}
+.side-sub{font-size:11.5px;color:var(--text-3);margin:0 0 22px 44px;letter-spacing:.02em}
+.toc-h{
+  font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--text-3);margin:0 0 10px;
+}
+.toc{list-style:none;margin:0 0 22px;padding:0}
+.toc li{margin:0}
+.toc a{
+  display:block;
+  padding:5px 10px 5px 12px;
+  font-size:13px;color:var(--text-2);
+  border-left:2px solid transparent;
+  border-radius:0 6px 6px 0;
+  line-height:1.45;
+  transition:background .13s,color .13s,border-color .13s;
+}
+.toc a:hover{background:var(--surface-2);color:var(--text);text-decoration:none}
+.toc a.on{color:var(--brand-ink);border-left-color:var(--brand);background:var(--brand-soft);font-weight:600}
+.toc .num{color:var(--text-3);font-variant-numeric:tabular-nums;margin-right:6px;font-size:11.5px}
+.side-meta{
+  font-size:11.5px;color:var(--text-3);line-height:1.7;
+  padding-top:18px;border-top:1px solid var(--border);
+}
+.side-meta b{color:var(--text-2);font-weight:600}
+
+/* ============ 封面 ============ */
+.hero{padding:58px 0 34px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11.5px;font-weight:650;letter-spacing:.06em;
+  color:var(--brand-ink);background:var(--brand-soft);
+  border:1px solid var(--brand-line);
+  padding:4px 11px;border-radius:999px;margin-bottom:20px;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--brand);display:inline-block}
+h1{
+  font-size:clamp(30px,4.4vw,46px);
+  line-height:1.16;letter-spacing:-.022em;
+  font-weight:760;margin:0 0 14px;
+}
+.lede{
+  font-size:17.5px;color:var(--text-2);line-height:1.62;
+  margin:0 0 30px;max-width:62ch;font-weight:400;
+}
+.lede b{color:var(--text);font-weight:640}
+
+/* 指标带 */
+.kpis{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;margin-bottom:14px;
+}
+.kpi{background:var(--surface);padding:15px 16px}
+.kpi-v{font-size:22px;font-weight:730;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi-l{font-size:11.5px;color:var(--text-3);margin-top:3px;letter-spacing:.01em}
+.kpi-n{font-size:11px;color:var(--text-3);margin-top:6px}
+.up{color:var(--rose)}
+.down{color:var(--teal)}
+
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:8px 20px;
+  font-size:12.5px;color:var(--text-3);margin-bottom:8px;
+}
+.meta-row b{color:var(--text-2);font-weight:600}
+
+/* ============ 排版 ============ */
+h2{
+  font-size:25px;font-weight:730;letter-spacing:-.015em;
+  margin:56px 0 6px;padding-top:22px;
+  border-top:1px solid var(--border);
+  scroll-margin-top:20px;
+}
+h2 .h2n{
+  display:inline-grid;place-items:center;
+  min-width:30px;height:30px;padding:0 7px;
+  background:var(--brand-soft);color:var(--brand-ink);
+  border:1px solid var(--brand-line);
+  border-radius:8px;font-size:14px;font-weight:700;
+  margin-right:11px;vertical-align:2px;font-variant-numeric:tabular-nums;
+}
+h3{
+  font-size:17.5px;font-weight:680;letter-spacing:-.008em;
+  margin:34px 0 10px;color:var(--text);scroll-margin-top:20px;
+}
+h4{font-size:15px;font-weight:660;margin:22px 0 8px}
+p{margin:0 0 14px}
+.sec-note{
+  font-size:13px;color:var(--text-3);margin:-2px 0 20px;
+  padding-left:1px;
+}
+strong{font-weight:660}
+code{
+  font-family:var(--mono);font-size:.855em;
+  background:var(--code-bg);padding:2px 5px;border-radius:5px;
+  border:1px solid var(--border);
+}
+ul,ol{margin:0 0 15px;padding-left:22px}
+li{margin:5px 0}
+li::marker{color:var(--text-3)}
+hr{border:0;border-top:1px solid var(--border);margin:34px 0}
+
+/* ============ 表格 ============ */
+.tw{
+  overflow-x:auto;margin:16px 0 22px;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--surface);box-shadow:var(--shadow);
+}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th{
+  background:var(--surface-3);
+  text-align:left;font-weight:660;color:var(--text-2);
+  padding:10px 13px;white-space:nowrap;
+  border-bottom:1px solid var(--border-strong);
+  font-size:12.5px;letter-spacing:.01em;
+  position:sticky;top:0;
+}
+td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+td.c,th.c{text-align:center}
+tr.hl td{background:var(--brand-soft);font-weight:620}
+tr.hl:hover td{background:var(--brand-soft)}
+tr.dim td{color:var(--text-3)}
+.tag{
+  display:inline-block;font-size:11px;font-weight:620;
+  padding:1.5px 7px;border-radius:5px;white-space:nowrap;
+  border:1px solid transparent;line-height:1.5;
+}
+.tag-b{background:var(--brand-soft);color:var(--brand-ink);border-color:var(--brand-line)}
+.tag-a{background:var(--amber-soft);color:var(--amber);border-color:var(--amber-line)}
+.tag-r{background:var(--rose-soft);color:var(--rose);border-color:var(--rose-line)}
+.tag-t{background:var(--teal-soft);color:var(--teal);border-color:var(--teal-line)}
+</style>
+<style>
+/* ============ 卡片网格 ============ */
+.cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
+  gap:14px;margin:18px 0 24px;
+}
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:17px 18px 16px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--brand);opacity:.85;
+}
+.card.g::before{background:var(--teal)}
+.card.a::before{background:var(--amber)}
+.card.r::before{background:var(--rose)}
+.card-h{
+  display:flex;align-items:baseline;gap:9px;
+  font-size:14.5px;font-weight:670;margin:0 0 7px;line-height:1.4;
+}
+.card-i{
+  font-size:11px;font-weight:700;color:var(--brand-ink);
+  background:var(--brand-soft);border:1px solid var(--brand-line);
+  min-width:20px;height:20px;border-radius:6px;
+  display:inline-grid;place-items:center;flex:0 0 auto;
+}
+.card.g .card-i{color:var(--teal);background:var(--teal-soft);border-color:var(--teal-line)}
+.card.a .card-i{color:var(--amber);background:var(--amber-soft);border-color:var(--amber-line)}
+.card.r .card-i{color:var(--rose);background:var(--rose-soft);border-color:var(--rose-line)}
+.card p{margin:0;font-size:13.5px;color:var(--text-2);line-height:1.66}
+.card p b{color:var(--text)}
+
+/* ============ 提示条 ============ */
+.callout{
+  display:flex;gap:12px;
+  padding:14px 16px;border-radius:12px;margin:18px 0;
+  font-size:13.5px;line-height:1.68;
+  border:1px solid var(--border);background:var(--surface);
+}
+.callout .ic{
+  flex:0 0 22px;height:22px;border-radius:7px;
+  display:grid;place-items:center;font-size:12px;font-weight:700;
+  background:var(--brand-soft);color:var(--brand-ink);
+}
+.callout.warn{background:var(--amber-soft);border-color:var(--amber-line)}
+.callout.warn .ic{background:#fff;color:var(--amber);border:1px solid var(--amber-line)}
+.callout.bad{background:var(--rose-soft);border-color:var(--rose-line)}
+.callout.bad .ic{background:#fff;color:var(--rose);border:1px solid var(--rose-line)}
+.callout.ok{background:var(--teal-soft);border-color:var(--teal-line)}
+.callout.ok .ic{background:#fff;color:var(--teal);border:1px solid var(--teal-line)}
+.callout p{margin:0 0 6px}
+.callout p:last-child{margin:0}
+.callout .t{font-weight:660;color:var(--text)}
+
+/* ============ 条形图 ============ */
+.chart{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px 18px;
+  margin:18px 0 22px;box-shadow:var(--shadow);
+}
+.chart-t{
+  font-size:14px;font-weight:670;margin:0 0 3px;
+  display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+}
+.chart-s{font-size:12px;color:var(--text-3);margin:0 0 16px}
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{
+  display:grid;grid-template-columns:118px 1fr 74px;
+  align-items:center;gap:11px;font-size:12.5px;
+}
+.bar-l{color:var(--text-2);text-align:right;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.bar-track{height:19px;background:var(--surface-3);border-radius:5px;overflow:hidden}
+.bar-fill{
+  height:100%;border-radius:5px;
+  background:linear-gradient(90deg,var(--brand),var(--brand-ink));
+  min-width:3px;
+  transition:width .6s cubic-bezier(.22,1,.36,1);
+}
+.bar-fill.me{background:linear-gradient(90deg,#d97706,#a16207)}
+.bar-fill.gray{background:linear-gradient(90deg,#9ca3af,#6b7280)}
+.bar-v{font-variant-numeric:tabular-nums;color:var(--text-2);
+  font-size:12px;text-align:right;white-space:nowrap}
+.bar.me .bar-l{color:var(--text);font-weight:650}
+.bar.me .bar-v{color:var(--text);font-weight:650}
+
+/* 堆叠条 */
+.stack{display:flex;height:26px;border-radius:7px;overflow:hidden;margin:4px 0 14px;
+  border:1px solid var(--border)}
+.stack span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:9px 18px;font-size:12.5px;color:var(--text-2)}
+.legend i{
+  width:11px;height:11px;border-radius:3px;display:inline-block;
+  margin-right:6px;vertical-align:-1px;
+}
+.legend b{color:var(--text);font-variant-numeric:tabular-nums;font-weight:640}
+
+/* ============ 勘误清单 ============ */
+.fix{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  margin:16px 0 22px;background:var(--surface);box-shadow:var(--shadow)}
+.fix-h{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 16px;font-size:13px;font-weight:670;
+  background:var(--surface-3);border-bottom:1px solid var(--border);
+}
+.fix-h .cnt{
+  margin-left:auto;font-size:11.5px;font-weight:620;
+  background:var(--surface);border:1px solid var(--border);
+  padding:1px 8px;border-radius:999px;color:var(--text-2);
+}
+.fix-b{padding:15px 16px 4px;font-size:13.5px}
+.fix-item{display:flex;gap:12px;padding:0 0 15px;align-items:flex-start}
+.fix-n{
+  flex:0 0 24px;height:24px;border-radius:7px;
+  display:grid;place-items:center;font-size:12px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+.fix-item.err .fix-n{background:var(--rose-soft);color:var(--rose);border:1px solid var(--rose-line)}
+.fix-item.mis .fix-n{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-line)}
+.fix-item.dat .fix-n{background:var(--brand-soft);color:var(--brand-ink);border:1px solid var(--brand-line)}
+.fix-item.ref .fix-n{background:var(--teal-soft);color:var(--teal);border:1px solid var(--teal-line)}
+.fix-c{min-width:0;flex:1}
+.fix-was{color:var(--text-3);text-decoration:line-through;
+  text-decoration-color:var(--rose-line);font-size:13px}
+.fix-now{font-weight:620}
+.fix-why{font-size:12.5px;color:var(--text-3);margin-top:3px}
+.fix-why code{font-size:.9em}
+
+/* ============ 代码 ============ */
+pre{
+  background:var(--code-bg);border:1px solid var(--border);
+  border-radius:12px;padding:15px 17px;overflow-x:auto;
+  font-family:var(--mono);font-size:12.5px;line-height:1.72;
+  margin:14px 0 20px;color:var(--text);
+}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+.cmt{color:var(--text-3)}
+
+/* ============ 折叠 ============ */
+details{
+  border:1px solid var(--border);border-radius:12px;
+  background:var(--surface);margin:14px 0 20px;overflow:hidden;
+}
+summary{
+  cursor:pointer;padding:12px 16px;font-size:13.5px;font-weight:640;
+  list-style:none;display:flex;align-items:center;gap:9px;
+  color:var(--text-2);
+}
+summary::-webkit-details-marker{display:none}
+summary::before{
+  content:"+";font-family:var(--mono);font-weight:700;
+  color:var(--brand);width:16px;text-align:center;font-size:14px;
+}
+details[open] summary::before{content:"−"}
+details[open] summary{border-bottom:1px solid var(--border);background:var(--surface-2)}
+.d-body{padding:15px 16px 6px;font-size:13.5px}
+
+/* ============ 结论 / 徽章 ============ */
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:640;padding:3px 10px;border-radius:999px;
+  border:1px solid var(--teal-line);background:var(--teal-soft);color:var(--teal);
+}
+.stars{color:var(--amber);letter-spacing:1.5px;font-size:13px;white-space:nowrap}
+.stars .off{color:var(--border-strong)}
+
+/* ============ 页脚 ============ */
+.foot{
+  margin-top:66px;padding-top:26px;border-top:1px solid var(--border);
+  font-size:12.5px;color:var(--text-3);line-height:1.8;
+}
+.foot b{color:var(--text-2)}
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin-bottom:20px}
+
+/* ============ 回到顶部 ============ */
+#top{
+  position:fixed;right:26px;bottom:26px;
+  width:40px;height:40px;border-radius:11px;
+  background:var(--surface);border:1px solid var(--border-strong);
+  color:var(--text-2);display:grid;place-items:center;
+  box-shadow:var(--shadow);cursor:pointer;font-size:15px;
+  opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;
+  transform:translateY(8px);z-index:50;
+}
+#top.show{opacity:1;pointer-events:auto;transform:none}
+#top:hover{color:var(--brand);border-color:var(--brand-line)}
+
+/* ============ 响应式 ============ */
+@media (max-width:1040px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{
+    position:static;height:auto;border-right:0;
+    border-bottom:1px solid var(--border);
+    padding:20px 22px 16px;
+  }
+  .toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0 10px}
+  .side-meta{display:none}
+  .main{padding:0 22px 70px}
+  .hero{padding:32px 0 24px}
+}
+@media (max-width:560px){
+  body{font-size:15px}
+  .main{padding:0 16px 60px}
+  .bar{grid-template-columns:86px 1fr 62px;gap:8px;font-size:11.5px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  table{font-size:12.5px}
+  th,td{padding:8px 10px}
+}
+@media print{
+  .sidebar,#top{display:none}
+  .shell{display:block}
+  .main{padding:0;max-width:none}
+  .tw,.card,.chart,.fix{box-shadow:none;break-inside:avoid}
+  h2{break-after:avoid}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ================= 侧栏 ================= -->
+<aside class="sidebar">
+  <div class="side-brand">
+    <div class="side-mark">G</div>
+    <div class="side-title">goose 深度研究<br>报告 v2.0</div>
+  </div>
+  <div class="side-sub">2026-10-15 复核版</div>
+
+  <div class="toc-h">目录</div>
+  <ul class="toc" id="toc">
+    <li><a href="#s0"><span class="num">0</span>修订与勘误</a></li>
+    <li><a href="#s1"><span class="num">1</span>研究方法</a></li>
+    <li><a href="#s2"><span class="num">2</span>项目画像</a></li>
+    <li><a href="#s3"><span class="num">3</span>竞品全景对比</a></li>
+    <li><a href="#s4"><span class="num">4</span>Linux 专项</a></li>
+    <li><a href="#s5"><span class="num">5</span>优势与劣势</a></li>
+    <li><a href="#s6"><span class="num">6</span>社区与官方声音</a></li>
+    <li><a href="#s7"><span class="num">7</span>选型建议</a></li>
+    <li><a href="#s8"><span class="num">8</span>不确定性清单</a></li>
+    <li><a href="#s9"><span class="num">9</span>参考来源</a></li>
+    <li><a href="#sa"><span class="num">A</span>复核命令</a></li>
+  </ul>
+
+  <div class="side-meta">
+    <b>研究对象</b><br><code>aaif-goose/goose</code><br><br>
+    <b>数据时点</b><br>2026-10-15<br>GitHub REST API 实时值<br><br>
+    <b>对比范围</b><br>14 款产品<br>重点对比 5 款<br><br>
+    <b>本版变更</b><br>勘误 18 项<br>新增 6 项事实
+  </div>
+</aside>
+
+<!-- ================= 正文 ================= -->
+<main class="main">
+
+<header class="hero">
+  <div class="eyebrow"><span class="dot"></span>深度研究报告 · v2.0 复核修订版</div>
+  <h1>goose：开源 AI Agent 的<br>治理样本与竞争格局</h1>
+  <p class="lede">
+    一款由 <b>Linux 基金会</b>托管、用 <b>Rust</b> 写的本地优先通用 Agent。它在 14 款竞品中星数只排第 9，
+    却是唯一由基金会治理、唯一获官方 <b>Healthy</b> 健康分、Linux 分发格式最完整的那一个。
+    本版基于 2026-10-15 全量 API 重采，修正 v1.1 的 <b>18 处问题</b>。
+  </p>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-v">55,293</div>
+      <div class="kpi-l">GitHub Stars</div>
+      <div class="kpi-n">对比组第 9 位</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-v">453</div>
+      <div class="kpi-l">Contributors</div>
+      <div class="kpi-n">与 Codex（478）同级</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-v">480</div>
+      <div class="kpi-l">Open Issues</div>
+      <div class="kpi-n down">↓ 27（一日内）</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-v">v1.54.0</div>
+      <div class="kpi-l">当前稳定版</div>
+      <div class="kpi-n">2026-10-08 发布</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-v">24<span style="font-size:14px;color:var(--text-3)"> / 40</span></div>
+      <div class="kpi-l">Linux 产物占比</div>
+      <div class="kpi-n">4 种原生包格式</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-v" style="color:var(--teal)">Healthy</div>
+      <div class="kpi-l">LF 官方健康分</div>
+      <div class="kpi-n">insights.linuxfoundation.org</div>
+    </div>
+  </div>
+
+  <div class="meta-row">
+    <span><b>研究对象</b> aaif-goose/goose（原 block/goose）</span>
+    <span><b>许可证</b> Apache-2.0</span>
+    <span><b>托管</b> Agentic AI Foundation</span>
+    <span><b>数据截止</b> 2026-10-15</span>
+  </div>
+</header>
+
+<!-- ================= 摘要 ================= -->
+<section id="sum">
+<h2 style="border-top:0;padding-top:0;margin-top:8px">摘要</h2>
+<p>
+  goose 是一款<strong>本地优先、模型无关</strong>的开源通用 AI Agent。由 Block（Square / Cash App 母公司）
+  于 2025 年 1 月开源发布，2025 年 12 月随 Agentic AI Foundation（AAIF）成立被捐赠，
+  2026 年 4 月正式迁入 <code>aaif-goose</code> 组织，现由 Linux 基金会托管，Apache-2.0 许可。
+</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="card-h"><span class="card-i">1</span>治理中立性最不可替代</div>
+    <p>14 款对比产品中<b>唯一由基金会托管</b>的项目，其余全部由商业公司或个人主导。贡献者保留版权，治理变更须经 LF Projects 批准。</p>
+  </div>
+  <div class="card g">
+    <div class="card-h"><span class="card-i">2</span>工程健康度第一梯队</div>
+    <p>453 贡献者与 Codex（478）、OpenHands（461）、Dify（456）同级；open issues 仅 <b>480</b>，是<b>全表同量级最低</b>。</p>
+  </div>
+  <div class="card g">
+    <div class="card-h"><span class="card-i">3</span>获第三方权威认证</div>
+    <p>Linux 基金会官方 Insights 平台判定其 <b>Health Score = Healthy</b>，可直接写入企业采购与合规审计材料。</p>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="card-i">4</span>形态与场景最宽</div>
+    <p>唯一同时提供<b>原生桌面 + CLI + API + TUI</b> 四形态，且定位"not just code"——研究、写作、数据分析、自动化皆可。</p>
+  </div>
+  <div class="card r">
+    <div class="card-h"><span class="card-i">5</span>星数与声量是最大短板</div>
+    <p>55,293 stars 在对比组排 <b>第 9 位</b>（非 v1.1 所称第 7 位），被 opencode（213,573）压制 3.9 倍，月均增速仅为其 1/5.6。</p>
+  </div>
+  <div class="card a">
+    <div class="card-h"><span class="card-i">6</span>Linux 分发最完整</div>
+    <p>单版 40 个产物中 Linux 相关占 <b>24 个</b>：12 CLI tarball + 4 RPM + 4 DEB + 4 Flatpak，并覆盖 Nix 与 RISCV。</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= 0. 勘误 ================= -->
+<section id="s0">
+<h2><span class="h2n">0</span>修订说明：v1.1 → v2.0 勘误清单</h2>
+<p class="sec-note">
+  v1.0 为对话式研究，v1.1 做过一轮修正。本版以 <strong>2026-10-15 GitHub REST API 全量重采 + 仓库原文逐条比对</strong>
+  为基础再次复核，发现并修正 18 处问题。以下为完整勘误记录，供独立核查。
+</p>
+
+<div class="callout bad">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">本版最重要的三个发现</span></p>
+    <p>① goose 星数排名应为 <strong>第 9 位</strong>，v1.1 写成第 7 位；② v1.1 把"40 个产物"整体误称为"40 个 Linux 产物"，实际 Linux 相关仅 24 个；③ goose 已在发布 <strong>Flatpak</strong> 与 <strong>DEB</strong>，v1.1 完全遗漏——这意味着它的 Linux 桌面分发能力被系统性低估。</p>
+  </div>
+</div>
+
+<h3>0.1 实质性错误（3 处）</h3>
+<div class="fix">
+  <div class="fix-h">需要更正的事实判断 <span class="cnt">3 项</span></div>
+  <div class="fix-b">
+    <div class="fix-item err">
+      <div class="fix-n">1</div>
+      <div class="fix-c">
+        <div class="fix-was">"55.3k 排在主流开源 Agent 第 7 位"</div>
+        <div class="fix-now">实为第 <strong>9</strong> 位</div>
+        <div class="fix-why">排序计算错误。其前方有 opencode、Dify、Claude Code、Codex、Pi Agent、Gemini CLI、OpenHands、Cline 共 8 款 · 依据：2026-10-15 API 实测全表排序</div>
+      </div>
+    </div>
+    <div class="fix-item err">
+      <div class="fix-n">2</div>
+      <div class="fix-c">
+        <div class="fix-was">"每版发布约 40 个 Linux 相关产物"</div>
+        <div class="fix-now">40 是<strong>全部产物总数</strong>，Linux 相关实为 <strong>24 个</strong>（占 60%）</div>
+        <div class="fix-why">口径混淆。24 个 = 12 CLI tarball + 4 RPM + 4 DEB + 4 Flatpak · 依据：v1.54.0 release assets 逐条清点</div>
+      </div>
+    </div>
+    <div class="fix-item err">
+      <div class="fix-n">3</div>
+      <div class="fix-c">
+        <div class="fix-was">将"2.0 用 Tauri 重写"并列于桌面形态描述</div>
+        <div class="fix-now">2.0 自 2026-04 起仍为 <strong>beta</strong>，稳定线为 <strong>v1.54.0</strong></div>
+        <div class="fix-why">版本状态易误读。2.0 能力不得当作正式版 · 依据：GitHub Releases API prerelease 标记</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>0.2 重要遗漏（6 处）</h3>
+<div class="fix">
+  <div class="fix-h">v1.1 未覆盖的事实 <span class="cnt">6 项</span></div>
+  <div class="fix-b">
+    <div class="fix-item mis">
+      <div class="fix-n">4</div>
+      <div class="fix-c">
+        <div class="fix-now">DEB 包</div>
+        <div class="fix-why">每版发布 4 个：<code>goose_1.54.0_{amd64,arm64}[-vulkan].deb</code> · 依据：assets 实测</div>
+      </div>
+    </div>
+    <div class="fix-item mis">
+      <div class="fix-n">5</div>
+      <div class="fix-c">
+        <div class="fix-now">Flatpak</div>
+        <div class="fix-why">每版发布 4 个：<code>io.github.block.Goose_stable_{x86_64,aarch64}[-vulkan].flatpak</code>，已打通 Flathub 桌面分发路径 · 依据：assets 实测</div>
+      </div>
+    </div>
+    <div class="fix-item mis">
+      <div class="fix-n">6</div>
+      <div class="fix-c">
+        <div class="fix-now">官方一行安装命令</div>
+        <div class="fix-why"><code>curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash</code> · 依据：README 原文</div>
+      </div>
+    </div>
+    <div class="fix-item mis">
+      <div class="fix-n">7</div>
+      <div class="fix-c">
+        <div class="fix-now">Linux 基金会官方健康分</div>
+        <div class="fix-why">LF Insights 判定 goose <strong>Health Score = Healthy</strong>（绿色徽章）· 依据：insights.linuxfoundation.org API</div>
+      </div>
+    </div>
+    <div class="fix-item mis">
+      <div class="fix-n">8</div>
+      <div class="fix-c">
+        <div class="fix-now">aaif-goose 组织创建时间</div>
+        <div class="fix-why">组织 <strong>2026-03-25</strong> 建立，早于 2026-04-07 迁入公告；现含 5 个公开仓库 · 依据：GitHub org API</div>
+      </div>
+    </div>
+    <div class="fix-item mis">
+      <div class="fix-n">9</div>
+      <div class="fix-c">
+        <div class="fix-now">Core Maintainers 实名与人数</div>
+        <div class="fix-why">当前 <strong>7 人</strong>：Alex Hancock、Bradley Axen、Douwe Osinga、Jack Amadeo、Jasper Hugo、Lifei Zhou、Mic Neale；另有 Maintainers 5 人 · 依据：MAINTAINERS.md 原文</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>0.3 数据过期（3 处）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>#</th><th>项目</th><th class="n">v1.1 值</th><th class="n">v2.0 实测</th><th>变动</th></tr></thead>
+<tbody>
+<tr><td class="n">10</td><td>goose stars</td><td class="n">55,274</td><td class="n"><b>55,293</b></td><td><span class="up">+19</span></td></tr>
+<tr><td class="n">11</td><td>goose forks</td><td class="n">6,428</td><td class="n"><b>6,437</b></td><td><span class="up">+9</span></td></tr>
+<tr><td class="n">12</td><td>goose open issues</td><td class="n">507</td><td class="n"><b>480</b></td><td><span class="down">−27（−5.3%）</span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note">全部 14 款产品的 stars / forks / issues / contributors 均已在第 3.1 节刷新为同一时点实测值，v1.1 中 6 处缺失值（标"—"）已补齐。</p>
+
+<h3>0.4 口径与精度改进（6 处）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>#</th><th>项目</th><th>v1.1 表述</th><th>v2.0 精确化</th></tr></thead>
+<tbody>
+<tr><td class="n">13</td><td>opencode 增速</td><td>"<b>一年内</b>从 1.4 万飙到 21.3 万"</td><td>仓库创建于 <b>2025-04-30</b>，至 2026-10-15 为<b>约 18 个月</b></td></tr>
+<tr><td class="n">14</td><td>Aider 停更</td><td>"2026-05 起基本停更"</td><td>最后推送 <b>2026-05-22</b>，至报告日<b>约 5 个月无提交</b>，open issues 累积至 1,920</td></tr>
+<tr><td class="n">15</td><td>语言规模</td><td>"Rust 约 1,050 万字节 + TS 约 345 万字节"</td><td>Rust <b>10,506,629 B（71.59%）</b> / TypeScript <b>3,446,615 B（23.49%）</b></td></tr>
+<tr><td class="n">16</td><td>Rust 工具链</td><td>"Rust 1.99"</td><td><code>rust-toolchain.toml</code> 锁定 <b>1.99.0</b></td></tr>
+<tr><td class="n">17</td><td>代码结构</td><td>未量化</td><td><code>crates/</code> 工作区含 <b>15 个 crate</b></td></tr>
+<tr><td class="n">18</td><td>Flatpak 标识</td><td>未提及</td><td>迁移至 AAIF 后 Flatpak ID 仍为 <code>io.github.block.Goose</code>，保留原 block 命名空间，属迁移遗留</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>0.5 反向核验：v1.1 确认为正确的 8 项</h3>
+<p class="sec-note">为避免"纠错"本身失真，以下 v1.1 说法经仓库原文核验成立。</p>
+<div class="tw">
+<table>
+<thead><tr><th>项目</th><th>v1.1 表述</th><th>核验结果</th></tr></thead>
+<tbody>
+<tr><td>治理层级</td><td>Core Maintainers 3–7 人、追求奇数</td><td><span class="tag tag-t">成立</span> GOVERNANCE.md 原文："We aim to have between 3 and 7 Core Maintainers… strive for an odd number"</td></tr>
+<tr><td>版权政策</td><td>贡献者保留版权；代码 Apache-2.0、文档 CC-BY-4.0</td><td><span class="tag tag-t">成立</span> GOVERNANCE.md 原文</td></tr>
+<tr><td>治理变更</td><td>需 Core Maintainers 多数通过 + LF Projects, LLC 批准</td><td><span class="tag tag-t">成立</span> GOVERNANCE.md 原文</td></tr>
+<tr><td>死锁裁决</td><td>创始人 Bradley Axen 打破僵局</td><td><span class="tag tag-t">成立</span> 原文："goose's creator, Bradley Axen, steps in as a tie breaker"</td></tr>
+<tr><td>模型接入</td><td>15+ provider</td><td><span class="tag tag-t">成立</span> README："works with 15+ providers"</td></tr>
+<tr><td>扩展生态</td><td>70+ 官方扩展（MCP）</td><td><span class="tag tag-t">成立</span> README："Connect to 70+ extensions via the Model Context Protocol"</td></tr>
+<tr><td>发行机制</td><td>官方提供 CUSTOM_DISTROS 机制</td><td><span class="tag tag-t">成立</span> 仓库根目录存在 <code>CUSTOM_DISTROS.md</code></td></tr>
+<tr><td>关键文件</td><td>RISCV_SETUP.md / BUILDING_LINUX.md / flake.nix</td><td><span class="tag tag-t">成立</span> 三个文件均 HTTP 200 存在</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ================= 1. 研究方法 ================= -->
+<section id="s1">
+<h2><span class="h2n">1</span>研究方法与数据来源</h2>
+<div class="tw">
+<table>
+<thead><tr><th>方法</th><th>说明</th><th>采集时点</th></tr></thead>
+<tbody>
+<tr><td><b>GitHub REST API</b></td><td><code>/repos</code>、<code>/contributors</code>、<code>/releases</code>、<code>/languages</code>、<code>/orgs</code>、<code>/contents</code> 端点，获取 star / fork / issues / 许可证 / 语言字节数 / 贡献者数 / 发布产物 / 文件树</td><td>2026-10-15</td></tr>
+<tr><td><b>仓库治理原文</b></td><td><code>GOVERNANCE.md</code>、<code>MAINTAINERS.md</code>、<code>README.md</code>、<code>rust-toolchain.toml</code> 全文比对</td><td>2026-10-15</td></tr>
+<tr><td><b>发布物清点</b></td><td>对 v1.54.0 的 40 个 asset 逐条分类（按扩展名与平台标识）</td><td>2026-10-15</td></tr>
+<tr><td><b>官方文档</b></td><td>goose-docs.ai 功能页与博客（2026-02 至 2026-09 条目）</td><td>2026-10-14 ~ 15</td></tr>
+<tr><td><b>第三方权威</b></td><td>Linux Foundation Insights 项目健康分 API</td><td>2026-10-15</td></tr>
+<tr><td><b>社区与媒体</b></td><td>腾讯云开发者社区、CSDN 系列教程、什么值得买评测、程序员茄子治理分析、TechCrunch 中文转述</td><td>2026-10-14 ~ 15</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+  <div class="ic">§</div>
+  <div><p><span class="t">诚实性声明</span></p>
+  <p>本报告对未经第二来源交叉验证的说法，一律在正文标注"社区称""本文判断""待验证"，并在第 8 节集中列出不确定性清单。所有 GitHub 数值均为 API 实时返回值，未做估算。</p></div>
+</div>
+</section>
+
+<!-- ================= 2. 项目画像 ================= -->
+<section id="s2">
+<h2><span class="h2n">2</span>项目画像</h2>
+
+<h3>2.1 基本事实表（2026-10-15 实时值）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>指标</th><th>数值</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>仓库</td><td><code>aaif-goose/goose</code></td><td>原 <code>block/goose</code>，2026-04 迁移</td></tr>
+<tr class="hl"><td>Stars</td><td><b>55,293</b></td><td>对比组内排第 9</td></tr>
+<tr><td>Forks</td><td>6,437</td><td>—</td></tr>
+<tr><td>Watchers</td><td>297</td><td><code>subscribers_count</code></td></tr>
+<tr class="hl"><td>Open Issues</td><td><b>480</b></td><td>同量级项目中最低</td></tr>
+<tr><td>贡献者</td><td>453</td><td>与 Codex（478）、OpenHands（461）同级</td></tr>
+<tr><td>主语言</td><td>Rust <b>71.59%</b> + TypeScript <b>23.49%</b></td><td>其余：Python 1.28% / JS 1.14% / Shell 1.13% / Nix 0.04%</td></tr>
+<tr><td>许可证</td><td>Apache-2.0</td><td>文档 CC-BY-4.0</td></tr>
+<tr><td>仓库创建</td><td>2024-08-23</td><td>Block 内部孵化期</td></tr>
+<tr><td>最后推送</td><td>2026-10-15</td><td>日更</td></tr>
+<tr><td>最新稳定版</td><td><b>v1.54.0</b>（2026-10-08，40 个产物）</td><td>2.0 仍为 beta</td></tr>
+<tr><td>Rust 工具链</td><td>1.99.0</td><td><code>rust-toolchain.toml</code></td></tr>
+<tr><td>Topics</td><td><code>acp</code> <code>ai</code> <code>ai-agents</code> <code>mcp</code></td><td>—</td></tr>
+<tr><td>官网 / 组织</td><td>goose-docs.ai · <code>aaif-goose</code></td><td>组织 2026-03-25 建，5 个公开仓库</td></tr>
+<tr class="hl"><td>第三方健康分</td><td><b>Healthy</b></td><td>Linux Foundation Insights 官方绿色徽章</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.2 代码结构：15 个 crate 的工作区</h3>
+<p><code>crates/</code> 目录实测含 15 个 crate，模块划分揭示了架构意图。</p>
+<div class="tw">
+<table>
+<thead><tr><th>crate</th><th>职责推断</th></tr></thead>
+<tbody>
+<tr><td><code>goose-agent</code></td><td>Agent 内核与主循环</td></tr>
+<tr><td><code>goose</code></td><td>主入口 / 聚合</td></tr>
+<tr><td><code>goose-cli</code></td><td>命令行界面</td></tr>
+<tr><td><code>goose-mcp</code></td><td>MCP 协议实现</td></tr>
+<tr><td><code>goose-acp-macros</code></td><td>ACP 协议宏</td></tr>
+<tr><td><code>goose-providers</code> / <code>goose-provider-types</code></td><td>模型提供方适配层</td></tr>
+<tr class="hl"><td><code>goose-local-inference</code></td><td><b>本地推理（llama.cpp）</b></td></tr>
+<tr class="hl"><td><code>goose-context-management</code></td><td>上下文管理与压缩</td></tr>
+<tr><td><code>goose-download-manager</code></td><td>模型 / 资源下载</td></tr>
+<tr><td><code>goose-roaming</code></td><td>会话漫游 / 迁移</td></tr>
+<tr><td><code>goose-sdk</code> / <code>goose-sdk-types</code></td><td>对外 SDK</td></tr>
+<tr><td><code>goose-test</code> / <code>goose-test-support</code></td><td>测试基建</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout ok">
+  <div class="ic">✓</div>
+  <div><p><span class="t">观察</span> — <code>goose-local-inference</code> 与 <code>goose-context-management</code> 独立成 crate，说明"本地推理"与"上下文治理"被当作一等公民能力，而非附属特性。</p></div>
+</div>
+
+<h3>2.3 发展时间线</h3>
+<div class="tw">
+<table>
+<thead><tr><th>时间</th><th>事件</th><th>性质</th></tr></thead>
+<tbody>
+<tr><td>2024-08-23</td><td>Block 内部立项，GitHub 仓库创建</td><td>内部孵化</td></tr>
+<tr><td>2025-01</td><td>Block 公开发布</td><td>公开发布</td></tr>
+<tr><td>2025-07</td><td>Block 发起 goose 资助计划（媒体报道：12 个月、10 万美元）</td><td><span class="tag tag-a">社区称</span></td></tr>
+<tr><td>2025-12</td><td>Linux 基金会发起 AAIF：Anthropic 捐 MCP、OpenAI 捐 AGENTS.md、Block 捐 goose，30+ 家公司参与</td><td>治理转折（宣布）</td></tr>
+<tr><td>2026-03-19</td><td>支持用 Claude / ChatGPT / Gemini 订阅经 ACP 接入</td><td>功能发布</td></tr>
+<tr><td>2026-03-25</td><td><code>aaif-goose</code> GitHub 组织建立</td><td>迁移前置</td></tr>
+<tr><td>2026-04-07</td><td>官方博客《goose has a new home》宣布迁入 AAIF</td><td>治理落地</td></tr>
+<tr><td>2026-04-08</td><td>goose 2.0 beta：Tauri 重写桌面、全新 TUI、统一 ACP</td><td>架构换代（beta）</td></tr>
+<tr><td>2026-09-16</td><td>官方博客《Agentic State Machines》：用可重入状态机取代经典 agent loop</td><td>内核换代</td></tr>
+<tr><td>2026-10-08</td><td>v1.54.0 发布（40 个产物，含 4 Flatpak）</td><td>当前稳定版</td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note"><b>发布节奏实测</b>：v1.48.0（08-27）→ v1.49.0（09-03）→ v1.50.0（09-08）→ v1.50.1（09-14）→ v1.51.0（09-17）→ v1.52.0（09-23）→ v1.53.0（10-02）→ v1.54.0（10-08）。<b>约每 5–7 天一个小版本</b>，产物数量从 37 增至 40。</p>
+
+<h3>2.4 技术架构</h3>
+<div class="tw">
+<table>
+<thead><tr><th>层</th><th>实现</th></tr></thead>
+<tbody>
+<tr><td>内核</td><td>Rust（15 个 crate 的工作区），工具链锁定 1.99.0</td></tr>
+<tr><td>界面</td><td>TypeScript（<code>ui/</code>，约 345 万字节）；2.0 beta 起桌面端改用 Tauri 重写</td></tr>
+<tr><td>形态</td><td>原生桌面应用（macOS / Linux / Windows）+ CLI + API + TUI</td></tr>
+<tr><td>Agent 循环</td><td>经典 agent loop → <b>可重入状态机</b>（对话即状态，每个行为是一个 Operation），为并行 subagent 与长任务服务</td></tr>
+<tr><td>工具协议</td><td>MCP（客户端 + 服务端），70+ 官方扩展</td></tr>
+<tr><td>客户端协议</td><td>ACP（Agent Client Protocol）：goose 作 <b>server</b>，可被 Zed / JetBrains / VS Code 接入；同时可把 Claude Code、Codex 等 ACP agent 当作自己的 LLM provider</td></tr>
+<tr><td>本地推理</td><td>独立 crate <code>goose-local-inference</code>（llama.cpp），无需 API key、无网络亦可运行</td></tr>
+<tr><td>分发</td><td>RPM / DEB / Flatpak / tarball（gnu + musl）/ Nix flake / 部分发行版仓库 / 官方一行脚本</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.5 功能矩阵</h3>
+<div class="tw">
+<table>
+<thead><tr><th>能力</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>模型接入</td><td>15+ provider（Anthropic / OpenAI / Google / Ollama / OpenRouter / Azure / Bedrock / Databricks 等）；支持订阅复用（Claude / ChatGPT / Gemini via ACP）</td></tr>
+<tr><td>Recipes</td><td>YAML 可移植工作流：指令 + 扩展 + 参数 + subrecipes，团队共享、可跑 CI</td></tr>
+<tr><td>Subagents</td><td>派生子代理并行处理代码审查 / 研究 / 文件处理；v1.54.0 起支持前台 subagent</td></tr>
+<tr><td>MCP Apps</td><td>扩展可在桌面端内渲染交互式 UI（按钮、表单、可视化）</td></tr>
+<tr><td>Mesh LLM</td><td>跨模型路由，自动分配与降级</td></tr>
+<tr><td>Hooks</td><td>遵循 Open Plugins 规范，在 PreToolUse / PostToolUse / SessionStart 等生命周期事件挂脚本</td></tr>
+<tr><td>记忆与上下文</td><td>Memory Extension（按 tag 存取，本地 <code>~/.goose/memory</code>）+ compaction（超窗时压缩为结构化摘要）</td></tr>
+<tr><td>安全</td><td>macOS 沙箱、提示注入检测、工具权限控制、Adversary mode（隐藏审查 agent）、SLSA 构建溯源</td></tr>
+<tr><td>桌面控制</td><td>Computer Controller 扩展基于 Peekaboo，Mac 上可看屏、点击、打字</td></tr>
+<tr><td>多代理编排</td><td>Goosetown / Gas Town：多 agent 协同的分布式工程模式</td></tr>
+<tr><td>评估</td><td>Harbor / Terminal-Bench 驱动的回归评估体系</td></tr>
+<tr><td>自定义发行版</td><td><code>CUSTOM_DISTROS.md</code>：预置 provider、扩展与品牌的定制构建</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.6 治理结构（依据 GOVERNANCE.md 原文）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>项</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>托管方</td><td>Agentic AI Foundation（AAIF），Linux 基金会旗下，属 LF Projects, LLC 的 Series 项目</td></tr>
+<tr><td>角色层级</td><td>Contributors → Maintainers → Core Maintainers</td></tr>
+<tr class="hl"><td>Core Maintainers</td><td><b>7 人</b>（目标区间 3–7 人，追求奇数以减少投票死锁）</td></tr>
+<tr><td>Maintainers</td><td>5 人</td></tr>
+<tr><td>当前名单</td><td>Core：Alex Hancock、Bradley Axen、Douwe Osinga、Jack Amadeo、Jasper Hugo、Lifei Zhou、Mic Neale</td></tr>
+<tr><td>日常决策</td><td>PR / GitHub Discussion / Discord 共识</td></tr>
+<tr><td>重大架构变更</td><td>需公开社区评审<b>至少一周</b> + Core Maintainers 多数通过 + GitHub / Discord 公开公告</td></tr>
+<tr><td>争议解决</td><td>升级至 Core Maintainers；仍未决则简单多数投票；结果公开</td></tr>
+<tr><td>死锁裁决</td><td>项目创始人 Bradley Axen 担任打破僵局者</td></tr>
+<tr><td>治理变更</td><td>需 Core Maintainers 多数通过，<b>且须经 LF Projects, LLC 批准</b></td></tr>
+<tr><td>继任机制</td><td>Core Maintainer 离任须 30 天内补位；若少于 3 人则 15 天内优先补齐，期间暂停重大决策</td></tr>
+<tr><td>除名条件</td><td>连续 3 个月以上无贡献 / 违背项目价值 / 本人请辞</td></tr>
+<tr><td>版权政策</td><td>贡献者保留自身版权，无需转让；代码 Apache-2.0，文档 CC-BY-4.0</td></tr>
+<tr><td>工程文化</td><td>2026-07 起推行"Issues as the new PRs"：设计与讨论在 issue 完成，再由 agent 把 ready issue 转为代码</td></tr>
+<tr><td>价值观</td><td>Open（可 hack）/ Flexible（开放与私有模型同等支持）/ Choice（不绑定单一模型、协议、技术栈）</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ================= 3. 竞品对比 ================= -->
+<section id="s3">
+<h2><span class="h2n">3</span>竞品全景对比</h2>
+
+<h3>3.1 GitHub 硬数据总表（按 stars 降序，2026-10-15 实时采集）</h3>
+<div class="tw">
+<table>
+<thead><tr>
+<th class="c">#</th><th>产品</th><th>仓库</th><th class="n">Stars</th><th class="n">Forks</th>
+<th class="n">贡献者</th><th class="n">Open Issues</th><th>许可证</th><th>主语言</th><th>创建</th><th>最后推送</th>
+</tr></thead>
+<tbody>
+<tr><td class="c">1</td><td>opencode</td><td><code>anomalyco/opencode</code></td><td class="n">213,573</td><td class="n">28,659</td><td class="n">454</td><td class="n">4,265</td><td>MIT</td><td>TypeScript</td><td>2025-04-30</td><td>2026-10-15</td></tr>
+<tr><td class="c">2</td><td>Dify</td><td><code>langgenius/dify</code></td><td class="n">158,511</td><td class="n">25,044</td><td class="n">456</td><td class="n">1,131</td><td>NOASSERTION</td><td>TypeScript</td><td>2023-04-12</td><td>2026-10-15</td></tr>
+<tr><td class="c">3</td><td>Claude Code</td><td><code>anthropics/claude-code</code></td><td class="n">150,923</td><td class="n">26,584</td><td class="n">57</td><td class="n">15,014</td><td><span class="tag tag-r">无（专有条款）</span></td><td>TypeScript</td><td>2025-02-22</td><td>2026-10-14</td></tr>
+<tr><td class="c">4</td><td>Codex</td><td><code>openai/codex</code></td><td class="n">129,272</td><td class="n">20,320</td><td class="n">478</td><td class="n">22,620</td><td>Apache-2.0</td><td>Rust</td><td>2025-04-13</td><td>2026-10-15</td></tr>
+<tr><td class="c">5</td><td>Pi Agent</td><td><code>earendil-works/pi</code></td><td class="n">115,237</td><td class="n">14,678</td><td class="n">291</td><td class="n">342</td><td>MIT</td><td>TypeScript</td><td>2025-08-09</td><td>2026-10-14</td></tr>
+<tr><td class="c">6</td><td>Gemini CLI</td><td><code>google-gemini/gemini-cli</code></td><td class="n">107,372</td><td class="n">14,716</td><td class="n">443</td><td class="n">745</td><td>Apache-2.0</td><td>TypeScript</td><td>2025-04-17</td><td>2026-10-14</td></tr>
+<tr><td class="c">7</td><td>OpenHands</td><td><code>OpenHands/OpenHands</code></td><td class="n">90,928</td><td class="n">12,053</td><td class="n">461</td><td class="n">996</td><td>MIT</td><td>TypeScript</td><td>2024-03-13</td><td>2026-10-15</td></tr>
+<tr><td class="c">8</td><td>Cline</td><td><code>cline/cline</code></td><td class="n">70,339</td><td class="n">7,660</td><td class="n">340</td><td class="n">1,664</td><td>Apache-2.0</td><td>TypeScript</td><td>2024-07-06</td><td>2026-10-15</td></tr>
+<tr class="hl"><td class="c">9</td><td><b>goose</b></td><td><code>aaif-goose/goose</code></td><td class="n"><b>55,293</b></td><td class="n"><b>6,437</b></td><td class="n"><b>453</b></td><td class="n"><b>480</b></td><td><b>Apache-2.0</b></td><td><b>Rust</b></td><td>2024-08-23</td><td>2026-10-15</td></tr>
+<tr><td class="c">10</td><td>Aider</td><td><code>Aider-AI/aider</code></td><td class="n">49,554</td><td class="n">5,060</td><td class="n">172</td><td class="n">1,920</td><td>Apache-2.0</td><td>Python</td><td>2023-05-09</td><td><span class="tag tag-r">2026-05-22 停更</span></td></tr>
+<tr><td class="c">11</td><td>Continue</td><td><code>continuedev/continue</code></td><td class="n">36,226</td><td class="n">5,472</td><td class="n">393</td><td class="n">851</td><td>Apache-2.0</td><td>TypeScript</td><td>2023-05-24</td><td>2026-10-14</td></tr>
+<tr><td class="c">12</td><td>OpenWork</td><td><code>different-ai/openwork</code></td><td class="n">24,109</td><td class="n">2,441</td><td class="n">71</td><td class="n">629</td><td>NOASSERTION</td><td>TypeScript</td><td>2026-01-14</td><td>2026-10-15</td></tr>
+<tr><td class="c">13</td><td>Octop</td><td><code>TencentCloud/Octop</code></td><td class="n">9,362</td><td class="n">1,162</td><td class="n">62</td><td class="n">825</td><td>MIT</td><td>Python</td><td>2026-07-08</td><td>2026-10-15</td></tr>
+<tr class="dim"><td class="c">—</td><td>WorkBuddy</td><td>无开源仓库</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>闭源</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="chart">
+  <div class="chart-t">Stars 分布对比<span class="tag tag-b">2026-10-15 实测</span></div>
+  <div class="chart-s">goose 以 55,293 位居第 9，被 opencode 压制 3.9 倍</div>
+  <div class="bars">
+    <div class="bar"><div class="bar-l">opencode</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-v">213,573</div></div>
+    <div class="bar"><div class="bar-l">Dify</div><div class="bar-track"><div class="bar-fill" style="width:74.2%"></div></div><div class="bar-v">158,511</div></div>
+    <div class="bar"><div class="bar-l">Claude Code</div><div class="bar-track"><div class="bar-fill" style="width:70.7%"></div></div><div class="bar-v">150,923</div></div>
+    <div class="bar"><div class="bar-l">Codex</div><div class="bar-track"><div class="bar-fill" style="width:60.5%"></div></div><div class="bar-v">129,272</div></div>
+    <div class="bar"><div class="bar-l">Pi Agent</div><div class="bar-track"><div class="bar-fill" style="width:54.0%"></div></div><div class="bar-v">115,237</div></div>
+    <div class="bar"><div class="bar-l">Gemini CLI</div><div class="bar-track"><div class="bar-fill" style="width:50.3%"></div></div><div class="bar-v">107,372</div></div>
+    <div class="bar"><div class="bar-l">OpenHands</div><div class="bar-track"><div class="bar-fill" style="width:42.6%"></div></div><div class="bar-v">90,928</div></div>
+    <div class="bar"><div class="bar-l">Cline</div><div class="bar-track"><div class="bar-fill" style="width:32.9%"></div></div><div class="bar-v">70,339</div></div>
+    <div class="bar me"><div class="bar-l">goose</div><div class="bar-track"><div class="bar-fill me" style="width:25.9%"></div></div><div class="bar-v">55,293</div></div>
+    <div class="bar"><div class="bar-l">Aider</div><div class="bar-track"><div class="bar-fill gray" style="width:23.2%"></div></div><div class="bar-v">49,554</div></div>
+    <div class="bar"><div class="bar-l">Continue</div><div class="bar-track"><div class="bar-fill" style="width:17.0%"></div></div><div class="bar-v">36,226</div></div>
+    <div class="bar"><div class="bar-l">OpenWork</div><div class="bar-track"><div class="bar-fill" style="width:11.3%"></div></div><div class="bar-v">24,109</div></div>
+    <div class="bar"><div class="bar-l">Octop</div><div class="bar-track"><div class="bar-fill" style="width:4.4%"></div></div><div class="bar-v">9,362</div></div>
+  </div>
+</div>
+
+<h4>读表要点</h4>
+<ol>
+<li><b>star 数会骗人</b>：Aider 4.96 万星，但最后推送停在 2026-05-22，已约 5 个月无提交，1,920 个 open issues 无人收敛。星数衡量的是历史影响力，不是当前维护强度。</li>
+<li><b>最热的未必开源</b>：Claude Code 15.09 万星排第 3，但仓库<b>无 OSI 许可证</b>（<code>license: null</code>），源码可见仅作分发与 issue 跟踪之用；贡献者仅 57 人，open issues 却高达 15,014。</li>
+<li><b>goose 星数排第 9，工程健康度却排前列</b>：453 贡献者与 Codex（478）、OpenHands（461）、Dify（456）同级，而 open issues 仅 480——是<b>全表同量级项目中的最优值</b>。</li>
+</ol>
+
+<h4>被低估的指标：issues ÷ stars</h4>
+<div class="chart">
+  <div class="chart-t">Open Issues ÷ Stars 比率<span class="tag tag-t">越低越好</span></div>
+  <div class="chart-s">goose 为 0.87%，是维护闭环效率最高的一个</div>
+  <div class="bars">
+    <div class="bar"><div class="bar-l">Codex</div><div class="bar-track"><div class="bar-fill gray" style="width:100%"></div></div><div class="bar-v">17.5%</div></div>
+    <div class="bar"><div class="bar-l">Claude Code</div><div class="bar-track"><div class="bar-fill gray" style="width:56.6%"></div></div><div class="bar-v">9.9%</div></div>
+    <div class="bar"><div class="bar-l">opencode</div><div class="bar-track"><div class="bar-fill gray" style="width:11.4%"></div></div><div class="bar-v">2.0%</div></div>
+    <div class="bar me"><div class="bar-l">goose</div><div class="bar-track"><div class="bar-fill me" style="width:5.0%"></div></div><div class="bar-v">0.87%</div></div>
+    <div class="bar"><div class="bar-l">Gemini CLI</div><div class="bar-track"><div class="bar-fill" style="width:3.9%"></div></div><div class="bar-v">0.69%</div></div>
+  </div>
+</div>
+
+<h4>增速对比（stars ÷ 存续月数）</h4>
+<div class="chart">
+  <div class="chart-t">月均新增 Stars<span class="tag tag-a">goose 增速落后</span></div>
+  <div class="chart-s">goose 月均约 2,127，仅为 Pi Agent 的 1/3.9、opencode 的 1/5.6</div>
+  <div class="bars">
+    <div class="bar"><div class="bar-l">opencode</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-v">≈11,865</div></div>
+    <div class="bar"><div class="bar-l">Pi Agent</div><div class="bar-track"><div class="bar-fill" style="width:69.4%"></div></div><div class="bar-v">≈8,230</div></div>
+    <div class="bar"><div class="bar-l">Octop</div><div class="bar-track"><div class="bar-fill" style="width:26.3%"></div></div><div class="bar-v">≈3,121</div></div>
+    <div class="bar"><div class="bar-l">OpenWork</div><div class="bar-track"><div class="bar-fill" style="width:22.6%"></div></div><div class="bar-v">≈2,679</div></div>
+    <div class="bar me"><div class="bar-l">goose</div><div class="bar-track"><div class="bar-fill me" style="width:17.9%"></div></div><div class="bar-v">≈2,127</div></div>
+  </div>
+</div>
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div><p><span class="t">结论</span> — goose 的月均增速（约 2,127）显著低于同期新锐（Pi 约 8,230、opencode 约 11,865）。<b>"开源最早"没有转化为"声量最大"</b>，这是 goose 最真实的处境。</p></div>
+</div>
+
+<h3>3.2 定位差异表</h3>
+<div class="tw">
+<table>
+<thead><tr><th>产品</th><th>定位</th><th>主打形态</th><th>是否仅限编程</th><th>治理主体</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>goose</b></td><td>通用本地 agent</td><td>桌面 + CLI + API + TUI</td><td><b>否</b></td><td><b>Linux 基金会 AAIF</b></td></tr>
+<tr><td>opencode</td><td>终端 coding agent</td><td>终端 TUI + 桌面（beta）</td><td>是</td><td>Anomaly 商业公司</td></tr>
+<tr><td>Pi Agent</td><td>agent 工具包全家桶</td><td>终端 TUI（另有 Web / SDK）</td><td>是</td><td>Mario Zechner（个人 / 小团队）</td></tr>
+<tr><td>Claude Code</td><td>终端 agentic coding</td><td>终端</td><td>是</td><td>Anthropic</td></tr>
+<tr><td>Codex</td><td>轻量终端 coding agent</td><td>终端</td><td>是</td><td>OpenAI</td></tr>
+<tr><td>Gemini CLI</td><td>Gemini 入终端</td><td>终端</td><td>是</td><td>Google</td></tr>
+<tr><td>OpenHands</td><td>AI 驱动开发平台</td><td>服务端 Web + headless</td><td>是</td><td>All Hands AI</td></tr>
+<tr><td>Cline</td><td>自治编码 agent</td><td>VS Code 扩展 + CLI + SDK</td><td>是</td><td>Cline 商业公司</td></tr>
+<tr><td>Aider</td><td>终端结对编程</td><td>终端</td><td>是</td><td>个人项目（已停更）</td></tr>
+<tr><td>Continue</td><td>开源 coding agent</td><td>VS Code / JetBrains 扩展</td><td>是</td><td>Continue Dev 公司</td></tr>
+<tr><td>OpenWork</td><td>Claude Cowork 开源替代</td><td>桌面应用（Win / macOS / Linux）</td><td>否（基于 opencode 内核）</td><td>different-ai</td></tr>
+<tr><td>Octop</td><td>自托管多用户多 agent 助手</td><td>服务端（PyPI / docker）</td><td>否</td><td>腾讯云</td></tr>
+<tr><td>Dify</td><td>Agentic 工作流 + RAG 平台</td><td>服务端 Web</td><td>否</td><td>LangGenius 商业公司</td></tr>
+<tr><td>WorkBuddy</td><td>桌面 AI 办公工作台</td><td>桌面（Win / macOS / Linux）</td><td>否</td><td>腾讯云 CodeBuddy 团队</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+  <div class="ic">◆</div>
+  <div><p><span class="t">结构性观察</span> — 14 款产品中，<b>仅 goose 由基金会托管</b>；<b>仅 goose 与 OpenWork / WorkBuddy 提供原生桌面</b>；<b>仅 goose 不限编程场景且同时具备四形态</b>。这三个"唯一"构成了 goose 的差异化基础。</p></div>
+</div>
+
+<h3>3.3 与五款重点产品的逐一对比</h3>
+<div class="tw">
+<table>
+<thead><tr><th>对比对象</th><th>goose 的优势</th><th>goose 的劣势</th><th>竞争关系</th></tr></thead>
+<tbody>
+<tr>
+<td><b>opencode</b><br><span class="sec-note">213,573 ★</span></td>
+<td>基金会治理；原生桌面四形态；场景不限编程；MCP 70+ 官方扩展；ACP 双向；完整安全体系</td>
+<td>星数仅其 1/4；月均增速约 1/5.6；第三方教程 / 插件 / 主题全面落后；背后无公司全职投入</td>
+<td><b>最直接对手</b>：宽松许可证 + 终端 agent + 多模型自由，几乎全维度重叠</td>
+</tr>
+<tr>
+<td><b>Pi Agent</b><br><span class="sec-note">115,237 ★</span></td>
+<td>有原生桌面应用（Pi 仅 CLI / TUI）；通用场景；MCP 官方扩展体系；基金会治理</td>
+<td>星数仅其一半；月均增速约 1/3.9；Pi 生态已长出扩展层（plannotator 9.4k★、awesome-pi-agent）；Pi 有 Terminal-Bench 口碑（社区称）</td>
+<td>同为"通用 agent 工具包"叙事，但 Pi 是明星个人项目、无桌面应用</td>
+</tr>
+<tr>
+<td><b>WorkBuddy</b><br><span class="sec-note">闭源</span></td>
+<td>开源可审计；模型自由含本地；治理中立；可离线；无厂商绑定</td>
+<td>需自行配置 provider；无中文办公交付物打磨；无官方商业支持</td>
+<td><b>定位最接近</b>（桌面 AI 工作台），一开一闭、一极客一办公</td>
+</tr>
+<tr>
+<td><b>Octop</b><br><span class="sec-note">9,362 ★</span></td>
+<td>单机执行深度（MCP / ACP / 安全体系）；本地推理；桌面体验</td>
+<td>无多租户与权限体系；Octop 走多用户多 agent 与 IM 网关，goose 不参与该场景</td>
+<td>部署形态不同（服务端 vs 桌面），可互补</td>
+</tr>
+<tr>
+<td><b>OpenWork</b><br><span class="sec-note">24,109 ★</span></td>
+<td>是"agent 本体级"基金会项目；OpenWork 依附 opencode 内核，许可证含附加条款（NOASSERTION）</td>
+<td>星数约其 2.3 倍；OpenWork 基于 opencode 因而天然继承其生态</td>
+<td>应用层 vs 本体的竞合关系</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ================= 4. Linux 专项 ================= -->
+<section id="s4">
+<h2><span class="h2n">4</span>Linux 环境专项对比</h2>
+
+<h3>4.1 goose v1.54.0 发布产物逐条清点（40 个）</h3>
+<div class="callout bad">
+  <div class="ic">!</div>
+  <div><p><span class="t">勘误要点</span> — v1.1 曾把"40 个产物"误述为"40 个 Linux 相关产物"。逐条分类后：<b>Linux 相关实为 24 个，占 60%</b>。</p></div>
+</div>
+
+<div class="chart">
+  <div class="chart-t">v1.54.0 发布产物平台构成<span class="tag tag-b">共 40 个 asset</span></div>
+  <div class="chart-s">Linux 相关 24 个（60%），其中原生包 12 个、CLI tarball 12 个</div>
+  <div class="stack">
+    <span style="width:30%;background:linear-gradient(180deg,#d97706,#a16207)" title="Linux 原生包 12"></span>
+    <span style="width:30%;background:linear-gradient(180deg,#eab308,#ca8a04)" title="Linux CLI tarball 12"></span>
+    <span style="width:22.5%;background:linear-gradient(180deg,#3b52c4,#2a3b96)" title="macOS 9"></span>
+    <span style="width:10%;background:linear-gradient(180deg,#7c8cc4,#5a6aa8)" title="Windows 4"></span>
+    <span style="width:5%;background:linear-gradient(180deg,#9ca3af,#6b7280)" title="源码 2"></span>
+    <span style="width:2.5%;background:var(--border-strong)" title="脚本 1"></span>
+  </div>
+  <div class="legend">
+    <span><i style="background:#b45309"></i>Linux 原生包 <b>12</b></span>
+    <span><i style="background:#ca8a04"></i>Linux CLI tarball <b>12</b></span>
+    <span><i style="background:#2a3b96"></i>macOS <b>9</b></span>
+    <span><i style="background:#5a6aa8"></i>Windows <b>4</b></span>
+    <span><i style="background:#6b7280"></i>源码包 <b>2</b></span>
+    <span><i style="background:var(--border-strong)"></i>脚本 <b>1</b></span>
+  </div>
+</div>
+
+<div class="tw">
+<table>
+<thead><tr><th>平台 / 类型</th><th class="n">数量</th><th>明细</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>Linux 原生包</b></td><td class="n"><b>12</b></td><td>4 RPM（<code>x86_64</code> / <code>arm64</code> × 普通 / vulkan）· 4 DEB（<code>amd64</code> / <code>arm64</code> × 普通 / vulkan）· 4 Flatpak（<code>x86_64</code> / <code>aarch64</code> × 普通 / vulkan）</td></tr>
+<tr class="hl"><td><b>Linux CLI tarball</b></td><td class="n"><b>12</b></td><td><code>{x86_64, aarch64}-unknown-linux-{gnu, gnu-vulkan, musl}</code> × <code>{tar.gz, tar.bz2}</code></td></tr>
+<tr><td>macOS</td><td class="n">9</td><td>4 桌面 zip（darwin-arm64 / x64 / 通用 / intel）+ 4 CLI tarball + 1 更新清单</td></tr>
+<tr><td>Windows</td><td class="n">4</td><td>2 桌面 zip（x64 / x64-cuda）+ 2 CLI zip（msvc / msvc-cuda）</td></tr>
+<tr><td>源码包</td><td class="n">2</td><td><code>goose-source-v1.54.0.tar.gz</code> / <code>.zip</code></td></tr>
+<tr><td>脚本</td><td class="n">1</td><td><code>download_cli.sh</code></td></tr>
+<tr><td><b>合计</b></td><td class="n"><b>40</b></td><td><b>其中 Linux 相关 24 个，占 60%</b></td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>三条被 v1.1 漏掉的事实</h4>
+<ol>
+<li><b>Flatpak 已上线</b>：<code>io.github.block.Goose_stable_*</code>，意味着 goose 打通了 Flathub 这条桌面 Linux 主流分发路径。注意 ID 仍保留 <code>block</code> 命名空间（迁移遗留，未改为 aaif-goose）。</li>
+<li><b>DEB 与 RPM 双轨齐全</b>：覆盖 Debian / Ubuntu 系与 RHEL / Fedora 系，且都提供 <b>vulkan 硬件加速变体</b>。</li>
+<li><b>musl 静态链接变体</b>：<code>*-unknown-linux-musl</code> 可在 Alpine 等无 glibc 环境直接运行，是服务器 / 容器场景的关键能力。</li>
+</ol>
+
+<h3>4.2 安装渠道与形态对比</h3>
+<div class="tw">
+<table>
+<thead><tr><th>产品</th><th>Linux 安装方式</th><th>Linux 形态</th><th>运行时依赖</th><th>本地模型</th><th class="c">适配评分</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>goose</b></td><td><b>RPM / DEB / Flatpak</b> / CLI tarball（gnu + musl）/ 官方一行脚本 / Nix flake / 部分发行版仓库</td><td>原生桌面 + CLI + TUI</td><td>Rust 单二进制（musl 变体零依赖）</td><td><b>内置 llama.cpp</b></td><td class="c"><span class="stars">★★★★<span class="off">★</span></span></td></tr>
+<tr><td>opencode</td><td><b>pacman 官方源</b> / AUR / brew / Nix / mise / npm</td><td>终端 TUI + 桌面（deb / rpm / AppImage）</td><td>Node / Bun</td><td>多 provider</td><td class="c"><span class="stars">★★★★<span class="off">★</span></span></td></tr>
+<tr><td>Pi Agent</td><td>curl install.sh / npm / Nix（x86-64 + ARM64）</td><td>仅终端 TUI</td><td><b>Node 22.19+</b></td><td>统一 LLM API</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
+<tr><td>Codex</td><td>npm / brew / GitHub 二进制</td><td>终端</td><td>Rust 单二进制</td><td>有限</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
+<tr><td>Octop</td><td><b>pip（PyPI）</b> / docker-compose</td><td>服务端 Web</td><td>Python 3.12+ / Docker</td><td>可接本地模型</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
+<tr><td>Dify</td><td>docker-compose</td><td>服务端 Web</td><td>Docker</td><td>多模型</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
+<tr><td>OpenHands</td><td>Docker</td><td>服务端 + headless</td><td>Docker</td><td>可接本地模型</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
+<tr><td>WorkBuddy</td><td>官方 Linux 安装包（4GB 内存起，建议 8GB）</td><td>仅桌面（无 CLI）</td><td>闭源二进制</td><td>多模型调度</td><td class="c"><span class="stars">★★★<span class="off">★★</span></span></td></tr>
+<tr><td>OpenWork</td><td>桌面应用（Linux 版）</td><td>桌面应用</td><td>Node（opencode 内核）</td><td>Ollama</td><td class="c"><span class="stars">★★<span class="off">★★★</span></span></td></tr>
+<tr><td>Claude Code</td><td>npm / curl</td><td>终端</td><td>Node</td><td>—</td><td class="c"><span class="stars">★★<span class="off">★★★</span></span></td></tr>
+<tr><td>Gemini CLI</td><td>npm / brew</td><td>终端</td><td>Node</td><td>—</td><td class="c"><span class="stars">★★<span class="off">★★★</span></span></td></tr>
+<tr><td>Cline</td><td>VS Code 扩展市场</td><td>IDE 插件 + CLI</td><td>Node（随 VS Code）</td><td>多 provider</td><td class="c"><span class="stars">★★<span class="off">★★★</span></span></td></tr>
+<tr><td>Aider</td><td>pip / pipx</td><td>终端</td><td>Python</td><td>多 provider</td><td class="c"><span class="stars">★★<span class="off">★★★</span></span></td></tr>
+<tr><td>Continue</td><td>VS Code / JetBrains 扩展</td><td>IDE 插件</td><td>Node（随 IDE）</td><td>多 provider</td><td class="c"><span class="stars">★★<span class="off">★★★</span></span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note">评分维度：安装渠道丰富度 / 形态完整度 / 依赖链轻量 / 服务器场景适配（各 1 星，半星用于区分同档）。<b>goose 扣半星原因</b>：Tauri 桌面端在部分发行版仍需补 WebKit / GTK 依赖，开箱体验不如 Arch 官方源的 opencode。</p>
+
+<h3>4.3 三个 Linux 特有事实</h3>
+<ol>
+<li><b>发布物不会说谎</b>：goose 单版 24 个 Linux 产物、覆盖 4 种原生包格式；opencode 则直接进了 <b>Arch 官方仓库</b>。这两款是 Linux 打包最认真的。</li>
+<li><b>依赖链三档</b>：
+  <ul>
+    <li><b>Rust 单二进制</b>（goose、Codex）——解压即用，musl 变体在 Alpine 亦可跑；</li>
+    <li><b>Node 工具链</b>（opencode、Pi、Claude Code、Gemini CLI、Cline）——需先装运行时，Pi 还要求 Node 22.19+；</li>
+    <li><b>Python venv / Docker</b>（Aider、Octop、Dify、OpenHands）——依赖最重。</li>
+  </ul>
+</li>
+<li><b>桌面 Linux 是小众需求</b>：仅 goose、opencode、OpenWork、WorkBuddy 提供 Linux 桌面版，其余全部为终端 / IDE / 服务端形态——桌面 Linux 用户的选择面远窄于 Windows / macOS。</li>
+</ol>
+
+<h3>4.4 分场景结论</h3>
+<div class="tw">
+<table>
+<thead><tr><th>场景</th><th>推荐</th><th>理由</th></tr></thead>
+<tbody>
+<tr class="hl"><td><b>桌面 Linux 日常工作台</b></td><td><b>goose 或 opencode</b></td><td>goose 通用性更强（不限编程），RPM / DEB / Flatpak 三格式齐全；opencode 有 Arch 官方源，安装最省心</td></tr>
+<tr><td><b>服务器 / headless / SSH</b></td><td><b>goose CLI</b>、opencode、Pi、Codex</td><td>goose 单二进制 + musl 变体 + distro 打包 + Nix，且<b>内置 llama.cpp 可完全离线运行</b></td></tr>
+<tr><td><b>容器 / 最小化镜像</b></td><td><b>goose musl 变体</b></td><td><code>aarch64/x86_64-unknown-linux-musl</code> 无 glibc 依赖</td></tr>
+<tr><td><b>团队自托管 / 多用户</b></td><td>Octop、Dify、OpenHands</td><td>goose 无多租户能力，此场景不参与竞争</td></tr>
+<tr><td><b>轻量本地编程</b></td><td>Aider（pip）、Codex</td><td>依赖最简单，但 Aider 已停更</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>4.5 goose 在 Linux 上的优势与短板</h3>
+<div class="cards">
+  <div class="card g">
+    <div class="card-h"><span class="card-i">＋</span>优势</div>
+    <p><b>1. Linux 分发最完整的桌面级 agent</b>：RPM + DEB + Flatpak 三格式原生包、gnu / musl 双 libc、vulkan 加速变体、Nix flake、RISCV 支持文档、发行版仓库收录。</p>
+    <p style="margin-top:9px"><b>2.</b> Rust 单二进制，musl 变体零运行时依赖，服务器与容器上解压即用。</p>
+    <p style="margin-top:9px"><b>3.</b> 内置本地推理（独立 crate），离线可用，无需任何 API key。</p>
+    <p style="margin-top:9px"><b>4.</b> 基金会治理，可进入企业供应链审计；LF Insights 官方健康分 <b>Healthy</b>。</p>
+    <p style="margin-top:9px"><b>5.</b> MCP / ACP 协议深度，可被 Zed 等 Linux 原生编辑器直接接入。</p>
+  </div>
+  <div class="card r">
+    <div class="card-h"><span class="card-i">－</span>短板</div>
+    <p><b>1.</b> 桌面端处于 Tauri 2.0 beta 过渡架构，部分发行版需补 WebKit / GTK 依赖。</p>
+    <p style="margin-top:9px"><b>2.</b> 社区打包质量参差；<code>goose-cli</code> 在主流发行版<b>官方源</b>的收录范围仍未逐一核实（见第 8 节）。</p>
+    <p style="margin-top:9px"><b>3.</b> 首次配置门槛依旧存在（provider 配置、keyring 处理、PATH 调整）。</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= 5. 优劣势 ================= -->
+<section id="s5">
+<h2><span class="h2n">5</span>优势与劣势总分析</h2>
+
+<h3>5.1 优势（按不可替代程度排序）</h3>
+<div class="tw">
+<table>
+<thead><tr><th class="c">#</th><th>优势</th><th>说明</th><th>是否可被复制</th></tr></thead>
+<tbody>
+<tr class="hl"><td class="c">1</td><td><b>治理中立性</b></td><td>14 款对比产品中唯一由 Linux 基金会 AAIF 托管；贡献者保留版权；治理变更需 LF Projects 批准</td><td>极难（需捐给基金会）</td></tr>
+<tr><td class="c">2</td><td><b>工程健康度</b></td><td>453 贡献者 + 480 open issues（issues/stars 比 0.87%，全表最优）；约 5–7 天一版</td><td>中等</td></tr>
+<tr><td class="c">3</td><td><b>第三方权威背书</b></td><td>LF Insights 官方健康分 <b>Healthy</b>，可直接用于企业采购与合规论证</td><td>难（需实际达标）</td></tr>
+<tr><td class="c">4</td><td><b>形态与场景最宽</b></td><td>桌面 + CLI + API + TUI 四形态；不限编程场景</td><td>中等（需资源投入）</td></tr>
+<tr><td class="c">5</td><td><b>协议站位</b></td><td>MCP 最早最深度集成者（70+ 扩展）+ ACP server（可被 Zed / JetBrains / VS Code 接入，也可把 Claude Code / Codex 当 provider）</td><td>较难（协议基础设施属性）</td></tr>
+<tr><td class="c">6</td><td><b>模型自由度 + 离线</b></td><td>15+ provider、订阅复用、内置 llama.cpp 本地推理、Mesh LLM 路由</td><td>中等</td></tr>
+<tr><td class="c">7</td><td><b>Linux 分发完整度</b></td><td>24 个 Linux 产物 / 4 种包格式 / 双 libc / vulkan / Nix / RISCV</td><td>中等</td></tr>
+<tr><td class="c">8</td><td><b>安全体系</b></td><td>macOS 沙箱、提示注入检测、权限控制、Adversary mode、SLSA 溯源</td><td>较难（开源阵营唯一成体系）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>5.2 劣势（按影响程度排序）</h3>
+<div class="tw">
+<table>
+<thead><tr><th class="c">#</th><th>劣势</th><th>说明</th><th>可缓解性</th></tr></thead>
+<tbody>
+<tr class="hl"><td class="c">1</td><td><b>声量与生态薄弱</b></td><td>55,293 stars 排第 9，被 opencode 压制 3.9 倍；月均增速约 2,127，仅为 Pi 的 1/3.9、opencode 的 1/5.6</td><td>低（需时间 + 运营）</td></tr>
+<tr><td class="c">2</td><td><b>上手门槛高</b></td><td>需自行配置 provider、处理 keyring / PATH；订阅 OAuth 链路复杂</td><td>中（文档可改善）</td></tr>
+<tr><td class="c">3</td><td><b>无托管与协作体系</b></td><td>无多租户、SSO、审计后台；企业需自建定制发行版（官方提供 CUSTOM_DISTROS 机制）</td><td>中（可外部集成）</td></tr>
+<tr><td class="c">4</td><td><b>一方模型优化深度不足</b></td><td>跨模型通用换来单模型深度折损（"通用性税"），编程基准通常不敌 Claude Code / Codex</td><td>低</td></tr>
+<tr><td class="c">5</td><td><b>记忆架构偏被动</b></td><td>有 Memory Extension + compaction + 独立 context-management crate，但社区评价仍偏"文件式 / 被动式"</td><td>中（已在改进）</td></tr>
+<tr><td class="c">6</td><td><b>架构过渡期风险</b></td><td>2.0 beta（Tauri / 新 TUI / 状态机）未完全收敛</td><td>高（时间可解）</td></tr>
+<tr><td class="c">7</td><td><b>决策集中度</b></td><td>453 贡献者背后实际决策仍为 7 名 Core Maintainer</td><td>中</td></tr>
+<tr><td class="c">8</td><td><b>品牌迁移遗留</b></td><td>Flatpak ID 等标识仍沿用 <code>block</code> 命名空间，品牌与仓库归属存在过渡期不一致</td><td>高（可修正）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>5.3 一个需要注意的判断项（非事实）</h3>
+<div class="callout warn">
+  <div class="ic">!</div>
+  <div>
+    <p><span class="t">通过 ACP 使用 Claude / ChatGPT / Gemini 订阅</span></p>
+    <p>这是官方明确支持的功能（2026-03-19 博客，README 亦有说明），但<b>订阅 OAuth 用于第三方客户端</b>在部分服务商条款中处于灰区，<b>存在被限流或封禁的不确定性</b>。此项为本文判断，非已发生的事件，请自行评估风险。</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= 6. 社区声音 ================= -->
+<section id="s6">
+<h2><span class="h2n">6</span>社区与官方声音</h2>
+
+<h3>6.1 官方叙事（goose-docs.ai 博客，2026）</h3>
+<div class="tw">
+<table>
+<thead><tr><th>时间</th><th>主题</th><th>信号</th></tr></thead>
+<tbody>
+<tr><td>2026-02</td><td>goose v1.25.0：macOS 沙箱、统一 summon 扩展、SLSA 构建溯源</td><td>安全与供应链投入</td></tr>
+<tr><td>2026-02</td><td>Code mode：减少长会话的上下文腐化与 token 消耗</td><td>成本优化</td></tr>
+<tr><td>2026-03</td><td>Adversary mode：隐藏审查 agent 盯防主 agent</td><td>安全差异化</td></tr>
+<tr><td>2026-03</td><td>用订阅接入 AI（Claude / Gemini / Codex）</td><td>成本结构创新</td></tr>
+<tr><td>2026-04</td><td>内置 llama.cpp 本地推理（Private by Default）</td><td>隐私与离线</td></tr>
+<tr><td>2026-04</td><td>Mesh LLM 跨模型路由</td><td>模型自由度</td></tr>
+<tr><td>2026-04</td><td>goose 迁入 AAIF</td><td>治理落地</td></tr>
+<tr><td>2026-04</td><td>goose 2.0 beta：Tauri 桌面重写、新 TUI、统一 ACP</td><td>架构换代</td></tr>
+<tr><td>2026-05</td><td>Hooks（Open Plugins 规范）、goose as conductor 多代理编排</td><td>可编程性</td></tr>
+<tr><td>2026-06</td><td>自改进 agent 仍需人类（Terminal-Bench / Harbor 失败即 bug 报告）</td><td>工程务实</td></tr>
+<tr><td>2026-07</td><td>Issues as the new PRs（agent 把 ready issue 转代码）</td><td>贡献流程再造</td></tr>
+<tr><td>2026-09</td><td>Agentic State Machines（用状态机取代经典 agent loop）</td><td>内核换代</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>6.2 社区评价</h3>
+<div class="cards">
+  <div class="card g">
+    <div class="card-h"><span class="card-i">＋</span>正面</div>
+    <p>社区评测将 goose 归入"<b>执行型</b>"而非"建议型"工具——能自动跑测试、验证、部署全流程，与 Copilot / Cursor 的"推荐片段需人工接受"形成代际区分（什么值得买评测，2026-04）。</p>
+    <p style="margin-top:9px">治理迁移被社区视为"开源史上的深远事件"：由公司项目转为中立基金会的公共基础设施（程序员茄子分析，2026-06）。</p>
+    <p style="margin-top:9px">第三方平台 Buzz 以原生 ACP harness 集成 goose，佐证其协议落地能力（仓库内存在 <code>buzz/</code> 目录，可佐证）。</p>
+  </div>
+  <div class="card a">
+    <div class="card-h"><span class="card-i">－</span>负面 / 保留意见</div>
+    <p>上手环节的实际障碍：安装后需处理 PATH 警告、keyring 报错，需先加 PATH 再 <code>goose configure</code>（CSDN 系列教程）。</p>
+    <p style="margin-top:9px">记忆与长上下文被部分社区意见认为仍偏"文件式 / 被动式"，与新一代多层记忆架构的 agent 在长链路任务上有差距。</p>
+    <p style="margin-top:9px"><b>社区文章存在失真</b>：例如某评测中出现的 <code>goose task "..."</code> 用法并非官方 CLI——引用社区教程时需回到官方文档核对。</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= 7. 选型建议 ================= -->
+<section id="s7">
+<h2><span class="h2n">7</span>选型建议</h2>
+<div class="tw">
+<table>
+<thead><tr><th>需求</th><th>推荐</th><th>说明</th></tr></thead>
+<tbody>
+<tr class="hl"><td>要隐私、离线、多模型套利、可审计、嵌 IDE</td><td><b>goose</b></td><td>无替代品</td></tr>
+<tr><td>要最强编程能力、追前沿模型</td><td>Claude Code / Codex / Gemini CLI / opencode</td><td>一方优化占优</td></tr>
+<tr><td>要开箱即用、中文办公交付物</td><td>WorkBuddy</td><td>零配置、落盘交付</td></tr>
+<tr><td>要拖拽搭建业务 Agent、多租户交付</td><td>Dify / Octop</td><td>平台化能力</td></tr>
+<tr><td>要纯编程终端 + 开源 + 声量</td><td>opencode / Pi Agent</td><td>生态成熟</td></tr>
+<tr><td>团队自托管协作</td><td>Octop / Dify / OpenHands</td><td>goose 不参与此场景</td></tr>
+<tr class="hl"><td>企业采购需合规背书</td><td><b>goose</b></td><td>基金会治理 + LF 官方健康分可写入审计材料</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout ok">
+  <div class="ic">✓</div>
+  <div><p><span class="t">常见组合</span> — 主力模型用官方 Agent 保效果上限 + goose 管敏感场景与批量自动化；两者经 ACP 可互为 provider，<b>不互斥</b>。</p></div>
+</div>
+</section>
+
+<!-- ================= 8. 不确定性 ================= -->
+<section id="s8">
+<h2><span class="h2n">8</span>不确定性清单（诚实声明）</h2>
+<div class="tw">
+<table>
+<thead><tr><th class="c">#</th><th>事项</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td>WorkBuddy 鸿蒙支持</td><td>仅见百科条目，未获第二来源证实</td></tr>
+<tr><td class="c">2</td><td>WorkBuddy Linux GUI 成熟度</td><td>2026-06 有来源称"未发布原生 Linux GUI"，与 2026-10 官方教程矛盾，可能已补齐，<b>建议实测</b></td></tr>
+<tr><td class="c">3</td><td>goose 2.0 GA 时间</td><td>未公布；稳定线仍为 1.x</td></tr>
+<tr><td class="c">4</td><td><code>goose-cli</code> 在主流发行版官方源的收录范围</td><td>repology 有收录，具体范围未逐一核实</td></tr>
+<tr><td class="c">5</td><td>goose Flatpak 是否已正式上架 Flathub</td><td>产物已发布，但未核验 Flathub 商店条目</td></tr>
+<tr><td class="c">6</td><td>Pi 在 Terminal-Bench 的具体排名</td><td>单一社区来源，未见官方榜单</td></tr>
+<tr><td class="c">7</td><td>AAIF 成员公司完整名单</td><td>部分细节来自百科 / 媒体转述</td></tr>
+<tr><td class="c">8</td><td>订阅 OAuth 的合规判定</td><td>本文判断，非事实</td></tr>
+<tr><td class="c">9</td><td>goose 1.x 桌面的具体实现框架</td><td>未逐一验证（仅确认 2.0 采用 Tauri）</td></tr>
+<tr><td class="c">10</td><td>社区打包质量与 repology 收录明细</td><td>未逐条核对各发行版仓库版本</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ================= 9. 参考来源 ================= -->
+<section id="s9">
+<h2><span class="h2n">9</span>参考来源</h2>
+
+<h4>官方</h4>
+<ul>
+<li><a href="https://github.com/aaif-goose/goose" target="_blank" rel="noopener">aaif-goose/goose 仓库</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/README.md" target="_blank" rel="noopener">README</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/GOVERNANCE.md" target="_blank" rel="noopener">GOVERNANCE.md</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/MAINTAINERS.md" target="_blank" rel="noopener">MAINTAINERS.md</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/CUSTOM_DISTROS.md" target="_blank" rel="noopener">CUSTOM_DISTROS.md</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/BUILDING_LINUX.md" target="_blank" rel="noopener">BUILDING_LINUX.md</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/flake.nix" target="_blank" rel="noopener">flake.nix</a> ·
+<a href="https://github.com/aaif-goose/goose/blob/main/RISCV_SETUP.md" target="_blank" rel="noopener">RISCV_SETUP.md</a></li>
+<li><a href="https://goose-docs.ai/" target="_blank" rel="noopener">goose 官方文档站</a> · <a href="https://goose-docs.ai/blog" target="_blank" rel="noopener">官方博客</a></li>
+<li><a href="https://goose-docs.ai/blog/2026/04/07/goose-moves-to-aaif" target="_blank" rel="noopener">goose 迁入 AAIF</a> · <a href="https://goose-docs.ai/blog/2026/04/08/goose-acp-and-new-tui" target="_blank" rel="noopener">goose 2.0 beta</a> · <a href="https://goose-docs.ai/blog/2026/09/16/agentic-state-machines" target="_blank" rel="noopener">Agentic State Machines</a></li>
+<li><a href="https://aaif.io/" target="_blank" rel="noopener">Agentic AI Foundation</a> · <a href="https://agentclientprotocol.com/" target="_blank" rel="noopener">Agent Client Protocol</a></li>
+</ul>
+
+<h4>第三方权威数据</h4>
+<ul>
+<li><a href="https://insights.linuxfoundation.org/project/goose" target="_blank" rel="noopener">Linux Foundation Insights — goose 项目健康分</a>（Health Score = Healthy）</li>
+<li>GitHub REST API：<code>repos</code> / <code>contributors</code> / <code>releases</code> / <code>languages</code> / <code>orgs</code> / <code>contents</code> 端点，采集时点 2026-10-15</li>
+</ul>
+
+<h4>竞品仓库</h4>
+<ul>
+<li><a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">anomalyco/opencode</a> · <a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">earendil-works/pi</a> · <a href="https://github.com/openai/codex" target="_blank" rel="noopener">openai/codex</a> · <a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener">google-gemini/gemini-cli</a> · <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener">anthropics/claude-code</a></li>
+<li><a href="https://github.com/OpenHands/OpenHands" target="_blank" rel="noopener">OpenHands/OpenHands</a> · <a href="https://github.com/cline/cline" target="_blank" rel="noopener">cline/cline</a> · <a href="https://github.com/Aider-AI/aider" target="_blank" rel="noopener">Aider-AI/aider</a> · <a href="https://github.com/continuedev/continue" target="_blank" rel="noopener">continuedev/continue</a></li>
+<li><a href="https://github.com/different-ai/openwork" target="_blank" rel="noopener">different-ai/openwork</a> · <a href="https://github.com/TencentCloud/Octop" target="_blank" rel="noopener">TencentCloud/Octop</a> · <a href="https://github.com/langgenius/dify" target="_blank" rel="noopener">langgenius/dify</a> · <a href="https://github.com/zed-industries/zed" target="_blank" rel="noopener">zed-industries/zed</a></li>
+</ul>
+
+<h4>社区与媒体</h4>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/2673380" target="_blank" rel="noopener">WorkBuddy 安装教程（腾讯云开发者社区）</a> · <a href="https://baike.baidu.com/item/WorkBuddy/67362053" target="_blank" rel="noopener">WorkBuddy 百度百科</a></li>
+<li><a href="https://post.smzdm.com/p/a7065w8o" target="_blank" rel="noopener">Goose AI Agent 评测（什么值得买）</a> · <a href="https://www.chenxutan.com/d/3505.html" target="_blank" rel="noopener">Goose 治理迁移分析（程序员茄子）</a></li>
+<li><a href="https://blog.csdn.net/gitblog_00709/article/details/154329481" target="_blank" rel="noopener">Goose 记忆扩展与上下文压缩（CSDN）</a> · <a href="https://blog.csdn.net/gitblog_01150/article/details/154896281" target="_blank" rel="noopener">安装注意事项（CSDN）</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1851107522440953319&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">AAIF 成立报道（TechCrunch 中文转述）</a> · <a href="https://baike.baidu.com/item/AI%20Agent%20Foundation/67073976" target="_blank" rel="noopener">Agentic AI Foundation 百科</a></li>
+<li><a href="https://blog.csdn.net/j8267643/article/details/160601065" target="_blank" rel="noopener">Pi-mono 项目解析（CSDN）</a> · <a href="https://wesee.blog.csdn.net/article/details/157288088" target="_blank" rel="noopener">OpenWork 与 Cowork 对比（CSDN）</a></li>
+</ul>
+</section>
+
+<!-- ================= 附录 A ================= -->
+<section id="sa">
+<h2><span class="h2n">A</span>附录：v2.0 复核方法可复现命令</h2>
+<details open>
+<summary>展开命令清单（可直接粘贴执行）</summary>
+<div class="d-body">
+<pre><code><span class="cmt"># 需具备 repo 读权限的 GitHub PAT（匿名调用限流 60 次/小时）</span>
+export TOKEN=&lt;your_github_pat&gt;
+
+<span class="cmt"># 1) 仓库硬数据</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://api.github.com/repos/aaif-goose/goose
+
+<span class="cmt"># 2) 贡献者数（Link header 最后一页）</span>
+curl -sI -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/repos/aaif-goose/goose/contributors?per_page=1" | grep -i '^link:'
+
+<span class="cmt"># 3) 语言字节数</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://api.github.com/repos/aaif-goose/goose/languages
+
+<span class="cmt"># 4) 单版发布产物清单（用于平台分类清点）</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://api.github.com/repos/aaif-goose/goose/releases/tags/v1.54.0 \
+  | python -c "import sys,json;[print(a['name']) for a in json.load(sys.stdin)['assets']]"
+
+<span class="cmt"># 5) 治理与维护者原文</span>
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://raw.githubusercontent.com/aaif-goose/goose/main/MAINTAINERS.md
+
+<span class="cmt"># 6) Linux 基金会官方健康分</span>
+curl -s "https://insights.linuxfoundation.org/api/badge/health-score?project=goose"</code></pre>
+</div>
+</details>
+
+<h3>本报告版本历史</h3>
+<div class="tw">
+<table>
+<thead><tr><th>版本</th><th>日期</th><th>变更</th></tr></thead>
+<tbody>
+<tr><td>v1.0</td><td>2026-10-14</td><td>对话式研究，含时间线图表</td></tr>
+<tr><td>v1.1</td><td>2026-10-15</td><td>首轮勘误 10 项 + 4 项新增事实</td></tr>
+<tr class="hl"><td><b>v2.0</b></td><td><b>2026-10-15</b></td><td><b>全量重采 API 复核，勘误 18 项（3 实质错误 / 6 重要遗漏 / 3 数据过期 / 6 口径改进），新增 Flatpak 与 DEB、LF 官方健康分、15 个 crate 结构、Core Maintainers 实名、issues/stars 比与增速对比</b></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<footer class="foot">
+  <div class="foot-grid">
+    <div>
+      <b>报告</b><br>
+      goose 深度研究报告 v2.0<br>
+      开源 AI Agent 的治理样本与竞争格局<br>
+      数据截止 2026-10-15
+    </div>
+    <div>
+      <b>方法</b><br>
+      GitHub REST API 实时采集<br>
+      仓库治理文件原文比对<br>
+      发布产物逐条清点<br>
+      LF Insights 官方健康分
+    </div>
+    <div>
+      <b>诚实性</b><br>
+      未经交叉验证的说法一律标注<br>
+      10 项不确定性集中列出<br>
+      勘误清单含反向核验<br>
+      附录提供可复现命令
+    </div>
+    <div>
+      <b>版本</b><br>
+      v2.0（2026-10-15）<br>
+      取代 v1.1<br>
+      勘误 18 项
+    </div>
+  </div>
+  <p style="margin:0">
+    本报告基于公开数据独立编写。所有 GitHub 数值为 API 实时返回值，采集时点 2026-10-15。
+    对未经第二来源验证的说法已逐条标注，详见第 8 节。
+  </p>
+</footer>
+
+</main>
+</div>
+
+<button id="top" aria-label="回到顶部" title="回到顶部">↑</button>
+
+<script>
+(function(){
+  /* ---- 目录高亮 ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+  var targets = links.map(function(a){
+    var id = a.getAttribute('href').slice(1);
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  function sync(){
+    var y = window.scrollY + 130;
+    var cur = -1;
+    for (var i = 0; i < targets.length; i++){
+      if (targets[i].offsetTop <= y) cur = i;
+    }
+    links.forEach(function(a,i){ a.classList.toggle('on', i === cur); });
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function(){ sync(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  sync();
+
+  /* ---- 回到顶部 ---- */
+  var top = document.getElementById('top');
+  function toggleTop(){
+    top.classList.toggle('show', window.scrollY > 700);
+  }
+  window.addEventListener('scroll', toggleTop, {passive:true});
+  top.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  toggleTop();
+
+  /* ---- 条形图入场动画 ---- */
+  var fills = document.querySelectorAll('.bar-fill');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced && 'IntersectionObserver' in window){
+    var widths = [];
+    fills.forEach(function(f){
+      widths.push(f.style.width);
+      f.style.width = '0%';
+    });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        var idx = Array.prototype.indexOf.call(fills, e.target);
+        e.target.style.width = widths[idx];
+        io.unobserve(e.target);
+      });
+    }, {threshold: 0.25});
+    fills.forEach(function(f){ io.observe(f); });
+  }
+})();
+</script>
+</body>
+</html>
