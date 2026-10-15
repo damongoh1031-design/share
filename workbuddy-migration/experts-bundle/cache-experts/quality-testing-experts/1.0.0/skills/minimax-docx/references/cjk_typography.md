@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # CJK Typography & Mixed-Script Guide
 
 Rules for Chinese, Japanese, and Korean text in DOCX documents.
