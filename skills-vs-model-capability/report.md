@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 模型越强，Skills 还需要吗？
 
 > **核心问题**：在 Opus 5.5 / GPT-6 Astra 这一代模型的能力下，Skills 是否还需要？是否约束了模型的能力？哪些仍然必备？
