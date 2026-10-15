@@ -1,21 +1,14 @@
 ---
 id: general-agent-workbench-alternatives
 title: 通用 Agent 工作台选型（Hermes Agent 之外）— 六项能力 × 19 候选
-tags:
-  - agent-workbench
-  - scheduled-tasks
-  - mcp
-  - sudo-systemd
-  - knowledge-base
-  - open-webui
-  - librechat
-  - n8n
+tags: [agent-workbench, scheduled-tasks, mcp, sudo-systemd, knowledge-base, open-webui, librechat, n8n]
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 version: 1
 status: stable
 source: 本次会话 · GitHub REST API 直读 30 个仓库元数据 + 官方文档原文逐条取证（检索日 2026-10-12）
 confidence: 已核实
+type: Checklist
 ---
 
 # 通用 Agent 工作台选型（Hermes Agent 之外）
