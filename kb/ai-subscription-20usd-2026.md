@@ -4,15 +4,15 @@ title: "20美元档 AI 订阅横评：v4 法律场景导向复核事实库（202
 tags: [ai-subscription, chatgpt-plus, claude-pro, gemini, grok, perplexity, legal-ai]
 created: 2026-10-15
 updated: 2026-10-15
-version: 5
+version: 6
 status: stable
-source: "本次会话实测（41+ 次定向检索：OpenAI/微软官方帮助页、智源社区/新智元、IT之家、DoNews、虎嗅、什么值得买、百家号、搜狐、helicsnews、CSDN、知乎、澎湃、律协指引）"
+source: "本次会话实测（41+ 次定向检索 + 2026-10-15 四榜单官网直抓：livebench.ai / cursor.com/cursorbench / arena.ai/leaderboard + AA 经搜索快照交叉）"
 confidence: "已核实"
 ---
 
 ## 一句话结论
 
-v4 重写版完成：旧版四类错误已纠正（Sora 已关停、Copilot Pro 已停售、第三方不止 Grok、"Claude 幻觉最低"被推翻），报告重组为法律场景导向结构。法律用途选型结论：**长文档/低幻觉首选 Gemini AI Pro $19.99（Argon 幻觉率 15%、GraphWalks 84.2%、输入输出均 100 万 token）；文书精度选 Claude Pro（Opus 5.5 智能 58 第一，但最高推理幻觉率 59%，必须逐条核验）；律师对 AI 输出承担最终责任**。
+v4 重写版完成：旧版四类错误已纠正（Sora 已关停、Copilot Pro 已停售、第三方不止 Grok、"Claude 幻觉最低"被推翻），报告重组为法律场景导向结构。法律用途选型结论：**长文档/低幻觉首选 Gemini AI Pro $19.99（Argon 幻觉率 15%、GraphWalks 84.2%、输入输出均 100 万 token）；文书精度选 Claude Pro（Opus 5.5 AA 智能指数 58 与 Arena 智能体榜第一，但最高推理幻觉率 59%，必须逐条核验）；不存在"全面第一"模型——引用榜单必须带榜单名**。
 
 ## 一、2026-10-15 复核事实表（关键结论）
 
@@ -48,6 +48,20 @@ v4 重写版完成：旧版四类错误已纠正（Sora 已关停、Copilot Pro 
 - GPQA Diamond 现行三家旗舰 2026-10 分值无可靠公开信源，不估计【缺】；历史参考（2025）：Gemini 3 Pro 91.9 / Deep Think 93.8 > GPT-5 Pro 89.4 > Grok 4 Heavy 88.9 > Opus 4.1 80.9【观】。
 - Opus 5.5 其他【核，百科】：GDPval-AA v2.1 1846 Elo > Astra 1542；Vals RSI 全球第一；Terminal-Bench 4.0 66.4% vs Astra 57.9%；平均每任务生成 11.9 万 token（Astra 2.7 万）。Argon ERQA 87% 第一；LVBench 91.7%。
 
+### 1.2 四大榜单官网交叉验证（2026-10-15 直抓，v6 新增）
+
+| 榜单（口径） | 第 1 | 第 2 | 第 3 | 关键备注 |
+|---|---|---|---|---|
+| AA 智能指数 | Opus 5.5 = 58 | Fable 5.1 / Astra / Argon 均 53 | GPT-6.1 Sol 52 | GPQA 权重仅 6% |
+| LiveBench 2.0 Overall | **Fable 5.1 = 88.0** | Opus 5.5 86.5 | Astra 86.1 | Argon 84.1 第 5；6.1 Sol 85.4；Grok 4.7 74.1 < Grok 4.6 74.6 |
+| CursorBench 4.0 | Opus 5.5 Max = 57.8% | Opus 5.5 High 56.0% | Sonnet 5.5 Max 55.5% | Argon High 52.9%；Grok 4.7 46.3%；GPT-5.6 Sol Max 41.7%；榜上无 GPT-6 Astra/6.1 Sol |
+| Arena 智能体榜（真人胜率） | Opus 5.5 (Max) = 17.18% | GPT-6.1 Sol (Max) 14.78% | Fable 5.1 (Max) 14.12% | Argon 13.73% 第 4；Astra 13.69% 第 5；Sonnet 5.5 12.55% 第 6 |
+| Text Arena（文本盲测） | Gemini 4 Argon = 1525 | Muse Wonder 1513 | — | 区分"文本盲测"与"智能体榜"两个 Arena |
+
+- LiveBench 2.0 分项【核】：Reasoning Argon 95.1 > Astra 92.7 > Opus 5.5 92.2；Coding Fable 5.1 97.7 > Opus 5.5 96.3 > 6.1 Sol 96.0；Agentic Opus 5.5 85.0 > Astra 82.4 > Fable 80.8；每成功任务成本 6.1 Sol $0.73 < Argon $1.83 < Astra $3.44 < Opus 5.5 $4.22 < Fable $4.53。
+- **结论修正**：Opus 5.5 的"第一"仅成立于 AA 指数与 Arena 智能体榜；LiveBench 综合第一是 Fable 5.1；文本盲测第一是 Argon；编程综合最强是 Opus 5.5。**不存在全面第一模型**。
+- 抓取方式：artificialanalysis.ai 为 JS 渲染 SPA，直接抓取返回空白，经官网搜索快照 + 多信源交叉确认（58/53/53/53/52 各信源一致）；livebench.ai / cursor.com/cursorbench / arena.ai 可直连抓取。
+
 ## 二、法律场景选型结论
 
 | 场景 | 首选 | 理由 |
@@ -76,6 +90,8 @@ cd ai-sub-20usd-2026 && python generate_html.py
 5. **AA-Omniscience 奖励"说不知道"**：低幻觉率部分来自模型更爱拒答；法律场景这是优点，但通用问答场景可能显得"答不上来"。
 6. **Grok 档位与分数信源混乱**：3/4/5 档说法并存；Grok 4.6 有信源称 AA 61 而 4.7 旧口径 46，未解。
 7. **并发会话回退事故（2026-10-15）**：共享 GitHub 仓库（github-sync 的 _work 克隆）出现非本会话提交；本地 report.md 曾被并行操作回退成旧版。防御：写完关键文件立即 grep 关键词自检 + 立刻同步远端 + 用 git log 核对推送内容。
+8. **"全面第一"不存在**：不同榜单口径差异巨大——Opus 5.5（AA 指数/Arena 智能体）第一 ≠ LiveBench 第一（Fable 5.1）≠ 文本盲测第一（Argon）。对外引用必须带榜单名与权重口径。
+9. **JS 渲染榜单站抓不动**：artificialanalysis.ai 直抓返回空白（SPA）；解法是搜索快照 + 多信源交叉，并在报告里注明抓取方式。arena.ai 有"智能体榜 / Text Arena"两个榜，极易混淆。
 8. **Anthropic 训练授权弹窗默认"开"**：注销/换机重登后要复查设置。
 
 ## 五、未核实 / 存疑
