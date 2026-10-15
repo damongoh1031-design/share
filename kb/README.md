@@ -1,5 +1,7 @@
-# KB 索引
+# 知识库索引
 
-| 文档 | 主题 | 版本 | 更新 |
-|---|---|---|---|
-| [workbuddy-user-skills-migration-bundle.md](workbuddy-user-skills-migration-bundle.md) | WorkBuddy 资产跨 IDE 迁移打包：skills（48 个）+ PAT + 专家包（6 包 26 agents），含去密、_work/.in_use 剔除、恢复步骤与踩坑 | 1.1.0 | 2026-10-14 |
+工作区沉淀的可复用结论 / 数据 / 操作步骤。命名按主题，不按日期；同主题原地更新并递增 `version`。
+
+| 文件 | 主题 | 更新 | 版本 | 状态 |
+|---|---|---|---|---|
+| [opencode-go-third-party-api.md](opencode-go-third-party-api.md) | OpenCode Go API 供第三方客户端调用（`x-opencode-session` 门槛、端点分流、NewAPI 中转配置） | 2026-10-15 | 1.0 | stable |
