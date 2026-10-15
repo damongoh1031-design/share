@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 个人助理类 AI Agent 的 MCP 生态调研
 
 > **调研问题**：在个人助理类软件（OpenClaw、Hermes Agent 等）上，最热门的 MCP 有哪些？社区公认「必装」的是什么？
