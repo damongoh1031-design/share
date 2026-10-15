@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # nix-agent usage
 
 `nix-agent` is a local stdio MCP server that gives AI agents composable
