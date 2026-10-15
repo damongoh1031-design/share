@@ -811,8 +811,6 @@ goose 开始研究后，我发现它研究的是泛指的“工具发现”。�
 
 > 原文：https://block.github.io/goose/docs/tutorials/subagents
 
-![使用子代理的教程](https://block.github.io/goose/img/tutorial-using-subagents.png)
-
 本教程将带你启动一组 AI[子代理](https://block.github.io/goose/docs/guides/context-engineering/subagents/)，并引导它们构建一个功能完备的应用。
 
 你将构建 **AI BriefMe**，一款可根据任意主题生成结构化高管简报的应用。
