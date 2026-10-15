@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # Grok Bot X lanes
 
 Read only on an actual Grok Bot host. Browser sessions are never read on this host.
