@@ -51,11 +51,28 @@
 | Meta Muse Wonder Full（非订阅对照） | 56【核】 | — |
 | Claude Fable 5.1 | 53【核】 | — |
 | GPT-6 Astra（ChatGPT Pro $100+ / Antigravity） | 53【核】 | GPT-6 Pro 底座 |
-| **Gemini 4 Argon**（Gemini AI Pro $19.99） | 53【核】 | 2026-09-30 发布、10-14 登陆 Gemini 应用面向 AI Pro/Ultra【核】；谷歌自报 18 项基准 12–13 项第一（信源计数略异）【核】；LMArena 文本盲测榜登顶【核】 |
+| **Gemini 4 Argon**（Gemini AI Pro $19.99） | 53【核】 | 2026-09-30 发布、10-14 登陆 Gemini 应用面向 AI Pro/Ultra【核】；谷歌自报 18 项基准 12–13 项第一（信源计数略异）【核】；**Text Arena 1525 分第 1**（Muse Wonder 1513 第 2）【核】 |
 | GPT-6.1 Sol（Plus 的 Work/Codex） | 52【核】 | 2026-09-29 上线，定位高性价比、官方称多任务接近 Astra【核】 |
-| Grok 4.7（$30 档） | 46【疑】 | 旧版 46 为 9 月口径；8 月另有信源称 Grok 4.6 达 61，**口径冲突未解**【疑】 |
+| Grok 4.7（$30 档） | 46【疑】 | 旧版 46 为 9 月口径；8 月另有信源称 Grok 4.6 达 61，**口径冲突未解**【疑】。交叉验证：LiveBench 2.0 Overall 74.1（低于 Grok 4.6 的 74.6）【核】；CursorBench 4.0 Extra High 46.3%【核】 |
 
 > 编程专项（第三方基准）：DeepSWE v1.1 Argon 77.9% > Opus 5.5 74.2% ≈ Astra 74.1%【核】；Terminal-Bench 4.0 Opus 5.5 66.4% > Argon 57.4%【核】；FrontierSWE v2 Astra 65.5% > Argon 55.0%【核】；CWE-bench v1 Argon 与 Astra 并列第一（68%）【核】；GDPval-AA v2.1（知识工作）Opus 5.5 1846 Elo > Astra 1542【核，百科】；Vals AI RSI 指数 Opus 5.5 全球第一【核】；ERQA（具身推理）Argon 87% 第一【核】。
+
+### 3.1 四大榜单交叉验证（2026-10-15 直接从官网抓取）
+
+单一指数会骗人，v4.1 起加入四个独立榜单的原始数据交叉验证（LiveBench 2.0 / CursorBench 4.0 / Arena 智能体榜 / AA 智能指数）：
+
+| 榜单（口径） | 第 1 | 第 2 | 第 3 | 备注 |
+|---|---|---|---|---|
+| **AA 智能指数**（加权综合） | **Claude Opus 5.5 = 58** | Fable 5.1 / Astra / Argon 均 53、GPT-6.1 Sol 52 | — | GPQA 权重仅 6%；Opus 5.5 max 档平均每任务烧 11.9 万 token【核】 |
+| **LiveBench 2.0 Overall**（防污染长程任务） | **Claude Fable 5.1 = 88.0** | Opus 5.5 = 86.5 | GPT-6 Astra = 86.1 | Argon 84.1 第 5；**Opus 5.5 在 LiveBench 并非第一**，其强项是 Agentic 85.0（第一）与 Coding 96.3【核】 |
+| **CursorBench 4.0**（真实多文件任务） | **Opus 5.5 Max = 57.8%** | Opus 5.5 High/Extra High 56.0% | Sonnet 5.5 Max 55.5% | Argon High 52.9%（$4.57/任务）；Grok 4.7 Extra High 46.3%；GPT-5.6 Sol Max 41.7%；榜单未见 GPT-6 Astra/6.1 Sol【核】 |
+| **Arena 智能体榜**（真人胜率） | **Claude Opus 5.5 (Max) = 17.18%** | GPT-6.1 Sol (Max) 14.78% | Fable 5.1 (Max) 14.12% | Argon (High) 13.73% 第 4；Astra 13.69% 第 5；Sonnet 5.5 12.55% 第 6【核】 |
+
+LiveBench 2.0 分项精选【核】：Reasoning —— Argon 95.1 > Astra 92.7 > Opus 5.5 92.2；Coding —— Fable 5.1 97.7 > Opus 5.5 96.3 > 6.1 Sol 96.0 > Astra 93.7 > Argon 89.7；Agentic —— Opus 5.5 85.0 > Astra 82.4 > Fable 80.8；每成功任务成本 —— GPT-6.1 Sol $0.73 < Argon $1.83 < Astra $3.44 < Opus 5.5 $4.22 < Fable 5.1 $4.53。
+
+**结论修正（克制表述）**：Opus 5.5 的"第一"成立于 AA 智能指数与 Arena 智能体榜；**LiveBench 2.0 综合第一是 Claude Fable 5.1**；文本盲测第一是 Gemini 4 Argon；编程综合最强也是 Opus 5.5（CursorBench + Terminal-Bench）。不存在"全面第一"的模型——引用时必须带榜单名。
+
+> 说明：artificialanalysis.ai 为 JS 渲染站点，无法直接抓取，AA 数据经官网搜索快照（2026-10-15）+ 多信源交叉确认，与 2026-09-23 以来各家报道一致。
 
 ## 三·补、七维详细对比（上下文 / 输出 / 命中 / 幻觉 / 智能 / 世界知识 / 研究生测验）
 
@@ -68,6 +85,7 @@
 | GPT-6.1 Sol（Plus 的 Work/Codex） | 【缺】 | 【缺】 | 【缺】 | 【缺】 | 52【核】 | 【缺】 | 【缺】 |
 | **Gemini 4 Argon**（Gemini AI Pro $19.99） | **100 万**【核】 | **100 万**（一说 1.1M【疑】） | **GraphWalks 84.2% 第一**【核】；LVBench 91.7%【核】 | **15%（最低）**【核】 | 53【核】 | 截止未官宣【缺】；联网搜索 + Keep Activity【观】 | 【缺】 |
 | Grok 4.7（X Subscription $30） | 128K（SuperGrok 口径）【观】 | 【缺】 | 【缺】 | 【缺】 | 46【疑，信源冲突】 | **实时 X 数据最强**【核】 | 【缺】 |
+| （交叉参考） | — | — | LiveBench 2.0：Fable 5.1 88.0 > Opus 5.5 86.5 > Astra 86.1 > 6.1 Sol 85.4 > Argon 84.1；Grok 4.7 74.1【核】 | — | — | — | — |
 
 **口径说明（务必阅读）**：
 
@@ -273,7 +291,7 @@
 
 ## 附录 B：主要信源（检索日 2026-10-15）
 
-OpenAI 帮助中心（Pro 档位、Enterprise 模型与限制、数据管理）；微软官方支持页（Copilot Pro 停售）；智源社区/新智元（Hermes proxy，2026-05-20）；IT之家 / IT时代网 / DoNews / 虎嗅 / aibase（X Subscription，2026-10-13）；什么值得买 / 百家号 / 搜狐 / helicsnews（Gemini 新政与 Argon 基准，2026-10-01～14）；CSDN（AA 榜单、Opus 5.5、GPT-6 Astra 参数，2026-09～10）；知乎（11 款模型适配表，2026-10-12）；百度百科（Opus 5.5、Gemini 4 Argon、GPQA Diamond）；澎湃新闻/新智元（Anthropic 数据条款，2025-09-01）；深圳市律协指引（2026-09-02）、全国律协指引（2026-08-04）、宁夏律协指引（2026-03-22）；人民法院案例相关报道（2024–2026）。
+官方帮助页/支持页：OpenAI 帮助中心（Pro 档位、Enterprise 模型与限制、数据管理）、微软官方支持页（Copilot Pro 停售）。**基准官网（2026-10-15 当日抓取）**：arena.ai/leaderboard（智能体榜胜率、Text Arena）、livebench.ai（LiveBench 2.0 全榜）、cursor.com/cursorbench（CursorBench 4.0 全榜）、artificialanalysis.ai（智能指数，JS 渲染经搜索快照+多信源交叉）。媒体/社区：智源社区/新智元（Hermes proxy，2026-05-20）；IT之家 / IT时代网 / DoNews / 虎嗅 / aibase（X Subscription，2026-10-13）；什么值得买 / 百家号 / 搜狐 / helicsnews（Gemini 新政与 Argon 基准，2026-10-01～14）；cnblogs（Text Arena 1525/1513 分差）；CSDN（AA 榜单、Opus 5.5、GPT-6 Astra 参数，2026-09～10）；知乎（11 款模型适配表，2026-10-12）；百度百科（Opus 5.5、Gemini 4 Argon、GPQA Diamond、Text Arena）；澎湃新闻/新智元（Anthropic 数据条款，2025-09-01）；深圳市律协指引（2026-09-02）、全国律协指引（2026-08-04）、宁夏律协指引（2026-03-22）；人民法院案例相关报道（2024–2026）。
 
 ## 附录 C：复核方法与局限
 
