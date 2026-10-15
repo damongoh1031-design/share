@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 邮轮调研的坑、隐藏条例与易忽略项
 
 > 全部条目来自 **14 艘船**（Regent Splendor / HAL Volendam / Silversea Silver Shadow / Silver Dawn / Silver Ray / Silver Muse / Cunard Queen Anne / **Cunard Queen Elizabeth** / Crystal Serenity / Oceania Vista / Seabourn Quest / **Princess Star Princess** / **Viking Vesta** / **Princess Coral Princess**）+ **一次船队时效核查** + **一次中文语言环境专项调研**的实际调研，**均为已核实案例**。共 **62 条**。
