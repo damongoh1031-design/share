@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # MCP-NixOS - Because Your AI Shouldn't Hallucinate Package Names
 
 [![MCP Toplist](https://mcptoplist.com/badge/glama%2Futensils%2Fmcp-nixos.svg)](https://mcptoplist.com/server/glama%2Futensils%2Fmcp-nixos)
