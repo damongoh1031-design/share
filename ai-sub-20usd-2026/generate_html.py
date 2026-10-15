@@ -50,32 +50,31 @@ padding:1px 10px;font-size:12px;margin-right:6px;font-weight:600}
 
 BARS = """
 <h2>Artificial Analysis 智能指数（2026年10月）</h2>
-<div class="bar-row"><div class="bar-label">Claude Opus 5.5（Claude Pro）</div><div class="bar-track"><div class="bar-fill top" style="width:96.7%"></div><div class="bar-val">58 · 第1名</div></div></div>
-<div class="bar-row"><div class="bar-label">Claude Sonnet 5.5（Pro/Antigravity）</div><div class="bar-track"><div class="bar-fill top" style="width:93.3%"></div><div class="bar-val">56</div></div></div>
-<div class="bar-row"><div class="bar-label">Meta Muse Wonder Full（对照）</div><div class="bar-track"><div class="bar-fill" style="width:93.3%"></div><div class="bar-val">56</div></div></div>
-<div class="bar-row"><div class="bar-label">GPT-6 Astra（$100档/Antigravity）</div><div class="bar-track"><div class="bar-fill" style="width:88.3%"></div><div class="bar-val">53</div></div></div>
+<div class="bar-row"><div class="bar-label">Claude Opus 5.5（Claude Pro $20）</div><div class="bar-track"><div class="bar-fill top" style="width:96.7%"></div><div class="bar-val">58 · 第1名</div></div></div>
+<div class="bar-row"><div class="bar-label">Claude Sonnet 5.5（Pro / Antigravity）</div><div class="bar-track"><div class="bar-fill top" style="width:93.3%"></div><div class="bar-val">56</div></div></div>
+<div class="bar-row"><div class="bar-label">Meta Muse Wonder Full（非订阅对照）</div><div class="bar-track"><div class="bar-fill" style="width:93.3%"></div><div class="bar-val">56</div></div></div>
+<div class="bar-row"><div class="bar-label">GPT-6 Astra（ChatGPT $100+ / Antigravity）</div><div class="bar-track"><div class="bar-fill" style="width:88.3%"></div><div class="bar-val">53</div></div></div>
 <div class="bar-row"><div class="bar-label">Gemini 4 Argon（AI Pro $19.99）</div><div class="bar-track"><div class="bar-fill" style="width:88.3%"></div><div class="bar-val">53</div></div></div>
-<div class="bar-row"><div class="bar-label">Grok 4.3（2026-05口径）</div><div class="bar-track"><div class="bar-fill" style="width:88.3%"></div><div class="bar-val">53</div></div></div>
-<div class="bar-row"><div class="bar-label">Grok 4.7（Grok $30 档）</div><div class="bar-track"><div class="bar-fill low" style="width:76.7%"></div><div class="bar-val">46 · 第二梯队第一</div></div></div>
-<p class="note">指数为 Artificial Analysis Intelligence Index（0–100 相对分）。编码智能体指数另计：Grok 4.7 + Grok Build = 56。数据截至 2026-10-15。</p>
+<div class="bar-row"><div class="bar-label">GPT-6.1 Sol（Plus 的 Work/Codex）</div><div class="bar-track"><div class="bar-fill" style="width:86.7%"></div><div class="bar-val">52</div></div></div>
+<p class="note">指数为 Artificial Analysis Intelligence Index（0–100 相对分），2026-10 口径。Grok 4.7 存在 46 与 61 的信源冲突，未列入。编码智能体指数另计。数据截至 2026-10-15。</p>
 """
 
 BARS2 = """
-<h2>AA-Omniscience 幻觉率（越低越好，2026年10月）</h2>
+<h2>AA-Omniscience 幻觉率（越低越好，2026-10）</h2>
 <div class="bar-row"><div class="bar-label">Gemini 4 Argon</div><div class="bar-track"><div class="bar-fill top" style="width:15%;background:linear-gradient(90deg,#16a34a,#4ade80)"></div><div class="bar-val">15% · 最低</div></div></div>
-<div class="bar-row"><div class="bar-label">Claude Opus 4.7</div><div class="bar-track"><div class="bar-fill" style="width:36%;background:linear-gradient(90deg,#2563eb,#60a5fa)"></div><div class="bar-val">36%</div></div></div>
-<div class="bar-row"><div class="bar-label">GPT-6 Astra</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div><div class="bar-val">51%</div></div></div>
-<div class="bar-row"><div class="bar-label">GPT-5.5（GPT全系85–92%）</div><div class="bar-track"><div class="bar-fill low" style="width:86%;background:linear-gradient(90deg,#dc2626,#f87171)"></div><div class="bar-val">86%</div></div></div>
-<div class="bar-row"><div class="bar-label">Grok 4.7</div><div class="bar-track"><div class="bar-fill low" style="width:4%"></div><div class="bar-val">无权威数据</div></div></div>
-<p class="note">学术引用实测（2026-06，50篇论文）幻觉率：Perplexity Pro 4% &lt; Gemini 16% &lt; ChatGPT Plus 24%。该指标奖励“宁可拒答”，对积极回答型模型天然不严。</p>
+<div class="bar-row"><div class="bar-label">GPT-6 Astra</div><div class="bar-track"><div class="bar-fill" style="width:51%;background:linear-gradient(90deg,#2563eb,#60a5fa)"></div><div class="bar-val">45–51%</div></div></div>
+<div class="bar-row"><div class="bar-label">Claude Opus 5.5（最高推理档）</div><div class="bar-track"><div class="bar-fill" style="width:59%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div><div class="bar-val">59%</div></div></div>
+<div class="bar-row"><div class="bar-label">Claude Fable 5.1（最高推理档）</div><div class="bar-track"><div class="bar-fill low" style="width:73%;background:linear-gradient(90deg,#dc2626,#f87171)"></div><div class="bar-val">73%</div></div></div>
+<div class="bar-row"><div class="bar-label">GPT-5.5（2026-08 旧口径）</div><div class="bar-track"><div class="bar-fill low" style="width:86%;background:linear-gradient(90deg,#dc2626,#f87171)"></div><div class="bar-val">86%</div></div></div>
+<p class="note">口径：模型答错问题中仍硬答的比例（承认不知道不计入）。该指标奖励克制。学术引用实测（2026-06，50 篇）：Perplexity Pro 4% &lt; Gemini 16% &lt; ChatGPT Plus 24%。旧版"Claude 幻觉最低"基于 Opus 4.7（2026-04），已被推翻。</p>
 """
 
 BARS3 = """
 <h2>GraphWalks 长上下文命中（256K–1M，越高越好）</h2>
 <div class="bar-row"><div class="bar-label">Gemini 4 Argon</div><div class="bar-track"><div class="bar-fill top" style="width:84.2%"></div><div class="bar-val">84.2% · 第一</div></div></div>
 <div class="bar-row"><div class="bar-label">GPT-6 Astra</div><div class="bar-track"><div class="bar-fill" style="width:71.8%"></div><div class="bar-val">71.8%</div></div></div>
-<div class="bar-row"><div class="bar-label">Claude 系（约）</div><div class="bar-track"><div class="bar-fill" style="width:65%"></div><div class="bar-val">约65%</div></div></div>
-<p class="note">MRCR v2 @1M（大海捞针）口径：GPT-5.5 约74.x &gt; Claude Opus 4.6 78.3%→4.7 32.2%（迭代回退）&gt; GPT-5.4 36.6%。注意：MRCR 高分多为固定针位下取得，第三方复核认为与真实文档检索有差距。</p>
+<div class="bar-row"><div class="bar-label">Claude 系（约）</div><div class="bar-track"><div class="bar-fill" style="width:65%"></div><div class="bar-val">约 65%</div></div></div>
+<p class="note">MRCR v2 @1M 口径：GPT-5.5 约 74.x &gt; Opus 4.6 78.3%→4.7 32.2%（迭代回退）&gt; GPT-5.4 36.6%。注意：MRCR 高分多为固定针位下取得，与真实文档检索有差距。</p>
 """
 
 
@@ -172,18 +171,20 @@ def main():
     with open(SRC, encoding="utf-8") as f:
         md = f.read()
     body = convert(md)
-    # 在 hero 元信息后插入条形图（放在“二、”标题前）
-    body = body.replace("<h2>二、可用模型的最高智力对比（2026年10月）</h2>",
-                        BARS + "<h2>各订阅可用的最高模型速查</h2>")
-    body = body.replace("<h2>二·补、幻觉率对比（越低越好）</h2>", BARS2 + "<h2>二·补、幻觉率对比（越低越好）</h2>")
-    body = body.replace("<h2>二·补2、长上下文命中对比（越高越好）</h2>", BARS3 + "<h2>二·补2、长上下文命中对比（越高越好）</h2>")
+    # 在对应章节前插入条形图
+    body = body.replace("<h2>三、模型与智力（Artificial Analysis，2026-10）</h2>",
+                        BARS + "<h2>三、模型与智力（Artificial Analysis，2026-10）</h2>")
+    body = body.replace("<h3>4.1 AA-Omniscience 幻觉率（2026-10，越低越好）</h3>",
+                        BARS2 + "<h3>4.1 AA-Omniscience 幻觉率（2026-10，越低越好）</h3>")
+    body = body.replace("<h2>五、长上下文命中（法律场景第二指标）</h2>",
+                        BARS3 + "<h2>五、长上下文命中（法律场景第二指标）</h2>")
     # 目录锚点小节转为卡片式提示
     doc = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20美元档 AI 订阅深度横评（2026-10）</title>
+<title>20美元档 AI 订阅深度横评 · 法律条文场景（2026-10）</title>
 <style>%s</style>
 </head>
 <body><div class="wrap">

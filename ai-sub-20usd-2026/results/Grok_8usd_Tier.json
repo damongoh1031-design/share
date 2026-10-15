@@ -1,6 +1,6 @@
 {
   "name": "Grok 8美元档（X Subscription Plus / X Premium）",
-  "pricing": "2026-10-13 SpaceX（SpaceXAI，原 xAI）推出全新 X Subscription 捆绑订阅：Plus $8/月（Grok Chat、Voice、Imagine、X Premium、Build，含 Grok API 使用权限与 Cursor 编程）；Premium $30/月（Plus 全部 + Grok Bot + 最新 Grok 模型 + Cursor 云端智能体/代码托管/自动化）；Super $100/月（高峰优先）；Ultra $200/月（20倍额度）。旧体系仍在演进：X Premium $8/月（$84/年，社交权益+限额提升的基础 Grok）；SuperGrok $30/月（纯AI：Grok 4/4.1 全解锁、128K上下文、Expert 模式4智能体、20倍媒体生成、DeepSearch/Think 近无感）；SuperGrok Heavy $300/月（Grok 4 Heavy、8智能体、256K–428K+上下文）；部分地区有 SuperGrok Lite $10（Grok 3.5、480p短视频日限额）。",
+  "pricing": "2026-10-13 SpaceXSI 推出 X Subscription：Plus $8/月（Grok Chat、Voice、Imagine、X Premium、Build，含 Grok API 使用权限与 Cursor 编程）；Premium $30/月（Plus 全部 + Grok Bot + 最新 Grok 模型 + Cursor 云端智能体/代码托管/自动化）；Super $100/月（高峰优先）；Ultra $200/月（20倍额度）。共享额度池：Grok 与 Cursor 共享，编码用量至少为可比 Cursor 独立套餐 2 倍。注意：档位总数信源不一（IT时代网称三档、DoNews 称四档、aibase 称五档含免费版），Super/Ultra 定价未最终官宣 [疑，虎嗅 2026-10-12]。旧体系：X Premium $8/月；SuperGrok $30/月；SuperGrok Heavy $300/月。",
   "benefits": "$8 档即捆绑三重权益：X Premium 社交会员（蓝V、减少广告、长视频上传、创作者分成）+ Grok 基础 AI（Chat/Voice/Imagine/Build）+ Grok API 使用额度 + Cursor 编程权益。实时 X 平台数据检索为独有优势。",
   "limits": "$8 / X Premium 档：Grok 限额明显提升但用不到最新旗舰模型；SuperGrok $30：DeepSearch/Think 次数大幅增加几无感、20倍图像/视频生成（720p、30秒）；免费版（Grok 4 免费开放后）每12小时约5次。具体消息条数官方未固定公布 [不确定]。",
   "top_models": "$8 档不含最新旗舰（Premium $30 才有'最新 Grok 模型使用权限'）。当前 xAI 旗舰为 Grok 4.7（2026-09-22 发布，2.1万亿参数，较4.6增长40%；定位编程与知识工作）；Grok 4.8（2.5万亿参数、C++软件栈）已完成训练并启动强化学习，待发布；SuperGrok Heavy 独占 Grok 4 Heavy 顶级模型。注意：Grok 4.3 经 Hermes OAuth 接入时上下文可拉满100万 token。",

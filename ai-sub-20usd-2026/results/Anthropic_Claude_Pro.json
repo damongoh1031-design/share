@@ -7,10 +7,10 @@
   "third_party_clients": "双面政策：一方面 2026-04-04 起 Anthropic 明令 Claude Code 订阅额度不得被 OpenClaw 等第三方集成工具消耗，须按 API 另行按量付费；另一方面 Hermes Agent v0.14（2026-05）的 hermes proxy 可把 Claude Pro 订阅经 OAuth 转为本地 OpenAI 兼容 API，驱动 Aider/Claude Code。风险极高：一名 Claude Max $200 用户因工作目录残留 hermes.md 文件触发 Anthropic 第三方调用风控，被倒扣 $200.98 API 账单（宁可错杀式反制）。常规使用请坚持以官方客户端，第三方通道需自担封号与账单风险。",
   "builtin_tools": "Claude Code（业界标杆编程智能体，CLI/Web/桌面/IDE）、Artifacts、Research 深度研究、Projects、Connectors/MCP 连接器生态、代码执行分析工具、联网搜索、扩展思考。",
   "model_intelligence": "Artificial Analysis 智能指数58（2026-10 第一，领先 GPT-6 Astra / Claude Fable 5.1 的53 与 Gemini 4 Argon 的53、Grok 4.7 的46）；LMArena 周榜（2026-10-12）包揽前四，claude-opus-5.5-high ELO 1507 位列第二（与第三名分差在误差范围内）；智能体榜 Opus 5.5 Max 72% 登顶；SWE-bench Verified 87.6%（Opus 4.7，2026-06，后被 GPT-5.5 88.7% 反超）；Terminal-Bench 4.0 66.4%（第一）；Terminal-Bench 2.1：Claude Mythos 5 88.0%，略低于 GPT-5.6 Sol Ultra 91.9%。",
-  "hallucination": "AA-Omniscience 幻觉率：Opus 4.7 低至36%（2026-04），显著优于 GPT-5.5 的86%；Opus 5.5 精确幻觉率未逐项公布 [不确定]，但 Claude 系'非幻觉率'历来大幅领先 GPT 系，是'宁可拒答不乱答'策略的代表。",
+  "hallucination": "AA-Omniscience 幻觉率（2026-10 复测）：**Opus 5.5 在最高推理设置下为 59%**【核，helicsnews 2026-10-11】——旧版依据 Opus 4.7（2026-04 口径 36%）'Claude 幻觉最低'的叙事已被推翻；同期 Gemini 4 Argon 为 15%、GPT-6 Astra 45–51%、Fable 5.1 73%。Claude 引用真实性缺 2026 同口径实测 [不确定]。",
   "context_hit": "GraphWalks（256K–1M）：Claude 系约65%，低于 Gemini 4 Argon 84.2% 与 GPT-6 Astra 71.8%；MRCR v2 @1M（大海捞针）：Opus 4.6 78.3% → Opus 4.7 32.2%（出现明显迭代回退，纯长针命中不稳定）。实际长文本优势在理解、改写与写作而非纯检索精度。",
   "world_knowledge": "知识截止时间未逐项核实 [不确定]；联网搜索需手动开启；世界知识/时效性问答非其最强项（SimpleQA 类成绩未查到权威数据）。",
   "writing": "公认文字能力天花板：中文文学细腻度第一（'文科生AI'，AI味最淡，心理描写与对话出色，修改幅度小）；摘要与结论质量最好（学术实测9.1）。弱点：长篇小说早期设定易遗忘、无项目管理能力。",
-  "verdict": "最高智力、最低幻觉倾向与文字写作的双料冠军，长文创作、深度推理、代码质量首选；$20 档网页/编程额度对重度用户偏紧，适合中高强度而非全天候使用。",
+  "verdict": "智能指数 58 全球第一、中文文笔口碑最佳，长文创作、深度推理、代码质量首选；但最高推理档幻觉率 59%（2026-10 复测）且法律用途必须逐条核验；数据政策注意：消费版须显式选择训练授权，弹窗默认为开，同意则数据保留 5 年、拒绝则 30 天（2025-09 条款）；$20 档额度对重度用户偏紧。",
   "uncertain": ["world_knowledge", "builtin_tools", "hallucination"]
 }
