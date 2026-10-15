@@ -1,0 +1,329 @@
+[
+ {
+  "num": "01",
+  "title": "快速开始与安装",
+  "files": [
+   "quickstart.md",
+   "getting-started/installation.md"
+  ],
+  "bytes": 29196
+ },
+ {
+  "num": "02",
+  "title": "模型提供方全览",
+  "files": [
+   "getting-started/providers.md"
+  ],
+  "bytes": 90103
+ },
+ {
+  "num": "03",
+  "title": "扩展与工具管理",
+  "files": [
+   "getting-started/using-extensions.md",
+   "guides/managing-tools/index.md",
+   "guides/managing-tools/tool-permissions.md",
+   "guides/managing-tools/goose-permissions.md",
+   "guides/managing-tools/adjust-tool-output.md",
+   "guides/managing-tools/code-mode.md",
+   "guides/tool-shim.md"
+  ],
+  "bytes": 51518
+ },
+ {
+  "num": "04",
+  "title": "上下文工程（一）：指令层",
+  "files": [
+   "guides/context-engineering/index.mdx",
+   "guides/context-engineering/using-goosehints.md",
+   "guides/context-engineering/using-persistent-instructions.md",
+   "guides/context-engineering/using-skills.md",
+   "guides/context-engineering/prompt-templates.md"
+  ],
+  "bytes": 39108
+ },
+ {
+  "num": "05",
+  "title": "上下文工程（二）：Agent 层",
+  "files": [
+   "guides/context-engineering/custom-agents.md",
+   "guides/context-engineering/subagents.mdx",
+   "guides/context-engineering/hooks.md",
+   "guides/context-engineering/plugins.md",
+   "guides/context-engineering/slash-commands.md"
+  ],
+  "bytes": 60230
+ },
+ {
+  "num": "06",
+  "title": "Recipes 可复用工作流",
+  "files": [
+   "guides/recipes/index.mdx",
+   "guides/recipes/recipe-reference.md",
+   "guides/recipes/session-recipes.md",
+   "guides/recipes/storing-recipes.md",
+   "guides/recipes/subrecipes.md"
+  ],
+  "bytes": 84312
+ },
+ {
+  "num": "07",
+  "title": "会话、上下文管理与任务执行",
+  "files": [
+   "guides/sessions/index.md",
+   "guides/sessions/session-management.md",
+   "guides/sessions/smart-context-management.md",
+   "guides/sessions/in-session-actions.md",
+   "guides/running-tasks.md"
+  ],
+  "bytes": 67747
+ },
+ {
+  "num": "08",
+  "title": "权限、安全与数据",
+  "files": [
+   "guides/security/index.mdx",
+   "guides/security/adversary-mode.md",
+   "guides/security/prompt-injection-detection.md",
+   "guides/security/classification-api-spec.md",
+   "guides/allowlist.md",
+   "guides/usage-data.md"
+  ],
+  "bytes": 22719
+ },
+ {
+  "num": "09",
+  "title": "提供方进阶与多模型",
+  "files": [
+   "guides/multi-model/index.mdx",
+   "guides/acp-providers.md",
+   "guides/cli-providers.md",
+   "guides/azure-foundry-provider.md",
+   "guides/roaming-agents.md"
+  ],
+  "bytes": 50597
+ },
+ {
+  "num": "10",
+  "title": "CLI 命令与配置文件",
+  "files": [
+   "guides/goose-cli-commands.md",
+   "guides/config-files.md"
+  ],
+  "bytes": 49061
+ },
+ {
+  "num": "11",
+  "title": "环境变量与运行控制",
+  "files": [
+   "guides/environment-variables.md",
+   "guides/logs.md",
+   "guides/handling-llm-rate-limits-with-goose.md",
+   "guides/updating-goose.md",
+   "guides/offline-docs.md"
+  ],
+  "bytes": 50373
+ },
+ {
+  "num": "12",
+  "title": "交互界面与实用技巧",
+  "files": [
+   "guides/interactive-chat/index.mdx",
+   "guides/interactive-chat/mcp-ui.md",
+   "guides/desktop-navigation.md",
+   "guides/terminal-integration.md",
+   "guides/file-management.md",
+   "guides/codebase-analysis.md",
+   "guides/mcp-elicitation.md",
+   "guides/mcp-roots.md",
+   "guides/tips.md",
+   "guides/custom-distributions.md"
+  ],
+  "bytes": 35859
+ },
+ {
+  "num": "13",
+  "title": "MCP 扩展（一）：核心内置",
+  "files": [
+   "mcp/_template_.mdx",
+   "mcp/developer-mcp.md",
+   "mcp/extension-manager-mcp.md",
+   "mcp/apps-mcp.md",
+   "mcp/autovisualiser-mcp.md",
+   "mcp/code-mode-mcp.md",
+   "mcp/summon-mcp.md",
+   "mcp/skills-mcp.md",
+   "mcp/todo-mcp.md",
+   "mcp/memory-mcp.md",
+   "mcp/chatrecall-mcp.md",
+   "mcp/knowledge-graph-mcp.md",
+   "mcp/fetch-mcp.md",
+   "mcp/pdf-mcp.md"
+  ],
+  "bytes": 75834
+ },
+ {
+  "num": "14",
+  "title": "MCP 扩展（二）：浏览器与自动化",
+  "files": [
+   "mcp/playwright-mcp.md",
+   "mcp/puppeteer-mcp.md",
+   "mcp/selenium-mcp.md",
+   "mcp/chrome-devtools-mcp.md",
+   "mcp/browserbase-mcp.md",
+   "mcp/computer-controller-mcp.md",
+   "mcp/container-use-mcp.md",
+   "mcp/vs-code-mcp.md",
+   "mcp/jetbrains-mcp.md"
+  ],
+  "bytes": 59634
+ },
+ {
+  "num": "15",
+  "title": "MCP 扩展（三）：开发与代码",
+  "files": [
+   "mcp/github-mcp.md",
+   "mcp/gitmcp-mcp.md",
+   "mcp/repomix-mcp.md",
+   "mcp/context7-mcp.mdx",
+   "mcp/beads-mcp.md",
+   "mcp/excalidraw-mcp.md",
+   "mcp/figma-mcp.md",
+   "mcp/blender-mcp.md",
+   "mcp/ophis-mcp.md",
+   "mcp/rendex-mcp.md",
+   "mcp/nano-banana-mcp.md"
+  ],
+  "bytes": 69206
+ },
+ {
+  "num": "16",
+  "title": "MCP 扩展（四）：数据与云服务",
+  "files": [
+   "mcp/postgres-mcp.md",
+   "mcp/mongodb-mcp.md",
+   "mcp/supabase-mcp.md",
+   "mcp/neon-mcp.md",
+   "mcp/datahub-mcp.mdx",
+   "mcp/openmetadata-mcp.md",
+   "mcp/cloudflare-mcp.md",
+   "mcp/vercel-mcp.md",
+   "mcp/netlify-mcp.md",
+   "mcp/cloudinary-asset-management-mcp.md",
+   "mcp/vmware-aiops-mcp.md",
+   "mcp/linux-mcp-server-mcp.md"
+  ],
+  "bytes": 78879
+ },
+ {
+  "num": "17",
+  "title": "MCP 扩展（五）：协作与办公",
+  "files": [
+   "mcp/asana-mcp.md",
+   "mcp/google-drive-mcp.md",
+   "mcp/google-maps-mcp.md",
+   "mcp/square-mcp.md",
+   "mcp/cash-app-mcp.md",
+   "mcp/alby-mcp.md",
+   "mcp/pieces-mcp.md",
+   "mcp/tom-mcp.md",
+   "mcp/gotohuman-mcp.md",
+   "mcp/dev.to-mcp.md",
+   "mcp/reddit-mcp.md",
+   "mcp/nostrbook-mcp.md",
+   "mcp/neighborhood-mcp.md",
+   "mcp/council-of-mine-mcp.md"
+  ],
+  "bytes": 83498
+ },
+ {
+  "num": "18",
+  "title": "MCP 扩展（六）：搜索与信息获取",
+  "files": [
+   "mcp/brave-mcp.md",
+   "mcp/exa-mcp.md",
+   "mcp/tavily-mcp.md",
+   "mcp/firecrawl-mcp.md",
+   "mcp/apify-mcp.md",
+   "mcp/agentql-mcp.md",
+   "mcp/scholar-sidekick-mcp.md",
+   "mcp/youtube-transcript-mcp.md",
+   "mcp/kiwi-flight-search.md",
+   "mcp/speech-mcp.md",
+   "mcp/elevenlabs-mcp.md",
+   "mcp/prompts-chat-mcp.md",
+   "mcp/tutorial-mcp.md",
+   "mcp/goose-docs-mcp.md"
+  ],
+  "bytes": 96924
+ },
+ {
+  "num": "19",
+  "title": "教程（一）：扩展与集成实战",
+  "files": [
+   "tutorials/custom-extensions.md",
+   "tutorials/building-mcp-apps.md",
+   "tutorials/playwright-skill.md",
+   "tutorials/spraay-mcp.md",
+   "tutorials/goose-in-docker.md",
+   "tutorials/isolated-development-environments.md",
+   "tutorials/cicd.md",
+   "tutorials/headless-goose.md"
+  ],
+  "bytes": 74652
+ },
+ {
+  "num": "20",
+  "title": "教程（二）：工作流与可观测性",
+  "files": [
+   "tutorials/ralph-loop.md",
+   "tutorials/rpi.md",
+   "tutorials/subagents.md",
+   "tutorials/subrecipes-in-parallel.md",
+   "tutorials/recipes-tutorial.md",
+   "tutorials/langfuse.md",
+   "tutorials/laminar.md",
+   "tutorials/mlflow.md",
+   "tutorials/clawmetry.md",
+   "tutorials/remotion-video-creation.md"
+  ],
+  "bytes": 85397
+ },
+ {
+  "num": "21",
+  "title": "架构、远程部署与 GDK",
+  "files": [
+   "goose-architecture/goose-architecture.md",
+   "goose-architecture/extensions-design.md",
+   "goose-architecture/error-handling.md",
+   "guides/remote-goose-server.md",
+   "guides/tanzu-ai-services.md",
+   "guides/tanzu-cli-testing-guide.md",
+   "gdk/index.md",
+   "gdk/acp/index.md",
+   "gdk/acp/zed.md",
+   "gdk/sdk/index.md",
+   "gdk/sdk/api-reference.mdx"
+  ],
+  "bytes": 48778
+ },
+ {
+  "num": "22",
+  "title": "排错与实验特性",
+  "files": [
+   "troubleshooting/index.mdx",
+   "troubleshooting/known-issues.md",
+   "troubleshooting/diagnostics-and-reporting.md",
+   "troubleshooting/desktop-startup-debugging.md",
+   "experimental/index.md",
+   "experimental/goose-mobile.md",
+   "experimental/mobile-access.md",
+   "experimental/ollama.md",
+   "experimental/vs-code-extension.md",
+   "experimental/remote-access/index.md",
+   "experimental/remote-access/mobile-access.md",
+   "experimental/remote-access/telegram-gateway.md"
+  ],
+  "bytes": 47631
+ }
+]
