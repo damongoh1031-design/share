@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # Arch Linux 防滚挂完全指南：预警 · 提醒 · 检查 · Agent 一站式
 
 > **调研时点**：2026-10-13 ｜ **方法**：2 个并行子代理 + 主调研员对全部工具做 AUR RPC / 官方仓库 API / GitHub API / PyPI 独立实测
