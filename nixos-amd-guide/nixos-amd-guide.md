@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # NixOS 教学指南（AMD 平台 · 中文用户 · Vibe Coding）
 
 ### 从装机到日常：AMD 显卡 / AMD CPU / Realtek 有线网卡 / GNOME 与 KDE / Flatpak / Steam / AI Agent 管理
