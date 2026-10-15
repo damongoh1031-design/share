@@ -2,6 +2,7 @@
 name: community-signal-research
 description: 调研游戏/产品社区在 Reddit、Discord、Steam 创意工坊上的活跃度与近期热门内容，并核实 mod 的兼容性与机制。当用户问「哪个社群最热闹」「最近流行什么 mod / 话题」「XX 题材推荐什么 mod」「A 是否兼容 B」「某段时间最受欢迎的 mod」时使用。解决 Reddit 官方 API 被封、Discord 内容不可抓取两个核心障碍。核心手段：① **Steam 公开 API（无需 Key，拿真实订阅数 + 工坊简介全文）**；② Reddit 的 3 个 RSS 端点（含「单帖评论全文」）；③ Steam 讨论区；④ 用 curl+grep 直读框架 mod 仓库的兼容性清单与源码 def 文件（兼容性/机制的最权威一手源）。
 agent_created: true
+type: Checklist
 ---
 
 # 跨平台社区信号调研（Reddit / Discord / Steam 工坊）
