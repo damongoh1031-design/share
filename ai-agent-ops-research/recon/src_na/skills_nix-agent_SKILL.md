@@ -1,6 +1,7 @@
 ---
 name: nix-agent
 description: Operate on this machine's NixOS or Home Manager configuration with the nix-agent MCP tools (build, diff, switch, generations, eval_config, locate_option, check). Use when changing packages, options, or modules; diagnosing a failed build or switch; rolling back a generation; or asking what the live config currently resolves to. Requires the nix-agent MCP server (usually alongside mcp-nixos).
+type: Checklist
 ---
 
 # Nix Agent
