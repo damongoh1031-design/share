@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # GitHub AI 趋势日报 · 2026-10-15
 
 > 数据源：github.com/trending 主榜（daily 12 / weekly 12 / monthly 22）+ 18 个语言维度榜（python / typescript / rust / go / c / c++ / javascript / java / swift / vue / html / cuda / jupyter-notebook / csharp / kotlin / ruby / shell / php，均为 `?since=daily`），合计 305 条、去重 282 个仓库。抓取 21 个榜一次全过、0 次重试。
