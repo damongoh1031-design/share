@@ -191,6 +191,8 @@ Zeabur 生成的 `xxx.zeabur.app` 域名 + 自动 TLS 即可满足回调需求�
 
 ### C. 其它入口
 
+> 补充：把 Hermes 当 OpenAI 兼容后端接 Open WebUI / LibreChat / LobeChat 等前端，见 [hermes-agent-openwebui-knowledge-integration.md](./hermes-agent-openwebui-knowledge-integration.md)。
+
 - 内置 TUI（`hermes` 命令）
 - Web Dashboard（`:9119`）
 - OpenAI 兼容 API（`:8642`）→ 可接 Open WebUI、LibreChat 等任意前端
