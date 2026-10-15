@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # 用 Hermes Agent / OpenClaw 做 Arch Linux 运维：MCP / Skills / 软件方案全清单
 
 > 第三轮专项调研 · 调研日期 **2026-10-12**
