@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # WorkBuddy 约束提示词（可直接粘贴）
 
 ## 标准版（推荐）
