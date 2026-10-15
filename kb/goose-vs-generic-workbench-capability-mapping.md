@@ -1,22 +1,14 @@
 ---
 id: goose-vs-generic-workbench-capability-mapping
 title: goose 能力对标速查 —— 术语映射、MCP/Skills 增删、专家团、循环步数、工具上限、系统耦合、渲染与 RAG
-tags:
-  - goose
-  - ai-agent
-  - capability-mapping
-  - mcp
-  - subagents
-  - custom-agents
-  - recipes
-  - rag
-  - workbuddy
+tags: [goose, ai-agent, capability-mapping, mcp, subagents, custom-agents, recipes, rag, workbuddy]
 created: 2026-10-15
 updated: 2026-10-15
 version: 1.2
 status: stable
 source: goose 官方文档库（documentation/ 全量 173 篇，本地抓取快照 2026-10-15）+ 源码级事实快照（v2.2 报告）+ 本文判断
 confidence: 已核实
+type: Checklist
 ---
 
 # goose 能力对标速查
