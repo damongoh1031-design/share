@@ -27,7 +27,7 @@ border-radius:0 8px 8px 0;color:#6b4e00;font-size:13.5px}
 table{width:100%;border-collapse:collapse;margin:14px 0;background:var(--card);
 border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,.08);font-size:13.5px}
 th{background:#eef2ff;color:#1e293b;text-align:left;padding:9px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
-td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink)}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f8faff}
 code{background:var(--chip);padding:1px 6px;border-radius:6px;font-size:12.5px}
@@ -90,6 +90,7 @@ def convert(md_text):
     out = []
     i = 0
     in_ul = in_ol = False
+    hero_mode = False
     while i < len(lines):
         ln = lines[i]
         stripped = ln.strip()
@@ -121,6 +122,10 @@ def convert(md_text):
                 out.append('<header class="hero"><h1>%s</h1>' % md_inline(m.group(2)))
                 hero_mode = True
             else:
+                # hero 区块只包裹标题+元信息，遇到第一个二级标题即闭合，避免白色字体渗入后续内容
+                if hero_mode and lvl == 2:
+                    out.append("</header>")
+                    hero_mode = False
                 out.append("<h%d>%s</h%d>" % (lvl, md_inline(m.group(2)), lvl))
             i += 1
             continue
@@ -164,6 +169,7 @@ def convert(md_text):
         i += 1
     if in_ul: out.append("</ul>")
     if in_ol: out.append("</ol>")
+    if hero_mode: out.append("</header>")
     return "\n".join(out)
 
 
