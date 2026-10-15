@@ -1,0 +1,16 @@
+{
+  "name": "Grok 8美元档（X Subscription Plus / X Premium）",
+  "pricing": "2026-10-13 SpaceX（SpaceXAI，原 xAI）推出全新 X Subscription 捆绑订阅：Plus $8/月（Grok Chat、Voice、Imagine、X Premium、Build，含 Grok API 使用权限与 Cursor 编程）；Premium $30/月（Plus 全部 + Grok Bot + 最新 Grok 模型 + Cursor 云端智能体/代码托管/自动化）；Super $100/月（高峰优先）；Ultra $200/月（20倍额度）。旧体系仍在演进：X Premium $8/月（$84/年，社交权益+限额提升的基础 Grok）；SuperGrok $30/月（纯AI：Grok 4/4.1 全解锁、128K上下文、Expert 模式4智能体、20倍媒体生成、DeepSearch/Think 近无感）；SuperGrok Heavy $300/月（Grok 4 Heavy、8智能体、256K–428K+上下文）；部分地区有 SuperGrok Lite $10（Grok 3.5、480p短视频日限额）。",
+  "benefits": "$8 档即捆绑三重权益：X Premium 社交会员（蓝V、减少广告、长视频上传、创作者分成）+ Grok 基础 AI（Chat/Voice/Imagine/Build）+ Grok API 使用额度 + Cursor 编程权益。实时 X 平台数据检索为独有优势。",
+  "limits": "$8 / X Premium 档：Grok 限额明显提升但用不到最新旗舰模型；SuperGrok $30：DeepSearch/Think 次数大幅增加几无感、20倍图像/视频生成（720p、30秒）；免费版（Grok 4 免费开放后）每12小时约5次。具体消息条数官方未固定公布 [不确定]。",
+  "top_models": "$8 档不含最新旗舰（Premium $30 才有'最新 Grok 模型使用权限'）。当前 xAI 旗舰为 Grok 4.7（2026-09-22 发布，2.1万亿参数，较4.6增长40%；定位编程与知识工作）；Grok 4.8（2.5万亿参数、C++软件栈）已完成训练并启动强化学习，待发布；SuperGrok Heavy 独占 Grok 4 Heavy 顶级模型。注意：Grok 4.3 经 Hermes OAuth 接入时上下文可拉满100万 token。",
+  "third_party_clients": "四家中第三方生态最开放：① xAI 官方深度支持 Hermes Agent——SuperGrok OAuth 即可调用 Grok 4.3 全套能力（文本/语音/图像/视频/转录），上下文拉满100万并默认开启跨请求 prompt 缓存（官网专设接入指南 x.ai/news/grok-hermes）；② OpenClaw 5.18 修复 Grok OAuth PKCE 认证，原生打通 Grok；③ $8 X Subscription Plus 自带 Grok API 使用权限，额度内可直接喂任何第三方客户端；④ Hermes proxy 亦可将订阅转本地 OpenAI 兼容 API。",
+  "builtin_tools": "DeepSearch、Think、Aurora 图像生成、Imagine 视频生成（SuperGrok 下 720p/30秒）、语音模式、Expert 模式（4个AI智能体协作）、Grok Build（CLI/编码智能体）、实时联网（X 数据）、Grok Bot（$30+）、捆绑 Cursor、x_search（OAuth/API Key 双通道）。",
+  "model_intelligence": "Grok 4.7：Artificial Analysis 智能指数46（第二梯队第一，低于 Claude Fable 5.1 / GPT-6 Astra 的53；前代 Grok 4.3 曾拿到53，2026-05口径）；编码智能体指数56（Grok 4.7 + Grok Build）；EEBench（电气工程）64.0%；CursorBench 4.0 46.3%（前代40.4%）；Terminal-Bench 4.0 38.0%（前代20.3%）；DeepSWE v1.1 71.0%。评测机构评价：长时程智能体与编程进步明显，但网页/3D/可视化编程实测有'跑分强、落地翻车'样本，整体仍落后第一梯队一档。",
+  "hallucination": "未获权威幻觉率（AA-Omniscience）数据 [不确定]；实时 X 数据可降低部分事实性幻觉，但引用规范性与工具幻觉率缺乏权威对比数据。",
+  "context_hit": "SuperGrok 128K；Grok 4.3 经 Hermes 接入可达100万 token；长针命中（MRCR 类）权威数据缺失 [不确定]。编码智能体指数56 说明其在'工具调用+代码'的长程链路上有一定保持能力。",
+  "world_knowledge": "独有优势：实时 X 平台数据，时效性为四家最强，适合追热点、舆情监测、突发新闻；常驻网页检索质量高。",
+  "writing": "公认相对弱项：文风直白、少修饰，'机翻感'与打磨程度弱于 Claude/GPT；中文写作与文学性长文明显偏弱；适合信息型、数据型写作而非文学创作。",
+  "verdict": "$8 档捆绑（Grok 基础 + X Premium + Grok API + Cursor）在低价档中性价比与开放度双第一；想要完整 Grok 旗舰体验实际需 $30（SuperGrok / X Subscription Premium），Heavy 档 $300 才解锁顶级模型。",
+  "uncertain": ["limits", "hallucination", "context_hit"]
+}

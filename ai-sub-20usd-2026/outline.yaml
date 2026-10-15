@@ -1,0 +1,25 @@
+topic: "20美元档AI订阅横向深度对比：Gemini AI Pro / ChatGPT Plus / Claude Pro / Grok低价档 / Copilot Pro / Perplexity Pro——权益、额度、最高模型、第三方客户端、工具与模型能力"
+date: 2026-10-15
+items:
+  - name: "Google Gemini AI Pro"
+    category: "核心对比项"
+    description: "Google 2026年现役约20美元档AI订阅（Google One AI Premium 已更名 Google AI Pro 系），含 Gemini 最新Pro模型、Deep Research、图像/视频生成、2TB存储等，需核实2026年10月最新价格与权益。"
+  - name: "OpenAI ChatGPT Plus"
+    category: "核心对比项"
+    description: "$20/月档，2026年现役模型应为 GPT-5.x 系列（如 GPT-5.2），含深度研究、Sora 视频、Codex 编程额度、Agent 模式等。2026年1月新增 $8 ChatGPT Go 档、4月新增 $100 Pro 档，需核实 Plus 档最新权益。"
+  - name: "Anthropic Claude Pro"
+    category: "核心对比项"
+    description: "$20/月档，2026年现役模型应为 Claude Opus 4.x / Sonnet 4.x 系，含 Claude Code、Projects、Artifacts、Connectors 等，需核实2026年10月最新价格、额度与模型阵容。"
+  - name: "Grok 8美元档"
+    category: "核心对比项"
+    description: "用户所指额外8美元Grok方案：以2026年10月xAI/X官方最新档位为准。已知2026年体系含免费版（限量）、X Premium（约$8-16/月，含有限Grok）、SuperGrok $30/月、SuperGrok Lite、SuperGrok Heavy $300/月；模型为 Grok 4.x（4.1/4.3等）。重点核实最接近8美元的档位（X Premium 或 SuperGrok Lite）及其额度、最高可用模型。"
+  - name: "Microsoft Copilot Pro"
+    category: "补充对照项"
+    description: "约$20/月档，2026年现役权益需核实（可能已调整/并入 Microsoft 365），含 GPT-5.x/Copilot 模型、Office 全家桶深度集成、Copilot Pages、优先体验新模型等。"
+  - name: "Perplexity Pro"
+    category: "补充对照项"
+    description: "$20/月档（另有 $200 Max 档），2026年权益需核实：Deep Research 额度、多模型选择（GPT/Claude/Gemini/Grok）、Comet 浏览器、Spaces 等。"
+execution:
+  batch_size: 6
+  items_per_agent: 1
+  output_dir: "./results"

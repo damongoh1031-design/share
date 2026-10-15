@@ -1,0 +1,16 @@
+{
+  "name": "Perplexity Pro（补充对照）",
+  "pricing": "Free $0 / 教育 Pro $10 / Pro $20 / Max $200 / 企业版 $40–325 每席每月。Pro $20 含 600 次 Pro Search + 20 次 Deep Research 每月。",
+  "benefits": "多模型路由（同时调用 GPT + Claude + Gemini + Grok，无竞品提供）；Comet AI 浏览器；Computer 智能体模式（Max）；Spaces 知识库；Discover 新闻流；Labs（Max：电子表格/网页应用/演示文稿生成）；2026年2月起答案中移除全部广告。",
+  "limits": "Pro Search 600次/月、Deep Research 20次/月（Pro）；达到查询限制后被静默降级到自研 Sonar 模型（CEO已承认该问题）；Trustpilot 评分仅1.6/5（以账单投诉为主）。",
+  "top_models": "Pro 档可在多家前沿模型间切换；Max $200 解锁前沿模型 + Computer 智能体；自研 Sonar 为微调 Llama，非前沿模型。",
+  "third_party_clients": "Sonar API 单独计费；订阅本身未发现可接入 Hermes/OpenClaw 等第三方客户端的正规通道 [未发现支持]。",
+  "builtin_tools": "Deep Research、Computer 智能体（跨 Gmail/Slack/GitHub/Notion/Salesforce 执行多步任务）、Comet 浏览器智能体、Spaces、Labs（Max）、流式过程透明（Searching→Reading→Writing）。",
+  "model_intelligence": "取决于所选上游模型（GPT-5.6 / Claude Opus 5.5 / Gemini / Grok），自有 Sonar 非前沿；作为答案引擎的检索-综合-引用链路是其真正壁垒。",
+  "hallucination": "引用口径两极：哥伦比亚新闻评论基准——免费版37%引用错误率、Pro 45%（受测 AI 搜索引擎中最差）；但学术文献引用实测（2026-06）幻觉率仅4%（50篇测试论文96%引用真实存在，优于 ChatGPT Plus 24%、Gemini Pro 16%）。",
+  "context_hit": "取决于所选上游模型（GPT-5.6 / Claude Opus 5.5 / Gemini 4 Argon / Grok），Perplexity 层主要贡献检索而非长上下文保持 [不确定]。",
+  "world_knowledge": "品类最强的带引用检索：每个论断有编号引用、来源面板可点击验证；但哥伦比亚新闻评论基准测试显示引用错误率免费版37%、Pro 45%（受测 AI 搜索引擎中最差）；无跨会话持久 AI 记忆，研究不累积。",
+  "writing": "研究型报告生成能力强（结构化 + 引用支撑）；文学创作与开放式对话弱；文风偏信息整合型。",
+  "verdict": "检索、事实核查、带引用研究类工作的利器，适合记者/分析师/学者作为第二订阅；不适合作为唯一通用 AI 助手（信任基石有裂缝）。",
+  "uncertain": ["model_intelligence", "context_hit"]
+}

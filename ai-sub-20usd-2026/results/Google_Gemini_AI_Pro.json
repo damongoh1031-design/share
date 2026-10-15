@@ -1,0 +1,16 @@
+{
+  "name": "Google Gemini AI Pro",
+  "pricing": "美国区 $19.99/月（网页订阅，App 内因抽成略高）。2026年10月档位体系：免费版 $0 / AI Plus $4.99 / AI Pro $19.99 / AI Ultra $99.99–199.99（按订阅年限不同）。2026-10-09 起免费版仅能用 Flash-Lite 3.5，AI Plus 被移除 Pro 模型，$19.99 的 AI Pro 成为使用 Pro 模型的最低门槛。历史学生优惠：认证后免费15个月。",
+  "benefits": "Google One 2TB 云存储；NotebookLM Plus；Deep Research；Veo 3 / Flow / Whisk 图像视频生成积分；AI Studio 额度；Gems 自定义智能体；Gemini Live 语音；Gmail/Docs 内 Gemini；Gemini in Chrome；付费用户可用 Antigravity 智能体编程 IDE（且 2026年10月已为付费用户加入 Claude Opus 5.5 / Sonnet 5.5）。",
+  "limits": "2026-05-17 起按算力计量：限额每5小时刷新并叠加每周上限；AI Pro 算力为免费版4倍（AI Plus 2倍；AI Ultra 为 AI Pro 的5倍或20倍）。高级功能（Pro 模型、Deep Think、Deep Research、图像/视频/音乐生成、扩展思考）更耗算力。耗尽后可降级到 Flash-Lite 续聊。上下文：免费32K / AI Plus 128K / AI Pro·Ultra 100万 tokens。Flow/Veo 积分在2026年5月被削减（Veo 3 快速版约20积分/条、高画质约100积分/条），额外积分 $25 起充。",
+  "top_models": "Gemini 4 Argon（2026-09-30 发布、10-13 面向 AI Pro/Ultra 及付费 API 全面开放）：输出上限100万 tokens，谷歌自报18项基准13项第一，Vals Index 第一（68.90%）。Deep Think（最大程度并行推理）2026年10月起下放给 AI Pro（原 Ultra 独占）。Antigravity 内还可调用 Claude Opus 5.5 / Sonnet 5.5。API 需单独按量付费（Argon 推广价输入$2/输出$10 每百万 tokens，11-30 后恢复 $4/$20；缓存命中输入低至$0.10）。",
+  "third_party_clients": "Gemini CLI 免费登录已于 2026-06-18 关闭，2026年9月起不受限的 Standard key 停用，第三方工具必须用开通计费的 API key。Hermes / OpenClaw 等开源智能体客户端均通过 API key（Gemini API / Vertex AI / OpenRouter）接入，Google 官方未提供'订阅转 API'或订阅账号登录第三方客户端的通道。",
+  "builtin_tools": "Deep Research、Deep Think、Gems、Canvas、Veo 3/Flow/Whisk 图像与视频生成、NotebookLM、Gemini Live 语音、联网搜索、Antigravity 智能体 IDE（多模型）、AI Studio。",
+  "model_intelligence": "Gemini 4 Argon：Artificial Analysis 智能指数53（第一名为 Claude Opus 5.5 的58，Meta Muse Wonder Full 与 Claude Sonnet 5.5 为56）；独立综合榜约第4名、距榜首约5分。DeepSWE v1.1（长程软件工程）77.9% 高于 Opus 5.5 74.2% 与 GPT-6 Astra 74.1%；CWE-bench v1 68% 并列第一；AutomationBench 51.3% vs Opus 5.5 42.5%。弱项：FrontierSWE v2 55.0% 低于 GPT-6 Astra 65.5%；Terminal-Bench 4.0 57.4% 低于 Opus 5.5 66.4%。",
+  "hallucination": "Artificial Analysis 幻觉率仅15%——综合智能指数达到45分以上的模型中最低（GPT-6 Astra 为51%）；LMArena 智能体周榜（2026-10-12）工具幻觉率0.18%，为当前头部模型中最低。学术引用实测（2026-06）：Gemini Pro 引用真实存在率84%、幻觉率16%。谷歌称'行业最低幻觉率'；注意 Argon 开放后 Flash 系幻觉有所上升。",
+  "context_hit": "GraphWalks（256K–1M）：84.2% 显著领先 GPT-6 Astra 71.8% 与 Claude 系约65%——长上下文命中第一；前代 Gemini 3.0 Pro MRCR v2 @28k 77.0%，1M 长度仍有衰减；API 提供100万统一输入输出 token。",
+  "world_knowledge": "100万上下文利于长文档/代码库级知识工作；集成联网搜索；学术引用真实性84%（2026-06实测，优于 ChatGPT 的76%）。具体知识截止时间未查到可靠数据 [不确定]。",
+  "writing": "中英差距较明显：前代 Gemini 3.5 学术实测英文8.7 / 中文8.2（三巨头中中英差距最大）；中文文学细腻度一般；长视频、图表、结构化内容理解是强项；文风偏工具化。[部分数据来自前代型号，最新代际待更多评测]",
+  "verdict": "幻觉率最低、长上下文命中最强、生态捆绑最厚（2TB+Antigravity 送 Claude 旗舰），适合 Google 生态重度用户与长文档/代码库场景；算力计费模式下额度要精打细算。",
+  "uncertain": ["world_knowledge", "writing"]
+}

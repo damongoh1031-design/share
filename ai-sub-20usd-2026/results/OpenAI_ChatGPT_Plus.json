@@ -1,0 +1,16 @@
+{
+  "name": "OpenAI ChatGPT Plus",
+  "pricing": "$20/月。2026年档位体系：Free $0 / Go $8（2026-01推出，含广告）/ Plus $20 / Pro $100（2026-04新增，Codex 额度为 Plus 5倍）/ Pro $200 / Business $30每人。",
+  "benefits": "GPT-6 Sol（思考中/高）聊天；GPT-6 Astra 在 ChatGPT 工作（Work）与 Codex 中使用；Deep Research；Codex 编程；Projects/记忆；自定义 GPTs；无广告；高峰期优先访问。注意：Sora 视频生成已于2026-04-26关停（API 于2026-09-24停止）——Greg Brockman 统一 ChatGPT/Codex/API 产品线时关停了视频生成等支线业务，已购 Sora 额度可转用于 Codex。",
+  "limits": "聊天思考额度按周/滚动窗口管理，官方不公布固定消息数（社区观测：每5小时约10–100条 Sol 本地消息、Terra 约25–200条）；Codex 与 Work 有独立5小时窗口（2026-08-25 恢复）；Deep Research 有月度限制但具体数字未公开，需账户内查询 [不确定]。Free/Go 日常文本聊天不限量（防滥用限制除外）。",
+  "top_models": "聊天可用最高为 GPT-6 Sol（思考中/高档，亦可手动选 GPT-5.6 Sol）；GPT-6 Pro（由 GPT-6 Astra 驱动）仅 Pro $100 / Pro $200 / Business / Enterprise 聊天可用，Plus 只能在 Work 与 Codex 中受限使用 Astra；GPT-5.6 全系150万 tokens 上下文；GPT-6 Astra 原生单次输出128K。",
+  "third_party_clients": "官方 API 单独计费（GPT-5.6 Sol/Terra/Luna 已上 API）。第三方'订阅转API'通道已存在：Hermes Agent v0.14（2026-05）的 hermes proxy 一行命令可把 ChatGPT 订阅（经 Codex OAuth 设备登录，需在 ChatGPT 网页设置开启'设备登录'开关）与 Claude Pro、SuperGrok 订阅转为本地 OpenAI 兼容 API 端点，驱动 Aider、Codex CLI 等；OpenAI 对此的默许度与封禁边界不明，使用有风险。国内 API 中转站2026年6月起遭监管整治。",
+  "builtin_tools": "Deep Research、Codex（CLI/桌面/云端/IDE）、ChatGPT Work 智能体、DALL·E/GPT Image 图像生成、代码解释器与数据分析、Canvas、联网搜索、语音模式、Tasks 定时任务。Sora 已关停（2026-04-26）。",
+  "model_intelligence": "GPT-5.6 Sol：Terminal-Bench 2.1 标准模式88.8%、Ultra 模式91.9%（超过 Claude Mythos 5 的88.0%）；FrontierSWE v2 65.5%（第一，高于 Gemini Argon 55.0%）；SWE-bench Verified：GPT-5.5 于2026-06以88.7%反超 Claude Opus 4.7 的87.6%；Artificial Analysis：GPT-6 Astra 53分。LMArena 周榜（2026-10-12）：gpt-5.5 第29名。各榜单口径不一，需交叉参考。",
+  "hallucination": "AA-Omniscience 幻觉率：GPT-5.5 高达86%（GPT 全系85–92%，AA 2026-08 将'非幻觉率'计入智能指数后 GPT 系得分极低）；GPT-6 Astra 51%（2026-10）。学术引用实测（2026-06）：ChatGPT Plus 引用真实存在率仅76%、幻觉率24%（Perplexity Pro 96%/4%，Gemini Pro 84%/16%）。注意该指标奖励'宁可拒答也不乱答'，对回答倾向积极的模型天然不友好。",
+  "context_hit": "GraphWalks（256K–1M）：GPT-6 Astra 71.8%，低于 Gemini 4 Argon 84.2%、高于 Claude 系约65%；MRCR v2 @1M（大海捞针）：GPT-5.5 约74.x（GPT-5.4 仅36.6%，迭代大幅改善）；GPT-5.6 系标称150万上下文。长程命中处于第二梯队，非其最强项。",
+  "world_knowledge": "集成联网搜索；知识截止时间未逐项核实 [不确定]；世界知识问答非其宣传重点，英文事实型写作与格式规范表现突出。",
+  "writing": "学术写作实测（2026-08）：格式规范与英文写作第一（45.0分），APA 格式执行准确率最高；中文学术写作8.8，略优于 Claude 4.8 的8.5，中文术语表达更准确。综合文字能力与 Claude 同属第一梯队。",
+  "verdict": "全能型选手：模型矩阵最全、生态最大，编程/智能体/研究/多模态均衡（注意 Sora 视频已关停），$20 档的大多数人默认首选；顶级模型（GPT-6 Pro/Astra 聊天）被锁在 $100 以上档位。",
+  "uncertain": ["limits", "world_knowledge"]
+}
