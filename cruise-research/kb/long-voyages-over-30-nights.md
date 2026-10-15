@@ -1,19 +1,14 @@
 ---
 id: long-voyages-over-30-nights
 title: 超 1 个月（>30 晚）非环球长航线 —— 5 类来源与在售清单
-tags:
-  - 邮轮
-  - 长航线
-  - 环太平洋
-  - 极地探险
-  - 环球分段
-  - 跨大西洋
+tags: [邮轮, 长航线, 环太平洋, 极地探险, 环球分段, 跨大西洋]
 created: 2026-10-09
-updated: 2026-10-09
+updated: 2026-10-15
 version: 1.0
 status: stable
 source: 本次会话《超过 1 个月、但非环球的长航线 — 补充调研》
 confidence: 已核实（价格为 2026-10-06 检索时公开报价；环球分段官方多为 Call for rates）
+type: Checklist
 ---
 
 # 超 1 个月非环球长航线（>30 晚）
