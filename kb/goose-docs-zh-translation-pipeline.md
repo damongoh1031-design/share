@@ -1,21 +1,14 @@
 ---
 id: goose-docs-zh-translation-pipeline
 title: goose 官方文档中文手册 —— 全量翻译流水线、围栏感知审计与 8 条坑
-tags:
-  - goose
-  - documentation
-  - translation
-  - pipeline
-  - subagent
-  - audit
-  - markdown
-  - docusaurus
+tags: [goose, documentation, translation, pipeline, subagent, audit, markdown, docusaurus]
 created: 2026-10-15
 updated: 2026-10-15
 version: 1.1
 status: stable
 source: 本项目实测（2026-10-15，22 章 / 173 页全量翻译 + 审计 + GitHub 同步）
 confidence: 已核实
+type: Checklist
 ---
 
 # goose 官方文档中文手册 —— 全量翻译流水线
