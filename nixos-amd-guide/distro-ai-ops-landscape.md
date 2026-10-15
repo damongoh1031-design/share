@@ -1,4 +1,9 @@
+---
+type: Checklist
+---
+
 # 发行版「AI 协同管理」实践全景
+
 ### 哪些 Linux 发行版真的有 MCP / Skills / AI 运维方案
 
 | 项 | 值 |
