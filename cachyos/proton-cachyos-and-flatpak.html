@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>只用 proton-cachyos 能拿多少优化？Flatpak 下损失多少？</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#131a23; --card:#161d27; --line:#243040;
+    --fg:#e6edf3; --fg2:#9fb0c3; --fg3:#6b7d92;
+    --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149; --purple:#bc8cff;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:29px;line-height:1.32;margin:12px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--fg2);font-size:14px}
+  h2{font-size:19px;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent)}
+  h3{font-size:15px;margin:28px 0 10px;color:var(--fg)}
+  p{color:var(--fg2);margin:10px 0}
+  strong{color:var(--fg)}
+  code{font-family:var(--mono);background:#1f2733;padding:1.5px 6px;border-radius:4px;font-size:.88em;color:#79c0ff}
+  .tldr{background:linear-gradient(135deg,#15202e,#131a23);border:1px solid var(--line);
+    border-left:3px solid var(--good);border-radius:10px;padding:22px 24px;margin:0 0 8px}
+  .tldr p{margin:0 0 10px;color:var(--fg);font-size:15px}
+  .tldr p:last-child{margin-bottom:0}
+  .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:22px 0}
+  .vcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .vcard .rank{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:700}
+  .vcard .name{font-size:15px;font-weight:700;color:var(--fg);margin:6px 0 8px;line-height:1.45}
+  .vcard .val{font-family:var(--mono);font-size:20px;font-weight:700}
+  .vcard .note{font-size:12.5px;color:var(--fg3);margin-top:8px;line-height:1.6}
+  .r1{border-color:#2d4a34}.r1 .val{color:var(--good)}
+  .r2{border-color:#3d4a2d}.r2 .val{color:var(--warn)}
+  .r3{border-color:#2d3d4a}.r3 .val{color:var(--accent)}
+  .r4{border-color:#4a2d2d}.r4 .val{color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#131a23;color:var(--fg2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  td{color:var(--fg2)}
+  td strong{color:var(--fg)}
+  tr:hover td{background:#121924}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+    font-family:var(--mono);white-space:nowrap}
+  .t-zero{background:#3a1d1d;color:#ff8b84}
+  .t-small{background:#3a331d;color:#e3b341}
+  .t-mid{background:#1d2f3a;color:#79c0ff}
+  .t-big{background:#1d3a26;color:#56d364}
+  ul{color:var(--fg2);padding-left:22px;margin:12px 0}
+  li{margin:7px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .box.warn{border-left:3px solid var(--warn)}
+  .box.bad{border-left:3px solid var(--bad)}
+  .box.good{border-left:3px solid var(--good)}
+  .box h3{margin-top:0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d1d9;margin:16px 0}
+  pre .c{color:var(--fg3)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}.wrap{padding:28px 16px 64px}h1{font-size:22px}}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">CachyOS 深度调研 · 第十一轮</div>
+  <h1>只用 proton-cachyos 能拿多少优化？Flatpak 下又损失多少？</h1>
+  <div class="sub">2026-10-16 &nbsp;|&nbsp; 承接第十轮（Proton 游戏优化收益排序）</div>
+</header>
+
+<div class="tldr">
+  <p><strong>① proton-cachyos 能带走「翻译层那一半」优化，而且不需要装 CachyOS</strong> —— 官方直接发布 <strong><code>x86_64_v3</code> 变体的独立 tarball</strong>，任何发行版丢进 <code>compatibilitytools.d</code> 即可。带不走的是<strong>内核、Mesa/glibc、CachyOS-Settings</strong>。</p>
+  <p><strong>② Flatpak 的代价不在「沙箱开销」（可忽略），而在「图形栈被 runtime 替换」</strong> —— Flatpak Steam 用 runtime 自带的 Mesa 与 glibc，<strong>不是宿主的</strong>。所以在 CachyOS 上用 Flatpak Steam 会<strong>丢掉 CachyOS 对 Mesa/glibc 的 v3/v4 优化</strong>；但 <code>/dev/ntsync</code> 可用（manifest 含 <code>--device=all</code>），且可以把 v3 版 proton-cachyos 放进 Flatpak 的 compat tools 目录，把翻译层优化找回来。</p>
+</div>
+
+<h2>一、问题 ①：proton-cachyos 拿到了什么</h2>
+<div class="box good">
+  <h3>决定性证据：官方发布 v3 变体的独立 tarball</h3>
+  <p>GitHub release <code>cachyos-11.0-20261005-slr</code> 的资产列表（本次直接抓取 Releases API）：</p>
+  <table style="margin-top:14px">
+    <thead><tr><th>资产</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>...-x86_64.tar.xz</code></td><td>通用基线（x86-64 v1）</td></tr>
+      <tr><td><strong><code>...-x86_64_v3.tar.xz</code></strong></td><td><span class="tag t-big">x86-64-v3 优化构建</span>（AVX2 等）</td></tr>
+      <tr><td><code>...-arm64.tar.xz</code></td><td>ARM64</td></tr>
+    </tbody>
+  </table>
+  <p>README 明确：把 redistributable build 放进 <code>~/.steam/root/compatibilitytools.d/</code>。</p>
+  <p style="margin-top:12px"><strong>关键推论：不需要装 CachyOS 就能拿到 v3 优化的翻译层。</strong>官方只发 <strong>v3</strong> 变体（不发 v4）——v4 要求 AVX-512，覆盖面太窄。</p>
+</div>
+
+<h3>收益保留度</h3>
+<table>
+  <thead><tr><th>优化项</th><th>只装 proton-cachyos 后</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><strong>翻译层</strong>（Wine / DXVK / vkd3d-proton 的 v3 优化构建）</td><td><span class="tag t-big">✅ 保留</span></td><td>官方 <code>_v3</code> tarball 自带</td></tr>
+    <tr><td>Proton-CachyOS 补丁（FSR4 / Reflex / OptiScaler / 着色器缓存 / UMU）</td><td><span class="tag t-big">✅ 保留</span></td><td>都在这个包里</td></tr>
+    <tr><td>CachyOS 内核（BORE / EEVDF 调参 / 1000Hz / 补丁集）</td><td><span class="tag t-zero">❌ 拿不到</span></td><td>需装 <code>linux-cachyos</code> 内核</td></tr>
+    <tr><td><strong>Mesa / RADV 的 v3/v4 优化构建</strong></td><td><span class="tag t-zero">❌ 拿不到</span></td><td><strong>Proton 不打包 Mesa</strong>，用宿主发行版的 Mesa</td></tr>
+    <tr><td>NTSync</td><td><span class="tag t-small">⚠️ 取决于宿主</span></td><td>需内核 ≥ 6.14 且加载 <code>ntsync</code> 模块</td></tr>
+    <tr><td>CachyOS-Settings（sysctl / IO / ZRAM / THP / 电源档）</td><td><span class="tag t-zero">❌ 拿不到</span></td><td>发行版层</td></tr>
+    <tr><td>优化过的 glibc 等系统库</td><td><span class="tag t-zero">❌ 拿不到</span></td><td>宿主提供</td></tr>
+  </tbody>
+</table>
+<p><strong>结论：大约拿到一半</strong>——「翻译层」那一半（也正是 Proton 场景的冠军项），拿不到「系统层」那一半。</p>
+
+<h2>二、问题 ②：Flatpak 下损失多少</h2>
+
+<h3>先破除一个误解：沙箱本身的开销很小</h3>
+<p>Flatpak 用 <strong>bubblewrap 命名空间隔离</strong>，<strong>不拦截系统调用</strong>（只有 seccomp 过滤器，开销极小）。所以"沙箱导致掉帧"在机制上不成立。</p>
+<div class="box warn"><p style="margin:0">⚠️ <strong>诚实标注</strong>：没有找到 Flatpak vs 原生 Steam 的公开对照基准。"沙箱开销可忽略"是<strong>机制推断</strong>，不是实测结论。</p></div>
+
+<h3>真正的代价：图形/系统栈被换成了 runtime 版本</h3>
+<p>Flatpak 应用的依赖来自 <strong>runtime</strong>（<code>org.freedesktop.Platform</code>），<strong>不是宿主</strong>。实测清单可见：</p>
+<pre>Mesa  org.freedesktop.Platform.GL.default  25.1.7  24.08  system</pre>
+<p>也就是说 <strong>Flatpak Steam 里的 Mesa 来自 <code>org.freedesktop.Platform.GL.default</code> 扩展，而不是宿主的 Mesa</strong>；glibc 同理来自 <code>org.freedesktop.Platform</code>。</p>
+
+<table>
+  <thead><tr><th>维度</th><th>Flatpak Steam 下</th><th>影响</th></tr></thead>
+  <tbody>
+    <tr><td>Mesa / RADV</td><td><span class="tag t-zero">❌ runtime 版本</span></td><td><strong>在 CachyOS 上会丢掉 v3/v4 优化构建</strong>；滚动发行版上还可能<strong>比宿主旧</strong></td></tr>
+    <tr><td>glibc</td><td><span class="tag t-zero">❌ runtime 版本</span></td><td>丢掉宿主的 v3/v4 优化</td></tr>
+    <tr><td>NVIDIA 专有驱动</td><td><span class="tag t-big">✅ 宿主提供</span></td><td>GL extension 挂载宿主 nvidia 驱动 → N 卡受影响较小</td></tr>
+    <tr><td>内核（调度 / 内存 / NTSync 驱动）</td><td><span class="tag t-big">✅ 宿主内核</span></td><td>CachyOS 内核收益<strong>保留</strong></td></tr>
+    <tr><td>沙箱开销</td><td><span class="tag t-big">可忽略</span></td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h3><code>/dev/ntsync</code> 在 Flatpak 下可用吗？——可用</h3>
+<p>Flatpak 对新设备类型的默认策略是：「<strong>我们允许它们通过 <code>--device=all</code>，否则不允许</strong>」（flatpak issue #6199，维护者原话）。而 <strong>Flatpak Steam 的 manifest 里就有 <code>--device=all</code></strong>（本次实测 <code>com.valvesoftware.Steam.yml</code> 第 45 行）：</p>
+<pre>41:  - --filesystem=/run/udev:ro
+45:  - --device=all
+46:  - --allow=multiarch      <span class="c"># Wine/Proton 跑 32 位代码所需</span>
+47:  - --allow=devel          <span class="c"># ptrace，pressure-vessel 需要</span></pre>
+<p>→ <strong><code>/dev/ntsync</code> 应当可见</strong>（前提仍是宿主内核 ≥ 6.14）。建议本地验证：</p>
+<pre>flatpak run --command=sh com.valvesoftware.Steam -c 'uname -r; ls -l /dev/ntsync'</pre>
+
+<h3>顺带纠正一条 NTSync 的性能口径（一手、权威）</h3>
+<div class="box bad">
+  <p>flatpak 维护者在 issue #6199 里给出了比媒体更准确的表述：</p>
+  <ul>
+    <li>"<strong>ntsync is around the same speed as fsync</strong>" —— 平均帧与 fsync 同级。</li>
+    <li>它带来的是 "better game/app compatibility ... and <strong>better 1% lows</strong> since it's more efficient (less CPU overhead and less RAM usage) than the hacky fsync solution."</li>
+    <li>"<strong>If you have a fast CPU it would typically already handle fsync without much issues. People who are very CPU-bottlenecked would probably still see a big performance improvement with ntsync though.</strong>"</li>
+    <li>"the performance will not change as much as some people have been misled to believe based on benchmarks that <strong>compared vanilla wine (no esync/fsync hacks) vs ntsync</strong>."</li>
+    <li>实测例：<strong>3600X + 5700XT 平台上，部分游戏 1% low 帧率翻了约三倍</strong>。</li>
+    <li>机制：esync/fsync <strong>完全忽略</strong> waitstate 调用；NTSync 在内核里真正实现，"<strong>which is why CPU bound situations under Linux punished frame rates</strong>"。</li>
+  </ul>
+</div>
+
+<h2>三、三种部署方式的收益保留度矩阵</h2>
+<table>
+  <thead><tr><th>优化层</th><th>原生 CachyOS</th><th>别的发行版<br>+ proton-cachyos(v3)</th><th>Flatpak Steam<br>（+ v3 Proton）</th></tr></thead>
+  <tbody>
+    <tr><td>翻译层 v3 优化（DXVK / vkd3d / Wine）</td><td><span class="tag t-big">✅</span></td><td><span class="tag t-big">✅</span></td><td><span class="tag t-big">✅ 需手动放入</span></td></tr>
+    <tr><td>Proton-CachyOS 补丁（FSR4 / Reflex / OptiScaler）</td><td><span class="tag t-big">✅</span></td><td><span class="tag t-big">✅</span></td><td><span class="tag t-big">✅ 需手动放入</span></td></tr>
+    <tr><td>CachyOS 内核（BORE / EEVDF / 1000Hz）</td><td><span class="tag t-big">✅</span></td><td><span class="tag t-zero">❌</span></td><td><span class="tag t-big">✅ 宿主内核</span></td></tr>
+    <tr><td>Mesa / RADV v3/v4 优化构建</td><td><span class="tag t-big">✅</span></td><td><span class="tag t-zero">❌ 用宿主 Mesa</span></td><td><span class="tag t-zero">❌ 用 runtime Mesa</span></td></tr>
+    <tr><td>glibc 优化</td><td><span class="tag t-big">✅</span></td><td><span class="tag t-zero">❌</span></td><td><span class="tag t-zero">❌</span></td></tr>
+    <tr><td>NTSync</td><td><span class="tag t-big">✅ 默认开</span></td><td><span class="tag t-small">⚠️ 需内核 ≥6.14</span></td><td><span class="tag t-small">⚠️ 需内核 ≥6.14</span></td></tr>
+    <tr><td>CachyOS-Settings（sysctl / IO / ZRAM / THP / 电源档）</td><td><span class="tag t-big">✅</span></td><td><span class="tag t-zero">❌</span></td><td><span class="tag t-zero">❌</span></td></tr>
+    <tr><td>沙箱开销</td><td>无</td><td>无</td><td>可忽略</td></tr>
+  </tbody>
+</table>
+<p><strong>一句话：翻译层优化可以"打包带走"，系统层优化不能。</strong> Flatpak 额外削掉的是"宿主图形栈"，但换回了干净的依赖隔离。</p>
+
+<h2>四、可复用操作</h2>
+<pre><span class="c"># A) 任何发行版：装 v3 版 proton-cachyos（无需装 CachyOS）</span>
+TAG="cachyos-11.0-20261005-slr"      <span class="c"># 用前先查最新 tag</span>
+mkdir -p ~/.steam/root/compatibilitytools.d
+curl -LO "https://github.com/CachyOS/proton-cachyos/releases/download/$TAG/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz"
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz -C ~/.steam/root/compatibilitytools.d/
+<span class="c"># 重启 Steam → 游戏属性 → 兼容性 → 强制使用指定兼容工具 → 选 proton-cachyos</span>
+
+<span class="c"># B) Flatpak Steam：同一份 tarball，换个目录</span>
+mkdir -p ~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz \
+    -C ~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/
+
+<span class="c"># C) 确认沙箱里的内核与 NTSync</span>
+flatpak run --command=sh com.valvesoftware.Steam -c 'uname -r; ls -l /dev/ntsync'
+
+<span class="c"># D) 想让 Flatpak 用宿主图形栈？做不到——这正是 Flatpak 的设计</span></pre>
+
+<h2>五、坑与反直觉</h2>
+<ul>
+  <li><strong>"Flatpak 更慢"</strong> —— 沙箱开销可忽略；真正的代价是<strong>图形栈被换成 runtime 版本</strong>。</li>
+  <li><strong>"在 CachyOS 上用 Flatpak Steam"</strong> —— 相当于<strong>自废武功</strong>：把宿主优化过的 Mesa/glibc 换成 runtime 通用版本，还要再手动装 v3 Proton 才补回翻译层。</li>
+  <li><strong>"从 AUR 装 proton-cachyos 就是 CachyOS 构建"</strong> —— ❌ 自行编译时 flag 取决于你的机器与 PKGBUILD，<strong>不一定</strong>是官方 v3 构建。要 v3 就用官方 <code>_v3</code> tarball。</li>
+  <li><strong>v3 变体的硬件要求</strong> —— 需要 CPU 支持 <strong>AVX2</strong>（Intel Haswell 2013+ / AMD Excavator+）。老 CPU 用 <code>x86_64</code> 基线版。</li>
+  <li><strong>Flatpak runtime 的 Mesa 可能比宿主旧</strong> —— 滚动发行版（CachyOS / Arch / Tumbleweed）尤其明显。</li>
+  <li><strong>NTSync 不是"免费提速"</strong> —— 平均帧 ≈ fsync；收益在 <strong>1% low 与 CPU 受限场景</strong>。CPU 强 → 提升 ≈ 0。</li>
+  <li><strong>N 卡在 Flatpak 下受影响较小</strong> —— 专有驱动由宿主挂载；AMD / Intel 走 runtime Mesa，受影响较大。</li>
+</ul>
+
+<h2>六、未核实 / 存疑</h2>
+<ul>
+  <li><strong>官方 <code>_v3</code> tarball 的具体编译 flag</strong>（是否含 LTO / PGO / BOLT，还是仅 <code>-march=x86-64-v3</code>）：<strong>未核实</strong>，本次只确认了资产名。</li>
+  <li><strong>Flatpak 沙箱内 <code>/dev/ntsync</code> 的实测可用性</strong>：基于 manifest 含 <code>--device=all</code> 的<strong>推断</strong>，未实测。</li>
+  <li><strong>Flatpak vs 原生 Steam 的帧率差异</strong>：<strong>无公开对照基准</strong>；"沙箱开销可忽略"为机制推断。</li>
+  <li><strong>非 CachyOS 发行版上装 v3 Proton 的实际收益</strong>：无实测数据。</li>
+</ul>
+
+<footer>
+  <p>第十一轮 · CachyOS 系列（共 11 组 15 份报告）｜ 报告日期 2026-10-16</p>
+  <p>一手核实：proton-cachyos GitHub Releases API（三个 tarball 资产）、flatpak issue #6199、flathub Steam manifest。推断/未核实项已在第六节标注。</p>
+</footer>
+
+</div>
+</body>
+</html>
