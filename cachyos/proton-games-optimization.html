@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS 优化收益排序 · Proton 运行的游戏（2077 / Palworld / Soulmask）</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#131a23; --card:#161d27; --line:#243040;
+    --fg:#e6edf3; --fg2:#9fb0c3; --fg3:#6b7d92;
+    --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149; --purple:#bc8cff;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--fg2);font-size:14px}
+  h2{font-size:19px;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent)}
+  h3{font-size:15px;margin:28px 0 10px;color:var(--fg)}
+  p{color:var(--fg2);margin:10px 0}
+  strong{color:var(--fg)}
+  code{font-family:var(--mono);background:#1f2733;padding:1.5px 6px;border-radius:4px;font-size:.88em;color:#79c0ff}
+  .tldr{background:linear-gradient(135deg,#15202e,#131a23);border:1px solid var(--line);
+    border-left:3px solid var(--good);border-radius:10px;padding:22px 24px;margin:0 0 8px}
+  .tldr p{margin:0;color:var(--fg);font-size:15px}
+  .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0}
+  .vcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .vcard .rank{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:700}
+  .vcard .name{font-size:15px;font-weight:700;color:var(--fg);margin:6px 0 8px;line-height:1.45}
+  .vcard .val{font-family:var(--mono);font-size:21px;font-weight:700}
+  .vcard .note{font-size:12.5px;color:var(--fg3);margin-top:8px;line-height:1.6}
+  .r1{border-color:#2d4a34}.r1 .val{color:var(--good)}
+  .r2{border-color:#3d4a2d}.r2 .val{color:var(--warn)}
+  .r3{border-color:#2d3d4a}.r3 .val{color:var(--accent)}
+  .r4{border-color:#4a2d2d}.r4 .val{color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#131a23;color:var(--fg2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  td{color:var(--fg2)}
+  td strong{color:var(--fg)}
+  tr:hover td{background:#121924}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+    font-family:var(--mono);white-space:nowrap}
+  .t-zero{background:#3a1d1d;color:#ff8b84}
+  .t-small{background:#3a331d;color:#e3b341}
+  .t-mid{background:#1d2f3a;color:#79c0ff}
+  .t-big{background:#1d3a26;color:#56d364}
+  ul{color:var(--fg2);padding-left:22px;margin:12px 0}
+  li{margin:7px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .box.warn{border-left:3px solid var(--warn)}
+  .box.bad{border-left:3px solid var(--bad)}
+  .box.good{border-left:3px solid var(--good)}
+  .box h3{margin-top:0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d1d9;margin:16px 0}
+  pre .c{color:var(--fg3)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .flow{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:20px;margin:18px 0;
+    font-family:var(--mono);font-size:12.5px;line-height:2;color:var(--fg2);overflow-x:auto}
+  .flow b{color:#79c0ff}
+  .flow i{color:#56d364;font-style:normal}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}.wrap{padding:28px 16px 64px}h1{font-size:23px}}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">CachyOS 深度调研 · 第十轮</div>
+  <h1>Proton 运行的游戏：CachyOS 哪一项优化收益最大？</h1>
+  <div class="sub">赛博朋克 2077 · 幻兽帕鲁 Palworld · 灵魂面甲 Soulmask &nbsp;|&nbsp; 2026-10-16 &nbsp;|&nbsp; 承接第九轮（原生单线程模拟游戏）</div>
+</header>
+
+<div class="tldr">
+  <p><strong>一句话结论：冠军换层了。</strong>原生游戏里"编译层无效"，是因为游戏二进制由厂商预编译；<strong>Proton 游戏多了一整层"发行版自己维护并重编译"的代码——Wine / DXVK / vkd3d-proton / Mesa，正好在 CPU 关键路径上</strong>。所以 CachyOS 的招牌（v3/v4 + LTO/PGO/BOLT）<strong>第一次真正生效</strong>，收益最大的单项变成<strong>翻译层 + 运行时栈</strong>，其次是 <strong>NTSync</strong>（收益主要在帧时间一致性，不在平均帧）。</p>
+</div>
+
+<h2>一、与原生游戏的结构性差异（全部结论的来源）</h2>
+<div class="flow">
+原生游戏：&nbsp;&nbsp;游戏二进制（<i>厂商预编译</i>） ──▶ 内核 / glibc<br>
+Proton 游戏：游戏二进制（<i>厂商预编译</i>） ──▶ <b>Wine → DXVK / vkd3d-proton → Mesa RADV</b> ──▶ 内核<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <i>这一整层是发行版的包，CachyOS 会重编译它</i>
+</div>
+<table>
+  <thead><tr><th>维度</th><th>原生 Linux 游戏</th><th>Proton 运行的游戏</th></tr></thead>
+  <tbody>
+    <tr><td>游戏本体</td><td>原生 ELF，厂商预编译</td><td>Windows PE，<strong>仍是厂商预编译</strong></td></tr>
+    <tr><td>关键路径上还有什么</td><td>几乎只有游戏自己的代码</td><td><strong>多了一整层：Wine → DXVK(D3D9/10/11) → vkd3d-proton(D3D12) → Mesa/驱动</strong></td></tr>
+    <tr><td>这层由谁构建</td><td>—</td><td><strong>发行版自己</strong>（<code>proton-cachyos</code> / <code>dxvk</code> / <code>vkd3d-proton</code> / <code>mesa</code> 都是包）</td></tr>
+    <tr><td>招牌优化是否触达</td><td><span class="tag t-zero">❌ 碰不到</span></td><td><span class="tag t-big">✅ 碰得到，且在关键路径上</span></td></tr>
+    <tr><td>额外固定成本</td><td>无</td><td><strong>翻译开销</strong>：每个 draw call 过 DXVK/vkd3d，每个同步调用过 Wine</td></tr>
+  </tbody>
+</table>
+
+<h2>二、收益排序</h2>
+<div class="verdict">
+  <div class="vcard r1">
+    <div class="rank">冠军</div>
+    <div class="name">翻译层 + 运行时栈的发行版优化构建</div>
+    <div class="val">个位数～十余%</div>
+    <div class="note">Proton-CachyOS / DXVK / vkd3d-proton / Mesa 的 v3/v4 + LTO/PGO/BOLT 重编译<br><strong>CachyOS 独有</strong>，仅在 CPU 受限时生效</div>
+  </div>
+  <div class="vcard r2">
+    <div class="rank">亚军</div>
+    <div class="name">NTSync（内核级 NT 同步原语）</div>
+    <div class="val">平均帧 ≈ 0</div>
+    <div class="note">收益在<strong>帧时间一致性 / 卡顿 / 1% low</strong>；对比 esync/fsync 无平均帧收益<br>非 CachyOS 独有，但<strong>默认开启最早</strong></div>
+  </div>
+  <div class="vcard r3">
+    <div class="rank">季军</div>
+    <div class="name">GPU 栈 + FSR4 / Reflex / Anti-Lag 2</div>
+    <div class="val">大</div>
+    <div class="note">但这是"<strong>新</strong>"不是"<strong>优化</strong>"——任何装到新驱动的发行版都有</div>
+  </div>
+  <div class="vcard r4">
+    <div class="rank">仍无效</div>
+    <div class="name">编译层对<strong>游戏本体</strong></div>
+    <div class="val">≈ 0</div>
+    <div class="note">游戏仍是 Windows 二进制，CachyOS 不重编译它</div>
+  </div>
+</div>
+
+<h2>三、冠军项：翻译层 + 运行时栈</h2>
+<div class="box good">
+  <h3>为什么它是冠军</h3>
+  <ul>
+    <li>DXVK / vkd3d-proton 要把<strong>每一次 DirectX 调用翻译成 Vulkan</strong>；Wine 要把<strong>每一次 Windows syscall / 同步调用</strong>翻译成 Linux 语义。这些代码<strong>每一帧都在跑</strong>，且<strong>由发行版编译</strong>。</li>
+    <li>CachyOS 把它们按 <code>x86-64-v3/v4/znver4</code> 重编译并叠加 <strong>LTO / PGO / BOLT</strong>——这正是 DXVK 这类"分支密集、指令密集"代码最吃优化的场景。</li>
+    <li>侧证：DXVK 官方 release notes 自己就以 <strong>"CPU-bound performance"</strong> 作为发布标准（描述符绑定模型改动时写"expected to achieve roughly the same level of CPU-bound performance"）。</li>
+  </ul>
+</div>
+<div class="box warn">
+  <h3>但它补不回原生</h3>
+  <p>CachyOS 的优化是<strong>把 Proton 的翻译开销往回补一点</strong>，不是"让 Proton 超过原生"。对 CPU 密集的游戏，<strong>有原生 Linux 版就上原生版</strong>。2077 / Palworld / Soulmask 都没有原生版，Proton 是唯一路径——这时"减少翻译开销"才有意义。</p>
+</div>
+
+<h2>四、亚军项：NTSync —— 必须打破媒体的夸大</h2>
+<p>Windows 游戏用 NT 同步原语（mutex / semaphore / event）协调线程，<strong>每秒可达百万次等待</strong>。Wine 历史上靠 <strong>wineserver 进程 RPC 往返</strong>模拟，对多线程游戏是真实瓶颈。<strong>NTSync</strong>（Elizabeth Figura / CodeWeavers）在内核里直接实现，暴露 <code>/dev/ntsync</code>，消除用户态往返。2025-01 进 <strong>Linux 6.14 主线</strong>；<strong>Wine 11.0（2026-01）默认启用</strong>；<strong>CachyOS 2025-03 就把 Wine 补丁默认切到 NTSync</strong>。</p>
+
+<h3>那些"炸裂数字"的真实口径 ⚠️</h3>
+<table>
+  <thead><tr><th>游戏</th><th>上游 Wine</th><th>NTSync</th><th>提升</th></tr></thead>
+  <tbody>
+    <tr><td>Dirt 3</td><td>110.6</td><td>860.7</td><td><span class="tag t-big">+678%</span></td></tr>
+    <tr><td>Resident Evil 2</td><td>26</td><td>77</td><td><span class="tag t-big">+196%</span></td></tr>
+    <tr><td>Tiny Tina's Wonderlands</td><td>130</td><td>360</td><td><span class="tag t-big">+177%</span></td></tr>
+    <tr><td>Lara Croft: Temple of Osiris</td><td>141</td><td>326</td><td><span class="tag t-mid">+131%</span></td></tr>
+    <tr><td>Call of Juarez</td><td>99.8</td><td>224.1</td><td><span class="tag t-mid">+125%</span></td></tr>
+    <tr><td>The Crew</td><td>26</td><td>51</td><td><span class="tag t-mid">+96%</span></td></tr>
+    <tr><td>Forza Horizon</td><td>108</td><td>160</td><td><span class="tag t-small">+48%</span></td></tr>
+    <tr><td>Anger Foot</td><td>69</td><td>99</td><td><span class="tag t-small">+43%</span></td></tr>
+    <tr><td>Total War Saga: Troy</td><td>109</td><td>146</td><td><span class="tag t-small">+35%</span></td></tr>
+    <tr><td>Metro 2033</td><td>164.4</td><td>199.2</td><td><span class="tag t-small">+21%</span></td></tr>
+  </tbody>
+</table>
+<div class="box bad">
+  <h3>三条必须标注的限定</h3>
+  <ul>
+    <li><strong>对比基准是 vanilla Wine。</strong>而 Steam 玩家<strong>很多年没用过原版 Wine</strong> 了。</li>
+    <li><strong>对比 esync / fsync，NTSync 基本没有平均帧收益</strong>——社区原话："don't expect 100 more fps, or even 10"。</li>
+    <li><strong>它的核心价值是"正确性"与一致性</strong>：开发者表述"<em>NTSync isn't faster, it's more correct. It fixes subtle edge cases like <strong>hitches and deadlocks</strong>.</em>" 收益主要体现在 <strong>1% / 0.1% low</strong>、alt-tab 不冻结、不锁死。</li>
+  </ul>
+  <p style="margin-top:12px">对 2077 / Palworld / Soulmask：三者都是现代多线程引擎（REDengine 4 / UE5 / UE4-5），理论上是 NTSync 的目标场景，但<strong>不是同步密集型的极端案例</strong>。合理预期：<strong>一致性小幅改善，平均帧接近 0</strong>。<strong>不要为了 NTSync 换发行版</strong>——内核 ≥ 6.14 的任何发行版都有。</p>
+</div>
+
+<h2>五、决定性的前置问题：CPU 受限还是 GPU 受限</h2>
+<table>
+  <thead><tr><th>场景</th><th>瓶颈</th><th>有效项</th></tr></thead>
+  <tbody>
+    <tr><td>2077 @ 4K 路径追踪</td><td><span class="tag t-zero">GPU 受限</span></td><td>只剩驱动版本、DLSS / FSR4、帧生成。<strong>翻译层优化几乎无效</strong></td></tr>
+    <tr><td>2077 夜之城人群密集区 / 1080p</td><td><span class="tag t-mid">CPU 受限</span></td><td>翻译层 + NTSync + 调度</td></tr>
+    <tr><td>Palworld 大基地（大量帕鲁 / 掉落物）</td><td><span class="tag t-mid">CPU 受限</span></td><td>翻译层 + 调度；内存也可能吃紧</td></tr>
+    <tr><td>Soulmask 大基地（大量建造物 / NPC）</td><td><span class="tag t-mid">CPU 受限</span></td><td>同上</td></tr>
+    <tr><td>三者 @ 4K 高画质</td><td><span class="tag t-zero">GPU 受限</span></td><td>驱动 + 升频</td></tr>
+  </tbody>
+</table>
+<div class="box">
+  <h3>60 秒实操判据</h3>
+  <p>用 <code>MANGOHUD=1 %command%</code> 看 GPU 占用率：</p>
+  <ul>
+    <li>GPU 占用 <strong>&lt; 90%</strong> → CPU 受限 → 上面这些<strong>值得做</strong>。</li>
+    <li>GPU 占用 <strong>≈ 100%</strong> → GPU 受限 → <strong>别折腾</strong>，去调画质与升频。</li>
+  </ul>
+</div>
+
+<h2>六、可复用操作</h2>
+<pre><span class="c"># 1) 确认 NTSync 可用（内核 >= 6.14）</span>
+uname -r
+lsmod | grep ntsync || sudo modprobe ntsync
+ls -l /dev/ntsync
+
+<span class="c"># 2) Proton 侧启用（Proton 11+ 默认开；老版本手动）</span>
+PROTON_USE_NTSYNC=1 %command%
+
+<span class="c"># 3) 优先用发行版重编译过的 DXVK / vkd3d-proton</span>
+<span class="c">#    Arch/CachyOS:</span> pacman -S proton-cachyos dxvk-mingw vkd3d-proton-mingw
+<span class="c">#    然后在 Steam → 兼容性 → 强制指定 Proton 版本</span>
+
+<span class="c"># 4) 低延迟 / 升频（Proton-CachyOS 已集成）</span>
+PROTON_FSR4_UPGRADE=1 %command%   <span class="c"># 自动升级 FSR4 DLL</span></pre>
+
+<h2>七、坑与反直觉</h2>
+<ul>
+  <li><strong>"NTSync 提升 678%"</strong> —— 对比的是<strong>原版上游 Wine</strong>；对比 esync/fsync 基本没有平均帧收益。</li>
+  <li><strong>"CachyOS 编译优化让游戏更快"</strong> —— 对原生游戏<strong>无效</strong>；对 Proton 游戏<strong>有效但仅限翻译层</strong>，量级个位数%。</li>
+  <li><strong>"Proton 能超过原生"</strong> —— ❌。CachyOS 是<strong>补回</strong>翻译开销，不是消除它。</li>
+  <li><strong>"4K 下优势消失"</strong> —— 这条<strong>在 Proton 场景同样成立</strong>（与原生模拟游戏不同）。2077 4K 路径追踪是纯 GPU 瓶颈。</li>
+  <li><strong>"换了发行版就快了"</strong> —— 对 Proton 游戏，<strong>GPU 驱动版本</strong>（Mesa RADV / NVIDIA 专有驱动）的版本差异通常大于发行版优化差异。</li>
+  <li><strong>2077 的 Proton 版本选择</strong> —— 社区反馈 2077 在 <strong>Proton 8.0</strong> 上帧率更稳、崩溃更少，并非越新越好 → 按游戏查 ProtonDB。</li>
+  <li><strong>反例存在</strong> —— 有测试显示启用 FSR 3 的《第一后裔》Windows 11 以 63 FPS 领先 Linux 端 54 FPS。</li>
+</ul>
+
+<h2>八、未核实 / 存疑</h2>
+<ul>
+  <li><strong>没有</strong> CachyOS 针对 2077 / Palworld / Soulmask 的公开对照基准 → 本报告量级为<strong>结构性推断</strong>。</li>
+  <li><strong>"翻译层重编译带来十余 %"</strong> 的上界未经实测标定；DXVK 官方只给相对表述。</li>
+  <li><strong>NTSync 对这三款游戏的具体收益</strong>：无公开数据；现有基准表全部是对 vanilla Wine 的对比。</li>
+  <li><strong>smzdm 转述的 CachyOS vs Win11 数字</strong>（2077 平均 98 vs 91 FPS；星际战士2 1% low 72 vs 58，5600X + RX 6700XT）：二手转述，未披露方法 → 方向性参考。</li>
+</ul>
+
+<h2>九、两次提问的结论对照</h2>
+<table>
+  <thead><tr><th>游戏类型</th><th>冠军项</th><th>为什么</th></tr></thead>
+  <tbody>
+    <tr><td><strong>原生</strong>（RimWorld / 群星 / CK3）</td><td>内核<strong>内存管理 + 调度延迟</strong>层</td><td>编译层碰不到游戏二进制，只能靠系统层</td></tr>
+    <tr><td><strong>Proton</strong>（2077 / Palworld / Soulmask）</td><td><strong>翻译层 + 运行时栈</strong></td><td>翻译层是发行版重编译的代码，且在 CPU 关键路径上</td></tr>
+  </tbody>
+</table>
+<p><strong>共同点：</strong>两者收益量级都在<strong>个位数百分比</strong>（除非内存吃紧或功耗受限，才可能出现量级差异）。<strong>换发行版永远不是最大杠杆——硬件（X3D / 内存容量 / GPU 驱动版本）才是。</strong></p>
+
+<footer>
+  <p>第十轮 · CachyOS 系列（共 10 组 13 份报告）｜ 报告日期 2026-10-16</p>
+  <p>来源：Phoronix、DXVK / vkd3d-proton 官方仓库、CachyOS 官网（一手）；Wine 上游 NTSync 基准表（一手，但口径为 vanilla Wine）；什么值得买、百家号（二手转述，已标注）。核心结论为结构性推断。</p>
+</footer>
+
+</div>
+</body>
+</html>
