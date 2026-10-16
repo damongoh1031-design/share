@@ -1,0 +1,25 @@
+topic: Hermes Agent 如何作为 goose 的后端运行时/模型
+slug: hermes-as-goose-backend
+date: 2026-10-16
+note: |
+  单一问题型调研（非多对象横向对比）。items = 4 条候选集成路径，
+  fields = 每条路径必须核验的维度。
+items:
+  - id: path_a_model
+    name: Hermes 作为 goose 的「模型」（hermes proxy → OpenAI 兼容端点）
+    why: goose 保留自己的 agent loop / 扩展生态，Hermes 只出凭证与推理
+  - id: path_b_agent_api
+    name: Hermes 作为 goose 的「智能体后端」（API server → OpenAI 兼容端点）
+    why: Hermes 侧跑完整工具循环，goose 每轮只拿到最终文本
+  - id: path_c_acp
+    name: Hermes 作为 goose 的「运行时」（ACP，hermes acp）
+    why: 语义上最匹配「runtime」，goose 会把扩展作为 MCP server 透传
+  - id: path_d_mcp
+    name: Hermes 作为 goose 的 MCP 扩展（hermes mcp serve）
+    why: 双方都原生支持的「Hermes 作为工具」形态
+execution:
+  batch_size: 4
+  items_per_agent: 1
+  output_dir: ./results
+  completed: true
+  mode: 本机源码取证 + 官方文档双源交叉验证

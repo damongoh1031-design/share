@@ -1,0 +1,28 @@
+fields:
+  支持级别:
+    description: goose / Hermes 双方是否原生支持该路径（官方文档 + 源码双证）
+    detail_level: 详细
+    values: [双方原生支持, 单侧原生+另一侧需变通, 双方均无原生支持]
+  传输协议:
+    description: 实际走的协议（OpenAI Chat Completions / ACP stdio / MCP stdio / HTTP）
+    detail_level: 简要
+  谁运行工具循环:
+    description: |
+      关键判据。goose 源码用 RUNS_OWN_TOOL_LOOP 常量区分：
+      ACP provider = true（Hermes 跑）；声明式 custom provider = false（goose 跑）
+    detail_level: 详细
+  goose_侧配置:
+    description: goose 需要改的文件/环境变量/命令（含 Windows 路径）
+    detail_level: 详细
+  hermes_侧配置:
+    description: Hermes 需要改的 .env / config.yaml / 命令
+    detail_level: 详细
+  扩展_MCP_透传:
+    description: goose 的 70+ 扩展能否传给 Hermes 使用
+    detail_level: 详细
+  已验证_未验证:
+    description: 本机实测 / 源码读取 / 文档陈述 三类证据分级，未验证项必须标注
+    detail_level: 详细
+  风险与坑:
+    description: 双重工具循环、认证、会话恢复、模型选择语义差异
+    detail_level: 详细
