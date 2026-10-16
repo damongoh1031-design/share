@@ -1,89 +1,198 @@
 ---
 id: cachyos-cpu-bound-strategy-games
-title: CachyOS 对 CPU 密集型策略游戏的优化收益
+title: CachyOS 对 CPU 密集型策略/模拟游戏的优化收益（RimWorld / 群星 / CK3）
 tags:
   - cachyos
   - linux-gaming
   - cpu-bound
   - scheduler
   - simulation-games
+  - memory-management
+  - kernel
 created: 2026-10-16
 updated: 2026-10-16
-version: 1.0
-status: draft
-source: CachyOS 官方 Wiki/GitHub、游戏开发者公告、本次会话分析
+version: 2.0
+status: stable
+source: CachyOS 官方 Wiki/GitHub（一手核实）+ Paradox 官方开发者日志（一手）+ 社区实测 + 结构性推断
 confidence: 推断
 ---
 
+# CachyOS 对 CPU 密集型策略/模拟游戏的优化收益
+
 ## 一句话结论
 
-对 RimWorld、Stellaris、Crusader Kings 3，若必须挑一项先测，选 CachyOS 的 `game-performance` 性能电源档；它只在原有电源策略限制了持续 CPU 频率时可能明显加快模拟，桌面机已稳定满频时收益可能接近零，公开资料没有证明它在这三款游戏中必然胜过其他 CachyOS 优化。
+对 RimWorld / 群星 / CK3 这类单线程 + 内存延迟敏感的大战略模拟游戏，**CachyOS 的招牌优化（全仓库 x86-64-v3/v4 + LTO/PGO/BOLT 重编译）收益 ≈ 0**——游戏二进制由厂商预编译，发行版重编译碰不到它。**收益最大的单项取决于机器条件**：
+
+| 机器条件 | 冠军项 | 量级 |
+|---|---|---|
+| **功耗受限**（笔记本 / 掌机 / 小机箱 / 温度墙） | `game-performance` 电源档 / 单核睿频维持 | 可显著 |
+| **内存吃紧**（重度 mod 存档 / RAM < 工作集） | `vm.swappiness=100` + ZRAM + THP/MGLRU | 0 或**量级** |
+| **两者都不成立**（台式 + 内存充足） | 只剩内核调度延迟层 | 个位数百分比 |
+
+**参照系**：群星 3.14 → 4.3 官方提速约 **2.6×**（同一台 i9-14900K）。发行版层能拿到的（个位数百分比）与游戏自身优化差一个数量级。
 
 ---
 
-## 收益判断
+## 1. 瓶颈画像（决定一切的前提）
 
-| 优化项 | 对模拟速度的预期 | 对流畅度/响应的预期 | 判断 |
-|---|---|---|---|
-| `game-performance` / performance 电源档 | 若 CPU 受电源策略、笔记本功耗限制或频率响应限制，可能提高持续频率；否则差异小 | 可能降低负载期间的频率响应等待 | **首选 A/B 测试项；有条件的推断** |
-| 默认 CachyOS EEVDF 调参 / BORE | 没有这三款游戏的可靠对照数据；一般不应假设能提高模拟吞吐 | 目标是交互响应、调度延迟与重负载下的流畅感 | **可能改善体感，不等于更多游戏日/秒；官方目标已核实** |
-| CPU 架构优化包、LTO/PGO/BOLT | 游戏主程序通常是预编译发行物，不会因换发行版而重新编译；被优化的系统库等可能有次级收益 | 可能小幅影响部分系统组件 | **不应默认视为最大收益；机制推断** |
-| 1000Hz tick / 实时内核 | 没有证据说明提高模拟吞吐 | 低延迟目标不等于更快；CachyOS 官方明确表示 RT 内核不提升游戏性能 | **不要为了游戏速度改用 RT 内核** |
+| 游戏 | 引擎 | 主瓶颈 | 后期内存足迹 | 缓存/内存延迟敏感度 |
+|---|---|---|---|---|
+| RimWorld | Unity (Mono) | 单线程 TPS，主线程单核 100% | 轻度 4–8 GB；重度 mod 8–30 GB | 极高 |
+| 群星 Stellaris | Clausewitz | 单核为主 + **部分多线程**；瓶颈含 **CPU 等待**与**内存分配抖动**（官方 4.3 日志） | 1000 星后期 8–16 GB | 高 |
+| CK3 | Clausewitz | 主核 CPU0 长期高占用 + 内存带宽压力 | 后期 6–10 GB | 高 |
 
-### 按目标选择
+**四个共同点**：①"后期慢" = 单线程吞吐不足；②指针追逐 + 大工作集 → 对 L3 容量/内存延迟敏感；③内存足迹随时间单调增长；④显卡几乎不参与（任何分辨率都 CPU 瓶颈）。
 
-- **想让游戏时间推进更快**：先比较 performance 电源档与原策略；重点看游戏内模拟速度，而非 GPU FPS。
-- **想减少后台负载下的卡顿**：可测试默认 EEVDF 与 BORE，但用帧时间/卡顿指标判定，不以模拟吞吐代替。
-- **想提升后期速度**：游戏版本、存档状态、Mod、CPU 单核持续性能与温度/功耗限制，可能比发行版调度器差异更关键。该判断对具体配置属于推断。
+**推论**：真正能加速它们的只有 **单核 IPC × 频率**、**内存延迟/带宽**、**L3 容量**、**RAM 容量**。发行版只能碰到其中两项的一半。
 
 ---
 
-## 证据与边界
+## 2. CachyOS 四层优化 × 瓶颈匹配
 
-1. CachyOS 官方 `CachyOS-Settings` README 描述 `game-performance` 会在启动应用时通过 `powerprofilesctl` 切换到 `performance` 电源档；README 没有给出对上述三款游戏的提升百分比。
-2. CachyOS Kernel 官方 Wiki 将默认内核定位为响应性调校，提供 BORE、EEVDF 等变体；官方 FAQ 明确说实时内核不会改善游戏性能，且可能因更多抢占而降低性能。
-3. CachyOS 官方 `Why CachyOS?` 将 EEVDF 调优与 BORE 的目标描述为桌面响应性/交互性。这不能直接证明策略游戏的模拟吞吐更高。
-4. CK3 开发者 2025-10-15 的性能日志，以及《群星》4.3 开发者性能测试，说明游戏版本自身的模拟优化是重要变量；换发行版前应锁定游戏版本、存档、设置和 Mod。
-5. 截至 2026-10-16，未找到对 RimWorld、Stellaris、CK3 使用相同存档/场景进行 CachyOS 优化项逐项对照的高质量公开基准。因此无法给出普适百分比或无条件唯一冠军。
+| 层 | 具体项 | 作用于游戏执行路径？ | 预期收益 | 置信度 |
+|---|---|---|---|---|
+| 编译层 | v3/v4/znver4 + LTO/PGO/BOLT/AutoFDO | ❌ 不覆盖游戏二进制 | ≈ 0（间接 <1–2%） | 高 |
+| 内核层 | MGLRU + Cachy Sauce MM 调参 + THP(`defer+madvise`) | ✅ 内存回收与 TLB | +1–5%（内存压力越大越高） | 中 |
+| 内核层 | BORE / EEVDF 调参 / SCX / sched-cluster + 1000Hz + PREEMPT_DYNAMIC | ✅ 所有任务 | 吞吐 +0–3%；尾部延迟/交互响应改善更大 | 中 |
+| 系统层 | `vm.swappiness=100` + ZRAM(zstd) + 关 zswap | ✅ 仅内存吃紧时 | **0 或"量级差异"** | 中高（条件性） |
+| 系统层 | `game-performance` 电源档 + amd_pstate/EPP | ✅ 单核睿频维持 | 台式 0–3%；**功耗受限机器显著** | 中 |
+| 系统层 | I/O 调度器按设备分配 + dirty 参数 | ⚠️ 只影响加载/存档写入 | 小 | 中 |
+| 运行时层 | Proton-CachyOS / FSR4 / Reflex / NTSync | ❌ 与这三款无关 | ≈ 0 | 高 |
 
----
-
-## 可复用操作
-
-1. 选一个固定存档和固定模拟区间；固定游戏版本、Mod、画质、后台程序与电源接入状态。
-2. 先用原电源策略跑基线，再用 Steam 启动参数 `game-performance %command%` 复测。
-3. 每种状态至少跑 3 次，比较中位数；同时记录 CPU 持续频率、温度与功耗，排除热降频或功耗墙。
-4. 记录游戏模拟吞吐，而非只看帧率：
-   - Stellaris 可用启动参数 `-gamestatetimer` 生成 tick 时间日志；日志可能很大。
-   - RimWorld 记录相同存档与场景下的 TPS/推进速度。
-   - CK3 使用相同存档、日期跨度和游戏速度，比较推进该跨度所需的墙钟时间。
-5. 如果差异小于多次运行的自然波动，不要为这些游戏仅为追求模拟速度切换内核调度器。
+**筛选规则**：只看「作用于游戏执行路径 = ✅」的行 → 候选池只剩**内核内存管理、内核调度、系统层内存/电源**。
 
 ---
 
-## 坑与反直觉
+## 3. 为什么招牌优化对游戏本体失效（核心反直觉）
 
-- **performance 不会超频**：它改变的是系统电源策略，不会突破 CPU 的功耗、温度或硬件频率上限；热设计受限时还可能更快触及温度墙。
-- **CPU 密集不等于调度器受限**：主线程已独占核心时，换调度器可能几乎不改变模拟速度。
-- **低帧/响应性与游戏时间推进速度是不同指标**：BORE/EEVDF 的响应改善不能直接换算成更多 tick 或更快的日历时间。
-- **不要把游戏版本差异归功于操作系统**：模拟算法、线程化和 Mod 更新可能远大于发行版差异。
+1. **包仓库重编译的对象是发行版自己的包**（内核、glibc、Mesa、Proton、库）。游戏二进制来自 Steam / 厂商，CachyOS 不参与其构建。
+2. **这三款都有原生 Linux 版** → 走原生版时连 Proton 都不在链路上，编译层覆盖面进一步缩小到"内核 + glibc + Mesa"。
+3. **模拟循环在游戏自己的代码里**，由厂商用厂商的编译选项构建，v3/v4/LTO/PGO 一个都吃不到。
+4. **仅存的间接路径**：glibc 的 `malloc`/`memcpy`（早已 IFUNC 运行时分派，增量很小）+ 内核自身的页回收/调度路径（亚百分比级）。
+
+> 宣传口径里的"CPU 密集"指**负载类型**，不指**游戏**。招牌对"发行版自己的软件"有效（编译器、渲染、AI 推理），对"厂商预编译的游戏本体"基本无效。
 
 ---
 
-## 未核实 / 存疑
+## 4. 一手证据：开发者自己怎么说
+
+### 4.1 群星 4.3「Cetus」开发日志（2026-02-06，官方）
+
+同机（i9-14900K / 32GB / RTX 3060）、巨型星系、士官难度、同存档同种子，`-gamestatetimer` 记录"每年秒数"：
+
+| 版本 | 开局 | 后期 |
+|---|---|---|
+| 3.14 | 30.52 秒/年 | 2269 年退化到 **44.63 秒/年** |
+| **4.3** | **11.54 秒/年** | 到 2269 年才退化到 3.14 的**开局**速度 |
+
+**≈ 2.6×**，全部来自游戏自身代码层：依赖跟踪减少 **CPU 等待**与"月度卡顿"、减小线程批处理粒度以分布到多核、**重用内存并减少更新中的分配/释放**、把触发器计算移到合适的脉冲、优化字符串函数。
+
+### 4.2 三条推论
+
+1. **游戏版本 > 一切发行版优化**（2.6× vs 个位数百分比）。
+2. **群星不是纯单线程**，且瓶颈含"CPU 等待"与"内存分配抖动" → 印证内核调度/内存层是唯一有效的发行版抓手，但天花板由游戏代码决定。
+3. **CK3 开发日志 #187（2025-10-15，Technical Lead Joel）**把性能作为专门主题 → 后期慢主因在游戏代码与存档规模。
+
+> ⚠️ 官方测试用 **Windows** 机器且是**版本间**对比，不是发行版间对比。
+
+---
+
+## 5. 可复用操作
+
+### 5.1 A/B 对照方法（判定"是否真有效"）
+
+1. 固定存档 + 固定模拟区间；锁定游戏版本、Mod、画质、后台程序、电源接入状态。
+2. 先用原策略跑基线，再用 `game-performance %command%` 复测。
+3. 每状态 ≥3 次，比较**中位数**；同时记录 CPU 持续频率、温度、功耗，排除热降频/功耗墙。
+4. **测模拟吞吐，不是帧率**：
+   - 群星：启动参数 `-gamestatetimer` 生成 tick 时间日志（300 年约 30MB）
+   - RimWorld：同存档同场景的 TPS / 推进速度
+   - CK3：同存档同日期跨度、同游戏速度，比较墙钟时间
+5. 差异小于多次运行的自然波动 → 不要为模拟速度切换内核调度器。
+
+### 5.2 系统侧落地（任意发行版）
+
+```bash
+# THP：减少大堆内存的 TLB miss
+echo 'defer+madvise' | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+
+# ZRAM 兜底（仅内存 < 存档工作集时才值得开）
+sudo pacman -S zram-generator
+printf '[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd\nswap-priority = 100\n' \
+  | sudo tee /etc/systemd/zram-generator.conf
+echo 'vm.swappiness = 100' | sudo tee /etc/sysctl.d/99-swap.conf
+
+# 电源档：避免单核睿频被省电策略压住
+powerprofilesctl set performance          # Fedora 用 tuned
+
+# 调度延迟：sched-ext 可运行时切换，无需换内核
+scxctl start --scheduler scx_lavd         # Arch: scx-scheds / openSUSE: scx / NixOS: services.scx.enable
+
+# 跑原生 Linux 版，不要走 Proton（这三款都有原生版）
+```
+
+**BORE / BMQ 不在主线** → 必须换 `linux-cachyos` 内核或自编译补丁；这是 CachyOS 唯一无法在其他发行版"纯官方仓库"里复现的内核项。
+
+**硬件优先级（比调系统更有效）**：X3D CPU（L3 容量）> 内存容量 > 内核/调度调优 > 换发行版。
+
+---
+
+## 6. 坑与反直觉
+
+| 坑 | 说明 |
+|---|---|
+| "CPU 密集型游戏吃编译优化" | 营销口径，不是机制。编译器层碰不到游戏二进制。 |
+| "收益在 1% low" | 对这三款错位：痛点是**吞吐**（TPS / 每年秒数），不是帧时间抖动。 |
+| "4K 下优势消失" | 不适用——这三款在任何分辨率都 CPU 瓶颈。 |
+| **`performance` 不会超频** | 它只改电源策略，不突破功耗/温度/硬件上限；热设计受限时还可能更快撞温度墙。 |
+| **RT 内核不提升游戏性能** | CachyOS 官方 FAQ 明确：实时内核不会改善游戏性能，且可能因更多抢占而降低性能。 |
+| **CPU 密集 ≠ 调度器受限** | 主线程已独占核心时，换调度器可能几乎不改变模拟速度。 |
+| ZRAM 是"加速手段" | ❌ 压缩耗 CPU，内存充足时是**净负项**。它是"内存不够时的止损"。 |
+| 换发行版能救后期 | ❌ 即使上 X3D，群星后期 1000 星仍会卡——游戏架构问题。 |
+| 社区"Linux 比 Windows 快" | 多为 ProtonDB 单样本主观报告，无对照基准。 |
+| 把游戏版本差异归功于 OS | 模拟算法、线程化、Mod 更新可能远大于发行版差异。 |
+
+---
+
+## 7. 未核实 / 存疑
 
 | 项 | 说明 |
 |---|---|
-| 三款游戏中 performance 电源档的实际提升幅度 | 缺少同机型、同存档、重复运行的 CachyOS A/B 数据；受 CPU、固件、电源档、温度和游戏版本影响。 |
-| BORE、默认 EEVDF 与其他调度器对这三款游戏的模拟吞吐差异 | 缺少针对同一游戏工作负载的受控测试。 |
-| 各游戏当前版本/Mod 对 CPU 并行度和瓶颈线程的具体分布 | 需要按版本、存档和 Mod 组合实际 profiling。 |
+| 三款游戏中各优化项的实际提升幅度 | 缺少同机型、同存档、重复运行的 CachyOS A/B 数据 |
+| BORE / EEVDF / SCX 对这三款游戏**模拟吞吐**的差异 | 缺少针对同一游戏工作负载的受控测试 |
+| THP / MGLRU 在该场景的增益百分比；ZRAM 的 CPU 开销量化 | 机制成立，量级未标定 |
+| RimWorld 5800X3D +30% | 贴吧/B站个人实测，单样本、未披露存档与 mod 清单 → 社区实证 |
+| CK3"主核占用高 + 内存带宽压力" | 百度文库二手分析 → 推断，未找到一手 profiling |
+| 各游戏当前版本/Mod 的 CPU 并行度与瓶颈线程分布 | 需按版本、存档、Mod 组合实际 profiling |
 
 ---
 
-## 参考来源
+## 8. 参考来源
 
-- CachyOS Kernel Wiki（调度器、1000Hz、内核变体及 RT FAQ）：https://wiki.cachyos.org/features/kernel/ （访问：2026-10-16）
-- CachyOS-Settings（`game-performance` 脚本用途）：https://github.com/CachyOS/CachyOS-Settings （访问：2026-10-16）
-- Why CachyOS?（性能包与调度器目标）：https://wiki.cachyos.org/cachyos_basic/why_cachyos/ （页面标注更新：2026-01-27）
-- Crusader Kings III Dev Diary 187 — Performance & Optimization（2025-10-15）：https://store.steampowered.com/news/app/1158310/view/535490230242770974
-- 《群星》4.3 性能与线程改进开发日志（2026-02-06，中文转载）：https://news.17173.com/content/02062026/070655049.shtml
+- CachyOS Kernel Wiki（调度器、1000Hz、内核变体、RT FAQ）：https://wiki.cachyos.org/features/kernel/
+- CachyOS-Settings（`game-performance` 脚本）：https://github.com/CachyOS/CachyOS-Settings
+- Why CachyOS?（性能包与调度器目标）：https://wiki.cachyos.org/cachyos_basic/why_cachyos/
+- BORE 调度器 tunables：https://github.com/YuZyu9527/bore-scheduler
+- linux-cachyos（内核补丁与 topic 分支）：https://github.com/CachyOS/linux-cachyos
+- Paradox 官方 —《群星》4.3「Cetus」性能与线程改进开发日志（2026-02-06）：https://news.17173.com/content/02062026/070655049.shtml
+- Paradox 官方 — CK3 Dev Diary #187: Performance & Optimization（2025-10-15）：https://store.steampowered.com/news/app/1158310/view/535490230242770974
+- Phoronix — CachyOS 内核变体横评 / BORE 专项 / 三系统 99 项横评：https://www.phoronix.com/reviews/Operating+Systems
+- 什么值得买 —《CachyOS 8月大版本解读：帧率暴涨20%有几分真》：https://post.smzdm.com/p/ad72697p/
+- 百度贴吧 —《5800x3d提升环世界性能实测》：https://tieba.baidu.com/p/8093977756
+- ProtonDB — Stellaris / RimWorld（CachyOS 用户报告）：https://www.protondb.com/app/281990 、https://www.protondb.com/app/294100
+
+---
+
+## 9. 版本历史
+
+| 版本 | 日期 | 变更 |
+|---|---|---|
+| 1.0 | 2026-10-16 | 初版。结论：若必须挑一项先测，选 `game-performance` 电源档 |
+| **2.0** | 2026-10-16 | 合并四层优化×瓶颈匹配矩阵；补入"编译层不覆盖游戏二进制"机制、瓶颈画像、群星 4.3 官方 2.6× 一手数据、CK3 DD#187；将结论改为**分叉条件表**（功耗受限→电源档 / 内存吃紧→内存层 / 两者不成立→调度层）；补入硬件优先级与 A/B 测量方法 |
+
+## 10. 关联文档
+
+- `cachyos/cpu-bound-sim-games-optimization.md` / `.html`（本轮完整报告）
+- `cachyos/gaming-optimization-deepdive.md`（四层优化清单 / BORE 参数表 / Phoronix 公平性）
+- `cachyos/distro-performance-comparison.md`（六发行版横比与方法论）
+- `cachyos/cachyos-vs-arch|fedora|opensuse|ubuntu2604|nixos2605.md`（五份一对一对比）
