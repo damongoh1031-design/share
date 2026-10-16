@@ -13,3 +13,4 @@
 | [ai-subscription-20usd-2026.md](ai-subscription-20usd-2026.md) | 20 美元档 AI 订阅横评事实库：v4.2 四榜单交叉（LiveBench 2.0 / CursorBench 4.0 / Arena / AA）+ ChatGPT Go 档位模型权限 | 7 | 2026-10-15 |
 | [workbuddy-user-skills-migration-bundle.md](workbuddy-user-skills-migration-bundle.md) | WorkBuddy 资产跨 IDE 迁移打包：skills（48 个）+ PAT + 专家包（6 包 26 agents），含去密、`_work`/`.in_use` 剔除、恢复步骤与踩坑 | 1.1.0 | 2026-10-14 |
 | [google-sheets-bulk-write-leading-zero-values.md](google-sheets-bulk-write-leading-zero-values.md) | Google Sheets 批量写入保留前导零：二维字符串数组、`RAW` 输入及写入数量和首尾值校验 | 1 | 2026-10-16 |
+| [db1-shopee-driver-runbook.md](db1-shopee-driver-runbook.md) | **DB1 电话反查驱动器实际运行手册**：四道关卡（gog token 有效性 / 沙箱代理剥离 / 隐藏 cmd stdout 编码含命中名 `£` 崩溃 / WMI+VBS 脱离会话启动）+ 外层持久循环（探活→休眠→续跑，批号持久计数防 jsonl 重复行）+ rc 判读表；**第一轮 ✅ 2026-10-15 前 10000 行查完（A 列 3071，命中率 29.2%）**；**第二轮 🔄 2026-10-16 行 10001–20000 已启动**（`MAX_ROWS=20000`、`--max-rows 20000` 必传，起点 10001 批号 34，当前被封自动等待） | 6 | 2026-10-16 |
