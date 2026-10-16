@@ -1,21 +1,28 @@
 ---
 id: goose-docs-zh-translation-pipeline
 title: goose 官方文档中文手册 —— 全量翻译流水线、围栏感知审计与 8 条坑
-tags: [goose, documentation, translation, pipeline, subagent, audit, markdown, docusaurus]
+tags:
+  - goose
+  - documentation
+  - translation
+  - pipeline
+  - subagent
+  - audit
+  - markdown
+  - docusaurus
 created: 2026-10-15
 updated: 2026-10-15
-version: 1.1
+version: 1.2
 status: stable
 source: 本项目实测（2026-10-15，22 章 / 173 页全量翻译 + 审计 + GitHub 同步）
 confidence: 已核实
-type: Checklist
 ---
 
 # goose 官方文档中文手册 —— 全量翻译流水线
 
 ## 一句话结论
 
-goose 官方文档库 **173 个页面 / 1,351,256 字节**已全量译为简体中文：**22 章 / 173 页面节 / 1,287,665 字节（95%）**，五项审计全绿，已推送 `damongoh1031-design/share` 的 `goose-docs-zh/`（commit `143193e`，远端 blob 哈希 26/26 逐一致）。
+goose 官方资料（仓库 `aaif-goose/goose`）**397 个源文件 / 2,793,527 字节**已全量译为简体中文：**33 章 / 397 页面节 / 2,764,724 字节（99%）**，五项审计全绿。覆盖 **文档站正文 173 页 + 博客 112 篇 + Recipe 模板 67 个 + 仓库治理 16 篇 + 文档站工程 29 个文件**，已推送 `damongoh1031-design/share` 的 `goose-docs-zh/`。
 
 ---
 
@@ -23,14 +30,14 @@ goose 官方文档库 **173 个页面 / 1,351,256 字节**已全量译为简体�
 
 | 项 | 值 |
 |---|---|
-| 源语料 | `aaif-goose/goose` → `documentation/docs/`，173 个 `.md` / `.mdx`，1,351,256 B |
-| 章节 | 22 章（`goose-docs-zh/groups.json`），覆盖 173/173 页，无重复无遗漏 |
-| 页面节 | 173 个 `## ` 节，每节带 `> 原文：<裸 URL>` 出处行 |
-| 译文体积 | 1,287,665 B / 源 1,351,256 B = **95%** |
-| 内容量 | 图片 30 · 代码块 1,089 · 表格行 808 · 标题 译 1,404 / 源 1,391 |
-| 交付文件 | 22 个章节 md + `README.md`（953 行总目录）+ `goose-zh-完整版.md`（1,074,746 B 单文件） |
-| 审计脚本 | `_verify/audit_zh.py`（围栏感知，五项判据） |
-| GitHub | `goose-docs-zh/` 26 个文件，commit `143193e` |
+| 源语料 | `aaif-goose/goose`，**397 个文件 / 2,793,527 B**，分两批：<br>① `documentation/docs/` 173 个 `.md`/`.mdx`（1,351,256 B）<br>② 其余 224 个文件（1,442,271 B）：博客 112 + Recipe yaml 67 + 仓库根 md 16 + 文档站工程 29 |
+| 章节 | **33 章**（第 1–22 章 `groups.json`，第 23–33 章 `groups_extra.json`），覆盖 397/397 文件，无重复无遗漏 |
+| 页面节 | 397 个 `## ` 节，每节带 `> 原文：<裸 URL>` 出处行 |
+| 译文体积 | 2,764,724 B / 源 2,793,527 B = **99%** |
+| 内容量 | 图片 220 · 代码块 1,579 · 表格行 1,351 · 标题 译 2,685 / 源 2,636 |
+| 交付文件 | 33 个章节 md + `README.md`（1,936 行总目录）+ `goose-zh-完整版.md`（2,453,287 B 单文件）+ 两个 groups 索引 |
+| 审计脚本 | `_verify/audit_zh.py`（**多源版**，围栏感知，五项判据） |
+| GitHub | `goose-docs-zh/`（commit 见 git log） |
 
 章节目录（章号 → 页数 / 体积）：
 
@@ -58,6 +65,13 @@ goose 官方文档库 **173 个页面 / 1,351,256 字节**已全量译为简体�
 | 20 | 教程（二）：工作流与可观测性 | 10 | 83,360 |
 | 21 | 架构、远程部署与 GDK | 11 | 47,708 |
 | 22 | 排错与实验特性 | 12 | 44,697 |
+| 23–29 | **博客存档 112 篇**（2024-11 ~ 2026-09） | 112 | 977,567 |
+| 30 | Recipe 模板库（一）：顶层 Recipe | 44 | 206,530 |
+| 31 | Recipe 模板库（二）：子 Recipe | 23 | 91,495 |
+| 32 | 仓库治理文档 | 16 | 118,749 |
+| 33 | 文档站工程与站点页面 | 29 | 47,930 |
+
+第 23–29 章博客分批（每章 ≤ 20 篇 / ≤ 180 KB）：23=2024-11~2025-03（20 篇）、24=2025-04~05（18）、25=2025-06~07（10）、26=2025-08（15）、27=2025-09~12（19）、28=2026-01~02（15）、29=2026-03~09（15）。
 
 ---
 
@@ -167,6 +181,9 @@ EOF
 | 6 | **`git ls-tree` 中文文件名是八进制转义** | 哈希复核全部报 DIFF | 默认 `core.quotePath=true`，输出 `"goose-zh-13-MCP\346\211\251..."`；用 `sed` 去引号无法解码 | 用 `git ls-tree -r -z` + Python `split(b'\x00')` 解析；或 `-c core.quotePath=false` |
 | 7 | **目录同步是镜像覆盖**（github-sync 坑 10） | 会静默删除仓库里多出的文件、把新版本回退 | `sync.py` 对目录执行 `rmtree(dest)` + `copytree(src,dest)` | 推前必跑 `--dry-run` 看 CHANGED 列表；**确认没有意外删除**再推。能拆单文件就拆单文件 |
 | 8 | **429 限流会阻塞整批翻译** | 子代理返回 `429 too many requests / usage exceeds frequency limit` | 日额度 / 频率限制 | 额度恢复后**并行 7 章一次性跑通**；受阻时如实记录恢复时间，**绝不用摘要或猜测填充未产出章节** |
+| 9 | **YAML 里嵌缩进围栏会让 Markdown 提前闭合**（**真实渲染缺陷**，不只是审计误报） | 审计报「页面节 43≠44」「20≠23」；渲染时 YAML 块被截断、后续页面节标题落进代码块 | Recipe 的 `prompt:` 字段里写了 2 空格缩进的 ` ``` ` 示例。**闭围栏允许 ≤3 空格缩进**，于是它合法地关闭了外层 ` ```yaml ` 块 | **把外层围栏升级为 4 个反引号** ` ````yaml ` `（闭围栏必须 ≥ 开围栏长度，内部 3 反引号不再闭合它）。脚本 `_verify/fix_extra.py`，本次修 10 块 |
+| 10 | **围栏计数也必须走围栏感知** | 升级为 4 反引号后，用 `^ {0,3}``` 正则计数仍会把块内缩进围栏算进去 → 奇偶判断失真 | 正则只看行首，不看上下文 | 让 `split_code` 同时返回「被识别为围栏的行集合」，计数用它 |
+| 11 | **子代理会留下分片临时文件** | 推送时把 `_p23_2.md`、`_tmp27_p1.md` 一起推上 GitHub | 大章分片写临时文件后忘记删除 | 推前 `ls` 确认无 `_tmp*` / `_p*`；dry-run 的 CHANGED 列表里也能看到 |
 
 ### 其他值得记的
 
@@ -176,27 +193,39 @@ EOF
 
 ---
 
-## 6. 覆盖范围与未覆盖清单（2026-10-15 全量核查）
+## 6. 覆盖范围（2026-10-15 已全量覆盖）
 
-### 已覆盖
+### 覆盖结果
 
-`documentation/docs/**/*.{md,mdx}` —— **173 个文件 / 1,351,256 B** → 22 章 / 173 页面节 / 1,287,572 B。
-
-### 未覆盖：合计 1,435,014 B（≈ 已覆盖规模的 106%，约 200 个文件）
-
-| 类别 | 路径模式 | 数量 | 字节 | 性质 |
+| 批次 | 路径 | 文件 | 字节 | 章节 |
 |---|---|---|---|---|
-| **博客文章** | `documentation/blog/<date>-<slug>/index.{md,mdx}` | **112** | 977,567 | 文档站 `/blog/`；2024×4、2025×78、2026×30 |
-| Recipe 模板库 | `documentation/src/pages/recipes/data/recipes/**.yaml` | 67 | 298,025 | 站点 Recipe 库数据（含 `ralph-loop.sh`） |
-| 仓库根文档 | `<repo-root>/*.md` | 16 | 118,749 | README / CONTRIBUTING / GOVERNANCE / SECURITY / RELEASE / RELEASE_CHECKLIST / I18N / MAINTAINERS / BUILDING_DOCKER / BUILDING_LINUX / CUSTOM_DISTROS / RISCV_SETUP / CODE_OF_CONDUCT / AGENTS / CLAUDE / MERGE_FIXES |
-| documentation 级 | `documentation/{README,AGENTS,CLAUDE}.md` + `documentation/automation/**/*.md` | 6 | 28,745 | 文档站仓库自身的说明与自动化文档 |
-| blog 目录说明 | `documentation/blog/README.md` | 1 | 4,986 | 博客投稿规范 |
-| 站点页面 | `documentation/src/pages/grants.md` | 1 | 4,758 | `/grants` 页 |
-| 文档示例文件 | `documentation/docs/docker/{Dockerfile,docker-compose.yml}` | 2 | 3,867 | 被 docs 页引用的示例 |
-| 站点数据说明 | `documentation/src/pages/{community/data,recipes/data/recipes}/README.md` | 2 | 3,303 | 数据目录说明 |
-| 侧栏元数据 | `documentation/docs/**/_category_.json` | 17 | 2,271 | Docusaurus 侧栏分类，无正文，通常不需译 |
+| 一 | `documentation/docs/**/*.{md,mdx}` | 173 | 1,351,256 | 1–22 |
+| 二 | `documentation/blog/**/index.{md,mdx}` | 112 | 977,567 | 23–29 |
+| 二 | `documentation/src/pages/recipes/data/recipes/**.yaml` | 67 | 298,025 | 30–31 |
+| 二 | `<repo-root>/*.md` | 16 | 118,749 | 32 |
+| 二 | 文档站工程：`documentation/{README,AGENTS,CLAUDE}.md`、`documentation/automation/**`、`blog/README.md`、`src/pages/grants.md`、`src/pages/**/README.md`、`docs/docker/*`、`docs/**/_category_.json` | 29 | 47,930 | 33 |
+| **合计** | | **397** | **2,793,527** | **33 章** |
 
-**口径说明**：本项目立项范围是「文档站正文页（`docs/`）」。博客、仓库根治理文档、Recipe 数据**不在此范围**；若目标是「goose 全量中文资料」，则上述 1.37 MB 仍是缺口。
+### 第一批为什么会漏（根因）
+
+立项时把抓取范围写死为 `documentation/docs/`。`documentation/` 顶层实际结构：
+`docs`(224 文件) / `blog`(332) / `src`(163) / `static`(87) / `automation`(12) / `scripts`(9) / `plugins`(3)。
+
+**教训：定抓取范围前先枚举目标目录的顶层结构**，否则会系统性漏掉整类内容——此处漏掉的量与正文等量（1.37 MB）。
+
+### 第二批的特殊处理（非 Markdown 文件）
+
+| 类型 | 处理方式 |
+|---|---|
+| Recipe YAML（67） | **中文导读 + 完整 YAML 原文代码块**：`## 中文标题` → `> 原文：<GitHub blob>` → 用途 → 参数表（参数名/说明/默认值）→ 所需扩展 → 完整 YAML 原文（一字不改）。既让中文读者看懂，又保证 Recipe 可直接取用 |
+| Dockerfile / docker-compose.yml | 同上：中文导读 + 完整原文代码块 |
+| `_category_.json`（17） | 中文说明（侧栏显示名 + 排序）+ 原文 JSON 代码块 |
+
+### 博客章的出处 URL 规则（与 docs 章不同）
+
+源 `documentation/blog/2025-03-06-goose-tips/index.md` → `> 原文：https://block.github.io/goose/blog/2025-03-06-goose-tips`
+即：去掉 `documentation/` 前缀 → 去掉结尾 `/index.md|mdx` → 拼 `https://block.github.io/goose/`。
+仓库内非站点文件（Recipe YAML / 仓库根 md / Dockerfile / `_category_.json`）用 `https://github.com/aaif-goose/goose/blob/main/<路径>`。
 
 ### 核查方法（可复用）
 
@@ -228,5 +257,6 @@ EOF
 
 ## 修订记录
 
+- **1.2**（2026-10-15）：**补全 `docs/` 之外的全部 224 个文件 / 1,442,271 B** —— 新增第 23–33 章（博客 7 章 112 篇、Recipe 模板 2 章 67 个 YAML、仓库治理 16 篇、文档站工程 29 个），全手册达 **33 章 / 397 页面节 / 99% 体积**。新增坑 9–11（YAML 内嵌缩进围栏致 Markdown 提前闭合、围栏计数须围栏感知、子代理分片临时文件）；第 6 节改为「已全量覆盖」并补第二批非 Markdown 文件的处理策略。
 - **1.1**（2026-10-15）：补第 6 节「覆盖范围与未覆盖清单」——用 Trees API 全树枚举发现 `docs/` 之外尚有 **1,435,014 B / 约 200 个文件**未覆盖（博客 112 篇 977,567 B 为主）；补「译文是否漏译」三项核查方法与实测结论；修正 `tutorials/subagents.md` 一处 frontmatter `image:` 泄漏为正文图。
 - **1.0**（2026-10-15）：首次沉淀。记录 22 章 / 173 页全量完成、流水线 7 步、审计五项判据、围栏感知解析规则、8 条坑。
