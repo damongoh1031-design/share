@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS 优化收益排序 · CPU 密集型模拟游戏（RimWorld / 群星 / CK3）</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#131a23; --card:#161d27; --line:#243040;
+    --fg:#e6edf3; --fg2:#9fb0c3; --fg3:#6b7d92;
+    --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149; --purple:#bc8cff;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--fg2);font-size:14px}
+  h2{font-size:19px;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent)}
+  h3{font-size:15px;margin:28px 0 10px;color:var(--fg)}
+  p{color:var(--fg2);margin:10px 0}
+  strong{color:var(--fg)}
+  code{font-family:var(--mono);background:#1f2733;padding:1.5px 6px;border-radius:4px;font-size:.88em;color:#79c0ff}
+  .tldr{background:linear-gradient(135deg,#15202e,#131a23);border:1px solid var(--line);
+    border-left:3px solid var(--good);border-radius:10px;padding:22px 24px;margin:0 0 8px}
+  .tldr p{margin:0;color:var(--fg);font-size:15px}
+  .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0}
+  .vcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .vcard .rank{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:700}
+  .vcard .name{font-size:16px;font-weight:700;color:var(--fg);margin:6px 0 8px}
+  .vcard .val{font-family:var(--mono);font-size:22px;font-weight:700}
+  .vcard .note{font-size:12.5px;color:var(--fg3);margin-top:8px;line-height:1.6}
+  .r1{border-color:#2d4a34}.r1 .val{color:var(--good)}
+  .r2{border-color:#3d4a2d}.r2 .val{color:var(--warn)}
+  .r3{border-color:#2d3d4a}.r3 .val{color:var(--accent)}
+  .r4{border-color:#4a2d2d}.r4 .val{color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#131a23;color:var(--fg2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  td{color:var(--fg2)}
+  td strong{color:var(--fg)}
+  tr:hover td{background:#121924}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+    font-family:var(--mono);white-space:nowrap}
+  .t-zero{background:#3a1d1d;color:#ff8b84}
+  .t-small{background:#3a331d;color:#e3b341}
+  .t-mid{background:#1d2f3a;color:#79c0ff}
+  .t-big{background:#1d3a26;color:#56d364}
+  ul{color:var(--fg2);padding-left:22px;margin:12px 0}
+  li{margin:7px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .box.warn{border-left:3px solid var(--warn)}
+  .box.bad{border-left:3px solid var(--bad)}
+  .box.good{border-left:3px solid var(--good)}
+  .box h3{margin-top:0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d1d9;margin:16px 0}
+  pre .c{color:var(--fg3)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}.wrap{padding:28px 16px 64px}h1{font-size:23px}}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">CachyOS 深度调研 · 第九轮</div>
+  <h1>CPU 密集型模拟游戏：CachyOS 哪一项优化收益最大？</h1>
+  <div class="sub">RimWorld · 群星 Stellaris · CK3 &nbsp;|&nbsp; 调研日期 2026-10-16 &nbsp;|&nbsp; 承接前八轮 CachyOS 系列</div>
+</header>
+
+<div class="tldr">
+  <p><strong>一句话结论：</strong>对这三款游戏，CachyOS 的<strong>头牌优化（全仓库 x86-64-v3/v4 + LTO/PGO/BOLT 重编译）几乎零收益</strong>——游戏本体是厂商预编译的二进制，发行版重编译碰不到它。收益最大的那一项是<strong>内核的内存管理 + 调度延迟层</strong>（MGLRU / THP / swappiness+ZRAM / BORE-EEVDF 调参 / 1000Hz / PREEMPT_DYNAMIC），量级为<strong>个位数百分比</strong>；<strong>唯一能产生"量级差异"的场景是内存吃紧时避免磁盘 swap</strong>。</p>
+</div>
+
+<h2>一、收益排序（结论先行）</h2>
+<div class="verdict">
+  <div class="vcard r1">
+    <div class="rank">冠军</div>
+    <div class="name">内核内存管理 + 调度延迟层</div>
+    <div class="val">+1–5%</div>
+    <div class="note">MGLRU / THP <code>defer+madvise</code> / BORE-EEVDF 调参 / 1000Hz / PREEMPT_DYNAMIC<br>唯一作用于游戏实际执行路径的一层</div>
+  </div>
+  <div class="vcard r2">
+    <div class="rank">条件性冠军</div>
+    <div class="name">swappiness=100 + ZRAM</div>
+    <div class="val">0 或 量级</div>
+    <div class="note">仅在物理内存 &lt; 存档工作集时生效<br>内存充足时是<strong>净负项</strong>（压缩耗 CPU）</div>
+  </div>
+  <div class="vcard r3">
+    <div class="rank">季军</div>
+    <div class="name">电源档 / 单核睿频维持</div>
+    <div class="val">0–3%</div>
+    <div class="note">台式机接近 0；笔记本 / 掌机因功耗受限<strong>显著</strong></div>
+  </div>
+  <div class="vcard r4">
+    <div class="rank">基本无效</div>
+    <div class="name">v3/v4 + LTO/PGO/BOLT 重编译</div>
+    <div class="val">≈ 0</div>
+    <div class="note">只重编译内核 / glibc / Mesa / Proton<br><strong>不覆盖游戏二进制</strong></div>
+  </div>
+</div>
+
+<h2>二、先定瓶颈：这三款游戏吃什么</h2>
+<table>
+  <thead><tr><th>游戏</th><th>引擎</th><th>主瓶颈</th><th>后期内存足迹</th><th>缓存敏感度</th></tr></thead>
+  <tbody>
+    <tr><td><strong>RimWorld</strong></td><td>Unity (Mono)</td><td><strong>单线程 TPS</strong>，主线程单核 100%</td><td>轻度 4–8 GB；<strong>重度 mod 8–30 GB</strong></td><td><span class="tag t-big">极高</span></td></tr>
+    <tr><td><strong>群星</strong></td><td>Clausewitz</td><td><strong>单核为主</strong> + 少量并行</td><td>1000 星后期 8–16 GB</td><td><span class="tag t-mid">高</span></td></tr>
+    <tr><td><strong>CK3</strong></td><td>Clausewitz</td><td><strong>主核 CPU0 长期高占用</strong> + 内存带宽压力</td><td>后期 6–10 GB</td><td><span class="tag t-mid">高</span></td></tr>
+  </tbody>
+</table>
+<div class="box">
+  <h3>四个共同点（全部分析的地基）</h3>
+  <ul>
+    <li><strong>"后期慢" = 单线程吞吐不足</strong>——推进速度由一条主线程的 IPC × 频率决定。</li>
+    <li><strong>指针追逐 + 大工作集</strong> → 对 <strong>L3 容量</strong>与<strong>内存延迟</strong>高度敏感（这正是 X3D 在这类游戏上收益大的原因）。</li>
+    <li><strong>内存足迹随时间单调增长</strong> → 内存压力是常态（RimWorld 重度 mod 尤其）。</li>
+    <li><strong>显卡几乎不参与</strong>——1080p 和 4K 下都是 CPU 瓶颈。</li>
+  </ul>
+  <p style="margin-top:14px"><strong>推论：</strong>能真正加速它们的只有四件事——单核 IPC × 频率、内存延迟/带宽、L3 容量、RAM 容量。发行版只能碰到其中两项的一半。</p>
+</div>
+
+<h2>三、CachyOS 四层优化 × 瓶颈匹配矩阵</h2>
+<table>
+  <thead><tr><th>层</th><th>具体项</th><th>作用于游戏执行路径？</th><th>预期收益</th><th>置信度</th></tr></thead>
+  <tbody>
+    <tr><td>编译层</td><td>v3/v4/znver4 + LTO/PGO/BOLT/AutoFDO</td><td>❌ 不覆盖游戏二进制</td><td><span class="tag t-zero">≈ 0</span>（间接 &lt;1–2%）</td><td>高</td></tr>
+    <tr><td>内核层</td><td>MGLRU + Cachy Sauce MM 调参 + THP</td><td>✅ 内存回收与 TLB</td><td><span class="tag t-mid">+1–5%</span></td><td>中</td></tr>
+    <tr><td>内核层</td><td>BORE / EEVDF 调参 / SCX / sched-cluster + 1000Hz + PREEMPT_DYNAMIC</td><td>✅ 所有任务</td><td><span class="tag t-small">吞吐 +0–3%</span>，尾部延迟改善更大</td><td>中</td></tr>
+    <tr><td>系统层</td><td>vm.swappiness=100 + ZRAM(zstd) + 关 zswap</td><td>✅ 仅内存吃紧时</td><td><span class="tag t-big">0 或量级</span></td><td>中高（条件性）</td></tr>
+    <tr><td>系统层</td><td>game-performance 电源档 + amd_pstate/EPP</td><td>✅ 单核睿频维持</td><td><span class="tag t-small">台式 0–3%</span>／笔记本显著</td><td>中</td></tr>
+    <tr><td>系统层</td><td>I/O 调度器按设备分配 + dirty 参数</td><td>⚠️ 只影响加载/存档写入</td><td><span class="tag t-zero">小</span></td><td>中</td></tr>
+    <tr><td>运行时层</td><td>Proton-CachyOS / FSR4 / Reflex / NTSync</td><td>❌ 与这三款无关</td><td><span class="tag t-zero">≈ 0</span></td><td>高</td></tr>
+  </tbody>
+</table>
+<p>把「作用于游戏执行路径」这一列筛出来，只剩<strong>内核内存管理、内核调度、系统层内存/电源</strong>三类——这就是全部候选池。</p>
+
+<h2>四、为什么头牌优化失效（最反直觉的一点）</h2>
+<div class="box bad">
+  <h3>宣传口径 ≠ 机制</h3>
+  <p>CachyOS 的说法是"编译优化减少 CPU 空转 → 收益落在吃 CPU 的地方"，因此<strong>推不出</strong>"CPU 密集型游戏收益最大"。</p>
+  <ul>
+    <li><strong>包仓库重编译的对象是发行版自己的包</strong>（内核、glibc、Mesa、Proton、库）。游戏二进制来自 Steam / 厂商，<strong>CachyOS 不参与其构建</strong>。</li>
+    <li><strong>这三款都有原生 Linux 版</strong>。走原生版时连 Proton 都不在链路上，编译层覆盖面进一步缩小到"内核 + glibc + Mesa"。</li>
+    <li><strong>模拟循环写在游戏自己的代码里</strong>，而那段代码由厂商用厂商的编译选项构建，v3/v4/LTO/PGO 一个都吃不到。</li>
+    <li><strong>唯一剩下的间接路径</strong>：glibc 的 <code>malloc</code>/<code>memcpy</code>（早已 IFUNC 运行时分派，增量很小）与内核自身的页回收/调度路径（亚百分比级）。</li>
+  </ul>
+  <p style="margin-top:14px"><strong>一句话：</strong>招牌对"发行版自己的软件"有效（编译器、渲染、AI 推理——这正是 Phoronix 99 项里它赢 51 项的地方），对"厂商预编译的游戏本体"基本无效。<strong>宣传里的"CPU 密集"指负载类型，不指游戏。</strong></p>
+</div>
+
+<h2>五、唯一能"量级"改变的一项</h2>
+<div class="grid2">
+  <div class="box good">
+    <h3>✅ 成立条件</h3>
+    <p>物理内存 &lt; 存档工作集（RimWorld 重度 mod 常见，群星 1000 星后期亦可能）。此时 <code>swappiness=100</code> + ZRAM 把匿名页留在<strong>压缩内存</strong>里，避免磁盘 swap 造成的微秒→毫秒级跃迁。</p>
+  </div>
+  <div class="box warn">
+    <h3>⚠️ 反直觉的代价</h3>
+    <p>ZRAM 的压缩/解压<strong>消耗 CPU</strong>。对 CPU 密集型游戏这是<strong>真实负项</strong>——内存充足时依赖 ZRAM 反而可能变慢。</p>
+    <p><strong>正确排序：加内存 &gt; ZRAM &gt; 磁盘 swap。</strong></p>
+  </div>
+</div>
+
+<h2>六、可复用操作（任意发行版）</h2>
+<pre><span class="c"># 1) THP：减少大堆内存的 TLB miss</span>
+echo 'defer+madvise' | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+
+<span class="c"># 2) ZRAM 兜底（仅内存 &lt; 存档工作集时才值得开）</span>
+sudo pacman -S zram-generator
+printf '[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd\nswap-priority = 100\n' \
+  | sudo tee /etc/systemd/zram-generator.conf
+echo 'vm.swappiness = 100' | sudo tee /etc/sysctl.d/99-swap.conf
+
+<span class="c"># 3) 电源档：避免单核睿频被省电策略压住</span>
+powerprofilesctl set performance      <span class="c"># Fedora 用 tuned</span>
+
+<span class="c"># 4) 调度延迟：sched-ext 可运行时切换，无需换内核</span>
+scxctl start --scheduler scx_lavd     <span class="c"># Arch: scx-scheds / openSUSE: scx</span>
+
+<span class="c"># 5) 跑原生 Linux 版，不要走 Proton（这三款都有原生版）</span></pre>
+<p><strong>BORE / BMQ 不在主线</strong>，必须换 <code>linux-cachyos</code> 内核或自编译补丁——这是 CachyOS 唯一无法在其他发行版"纯官方仓库"里复现的内核项。</p>
+
+<h2>七、坑与反直觉</h2>
+<ul>
+  <li><strong>"CPU 密集型游戏吃编译优化"是营销口径，不是机制。</strong>编译器层碰不到游戏二进制。</li>
+  <li><strong>"收益在 1% low"作为卖点对这三款游戏错位。</strong>它们的痛点是吞吐（TPS / 回合推进），不是帧时间抖动。</li>
+  <li><strong>"4K 下优势消失"这条边界条件不适用</strong>——这三款在任何分辨率都是 CPU 瓶颈。</li>
+  <li><strong>换发行版的收益 &lt; 升级硬件。</strong>加速手段排序：<strong>X3D CPU（L3 容量） &gt; 内存容量 &gt; 内核/调度调优 &gt; 换发行版</strong>。但即使上 X3D，群星后期 1000 星仍会卡——游戏架构问题，发行版救不了。</li>
+  <li><strong>ZRAM 有 CPU 开销</strong>，内存充足时是净负项。</li>
+</ul>
+
+<h2>八、未核实 / 存疑</h2>
+<ul>
+  <li><strong>没有任何</strong> CachyOS 针对这三款游戏的公开对照基准 → 本报告量级为<strong>结构性推断</strong>。</li>
+  <li><strong>BORE 对模拟类游戏吞吐的影响</strong>：无公开数据。</li>
+  <li><strong>RimWorld 5800X3D +30%</strong>：贴吧/B站个人实测，单样本 → 社区实证。</li>
+  <li><strong>CK3"主核占用高 + 内存带宽压力"</strong>：百度文库二手分析 → 推断。</li>
+  <li><strong>THP/MGLRU 与 ZRAM 在该场景的增益/开销百分比</strong>：机制成立，量级未标定。</li>
+</ul>
+
+<h2>九、一手证据：开发者自己怎么说（最硬的校准）</h2>
+<p>这一节把上面的推断钉在<strong>第一方数据</strong>上——因为它给出了所有发行版优化的<strong>参照系</strong>。</p>
+<div class="box good">
+  <h3>群星 4.3「Cetus」开发日志（2026-02-06，官方）</h3>
+  <p>同一台机器（<strong>i9-14900K / 32GB / RTX 3060</strong>）、巨型星系、士官难度、同存档同随机种子，用 <code>-gamestatetimer</code> 记录"每年秒数"：</p>
+  <table style="margin-top:14px">
+    <thead><tr><th>版本</th><th>开局速度</th><th>后期速度</th></tr></thead>
+    <tbody>
+      <tr><td>3.14</td><td>30.52 秒/年</td><td><strong>2269 年退化到 44.63 秒/年</strong></td></tr>
+      <tr><td><strong>4.3</strong></td><td><strong>11.54 秒/年</strong></td><td>直到 2269 年才退化到 3.14 的<strong>开局</strong>速度</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px"><strong>≈ 2.6× 提升，且全部来自游戏自身代码层</strong>：依赖跟踪减少 <strong>CPU 等待时间</strong>与"月度卡顿"、减小线程批处理粒度以更好分布到多核、<strong>重用内存并减少更新中的分配/释放</strong>、把触发器计算移到合适的脉冲（微刻/日刻/周刻/月刻/年刻）、优化字符串函数与舰队图标逻辑。</p>
+</div>
+<div class="box warn">
+  <h3>三条直接推论</h3>
+  <ul>
+    <li><strong>游戏版本 &gt; 一切发行版优化。</strong>3.14 → 4.3 是 <strong>2.6 倍</strong>；CachyOS 相对通用发行版在这类负载上是<strong>个位数百分比</strong>。</li>
+    <li><strong>群星不是纯单线程</strong>，瓶颈含"CPU 等待"与"内存分配抖动" → 印证内核调度/内存层是唯一有效的发行版抓手，但天花板由游戏代码决定。</li>
+    <li><strong>CK3 开发日志 #187（2025-10-15）</strong>同样把性能作为专门主题，基调是"新增功能的模拟负载需要专项优化" → 后期慢的主因在<strong>游戏代码与存档规模</strong>。</li>
+  </ul>
+  <p style="margin-top:12px">⚠️ 方法学提醒：官方测试用 <strong>Windows</strong> 机器、且是<strong>版本间</strong>对比，不是发行版间对比。它证明的是"游戏自身优化量级"，不是"Linux 比 Windows 快多少"。</p>
+</div>
+
+<h2>十、与前序 KB 结论的对齐</h2>
+<p>仓库中已有前序会话产出的 KB 文档 <code>cachyos/kb/cachyos-cpu-bound-strategy-games.md</code>（v1.0，结论：<em>"若必须挑一项先测，选 <code>game-performance</code> 性能电源档"</em>）。本报告与它<strong>不矛盾，而是给出分叉条件</strong>：</p>
+<table>
+  <thead><tr><th>机器条件</th><th>冠军项</th><th>量级</th></tr></thead>
+  <tbody>
+    <tr><td><strong>功耗受限</strong>（笔记本 / 掌机 / 小机箱 / 温度墙）</td><td><code>game-performance</code> 电源档 / 单核睿频维持</td><td>可显著</td></tr>
+    <tr><td><strong>内存吃紧</strong>（重度 mod 存档 / RAM &lt; 工作集）</td><td><code>vm.swappiness=100</code> + ZRAM + THP/MGLRU</td><td>0 或 <strong>量级</strong></td></tr>
+    <tr><td><strong>两者都不成立</strong>（台式 + 内存充足）</td><td>只剩调度延迟层</td><td>个位数百分比</td></tr>
+  </tbody>
+</table>
+<p>前序文档的"电源档"结论在<strong>功耗受限机器</strong>上成立；本报告补充了<strong>内存吃紧</strong>分支，并给出"两者都不成立时收益退化为个位数"的上界。两版合并后写入 KB v2.0。</p>
+
+<footer>
+  <p>第九轮 · CachyOS 系列（共 9 组 11 份报告）｜ 报告日期 2026-10-16</p>
+  <p>来源：CachyOS 官方 Wiki / GitHub、Phoronix、什么值得买边界条件分析、贴吧 / B站 / 百度文库 / ProtonDB 社区实测。核心结论为结构性推断，机制明确但缺该场景对照实测。</p>
+</footer>
+
+</div>
+</body>
+</html>
