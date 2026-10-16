@@ -14,7 +14,7 @@ tags:
   - stability
 created: 2026-10-16
 updated: 2026-10-16
-version: 2.0
+version: 2.1
 status: stable
 source: 本机直接 HTTP 抓取各发行版官方仓库/镜像/GitHub API/nixpkgs 源文件（openSUSE TW+Slowroll、Arch、Fedora 44、Ubuntu 26.04+26.10、NixOS 26.05、Bazzite）+ 前 14 轮报告（Phoronix 基准、proton-cachyos GitHub Releases、flatpak issue #6199、ublue Containerfile）+ 结构性推断
 confidence: 已核实
@@ -30,6 +30,12 @@ confidence: 已核实
 
 根本原因：**原生游戏的瓶颈在硬件，发行版贡献 ≈ 0**（游戏二进制厂商预编译）→ 该把稳定性拉满；**Proton 场景的唯一杠杆是翻译层与图形栈时效性** → 要最新版 + 能兜底的滚动发行。
 
+**v2.1 关键修正 —— 三条"隐藏门槛"**（不体现在任何版本对照表里，却直接决定游戏能不能跑）：
+
+1. **openSUSE 默认不装 32 位 Vulkan** → Steam 里的 Proton 游戏**黑屏 / 崩溃**。修：`sudo zypper in libvulkan_radeon-32bit`
+2. **openSUSE 的 NVIDIA 走 KMP 内核模块包 → 内核升级即驱动损坏**（6.18 事件）→ **改写场景 ③ 裁决：NVIDIA 用户不推荐 openSUSE**
+3. **NixOS `hardware.graphics.enable32Bit` 默认 `false`** → 漏设则 Proton 崩溃
+
 ---
 
 ## 1. 三场景 × 8 候选 裁决矩阵
@@ -37,11 +43,11 @@ confidence: 已核实
 | 候选 | ① CPU 原生 | ② CPU Proton | ③ GPU Proton (AMD) | ③ GPU Proton (NVIDIA) | 关键判据 |
 |---|---|---|---|---|---|
 | **openSUSE Slowroll** | 🥇 **冠军** | 🥈 备选 | 🥈 备选 | 🥈 备选 | 月度更新 + **默认 Btrfs+snapper** + 内核 7.2.8；Mesa 仅滞后 TW 2 周 |
-| **openSUSE Tumbleweed** | 🥉 可用 | 🥇 **冠军** | 🥇 **冠军** | 🥈 备选 | Mesa 26.2.4 + 内核 7.2.10 双料最新；**官方 scx 1.1.3** |
+| **openSUSE Tumbleweed** | 🥉 可用 | 🥇 **冠军** | 🥇 **冠军** | ❌ **不推荐**（KMP 驱动） | Mesa 26.2.4 + 内核 7.2.10 双料最新；**官方 scx 1.1.3**；⚠️ **NVIDIA 走 KMP 模块，内核升级即损坏** |
 | **Bazzite**（Fedora 44 Atomic） | 🥈 **亚军** | 🥈 **强亚军** | 🥈 **强亚军** | 🥈 **亚军** | 游戏栈全预装 + **原子回滚 + greenboot** + **CachyOS COPR 的 scx-scheds** |
 | **Arch** | ❌ 无默认回滚 | 🥉 | 🥉 | 🥉 | 性能同档 TW，输在"炸了要自己救" |
 | **Fedora 44 KDE** | ⚠️ | ⚠️ | ⚠️ | ⚠️ | Mesa 26.2.4 + 内核 7.2.10 都最新，但**官方无 scx + 无默认回滚** |
-| **Kubuntu 26.04 LTS** | ⚠️ | ❌ Mesa 落后 | ⚠️ | 🥇 **冠军** | N 卡用专有驱动 → Mesa 无关；驱动分发最省事 + LTS 到 2031 |
+| **Kubuntu 26.04 LTS** | ⚠️ | ❌ Mesa 落后 | ⚠️ | 🥇 **冠军** | N 卡用专有驱动 → Mesa 无关；驱动分发最省事 + LTS 到 2031。⚠️ 只有 Wayland，无 X11 兜底 |
 | **Kubuntu 26.10** | ⚠️ | ⚠️（跑分第一） | ⚠️（跑分第一） | ⚠️ | **Mesa 26.2.4 + 内核 7.3.0 全池最新，但无回滚 + 仅 9 个月** |
 | **NixOS 26.05** | ⚠️ | ❌ | ❌ | ❌ | 回滚最强，**游戏栈时效性最弱**（Mesa 26.1.8） |
 
@@ -69,6 +75,16 @@ confidence: 已核实
 4. **Fedora 44 官方确认无 `scx-scheds`**（`packages.fedoraproject.org` / `src.fedoraproject.org` 均 404）。
 5. **NixOS 26.05 实测**：Mesa **26.1.8**（`common.nix`）；默认内核 **6.18**（`linux_default = linux_6_18`，≥6.14 故有 NTSync）；**有 `scx` 包**。→ v1.0 的"未核实"闭环。
 6. **openSUSE 是唯一官方仓库同时有 scx + gamemode + mangohud + steam 的**（除 Bazzite 的 COPR 路线）。
+
+### 2.2 三条"隐藏门槛"（v2.1 补入 —— 装完才发现就晚了）
+
+| 门槛 | 命中哪些候选 | 症状 | 修法 |
+|---|---|---|---|
+| **32 位 Vulkan 库** | **openSUSE TW / Slowroll 默认不装**；**NixOS `hardware.graphics.enable32Bit` 默认 false** | Steam 里的 Proton 游戏**黑屏 / 启动即崩溃** | openSUSE：`sudo zypper in libvulkan_radeon-32bit`（AMD）/ `libvulkan_intel-32bit`（Intel）；NixOS：`hardware.graphics.enable32Bit = true;` |
+| **NVIDIA 驱动 = KMP 内核模块包** | **openSUSE TW / Slowroll** | **内核一升级，NVIDIA 驱动直接损坏**（社区已记录 6.18 事件），须回退旧内核等 KMP 重编 | **无优雅解** → **NVIDIA 用户应避开 openSUSE 滚动** |
+| **NTSync 是否默认加载** | 全部（内核 ≥ 6.14 都有模块，差别在**是否默认加载**） | 未加载 → 1% low 与 alt-tab 退化（平均帧几乎不变） | `sudo sh -c 'echo ntsync > /etc/modules-load.d/ntsync.conf'`；**Fedora 44 是首个用 `wine-ntsync` 包默认启用的发行版** |
+
+**对比**：**Arch 的 32 位 Vulkan 在 multilib 开箱即有**（Proton 零配置）；**Bazzite 预装全部游戏栈**。
 
 ---
 
@@ -130,6 +146,7 @@ ls /sys/kernel/sched_ext && echo "sched_ext OK"
 ls /dev/ntsync || sudo modprobe ntsync          # NTSync 需内核 >= 6.14
 
 sudo zypper install gamemode mangohud scx steam # 全部官方仓库
+sudo zypper install libvulkan_radeon-32bit      # ★ 32 位 Vulkan，Proton 必需（默认不装）
 sudo zypper install systemd-zram-service
 
 sudo tee /etc/sysctl.d/99-gaming.conf <<'EOF'
@@ -148,6 +165,7 @@ sudo snapper list && sudo snapper rollback <编号>   # 出事回滚
 
 ```bash
 sudo zypper install gamemode mangohud scx steam
+sudo zypper install libvulkan_radeon-32bit      # ★ 32 位 Vulkan（默认不装，漏了 Proton 黑屏）
 
 # proton-cachyos 官方发独立 x86_64_v3 tarball，任何发行版可用，无需装 CachyOS
 TAG="cachyos-11.0-20261005-slr"                 # 用前先查最新 tag
@@ -164,9 +182,11 @@ MANGOHUD=1 MANGOHUD_CONFIG=fps,frametime,gpu_util %command%   # GPU < 90% 才是
 ```bash
 # AMD
 sudo zypper install mesa-vulkan-drivers mesa-dri-drivers vulkan-tools
+sudo zypper install libvulkan_radeon-32bit      # ★ 32 位 Vulkan，Proton 必需
 vulkaninfo --summary | grep -E "driverName|driverInfo"
 
 # NVIDIA (Kubuntu 26.04 LTS；注意只有 Wayland)
+#   ⚠️ 不要用 openSUSE 滚动 —— NVIDIA 驱动是 KMP 内核模块包，内核升级会直接损坏驱动
 ubuntu-drivers devices && sudo ubuntu-drivers install && nvidia-smi
 
 # 可选：整体切 amd64v3（官方提供，实测含 mesa-vulkan-drivers）
@@ -220,6 +240,12 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 | "Fedora 的 SELinux 拖慢游戏" | 影响可忽略，不是不推荐它的理由（理由是无 scx + 无回滚 + NVIDIA 需 RPM Fusion）。 |
 | "Ubuntu 26.04 移除 X11 无所谓" | 图形栈出问题**没有 X11 兜底**，排查难度高于 24.04。N 卡尤其注意。 |
 | "NixOS 游戏栈太旧" | 半对：Mesa 26.1.8 确实偏旧，但它有 scx 包、内核 6.18（含 NTSync）、回滚最强。问题是**配置成本**与**时效性跟不上**。 |
+| **"openSUSE 官方有 NVIDIA 驱动所以 N 卡没问题"** | ❌ **反了**。TW / Slowroll 的 NVIDIA 是 **KMP 内核模块包**，**内核一升级驱动就损坏**，要回退旧内核等重编。**N 卡用户应避开 openSUSE 滚动。** |
+| **"装完 Steam 就能玩 Proton"** | ❌ **openSUSE 默认不装 32 位 Vulkan** → Proton **黑屏 / 崩溃**。必须 `sudo zypper in libvulkan_radeon-32bit`。 |
+| **"NixOS 的 Steam 配置照抄就行"** | ❌ `hardware.graphics.enable32Bit` **默认 false** → 漏设则 Proton 黑屏。 |
+| **"scx 调度器 = 装上就行"** | ⚠️ 要挑对。**`scx_lavd` 是 Igalia 为 Steam Deck 开发的游戏向低尾延迟调度器**。TW 还**缺 `scx_loader.service`**（未打包）→ 无自动切换。 |
+| **"RimWorld 卡顿要换图形栈"** | ❌ 反了。RimWorld 是**单线程 TPS 瓶颈**，图形栈几乎无关。该做：`taskset` 绑核 + `scx_lavd` + governor `performance` + **Performance Fish 模组**（社区公认后期提升最大）。 |
+| **"Fedora 的游戏栈比 openSUSE 差"** | ❌ 部分反了。**Fedora 44 是首个用 `wine-ntsync` 包默认启用 NTSync 的发行版**，这点比 openSUSE 强。 |
 
 ---
 
@@ -234,6 +260,8 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 | 三套方案的实际帧率增益 | 无公开同机对照基准；量级判断来自结构分析 + 一手版本差异。 |
 | Slowroll 的长期项目承诺 | 维护承诺与社区规模**弱于 Tumbleweed**，未取得官方路线图确认。 |
 | NixOS 26.05 的游戏实测 | **Phoronix 从未做过含 NixOS 的发行版横评**，性能结论全部基于结构性推断。 |
+| **openSUSE 的 `scx_loader.service` 打包状态** | 另一会话 2026-10-12 报告称"安全审查中、尚未打包"；本轮未复核。 |
+| **Fedora 44 / Kubuntu 的 32 位 Vulkan 默认状态** | 本轮未逐一核实（Arch 已确认 multilib 开箱即有；openSUSE 与 NixOS 已确认有坑）。 |
 
 ---
 
@@ -258,8 +286,9 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 
 ## 10. 关联文档
 
-- `distro-choice/round15-stability-first-8-candidates.md` / `.html`（**第 15 轮完整报告**，本文件的展开版）
+- `distro-choice/round15-stability-first-8-candidates.md` / `.html`（**第 15 轮完整报告 v2.1**，本文件的展开版）
 - `distro-choice/README.md` / `.html`（第 14 轮：候选池含 Debian 13 / Solus 4.9）
+- `../linux-distro-research/reports/linux-gaming-perf-2026-10.md`（**同仓库另一会话 2026-10-12**：六层优化模型 / **32 位 Vulkan 门槛** / **NVIDIA KMP 痛点** / `scx_lavd` 游戏定位 / RimWorld 特化）—— **本文件 v2.1 的"隐藏门槛"来源**
 - [`x86-64-v3-mesa-by-distro.md`](./x86-64-v3-mesa-by-distro.md)（各发行版 v3 Mesa 供给）
 - [`ubuntu2604-thirdparty-kernel-mesa-ppa.md`](./ubuntu2604-thirdparty-kernel-mesa-ppa.md)（Ubuntu 第三方内核/PPA 取舍）
 - `../cachyos/`（前 13 轮：六发行版横比、五份一对一、三份场景专项、四层优化清单）
@@ -272,3 +301,4 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 |---|---|---|
 | 1.0 | 2026-10-16 | 初版。三场景 × 8 候选（openSUSE TW/Slowroll、Arch、Fedora 44、Ubuntu 26.04、Debian 13、NixOS 26.05、Solus 4.9）裁决矩阵 + 一手版本对照 + 三套落地方案 |
 | **2.0** | 2026-10-16 | **候选池替换**：+**Bazzite**（全新，第 15 轮）、+**Kubuntu 26.10**（Mesa 26.2.4 / 内核 7.3.0），Fedora/Ubuntu 明确到 KDE 版，移除 Debian/Solus；**新增 §5 Bazzite 解剖**（Containerfile / CachyOS COPR / greenboot / 游戏栈清单）；**修正 NixOS 26.05 实测值**（Mesa 26.1.8 / 内核 6.18 / 有 scx 包，v1.0 的"未核实"闭环）；§4 "稳定三维度"加入 Bazzite 的原子回滚档位；新增 Bazzite 落地方案 |
+| **2.1** | 2026-10-16 | **新增 §2.2 三条"隐藏门槛"**（与同仓库 `linux-distro-research/reports/linux-gaming-perf-2026-10.md` 交叉校验后补入）：① **openSUSE 默认不装 32 位 Vulkan** → Proton 黑屏；② **openSUSE 的 NVIDIA 走 KMP 内核模块包，内核升级即损坏** → **改写 §1 矩阵，NVIDIA 列从"备选"改为"不推荐"**；③ **NixOS `hardware.graphics.enable32Bit` 默认 false**；补入 `scx_lavd` 的游戏向定位与 NixOS 一行声明式启用、**Fedora 44 首个用 `wine-ntsync` 默认启用 NTSync**、RimWorld 特化（`taskset` + Performance Fish）、TW 的 `power-profiles-daemon` / `scx_loader` 缺位；§7 坑表 +7 条 |
