@@ -157,7 +157,27 @@
 - 建议把历史素材、数据放进去，让 Work 直接做选题、标题优化、月度数据分析。
 - **重要观念**：把 Work 当"任务工作区"，不要当唯一存储位置。源码进正式仓库，重要成果下载或显式存到 Library / 项目。沙箱状态、聊天记录、Library 文件、项目文件**生命周期不同**——聊天还在 ≠ 进程还在跑。
 
-### 4.5 常见"翻车"场景
+### 4.5 材料放在 Google Drive（官方事实）
+
+| 项 | 说明 |
+|---|---|
+| 可用范围 | 资料库中的 Google Drive 正逐步向**网页版** Plus / Pro / Business / Enterprise / Edu / Healthcare 推出；**「对话」与「工作」两种模式下均可使用**，移动端稍后 |
+| 权限 | 遵循你现有的 Drive 权限；初期含「我的云端硬盘」+ 直接分享给你的项目，**尚不含「共享云端硬盘」** |
+| 调用 | 资料库中浏览/搜索 → 输入框或 `@提及` 加入对话；也可选中**文件夹**要求综合处理 |
+| 关键性质 | 资料库中的 Drive 文件**保持与原始来源的连接**（非静态副本）；官方明确：**受支持且获授权时，ChatGPT 可直接更新原始文件** |
+| 删除 | **无法**从 ChatGPT 删除 Drive 文件，须回 Drive 操作 |
+
+**放 Drive 的收益与代价**
+
+- 收益：跨端/关机问题消失（云端 Work 直接读 Drive）；`@文件名` 即用，始终指向最新版；Drive 自带版本历史可回滚。
+- 代价：**它改的是原稿本身**（链接非副本）。防护：走"两轮制"（第一轮只出对照表并禁止改文件，确认后第二轮才写回）+ 要求另存为新文件 + 禁用文件夹级指令。
+- 格式建议：Google Docs 原生格式带自动格式化（智能引号、自动更正）；要精确控制标点缩进，稿子用 `.md` / `.docx` 存 Drive 更稳。
+
+**资料库容量（官方）**：Free 500 MB｜Go 4 GB｜Plus / Business 20 GB｜Pro 100 GB。单文件 ≤ 512 MB，文字/文档类 ≤ 200 万 token。资料库占用与「每日附件/对话用量」分开计算。
+
+**训练开关**：Free / Plus / Go / Pro 若开启「为所有人改进模型」，通过应用访问的信息**可能被用于训练**；Business / Enterprise / Edu 默认不用于训练。未发表作品建议关闭。
+
+### 4.6 常见"翻车"场景
 
 1. 任务描述模糊（"做个好看的 PPT"）→ Work 无法执行，因为它不知道"好看"和该放什么。
 2. 数据来源不清晰（没说文件在哪、怎么关联）→ 读错文件或漏关键数据。
@@ -281,6 +301,8 @@ Work 的底层就是 agentic loop：
 
 - [OpenAI Learn：Get started with ChatGPT Work](https://learn.chatgpt.com/docs/get-started-with-work)
 - [OpenAI 帮助中心：ChatGPT 中的定时任务](https://help.openai.com/zh-hans-cn/articles/10291617-tasks-in-chatgpt)
+- [OpenAI 帮助中心：使用档案库管理 ChatGPT 中的文件](https://help.openai.com/zh-hant-hk/articles/20001052-file-storage-and-library-in-chatgpt)
+- [OpenAI 帮助中心：ChatGPT 中的已连接应用](https://help.openai.com/zh-hans-cn/articles/11487775-apps-in-chatgpt)
 - [OpenAI 帮助中心：ChatGPT 中的技能](https://help.openai.com/zh-hant/articles/20001066-skills-in-chatgpt)
 - [OpenAI 帮助中心：Developer mode and MCP apps in ChatGPT](https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt-beta)
 - [OpenAI 帮助中心：ChatGPT 智能代理](https://help.openai.com/zh-hant-hk/articles/11752874-chatgpt-agent)
