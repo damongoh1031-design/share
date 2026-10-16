@@ -192,6 +192,7 @@ scxctl start --scheduler scx_lavd         # Arch: scx-scheds / openSUSE: scx / N
 
 ## 10. 关联文档
 
+- [`cachyos-proton-games-optimization.md`](./cachyos-proton-games-optimization.md)（**Proton 运行的游戏**：2077 / Palworld / Soulmask —— 冠军换层为「翻译层 + 运行时栈」）
 - `cachyos/cpu-bound-sim-games-optimization.md` / `.html`（本轮完整报告）
 - `cachyos/gaming-optimization-deepdive.md`（四层优化清单 / BORE 参数表 / Phoronix 公平性）
 - `cachyos/distro-performance-comparison.md`（六发行版横比与方法论）
