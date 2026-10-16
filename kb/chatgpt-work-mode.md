@@ -12,7 +12,7 @@ tags:
   - openai
 created: 2026-10-16
 updated: 2026-10-16
-version: 1.2.0
+version: 1.2.1
 status: draft
 source: 本次会话调研（OpenAI 官方帮助中心 / OpenAI Learn / 百度百科 / 一线实测文章）
 confidence: 社区实证
@@ -199,6 +199,8 @@ confidence: 社区实证
 | 跨章一致性检查 | **Work**（可选中文件夹要求综合处理） |
 | 批量统一格式 / 导出成品 | **Work**，写回新文件 |
 | 想逐行确认每处改动 | 把 Drive 里的 `.md` 同步进 git → **Codex**（出 diff） |
+
+> 想把它做成长期"知识库"（含索引、项目指令、四层架构）→ 见 [gdrive-as-knowledge-base.md](gdrive-as-knowledge-base.md)。
 
 ## 可复用操作
 
