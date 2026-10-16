@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ubuntu 26.04 LTS：第三方内核 + Mesa PPA 值不值得？</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161d27; --line:#243040;
+    --fg:#e6edf3; --fg2:#9fb0c3; --fg3:#6b7d92;
+    --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:29px;line-height:1.32;margin:12px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--fg2);font-size:14px}
+  h2{font-size:19px;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent)}
+  h3{font-size:15px;margin:28px 0 10px;color:var(--fg)}
+  p{color:var(--fg2);margin:10px 0}
+  strong{color:var(--fg)}
+  code{font-family:var(--mono);background:#1f2733;padding:1.5px 6px;border-radius:4px;font-size:.88em;color:#79c0ff}
+  .tldr{background:linear-gradient(135deg,#15202e,#131a23);border:1px solid var(--line);
+    border-left:3px solid var(--good);border-radius:10px;padding:22px 24px;margin:0 0 8px}
+  .tldr p{margin:0 0 12px;color:var(--fg);font-size:14.5px}
+  .tldr p:last-child{margin-bottom:0}
+  .tldr .n{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;
+    background:var(--accent);color:#0d1117;border-radius:50%;font-size:12px;font-weight:800;margin-right:8px;font-family:var(--mono)}
+  .answer{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:22px 0}
+  .acard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+  .acard .who{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:700}
+  .acard .yn{font-size:24px;font-weight:800;margin:8px 0 6px;font-family:var(--mono)}
+  .acard .d{font-size:13px;color:var(--fg2);line-height:1.65}
+  .yes{border-color:#2d4a34}.yes .yn{color:var(--good)}
+  .no{border-color:#4a2d2d}.no .yn{color:var(--bad)}
+  .mid{border-color:#3a3a1d}.mid .yn{color:var(--warn)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#131a23;color:var(--fg2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  td{color:var(--fg2)}
+  td strong{color:var(--fg)}
+  tr:hover td{background:#121924}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+    font-family:var(--mono);white-space:nowrap}
+  .t-yes{background:#1d3a26;color:#56d364}
+  .t-no{background:#3a1d1d;color:#ff8b84}
+  .t-mid{background:#1d2f3a;color:#79c0ff}
+  .t-warn{background:#3a331d;color:#e3b341}
+  ul{color:var(--fg2);padding-left:22px;margin:12px 0}
+  li{margin:7px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .box.warn{border-left:3px solid var(--warn)}
+  .box.bad{border-left:3px solid var(--bad)}
+  .box.good{border-left:3px solid var(--good)}
+  .box h3{margin-top:0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d1d9;margin:16px 0}
+  pre .c{color:var(--fg3)}
+  pre .ok{color:#56d364}
+  pre .no{color:#ff8b84}
+  pre .hi{color:#e3b341}
+  .bar{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:6px 0 4px;border:1px solid var(--line)}
+  .bar div{display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;font-family:var(--mono);color:#0d1117}
+  .b1{background:#58a6ff;width:51%}
+  .b2{background:#8b949e;width:38%}
+  .b3{background:#d29922;width:10%}
+  .legend{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--fg2);margin-top:8px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  @media(max-width:720px){.wrap{padding:28px 16px 64px}h1{font-size:22px}.bar{height:26px}}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Linux 游戏性能系列 · 第十三轮</div>
+  <h1>Ubuntu 26.04 LTS：第三方内核（XanMod / Liquorix 等）+ Mesa PPA 值不值得？</h1>
+  <div class="sub">一手探测 Ubuntu 归档 / Launchpad PPA / deb.xanmod.org / liquorix.net &nbsp;|&nbsp; 2026-10-16</div>
+</header>
+
+<div class="tldr">
+  <p><span class="n">1</span><strong>amd64v3 不用找第三方 —— Ubuntu 26.04 LTS 官方自带。</strong>实测 <code>resolute</code> 的 main/universe/restricted/multiverse <strong>以及 -updates / -security 六个位置全部提供 <code>binary-amd64v3</code></strong>，含 <code>mesa-vulkan-drivers</code>（RADV）。一行配置开启（opt-in）。</p>
+  <p><span class="n">2</span><strong>Mesa PPA 按需上，不是默认动作。</strong><code>kisak-mesa</code> 在 resolute 上给 <strong>Mesa 26.2.5</strong>（自带 26.0.3），而且 PPA 自己也发 <code>amd64v3</code>。只在遇到具体 Mesa/RADV bug 时才值得。</p>
+  <p><span class="n">3</span><strong>第三方内核基本不值得。</strong>XanMod（resolute ✓，7.2.11）和 Liquorix（resolute ✓，7.2.10，<strong>且无 v3</strong>）只比自带的 <strong>Linux 7.0.0-14</strong> 新一点点，而 7.0 已含 <code>sched_ext</code> + MGLRU + NTSync。代价是 DKMS 易碎 + 无安全更新承诺。</p>
+</div>
+
+<div class="box good">
+  <h3>量级参照（最关键的一条）</h3>
+  <p>Phoronix 在<strong>同一台</strong> Razer Blade 18 上跑 99 项测试：CachyOS（Linux 7.1 + GCC 16.1.1 + 全套 v3/v4 重编译 + BORE + 更新的 NVIDIA 驱动）赢 <strong>51%</strong>，Windows 11 赢 38%，<strong>Ubuntu 26.04 LTS 只赢 10%</strong>、垫底 43%。<strong>但几何平均是"窄胜"</strong>——连整套 CachyOS 优化堆起来都只是险胜，单换一个内核能拿到的份额只会更小。</p>
+</div>
+
+<h2>一、先看清起点：26.04 LTS 本身给了什么</h2>
+<p>26.04 LTS（<strong>Resolute Raccoon</strong>，2026-04-23 发布，标准支持到 2031-04，Pro 到 2036）不是"旧栈需要打补丁"：</p>
+<table>
+  <thead><tr><th>项</th><th>26.04 LTS 自带（实测/官方）</th><th>评价</th></tr></thead>
+  <tbody>
+    <tr><td><strong>内核</strong></td><td><strong>Linux 7.0.0-14.14</strong>（<code>linux-image-generic</code>，实测）</td><td>含 <strong>sched_ext / MGLRU / NTSync</strong></td></tr>
+    <tr><td><strong>Mesa</strong></td><td><strong>26.0.3-1ubuntu1</strong>（实测）</td><td>中上</td></tr>
+    <tr><td><strong>amd64v3</strong></td><td><span class="tag t-yes">✅ 官方 opt-in</span></td><td><strong>不需要任何第三方仓库</strong></td></tr>
+    <tr><td><strong>图形会话</strong></td><td><strong>Wayland 唯一</strong>（X11 会话已移除）；<strong>VRR 默认开启</strong>；HDR 原生</td><td>对游戏净利好</td></tr>
+    <tr><td><strong>实时内核</strong></td><td>PREEMPT_RT 进主仓库，免费</td><td>不再需要 Pro</td></tr>
+    <tr><td><strong>NVIDIA</strong></td><td>595 系</td><td>比 CachyOS 的 R610 旧一个大版本</td></tr>
+    <tr><td><strong>工具链</strong></td><td>GCC 15.2 / Python 3.13.9 / Rust 1.93 / APT 3.0</td><td>APT 3.0 支持 <code>apt history-undo</code></td></tr>
+  </tbody>
+</table>
+<p><strong>关键含义</strong>：第三方内核的卖点里，<strong>调度器（sched_ext）和内存管理（MGLRU）26.04 已经有了</strong>。剩下能"多拿"的只有：更新的上游版本号、发行版特有补丁集、Mesa 的小版本差。</p>
+
+<h2>二、amd64v3：官方就够，别找第三方</h2>
+<h3>2.1 实测：六个位置全部提供 v3 包</h3>
+<pre><span class="c"># 本次直接抓取归档索引（HTTP 状态码）</span>
+dists/resolute/main/binary-amd64v3/Packages.gz            <span class="ok">200</span>
+dists/resolute/universe/binary-amd64v3/Packages.gz        <span class="ok">200</span>
+dists/resolute/restricted/binary-amd64v3/Packages.gz      <span class="ok">200</span>
+dists/resolute/multiverse/binary-amd64v3/Packages.gz      <span class="ok">200</span>
+dists/resolute-updates/main/binary-amd64v3/Packages.gz    <span class="ok">200</span>   <span class="c">← 安全更新也有</span>
+dists/resolute-security/main/binary-amd64v3/Packages.gz   <span class="ok">200</span>   <span class="c">← 安全更新也有</span></pre>
+<p><code>-updates</code> 和 <code>-security</code> 也有 v3 包，意味着 <strong>开 v3 不会让你掉出安全更新通道</strong>——这是"值得开"的关键前提。</p>
+
+<h3>2.2 机制：不是新架构，是"同架构的变体"</h3>
+<pre>Package: mesa-vulkan-drivers
+<span class="hi">Architecture: amd64</span>          <span class="c">← 注意：仍是 amd64，不是 amd64v3</span>
+Version: 26.0.3-1ubuntu1
+
+main/amd64v3 包数 : <span class="ok">6487</span>
+main/amd64   包数 : <span class="ok">6487</span>   <span class="c">← 完全相同</span></pre>
+<p><strong>→ 同一批源码、同一套依赖关系，用 <code>-march=x86-64-v3</code> 重新编译的一份平行构建</strong>，靠 APT 3.0 的 <em>Architecture Variants</em> 机制切换，不是新增 dpkg 架构。所以<strong>不能同时装 v1 和 v3</strong>——只能整体切换。这也解释了为什么是 opt-in。</p>
+
+<h3>2.3 开启方式（官方，一行）</h3>
+<pre>echo 'APT::Architecture-Variants "amd64v3";' | sudo tee /etc/apt/apt.conf.d/99enable-amd64v3
+sudo apt update &amp;&amp; sudo apt full-upgrade
+
+<span class="c"># 前置：CPU 需支持 x86-64-v3（AVX2 / FMA / BMI1 / BMI2 / MOVBE）</span>
+grep -o -m1 -E 'avx2|bmi2|fma' /proc/cpuinfo | sort -u   <span class="c"># 三条都要有</span>
+
+<span class="c"># 回滚</span>
+sudo rm /etc/apt/apt.conf.d/99enable-amd64v3 &amp;&amp; sudo apt update</pre>
+<p><strong>注意</strong>：实测 <code>releases.ubuntu.com/26.04/</code> 只发布 <code>amd64</code> ISO（只有 <code>ubuntu-26.04-desktop-amd64.iso</code> / <code>-live-server-amd64.iso</code> / <code>26.04.1</code> 同款），<strong>没有 amd64v3 ISO</strong>。所以 v3 是"装完之后开"。（26.10 那边反而有 amd64v3 daily ISO。）</p>
+
+<div class="box good">
+  <h3>值不值：值，因为成本几乎为零</h3>
+  <p><strong>收益小</strong>：Phoronix 对 Ubuntu 25.10 amd64v3 的标题是 <em>"Some Minor &amp; Rare Performance Advantages For Desktop Workloads"</em>；机制上 RADV 的着色器编译走 LLVM（面向 GPU，与宿主 ISA 无关），受益的只是主机侧 Mesa 代码。<br>
+  <strong>成本低</strong>：一行配置 + 一次 <code>full-upgrade</code>，官方维护，安全更新不断档。<br>
+  <strong>→ ✅ 值得。它是"免费抽奖"，不是"性能方案"。</strong></p>
+</div>
+
+<h2>三、Mesa PPA：按需，不是默认动作</h2>
+<table>
+  <thead><tr><th>来源</th><th>resolute 可用</th><th>Mesa 版本（实测）</th><th>是否发 amd64v3</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Ubuntu 自带</strong></td><td>—</td><td><strong>26.0.3-1ubuntu1</strong></td><td><span class="tag t-yes">✅ 官方归档</span></td></tr>
+    <tr><td><strong>kisak/kisak-mesa</strong></td><td><span class="tag t-yes">✅ Release 200</span></td><td><strong>26.2.5~kisak1~r</strong></td><td><span class="tag t-yes">✅ 200</span></td></tr>
+    <tr><td><strong>oibaf/graphics-drivers</strong></td><td><span class="tag t-yes">✅ Release 200</span></td><td>mesa-git 每日构建（版本未取到）</td><td><span class="tag t-yes">✅ 200</span></td></tr>
+  </tbody>
+</table>
+<p>两个 PPA 都跟上了 resolute，而且<strong>都提供 amd64v3 变体</strong>（它们的 <code>Release</code> 里 <code>Architectures:</code> 明确列出 <code>amd64v3</code>）。这意味着 <strong>PPA + v3 可以叠加</strong>，不冲突。</p>
+
+<h3>什么时候值得装</h3>
+<div class="answer">
+  <div class="acard yes">
+    <div class="who">值得</div>
+    <div class="yn">按需 ✅</div>
+    <div class="d">
+      · 遇到<strong>具体的 Mesa/RADV bug</strong>（崩溃、渲染错误、VRR 异常）<br>
+      · <strong>新硬件</strong>（新 GPU / 新 APU）在 26.0.3 上支持不全<br>
+      · 需要<strong>新版才有的特性</strong>（FSR4、新 RADV 优化、新 VK 扩展）<br>
+      · 刚发布的<strong>新游戏</strong>已知对 Mesa 版本敏感
+    </div>
+  </div>
+  <div class="acard no">
+    <div class="who">不值得</div>
+    <div class="yn">别装 ❌</div>
+    <div class="d">
+      · 26.0.3 已经能跑你的游戏 → 平均帧收益通常测不出来<br>
+      · 你只是想"更新一点" → LTS 上装 PPA 是拿稳定性换版本号<br>
+      · 你不想处理 Wayland 会话崩溃的回滚
+    </div>
+  </div>
+</div>
+
+<h3>LTS 上装 PPA 的真实代价</h3>
+<table>
+  <thead><tr><th>风险</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Wayland 会话崩溃</strong></td><td>26.04 是 <strong>Wayland 唯一</strong>（X11 会话已删），PPA 覆盖 Mesa 库时若出问题，<strong>没有 X11 兜底</strong>。这是 26.04 相比 24.04 新出现的风险</td></tr>
+    <tr><td>与 HWE 栈冲突</td><td>26.04 LTS 后续会推 HWE 内核/图形栈，PPA 固定在某些 Mesa 版本上容易打架</td></tr>
+    <tr><td>依赖漂移</td><td>26.04 的 <code>libc6 &gt;= 2.43</code>、<code>libllvm21</code> 等基础库与 PPA 构建目标可能错位</td></tr>
+    <tr><td>回滚不干净</td><td>必须用 <code>ppa-purge</code>；<code>apt remove</code> 会留下半旧包和依赖错位</td></tr>
+  </tbody>
+</table>
+<p><strong>建议姿势</strong>：把它当<strong>临时工具</strong>而不是长期状态——遇到问题时装、验证、然后决定留还是 purge。</p>
+
+<h2>四、第三方内核：XanMod / Liquorix 实测</h2>
+<table>
+  <thead><tr><th>内核</th><th>Ubuntu 26.04 支持</th><th>版本</th><th>ISA 变体</th><th>仓库</th></tr></thead>
+  <tbody>
+    <tr><td><strong>XanMod</strong></td><td><span class="tag t-yes">✅ Release 200</span></td><td><strong>7.2.11-xanmod1</strong></td><td><code>x64v1</code>/<code>v2</code>/<code>v3</code>（<span class="tag t-no">无 v4</span>）</td><td><code>deb.xanmod.org</code></td></tr>
+    <tr><td><strong>Liquorix</strong></td><td><span class="tag t-yes">✅ Release 200</span></td><td><strong>7.2-18ubuntu1~resolute</strong></td><td><span class="tag t-no">只有 amd64（v1）</span></td><td><code>liquorix.net/ubuntu/</code></td></tr>
+    <tr><td><strong>Ubuntu 自带</strong></td><td>—</td><td><strong>7.0.0-14.14</strong></td><td><code>amd64</code> + <code>amd64v3</code> 变体</td><td>官方归档</td></tr>
+  </tbody>
+</table>
+<p><strong>一个暴露结构的细节</strong>：Liquorix 的版本串是 <code>7.2-18<strong>ubuntu1~resolute</strong></code>——这个后缀说明它是<strong>拿 Ubuntu 自己的内核源码包，叠加 Zen/Liquorix 补丁集重新构建</strong>。后果有二：① 继承了 Ubuntu 的 <code>amd64</code> 单架构（<strong>没有 v3</strong>）；② 天然贴合 Ubuntu 的模块 ABI 约定，比 XanMod 的"独立树"更不容易踩 DKMS。<br>
+<strong>XanMod 则是独立树</strong>（<code>gitlab.com/xanmod/linux</code>），版本跟主线更紧（7.2.11 vs Ubuntu 7.0）。</p>
+
+<h3>XanMod 到底多给了什么</h3>
+<table>
+  <thead><tr><th>XanMod 特性</th><th>Ubuntu 26.04 已有？</th><th>净增量</th></tr></thead>
+  <tbody>
+    <tr><td>Google MGLRU（多代 LRU）</td><td><span class="tag t-yes">✅ 7.0 已默认</span></td><td><strong>0</strong></td></tr>
+    <tr><td><code>sched_ext</code>（SCX）支持</td><td><span class="tag t-yes">✅ 7.0 已含</span></td><td><strong>0</strong></td></tr>
+    <tr><td>BBRv3 TCP 拥塞控制（默认）</td><td>部分</td><td>小</td></tr>
+    <tr><td><strong>Firelzrd 'le9uo'</strong>（内存压力下保护匿名页/干净页）</td><td><span class="tag t-no">❌</span></td><td><span class="tag t-warn">★ 真实增量</span></td></tr>
+    <tr><td>Clear Linux 补丁集（部分）</td><td><span class="tag t-no">❌</span></td><td>小～中</td></tr>
+    <tr><td>LLVM Polly / Software Pipelining / 额外 x86_64 优化</td><td><span class="tag t-no">❌</span></td><td>小</td></tr>
+    <tr><td>Graysky 的 GCC/Clang CPU 选项</td><td><span class="tag t-no">❌</span></td><td>小</td></tr>
+    <tr><td>ORC unwinder / PCIe ACS Override / Steam Deck EC / Android Binder</td><td><span class="tag t-no">❌</span></td><td>与游戏无关或小众</td></tr>
+  </tbody>
+</table>
+<div class="box warn">
+  <h3>真正值得注意的只有 <code>le9uo</code></h3>
+  <p>它针对"内存压力下不该被换出的页"做保护。对照本系列<strong>第九轮的结论</strong>（CPU 密集模拟游戏的冠军是内核"内存管理 + 调度延迟"层，且唯一能量级差异的场景是"内存吃紧时避免磁盘 swap"）——<code>le9uo</code> 正好打在这个点上。</p>
+  <p><strong>如果你的机器内存吃紧（16GB 或更少、跑大存档的群星 / CK3），XanMod 的 <code>le9uo</code> 是这一整轮里唯一有理论依据的第三方内核增量。</strong>（但无游戏实测基准，属结构性推断。）</p>
+</div>
+
+<h3>但风险清单是硬的</h3>
+<p>XanMod 官方<strong>自己</strong>在页面顶部写着：<em>"The current NVIDIA, OpenZFS, VirtualBox, VMware Workstation / Player and some other dkms modules <strong>may not support the latest kernel versions</strong>."</em></p>
+<table>
+  <thead><tr><th>风险</th><th>具体后果</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DKMS 断裂</strong></td><td>NVIDIA 驱动（26.04 用 595 系）随内核升级需重编模块；XanMod 跟主线太快时模块编译失败 → 掉到 nouveau / 黑屏</td></tr>
+    <tr><td><strong>无安全更新承诺</strong></td><td>Ubuntu 的 CVE 补丁按 LTS 节奏走，XanMod 靠上游 + 作者个人。<strong>26.04 的 LTS 承诺（到 2031）对第三方内核不成立</strong></td></tr>
+    <tr><td>回滚麻烦</td><td>需在 GRUB 里手动选旧内核，且要保证 Ubuntu 原内核没被清掉</td></tr>
+    <tr><td>收益不可测</td><td>不存在"Ubuntu 7.0 vs XanMod 7.2"的游戏对照基准（Phoronix 做的是发行版间对比，不是内核间）</td></tr>
+    <tr><td>Livepatch 失效</td><td>Ubuntu Pro 的 Livepatch 只覆盖 Ubuntu 签名内核</td></tr>
+  </tbody>
+</table>
+
+<h2>五、收益校准：CachyOS vs Ubuntu 26.04 LTS 同机实测</h2>
+<p>本轮最有价值的一手数据（Phoronix，2026-07-15）。硬件：<strong>Razer Blade 18 RZ09-0582，Intel Core Ultra 9 290HX Plus + NVIDIA GeForce RTX 5090 Laptop</strong>（$5399，雷蛇首款走 Canonical 认证的笔记本）。</p>
+
+<table>
+  <thead><tr><th></th><th>Ubuntu 26.04 LTS</th><th>CachyOS</th><th>Windows 11</th></tr></thead>
+  <tbody>
+    <tr><td>内核</td><td>Linux <strong>7.0</strong></td><td>Linux <strong>7.1</strong></td><td>—</td></tr>
+    <tr><td>编译器</td><td>GCC 15.2</td><td><strong>GCC 16.1.1</strong></td><td>MSVC</td></tr>
+    <tr><td>NVIDIA 驱动</td><td><strong>R595</strong></td><td><strong>R610</strong></td><td>官方</td></tr>
+    <tr><td>其他</td><td>默认</td><td>全套 v3/v4 重编译 + BORE + 调优</td><td>Razer 出厂配置</td></tr>
+  </tbody>
+</table>
+
+<h3>99 项测试结果</h3>
+<div class="bar">
+  <div class="b1">CachyOS 51%</div>
+  <div class="b2">Win11 38%</div>
+  <div class="b3">Ubuntu 10%</div>
+</div>
+<div class="legend">
+  <span><i style="background:#58a6ff"></i>CachyOS 拿下第一</span>
+  <span><i style="background:#8b949e"></i>Windows 11</span>
+  <span><i style="background:#d29922"></i>Ubuntu 26.04 LTS</span>
+</div>
+
+<table>
+  <thead><tr><th>指标</th><th>CachyOS</th><th>Windows 11</th><th>Ubuntu 26.04 LTS</th></tr></thead>
+  <tbody>
+    <tr><td><strong>拿下第一的比例</strong></td><td><strong>51%</strong></td><td>38%</td><td><strong>10%</strong></td></tr>
+    <tr><td><strong>垫底的比例</strong></td><td>—</td><td>约 50%</td><td><strong>43%</strong></td></tr>
+    <tr><td><strong>几何平均</strong></td><td><strong>窄胜</strong>（narrow victory）</td><td>微胜 Ubuntu</td><td>三者中最末</td></tr>
+  </tbody>
+</table>
+<p>原文：<em>"On a geo mean basis, Microsoft Windows 11 just edged past Ubuntu 26.04 LTS … Meanwhile CachyOS battled the two to secure a narrow victory on a geo mean basis."</em></p>
+
+<h3>怎么读这组数据</h3>
+<div class="answer">
+  <div class="acard no">
+    <div class="who">对 Ubuntu 不利</div>
+    <div class="yn">只赢 10%</div>
+    <div class="d">在这台机器上，Ubuntu 26.04 LTS 是三者里最弱的默认配置，<strong>垫底 43%</strong>。而且 CachyOS 还多了一个 NVIDIA 驱动大版本（R610 vs R595）——这部分<strong>不是内核/编译优化的功劳</strong>。</div>
+  </div>
+  <div class="acard mid">
+    <div class="who">对"换内核"不利</div>
+    <div class="yn">geo mean 窄胜</div>
+    <div class="d">把 CachyOS 的<strong>全部</strong>优化加在一起，整体差距仍是"窄"。你要复现的那部分里，<strong>只换一个内核能分到的份额更小</strong>。</div>
+  </div>
+</div>
+<ul>
+  <li>CachyOS 的份额里，<strong>编译层</strong>（v3/v4 + LTO/PGO/BOLT 重编译整套用户态）占相当比重 → <strong>Ubuntu 用官方 amd64v3 就能拿到这一层的大头</strong>，不需要 XanMod</li>
+  <li><strong>驱动版本差</strong>（R610 vs R595）在 NVIDIA 场景下可能贡献了可观份额 → <strong>换内核完全拿不到这一块</strong></li>
+  <li><strong>BORE / 调度调参</strong> → 只在 CPU 受限时生效，且第九轮已论证其量级是个位数百分比</li>
+</ul>
+<p><strong>结论</strong>：这组数据支持"<strong>开官方 v3 + 按需上 Mesa PPA</strong>"，<strong>不支持</strong>"为了性能换第三方内核"。</p>
+
+<h2>六、关于「linux-bqx」</h2>
+<div class="box bad">
+  <h3>查不到这个内核</h3>
+  <p>四类检索全部零结果：</p>
+  <table>
+    <thead><tr><th>检索位置</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>GitHub 仓库搜索 <code>linux-bqx</code></td><td><span class="tag t-no">0 个匹配</span></td></tr>
+      <tr><td>AUR RPC 搜索 <code>bqx</code></td><td><span class="tag t-no">0 个匹配</span></td></tr>
+      <tr><td>中文网络检索（<code>linux-bqx</code> / <code>bqx 内核</code> / <code>bqx 调度器</code>）</td><td><span class="tag t-no">无内核相关结果</span></td></tr>
+      <tr><td>Launchpad / 发行版仓库</td><td><span class="tag t-no">无</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<p><strong>可能的候选</strong>（你大概指的是其中之一）：</p>
+<table>
+  <thead><tr><th>候选</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Liquorix</strong>（常见缩写 <code>lqx</code>）</td><td>Ubuntu 可用 <span class="tag t-yes">✅</span>，本报告第四节已实测</td></tr>
+    <tr><td><strong>XanMod</strong></td><td>Ubuntu 可用 <span class="tag t-yes">✅</span>，本报告第四节已实测</td></tr>
+    <tr><td><strong>CachyOS 的 <code>linux-cachyos-bore</code> / <code>-bmq</code></strong></td><td>BORE / BMQ 调度器变体，<strong>Arch 专属，Ubuntu 用不了</strong></td></tr>
+    <tr><td><strong>linux-tkg</strong></td><td>编译脚本集（自选调度器/编译器），非二进制仓库，Ubuntu 上需自行构建</td></tr>
+    <tr><td><strong>BFQ</strong>（<code>bfq</code>）</td><td>其实是 <strong>IO 调度器</strong>不是内核；CachyOS-Settings 给 HDD 分配 bfq，所有主流内核都已内置</td></tr>
+  </tbody>
+</table>
+
+<h2>七、决策表（游戏为主）</h2>
+<table>
+  <thead><tr><th>动作</th><th>收益</th><th>风险</th><th>值不值</th></tr></thead>
+  <tbody>
+    <tr><td><strong>开官方 amd64v3</strong></td><td>小（"minor &amp; rare"）</td><td><strong>极低</strong>（官方维护、安全更新不断档、一行可回滚）</td><td><span class="tag t-yes">✅ 值得，先做这个</span></td></tr>
+    <tr><td><strong>升级到 26.04.1 + 后续 HWE 栈</strong></td><td>小～中</td><td>低</td><td><span class="tag t-yes">✅ 值得</span></td></tr>
+    <tr><td><strong>确认 NTSync 生效</strong>（Wine/Proton）</td><td>中（1% low + 兼容性）</td><td>低</td><td><span class="tag t-yes">✅ 零成本</span></td></tr>
+    <tr><td><strong>kisak-mesa PPA</strong></td><td>中（26.0.3 → 26.2.5，<strong>仅遇具体 bug 时</strong>）</td><td>中（Wayland 无 X11 兜底）</td><td><span class="tag t-warn">⚠️ 按需</span></td></tr>
+    <tr><td><strong>oibaf mesa-git PPA</strong></td><td>中高（最新特性）</td><td><strong>高</strong>（每日构建 + Wayland 唯一会话）</td><td><span class="tag t-no">❌ 除非你是测试者</span></td></tr>
+    <tr><td><strong>XanMod 内核</strong></td><td>极小（唯一亮点 <code>le9uo</code>）</td><td>中高（DKMS 断裂 / 无安全更新 / 回滚麻烦）</td><td><span class="tag t-warn">⚠️ 一般不值得</span></td></tr>
+    <tr><td><strong>Liquorix 内核</strong></td><td>极小（延迟优化；<strong>且无 v3</strong>）</td><td>中（继承 Ubuntu 源码，比 XanMod 温和）</td><td><span class="tag t-warn">⚠️ 一般不值得</span></td></tr>
+    <tr><td><strong>为性能换发行版（CachyOS）</strong></td><td>中（同机 51% vs 10%，但 geo mean 窄胜）</td><td>高（脱离 LTS 支持周期）</td><td>视你对"稳定 5 年"的估值</td></tr>
+  </tbody>
+</table>
+
+<div class="box good">
+  <h3>推荐执行顺序</h3>
+  <p><strong>1.</strong> 开官方 amd64v3（一行，零成本）<br>
+  <strong>2.</strong> 升到 26.04.1，确认 NVIDIA 驱动 + Wayland/VRR/HDR 正常<br>
+  <strong>3.</strong> 验证 NTSync 在 Wine/Proton 游戏里生效（见第十轮 KB 判据）<br>
+  <strong>4.</strong> 只在遇到具体 Mesa/RADV bug 时上 kisak PPA，问题解决后考虑 purge<br>
+  <strong>5.</strong> 别换内核，除非有明确理由：内存吃紧要 le9uo、需要 sched_ext 自定义调度器、或特定硬件在 7.0 上支持不全</p>
+</div>
+
+<h2>八、可复用操作</h2>
+<pre><span class="c"># ── 0) 先确认 CPU 够不够 v3（三条都要有）</span>
+grep -o -m1 -E 'avx2|bmi2|fma' /proc/cpuinfo | sort -u
+
+<span class="c"># ── 1) 开官方 amd64v3（Ubuntu 26.04 LTS，opt-in）</span>
+echo 'APT::Architecture-Variants "amd64v3";' | sudo tee /etc/apt/apt.conf.d/99enable-amd64v3
+sudo apt update &amp;&amp; sudo apt full-upgrade
+
+<span class="c"># 验证是否生效</span>
+apt policy mesa-vulkan-drivers
+cat /etc/apt/apt.conf.d/99enable-amd64v3
+
+<span class="c"># 回滚</span>
+sudo rm /etc/apt/apt.conf.d/99enable-amd64v3 &amp;&amp; sudo apt update
+
+<span class="c"># ── 2) 看当前实际栈（换内核/PPA 前后各跑一次做对照）</span>
+uname -r
+glxinfo -B | grep -E 'OpenGL renderer|OpenGL version'
+vulkaninfo --summary 2&gt;/dev/null | grep -E 'driverName|apiVersion'
+apt policy mesa-vulkan-drivers linux-image-generic
+
+<span class="c"># ── 3) kisak-mesa PPA（按需；26.04 上 = Mesa 26.2.5）</span>
+sudo add-apt-repository ppa:kisak/kisak-mesa
+sudo apt update &amp;&amp; sudo apt full-upgrade
+<span class="c"># 干净回滚（推荐）</span>
+sudo apt install ppa-purge &amp;&amp; sudo ppa-purge ppa:kisak/kisak-mesa
+
+<span class="c"># ── 4) XanMod 内核（⚠️ 装前先备份 / 确认 DKMS 能编）</span>
+wget -qO - https://dl.xanmod.org/archive.key | sudo gpg --dearmor -vo /etc/apt/keyrings/xanmod-archive-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org $(lsb_release -sc) main" \
+  | sudo tee /etc/apt/sources.list.d/xanmod-release.list
+sudo apt update
+apt-cache search '^linux-xanmod'          <span class="c"># 先看清有哪些变体</span>
+<span class="c"># 选 v3 变体（v4 不存在，XanMod 自己说 "x86-64-v4 (AVX-512) (no kernel benefit)"）</span>
+sudo apt install --no-install-recommends dkms libelf-dev clang lld llvm
+sudo apt install linux-xanmod-x64v3
+<span class="c"># 保留 Ubuntu 原内核以便 GRUB 回退；不要 purge linux-image-generic</span>
+
+<span class="c"># ── 5) Liquorix（Ubuntu 侧仓库已确认存在：liquorix.net/ubuntu/dists/resolute/）</span>
+<span class="c">#     安装方式以 https://liquorix.net/ 官方说明为准（本报告未实测安装流程）</span></pre>
+
+<h2>九、坑与反直觉</h2>
+<table>
+  <thead><tr><th>坑</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><strong>以为 v3 要靠第三方</strong></td><td>❌ 26.04 LTS 官方就带，还带在 <code>-security</code>/<code>-updates</code> 里。去装第三方 v3 仓库是<strong>纯增风险</strong></td></tr>
+    <tr><td><strong>以为 v3 是新架构能共存</strong></td><td>❌ <code>Architecture: amd64</code>，是<strong>变体</strong>不是新架构。不能同时装 v1+v3，只能整体切</td></tr>
+    <tr><td><strong>以为 26.04 有 amd64v3 ISO</strong></td><td>❌ 实测只有 <code>amd64</code> ISO。v3 是装完之后开（26.10 那边才有 v3 daily ISO）</td></tr>
+    <tr><td><strong>在 26.04 上装 Mesa PPA 风险比 24.04 高</strong></td><td>⚠️ 26.04 <strong>移除了 X11 会话，只剩 Wayland</strong>。Mesa 出问题没有 X11 兜底——24.04 时代不存在这个风险</td></tr>
+    <tr><td><strong>以为换内核能拿到 CachyOS 的差距</strong></td><td>❌ 51% vs 10% 里混了<strong>更新的 NVIDIA 驱动（R610 vs R595）</strong>和<strong>全套用户态 v3/v4 重编译</strong>，这两块换内核都拿不到</td></tr>
+    <tr><td><strong>以为 XanMod 有 x64v4</strong></td><td>❌ 只有 v1/v2/v3。官方自己标注 "x86-64-v4 (AVX-512) (no kernel benefit)"</td></tr>
+    <tr><td><strong>以为 Liquorix 有 v3</strong></td><td>❌ 实测 <code>Architectures: amd64</code>，<strong>只有 v1</strong>。想要 v3 内核得走 XanMod 或 CachyOS</td></tr>
+    <tr><td><strong>忽略 DKMS</strong></td><td>⚠️ XanMod 官方明说 NVIDIA/OpenZFS/VirtualBox/VMware 模块<strong>可能不支持最新内核</strong>。26.04 用 NVIDIA 595，装第三方内核前先确认模块能编</td></tr>
+    <tr><td><strong>把第三方内核当"LTS 的一部分"</strong></td><td>❌ Ubuntu 的 LTS 承诺（到 2031）<strong>不覆盖第三方内核</strong></td></tr>
+    <tr><td><strong>用 <code>apt remove</code> 回滚 PPA</strong></td><td>❌ 会留下半旧包和依赖错位。用 <code>ppa-purge</code></td></tr>
+  </tbody>
+</table>
+
+<h2>十、未核实 / 存疑</h2>
+<ul>
+  <li><strong><code>linux-bqx</code></strong>：检索无果（GitHub / AUR / 中文网络 / Launchpad），<strong>未能确认存在</strong>。见第六节候选清单。</li>
+  <li><strong>oibaf PPA 在 resolute 上的确切 Mesa 版本</strong>：<code>Packages.gz</code> 抓取多次超时/为空（该 PPA 包量大），只确认了 <code>Release</code> = 200 且 <code>Architectures</code> 含 <code>amd64v3</code>。以 <code>apt policy</code> 本地实测为准。</li>
+  <li><strong>Liquorix 的安装脚本</strong>：仓库存在已实测，<strong>安装流程未实测</strong>（本报告不给未经验证的一键脚本）。</li>
+  <li><strong>XanMod <code>le9uo</code> 的实际游戏收益</strong>：无任何公开游戏对照基准。"内存吃紧时可能有帮助"是基于第九轮结论的<strong>结构性推断</strong>。</li>
+  <li><strong>Ubuntu 7.0 与 XanMod 7.2 的游戏帧率对照</strong>：不存在。Phoronix 做的是发行版间对比，不是内核间对比。</li>
+  <li><strong>Ubuntu amd64v3 的游戏帧率增益</strong>：无游戏专项对照数据（Phoronix 只做了桌面/服务器负载）。第十二轮 KB 已记录同一缺口。</li>
+  <li><strong>26.04 LTS 后续 HWE 栈的内核版本</strong>：未核实。</li>
+  <li><strong>Phoronix 那 99 项测试的具体构成</strong>：只取到汇总。文中提到 Llama.cpp 的 OpenBLAS CPU 后端 Windows 明显更快、Vulkan 后端三者接近——说明测试含 AI 负载，不全是游戏。</li>
+</ul>
+
+<h2>十一、参考来源</h2>
+<ul>
+  <li>Phoronix — <em>Ubuntu 26.04 LTS vs. Windows 11 vs. CachyOS Performance On A $5399 Laptop</em>（2026-07-15）：<a href="https://www.phoronix.com/review/razer-blade18-windows-linux">phoronix.com/review/razer-blade18-windows-linux</a></li>
+  <li>Phoronix — <em>Canonical Experimenting With x86-64-v3 Packages For Ubuntu 26.10</em>（2026-06-08）</li>
+  <li>Phoronix — <em>Ubuntu 26.10 amd64v3 Daily ISOs Now Being Published</em>（2026-09-07）</li>
+  <li>Phoronix — <em>Ubuntu 25.10 amd64v3 Benchmarks</em>（2025-10-31，"Some Minor &amp; Rare Performance Advantages For Desktop Workloads"）</li>
+  <li>Ubuntu 26.04 LTS 归档索引（本次直接抓取）：<a href="https://archive.ubuntu.com/ubuntu/dists/resolute/">archive.ubuntu.com/ubuntu/dists/resolute/</a></li>
+  <li>异次元软件 — <em>Ubuntu 26.04 LTS 新功能汇总，值得升级吗？</em>（2026-04-27，含 amd64v3 opt-in 配置与 Linux 7.0 特性）：<a href="https://www.iplaysoft.com/ubuntu-2604.html">iplaysoft.com/ubuntu-2604.html</a></li>
+  <li>XanMod 官方（特性清单 + APT 仓库说明 + psABI 变体表）：<a href="https://xanmod.org/">xanmod.org</a></li>
+  <li>XanMod resolute 仓库（本次直接抓取）：<a href="https://deb.xanmod.org/dists/resolute/Release">deb.xanmod.org/dists/resolute/Release</a></li>
+  <li>Liquorix resolute 仓库（本次直接抓取）：<a href="https://liquorix.net/ubuntu/dists/resolute/Release">liquorix.net/ubuntu/dists/resolute/Release</a></li>
+  <li>kisak-mesa PPA（本次直接抓取）：<a href="https://ppa.launchpadcontent.net/kisak/kisak-mesa/ubuntu/dists/resolute/">ppa.launchpadcontent.net/kisak/kisak-mesa/…/resolute/</a></li>
+  <li>oibaf graphics-drivers PPA（本次直接抓取）：<a href="https://ppa.launchpadcontent.net/oibaf/graphics-drivers/ubuntu/dists/resolute/">ppa.launchpadcontent.net/oibaf/graphics-drivers/…/resolute/</a></li>
+</ul>
+
+<footer>
+  Linux 游戏性能系列 · 第十三轮 ｜ 共 13 组 18 份报告 ｜ 报告日期 2026-10-16<br>
+  证据分级：<span class="tag t-yes">实测</span> 本次直接 HTTP/API 探测 &nbsp; <span class="tag t-mid">一手媒体</span> Phoronix / 官方文档 &nbsp; <span class="tag t-warn">推断</span> 结构性分析
+</footer>
+
+</div>
+</body>
+</html>
