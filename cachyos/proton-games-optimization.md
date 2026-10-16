@@ -1,3 +1,7 @@
+---
+type: Checklist
+---
+
 # CachyOS 优化对 Proton 运行游戏的收益排序（2077 / Palworld / Soulmask 等）
 
 - **调研日期**：2026-10-16
