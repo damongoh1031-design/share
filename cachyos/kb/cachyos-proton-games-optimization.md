@@ -11,9 +11,9 @@ tags:
   - cpu-bound
 created: 2026-10-16
 updated: 2026-10-16
-version: 1.0
+version: 2.0
 status: stable
-source: Phoronix / DXVK / vkd3d-proton / CachyOS 官网（一手）+ Wine 上游 NTSync 基准表（一手，口径 vanilla Wine）+ 结构性推断
+source: Phoronix / DXVK / vkd3d-proton / CachyOS 官网 / proton-cachyos GitHub Releases API / flatpak issue #6199 / flathub Steam manifest（一手核实）+ 结构性推断
 confidence: 推断
 ---
 
@@ -172,7 +172,118 @@ MANGOHUD=1 %command%               # 看 GPU 占用率，判断瓶颈
 
 ---
 
-## 10. 参考来源
+## 10. 部署变体：只装 proton-cachyos 拿到多少（v2.0 新增）
+
+**决定性事实（一手核实）**：proton-cachyos 的 GitHub release 直接发布**独立 tarball**，且**含 `x86_64_v3` 变体**：
+
+| 资产（tag `cachyos-11.0-20261005-slr`） | 说明 |
+|---|---|
+| `proton-cachyos-11.0-20261005-slr-x86_64.tar.xz` | 通用基线（v1） |
+| **`proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz`** | **x86-64-v3 优化构建** |
+| `proton-cachyos-11.0-20261005-slr-arm64.tar.xz` | ARM64 |
+
+→ **不需要装 CachyOS 就能拿到 v3 优化的翻译层**。官方只发 v3（不发 v4，因 AVX-512 覆盖面太窄）。
+
+| 优化项 | 只装 proton-cachyos | 说明 |
+|---|---|---|
+| 翻译层（Wine / DXVK / vkd3d 的 v3 构建） | ✅ **保留** | 官方 `_v3` tarball 自带 |
+| Proton-CachyOS 补丁（FSR4 / Reflex / OptiScaler / 着色器缓存 / UMU） | ✅ 保留 | 在同一个包里 |
+| CachyOS 内核（BORE / EEVDF / 1000Hz / 补丁集） | ❌ 拿不到 | 需装 `linux-cachyos` 内核 |
+| Mesa / RADV 的 v3/v4 构建 | ❌ 拿不到 | **Proton 不打包 Mesa**，用宿主的 |
+| NTSync | ⚠️ 取决于宿主 | 需内核 ≥ 6.14 + 加载 `ntsync` |
+| CachyOS-Settings（sysctl / IO / ZRAM / THP / 电源档） | ❌ 拿不到 | 发行版层 |
+| 优化过的 glibc | ❌ 拿不到 | 宿主提供 |
+
+**结论**：拿到约**一半**——「翻译层」那一半（也正是冠军项）。
+
+---
+
+## 11. Flatpak 下损失多少（v2.0 新增）
+
+### 11.1 沙箱开销可忽略，代价在"换栈"
+
+Flatpak 用 bubblewrap **命名空间隔离**，**不拦截系统调用** → 沙箱本身对帧率影响可忽略。
+**真正的代价**：Flatpak 应用的依赖来自 runtime（`org.freedesktop.Platform`），**不是宿主**。实测清单：
+
+```
+Mesa  org.freedesktop.Platform.GL.default  25.1.7  24.08  system
+```
+
+→ **Flatpak Steam 里的 Mesa 来自 runtime 扩展，不是宿主的 Mesa**；glibc 同理。
+
+| 维度 | Flatpak Steam 下 | 影响 |
+|---|---|---|
+| Mesa / RADV | ❌ runtime 版本 | **在 CachyOS 上丢掉 v3/v4 优化构建**；滚动发行版上可能比宿主旧 |
+| glibc | ❌ runtime 版本 | 丢掉宿主 v3/v4 优化 |
+| NVIDIA 专有驱动 | ✅ 宿主提供 | GL extension 挂载宿主驱动 → N 卡受影响较小 |
+| 内核（调度 / 内存 / NTSync 驱动） | ✅ 宿主内核 | CachyOS 内核收益**保留** |
+| 沙箱开销 | 可忽略 | — |
+
+### 11.2 `/dev/ntsync` 在 Flatpak 下**可用**
+
+Flatpak 对新设备类型的默认策略：「**允许通过 `--device=all`，否则不允许**」（flatpak issue #6199）。而 **Flatpak Steam 的 manifest 含 `--device=all`**（实测 `com.valvesoftware.Steam.yml` 第 45 行，另有 `--allow=multiarch`、`--allow=devel`）→ **`/dev/ntsync` 应当可见**（仍需内核 ≥ 6.14）。
+
+### 11.3 NTSync 性能口径（flatpak 维护者，一手权威）
+
+- "**ntsync is around the same speed as fsync**"（平均帧同级）
+- 价值在 "better game/app compatibility ... and **better 1% lows** (less CPU overhead and less RAM usage)"
+- "**If you have a fast CPU it would typically already handle fsync without much issues. People who are very CPU-bottlenecked would probably still see a big performance improvement with ntsync though.**"
+- "not change as much as some people have been misled to believe based on benchmarks that **compared vanilla wine (no esync/fsync hacks) vs ntsync**"
+- 实测例：**3600X + 5700XT 上部分游戏 1% low 翻约三倍**
+- 机制：esync/fsync **完全忽略** waitstate 调用；NTSync 在内核真正实现 → "**which is why CPU bound situations under Linux punished frame rates**"
+
+### 11.4 三种部署方式的收益保留度
+
+| 优化层 | 原生 CachyOS | 别的发行版 + proton-cachyos(v3) | Flatpak Steam（+ v3 Proton） |
+|---|---|---|---|
+| 翻译层 v3 优化 | ✅ | ✅ | ✅ 需手动放入 |
+| Proton-CachyOS 补丁 | ✅ | ✅ | ✅ 需手动放入 |
+| CachyOS 内核 | ✅ | ❌ | ✅ 宿主内核 |
+| Mesa / RADV v3/v4 | ✅ | ❌ 用宿主 Mesa | ❌ **用 runtime Mesa** |
+| glibc 优化 | ✅ | ❌ | ❌ |
+| NTSync | ✅ 默认开 | ⚠️ 需内核 ≥ 6.14 | ⚠️ 需内核 ≥ 6.14 |
+| CachyOS-Settings | ✅ | ❌ | ❌ |
+| 沙箱开销 | 无 | 无 | 可忽略 |
+
+**一句话**：**翻译层优化可以"打包带走"，系统层优化不能。**
+
+### 11.5 操作
+
+```bash
+# 任何发行版：装 v3 版 proton-cachyos（无需装 CachyOS）
+TAG="cachyos-11.0-20261005-slr"      # 用前先查最新 tag
+mkdir -p ~/.steam/root/compatibilitytools.d
+curl -LO "https://github.com/CachyOS/proton-cachyos/releases/download/$TAG/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz"
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz -C ~/.steam/root/compatibilitytools.d/
+
+# Flatpak Steam：同一份 tarball，换个目录
+mkdir -p ~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz \
+    -C ~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/
+
+# 确认沙箱里的内核与 NTSync
+flatpak run --command=sh com.valvesoftware.Steam -c 'uname -r; ls -l /dev/ntsync'
+```
+
+### 11.6 新增坑（v2.0）
+
+| 坑 | 说明 |
+|---|---|
+| "Flatpak 更慢" | 沙箱开销可忽略；真正的代价是**图形栈被换成 runtime 版本** |
+| 在 CachyOS 上用 Flatpak Steam | 相当于**自废武功**：宿主优化过的 Mesa/glibc 被换成 runtime 通用版 |
+| 从 AUR 装 proton-cachyos = 官方构建？ | ❌ 自行编译的 flag 取决于本机与 PKGBUILD；要 v3 就用官方 `_v3` tarball |
+| v3 变体硬件要求 | 需 CPU 支持 **AVX2**（Intel Haswell 2013+ / AMD Excavator+） |
+| Flatpak runtime 的 Mesa 版本 | 可能**比宿主旧**（滚动发行版尤其） |
+
+### 11.7 新增未核实（v2.0）
+
+- 官方 `_v3` tarball 的**具体编译 flag**（是否含 LTO/PGO/BOLT，还是仅 `-march=x86-64-v3`）→ **未核实**，仅确认资产名
+- Flatpak 沙箱内 `/dev/ntsync` 的**实测**可用性 → 基于 manifest 的**推断**
+- **Flatpak vs 原生 Steam 的帧率对照基准** → 不存在；"沙箱开销可忽略"为机制推断
+
+---
+
+## 12. 参考来源
 
 - Phoronix — CachyOS Adds Limine Bootloader, Easier Samba Integration & NTSYNC Wine（2025-03-30）：https://www.phoronix.com/news/CachyOS-March-2025-Release
 - Phoronix — Wine 11.0 For January Release With NTSYNC & New WoW64 Mode：https://www.phoronix.com/news/Wine-11.0-January-2026
@@ -186,12 +297,26 @@ MANGOHUD=1 %command%               # 看 GPU 占用率，判断瓶颈
 - vkd3d-proton Releases：https://github.com/HansKristian-Work/vkd3d-proton/releases
 - CachyOS 官网：https://cachyos.org/
 - ProtonDB — Palworld / Just Cause 3：https://www.protondb.com/app/1623730 、https://www.protondb.com/app/225540
+- **CachyOS/proton-cachyos — GitHub Releases API（资产清单含 `x86_64_v3` tarball）**：https://api.github.com/repos/CachyOS/proton-cachyos/releases/403217640/assets
+- **proton-cachyos release tag `cachyos-11.0-20261005-slr`**：https://github.com/CachyOS/proton-cachyos/releases/tag/cachyos-11.0-20261005-slr
+- **flatpak/flatpak Issue #6199 — `/dev/ntsync` 权限 + NTSync 性能权威表述**：https://github.com/flatpak/flatpak/issues/6199
+- **flathub/com.valvesoftware.Steam — manifest（`--device=all` / `--allow=multiarch` / `--allow=devel`）**：https://github.com/flathub/com.valvesoftware.Steam/blob/master/com.valvesoftware.Steam.yml
 
 ---
 
-## 11. 关联文档
+## 13. 关联文档
 
-- `cachyos/proton-games-optimization.md` / `.html`（本轮完整报告）
+- `cachyos/proton-games-optimization.md` / `.html`（第十轮完整报告）
+- `cachyos/proton-cachyos-and-flatpak.md` / `.html`（第十一轮完整报告：部署变体 + Flatpak）
 - [`cachyos-cpu-bound-strategy-games.md`](./cachyos-cpu-bound-strategy-games.md)（原生单线程模拟游戏，第九轮）
 - `cachyos/gaming-optimization-deepdive.md`（四层优化清单 / BORE 参数表）
+
+---
+
+## 14. 版本历史
+
+| 版本 | 日期 | 变更 |
+|---|---|---|
+| 1.0 | 2026-10-16 | 初版。冠军 = 翻译层 + 运行时栈；亚军 NTSync（含 vanilla Wine 口径纠正） |
+| **2.0** | 2026-10-16 | 新增 §10 **部署变体**（官方发布 `x86_64_v3` 独立 tarball → 不装 CachyOS 也能拿到翻译层优化）、§11 **Flatpak**（沙箱开销可忽略，代价是图形栈被 runtime 替换；`--device=all` 使 `/dev/ntsync` 可用；flatpak 维护者对 NTSync 性能的权威表述）；新增三种部署方式的收益保留度矩阵与操作命令 |
 - `cachyos/distro-performance-comparison.md`（六发行版横比与方法论）
