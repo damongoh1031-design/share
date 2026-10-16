@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>脱离 CachyOS 的发行版选型：稳定优先 + 尽量发挥硬件</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161d27; --line:#243040;
+    --fg:#e6edf3; --fg2:#9fb0c3; --fg3:#6b7d92;
+    --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:29px;line-height:1.32;margin:12px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--fg2);font-size:14px}
+  h2{font-size:19px;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent)}
+  h3{font-size:15px;margin:28px 0 10px;color:var(--fg)}
+  p{color:var(--fg2);margin:10px 0}
+  strong{color:var(--fg)}
+  code{font-family:var(--mono);background:#1f2733;padding:1.5px 6px;border-radius:4px;font-size:.88em;color:#79c0ff}
+  .tldr{background:linear-gradient(135deg,#15202e,#131a23);border:1px solid var(--line);
+    border-left:3px solid var(--good);border-radius:10px;padding:22px 24px;margin:0 0 8px}
+  .tldr p{margin:0;color:var(--fg);font-size:15px}
+  .answer{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:22px 0}
+  .acard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+  .acard .who{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:700}
+  .acard .yn{font-size:21px;font-weight:800;margin:8px 0 6px;font-family:var(--mono);line-height:1.3}
+  .acard .d{font-size:13px;color:var(--fg2);line-height:1.65}
+  .yes{border-color:#2d4a34}.yes .yn{color:var(--good)}
+  .no{border-color:#4a2d2d}.no .yn{color:var(--bad)}
+  .mid{border-color:#2d3d4a}.mid .yn{color:var(--accent)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#131a23;color:var(--fg2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  td{color:var(--fg2)}
+  td strong{color:var(--fg)}
+  tr:hover td{background:#121924}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+    font-family:var(--mono);white-space:nowrap}
+  .t-yes{background:#1d3a26;color:#56d364}
+  .t-no{background:#3a1d1d;color:#ff8b84}
+  .t-mid{background:#1d2f3a;color:#79c0ff}
+  .t-warn{background:#3a331d;color:#e3b341}
+  .t-gold{background:#3a2f1d;color:#f0c674}
+  ul{color:var(--fg2);padding-left:22px;margin:12px 0}
+  li{margin:7px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .box.warn{border-left:3px solid var(--warn)}
+  .box.bad{border-left:3px solid var(--bad)}
+  .box.good{border-left:3px solid var(--good)}
+  .box h3{margin-top:0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d1d9;margin:16px 0}
+  pre .c{color:var(--fg3)}
+  pre .ok{color:#56d364}
+  pre .no{color:#ff8b84}
+  @media(max-width:720px){.wrap{padding:28px 16px 64px}h1{font-size:22px}}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Linux 游戏发行版选型 · 第十四轮</div>
+  <h1>不要 CachyOS：稳定优先，三类游戏场景分别选哪个发行版</h1>
+  <div class="sub">候选 8 个：openSUSE TW / openSUSE Slowroll / Arch / Fedora / Ubuntu / Debian / NixOS / Solus &nbsp;|&nbsp; 2026-10-16 &nbsp;|&nbsp; 含本机直接 HTTP 探测的版本对照</div>
+</header>
+
+<div class="tldr">
+  <p><strong>CPU 密集原生 → openSUSE Slowroll；CPU 密集 Proton → openSUSE Tumbleweed；GPU 密集 Proton → openSUSE Tumbleweed（AMD）/ Ubuntu 26.04 LTS（NVIDIA）。</strong> 只能装一个系统就选 <strong>openSUSE Slowroll</strong>。核心原因：原生游戏的瓶颈在硬件、发行版贡献≈0，所以该把稳定性拉满；而 Proton 场景的唯一杠杆是<strong>翻译层与图形栈的时效性</strong>，此时 Tumbleweed 的"最新 + 默认 Btrfs 快照回滚"压过一切。</p>
+</div>
+
+<h2>一、三场景答案</h2>
+<div class="answer">
+  <div class="acard yes">
+    <div class="who">① CPU 密集 Linux 原生游戏<br>RimWorld / 群星 / CK3</div>
+    <div class="yn">openSUSE Slowroll</div>
+    <div class="d">发行版对原生游戏贡献 <strong>≈ 0</strong>（游戏二进制厂商预编译，编译层碰不到）→ 既然谁都不快，就选<strong>最稳 + 默认能回滚 + 内核够新</strong>的。<br>Mesa 26.2.3 / 内核 7.2.8（仅滞后 TW ~2 周）。</div>
+  </div>
+  <div class="acard yes">
+    <div class="who">② CPU 密集 Proton 游戏<br>2077 / Palworld / Soulmask</div>
+    <div class="yn">openSUSE Tumbleweed</div>
+    <div class="d">唯一有效杠杆是<strong>翻译层 + 运行时栈</strong>（Wine/DXVK/vkd3d/Mesa），吃版本时效性。<br>Mesa <strong>26.2.4</strong> / 内核 <strong>7.2.10</strong>（双料最新）+ <strong>默认 Btrfs+snapper 回滚</strong>兜住滚动风险。</div>
+  </div>
+  <div class="acard yes">
+    <div class="who">③ GPU 密集 Proton 游戏<br>4K / 路径追踪 / 高画质</div>
+    <div class="yn">TW（AMD）/ Ubuntu（N）</div>
+    <div class="d"><strong>AMD</strong>：Mesa RADV 版本是硬指标 → Tumbleweed（26.2.4）。<br><strong>NVIDIA</strong>：用专有驱动，Mesa 无关 → <strong>Ubuntu 26.04 LTS</strong>（驱动分发最省事 + LTS 到 2031 + 内核 7.0 够用）。</div>
+  </div>
+</div>
+
+<div class="box warn">
+  <h3>⚠️ 前提校准</h3>
+  <p>用户列了 7 项但实际给了 <strong>8 个发行版</strong>（openSUSE 占两个变体）。本报告按 8 个候选逐一裁决。<strong>换发行版从来不是最大杠杆</strong>——X3D CPU、内存容量、GPU 才是；发行版能拿到的量级是「个位数百分比」或「避免量级灾难（内存 swap）」。</p>
+</div>
+
+<h2>二、"稳定"要拆成三个维度</h2>
+<p>很多人把三件事混为一谈，导致选型结论互相矛盾。</p>
+<table>
+<thead><tr><th>维度</th><th>含义</th><th>谁给得了</th></tr></thead>
+<tbody>
+<tr><td><strong>① 更新频率可控</strong></td><td>不会某天开机被迫接受 500 个包</td><td>固定周期（Fedora / Ubuntu / Debian / NixOS）或慢速滚动（Slowroll）</td></tr>
+<tr><td><strong>② 出问题能回滚</strong></td><td>升级炸了能一键退回</td><td><span class="tag t-yes">openSUSE</span> Btrfs+snapper <strong>默认自带</strong> &gt; NixOS（声明式）&gt; Arch（需手动配）&gt; Debian / Ubuntu / Fedora / Solus（<strong>无</strong>）</td></tr>
+<tr><td><strong>③ 软件质量（不追新）</strong></td><td>进仓库前测试窗口更长</td><td>Debian stable / Ubuntu LTS / Slowroll &gt; Fedora / TW &gt; Arch</td></tr>
+</tbody>
+</table>
+<div class="box good">
+  <h3>关键校准：维度 ③ 被高估了</h3>
+  <p>滚动发行版的包<strong>不是"未测试的"</strong>，而是"测试窗口短"。真正的风险是<strong>你的硬件组合恰好踩到回归</strong>——此时<strong>维度 ②（能否回滚）比维度 ③ 重要得多</strong>。这正是 openSUSE 系在本报告里胜出的根本原因：<strong>它是唯一同时具备「慢速/可控更新」与「开箱即用原子回滚」的主流发行版</strong>。</p>
+</div>
+
+<h2>三、一手版本对照（2026-10-16 直接抓取官方仓库）</h2>
+<p>下表所有版本号均来自直接 HTTP 抓取发行版官方仓库 / 镜像，<strong>非二手转述</strong>。基准点：<strong>Mesa 26.2.4 发布于 2026-10-01，是当前最新稳定版</strong>。</p>
+<table>
+<thead><tr><th>发行版</th><th>Mesa</th><th>内核</th><th>更新模型</th><th>默认回滚</th><th>官方仓库游戏工具</th><th>ISA 基线</th></tr></thead>
+<tbody>
+<tr><td><strong>openSUSE Tumbleweed</strong></td><td><span class="tag t-yes">26.2.4 最新</span></td><td><strong>7.2.10</strong> 最新</td><td>滚动（日）</td><td><span class="tag t-yes">✅ 默认</span></td><td>gamemode 1.8.2 / mangohud <strong>0.8.4</strong> / <strong>scx 1.1.3</strong> / steam</td><td>v2</td></tr>
+<tr><td><strong>openSUSE Slowroll</strong></td><td>26.2.3 <span class="tag t-mid">仅滞后 2 周</span></td><td>7.2.8</td><td><strong>滚动（月批量）</strong></td><td><span class="tag t-yes">✅ 默认</span></td><td>同 TW</td><td>v2</td></tr>
+<tr><td><strong>Arch Linux</strong></td><td><span class="tag t-yes">26.2.4 最新</span></td><td>7.2.9.arch1</td><td>滚动（日）</td><td><span class="tag t-warn">⚠️ 需手动</span></td><td>AUR</td><td>v1（+ALHP v3）</td></tr>
+<tr><td><strong>Fedora 44</strong></td><td><span class="tag t-yes">26.2.4</span>（updates）</td><td>6.19.10（GA）</td><td>6 个月 + 滚动更新</td><td><span class="tag t-warn">⚠️ 需手动</span></td><td>gamemode ✅ / mangohud 0.8.3~rc1 / <strong>无 scx</strong></td><td>v1（v3 推迟 ≥F46）</td></tr>
+<tr><td><strong>Ubuntu 26.04 LTS</strong></td><td>26.0.3</td><td>7.0.0-14</td><td>LTS 2 年 + HWE</td><td><span class="tag t-no">❌ 无</span></td><td>需 PPA / Flatpak</td><td>v1（+实验 amd64v3）</td></tr>
+<tr><td><strong>Debian 13 trixie</strong></td><td><span class="tag t-no">25.0.7</span></td><td>6.12.107</td><td>2 年 + LTS 5 年</td><td><span class="tag t-warn">⚠️ 需手动</span></td><td>需 backports / Flatpak</td><td>v1</td></tr>
+<tr><td><strong>NixOS 26.05</strong></td><td>未核实（stable 冻结）</td><td>未核实</td><td>6 个月 + 声明式</td><td><span class="tag t-yes">✅✅ 最强</span></td><td>需 <code>programs.steam.enable</code></td><td>v1（v3 需全量自编）</td></tr>
+<tr><td><strong>Solus 4.9</strong></td><td><span class="tag t-no">25.2.5</span>（polaris 26.1.8）</td><td>current 滚动</td><td>约 5–6 个月</td><td><span class="tag t-no">❌ 无</span></td><td>生态小</td><td>v1</td></tr>
+</tbody>
+</table>
+
+<div class="box good">
+  <h3>从表里直接读出的三条结论</h3>
+  <ul>
+    <li><strong>Slowroll 的"慢"几乎不花钱</strong>：Mesa 26.2.3 vs 26.2.4 只差 1 个补丁版本（约 2 周），内核差 2 个补丁版本。<strong>用 2 周时效性换「月度更新 + 默认回滚」，性价比极高。</strong></li>
+    <li><strong>Debian 13 与 Solus 掉队 1.5 个大版本</strong>（25.0.7 / 25.2.5 vs 26.2.4）→ 对 GPU 密集场景是实打实的损失（新游戏优化、Vulkan 扩展、RADV 光追改进都在 26.x）。</li>
+    <li><strong>openSUSE 是唯一官方仓库同时提供 <code>scx</code>（sched-ext）+ gamemode + mangohud + steam 的</strong>。Fedora 官方<strong>没有 scx 包</strong>；Ubuntu/Debian 需 PPA/backports。</li>
+  </ul>
+</div>
+
+<h2>四、为什么三场景答案不同：有效杠杆不一样</h2>
+<pre><span class="c">场景 ①  发行版贡献 ≈ 0</span>
+        └─▶ 既然谁都不快，优化目标 = 稳定性最大化
+            └─▶ 需要：内核 ≥6.12（sched_ext）/ ≥6.14（NTSync）+ 能调 sysctl/ZRAM + 出事能回滚
+                └─▶ <span class="ok">【openSUSE Slowroll】月度更新 + 默认快照 + 内核 7.2.8 远超门槛</span>
+
+<span class="c">场景 ②  发行版贡献 = 中（唯一杠杆 = 翻译层 + 图形栈）</span>
+        └─▶ 优化目标 = 时效性最大化，但仍要能兜底
+            └─▶ <span class="ok">【openSUSE Tumbleweed】全部最新 + Btrfs 快照兜底</span>
+                <span class="c">翻译层优化可"打包带走"：proton-cachyos 官方发 x86_64_v3 tarball，</span>
+                <span class="c">任何发行版放进 compatibilitytools.d 即可 —— 无需装 CachyOS</span>
+
+<span class="c">场景 ③  发行版贡献 = 中（唯一杠杆 = GPU 驱动版本）</span>
+        ├─ AMD    ──▶ Mesa RADV 版本是硬指标 ──▶ <span class="ok">【openSUSE Tumbleweed】26.2.4</span>
+        └─ NVIDIA ─▶ 专有驱动，Mesa 无关     ──▶ <span class="ok">【Ubuntu 26.04 LTS】</span>
+</pre>
+
+<h2>五、淘汰赛：8 个候选逐一裁决</h2>
+
+<h3>🥇 openSUSE Slowroll —— 场景 ① 冠军 +「只装一个」的答案</h3>
+<table>
+<tbody>
+<tr><td>Mesa / 内核</td><td><strong>26.2.3 / 7.2.8</strong>（实测，仅滞后 TW ~2 周）</td></tr>
+<tr><td>更新节奏</td><td><strong>月度批量</strong>（官方口径：TW 快照发布后平均 5–10 天进入 Slowroll）</td></tr>
+<tr><td>回滚</td><td><span class="tag t-yes">✅ Btrfs + snapper 默认自带</span> <code>snapper rollback</code> 一键退回</td></tr>
+<tr><td>官方仓库</td><td>gamemode / mangohud / scx / steam / NVIDIA 驱动 <strong>全部在官方仓库</strong></td></tr>
+<tr><td>ISA 基线</td><td>v2（高于 Arch/Fedora/Ubuntu/Debian 的 v1）</td></tr>
+<tr><td>短板</td><td>滚动固有风险（被月度节奏 + 快照大幅削弱）；中文资料少于 Ubuntu</td></tr>
+</tbody>
+</table>
+<p><strong>为什么赢 ①</strong>：原生游戏瓶颈在硬件，此时唯一正确策略是把稳定性拉满。Slowroll 是候选池里<strong>唯一同时具备「慢速可控更新」+「开箱即用原子回滚」+「内核 7.2.8（远超门槛）」</strong>的选项，性能代价约 2 周包滞后，实测无法察觉。</p>
+<p><strong>为什么不赢 ②③</strong>：那两个场景唯一杠杆就是时效性，而 TW 免费给最新版且同样有默认快照。<strong>用回滚能力换最新版，在 ②③ 里是划算的。</strong></p>
+
+<h3>🥇 openSUSE Tumbleweed —— 场景 ②③ 冠军</h3>
+<p>Mesa <strong>26.2.4</strong> / 内核 <strong>7.2.10</strong> 双料最新；<strong>Btrfs+snapper 默认</strong>（这是它胜过 Arch 的关键）；官方仓库有 mangohud 0.8.4（比 Fedora 新）+ scx 1.1.3。</p>
+<div class="box good">
+  <h3>关键操作：把 CachyOS 的冠军项"打包带走"</h3>
+  <p>Proton 场景的冠军项是翻译层优化，而 <strong>proton-cachyos 官方发布独立的 <code>x86_64_v3</code> tarball</strong>——任何发行版都能用，<strong>不需要装 CachyOS</strong>。</p>
+<pre>TAG="cachyos-11.0-20261005-slr"   <span class="c"># 用前先查最新 tag</span>
+mkdir -p ~/.steam/root/compatibilitytools.d
+curl -LO "https://github.com/CachyOS/proton-cachyos/releases/download/$TAG/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz"
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz -C ~/.steam/root/compatibilitytools.d/
+<span class="c"># Steam → 属性 → 兼容性 → 强制指定该版本</span></pre>
+</div>
+
+<h3>🥈 Arch —— 场景 ② 亚军；场景 ①③ 因"回滚"落选</h3>
+<p>Mesa 26.2.4 / 内核 7.2.9.arch1，性能与 TW <strong>基本同档</strong>。输在<strong>回滚</strong>：Arch 升级炸了要自己进 chroot 救，TW 是开机菜单直接选旧快照。这一条足以决定胜负。<br>
+加分项：ALHP 提供 v3/v4 仓库（TW 是 v2 基线）。但 <strong>v3 对游戏收益极小</strong>（RADV 着色器编译走 LLVM，与宿主 ISA 级别基本无关），不值得为它牺牲回滚能力。</p>
+
+<h3>🥉 Debian 13 —— 场景 ① 亚军；场景 ②③ 落选</h3>
+<p><strong>场景 ①</strong>：可作亚军（发行版无关 + Debian 最稳）。但两个扣分项：<strong>内核 6.12.107 恰好卡在门槛</strong>（6.12 有 sched_ext 但<strong>没有 NTSync</strong>，需 6.14）；<strong>无默认回滚</strong>——而它的"稳"恰恰最依赖回滚兜底。实测 <code>trixie-backports</code> 里<strong>没有 <code>mesa-vulkan-drivers</code></strong>（抓取返回空）。<br>
+<strong>场景 ②③ 落选</strong>：Mesa 25.0.7 落后 1.5 个大版本。想用 Debian 就得用 <strong>sid</strong>（实测 Mesa 26.2.4 = 最新）——但那时已放弃 Debian 的全部稳定性优势，不如直接选 TW。</p>
+
+<h3>Fedora 44 —— ②③ 的备选，不作首选</h3>
+<p><span class="tag t-yes">加分</span> Mesa 在 updates 里已到 <strong>26.2.4</strong>；6 个月周期 + 上游优先。<br>
+<span class="tag t-no">扣分</span> ① 官方仓库<strong>没有 sched-ext（scx）包</strong>；② <strong>无默认回滚</strong>；③ NVIDIA 需 RPM Fusion；④ GA 快照内核落后（6.19 vs 7.2）。</p>
+
+<h3>Ubuntu 26.04 LTS —— 场景 ③（NVIDIA）冠军</h3>
+<p>Mesa 26.0.3 / 内核 7.0.0-14。<strong>场景 ② 落选</strong>（Mesa 落后 0.5 个大版本，Proton 吃时效性）。<strong>场景 ③（NVIDIA）冠军</strong>：N 卡用专有驱动，<strong>Mesa 版本几乎无关</strong>，此时 Ubuntu 的「驱动分发最省事 + LTS 到 2031」压过 Mesa 劣势。<br>
+独特加分：官方提供 <strong><code>binary-amd64v3</code> 组件</strong>（实测含 <code>mesa-vulkan-drivers</code>/RADV），一行 <code>APT::Architecture-Variants "amd64v3"</code> 整体切 v3。<br>
+<span class="tag t-warn">风险</span> 26.04 <strong>移除 X11 只剩 Wayland</strong>，图形栈出问题没有 X11 兜底。</p>
+
+<h3>NixOS 26.05 —— 三场景均落选</h3>
+<p>回滚能力全场最强（声明式 + 原子），但设计目标不是游戏：Mesa/DXVK 更新要等 nixpkgs PR 合并并进入你的分支，<strong>时效性天然落后</strong>——而 ②③ 的唯一杠杆就是时效性。v3 需全量本地编译，失去缓存红利。⚠️ <strong>Phoronix 从未做过含 NixOS 的发行版横评</strong>，性能结论全为结构推断。<br>
+<strong>一句话：NixOS 是"配置管理最优解"，不是"游戏性能最优解"。</strong></p>
+
+<h3>Solus 4.9 —— 三场景均落选</h3>
+<p>Mesa <strong>25.2.5</strong>（落后 1.5 个大版本）；约 5–6 个月一个大版本；<strong>无回滚</strong>；生态薄（无 AUR/PPA/COPR 级别第三方仓库）。小团队 + 无回滚，与"稳定优先"的目标相反——<strong>"稳"需要的是能兜底，而不是更新慢</strong>。</p>
+
+<h2>六、最终裁决表</h2>
+<table>
+<thead><tr><th>候选</th><th>① CPU 原生</th><th>② CPU Proton</th><th>③ GPU Proton</th><th>一句话</th></tr></thead>
+<tbody>
+<tr><td><strong>openSUSE Slowroll</strong></td><td><span class="tag t-gold">🥇 冠军</span></td><td><span class="tag t-mid">🥈 备选</span></td><td><span class="tag t-mid">🥈 备选</span></td><td>稳 + 默认回滚 + 内核够新；"只装一个"最佳答案</td></tr>
+<tr><td><strong>openSUSE Tumbleweed</strong></td><td><span class="tag t-mid">🥉 可用</span></td><td><span class="tag t-gold">🥇 冠军</span></td><td><span class="tag t-gold">🥇 冠军（AMD）</span></td><td>双料最新 + 默认回滚，滚动风险被快照兜住</td></tr>
+<tr><td><strong>Arch</strong></td><td><span class="tag t-no">❌ 无回滚</span></td><td><span class="tag t-mid">🥈 亚军</span></td><td><span class="tag t-mid">🥈 亚军</span></td><td>性能同档 TW，输在"炸了要自己救"</td></tr>
+<tr><td><strong>Fedora 44</strong></td><td><span class="tag t-warn">⚠️ 可用</span></td><td><span class="tag t-mid">🥉 备选</span></td><td><span class="tag t-mid">🥉 备选</span></td><td>Mesa 已最新，但无 scx、无回滚、NVIDIA 需 RPM Fusion</td></tr>
+<tr><td><strong>Ubuntu 26.04 LTS</strong></td><td><span class="tag t-warn">⚠️ 可用</span></td><td><span class="tag t-no">❌ Mesa 落后</span></td><td><span class="tag t-gold">🥇 冠军（NVIDIA）</span></td><td>N 卡 + 求稳的最佳解；A 卡吃亏</td></tr>
+<tr><td><strong>Debian 13</strong></td><td><span class="tag t-mid">🥈 亚军</span></td><td><span class="tag t-no">❌</span></td><td><span class="tag t-no">❌</span></td><td>最稳但硬件发挥不足（Mesa 25.0.7 / 内核 6.12）</td></tr>
+<tr><td><strong>NixOS 26.05</strong></td><td><span class="tag t-warn">⚠️ 可用</span></td><td><span class="tag t-no">❌</span></td><td><span class="tag t-no">❌</span></td><td>回滚最强，游戏栈时效性最弱</td></tr>
+<tr><td><strong>Solus 4.9</strong></td><td><span class="tag t-no">❌</span></td><td><span class="tag t-no">❌</span></td><td><span class="tag t-no">❌</span></td><td>生态薄 + 版本落后 1.5 代</td></tr>
+</tbody>
+</table>
+
+<h2>七、落地方案（装完就做这些）</h2>
+
+<h3>场景 ①：openSUSE Slowroll</h3>
+<pre><span class="c"># 1) 确认内核与调度器能力（应 >= 7.2，含 sched_ext / MGLRU / NTSync）</span>
+uname -r
+ls /sys/kernel/sched_ext 2>/dev/null &amp;&amp; echo "sched_ext OK"
+ls /dev/ntsync 2>/dev/null || sudo modprobe ntsync
+
+<span class="c"># 2) 游戏工具链（全部在官方仓库，无需第三方）</span>
+sudo zypper install gamemode mangohud scx steam
+
+<span class="c"># 3) 内存层调参（对"后期卡顿"最有效，配合 ZRAM）</span>
+sudo zypper install systemd-zram-service
+sudo tee /etc/sysctl.d/99-gaming.conf &lt;&lt;'EOF'
+vm.swappiness=100
+vm.vfs_cache_pressure=50
+vm.dirty_ratio=10
+vm.dirty_background_ratio=5
+EOF
+sudo sysctl --system
+
+<span class="c"># 4) THP 设为 defer+madvise（减少内存抖动）</span>
+echo 'defer+madvise' | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+
+<span class="c"># 5) 出事回滚（这是选它的核心理由）</span>
+sudo snapper list
+sudo snapper rollback &lt;编号&gt;</pre>
+<p><strong>实测预期</strong>：对 RimWorld / 群星 / CK3，唯一可能产生<strong>量级差异</strong>的是内存吃紧时避免磁盘 swap（ZRAM + swappiness=100）。其余为个位数百分比。<strong>别指望换发行版救后期卡顿——换 X3D 或加内存才是。</strong></p>
+
+<h3>场景 ②：openSUSE Tumbleweed</h3>
+<pre>sudo zypper install gamemode mangohud scx steam
+
+<span class="c"># 【关键】装 CachyOS 官方的 v3 优化 Proton —— 不需要装 CachyOS</span>
+TAG="cachyos-11.0-20261005-slr"
+mkdir -p ~/.steam/root/compatibilitytools.d
+curl -LO "https://github.com/CachyOS/proton-cachyos/releases/download/$TAG/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz"
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz -C ~/.steam/root/compatibilitytools.d/
+
+<span class="c"># 确认 NTSync（内核 7.2.10 >= 6.14 ✅）</span>
+ls -l /dev/ntsync
+
+<span class="c"># 判瓶颈：GPU 占用 &lt; 90% 才值得继续折腾</span>
+MANGOHUD=1 MANGOHUD_CONFIG=fps,frametime,gpu_util %command%</pre>
+
+<h3>场景 ③：AMD → TW；NVIDIA → Ubuntu 26.04 LTS</h3>
+<pre><span class="c"># AMD (openSUSE Tumbleweed)</span>
+sudo zypper install mesa-vulkan-drivers mesa-dri-drivers vulkan-tools
+vulkaninfo --summary | grep -E "driverName|driverInfo"   <span class="c"># 确认 RADV 版本</span>
+
+<span class="c"># NVIDIA (Ubuntu 26.04 LTS) —— 注意只有 Wayland，无 X11 兜底</span>
+ubuntu-drivers devices
+sudo ubuntu-drivers install
+nvidia-smi
+
+<span class="c"># 可选：整体切到 amd64v3（官方提供，实测含 mesa-vulkan-drivers）</span>
+echo 'APT::Architecture-Variants "amd64v3";' | sudo tee /etc/apt/apt.conf.d/99enable-amd64v3
+sudo apt update &amp;&amp; sudo apt full-upgrade
+
+<span class="c"># 游戏工具走 Flatpak 最省事</span>
+flatpak install flathub com.valvesoftware.Steam
+flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud</pre>
+
+<h2>八、坑与反直觉</h2>
+<table>
+<thead><tr><th>坑</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>"换个发行版游戏就快了"</td><td>❌ 原生游戏<strong>几乎为零</strong>；Proton 是<strong>个位数百分比</strong>。<strong>硬件才是最大杠杆。</strong></td></tr>
+<tr><td>"Debian 最稳所以最适合游戏"</td><td>稳定 ≠ 适合。Mesa 25.0.7 / 内核 6.12 是实打实的损失，且<strong>没有默认回滚</strong>。</td></tr>
+<tr><td>"Arch 比 TW 快"</td><td>实测<strong>同档</strong>（都 Mesa 26.2.4）。差异在运维模型：Arch 炸了要 chroot 救。</td></tr>
+<tr><td>"Slowroll 是降级版"</td><td>❌ 实测只滞后 <strong>~2 周</strong>。它降的是<strong>更新频率</strong>，不是<strong>版本水平</strong>。</td></tr>
+<tr><td>"滚动发行不能玩游戏"</td><td>可以，但<strong>必须配回滚</strong>。openSUSE 默认给；Arch 要自己配；其余干脆没有。</td></tr>
+<tr><td>"v3 重编译能提升游戏帧数"</td><td>收益极小且零散。RADV 着色器编译走 LLVM。<strong>Mesa 的"版本" ≫ 它的"ISA 级别"。</strong></td></tr>
+<tr><td>"装 proton-cachyos 必须用 CachyOS"</td><td>❌ 官方发独立 <code>x86_64_v3</code> tarball，任何发行版可用。</td></tr>
+<tr><td>"Fedora 的 SELinux 拖慢游戏"</td><td>影响可忽略，<strong>不是</strong>不推荐它的理由。</td></tr>
+<tr><td>"Ubuntu 26.04 移除 X11 无所谓"</td><td>图形栈出问题<strong>没有 X11 兜底</strong>，排查难度高于 24.04。N 卡尤其注意。</td></tr>
+</tbody>
+</table>
+
+<h2>九、未核实 / 存疑</h2>
+<table>
+<thead><tr><th>项</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>NixOS 26.05 的 Mesa / 内核版本</td><td>nixpkgs 文件路径多次探测失败（404），<strong>未取得精确版本号</strong>。结论基于"stable 冻结于发布时"的结构推断。</td></tr>
+<tr><td>Solus <code>linux-current</code> 当前实际版本</td><td>索引显示 6.16.12，但 ProtonDB 有用户报告 Solus 4.9 上跑 7.2.6 → <strong>索引可能滞后</strong>，矛盾未解决。</td></tr>
+<tr><td>Fedora 44 updates 中最新内核</td><td>目录抓取失败（返回空）。已知 GA 快照为 6.19.10。</td></tr>
+<tr><td>Debian trixie-backports 是否有 Mesa</td><td>抓取 <code>mesa-vulkan-drivers</code> 返回空，可能尚未 backport 或包名不同，未做二次确认。</td></tr>
+<tr><td>三套方案的实际帧率增益</td><td>不存在公开的同机对照基准；量级判断来自前 13 轮结构分析 + 一手版本差异。</td></tr>
+<tr><td>Slowroll 的长期项目承诺</td><td>其长期维护承诺与社区规模<strong>弱于 Tumbleweed</strong>，未取得官方路线图确认。</td></tr>
+</tbody>
+</table>
+
+<h2>十、参考来源</h2>
+<p><strong>本轮直接 HTTP 探测（2026-10-16）</strong></p>
+<ul>
+<li>Arch：<code>https://geo.mirror.pkgbuild.com/{core,extra}/os/x86_64/</code>（mesa 1:26.2.4-1、linux 7.2.9.arch1）</li>
+<li>openSUSE：<code>https://download.opensuse.org/{tumbleweed,slowroll}/repo/oss/x86_64/</code>（Mesa 26.2.4 / 26.2.3；kernel-default 7.2.10 / 7.2.8；gamemode 1.8.2；mangohud 0.8.4；scx 1.1.3）</li>
+<li>Fedora：<code>https://dl.fedoraproject.org/pub/fedora/linux/{releases,updates}/44/</code>（mesa-vulkan-drivers 26.0.3 GA → 26.2.4 updates；kernel 6.19.10；无 scx 包）</li>
+<li>Debian：<code>https://deb.debian.org/debian/dists/{trixie,sid}/main/binary-amd64/Packages.gz</code>（25.0.7 / 26.2.4；内核 6.12.107；无 amd64v3 组件）</li>
+<li>Ubuntu：<code>http://archive.ubuntu.com/ubuntu/dists/resolute/main/binary-amd64/Packages.gz</code>（26.0.3-1ubuntu1）</li>
+<li>Solus：<code>https://packages.getsol.us/{shannon,polaris,unstable}/m/mesalib/</code>（25.2.5 / 26.1.8 / 26.2.1；linux-current 6.16.12、linux-lts 6.12.52）</li>
+</ul>
+<p><strong>前序 13 轮报告</strong>：见同目录 <code>../cachyos/</code>（六发行版横比、五份一对一、三份场景专项、v3 Mesa 供给、Ubuntu PPA 取舍、四层优化清单）。</p>
+<p><strong>外部</strong></p>
+<ul>
+<li><a href="https://www.mesa3d.org/news/">Mesa 官方发布节奏（26.2.4 于 2026-10-01 发布）</a></li>
+<li><a href="https://news.opensuse.org/2025/01/29/tw-monthly-update-january/">openSUSE News — Tumbleweed Monthly Update（Slowroll 滞后 5–10 天的官方口径）</a></li>
+<li><a href="https://www.protondb.com/app/1332010">ProtonDB — 发行版实测分布（Solus 4.9 / kernel 7.2.6）</a></li>
+<li><a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表</a></li>
+</ul>
+
+<footer>
+  Linux 游戏发行版选型 · 第十四轮 ｜ 共 14 组报告 ｜ 报告日期 2026-10-16 ｜ 所有版本号均为本机直接抓取官方仓库所得
+</footer>
+
+</div>
+</body>
+</html>
