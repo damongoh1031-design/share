@@ -1,0 +1,66 @@
+{
+  "basic": {
+    "name": "迁移中状态与升级破坏风险（goose 平台扩展重构 #7675 / PR #6160 + 治理主体迁至 AAIF；opencode v1→v2）",
+    "type": "风险",
+    "repo": "goose：https://github.com/aaif-goose/goose （原 https://github.com/block/goose ，已整体重定向；文档站 goose-docs.ai）；opencode：https://opencode.ai/v2 （文档 https://opencode.ai/v2/docs ；v1 文档仍为 https://opencode.ai/docs ）",
+    "license": "goose = Apache-2.0（GitHub API 实测 license.spdx_id=apache-2.0，非 copyleft、可白标）；是否带 CLA / 贡献者协议未取证[不确定]，故『许可不可被 future 收回』仅对已发布代码成立；opencode 许可证[不确定]",
+    "install_method": "goose：官方安装脚本 / brew / 预编译二进制，自更新走 goose update；opencode：npm 或官方脚本安装，自更新走 config 的 autoupdate 字段（true / \"notify\" / false）与 /update",
+    "version": "调研时点 2026-10-16：goose 默认分支 main，最近 push 2026-10-16T04:46Z；55,330★ / 6,450 forks / 494 open issues / 180 open PRs；重构相关 Discussion #7675 起于 2026-03-05、PR #6160 建于 2025-12-17 关闭于 2026-02-05；opencode 官网 2026-10 已上线 v2，本地文档快照为 v1192（v1 代）",
+    "maturity": "goose 高活跃但**明确处于重构期**：多维护者（alexhancock 主导该重构、DOsinga、jamadeo、tlongwell-block 等），当日仍有提交；同时 180 open PR / 494 open issue，变更吞吐大。不是 0.x 实验项目，但『路线图与扩展模型正在变』这一点对自进化方案的轴5（自我配置改写）构成直接风险。",
+    "governance": "**已发生主体变更**：goose 治理主体 2026-04-07 迁至 AAIF（原 Block），GitHub 组织随之变为 aaif-goose —— 本次以 API 实证：请求 https://api.github.com/repos/block/goose 返回的 full_name 已是 aaif-goose/goose（重定向生效）。影响面：所有脚本、文档、镜像、issue/PR 编号引用里的 block/goose 都可能失效或行为不一致。opencode 治理主体[不确定]。",
+    "standard_compliance": "技能侧仍符合标准目录约定：SKILL.md 位于 ~/.agents/skills/<name>/（全局）与 <project>/.agents/skills/<name>/（项目级），goose 文档 using-skills 原文列明这两条路径，故跨工具可移植性不变。但 #7675 已决定把 skills 的**实现**移入 goose 本体、不再作为可开关扩展 ⇒ 目录约定保留、**配置开关这一层可能消失**。"
+  },
+  "extension_surface": {
+    "skills_support": "现状（源码实证）：skills 在 goose 中就是一个 platform extension——crates/goose/src/skills/client.rs 定义 pub static EXTENSION_NAME: &str = \"skills\"；slash 命令表（execute_commands.rs 第 34-37 行）也列了 skills。文档：自动从 .agents/skills/ 与 ~/.agents/skills/ 发现并加载，另有 goose skills 子命令可列出并计量 token。**方向（#7675 明示）**：alexhancock 原话『I also agree we can drop the idea of skills as an extension and just move the implementation into goose』；DOsinga 亦认为『skills are so central these days…having them as an extension that you can switch off, seems wrong』。⇒ 未来 skills 不再可被 enable/disable，配置层 extensions.skills.enabled 会失去意义。",
+    "mcp_support": "goose 走 config.yaml 的 extensions 段（Builtin 与 Platform 两种类型正在合并）+ goose configure；会话内动态增删由 Extension Manager（平台扩展 extensionmanager）承担。路径与字段在本次重构公告中未被提及变更。",
+    "plugin_support": "有，且与技能分发强相关。插件目录：项目级 <project>/.agents/plugins/<name>、用户级 plugin_install_dir()（约 ~/.agents/plugins）；插件根内可含 skills/（open_plugins 格式会识别 plugin_dir/skills 并把 plugin_dir/skills 推入技能根列表）；config.yaml 的 plugins map **以插件文件系统路径为 key**（discovery.rs 注释原文）；另有 settings 文件（enabledPlugins / disabledPlugins）按 local / project / user 三级作用域过滤。去重与优先级：按 scope rank → 名称 → 路径排序，再按名称首次出现去重（local 优先于 user 之类）。",
+    "hook_support": "有。会话会扫描插件目录下的 hooks/hooks.json（discovery.rs 第 269 行 dir.join(\"hooks\").join(\"hooks.json\")，测试中亦以该路径构造用例）。**但本次未逐字段核验 hooks.json 的 schema 是否在重构中被改**，题面所问『hooks.json 字段是否保持不变』只能给出：当前快照仍是 hooks/hooks.json 这一位置（已读源码实证）；字段级兼容性[不确定]。",
+    "memory_support": "无原生跨会话记忆（靠 memory MCP 或 memory 平台扩展）。本次重构范围是 extensions 概念层与 bundling，不涉及记忆机制。",
+    "scheduler_support": "有，且是 goose 相对 opencode 的优势项：goose CLI 提供 schedule 子命令（crates/goose-cli/src/commands/schedule.rs），并配套 agents/schedule_tool.rs —— 可在 Windows 上不依赖 launchd/systemd 实现定时（对自进化方案的后台 curator 是现成挂载点）。",
+    "subagent_support": "**重构焦点，但结论需更正**。PR #6160（作者 tlongwell-block，标题 refactor: subagents as platform extension (enables subagents in code mode)）意图把 subagent 从 Agent::dispatch_tool_call 里的特例改成标准 platform extension；但 GitHub API 实测：state: closed、merged_at: null、closed_at: 2026-02-05、mergeable_state: dirty、18 commits / 19 files / +434 −180 ⇒ **该 PR 未合并即关闭**，不能作为已落地变更引用。PR 正文另给出重要旁证：skills / todo / chatrecall / code_execution **已经是** platform extension，subagent 是『最后一个特例』。",
+    "cross_tool_read_paths": "goose 现状：~/.agents/skills（全局，可写）、<project>/.agents/skills、<plugin>/skills/（插件内，由插件格式模块推入）、插件内 hooks/hooks.json；config.yaml 的 plugins 以路径为 key。本次重构公告（#7675）只讨论 extensions 概念合并、summon 拆分、bundling 与默认值四项，**未涉及上述路径变更** ⇒ 路径短期内保持不变（仅文档推断，见 evidence.verified_on）。",
+    "hook_events_used": "8 种事件（PreToolUse / PreToolUseResult / PostToolUse / PostToolUseFailure / SessionStart / SessionEnd / UserPromptSubmit / Stop，前序阶段已核实）。本次未重新核验重构是否增减事件名。",
+    "skill_embedded_mcp": "技能内嵌 MCP：无。反向（MCP → 技能）见 item 05（opencode-slim-mcp）。",
+    "distribution_channel": "bundled extensions（构建期从 JSON 清单注入，随发行版自动带上）+ goose plugin install --auto-update + 官方安装脚本。**#7675 计划改造 bundling 流程**：让 bundled 扩展『看起来和普通 MCP 扩展完全一样』，但增加一个字段以禁止通过 UI 修改配置或移除（面向企业发行版提供稳定配置）⇒ 这是升级行为可能变化的第二处。",
+    "update_mechanism": "goose update 自更新 + 插件 auto-update + 启动时的配置自动迁移。**关键风险点（已读源码）**：config/base.rs:520 在读取配置后调用 run_migrations(&mut values)，若返回 true 则立即 self.save_values(&values) **静默回写磁盘**（失败仅 warn 级日志）；migrations.rs:32-133 的 migrate_platform_extensions() 会遍历 PLATFORM_EXTENSIONS，对缺失或元数据（description/display_name）不一致的条目**重建 ExtensionEntry 并置 needs_save = true**，同时保留已有的 enabled 值与 available_tools，且若原类型是 Builtin 则维持 Builtin、否则写成 Platform。⇒ 『升级 = 自动改配置』，无人批准、无提示。",
+    "token_cost_model": "goose 侧：goose skills 可计量技能 token；Extension Manager 官方建议 ≤5 扩展 / ≤50 工具；工具返回 >200,000 字符（GOOSE_MAX_TOOL_RESPONSE_SIZE）落盘临时文件只回灌路径与长度。对照 opencode：v2 Code Mode 默认开启（工具不进原生列表）但**无** spillover。对照 Hermes：MCP 结果 50,000 / 通用 100,000 字符落 $HERMES_HOME/cache/spillover。"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "迁移相关结论：自动写 ~/.agents/skills/<name>/SKILL.md 的能力**不受本次重构影响**（技能是纯目录文件，配置迁移不触碰文件系统）。但两处会受影响：① 若自动化脚本依赖『开/关 skills 扩展』这个动作，在 skills 转为内核实现后会失效；② 若脚本依赖 extensions.skills 键存在，则需改为不依赖。",
+    "auto_memory_write": "无原生记忆机制，故本次重构不涉及；自进化方案必须外挂（memory MCP 或自建文件）。",
+    "background_self_review": "无。goose 无回合后后台自审流程（对照 Hermes background_review），本次重构也不涉及。",
+    "self_config_edit": "**本项与自进化冲突最直接的一处**：agent 手改 config.yaml 与『升级时自动迁移』会互相覆盖。迁移逻辑会遍历整个 extensions map 并按内置定义重写 platform/builtin 条目的 description/display_name/bundled 字段（保留 enabled 与 available_tools）。⇒ 自建脚本若把权威配置塞在自定义顶层键或非标准结构里，会被迁移无视；若塞在 extensions.<key> 里，则可能被迁移重写。可行做法：只通过 goose 官方 CLI/config 接口改扩展，把自建资产（技能、状态文件）放在纯目录层。",
+    "trigger_mechanism": "时间/升级驱动（每次启动 + 每次升级都可能触发配置迁移与回写）；无人值守时的行为：迁移失败只 warn，非法条目被静默丢弃（见 risk.upgrade_breakage），不会中断启动。⇒ 『静默失败』是这一层的默认形态。",
+    "iteration_axes_coverage": "本次重构**不新增任何自进化轴**，它改变的是轴5（自我配置改写）的**地基稳定性**：扩展模型从『Builtin + Platform 双轨』合并为单一 platform 概念、shared 扩展（summon：skills+recipes+subagents）拆为单职责扩展、bundling 加权限字段、默认值待定。⇒ 任何依赖 goose 配置结构做自我改写的自动化，都应以『锁定版本 + 迁移前后 diff』为前置条件。",
+    "reward_signal": "无。goose 无技能使用统计/成败计数驱动的重写回路；本次重构亦不引入。",
+    "human_approval_gate": "**无**。配置迁移在启动读配置时自动执行并回写磁盘（base.rs:520 → save_values），不经用户确认、不弹提示、失败仅日志警告。这是本 item 最重要的『闸门缺失』结论：自进化方案若把轴5 建在 goose 配置上，等于把控制权部分让给了上游的自动迁移。",
+    "state_dir": "goose：~/.config/goose/config.yaml（extensions map、plugins map 以插件路径为 key、providers 段）、~/.agents/skills（技能）、~/.agents/plugins（plugin_install_dir()）。opencode：项目或全局 opencode.json(c)（v2 的 mcp.servers 在此）。"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "缺『版本锁定 + 迁移前快照 + 迁移后审计』这一整套工程件。Hermes 侧同样没有，但本方案的轴5（自我配置改写）强依赖 goose/opencode 配置结构的稳定性，因此这一缺件在本方案里是**前置条件级**的，不是可选项。",
+    "how_to_fill": "① 锁版本：goose 固定到具体 tag/commit 或 brew pin，关闭 goose update 与 plugin auto-update；opencode 把 autoupdate 设为 \"notify\"（默认）或 false，不要自动升到 v2。② 迁移前快照：每次升级前把 ~/.config/goose/config.yaml 与 ~/.agents/skills、~/.agents/plugins 整体 copy 到 backups/<date>/；升级后立刻 diff config.yaml，确认是否被 migrate_platform_extensions 改写。③ 把『不可迁移的资产』全部放在纯目录层（~/.agents/skills/** 的 SKILL.md）——这一类不受 config 迁移影响，这是最稳的隔离策略。④ 全量替换 URL：脚本/文档里 block/goose 统一改为 aaif-goose/goose。⑤ opencode 侧双轨过渡：现在就写好 v2 等价配置（mcp.servers / disabled / permissions）与 v1 配置并存，等 v2 稳定后再切；同时把基于 tools glob 的脚本改写为 permissions deny 规则。⑥ 若必须跟随升级，给 hooks 加一道『配置指纹校验』：启动时比对 config.yaml 的 extensions 段是否为预期形态，异常则拒绝继续加载自建流程。",
+    "code_effort": "主要动作**无需写码**（锁版本 + 备份脚本 + URL 替换）；若要自动化的升级审计/配置指纹校验，需一个单文件脚本（读取 yaml、比对、告警）。不需要管理员权限；goose 侧不需要额外运行时依赖。"
+  },
+  "evidence": {
+    "official_doc_url": "https://github.com/aaif-goose/goose/discussions/7675 · https://github.com/aaif-goose/goose/pull/6160 · https://api.github.com/repos/block/goose （org 重定向实证）· https://goose-docs.ai · https://opencode.ai/v2/docs/mcp-servers",
+    "local_path": "goose 源码（快照 _verify\\src\\key\\）：crates__goose__src__config__migrations.rs（第 11-23 行 run_migrations/run_read_migrations；第 32-133 行 migrate_platform_extensions，第 121-124 行重建条目、第 128-132 行 needs_save 时写回 extensions）；crates__goose__src__config__base.rs（第 520-524 行：run_migrations 返回 true 即 save_values 静默落盘）；crates__goose__src__config__extensions.rs（第 34-41 行 is_extension_available 对不在 PLATFORM_EXTENSIONS 的 Platform 条目返回 false；第 55-82 行 parse_extensions_map 据此 continue 静默跳过；第 22-32 行 name_to_key 规范化规则）；crates__goose__src__plugins__discovery.rs（第 52-102 行发现/过滤/排序/去重；第 61 行 plugin_install_dir；第 182 行项目级 .agents/plugins；第 269 行 hooks/hooks.json）；crates__goose__src__skills__client.rs（第 16 行 EXTENSION_NAME = \"skills\"）；crates__goose__src__agents__execute_commands.rs（第 34-37 行 skills 命令）；crates__goose__src__plugins__formats__open_plugins.rs（第 138/307/329 行插件 skills 目录）。goose 文档快照 _verify\\goose_docs\\：guides\\context-engineering\\using-skills.md（第 50-51 行两条技能路径）、mcp\\skills-mcp.md（第 17 行）、mcp\\extension-manager-mcp.md（第 64-66 行 5/50 上限）。opencode 文档快照 _verify\\opencode\\v1192\\…mcp-servers.mdx（v1 格式）；_verify\\opencode\\files\\packages__cli__src__commands__handlers__mcp__add.ts（v2 写 mcp.servers）。",
+    "verify_cmd": "① curl -s https://api.github.com/repos/block/goose → 预期 \"full_name\": \"aaif-goose/goose\"（本次实跑已确认重定向）② curl -s https://api.github.com/repos/aaif-goose/goose/pulls/6160 → 预期 \"state\": \"closed\" 且 \"merged_at\": null（本次实跑已确认未合并）③ 升级前后各跑一次 findstr /N \"extensions\" %USERPROFILE%\\.config\\goose\\config.yaml 并 diff → 预期升级后可能出现由迁移写入的 platform 扩展条目 ④ dir %USERPROFILE%\\.agents\\skills → 预期技能目录在升级前后内容不变（『自建技能不被冲掉』的直接反证手段）",
+    "evidence_date": "2026-10-16",
+    "verified_on": "**已验证（源码 / 官方文档 / GitHub API 实跑）**：① goose 仓库已迁至 aaif-goose（API 重定向实证）② PR #6160 closed 且 merged=false ③ Discussion #7675 原文与三位维护者回复内容 ④ goose 启动时自动迁移并静默回写配置（base.rs:520）⑤ is_extension_available 对未知 Platform 扩展静默跳过 ⑥ skills 当前是 platform extension（skills/client.rs）⑦ 插件技能目录与 hooks.json 位置 ⑧ opencode v1→v2 的 mcp.<name>→mcp.servers.<name>、enabled→disabled、tools→permissions 的破坏性变更。**仅文档推断**：~/.agents/skills 与 hooks.json 在重构后保持不变。**未验证（逻辑外推）**：升级是否会冲掉用户自建技能——技能是纯目录文件、config 迁移不触碰文件系统，故推断为『不会』；但 bundled / plugin 机制的改动有可能影响 ~/.agents/plugins 下由插件分发的技能，这一点未实测。"
+  },
+  "risk": {
+    "permission_gate": "**无闸门**，这是本 item 的核心结论。goose 的配置迁移在启动读取配置时自动执行并回写（run_migrations → save_values，失败仅 warn），既不经用户确认也不提示。无人应答时的降级行为只有一种：非法/未知的扩展条目被**静默丢弃**（parse_extensions_map 对 is_extension_available() 为 false 的条目直接 continue，只留 info 级日志），因此『配置里的扩展莫名不见了』不会报错、也不会中断启动。⇒ 自进化方案必须在外部加装闸门（升级前快照 + 启动时配置指纹校验）。",
+    "injection_surface": "迁移层本身不是注入面，但存在一个容易误导审计的**次生效应**：迁移会把 goose 内置定义的 description / display_name **写回** config.yaml。因此『config.yaml 里某个扩展的描述文本』不能当作用户意图或被篡改的证据——它可能是上次升级自动写入的。对自进化方案的实际含义：如果 curator 依赖『读配置来判断用户装了什么』，就会把上游默认值误判为用户选择。",
+    "upgrade_breakage": "已核实四条，按危害排序：① **配置层静默丢弃（最阴）**：extensions.<key> 若被解析为 ExtensionConfig::Platform { name }（key 先经 name_to_key 小写化、空白剔除、非 [a-zA-Z0-9_-] 转下划线），而该 name 不在 PLATFORM_EXTENSIONS 中，则整条被跳过 —— 不报错、不迁移、不提示。重构计划正是要『合并 Platform/Builtin』并『把 skills 从扩展改为内核实现』，一旦某个平台扩展被改名或移除，用户配置里对应的条目就会这样消失。② **静态目录/路径层**：plugin 目录 .agents/plugins/<name>、hooks/hooks.json、skills/ 子目录、config 的 plugins map 以**路径为 key** —— 若 bundling 改造调整了插件安装目录，config 里以路径为键的条目会整体失配（此条为逻辑外推）。③ **仓库标识层**：org 改名使 block/goose 相关的 URL、issue/PR 编号、CI 引用失效（301 存在，但 API 客户端与脚本不一定跟随）。④ **opencode 层**：v1→v2 的 MCP 配置破坏性变更，且工具名规范化为 <server>_<tool>，任何按旧名匹配的自动化会失效。缓解优先级：锁版本 > 升级前快照 > 资产放纯目录层 > 逐版本 diff 配置。",
+    "stability": "长跑风险三条：① **重构尚未落定**：Discussion #7675 只有一个评论与两条回复（2026-03-05 同日），方案要点虽被维护者『同意』（recipes 保持原生、skills 改为内核实现、其余按计划推进），但 PR #6160 未合并，bundling 改造与『新默认值』两项仍在计划中 ⇒ 未来 6 个月内 goose 的扩展/config 接口仍有变更可能，本方案的升级破坏风险属**中等偏高且仍在活动期**。② **吞吐带来的接口漂移**：180 open PR / 494 open issue，常用脚本依赖的内部路径/字段被改的概率不低。③ **静默降级不可配置**：迁移层只有『跳过非法条目』一种降级，无法设为『报错中止』，因此升级后必须靠外部 diff 而非自身告警来发现配置被改。"
+  },
+  "uncertain": [
+    "basic.license（goose 是否带 CLA / opencode 的许可证）",
+    "basic.governance（opencode 的治理主体与治理结构）",
+    "extension_surface.hook_support（hooks.json 的字段级 schema 是否随重构变化，本次只验证了位置）",
+    "extension_surface.cross_tool_read_paths（重构后 ~/.agents/skills 是否保持——仅文档推断，非源码级承诺）",
+    "extension_surface.distribution_channel（bundling 改造是否调整插件安装目录，进而使 config 中以路径为 key 的 plugins 条目失配）",
+    "self_evolution.auto_skill_creation（升级是否会冲掉自建技能——逻辑外推，未实测）",
+    "risk.upgrade_breakage（opencode v2 是否保留 v1 配置的兼容层或自动迁移）"
+  ]
+}

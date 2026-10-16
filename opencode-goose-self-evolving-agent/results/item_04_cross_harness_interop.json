@@ -1,0 +1,60 @@
+{
+  "name": "Agent Skills 跨 harness 互操作标准与共享根（SKILL.md 规范 / ~/.agents 汇合点 / AGENTS.md）",
+  "type": "扩展机制（跨工具标准 + 共享根目录约定，非某个 harness 本体）",
+  "repo": "规范站 https://agentskills.io/specification ；快速参考含优先级表 https://agentskills.io/skill.md ；采纳清单 https://agentskills.io/clients ；规范源码仓 https://github.com/agentskills/agentskills",
+  "license": "[不确定] 规范仓库代码 Apache-2.0、文档 CC-BY-4.0（第三方镜像转述，未亲读 LICENSE）；非 copyleft，CLA 情况未知",
+  "install_method": "无需安装（纯文件系统约定）。分发靠：npx skills add（npm 包名 skills，vercel-labs/skills，MIT）、npx add-skill、npx ctx7 skills install、git clone 或手工放置到 ~/.agents/skills/<name>/SKILL.md；第三方同步器另需运行时（harness-sync 需 Bun）",
+  "version": "[不确定] 规范状态 status=official、number=0002、maturity=stable、updated=2026-08-22（第三方转述，可信度中）；未见独立 semver 版本号",
+  "maturity": "规范层稳定且已被大范围采纳（Claude Code / VS Code·GitHub Copilot / OpenAI Codex / OpenCode / goose / Cursor / Gemini CLI / Warp / Zed / Amp / Kimi / OpenHands 等）。实现层成熟度高度不均：opencode 强校验（正则 ^[a-z0-9]+(-[a-z0-9]+)*$、1–64 字符、强制 name==目录名）；goose 弱校验（只查字符集与首尾连字符，不查连续 '--'、不查 name==目录名）。共享根 ~/.agents/skills 在本机为实存（含 .skill-lock.json 账本）",
+  "governance": "[不确定] 厂商中立开放规范，由 github.com/agentskills/agentskills 治理；最初由 Anthropic 为 Claude 开发、2025-12 作为开放标准发布；是否存在基金会级治理主体与 Anthropic 决策权重未亲读治理页",
+  "standard_compliance": "是（本对象即规范本身）。硬约束：必填 name 与 description；name 1–64 字符、仅小写字母数字与连字符、不得以 '-' 开头或结尾、不得含连续 '--'、且**必须与父目录同名**；description 1–1024 字符且非空（承担全部触发责任）。可选：license、compatibility（≤500 字符）、metadata、allowed-tools（空格分隔的预批准工具名，标注为实验性）。打包约定：SKILL.md + scripts/ + references/ + assets/。等价正则 ^[a-z0-9]+(-[a-z0-9]+)*$",
+
+  "skills_support": "规范定义格式与发现，不实现加载器。事实标准路径：项目级 .agents/skills/（最高优先，覆盖用户级）、用户级 ~/.agents/skills/（跨客户端标准）；.<client>/skills/ 与 ~/.<client>/skills/ 被规范明确为『该产品运行时的兼容位置，同格式不同查找路径，不是另一种格式』。能否被 agent 自己创建：规范不禁止；goose 源码把 ~/.agents/skills 与 (project)/.agents/skills 都标 writable=true；opencode 无专用创建工具，只能走通用文件写",
+  "mcp_support": "本对象不涉及 MCP。跨 harness 事实：MCP 定义文件位置各家不同（Claude ~/.claude.json[mcpServers]；Codex ~/.codex/config.toml[mcp_servers]；Copilot ~/.copilot/mcp-config.json[servers]；Cursor ~/.cursor/mcp.json；Gemini ~/.gemini/settings.json；OpenCode ~/.config/opencode/opencode.json[mcp]），因此 MCP 无法像 SKILL.md 一样『一份喂三家』，只能靠同步工具按行为转写",
+  "plugin_support": "[不确定] 规范的打包单元是『技能目录』，未定义插件协议。goose 另设 ~/.agents/plugins/<plugin>/ 与 plugin.json（skills.paths / skills.exclusive，技能名为 plugin:skill 命名空间）；opencode 用 .opencode/plugin；本次检索未发现跨 harness 插件协议",
+  "hook_support": "无。规范不定义任何生命周期钩子；跨 harness hooks 不可移植（harness-sync 的 audit --strict 专门拒绝含 Linux/macOS home 字面量或机器本地可执行路径的同步 hooks）",
+  "memory_support": "无。规范不定义记忆概念、存储位置或写入者；metadata 可标注但无 harness 会把它当记忆读取",
+  "scheduler_support": "无。规范不定义定时/心跳/后台任务",
+  "subagent_support": "无。规范不定义子代理派生",
+  "cross_tool_read_paths": "【规范事实标准·含优先级】1) 项目级 .agents/skills/ = 最高（覆盖用户级）；2) 项目级 .<client>/skills/ = 客户端专用；3) 用户级 ~/.agents/skills/ = 跨客户端标准；4) 用户级 ~/.<client>/skills/ = 客户端专用。【opencode·6 条，源 docs/skills.mdx L16-21】项目：.opencode/skills/、.claude/skills/、.agents/skills/（自 cwd 逐级向上至 git worktree 根）；全局：~/.config/opencode/skills/、~/.claude/skills/、~/.agents/skills/。同名冲突：文档仅要求『Ensure skill names are unique across all locations』，**未定义优先级、未声明本地优先**；第三方 harness-sync README 反向证实『同一技能存在于两条路径会被重复加载』（无去重/覆盖）。【goose·顺序即优先级，源 crates/goose/src/skills/mod.rs all_skill_dirs_with_config，seen:HashSet 先到先得】1) <项目>/.agents/skills/（writable）2) <项目>/.goose/skills/ 3) <项目>/.claude/skills/ 4) 项目级插件 skills（只读）5) ~/.agents/skills/（注释原文 Canonical writable location for global user skills）6) ~/.config/goose/skills 7) ~/.claude/skills/ 8) ~/.config/agents/skills/ 9) 用户级插件 skills 10) builtin（最后，同名时被前面遮住）。同名冲突：**项目优先于全局**（单测 project_plugin_skill_precedes_global_skill_with_same_name 断言取项目插件内容）。注意 goose 文档只列 3 条推荐路径，其余为向后兼容隐式存在——**文档比源码窄，以源码为准**",
+  "hook_events_used": "不适用（规范不定义 hook 事件）",
+  "skill_embedded_mcp": "不能。规范无 MCP 字段；allowed-tools 是『预批准工具名』的空格分隔字符串（实验性），不是 MCP 配置。规范也未提供『MCP 反向转技能』机制",
+  "distribution_channel": "npx skills add（npm 包 skills，vercel-labs/skills，MIT；来源可为 owner/repo、完整 GitHub URL、仓库内子路径、GitLab、Azure Repos、任意 git URL、本地路径、直链 SKILL.md 或 .zip/.tar/.tar.gz、npm 包；安装默认软链，--copy 改为复制）、npx add-skill、npx ctx7 skills install、skills.sh 市场（npx skills find）、Atlassian TWG installer（始终把规范包写到 ~/.agents/skills，再对需要独立目录的 agent 复制）、AgentBus（AGENTBUS_SKILLS_DIR 在 connect 时同步进 Claude Code/Codex/OpenCode/Gemini）、git clone / 手工放置",
+  "update_mechanism": "规范不管更新。npx skills update [-g|-p] 按已记录来源重装；账本为本机实存的 C:\\Users\\Admin\\.agents\\.skill-lock.json（version 3，字段 source/sourceType/sourceUrl/sourceBaseUrl/wellKnownDigest/skillFolderHash/installedAt/updatedAt；本机仅 playwriter 一条，来源为 playwriter.dev 的 .well-known/agent-skills）。harness-sync 另用 ${XDG_STATE_HOME}/harness-sync/skills.json 记 provenance，update 只重装已跟踪技能、未知来源报告后跳过、绝不按同名臆造上游来源",
+  "token_cost_model": "核心成本机制是渐进披露：启动时只注入每个技能的 name+description（规范估值约 50–100 tokens/技能），任务命中才把 SKILL.md 正文载入上下文，references/ 下文件按需单独加载。harness 侧加码：opencode 可用 metadata[\"opencode/autoinvoke\"]=\"false\" 把技能移出模型可见的 <available_skills>（仍可手动按名加载），并用 permission.skill 的 allow/deny/ask 通配闸门与 tools.skill=false 限流；goose 有 goose skills 子命令可列出并计量 token。共享根让三家共用同一份技能与同一份 token 预算，是本题最大的成本杠杆；反之技能数量增长会同时放大三家的上下文压力",
+
+  "auto_skill_creation": "规范层不禁止也不提供。共享根 ~/.agents/skills 使『一次沉淀、三家可见』成立：agent 写一个合规目录，opencode 与 goose 下次启动即发现。goose 源码把 ~/.agents/skills 与 (project)/.agents/skills 标 writable=true；opencode 无专用创建工具。触发方式由各 harness 自定，不属规范能力",
+  "auto_memory_write": "无。规范无记忆字段与写入位置；metadata 里放自定义键不会被任何 harness 当作记忆读取",
+  "background_self_review": "无。规范不含回合后审查流程",
+  "self_config_edit": "规范本身无闸门；但共享根把『改一处』放大成『影响三家』——既是自进化杠杆也是风险杠杆（写入一个不合规 name 会让三家同时拒载或错载）。需在写 ~/.agents/skills 那一步设闸，而不是在读取侧",
+  "trigger_mechanism": "纯被动发现（会话启动扫描目录），无时间/事件驱动。静默失败点明确：不满足 name 约束的技能被静默跳过——goose 源码 warn!(\"Skill at '{}' is missing a required 'name' in frontmatter, skipping\") 与 name 含 '/' 时直接 return None，仅记日志不报错；opencode troubleshooting 要求『Ensure skill names are unique across all locations』",
+  "iteration_axes_coverage": "轴1 技能习得/蒸馏：部分（提供沉淀载体与共享投递面，但不提供触发或蒸馏逻辑）；轴2 记忆写入：无；轴3 后台复审/curator：无；轴4 可测量进化：无（规范无 outcomes/计数/回滚概念）；轴5 自我配置改写：部分（改一处文件即三家生效，但不自带人工闸门）。结论：规范覆盖『轴0：格式与发现层』，不自带 5 条轴中的任何一条——它是其余自进化方案的地基而非方案",
+  "reward_signal": "无。规范不定义任何 outcome 记录、使用/失败计数、LLM-judge 或 Pareto/GEPA 反馈。跨 harness 场景下的 reward signal 只能由上层同步器/harness 提供（如 harness-sync audit --strict 的 actionable drift 退出码、npx skills update 的来源比对）",
+  "human_approval_gate": "规范无。闸门必须由 harness 提供：opencode 的 permission.skill（allow/deny/ask + 通配 + per-agent 覆写 + tools.skill=false 整体关闭）；goose 可用 HookEvent（PreToolUse 可 Block）或插件。可作范式的闸门设计（来自 harness-sync）：dry run 时 apply:false 且 writes 为空、写入必须同时给 --apply 与 --confirmed、每次改动前备份、apply 失败自动回滚、未解决的冲突在非交互模式以退出码 2 结束且零写入",
+  "state_dir": "协议层无状态目录。相关落盘（本机可核对）：~/.agents/.skill-lock.json（npx skills 安装/更新账本，本机已存在）、~/.agents/skills-overrides.json（harness-sync 的技能前置元数据覆写）、~/.agents/mcp/mcp.json + ~/.agents/mcp/bindings.json、${XDG_STATE_HOME:-~/.local/state}/harness-sync/{skills.json,mcps.json,backups/}",
+
+  "missing_component": "①跨 harness 技能格式与发现的统一层（各家自有目录 + 各自扫描器，缺单一真源）②同步器（无『一处改、三家生效』机制）③漂移/冲突检测（无 doctor/audit，同名不同内容长期发散无人发现）④溯源账本（无 provenance，无法判断某技能来自哪个上游、能否安全更新）⑤备份与回滚",
+  "how_to_fill": "①技能统一放 ~/.agents/skills/<name>/SKILL.md（name 必须等于目录名）；项目级放 <项目>/.agents/skills/；AGENTS.md 作为跨工具指令单一真源。②分发用 npx skills add，推荐 `npx skills add <owner/repo> -g -y -a claude-code codex gemini-cli opencode`——不要用 --all（会为 CLI 目录里 50+ 个 agent 全部建目录），也不要只给 -a claude-code（会绕过 ~/.agents/skills 直接把实体复制到 ~/.claude/skills）。③引第三方同步器做漂移检测：`npx skills add timvdhoorn/harness-sync --skill harness-sync -g` 后 `harness-sync audit --strict --json`（有 actionable drift 退出码 1，clean 为 0）；或 `agentbus doctor`。④建溯源：harness-sync init --apply --confirmed，写 ${XDG_STATE_HOME}/harness-sync/skills.json。⑤回滚靠 harness-sync 自动备份（保留最近 10 份，apply 失败自动恢复）。⑥Windows 本机注意：harness-sync 明确『测试只在 Linux 跑，Windows 支持未验证』，Bun 为必需运行时",
+  "code_effort": "只需『三家共享根』→ **无需写码**，纯目录约定。要漂移检测/溯源/回滚 → 装现成 CLI（无需写码，但需 Bun 或 Node/npx 运行时）。要定制同步规则 → 单文件脚本（软链或 rsync）。不需要管理员权限",
+
+  "official_doc_url": "规范 https://agentskills.io/specification ；快速参考（含优先级表）https://agentskills.io/skill.md ；索引 https://agentskills.io/llms.txt ；规范源码 https://github.com/agentskills/agentskills/blob/main/docs/specification.mdx ；opencode https://opencode.ai/docs/skills.md ；goose https://goose-docs.ai/docs/guides/context-engineering/using-skills/ ；第三方反向证据 https://github.com/timvdhoorn/harness-sync",
+  "local_path": "C:\\Users\\Admin\\.agents\\skills\\playwriter\\SKILL.md ；C:\\Users\\Admin\\.agents\\.skill-lock.json ；C:\\Users\\Admin\\.config\\opencode\\skills\\ ；C:\\Users\\Admin\\.config\\opencode\\opencode.jsonc ；C:\\Users\\Admin\\AppData\\Local\\hermes\\config.yaml（skills.external_dirs 注释明写 ~/.agents/skills）；快照 C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\opencode\\v1192\\packages__web__src__content__docs__skills.mdx 与 _verify\\src\\key\\crates__goose__src__skills__mod.rs",
+  "verify_cmd": "① dir \"C:\\Users\\Admin\\.agents\\skills\" → 预期只有 playwriter；② type \"C:\\Users\\Admin\\.agents\\.skill-lock.json\" → 预期含 version: 3 与 skills.playwriter；③ goose skills list → 预期列出 ~/.agents/skills 下技能 + 内置；④ opencode 内若某技能同时存在于 .opencode/skills 与 .agents/skills，预期出现两次（重复加载）——待实测断言",
+  "evidence_date": "2026-10-16",
+  "verified_on": "已验证（本机/源码）：goose 的 10 条路径与『项目优先、seen 先到先得』来自本机源码快照 all_skill_dirs_with_config + 单测；goose 的 name 弱校验来自 validate_skill_name / parse_skill_content；opencode 六条路径来自本机文档快照。仅文档推断：opencode 六条路径之间的同名优先级。未验证（逻辑外推）：『opencode 因无去重而重复加载同一技能』由第三方工具 README 反向推出，未本机实测复现",
+
+  "permission_gate": "规范无。opencode 有 permission.skill 的 allow/deny/ask + 通配符 + per-agent 覆写 + tools.skill=false 整体关闭（关闭后 <available_skills> 整段省略）。goose 需借助 HookEvent（PreToolUse 可 Block）或插件。共享根语境下闸门应设在『写 ~/.agents/skills』那一步，因为一次写入会同时影响三家读取侧，而三家读取侧并无统一闸门",
+  "injection_surface": "共享根把注入面从 1 家放大到 N 家：抓取内容 → 写入 ~/.agents/skills/<name>/SKILL.md → opencode 与 goose 同时纳入 <available_skills> 并在后续会话按需加载 → 三家同时被污染且随会话数自我放大。三个放大细节：①规范原文明确 description『承担整个触发负担』，而 name+description 恰是唯一自动暴露给模型的字段 → 仅靠 description 就能劫持技能选择；②references/ 为按需加载，恶意载荷可藏到被点名才进上下文，使『启动时扫描技能』式防护出现盲区；③allowed-tools（实验性）若被实现，等于把注入从『文本影响』升级为『免确认的工具执行』。缓解：opencode 把 permission.skill 设为 ask/deny；只接受已知来源形状与参数列表，绝不执行技能来源提供的任意 shell 文本",
+  "upgrade_breakage": "规范侧相对稳定（status official / maturity stable / updated 2026-08-22），字段集短期不易崩。真正风险在实现侧路径漂移：npx skills 的 agent 路径表在不同版本间改过（早期 OpenCode→.opencode/skills/，较新→.agents/skills/；Goose 始终为 .goose/skills/ + ~/.config/goose/skills/，**不是** canonical ~/.agents/skills）→ 靠 CLI 装到 goose 不会落在三家共享根上，必须显式用 universal 目标或手工放置。goose 侧仍在做平台扩展重构（#7675 / PR #6160）。技能本体是纯文件、非应用数据库，故重装/升级基本不会冲掉已沉淀技能；真正的丢失风险来自『软链式同步 + 上游目录被清空』",
+  "stability": "长跑风险：①技能数 vs 上下文——规范给了渐进披露（每技能约 50–100 tokens），但 opencode 会把非 autoinvoke=false 的技能全部注入 <available_skills>，技能上百后出现选择失败与描述稀释；②静默失败——goose 对缺 name 或 name 含 '/' 的技能只 warn 就 skip，用户无感；③符号链接依赖——软链式同步在不跟随目录符号链接的 harness 会静默丢技能，需 rsync 实体副本；④重复加载——同一技能同时出现在 .opencode/skills 与 .agents/skills 会被 opencode 载入两次；⑤复制式同步的长期发散——同名不同内容无人发现，需 audit 主动查",
+
+  "uncertain": [
+    "version（规范是否存在独立 semver；目前只见 status/number 0002/maturity stable/日期）",
+    "license（Apache-2.0 + CC-BY-4.0 均为第三方转述，未亲读 LICENSE；CLA 情况未知）",
+    "governance（治理主体与决策结构、是否有基金会；未亲读治理页）",
+    "plugin_support（是否存在跨 harness 插件协议；本次检索未发现）",
+    "cross_tool_read_paths 中 opencode 六条路径的优先级与同名冲突规则（文档未定义，源码快照内无发现器实现）",
+    "token_cost_model（规范给的是『约 50–100 tokens/技能』估值，未本机实测）",
+    "verify_cmd 第 ④ 条（opencode 重复加载）为待实测断言，未在本机复现"
+  ]
+}

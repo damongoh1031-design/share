@@ -1,0 +1,58 @@
+{
+  "basic": {
+    "name": "goose",
+    "type": "harness 本体（目标机）",
+    "repo": "https://goose-docs.ai（仓库已迁至 aaif-goose/goose）",
+    "license": "[不确定]",
+    "install_method": "本机为独立可执行文件 C:\\Users\\Admin\\aPPS\\goose\\Goose.exe（桌面形态）；CLI 与桌面共用同一 config",
+    "version": "[不确定]",
+    "maturity": "活跃。源码含 2026 年新增的 plugins/hooks/skills 子系统；治理主体 2026-04-07 从 Block 迁至 AAIF",
+    "governance": "AAIF（Agentic AI Foundation，原 Block 主导，2026-04-07 迁移）",
+    "standard_compliance": "读 ~/.agents/skills 与 (project)/.agents/skills，与 Agent Skills 规范对齐；插件技能安装时会把 SKILL.md 的 name 改写为带插件命名空间前缀的形式"
+  },
+  "extension_surface": {
+    "skills_support": "有，且路径是跨工具共享根。~/.agents/skills（源码注释原文『Canonical writable location for global user skills』）、(project)/.agents/skills、~/.agents/plugins/*/skills/。CLI 有 goose skills 子命令，列出已安装技能并统计 token",
+    "mcp_support": "有。概念名为 extensions；crates/goose-mcp 内建 autovisualiser、computercontroller、memory、peekaboo、tutorial 等；插件可通过 .mcp.json 或 manifest 的 mcpServers 字段携带 MCP server",
+    "plugin_support": "有（2026 新增，是 goose 侧自扩展的一等公民）。用户作用域 ~/.agents/plugins/<name>，项目作用域 <project>/.agents/plugins/<name>；每个插件可有自己的 settings，并在 config.yaml 的 plugins map 下按名开关（enabled: true/false）；新发现的插件会被自动写入 map 且 enabled: true；支持 open-plugins 与 gemini 两种格式（MANIFESTS 三个候选文件名）；CLI：goose plugin install <url> [--auto-update] / goose plugin update <name>（install_plugin_with_options / update_plugin）",
+    "hook_support": "有，且为本次调研中语义最强的一方。HookEvent 八种：PreToolUse、PreToolUseResult、PostToolUse、PostToolUseFailure、SessionStart、SessionEnd、UserPromptSubmit、Stop。hooks.json 放在插件内 hooks/hooks.json，启动时自动发现（用户与项目作用域都可）。hook 动作当前仅支持 type=command；matcher 是正则，分别对工具名（工具事件）或文件路径（文件事件）测试；支持逐 hook timeout（有默认值）；未知事件名被忽略而非报错。PreToolUse 的判定是 HookDecision::Allow | Deny{reason, plugin}，Deny 即阻断工具调用",
+    "memory_support": "有。crates/goose-mcp 内建 memory extension（src/memory/mod.rs），与 skills/recipes 并列的 context-engineering 原语之一",
+    "scheduler_support": "有，且是原生 cron。goose schedule add --schedule-id <id> --cron \"0 * * * *\" --recipe-source <recipe.yaml>（也支持 @daily 等简写），调度器会把 recipe 复制进内部 scheduled_recipes 目录；另有 goose schedule list / remove。注意：早期基于 Temporal 的调度服务已移除",
+    "subagent_support": "有。crates/goose/src/agents/subagent_handler.rs 与 subagent_task_config.rs；平台扩展重构正把 subagents 从合并扩展拆成独立 platform extension",
+    "cross_tool_read_paths": "~/.agents/skills/（全局，可写）、(project)/.agents/skills/、~/.agents/plugins/<name>/skills/（插件自带，名字带插件前缀）",
+    "hook_events_used": "PreToolUse、PreToolUseResult、PostToolUse、PostToolUseFailure、SessionStart、SessionEnd、UserPromptSubmit、Stop",
+    "skill_embedded_mcp": "有。插件 manifest 可声明 mcpServers（open-plugins 格式）或携带 .mcp.json；组件标记为 hooks/hooks.json、commands、agents、.mcp.json",
+    "distribution_channel": "goose plugin install <git url>（git-backed，支持 --auto-update）；config.yaml 的 extensions/plugins；市场格式为 open-plugins 与 gemini extensions",
+    "update_mechanism": "goose plugin update <name>；install 时可带 --auto-update 自动跟随；goose update 升级本体",
+    "token_cost_model": "有显式计量：goose skills 子命令用 create_token_counter 输出每个技能的 token 数（对照 opencode 无此工具）；另有 large_response_handler.rs 处理超长响应"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "无自动触发。~/.agents/skills 被源码明确定义为『可写』的全局技能位置，但没有任何 nudge 或回合后自动写入机制——**与 Hermes 的同一缺口**",
+    "auto_memory_write": "部分。有 memory extension，但是否自动写入取决于所接 memory 服务；harness 本身无回合后自动写入触发",
+    "background_self_review": "无。未见 curator 或回合后自审任务",
+    "self_config_edit": "技术上可以（插件与技能都在用户可写目录内），但无针对自指令文件的专用批准闸门；plugins map 的 enabled 开关与 PreToolUse Deny 可作为闸门原语",
+    "trigger_mechanism": "无自进化触发链。可用挂载点：SessionEnd / Stop（回合或会话结束）、PostToolUse（工具后）、goose schedule（定时）；三者可组合出一个完整闭环",
+    "iteration_axes_coverage": "五轴中覆盖三轴：轴1 部分（有可写共享技能根，无自动触发）、轴2 部分（有 memory extension）、轴5 强（hooks 可改流程 + PreToolUse 可 Deny + permission_judge/permission_store + tool_confirmation_coordinator）；轴3 无、轴4 无",
+    "reward_signal": "无。未见技能使用次数/成败统计与据此的 prune/pin；本机 config 与源码快照中都没有对应状态文件",
+    "human_approval_gate": "有，且分层清晰：PreToolUse 可 Deny 并回传 reason 与 plugin 名；permission_judge/permission_store 判定与持久化；tool_confirmation_coordinator 协调确认；extension_malware_check 对扩展做恶意检查；security/adversary_inspector 与 egress_inspector 负责对手与出网检查",
+    "state_dir": "sessions/ 与日志在用户的 goose 数据目录；调度 job 与 recipe 副本在 scheduled_recipes 目录；插件状态 ~/.agents/plugins/（含 hello-hooks 示例的 last-event.log 可作调试）"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "只缺 2 件：③ 技能库 curator（provenance + archive/restore/prune/pin）；④ 的配套 reward signal（简直用的成败/使用统计）。注意 goose 在 hooks（可阻断）、plugins（git 一键装 + 自动启用）、原生 cron 调度、技能 token 计量上**比 Hermes 更完整**，原假设『goose 缺 hooks/调度』不成立",
+    "how_to_fill": "① 沉淀闭环：建一个用户级插件 ~/.agents/plugins/task-distiller/，放 hooks/hooks.json 挂 Stop 或 SessionEnd，动作指向本插件内脚本；脚本读会话尾部上下文，判断本轮是否值得沉淀，值得则写 ~/.agents/skills/<name>/SKILL.md（写共享根，opencode 同时受益）② 幂等与回滚：写入前先备份到插件目录下 backups/，SKILL.md frontmatter 校验失败即回滚 ③ reward：脚本在 ~/.agents/skills/.outcomes.json 累加该技能的 use/fail 计数 ④ 定期整理：用 goose schedule add 起一个 cron 任务跑 recipe，对 outcomes 达阈值的技能做重写提议（提议需人工确认）⑤ 闸门：对自指令文件与该插件脚本目录用 PreToolUse matcher 正则做 Deny",
+    "code_effort": "最小：一个 ~/.agents/plugins/<name>/ 目录（hooks.json 一份 + 脚本一到两个），**零上游改动、零配置改动**（新插件会被自动发现并 enabled）。比 opencode 侧更省——因为不需要写插件代码框架，只要写 shell/py 脚本"
+  },
+  "evidence": {
+    "official_doc_url": "https://goose-docs.ai/docs/guides/context-engineering/  ·  https://goose-docs.ai/docs/guides/context-engineering/plugins  ·  https://open-plugins.com/agent-builders/components/hooks",
+    "local_path": "C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\src\\key\\crates__goose__src__hooks__mod.rs、…__skills__mod.rs、…__plugins__discovery.rs、…__plugins__formats__open_plugins.rs、…__scheduler__full.rs、…__goose-cli__src__commands__{plugin,skills,schedule}.rs；_verify\\extra_docs\\documentation\\blog\\2026-05-14-goose-hooks\\index.md",
+    "verify_cmd": "goose plugin --help ; goose skills --help ; goose schedule --help ; 检查 ~/.agents/plugins/ 是否存在",
+    "evidence_date": "2026-10-16",
+    "verified_on": "已验证（源码快照逐文件核对）；运行版本号未采集"
+  },
+  "risk": {
+    "permission_gate": "分层且偏强：PreToolUse 可 Deny（带 reason 与 plugin 标识）；permission_judge + permission_store 做判定与持久化；tool_confirmation_coordinator 做确认协调；另有 extension_malware_check 对新增扩展做恶意检查。但**没有** Hermes 式『自指令文件改动必须人工批准』这种针对性条款",
+    "injection_surface": "插件与技能都能从 git URL 一键安装并自动启用（新发现插件默认 enabled: true），这是比 opencode 更大的注入面；缓解手段是 extension_malware_check、security 检查器与 PreToolUse Deny。若再叠加自进化写技能闭环，则形成『安装 → 技能 → 后续会话遵从』的放大回路",
+    "upgrade_breakage": "较高，且是本题最大的时间风险。平台扩展重构（Discussion #7675 / PR #6160）正在把 skills/recipes/subagents 从合并扩展改为独立 platform extension，并合并 platform/builtin 概念；治理主体刚迁至 AAIF。~/.agents 这一层路径短期看是稳定的（跨工具共享根），但 config.yaml 中 extensions 的字段形态有变动风险。另：早期 Temporal 调度服务已被移除，说明此类机制会被整块替换",
+    "stability": "有 large_response_handler 与 token 计量，长跑成本可控；hooks 有逐 hook timeout 且有超时默认值，脚本挂死不会静默卡住（未知事件名忽略而非报错，属宽容设计）"
+  },
+  "uncertain": ["basic.license", "basic.version"]
+}

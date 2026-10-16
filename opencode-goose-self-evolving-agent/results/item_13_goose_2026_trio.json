@@ -1,0 +1,58 @@
+{
+  "basic": {
+    "name": "goose 2026 新增三件套（Plugins / Hooks / Skills）深读",
+    "type": "扩展机制（目标机深挖）",
+    "repo": "https://github.com/aaif-goose/goose  ·  https://open-plugins.com/",
+    "license": "[不确定]",
+    "install_method": "goose plugin install <git url> [--auto-update]",
+    "version": "[不确定]",
+    "maturity": "2026 年新落地；hooks 官方博客日期 2026-05-14；plugins 仍在与平台扩展重构协同演进",
+    "governance": "AAIF",
+    "standard_compliance": "hooks 遵循 Open Plugins hooks 规范（open-plugins.com/agent-builders/components/hooks）；plugins 支持 open-plugins 与 gemini extensions 两种格式"
+  },
+  "extension_surface": {
+    "skills_support": "安装期行为已读清：插件内技能会被**改名并改写 SKILL.md**——namespaced_component_name(plugin_name, skill.name) 生成带插件前缀的名字，再用 rewrite_skill_name 把 SKILL.md 里的 name 字段改成该前缀名。因此插件技能与 ~/.agents/skills 下的手工技能在命名空间上互不冲突。技能发现入口：find_agent_skills(checkout_dir, manifest.skills)；若无 skills 目录且 manifest 未声明，则视为无技能",
+    "mcp_support": "插件可通过 manifest 的 mcpServers 声明 MCP server（serde rename = \"mcpServers\"），安装时用 validate_mcp_servers 校验；另有组件标记 .mcp.json",
+    "plugin_support": "组件标记共四类：hooks/hooks.json、commands、agents、.mcp.json。manifest 字段：name、version、skills、mcpServers。安装流程：读 manifest → validate_plugin_name → 校验 mcp → 在 staging 目录组装 → fs::rename 原子落盘（避免半装状态）。已装插件按 scope 排序（plugin_scope_rank），并按 settings 的 is_enabled 过滤",
+    "hook_support": "语义细节：hooks.json 形如 {\"<Event>\":[{\"matcher\":\"<正则>\",\"hooks\":[{\"type\":\"command\",\"command\":\"${PLUGIN_ROOT}/scripts/x.sh\",\"timeout\":<秒>}]}]}。仅支持 type=command（其他类型报错）；缺 command 字段的条目被忽略并告警；command 非字符串报错。matcher 正则分别对『工具名』（工具类事件）或『文件路径』（文件类事件）测试，也可对命令字符串测试。超时有默认值（插件未指定时）。未知事件名被忽略。PreToolUse 的结论是 Allow | Deny{reason, plugin}，Deny 时回填 blocked_by 与 reason 给模型；文档明确 PreToolUseResult 只有 allow/deny 两个值，没有第三个。另有 OnFailure 策略（Allow/Block）与链式判定（run_chain），PreToolUse 与 Stop 可走 Block 路径",
+    "memory_support": "本三件套不含 memory；memory 是独立的 extension（goose-mcp 内建）",
+    "scheduler_support": "不在三件套内，但可与 recipe 组合：goose schedule add 用 cron 驱动 recipe，即『定时跑一段自进化流程』的现成手段",
+    "subagent_support": "重构中：subagents 正从合并扩展迁为独立 platform extension",
+    "cross_tool_read_paths": "~/.agents/plugins/<name>/（用户）、<project>/.agents/plugins/<name>/（项目）；技能读取另含 ~/.agents/skills 与 (project)/.agents/skills",
+    "hook_events_used": "八种事件全在（见 hook_support）",
+    "skill_embedded_mcp": "有。插件 = skills + hooks + commands + agents + mcpServers 的多组件容器",
+    "distribution_channel": "git URL（goose plugin install）；格式由 MANIFESTS 三个候选清单文件决定，标识别为 open-plugins 或 gemini",
+    "update_mechanism": "install 时可选 --auto-update 自动跟随上游；goose plugin update <name> 手动更新",
+    "token_cost_model": "goose skills 会统计技能 token（create_token_counter），可作为插件技能的体积审计手段"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "无。三件套提供的是『装』与『挂』的能力，不含『何时写』的策略——这正是需要用 Stop/SessionEnd hook 补上的部分",
+    "auto_memory_write": "无（三件套范围内）",
+    "background_self_review": "无",
+    "self_config_edit": "无专门机制；但插件安装会**自动写入 config.yaml 的 plugins map**（新发现插件 enabled: true），这本身是一种『自我配置扩展』的先例",
+    "trigger_mechanism": "三件套自身无触发；可用 Stop / SessionEnd / PostToolUse / schedule 组合出触发链",
+    "iteration_axes_coverage": "三件套只提供轴5 的基础设施（能挂 hook、能装插件、能写共享技能根），不提供轴1~轴4 的任何触发或度量",
+    "reward_signal": "无",
+    "human_approval_gate": "PreToolUse 的 Deny 是可用闸门原语；另有 permission_judge/permission_store 与 extension_malware_check 兜底。但『新插件自动 enabled』意味着安装本身不需要人工确认，属于默认放行的设计",
+    "state_dir": "~/.agents/plugins/<name>/（用户级）；官方示例 hello-hooks 会把每次事件 JSON 追加到该插件目录下的 last-event.log，是调试自进化 hook 的现成观察口"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "三件套本身不构成自进化——它提供挂载点（轴5 基础设施），缺轴1 的触发策略与轴4 的度量",
+    "how_to_fill": "用三件套把『沉淀』接起来的具体形态：① hooks.json 挂 SessionEnd 或 Stop，command 指向 ${PLUGIN_ROOT}/scripts/distill.sh ② 脚本从 stdin 读事件 JSON（payload 含 session_id、message 等字段），据此判断是否值得沉淀 ③ 值得则写 ~/.agents/skills/<name>/SKILL.md，并在 .outcomes.json 里登记该技能 ④ 用 goose schedule add 起日/周 cron 任务跑整理 recipe ⑤ 用 PreToolUse + matcher 正则给自指令文件与插件脚本目录加 Deny 护栏。可先复制官方 examples/plugins/hello-hooks 作为骨架（它同时挂了 SessionStart/UserPromptSubmit/PreToolUse/PostToolUse 并打印事件），把 announce.sh 换成 distill.sh 即可",
+    "code_effort": "低。目录 + hooks.json + 一个脚本；官方已有可复制的 hello-hooks 骨架；无需改 goose 本体、无需改配置（自动发现并 enabled）"
+  },
+  "evidence": {
+    "official_doc_url": "https://open-plugins.com/agent-builders/installation  ·  https://open-plugins.com/agent-builders/components/hooks  ·  https://goose-docs.ai/docs/guides/context-engineering/plugins",
+    "local_path": "C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\src\\key\\crates__goose__src__plugins__formats__open_plugins.rs（MANIFESTS/COMPONENT_MARKERS/namespacing）、…__hooks__mod.rs（HookEvent/HookDecision/matcher/timeout/OnFailure/run_chain）、…__plugins__discovery.rs（作用域与自动 enabled）",
+    "verify_cmd": "读 examples/plugins/hello-hooks 后 cp 到 ~/.agents/plugins/ 并 chmod +x 其脚本，起一个会话观察 last-event.log",
+    "evidence_date": "2026-10-16",
+    "verified_on": "已验证（源码快照逐行；未实跑 hello-hooks）"
+  },
+  "risk": {
+    "permission_gate": "PreToolUse Deny 可作为精细闸门（matcher 直接对工具名/路径做正则）；但安装侧默认放行（新插件自动 enabled: true），无首次使用同意流程——这一点弱于 Hermes 的 shell-hooks-allowlist",
+    "injection_surface": "插件可同时携带 skills、hooks 与 mcpServers，且能被 git 一键安装并自动启用。一个恶意插件的 hook 可在 PreToolUse 阶段拿到工具入参、在 SessionEnd 阶段写任意技能文件——这是比 opencode 更大的结构性注入面，缓解只能靠 extension_malware_check 与人工审查",
+    "upgrade_breakage": "高。三件套处在平台扩展重构（#7675 / #6160）的同一波里，manifest 字段与 config.yaml extensions 形态都可能变；bus factor 上治理刚交接 AAIF",
+    "stability": "hook 有逐条 timeout 与默认值，脚本挂死不会拖住会话；未知事件名忽略；staging + 原子 rename 保证不会半装。整体工程质量比同类机制更高"
+  },
+  "uncertain": ["basic.license", "basic.version"]
+}

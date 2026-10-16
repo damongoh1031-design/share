@@ -1,0 +1,39 @@
+// opencode 配置片段 —— 复制进 C:\Users\Admin\.config\opencode\opencode.jsonc
+// 当前本机该文件全文只有 {"shell":"powershell"}，以下为新增部分。
+// 每段都可单独启用，注释已标明「这一段解决 Hermes 的哪一件」。
+{
+  "shell": "powershell",
+
+  // ── ① 挂载自进化插件（轴1/2/3/4 的宿主）────────────────────────
+  // 本地插件文件放在 ~/.config/opencode/plugins/self-evolve.ts，会被自动加载；
+  // 若改用 npm 包，则在此处显式声明：
+  // "plugin": ["opencode-self-evolving-skills"],
+
+  // ── ② 记忆外挂（轴2；opencode 无原生 memory）───────────────────
+  // 二选一：
+  //   A) 零依赖：不用 MCP，改用插件自建的 MEMORY.md（见 self-evolve.ts）
+  //   B) 接记忆 MCP（示例用 basic-memory，需先安装该 MCP server）
+  "mcp": {
+    "basic-memory": {
+      "type": "local",
+      "command": ["uvx", "basic-memory", "mcp"],
+      "enabled": false
+    }
+  },
+
+  // ── ③ 护栏（轴5；对应 Hermes 的「自指令文件须人工批准」）────────
+  // opencode 是 pattern 权限，deny 的技能对 agent 整体隐藏。
+  // 注意：permission 的具体 schema 以本地 v2 为准（TODO verify）。
+  "permission": {
+    "skill": {
+      // 自进化写入的技能先只准读不准改，改动走人工
+      "self-*": "allow"
+    },
+    "edit": {
+      // 禁止 agent 直接改自身指令文件与自进化脚本
+      "**/AGENTS.md": "ask",
+      "**/.config/opencode/plugins/**": "ask",
+      "**/.agents/skills/**/SKILL.md": "ask"
+    }
+  }
+}

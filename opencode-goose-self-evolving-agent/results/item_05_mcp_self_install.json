@@ -1,0 +1,65 @@
+{
+  "basic": {
+    "name": "MCP 自安装三通道 + 上下文成本治理（官方 MCP Registry / GitHub MCP Registry / Smithery / opencode-slim-mcp）",
+    "type": "扩展机制",
+    "repo": "① 官方 MCP Registry：https://registry.modelcontextprotocol.io （仓库 https://github.com/modelcontextprotocol/registry ）② GitHub MCP Registry：https://github.com/mcp ③ Smithery：https://github.com/smithery-ai/cli （官网 https://smithery.ai ）④ 瘦身插件：https://github.com/Mumme-IT/opencode-slim-mcp ⑤ 客户端落地命令：opencode v2 `opencode mcp add`（https://opencode.ai/v2/docs/mcp-servers ）",
+    "license": "[不确定] 官方 Registry 仓库 7.4k★、仓内确有 LICENSE 文件（本次未读取条款正文）；Smithery CLI 的 npm 包页 license 字段显示为 none，商用前须自查；opencode-slim-mcp 未取证。注意三通道均不涉及 copyleft/CLA 判断，风险在『服务端可随时下架/改协议』而非许可",
+    "install_method": "三通道本身是『发现/检索』接口，不是安装器；落地写配置由客户端 CLI 完成。① 官方 Registry：无消费侧官方 CLI（仓内 mcp-publisher 仅用于**发布**），但 v0 REST API 完全可编程，curl 即可取数；② github.com/mcp：网页一键 Install（每个 server 一个按钮），未见 CLI；③ Smithery：有 CLI，npm i -g smithery@latest（Node 20+）或 npx @smithery/cli install <server> --client <client>（4.x 旧式，--config 可免交互）；④ opencode 侧真正落盘动作：opencode mcp add <name> --url ...（remote）或 opencode mcp add <name> -- <cmd...>（local），--global 写全局配置",
+    "version": "官方 Registry：API v0.1，2025-10-24 进入 API freeze（2026-10-16 仍可用 v0 路径，实测 200）；Smithery CLI：@smithery/cli 4.11.1 / 新包 smithery@latest 4.7.0（Node 20+）；opencode：v2 已上线（opencode.ai/v2，v2 文档含独立 MCP 章节）；goose（对照）：主仓 main 分支当日仍有提交",
+    "maturity": "官方 Registry：7.4k★ / 727 commits / 84 watchers / 131 open issues（2026-10-16 抓取），由官方 Registry Working Group 维护，非单人、非 0.x；Smithery CLI：npm 周下载 32,728、累计 251~265 个版本，活跃；opencode-slim-mcp：Mumme-IT 个人仓，README 174 行，成熟度低（stars/最后提交未取证）[不确定]；github.com/mcp 为 GitHub 官方站，但只是策展页 + 按钮",
+    "governance": "官方 Registry = MCP 官方社区项目（Working Group 组长 Radoslav Dimitrov / Stacklok，成员来自 PulseMCP、TeamSpark、Ravenmail；发布需命名空间归属验证：io.github.X 走 GitHub 身份、me.domain 走 DNS/HTTP 挑战）；GitHub MCP Registry = GitHub 运营（条目命名空间风格与官方 registry 一致，如 com.microsoft/azure，二者数据关系[不确定]，未取证）；Smithery = 商业公司运营",
+    "standard_compliance": "不适用 Agent Skills 规范（技能侧见 item 02/14）。本项对应的规范是 MCP 官方 server 元数据 schema：https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json （本次 v0 API 返回体的 $schema 字段实证）"
+  },
+  "extension_surface": {
+    "skills_support": "有关联但不提供技能：opencode-slim-mcp 做的是**反向**转换（MCP → SKILL.md），即把 MCP server 自动转成技能。技能本身的创建/发现见 item 02。",
+    "mcp_support": "三条通道都只是**发现侧**；写入侧取决于客户端。opencode v2 已确认：opencode mcp add <name> --url <url> [--global]、--header k=v（remote）、--env k=v -- <cmd>（local）、opencode mcp list / auth / logout；配置写 mcp.servers.<name>，v2 文档明确『V2 does not place server names directly under mcp』；生效方式为自动连接（v2 无『需重启』表述，disabled: true 表示保持配置但不连接）。需重启生效这一点在 v1 文档中亦未强制，[不确定] 由实现决定。",
+    "plugin_support": "opencode-slim-mcp 是 opencode 插件（\"plugin\": [\"opencode-slim-mcp\"]），且在 config hook 里读取并**改写 cfg.mcp**（删除自己接管的 slim 条目）；插件顺序敏感——动态注入 mcp 条目的插件必须排在其之前。这证明 opencode 插件可以在启动期程序化注册 MCP，是『agent 不改配置文件也能装 MCP』的机制级通道。",
+    "hook_support": "不适用本项（三通道无 hook）。相关工具结果预算见 token_cost_model。",
+    "memory_support": "无。三通道都不提供跨会话记忆；也不记录『装过什么、用得如何』。",
+    "scheduler_support": "无。三通道无常驻索引/定时同步；检索都是实时请求（registry 处于 v0 预览，官方明示可能有 breaking change 与数据重置）。",
+    "subagent_support": "不适用。",
+    "cross_tool_read_paths": "不适用（非技能发现项）。可类比的是『MCP 配置的读取路径』：opencode v2 用 opencode mcp list 从当前工作目录读取项目配置 + 全局配置并合并展示。",
+    "hook_events_used": "不适用。",
+    "skill_embedded_mcp": "双向可通（这是本项的关键）：opencode-slim-mcp 把标 slim: true 的 MCP server 在启动时 introspect，生成 SKILL.md + schema 缓存，并只注册**单一** mcp 代理工具；agent 通过技能按需加载发现工具，README 原话为『zero idle token cost』。反向（技能内嵌 MCP）在 opencode 侧无原生支持。",
+    "distribution_channel": "① 官方 Registry HTTP API（curl，可编程检索）② github.com/mcp 网页 Install（人工点击）③ Smithery CLI（可脚本化，install <server> --client <client>）④ opencode 原生 opencode mcp add（一条命令写盘，与前三者无关，只要拿到 url/command 即可）⑤ 插件注入（slim-mcp 等）。Smithery CLI 是否支持 --client opencode 未取证[不确定]。",
+    "update_mechanism": "无自动更新机制：registry 是实时查询，『装过』之后不再跟踪上游版本变化；opencode 不比对 MCP 版本；goose 的插件有 auto-update 但不覆盖第三方 MCP 二进制。⇒ 版本漂移只能靠外部脚本。",
+    "token_cost_model": "**本项核心**。opencode v2：Code Mode 默认开启（codemode 默认 true），MCP 工具不再全部进原生工具列表，而是按 server 分组、经 Code Mode 调用（tools.<server>.<tool>(...)），仅 codemode: false 才回落为原生工具——这是 v2 新增的一等公民级上下文治理；v1 时代靠 \"tools\": {\"my-mcp*\": false} glob 或『全局关闭 + 按 agent 开启』；v2 改为 permissions: [{action: \"context7_*\", resource: \"*\", effect: \"deny\"}]。工具命名规范化为 <server>_<tool>（非字母数字下划线短横的字符替换为 _），因此 glob/permission 匹配要按规范化名写。opencode-slim-mcp：按需加载、零空闲 token。goose：Extension Manager（平台扩展 extensionmanager，工具 search_available_extensions / manage_extensions）在会话内按需 enable/disable，官方建议 ≤5 个扩展 / ≤50 个工具；工具返回文本超过 GOOSE_MAX_TOOL_RESPONSE_SIZE（**默认 200,000 字符**）时写入临时文件 goose_mcp_response_*.txt，上下文只留长度与路径。Hermes（对照，本机 config.yaml 原文）：tool_budget.mcp_result_size_chars: 50000——**MCP 工具结果按 5 万字符阈值落盘**到 $HERMES_HOME/cache/spillover，通用默认是 10 万字符。⇒ 题面所说『50000 字符阈值 spillover』是 Hermes 口径，**不是 goose 的**；goose 是 200,000，二者差 4 倍，横向对齐时不可混为一谈。"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "间接相关：opencode-slim-mcp 的『MCP → SKILL.md』是安装期一次性格式转换（启动时 introspect 生成），不是任务完成后由 agent 自主沉淀。真正的轴1 判定见 item 02。",
+    "auto_memory_write": "无。三通道与 slim-mcp 都不写记忆。",
+    "background_self_review": "无。",
+    "self_config_edit": "**有，且这是本项与自进化的交点**：agent 只需文件写入/命令执行权限，即可执行 opencode mcp add <name> --global --url ... 改写**全局**配置（v2 文档明示 --global 写全局配置），也可直接编辑 opencode.jsonc/json；插件侧还有更强的通道：插件的 config hook 能在启动期直接修改 cfg.mcp（slim-mcp 正是如此），即『不改配置文件也能注册 server』。是否需要人工批准，取决于通用权限系统而非专用闸门。",
+    "trigger_mechanism": "自主/事件驱动（agent 决定何时装）。存在一个**硬性静默失败点**：remote server 的 OAuth——v2 文档显示未认证状态为 needs authentication，需要在 /mcps 或 opencode mcp auth <name> 走浏览器登录。无人值守时这一步必然失败，且失败是『server 已写入配置但不连通』，不会抛错给流水线，容易被误判为安装成功。",
+    "iteration_axes_coverage": "五轴覆盖：轴5（自我配置改写）**有**且可脚本化（一条 CLI / 一段插件代码改 cfg.mcp）；轴1（技能习得）**弱**（只能做 MCP→技能的格式转换，不是从经验沉淀）；轴2 无、轴3 无、轴4 无。核心价值在于它把轴5 的**工具侧供给**打通了：agent 能自己扩展自己的能力边界。",
+    "reward_signal": "无。三通道都不提供『装完后使用效果』的统计；slim-mcp 也不记录代理调用成败。⇒ 自动装 MCP 目前是『采集式扩张』，没有淘汰依据，与 Hermes 的差距同 item 02。",
+    "human_approval_gate": "无专用闸门。实际存在的三道自然闸门：① remote server OAuth 需浏览器交互（事实上的强闸门）② 本地 server 首次运行可能触发系统的可执行文件确认/杀软拦截 ③ opencode 通用权限系统（写文件/执行命令）。**没有任何一处是『装 MCP 必须批准』这种针对性设计。**",
+    "state_dir": "opencode v2：配置在项目或全局 opencode.json(c)（--global 决定写哪一份；CLI 的 resolveConfigPath 依次探测 opencode.json / opencode.jsonc / .opencode/opencode.json / .opencode/opencode.jsonc）；OAuth 凭据在项目配置之外（v2 原话『Credentials are stored outside project configuration』，具体路径[不确定]；v1 文档为 ~/.local/share/opencode/mcp-auth.json）。"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "相对 Hermes 缺 **⑦ 带阈值的工具结果预算（tool_budget / spillover）**：opencode 有『减少 schema 体积』的手段（v2 Code Mode、v1 tools glob、permissions deny），但**没有**『单次工具结果超阈值即落盘、上下文只留路径』的机制；goose 有（200,000 字符，落临时目录），Hermes 有且更严（MCP 结果 50,000 / 通用 100,000，落 cache/spillover）。第二缺件是『安装后的生命周期管理』（版本跟踪、淘汰、卸载），三通道都不提供。",
+    "how_to_fill": "① 优先吃 v2 现成能力：保持 codemode 默认开启（工具不进原生列表）；对不用的 server 用 permissions deny；真正不常用的 MCP 直接 disabled: true 保留配置不连接。② 补 spillover：写 1 个本地插件挂 tool.execute.after，把超过 N 字符（建议对齐 Hermes 的 50,000）的结果写入 ~/.cache/opencode/spillover/，把内容替换为『长度 + 文件路径 + 提示 agent 用 read/grep 读取』；或直接借用 goose 的做法（写临时文件 + keep 路径）。③ 低成本降维：把低频 MCP 标 slim: true 交给 opencode-slim-mcp，转成按需技能。④ 无人值守安装闭环：curl -s \"https://registry.modelcontextprotocol.io/v0/servers?search=<关键词>\" → 取 servers[].server.remotes[].url → opencode mcp add <name> --global --url <url>；全程无人类点击，唯一卡点是 remote server 的 OAuth，需要预先 opencode mcp auth 过一遍或只用 API-key/无认证 server。⑤ 版本治理：把 registry 查询结果存成本地清单（name/version/url），定期 diff 出上游版本变化。",
+    "code_effort": "主路径**无需写码**：安装动作本身就是一条命令（opencode mcp add ...），检索用 curl。要『无人值守的发现→安装→淘汰闭环』需一个单文件脚本（curl + jq + opencode mcp add，约数十行）。要 spillover 需写一个插件（单文件 TS，约百行）。不需要管理员权限（写用户级配置）；依赖 node/npx/curl。"
+  },
+  "evidence": {
+    "official_doc_url": "https://registry.modelcontextprotocol.io/docs  ·  https://github.com/modelcontextprotocol/registry  ·  https://github.com/mcp  ·  https://smithery.ai/docs/concepts/cli  ·  https://github.com/smithery-ai/cli  ·  https://opencode.ai/v2/docs/mcp-servers  ·  https://github.com/Mumme-IT/opencode-slim-mcp",
+    "local_path": "opencode v1 文档快照：C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\opencode\\v1192\\packages__web__src__content__docs__mcp-servers.mdx；opencode v2 CLI 源码快照：...\\_verify\\opencode\\files\\packages__cli__src__commands__handlers__mcp__add.ts（第 64 行写路径 [\"mcp\",\"servers\",name]）与 ...\\packages__cli__src__commands__commands.ts（第 222-248 行 mcp add 参数表：--url/--header/--env/--global）；goose 源码：...\\_verify\\src\\key\\crates__goose__src__agents__large_response_handler.rs（第 5 行 DEFAULT_LARGE_TEXT_THRESHOLD = 200_000，第 68-77 行 tempfile keep 落盘）；goose 文档 ...\\_verify\\goose_docs\\mcp\\extension-manager-mcp.md（5 扩展/50 工具上限）；本机 Hermes 配置 C:\\Users\\Admin\\AppData\\Local\\hermes\\config.yaml 第 778-790 行（tool_budget.mcp_result_size_chars: 50000 与 spillover 目录原文）",
+    "verify_cmd": "① curl -s \"https://registry.modelcontextprotocol.io/v0/servers?limit=2\" → 预期返回 {\"servers\":[{\"server\":{\"name\":\"ac.inference.sh/mcp\",\"remotes\":[{\"type\":\"streamable-http\",\"url\":\"...\"}]}}],\"metadata\":{\"nextCursor\":\"...\"}}（本次已实跑，HTTP 200 真实数据）② opencode mcp add context7 --global --url https://mcp.context7.com/mcp → 预期提示 MCP server \"context7\" added to <configPath> 并在全局配置生成 mcp.servers.context7 ③ npx @smithery/cli install mcp-obsidian --client claude --config '{\"vaultPath\":\"...\"}' → 预期无交互完成安装 ④ findstr /N \"tool_budget\" C:\\Users\\Admin\\AppData\\Local\\hermes\\config.yaml → 预期命中 mcp_result_size_chars: 50000",
+    "evidence_date": "2026-10-16",
+    "verified_on": "**部分已验证**。已验证（本机/源码/实跑）：官方 Registry v0 API 真实可编程检索（curl 实跑返回 JSON）；goose 200,000 字符落盘阈值与其实现（读源码）；Hermes 50,000 字符 MCP 阈值与 spillover 目录（读本机配置原文）；opencode v2 CLI 的 mcp add 参数与写路径（读 v2 CLI 源码）。仅文档推断：opencode v2 的 mcp.servers/disabled/codemode/permissions 语义；goose Extension Manager 的 5/50 上限。未验证（逻辑外推）：github.com/mcp 是否存在官方 CLI；Smithery CLI 是否支持 opencode 作为 --client；opencode v2『是否需要重启生效』。"
+  },
+  "risk": {
+    "permission_gate": "无自进化专用闸门，只走通用权限（文件写入 / 命令执行）。无人应答时的降级行为：local server 启动失败 → 该 server 的工具全部不可用（不崩溃）；remote server 未 OAuth → 停留在 needs authentication（不崩溃但静默失效，自动化流水线会误判为成功）。⇒ 自动安装链路必须自带『装完做一次真实调用验证』的收尾检查。",
+    "injection_surface": "**高**，且是本项最需要写进报告的定性结论。三通道构成『外部内容 → 自动写入本机配置 → 注入系统提示』的完整链：① registry 元数据（title/description）完全由发布者填写，本次实跑返回的 description 就是营销文案，无事实核验；② opencode v2 会把 server 在初始化时返回的 instructions **注入 system prompt**（v2 文档示例为 <mcp_instructions><server name=\"sentry\">…</server></mcp_instructions>），Code Mode 下还会追加『去哪找该 server 的工具』的提示；③ 一旦 agent 获得自动安装权，则『被污染的检索结果 → 自动安装的第三方 server → 其 instructions 进入此后每一个会话的系统提示』形成跨会话自我放大的注入回路。缓解：只允许白名单命名空间（官方 registry 已做归属验证，io.github.X 需 GitHub 身份、自有域名需 DNS/HTTP 挑战，这是唯一可利用的可信信号）；装前人工 review instructions；装后用 permissions 收紧到具体工具。",
+    "upgrade_breakage": "**很高**（opencode 侧），且是本次调研给出的最硬结论之一。v1 → v2 的 MCP 配置格式已确认破坏性变更：① 服务器名从 mcp.<name> 移到 mcp.servers.<name> ② 开关从 enabled: true 改为 disabled: true（**语义反转**，且缺省为 false=连接）③ 工具级开关从 tools: {\"my-mcp*\": false} glob 改为 permissions 数组的 deny 规则 ④ 新增 codemode/protocol/timeout 等 v1 不存在的字段。⇒ 基于 v1 文档写成的自动化脚本、模板、以及社区插件（如 slim-mcp README 仍在用顶层 command/args 的旧格式）在 v2 下可能静默失效。",
+    "stability": "长跑风险三处：① **工具数膨胀**：v1 无治理手段（只能全关），v2 用 Code Mode 缓解 schema 体积，但 server 的 instructions 仍无条件注入系统提示，装得多仍会线性增长；② **单次工具结果无上限**：官方 registry 里的 server 常返回未分页的大 payload（Hermes 注释原文即指出『MCP servers routinely return un-paginated 20-50K payloads』），而 opencode 没有 spillover 机制，goose 的 200,000 阈值又过宽；③ **通道本身不稳定**：registry 仍是 v0 预览，官方 2025-10-24 状态更新明示『breaking changes or data resets may occur』，且三通道都无常驻本地索引，每次检索都依赖外部服务可用性。"
+  },
+  "uncertain": [
+    "basic.license",
+    "basic.maturity（opencode-slim-mcp 的 stars 与最后提交日期）",
+    "basic.governance（GitHub MCP Registry 与官方 MCP Registry 的数据关系）",
+    "extension_surface.distribution_channel（Smithery CLI 是否支持 opencode 作为 --client）",
+    "extension_surface.mcp_support（opencode v2 装 MCP 后是否需要重启生效）",
+    "self_evolution.state_dir（opencode v2 存放 OAuth 凭据的具体路径）"
+  ]
+}

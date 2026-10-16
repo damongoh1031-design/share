@@ -1,0 +1,336 @@
+topic: 如何让 opencode/goose 安装 skills 与 MCP，变成和 hermes agent 一样的自进化 agent
+topic_slug: opencode-goose-self-evolving-agent
+created: 2026-10-16
+updated: 2026-10-16  # v2：本地源码取证后修正核心命题，并合并 web 调研补充
+time_range: 最近6个月（2026-04-16 至今）
+
+purpose: >
+  把 Hermes Agent 的「自进化」拆解为可复制的工程件清单，逐件核验 opencode 与 goose 的
+  已有/缺失，产出可直接落地的配置与代码。
+
+# ============================================================
+# 核心命题 v2（已被本地源码修正，勿再沿用 v1）
+# ============================================================
+thesis_v2: >
+  v1 假设「opencode/goose 缺 hooks、记忆、调度」——本地源码取证证明这是错的。
+  实测：opencode 有 Session/Tool/Permission/Shell/Message/File 全套事件钩子 + skills 权限 deny；
+  goose 有更强的 hooks（PreToolUse 可 Block）、plugins（一个包内可同时装 skills+hooks，支持
+  git URL 一键安装与 --auto-update）、scheduler、skills CLI（含 token 计量）。
+  **所以「装 skills/MCP」不是瓶颈，真正的缺口只有一件：没有任何一方把「收尾→沉淀→复用」的闭环接起来。**
+  Hermes 的独有物不是能力，而是**这个闭环 + 一个 reward signal（可测量的进化）**。
+
+# 自进化的 5 条独立轴（判定「像不像 Hermes」的尺子）
+iteration_axes:
+  - 轴1 技能习得/蒸馏：任务后能否产出新的 SKILL.md
+  - 轴2 记忆写入：跨会话事实能否落盘并回注
+  - 轴3 后台复审/curator：有无回合后自审与技能库整理
+  - 轴4 可测量的进化：有无 reward signal（成败反馈）驱动技能重写  ← Hermes 的最强项，也是最难补的一件
+  - 轴5 自我配置改写：能否改自身 hooks/prompts/指令文件，以及有没有人工闸门
+judgement: >
+  只有轴1+轴2 的「自我改进」只是采集，不是进化。轴4（reward signal）是区分
+  Hermes 式自进化与普通 skill store 的核心判据。
+
+# ============================================================
+# 本机一手取证结论（web 调研无法替代，deep 阶段直接用）
+# ============================================================
+verified_findings_2026-10-16:
+  - claim: opencode 支持插件生命周期事件
+    evidence: opencode 官方文档快照 docs/plugins.mdx（事件分类：Command/File/Installation/LSP/Message/Permission/Server/Session/Todo/Shell/Tool/TUI；示例监听 session.idle；另有 experimental.session.compacting）
+    verified_on: 已验证（源码/文档快照）
+  - claim: opencode 的技能读取路径比预期宽（Claude 兼容 + agents 兼容）
+    evidence: docs/skills.mdx L16-21, L28-30：.opencode/skills、~/.config/opencode/skills、.claude/skills、~/.claude/skills、.agents/skills、~/.agents/skills
+    verified_on: 已验证
+  - claim: opencode 可按模式对 skill 做 deny，deny 后技能对 agent 隐藏
+    evidence: docs/skills.mdx L127, L186, L222
+    verified_on: 已验证
+  - claim: goose 有完整 hook 事件且 PreToolUse 可阻断
+    evidence: crates/goose/src/hooks/mod.rs：enum HookEvent{PreToolUse, PreToolUseResult, PostToolUse, PostToolUseFailure, SessionStart, SessionEnd, UserPromptSubmit, Stop}，含 HookDecision/HookVerdict/OnFailure::Block
+    verified_on: 已验证（源码）
+  - claim: goose 有 skills 概念，且 ~/.agents/skills 是「可写」的全局技能位置
+    evidence: crates/goose/src/skills/mod.rs L46, L52；读取范围含 ~/.agents/skills、(project)/.agents/skills、~/.agents/plugins/*/skills/
+    verified_on: 已验证（源码）
+  - claim: goose 的 plugin 是「skills+hooks 的容器」，可 git URL 一键安装并自动更新
+    evidence: commands/plugin.rs → install_plugin_with_options(url, auto_update) / update_plugin(name)；plugins/formats/{open_plugins,gemini}.rs；examples/plugins/hello-hooks
+    verified_on: 已验证（源码）
+  - claim: goose hooks 遵循 Open Plugins hooks 规范，放在 ~/.agents/plugins/<name>/hooks/hooks.json 自动发现
+    evidence: 官方博客 2026-05-14-goose-hooks/index.md L19；事件含 SessionStart/UserPromptSubmit/PreToolUse/PostToolUse
+    verified_on: 已验证（一手博客）
+  - claim: goose 有 scheduler 与 skills CLI（后者带 token 计量）
+    evidence: crates/goose/src/scheduler/{full,common}.rs；commands/schedule.rs；commands/skills.rs 用 create_token_counter
+    verified_on: 已验证（源码）
+  - claim: 「一份技能喂三家」成立（opencode 与 goose 共读 ~/.agents/skills）
+    evidence: 见上两条；本机 ~/.agents/skills/ 已存在（playwriter）
+    verified_on: 已验证
+  - claim: Hermes 的独有物是「回合后改进闭环 + 人工批准闸门 + curator」，而非某单项能力
+    evidence: hermes config.yaml：skills.creation_nudge_interval=15、background_review（post-turn memory/skill self-improvement fork）、skills.external_dirs（注释明写 ~/.agents/skills）、改 AGENTS.md/CLAUDE.md/SOUL.md 即使 --yolo 也须人工批准；skills/.curator_state
+    verified_on: 已验证（本机安装）
+
+items:
+  # ---------- 对标基线 ----------
+  - id: 1
+    name: Hermes Agent 自进化机制全解剖
+    type: 对标基线
+    why: 一切「像不像 Hermes」的判断都以此为准；本地有源码级证据可逐件核验
+    local_evidence:
+      - C:\Users\Admin\AppData\Local\hermes\config.yaml
+      - C:\Users\Admin\AppData\Local\hermes\skills\.curator_state
+      - C:\Users\Admin\AppData\Local\hermes\SOUL.md
+      - C:\Users\Admin\AppData\Local\hermes\  # memories/ cron/ hooks/ desktop-plugins/ spawn-ledger.json state.db
+    addenda_from_web:
+      - 身份确认：Nous Research Hermes Agent（hermes-agent.org）
+      - 待核：算法底座是否为 DSPy + GEPA（目前仅有移植插件的致谢段落佐证，属间接证据，须标注）
+    questions:
+      - background_review 确切触发间隔与写入边界（skills？memories？）
+      - curator 的整理策略（去重/合并/淘汰）与可否手动 run
+      - 自我指令闸门在 --yolo / gateway / cron 无人应答时分别如何降级
+
+  # ---------- 目标机（已据本地源码重写） ----------
+  - id: 2
+    name: opencode 扩展面实测（skills/MCP/plugin/hook/记忆/调度/subagent）
+    type: 目标机
+    why: 落地机之一；hooks 与 skills 权限已确认存在，缺口在自进化闭环而非能力
+    local_evidence:
+      - C:\Users\Admin\.config\opencode\opencode.jsonc  # 全文仅 {"shell":"powershell"}
+      - C:\Users\Admin\.config\opencode\skills\  # 本机已装 46 个技能
+      - C:\Users\Admin\.agents\skills\  # 共享根，已被 opencode 读取
+      - "证据快照目录: C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\opencode\\v1192\\"
+      - "  含 docs: skills/plugins/mcp-servers/permissions/rules/agents/commands/tools .mdx"
+      - "  含 schema: skill.ts / plugin.ts / event.ts / event-manifest.ts / permission.ts"
+    questions:
+      - 插件事件清单的确是权威全集（对照 event-manifest.ts 交叉验证）
+      - 网络搜索：opencode 侧是否已有社区自进化插件（见 item 11）
+      - 记忆位：opencode 原生无 memory，须外挂（见 item 8/11）
+      - 调度位：opencode 原生无 scheduler，须外挂（见 item 11 的 opencode-scheduler）
+
+  - id: 3
+    name: goose 扩展面实测（Extensions=MCP / Plugins / Hooks / Skills / Recipes / Scheduler）
+    type: 目标机
+    why: 落地机之二；**结论已反转——goose 在这些维度上比 Hermes 更完整**，需重新定位其瓶颈
+    local_evidence:
+      - C:\Users\Admin\aPPS\goose\Goose.exe
+      - "证据快照目录: C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\"
+      - "  含 src\\key: goose/src/hooks/mod.rs, goose/src/skills/{mod,client,builtin}.rs, goose/src/plugins/{mod,discovery,mcp_servers}.rs, goose/src/plugins/formats/{open_plugins,gemini}.rs, goose/src/scheduler/{full,common}.rs"
+      - "  含 src\\key: goose-cli/src/commands/{plugin,skills,schedule,recipe}.rs"
+      - "  含 extra_docs: documentation/blog/2026-05-14-goose-hooks/index.md"
+      - "  含 goose_docs: mcp/skills-mcp.md, tutorials/remotion-video-creation.md"
+    questions:
+      - goose 是否已有任何「任务后自动写 skill」的入口（若无可否用 Stop hook 实现）
+      - ~/.agents/skills 的「可写」是否对 agent 开放（由谁写）
+      - goose skills CLI 的 token 计量能否直接当作 skill 成本治理的依据
+      - gateway/pairing/cron 等无人值守能力的边界
+
+  - id: 4
+    name: 跨 harness 互操作标准与共享根（SKILL.md 规范 / ~/.agents 汇合点 / AGENTS.md）
+    type: 互操作
+    why: 「一份技能喂三家」已证实成立，是本题最大的成本杠杆；需把标准与同步工具吃透
+    local_evidence:
+      - C:\Users\Admin\.agents\skills\playwriter
+      - C:\Users\Admin\.agents\.skill-lock.json
+      - opencode docs/skills.mdx（读 6 条路径）
+    addenda_from_web:
+      - Agent Skills 规范：agentskills.io（name/description/license/compatibility/metadata），被 opencode/goose/Cursor/Codex/Gemini/Warp/Zed/Copilot 采纳
+      - 技能包管理：npx skills add <repo> [-g]；obra/superpowers
+      - 同步 sidecar：AgentBus（单向同步单源技能目录到各家，带 manifest/冲突告警/agentbus skills doctor）
+      - goose 同时读 ~/.agents/skills 与 ~/.agents/plugins
+    questions:
+      - 六条路径的优先级与同名冲突规则（opencode 侧是否本地优先）
+      - name 是否必须等于目录名（opencode 强制、部分实现不强制）
+
+  # ---------- 使能件 ----------
+  - id: 5
+    name: MCP 的「自安装」三条通道与上下文成本治理
+    type: 关键使能
+    why: 自进化的「自己装 MCP」这一步能否由 agent 完成，取决于通道是否可脚本化
+    addenda_from_web:
+      - 通道1 官方 MCP Registry（registry.modelcontextprotocol.io，/docs 有 API Reference，可编程检索）
+      - 通道2 GitHub MCP Registry（github.com/mcp，约 490 个 server，每个带一键 Install）
+      - 通道3 Smithery
+      - 成本治理：opencode-slim-mcp 把 slim MCP 自动转成 skills + 单一原生 tool（按需加载、零空闲 token）
+    questions:
+      - 三条通道是否有可被 agent 调用的 CLI（而非仅网页按钮）
+      - 装上后工具数膨胀的治理策略（对照 Hermes 的 mcp_* 结果 spillover 阈值 50K 字符）
+
+  # ---------- 落地方案 ----------
+  - id: 6
+    name: 方案 A：opencode 侧自进化闭环改造
+    type: 落地产出
+    why: 把 5 条轴映射成 opencode 可行实现（插件 + 配置 + 目录约定）
+    required_deliverable: >
+      不只是建议——要给出可粘贴的 opencode.jsonc 片段 + 插件骨架文件（TS），
+      至少覆盖：事件挂载（session.idle / tool.execute.*）、写 SKILL.md 到 ~/.agents/skills、
+      备份与回滚、skill 权限 deny 护栏、状态落盘目录。
+    addenda_from_web:
+      - 现成件优先（item 11）：okdk7788/opencode-self-improving-skills、khimaros/opencode-evolve
+      - 记忆外挂：opencode-supermemory；技能发现：opencode-skillful；调度：opencode-scheduler（launchd/systemd+cron 语法）
+      - 后台代理：opencode-background-agents；目标续跑：opencode-goal-plugin
+    questions:
+      - 最小可行闭环是哪几个事件 + 一次 LLM 调用
+      - Windows（本机）下调度用什么（任务计划程序 vs opencode-scheduler 的 launchd/systemd 假设）
+
+  - id: 7
+    name: 方案 B：goose 侧自进化闭环改造
+    type: 落地产出
+    why: goose 路径不同：能力齐备，缺的是「何时沉淀」的策略与落点
+    required_deliverable: >
+      给出可粘贴的 ~/.agents/plugins/<name>/hooks/hooks.json + 脚本骨架，
+      用 Stop/SessionEnd hook 触发沉淀；并给出 recipe 形态的替代方案。
+    questions:
+      - 用 Stop hook 触发沉淀 vs 用 recipe 固化流程，哪个更稳
+      - hook 脚本写 ~/.agents/skills 的权限与幂等/去重
+      - 能否复用 opencode 同一份技能（已确认可以）
+
+  - id: 8
+    name: 通用自进化基座（记忆 / 调度 / 技能分发 / reward 记录）
+    type: 可替换件库
+    why: 给出不重复造轮子的选项，且这些件对两家都通用
+    candidates:
+      记忆: basic-memory / mem0 / Zep / Letta / 纯本地 Markdown + 索引
+      调度: Windows Task Scheduler / cron / 心跳脚本
+      技能分发: ~/.agents/skills + .skill-lock / npx skills / AgentBus
+      reward 记录: 自定义 skill_outcomes.json（成败计数）——轴4 的地基
+    addenda_from_web:
+      - basic-memory：AGPL、4.2k★、有 Hermes/OpenClaw/Claude Code 原生插件、出现在 GitHub MCP registry
+      - Memanto（moorcheh-ai）：persistent semantic memory MCP
+    questions:
+      - 各记忆方案可自部署性与许可（注意 AGPL）
+      - 哪些能同时被 opencode 与 goose 以 MCP 接入
+
+  # ---------- 先例 ----------
+  - id: 9
+    name: 先例与同类实现（Voyager / OpenHands / Claude Code / OpenClaw / 现有移植件）
+    type: 先例
+    why: 找可直接移植的机制，避免重新发明
+    addenda_from_web:
+      - claude-self-improving-skills（UniM0cha）为 okdk7788 opencode 插件的上游
+      - skill-evolution（okdk7788）为 GEPA 进化伴侣
+      - self-evolving-agent（npm MCP 形态，2026-07-01）代表「MCP 形态」路线，与 plugin 形态对照
+      - AgentDescent（birfy）自称跨 DSH/Claude Code/Codex/opencode，install 时一次写入 SKILL.md + mcp 条目，可 evolve() 技能甚至进化插件本身
+      - OpenClaw 已在本机（~/.openclaw）
+    questions:
+      - 上游 Claude Code 版与 opencode 版的差异是否只在路径与事件名
+      - 各先例的「轴4 可测量进化」是真实现还是 README 营销
+
+  # ---------- 风险 ----------
+  - id: 10
+    name: 风险与护栏
+    type: 风险
+    why: Hermes 专门为「自我改写」设了闸门，说明这层不能省；而 self-evolution 的注入面是天然的自我放大回路
+    addenda_from_web:
+      - "可量化的闸门范例：opencode-evolve 的 per-file permission（\"SOUL.md\": \"deny\"）；okdk7788「蒸馏自动、重写需人工批准」"
+      - 已有的内建护栏：opencode skill 权限 deny（skills.mdx）；goose hooks 的 PreToolUse Block、extension_malware_check.rs、security/{adversary_inspector,egress_inspector}、permission/{permission_judge,permission_store}
+    questions:
+      - 自我改写的最坏后果链（抓取内容 → 记忆 → 技能 → 后续会话自我放大）
+      - 无人值守（cron/gateway）时谁批准
+      - 回滚机制（备份目录/版本化技能库）
+
+  # ---------- 新增（web 调研补充） ----------
+  - id: 11
+    name: 现成「自进化轮子」逐件评估（本类决定 code_effort，优先级最高）
+    type: 现成轮子
+    why: 如果这些能跑，方案 A/B 就从「写代码」降级为「装+改配置」；但成熟度极低，必须先评估再依赖
+    targets:
+      - okdk7788/opencode-self-improving-skills  # MIT，声称 6 阶段：TRIGGER/REVIEW/STORE/DISCOVER/MEASURE/EVOLVE
+      - khimaros/opencode-evolve  # 自改 hooks + permission 精细闸门（示例含 "SOUL.md": "deny"）
+      - UniM0cha/claude-self-improving-skills  # 上游
+      - okdk7788/skill-evolution  # GEPA 进化伴侣
+      - self-evolving-agent  # npm MCP 形态，ROI 终止的自主 pipeline
+      - zenobi-us/opencode-skillful / different-ai/opencode-scheduler / supermemoryai/opencode-supermemory
+      - code-yeongyu/oh-my-opencode  # 多 harness 编排 + skkill 内嵌 MCP + 共享基座 omo.jsonc
+    must_verify:
+      - 逐件核实功能是否与 README 一致（对源码，不看 README 措辞）
+      - 记录 maturity：stars/commits/最后提交/单人维护/是否 0.x（已知 okdk7788 插件仅 2★ / 7 commits）
+      - 是否真的存在轴4（reward signal），还是只做采集
+    verified_on: 未验证（待 deep 阶段对源码）
+
+  - id: 12
+    name: 共享根目录的事实标准与同步工具链
+    type: 互操作落地
+    why: 让「一次沉淀，三家复用」真的跑起来，而不是只停在理论可行
+    targets:
+      - agentskills.io 规范（必填字段、name 与目录名约束）
+      - npx skills add <repo> [-g]（技能包管理器）
+      - AgentBus（多 harness 同步 + doctor）
+      - ~/.agents/{skills,plugins} 作为 opencode×goose 的汇合点
+    verified_on: 部分已验证（~/.agents/skills 被两家共读）
+
+  - id: 13
+    name: goose 2026 新增三件套（Plugins / Hooks / Skills）深读
+    type: 目标机深挖
+    why: 这是 goose 侧自进化的挂载点，也是与 opencode 实现路径的分叉处
+    must_read:
+      - crates/goose/src/plugins/{discovery,formats/open_plugins,formats/gemini}.rs（格式差异、命名空间前缀）
+      - crates/goose/src/hooks/mod.rs（HookDecision / OnFailure::Block 的语义与超时）
+      - crates/goose/src/skills/{mod,client}.rs（写入路径与列表逻辑）
+      - 官方博客 2026-05-14-goose-hooks
+    verified_on: 已验证存在，语义细节未读完
+
+  - id: 14
+    name: 迁移中状态与升级破坏风险（goose 平台扩展重构 / opencode v2）
+    type: 风险
+    why: 决定「现在改」还是「等重构落定/锁版本」，是本方案最大的时间风险
+    addenda_from_web:
+      - goose Discussion #7675（2026-03-05）+ PR #6160：正把 skills/recipes/subagents 合并扩展拆成独立 platform extensions，并合并 platform/builtin 概念
+      - goose 治理主体 2026-04-07 迁至 AAIF（原 Block）
+      - opencode 官方站 2026-10 已上线 v2（opencode.ai/v2），插件/配置 API 可能变动
+    questions:
+      - 重构后 ~/.agents/skills 与 hooks.json 的路径/字段是否保持不变
+      - 自建技能的保留策略（升级会不会冲掉）
+
+  - id: 15
+    name: MCP ↔ skill 双向转换与上下文成本模型
+    type: 成本治理
+    why: 自进化会不断新增技能与 MCP；没有成本模型，三个月后上下文被自己灌爆
+    targets:
+      - opencode-slim-mcp（slim MCP → skills + 单一原生 tool）
+      - oh-my-opencode 的 skill 内嵌 MCP（sources / disabled_skills）
+      - goose `goose skills` 的 token 计量（create_token_counter）
+      - 渐进披露（progressive disclosure）原则与 lazy-loading
+    questions:
+      - 技能数量与上下文成本的实测曲线
+      - 何时该把 MCP 转成 skill、何时反之
+
+execution:
+  batch_size: 3
+  items_per_agent: 2
+  output_dir: ./results
+  total_items: 15
+  total_batches: 8
+
+# ============================================================
+# 本机权威语料索引（deep 阶段优先查这里，不要先上网）
+# ============================================================
+local_authoritative_sources:
+  hermes_live:
+    - C:\Users\Admin\AppData\Local\hermes\config.yaml  # 全部机制开关与注释
+    - C:\Users\Admin\AppData\Local\hermes\skills\
+    - C:\Users\Admin\AppData\Local\hermes\SOUL.md
+  opencode_docs_snapshot:
+    path: C:\Users\Admin\WorkBuddy AI\2026-10-15-12-57-23\_verify\opencode\v1192\
+    key_files:
+      - packages__web__src__content__docs__skills.mdx
+      - packages__web__src__content__docs__plugins.mdx
+      - packages__web__src__content__docs__mcp-servers.mdx
+      - packages__web__src__content__docs__permissions.mdx
+      - packages__web__src__content__docs__rules.mdx
+      - packages__web__src__content__docs__agents.mdx
+      - packages__schema__src__event-manifest.ts
+      - packages__schema__src__skill.ts
+      - packages__schema__src__plugin.ts
+  goose_source_snapshot:
+    path: C:\Users\Admin\WorkBuddy AI\2026-10-15-12-57-23\_verify\src\key\
+    key_files:
+      - crates__goose__src__hooks__mod.rs
+      - crates__goose__src__skills__mod.rs
+      - crates__goose__src__plugins__discovery.rs
+      - crates__goose-cli__src__commands__plugin.rs
+      - crates__goose-cli__src__commands__skills.rs
+      - crates__goose-cli__src__commands__schedule.rs
+      - crates__goose__src__security__egress_inspector.rs
+  goose_docs_snapshot:
+    path: C:\Users\Admin\WorkBuddy AI\2026-10-15-12-57-23\_verify\
+    key_files:
+      - extra_docs\documentation\blog\2026-05-14-goose-hooks\index.md
+      - goose_docs\mcp\skills-mcp.md
+      - goose_docs\tutorials\remotion-video-creation.md  # 实证 goose 读 ~/.agents/skills
+
+# 后续命令：/research-deep 开始深度调研；/research-add-items、/research-add-fields 增补

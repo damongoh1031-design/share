@@ -1,0 +1,229 @@
+{
+  "id": 8,
+  "name": "通用自进化基座（记忆 / 调度 / 技能分发 / reward 记录）",
+  "type": "基座组件",
+  "why": "给出不重复造轮子的选项，且这些件对 opencode 与 goose 都通用",
+  "one_line_conclusion": "四条基座线里只有记忆存在成熟现成件（basic-memory 4.2k★ / mem0 Apache-2.0 / Letta / Graphiti）；调度两家已各有解（goose 内建 scheduler，Windows 用 schtasks）；技能分发已有事实标准（~/.agents/skills + .skill-lock + npx skills）；reward 记录（skill_outcomes.json）没有任何现成件、必须自建——而它恰恰是轴4 的地基。",
+  "basic": {
+    "name": "通用自进化基座（记忆 / 调度 / 技能分发 / reward 记录）",
+    "type": "基座组件",
+    "repo": "本项是候选件库而非单一仓库。记忆：https://github.com/basicmachines-co/basic-memory 、https://github.com/mem0ai/mem0 、https://github.com/letta-ai/letta 、https://github.com/getzep/graphiti ；技能分发规范：https://agentskills.io ；调度与 reward 记录无上游仓库（系统组件 / 自建）",
+    "license": "逐件不同。basic-memory = AGPL-3.0-only（强 copyleft；仓库根存在 CLA.md，权利人可对后续版本换许可，但已发布的 AGPL 版本不可收回）；mem0 = Apache-2.0；Letta = Apache-2.0；Graphiti = Apache-2.0；goose 内建 memory 扩展 = Apache-2.0（随 goose 仓库）；Windows Task Scheduler / cron = 操作系统组件不涉许可；skill_outcomes.json = 自建无许可",
+    "install_method": "记忆：uv tool / uvx / pip / docker（basic-memory）；docker（Letta、Zep-Graphiti）；npm 或 SDK（mem0）。调度：系统内建（Windows schtasks、Linux/macOS crontab）或常驻心跳脚本。技能分发：npx skills add <repo> [-g] / git clone 到 ~/.agents/skills / AgentBus 同步。reward 记录：无安装，直接写 JSON 文件",
+    "version": "basic-memory 0.23（README 明写 0.23 依赖 FastMCP 4 预发布；仍为 0.x）。其余件版本与发布日期 [不确定]（本轮未逐一定版）",
+    "maturity": "basic-memory：4.2k stars / 2,326 commits / 320 forks / 14 watchers（2026-10-16 抓取 GitHub 仓库页），仍在活跃开发，属 0.x；mem0/Letta/Graphiti 均为公司化维护的高星项目 [不确定]（未在本轮取得精确星数）；调度与 reward 记录为自建/系统件，无成熟度概念",
+    "governance": "basic-memory 由 Basic Machines 公司（basicmachines.co）维护，有 Discord 社区、Code of Conduct、Security policy 与 CLA.md；mem0 由 mem0ai 公司维护；Letta 由 Letta 公司（原 MemGPT 团队）；Graphiti 由 Zep AI 维护；调度与 skill_outcomes.json 无治理主体（自建，不受第三方支配，也无人替你修 bug）",
+    "standard_compliance": "basic-memory 仓库内同时提供 skills/ 目录（SKILL.md）与 skills-lock.json，并给出 npx skills add basicmachines-co/basic-memory/skills -g 的安装路径，说明其技能包遵循 Agent Skills（SKILL.md）规范；本机 ~/.agents/.skill-lock.json 亦为该规范生态的锁文件形态。mem0 / Letta / Graphiti 与 Agent Skills 规范无直接关系（它们是 MCP server / SDK）。[部分不确定]：未逐字核对 SKILL.md 的必填字段与 name==目录名约束"
+  },
+  "extension_surface": {
+    "skills_support": "有（记忆侧）。basic-memory 官方在仓库 skills/ 提供框架无关的 SKILL.md，并同时提供 Claude Code 插件、Hermes 插件、OpenClaw 插件（README『Official agent packages』明确列出）。注意：其官方插件清单里没有 opencode 与 goose —— 这两家只能走通用 MCP 路径，不能走它的 host-native 插件。零依赖方案：直接在 ~/.agents/skills 下手建 SKILL.md",
+    "mcp_support": "记忆类候选全部以 MCP server 形态交付。opencode 走 opencode.json(c) 的 mcp 键（mcp.<name>.type=local + command 数组 + enabled）；goose 走 ~/.config/goose/config.yaml 的 extensions 键（type: stdio + cmd + args，或 type: streamable_http + uri）。两家都需要重载会话/进程才生效（无运行时热注册证据）。goose 另有一个已内建的 memory 扩展（bundled: true, enabled: true, type: builtin），零安装即具备记忆工具",
+    "plugin_support": "basic-memory 提供 host-native 插件（Claude Code / Hermes / OpenClaw），但其插件用的是宿主 hook 能力（session-start briefing、pre-compaction checkpoint），这些能力绑在 Claude Code 上；opencode 与 goose 若要复刻需用各自的 hooks 体系自行实现。mem0 / Letta / Graphiti 无插件形态",
+    "hook_support": "记忆 MCP 自身不提供 hook。写入时机的钩子必须由 harness 侧提供：goose 用 Stop / SessionEnd（可写 ~/.agents/skills），opencode 用 session.idle 等事件。Hermes 的对应物是 background_review（回合后派生线程写 skills/memories）",
+    "memory_support": "见 candidates.memory 逐件。总体建议：以『Markdown 为准 + 索引为辅』——文件是事实来源（可 git 化、可 diff、可回滚），索引层（SQLite 向量 / FTS）只是加速器，随时可重建",
+    "scheduler_support": "三档：① goose 内建 scheduler（crates/goose/src/scheduler/{full,common}.rs + goose schedule 命令，源码快照已验证存在）——goose 侧不必外挂；② Windows Task Scheduler（schtasks /Create /SC HOURLY ...，无人值守、可开机触发，但静默失败需查 Last Run Result）；③ Linux/macOS cron（注意 cron 环境变量最小化，PATH 缺失是最常见静默失败）；④ 心跳脚本（常驻 loop + interval，可自带日志与自愈，但需要进程守护）。opencode 原生无 scheduler，必须外挂（第②③④之一）",
+    "subagent_support": "本组基座件均不提供子代理能力，与 subagent 维度正交",
+    "cross_tool_read_paths": "技能共享根 ~/.agents/skills（opencode 与 goose 共读，本机已验证）；goose 另读 (project)/.agents/skills 与 ~/.agents/plugins/*/skills/；opencode 另读 .opencode/skills、~/.config/opencode/skills、.claude/skills、~/.claude/skills。锁文件 ~/.agents/.skill-lock.json（本机存在）用于记录已安装技能的来源与版本。同名冲突优先级 [不确定]（未取得官方优先级约定）",
+    "hook_events_used": "若走 goose 侧沉淀：Stop / SessionEnd / PreToolUse（PreToolUse 可 Block，用于给写入动作加闸门）；若走 opencode 侧：session.idle / tool.execute.* / permission.* 等事件",
+    "skill_embedded_mcp": "basic-memory 走的是『技能 + MCP 并存』路线：MCP 提供工具，skills/ 提供用法说明（SKILL.md 教 agent 何时调用哪些工具）。这等价于把『MCP 的上下文成本』用技能说明替代一部分——但 MCP 工具定义本身仍常驻上下文。真正的 MCP→skill 转换（只保留一个原生 tool、按需加载）需第三方件（opencode-slim-mcp 等，另见 item 15）",
+    "distribution_channel": "记忆：uv tool install（Python 件）、docker compose、npm；技能：npx skills add <repo> [-g]（basic-memory README 实测支持子目录源 basicmachines-co/basic-memory/skills）、git clone 到 ~/.agents/skills、AgentBus 单源同步、MCP registry 一键 Install；调度：schtasks / crontab 直接注册",
+    "update_mechanism": "basic-memory 对 uv tool 与 Homebrew 安装**每 24 小时自动检查并静默应用更新**（uvx 安装会跳过；bm update 为手动入口；可在 ~/.basic-memory/config.json 里设 auto_update: false 关闭）。mem0 / Letta / Graphiti 一般需手动升级（docker pull / pip upgrade）。系统调度任务不会自动更新。自动更新对自进化链路是**风险项**：上游小版本变动可能打断无人值守任务",
+    "token_cost_model": "关键取舍。MCP 常驻工具会持续吃上下文：opencode 官方文档（mcp-servers.mdx）明确警告『MCP 会加进上下文，工具多时会很快累积，甚至超出上下文上限』。basic-memory 用 MCP tool annotations（readOnlyHint / destructiveHint / idempotentHint / openWorldHint）做渐进式工具发现来缓解，但单 server 仍有约 20 个工具。纯 Markdown 方案在不挂 MCP 时**常驻 token 成本为 0**（只有被显式 read/grep 时才付费）"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "基座件本身都不创建技能。要形成自动沉淀，必须由 harness 侧钩子触发 LLM 调用再写 SKILL.md：goose 用 Stop hook（或 SessionEnd），opencode 用 session.idle 事件；写入目标统一选 ~/.agents/skills/<name>/SKILL.md 才能被两家同时看到",
+    "auto_memory_write": "两条路：① agent 主动调用记忆工具（basic-memory 的 write_note、goose 内建 memory 的 remember_memory）；② 由 hook 在回合结束时自动落盘。两者都不会自动去重——需要在写入前做『同 permalink/同 category+content』判重。goose 内建 memory 按 category 分文件存储，天然按类别去重但同一内容仍可重复追加",
+    "background_self_review": "基座件不含后台自审。可参照物是 basic-memory 的 Claude Code 插件（session-start briefing + pre-compaction checkpoint，且需显式 opt-in）——这是『会话开始时回注记忆』而不是『回合后自审』。真正的回合后自审（Hermes background_review 的对应物）本轮在这些基座件中没有对应实现",
+    "self_config_edit": "基座件不涉及自我改写；但记忆与技能正是『自我改写』的载体，闸门见 item 10",
+    "trigger_mechanism": "时间驱动（Task Scheduler / cron / 心跳）与事件驱动（session.idle / Stop hook）两条链。**时间驱动链在无人值守时最容易静默失败**：任务计划程序不会因为脚本内部异常而报警，需要主动巡检 Last Run Result / 日志文件",
+    "iteration_axes_coverage": "轴1 技能习得/蒸馏：部分（技能分发与锁文件已就绪，缺『生成 SKILL.md』的触发逻辑）。轴2 记忆写入：具备（记忆 MCP / 内建 memory / Markdown 三选一）。轴3 后台复审/curator：无（本项不含任何 curator 候选，这是与 Hermes 的最大结构缺口之一）。轴4 可测量的进化：**本项唯一直接对应的候选就是自建 skill_outcomes.json**（成败计数），但无任何现成轮子可抄。轴5 自我配置改写：无",
+    "reward_signal": "本项就是轴4 的地基但没有现成件。建议 schema：{ \"<skill-name>\": { \"uses\": 0, \"successes\": 0, \"failures\": 0, \"user_corrections\": 0, \"last_used\": \"ISO8601\", \"last_rewritten\": null, \"version\": 1, \"outcome_log\": [{\"session_id\":\"...\",\"verdict\":\"success|failure|corrected\",\"evidence\":\"...\"}] } }。建议触发阈值：uses>=5 且 failure_rate>=0.4 → 进入重写候选；user_corrections>=2 → 立即进入重写候选。落盘位置：~/.agents/self-evolve/skill_outcomes.json（与两家共读的技能根同源，便于随技能库一起备份/git 化）。判定方式为成败计数（非 LLM-judge），因为计数是可审计的小体积事实，LLM-judge 只适合作为重写触发的二次确认",
+    "human_approval_gate": "本项自身无闸门。但记忆写入与技能写入必须挂到 harness 的权限系统上：opencode 侧用 permission 键（skill / edit / bash / external_directory），goose 侧用 GooseMode + PreToolUse hook（可 Deny）。若走无人值守调度，闸门策略见 item 10",
+    "state_dir": "建议统一落点 ~/.agents/self-evolve/：skill_usage.json（调用次数）、skill_outcomes.json（轴4 数据）、nudge_state.json（轮数提醒状态）、curator_state.json（复审游标）、backups/<skill>/<timestamp>/（回滚）。现成件自带的落点：basic-memory 数据在 ~/basic-memory（默认），配置与日志在 ~/.basic-memory/（config.json、basic-memory.log）；goose 内建 memory 在『平台 app 数据目录下的 memory/』与 <工作目录>/.goose/memory/"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "相对 Hermes 的 7 件工程件，本项覆盖到的是：记忆写入（轴2，靠 MCP 或 Markdown）与技能分发（轴1 的载体）；**缺**：④ 可测量的 reward signal（Hermes 有 outcomes 驱动的重写，本项只有自建方案）、⑤ 后台 curator（归档/去重/淘汰）、⑦ 状态目录的统一约定",
+    "how_to_fill": "① reward 记录：单文件脚本即可，在 hook 里 append 一条 outcome，再写一个阈值判定脚本（无需数据库）。② 统一状态目录：约定 ~/.agents/self-evolve/ 并把 backups/ 一并放进去，便于 git init 整个目录实现『版本化技能库』。③ curator：先用『按 last_used 排序 + 超过 N 天未用则标记 stale（不删除）』的最小策略，避免自动删除带来的不可逆风险。④ 调度：Windows 上用 schtasks 注册一条小时级任务执行 goose run -t \"<沉淀 prompt>\" --output-json（注意 goose 非交互模式必须处于 auto 模式，见 item 10）",
+    "code_effort": "零依赖件（Markdown 记忆 + skill_outcomes.json + 备份目录）：无需写码，纯目录与文件约定，无管理员权限。技能分发：无需写码（npx skills add / git clone）。调度：单文件脚本 + 一条 schtasks 注册命令，需写码 1 个 .ps1/.cmd，注册任务计划需要本机权限（当前用户级任务不需要管理员）。记忆 MCP：basic-memory 需 Python 运行时（uv），自部署约 2 分钟；goose 内建 memory 零安装。reward 阈值判定与 curator 最小实现：需写一个脚本（约 100 行），无额外依赖"
+  },
+  "evidence": {
+    "official_doc_url": "basic-memory 仓库 https://github.com/basicmachines-co/basic-memory ；basic-memory 技术/许可说明 https://docs.basicmemory.com/reference/technical-information ；mem0 https://github.com/mem0ai/mem0 ；Letta 自托管 https://docs.letta.com/self-hosting/ ；Graphiti https://github.com/getzep/graphiti ；Memanto https://github.com/moorcheh-ai/memanto ；对比类第三方文（仅作线索不作定论）https://coworker.ai/blog/best-mcp-memory-servers 、https://mnemoverse.com/docs/library/memory-mcp-servers-compared",
+    "local_path": "C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\opencode\\v1192\\packages__web__src__content__docs__mcp-servers.mdx ；C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\goose_docs\\guides\\config-files.md ；C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\src\\key\\crates__goose-mcp__src__memory__mod.rs ；C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\src\\key\\crates__goose__src__scheduler__mod.rs ；C:\\Users\\Admin\\.agents\\.skill-lock.json ；C:\\Users\\Admin\\.agents\\skills\\playwriter",
+    "verify_cmd": "① goose 侧内建记忆与技能：goose skills list（应列出技能并给出 token 计量）与 goose run -t \"remember that this project uses pnpm\"（随后检查 <cwd>/.goose/memory/ 或平台 app 数据目录下 memory/ 是否生成分类文件）。② basic-memory：uvx --prerelease=allow basic-memory status 与 basic-memory doctor。③ 共享技能根：dir /b C:\\Users\\Admin\\.agents\\skills 与 type C:\\Users\\Admin\\.agents\\.skill-lock.json。④ 调度：schtasks /Query /TN <taskname> /V /FO LIST（看 Last Run Result 是否为 0x0）",
+    "evidence_date": "2026-10-16",
+    "verified_on": "混合。【已验证（本机/源码）】~/.agents/skills 被 opencode 与 goose 共读、~/.agents/.skill-lock.json 存在、goose 有 scheduler 模块与 goose schedule 子命令、goose 内建 memory 扩展的工具名与存储路径（源码级）、goose 扩展 YAML 字段（type: builtin|platform|stdio|streamable_http / cmd / args / envs / timeout / available_tools）、opencode MCP 配置形态与官方对 MCP token 成本的警告、basic-memory 的 AGPL/星数/提交数/安装与 MCP 命令/官方插件清单（抓取 GitHub 仓库页）。【仅文档推断】mem0 与 Zep/Letta 的自部署现状与许可（来自第三方对比文）。【未验证（逻辑外推）】skill_outcomes.json 的阈值建议（uses>=5 且 failure_rate>=0.4 触发重写）是本方案的设计建议，非从任何现成件实测得出；『心跳脚本优于 schtasks』亦为工程判断"
+  },
+  "risk": {
+    "permission_gate": "记忆 MCP 的写入**不经过 opencode 的 edit 路径权限**，而是独立的 MCP 工具调用 → 必须单独配规则（opencode 的 permission 以工具名为 key，MCP 工具的暴露命名形态 [不确定]，需实测确认能否用 permission 精确 deny 单个 MCP 工具）。goose 侧 MCP 工具受 GooseMode 与 tool confirmation 管辖（Approve/SmartApprove 下需人工确认；非交互模式会直接报错退出，见 item 10）",
+    "injection_surface": "记忆 MCP 是『抓取内容 → 长期记忆』的正规化通道：网页/文件中的指令一旦被写成带标签的 note，就会在后续会话被检索回注，且**看起来像自己写的事实**而非外部文本。若再叠加自动技能蒸馏，就形成『外部文本 → 记忆 → 技能（指令级固化）→ 两家共读』的自我放大回路。缓解：写入前对来源打标（source: webfetch|user|file）并在回注时降权；不要把外部文本直接蒸馏为 SKILL.md",
+    "upgrade_breakage": "basic-memory 对 uv tool/Homebrew 安装每 24 小时静默自动更新（uvx 跳过）→ 无人值守链路可能被上游小版本变更打断；建议在自进化关键路径上固定版本（uvx 固定版本号）或关闭 auto_update。mem0 / Letta / Graphiti 需手动升级，反而更可控。系统调度任务不受升级影响",
+    "stability": "三处静默失败面：① 调度静默失败（Task Scheduler 无重试、cron PATH 最小化）——必须主动巡检 Last Run Result 与脚本日志；② 上下文膨胀（MCP 常驻工具 + 技能数量同时增长，opencode 文档已警告 MCP 会吃满上下文）；③ 工具数过多导致的选择失败（工具越多，模型选错工具的概率越高）"
+  },
+  "candidates": {
+    "memory": [
+      {
+        "name": "basic-memory",
+        "repo": "https://github.com/basicmachines-co/basic-memory（文档 https://docs.basicmemory.com/）",
+        "self_hostable": "完全可自部署。默认 SQLite（无需服务器/容器）、单机 Python 进程即可；Postgres 为可选后端（仓库有 docker-compose.yml / docker-compose-postgres.yml / Dockerfile）；数据是纯 Markdown 文件 + 本地索引",
+        "license": "AGPL-3.0-only。传染性说明：① 本机自用、不分发、不对外提供网络服务 → 无实际源码义务；② 若修改后通过网络提供服务（AGPL 第 13 条，SaaS 场景）→ 必须向使用者提供完整对应源码；③ 若把修改版随闭源产品分发 → 整个衍生作品需以 AGPL 开源。仓库根存在 CLA.md（贡献者许可协议）→ 权利人可对**未来版本**更换许可，但**已发布的 AGPL 版本对已获得用户不可收回**。个人自进化工作流（自用）风险为零；若要嵌进闭源产品则不可用",
+        "maturity": "4.2k stars / 2,326 commits / 320 forks / 14 watchers；0.x（README 提及 0.23）；由公司（Basic Machines）+ 社区维护，非单人项目",
+        "mcp_entry": "uvx --prerelease=allow basic-memory mcp（stdio）；数据默认 ~/basic-memory；配置与日志在 ~/.basic-memory/",
+        "tool_count_note": "约 20 个 MCP 工具（内容类 write_note/read_note/edit_note/move_note/delete_note/read_content/view_note；检索类 search_notes/recent_activity/list_directory；图谱 build_context；项目类 list_memory_projects/list_workspaces/create_memory_project/delete_project；schema_infer/schema_validate/schema_diff；兼容 search/fetch/basic_memory_diagnostics）。全部带 MCP tool annotations，便于渐进披露",
+        "agent_native_packages": "仓库内同时提供 Claude Code 插件（bm install claude-code）、共享 SKILL.md 技能（npx skills add basicmachines-co/basic-memory/skills -g）、Hermes 插件（hermes plugins install basicmachines-co/basic-memory/integrations/hermes）、OpenClaw 插件。**opencode 与 goose 不在其官方插件清单内**，两家只能走 MCP",
+        "extra_risks": "① 每 24h 静默自动更新（uv tool/Homebrew）；② 有云版本商业压力，但 Markdown 可导出、README 明确承诺无锁定；③ 匿名遥测（可用 BASIC_MEMORY_NO_PROMOS=1 关闭）；④ 若启用向量检索会首次下载本地 FastEmbed 模型（可关）",
+        "opencode_snippet": "opencode.jsonc → { \"mcp\": { \"basic-memory\": { \"type\": \"local\", \"command\": [\"uvx\", \"--prerelease=allow\", \"basic-memory\", \"mcp\"], \"enabled\": true } } }",
+        "goose_snippet": "~/.config/goose/config.yaml → extensions: { basic-memory: { type: stdio, name: basic-memory, enabled: true, cmd: uvx, args: [\"--prerelease=allow\", \"basic-memory\", \"mcp\"], env_keys: [], envs: {}, timeout: 300 } }"
+      },
+      {
+        "name": "mem0",
+        "repo": "https://github.com/mem0ai/mem0",
+        "self_hostable": "SDK 与自托管服务 Apache-2.0 可自部署；**但**据多家第三方对比文一致表述，mem0 已于 2026-07-29 从 monorepo 移除本地 OpenMemory server，官方文档化的 MCP 入口现在指向托管云服务 → 『自托管 mem0 + MCP』= 自建 server 再自己包一层 MCP，属 DIY 工作量。[仅文档推断]",
+        "license": "Apache-2.0（宽松，无 copyleft 传染性，可自由嵌入闭源产品）",
+        "maturity": "公司化维护的高星项目（mem0ai）[不确定：本机未取得精确星数]",
+        "mcp_entry": "官方 MCP 为托管服务形态；自托管需自行封装",
+        "verdict": "对『通用、可离线、两家都能接』的目标，本项的 MCP 路径与目标错位；若只需要 SDK 层记忆能力则可考虑"
+      },
+      {
+        "name": "Zep / Graphiti",
+        "repo": "https://github.com/getzep/graphiti（引擎）；Zep 产品为云服务",
+        "self_hostable": "Graphiti 引擎（Apache-2.0）可自托管，但需要图数据库（Neo4j / FalkorDB 等）加向量检索组件 → 运维成本显著高于 basic-memory 的『单文件 SQLite + Markdown』",
+        "license": "Graphiti = Apache-2.0；Zep 平台为商业云服务（Zep Community Edition 的现状 [不确定]）",
+        "mcp_entry": "Zep 提供官方 MCP server（面向其平台）；Graphiti 的 MCP 包装多为第三方",
+        "verdict": "时态知识图谱是其差异点，但引入图数据库对个人自进化基座偏重"
+      },
+      {
+        "name": "Letta（原 MemGPT）",
+        "repo": "https://github.com/letta-ai/letta（自托管文档 https://docs.letta.com/self-hosting/）",
+        "self_hostable": "可自托管（docker）。注意定位差异：Letta 是『自带记忆的 agent 运行时/框架』，本身还是 MCP 客户端，而不是『给已有 agent 挂一份记忆』的纯记忆 server",
+        "license": "Apache-2.0（多源一致）；有第三方文写 MIT，属来源冲突，以官方仓库为准（标注 [不确定]）",
+        "mcp_entry": "官方 Letta MCP server 暴露约 6 个工具（list/create/message stateful agents 等）——即『用 MCP 去操控 Letta 的 agent』，而非『把记忆给别的 agent 用』",
+        "verdict": "与 opencode/goose 组合会变成『再引入一个 agent 运行时』，与『两家通用基座件』的目标错位"
+      },
+      {
+        "name": "纯本地 Markdown + 索引（零依赖）",
+        "repo": "无（自建）",
+        "self_hostable": "天然自部署：就是文件系统。索引可用 ripgrep / SQLite FTS5 自建，随时可重建",
+        "license": "无（无第三方许可约束）",
+        "mcp_entry": "不需要 MCP（若坚持要 MCP 可后补一个薄封装，但通常没必要）",
+        "verdict": "零成本、零许可风险、零常驻 token、可 git 化回滚；代价是没有语义检索与去重。建议作为起步方案"
+      },
+      {
+        "name": "（补充候选）goose 内建 memory 扩展",
+        "repo": "https://github.com/block/goose（crates/goose-mcp/src/memory/mod.rs）",
+        "self_hostable": "随 goose 内建，零安装（config.yaml 默认 bundled: true, enabled: true, type: builtin）",
+        "license": "Apache-2.0（随 goose 仓库）",
+        "facts_from_source": "工具：remember_memory（category/data/tags/is_global）、retrieve_memories（category=* 可全取）、remove_memory_category、remove_specific_memory。存储为按分类的文本文件：全局 = 平台 app 数据目录下 memory/，项目级 = <工作目录>/.goose/memory/。源码含 Windows 保留文件名防护（CON/PRN/AUX/NUL/CLOCK$/COM1-9/LPT1-9）与路径逃逸防护（测试明确断言不会写到工作目录之外）",
+        "verdict": "goose 侧『零安装就有记忆』；**但 opencode 用不上**（它是 goose 进程内扩展，不是可被第三方连接的独立 MCP server）→ 若目标是『两家通用』，仍应选独立 MCP（如 basic-memory）或纯 Markdown"
+      },
+      {
+        "name": "（补充候选）Memanto（moorcheh-ai）",
+        "repo": "https://github.com/moorcheh-ai/memanto（产品页 https://moorcheh.ai/products/memanto）",
+        "self_hostable": "[不确定] 未取得一手自部署说明；MCP 目录站将其描述为暴露 remember / recall / answer 三类核心操作，另有 point-in-time 与 differential recall",
+        "license": "[不确定] 本轮未确认许可证",
+        "mcp_entry": "第三方 MCP 目录（mcp.so / Archestra）有收录条目，可作为任意 MCP 客户端接入",
+        "verdict": "定位『记忆管理 agent』（管别的 agent 的记忆：保留/冲突/过期），概念贴题但证据等级低，建议列为观察项"
+      }
+    ],
+    "scheduler": [
+      {
+        "name": "Windows Task Scheduler",
+        "fit": "本机 Windows 首选。无人值守、支持开机触发/空闲触发/失败重试设置",
+        "install": "schtasks /Create /TN \"self-evolve-hourly\" /SC HOURLY /TR \"powershell -NoProfile -File C:\\path\\heartbeat.ps1\"",
+        "risk": "静默失败（Last Run Result 需主动巡检）；PowerShell 引号转义易错；任务计划程序不会因脚本内部异常报警"
+      },
+      {
+        "name": "cron（Linux/macOS）",
+        "fit": "非 Windows 环境的默认解",
+        "risk": "环境变量最小化（PATH 缺失是最常见静默失败原因），需在脚本内显式设定 PATH 与绝对路径"
+      },
+      {
+        "name": "心跳脚本（常驻 loop）",
+        "fit": "需要在同一进程内保持状态（nudge 计数器、curator 游标）时最合适",
+        "risk": "需要进程守护（否则机器重启即消失）；日志与自愈必须自己写"
+      },
+      {
+        "name": "（补充）goose 内建 scheduler",
+        "fit": "goose 侧不必外挂——源码快照含 crates/goose/src/scheduler/{full,common}.rs 与 goose-cli commands/schedule.rs",
+        "risk": "只覆盖 goose；opencode 侧仍需上面前三种之一"
+      }
+    ],
+    "skill_distribution": [
+      {
+        "name": "~/.agents/skills + .skill-lock",
+        "fit": "本机已验证 opencode 与 goose 共读 ~/.agents/skills，且 ~/.agents/.skill-lock.json 已存在 —— 『一份技能喂两家』的最低成本解",
+        "evidence": "opencode docs/skills.mdx L20-21、L30；goose skills/mod.rs L46/L52；本机目录"
+      },
+      {
+        "name": "npx skills add <repo> [-g]",
+        "fit": "技能包管理器；basic-memory README 实测支持子目录源（npx skills add basicmachines-co/basic-memory/skills -g）",
+        "evidence": "basic-memory README（2026-10-16 抓取）"
+      },
+      {
+        "name": "AgentBus",
+        "fit": "[不确定] 第三方同步 sidecar（把单源技能目录单向同步到各家，带 manifest 与冲突告警）——本轮未取得一手验证"
+      }
+    ],
+    "reward_recording": [
+      {
+        "name": "自定义 skill_outcomes.json（成败计数）",
+        "fit": "**没有任何现成轮子**。这是轴4（可测量的进化）的地基，也是与 Hermes 的核心差距所在",
+        "schema": "{ \"<skill-name>\": { \"uses\": 0, \"successes\": 0, \"failures\": 0, \"user_corrections\": 0, \"last_used\": \"ISO8601\", \"last_rewritten\": null, \"version\": 1, \"outcome_log\": [{\"session_id\": \"...\", \"verdict\": \"success|failure|corrected\", \"evidence\": \"...\"}] } }",
+        "state_dir": "~/.agents/self-evolve/skill_outcomes.json（与共享技能根同源便于一并 git 化/备份）",
+        "trigger": "uses>=5 且 failure_rate>=0.4 → 进入重写候选；user_corrections>=2 → 立即进入重写候选"
+      }
+    ]
+  },
+  "answers": {
+    "self_deploy_and_license": [
+      "basic-memory：可完全自部署（SQLite 单机即可，Postgres/docker 可选）；AGPL-3.0。传染边界要写清：自用不分发无事；改后对外提供网络服务须给源码（AGPL 第 13 条）；随闭源产品分发须整体 AGPL。仓库带 CLA.md → 未来版本可能换许可，但已发布 AGPL 版本不可收回。",
+      "mem0：SDK/自托管为 Apache-2.0，无 copyleft 风险；但官方 MCP 入口已转向云服务（本地 OpenMemory server 于 2026-07-29 从 monorepo 移除，据第三方一致表述），自托管 + MCP 需 DIY。[仅文档推断]",
+      "Zep / Graphiti：Graphiti 引擎 Apache-2.0 可自托管，但需图数据库 + 向量库；Zep 本身是云服务。",
+      "Letta：Apache-2.0（有第三方写 MIT，冲突待核）；可 docker 自托管；但它是『带记忆的 agent 运行时』，不是纯记忆 MCP。",
+      "纯本地 Markdown + 索引：无许可、无依赖、无传染。",
+      "goose 内建 memory：Apache-2.0，零安装，但只有 goose 能用。",
+      "调度与 reward 记录：Windows Task Scheduler / cron 为操作系统组件；skill_outcomes.json 自建无许可。",
+      "一句话结论：**只有 basic-memory 会带来 AGPL 传染性问题，也只有它真正成熟（4.2k★）；其余要么许可宽松但 MCP 路径错位（mem0/Letta/Zep），要么零风险但需自建。**"
+    ],
+    "dual_mcp_attach": {
+      "which": "能被 opencode 与 goose **同时**以 MCP 接入的：basic-memory（stdio，两家都支持 local/stdio）；mem0 自建 server（需自己包 MCP）；Memanto（第三方 MCP 目录收录，理论可接）；Zep 官方 MCP（若接受其平台）。**不能同时接入的**：goose 内建 memory 扩展（仅 goose 进程内）；basic-memory 的 Claude Code / Hermes / OpenClaw 官方插件（两家都不在清单内）。",
+      "opencode_snippet": "// ~/.config/opencode/opencode.jsonc\n{\n  \"$schema\": \"https://opencode.ai/config.json\",\n  \"mcp\": {\n    \"basic-memory\": {\n      \"type\": \"local\",\n      \"command\": [\"uvx\", \"--prerelease=allow\", \"basic-memory\", \"mcp\"],\n      \"enabled\": true,\n      \"environment\": { \"BASIC_MEMORY_LOG_LEVEL\": \"INFO\" }\n    }\n  },\n  \"permission\": {\n    \"skill\": { \"*\": \"allow\", \"internal-*\": \"deny\" },\n    \"external_directory\": { \"~/basic-memory/**\": \"allow\" }\n  }\n}",
+      "goose_snippet": "# ~/.config/goose/config.yaml\nextensions:\n  basic-memory:\n    type: stdio\n    name: basic-memory\n    enabled: true\n    cmd: uvx\n    args: [\"--prerelease=allow\", \"basic-memory\", \"mcp\"]\n    env_keys: []\n    envs: {}\n    timeout: 300\n    available_tools: []   # 留空=全部；想省 token 可只列 write_note/read_note/search_notes",
+      "notes": "两家都需要重载会话/进程才生效（没有运行时热注册的证据）。若要控制 token，可先用 goose 的 available_tools 过滤工具子集；opencode 侧只提供 enabled 开关（没有逐工具过滤字段 [不确定]）。"
+    },
+    "markdown_vs_mcp": "结论：起步用纯 Markdown，出现『grep 找不到』的真实痛点后再引入 basic-memory。理由见下表。",
+    "markdown_vs_mcp_table": [
+      "依赖与运维：Markdown=0（只需文件系统 + ripgrep/SQLite FTS）；MCP=Python/uv 或 docker 常驻进程 + 首次可能的模型下载。",
+      "许可风险：Markdown=无；basic-memory=AGPL（自用无碍，闭源分发不可）；mem0 官方 MCP=云锁定。",
+      "常驻 token 成本：Markdown=0（不占系统提示，只在被读时付费）；MCP=显著（opencode 官方文档明确警告 MCP 会吃上下文，basic-memory 约 20 个工具常驻）。",
+      "写入通道与权限面：Markdown=走既有的 edit/write 权限（opencode 能按路径精确 deny，例如 **/SOUL.md）；MCP=独立的 MCP 工具权限面，需要另外配规则。",
+      "语义检索：Markdown=无（只有关键字/正则）；MCP=有（向量、混合检索、知识图谱 traversing）。",
+      "去重：Markdown=完全靠自己写；MCP=部分（basic-memory 有 permalink 概念、schema_infer/schema_validate）。",
+      "自动写入：两者都要 hook 触发；MCP 不会自己写。",
+      "跨工具复用：Markdown=最强（两家直接读同一目录，不需要各自配 MCP）；MCP=中（两家都支持但需各自配置与重启）。",
+      "可回滚性：Markdown=最强（git diff / 目录快照）；MCP=弱（数据落在 SQLite/图数据库，需自带 doctor/snapshot）。",
+      "适合规模：Markdown=数百条以内；MCP=数千条以上、需要跨文档语义召回时。",
+      "成本结论：MCP 方案的收益是『语义召回 + 结构校验』，代价是『常驻 token + 许可 + 一个额外常驻进程 + 不可 git 化的数据』。对『两家通用基座』这一目标，Markdown 的边际收益在早期明显更高。"
+    ],
+    "reward_signal_design": [
+      "落盘：~/.agents/self-evolve/skill_outcomes.json（单文件，可 git 化，与技能库同源）。",
+      "记录时机：goose 用 Stop/SessionEnd hook、opencode 用 session.idle，在回合结束时由脚本 append 一条 outcome；失败可由 PostToolUseFailure（goose）判定。",
+      "字段：uses / successes / failures / user_corrections / last_used / last_rewritten / version，并保留 outcome_log 以便审计。",
+      "判定：以成败计数为主（可审计的小体积事实），LLM-judge 只作为重写前的二次确认；阈值建议 uses>=5 且 failure_rate>=0.4，或 user_corrections>=2 立即触发。",
+      "注意：这是本项唯一没有现成轮子的部分——**没有任何开源件在替你做轴4**，必须自建。"
+    ]
+  },
+  "uncertain": [
+    "version",
+    "maturity（mem0 / Letta / Graphiti 的精确星数与最后提交日期）",
+    "governance（mem0 / Letta / Graphiti 的治理结构细节）",
+    "standard_compliance（各 SKILL.md 的必填字段与 name==目录名约束未逐字核对）",
+    "license.Letta（Apache-2.0 与 MIT 的第三方来源冲突）",
+    "license.Memanto",
+    "self_hostable.Memanto",
+    "Zep Community Edition 的现行状态",
+    "cross_tool_read_paths（六条技能路径的同名冲突优先级）",
+    "risk.permission_gate（opencode 的 permission 能否精确匹配单个 MCP 工具名）",
+    "candidates.skill_distribution.AgentBus（未取得一手验证）",
+    "opencode 侧 MCP 是否支持逐工具过滤（仅见 enabled 开关）"
+  ]
+}

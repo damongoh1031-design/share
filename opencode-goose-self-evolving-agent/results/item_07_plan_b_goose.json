@@ -1,0 +1,58 @@
+{
+  "basic": {
+    "name": "方案 B：goose 侧自进化闭环改造",
+    "type": "改造方案",
+    "repo": "实物已产出：deliverables/goose/.agents/plugins/task-distiller/（hooks.json + 三个 PowerShell 脚本）",
+    "license": "不适用（自有代码）",
+    "install_method": "把 deliverables/goose/.agents/plugins/task-distiller/ 整个复制到 C:\\Users\\Admin\\.agents\\plugins\\task-distiller\\。**无需改 config.yaml**——goose 启动时自动发现 hooks/hooks.json 并把新插件写入 plugins map 且 enabled: true",
+    "version": "方案 v1（骨架，未实测）",
+    "maturity": "自研骨架；事件名与 hooks.json 结构均取自 goose 源码（HookEvent 枚举与 open_plugins.rs 的组件标记），未实跑",
+    "governance": "不适用",
+    "standard_compliance": "遵循 Open Plugins hooks 规范（hooks.json 位于 <plugin>/hooks/hooks.json）；技能落在 ~/.agents/skills（Agent Skills 规范的跨工具共享根）"
+  },
+  "extension_surface": {
+    "skills_support": "写 ~/.agents/skills/<name>/SKILL.md，opencode 与 goose 共用；另可选 goose skills 子命令查看已装技能及其 token 数",
+    "mcp_support": "本方案不新增 MCP；如需记忆，可在插件里携带 .mcp.json 或在 config.yaml 增 extensions",
+    "plugin_support": "整条方案就是『一个用户级插件』——这是 goose 2026 新增的一等公民机制，容器内可同时放 skills/、hooks/、commands/、agents/、.mcp.json",
+    "hook_support": "挂三个事件：SessionEnd（沉淀入队）、PostToolUse（reward 计数）、PreToolUse（护栏，可 Deny）",
+    "memory_support": "本方案用插件自己的 state/ 目录做轻量记忆（distill_queue.md、skill_outcomes.json、guard.log）；goose 另有内建 memory extension 可叠加",
+    "scheduler_support": "goose **原生支持**：goose schedule add --schedule-id daily-curate --cron \"@daily\" --recipe-source curate.yaml，调度器会把 recipe 复制进内部 scheduled_recipes 目录。这是相对 opencode 的一大优势——opencode 必须借助 Windows 任务计划程序",
+    "subagent_support": "有（agents/subagent_handler.rs）；可用于承担重量级沉淀",
+    "cross_tool_read_paths": "写入 ~/.agents/skills（共享根）；插件自身在 ~/.agents/plugins/task-distiller/",
+    "hook_events_used": "SessionEnd、PostToolUse、PreToolUse",
+    "skill_embedded_mcp": "可用但本方案未用（manifest 的 mcpServers 字段可声明）",
+    "distribution_channel": "本地目录复制即可用；若要分发，把该目录做成 git 仓库后 goose plugin install <url>",
+    "update_mechanism": "本地目录模式下手动更新；若改为 git 安装可带 --auto-update 自动跟随",
+    "token_cost_model": "有原生计量：goose skills 输出每个技能的 token 数，可直接作为技能库体积的审计依据（opencode 无对应工具）"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "由 SessionEnd 触发。**骨架阶段刻意只入队不写技能**（distill.ps1 只往 state/distill_queue.md 追加待判定条目）——与方案 A 同一条安全原则：自动写入 + 无闸门 = 注入放大",
+    "auto_memory_write": "自动。distill.ps1 每次把事件 JSON 追加到 state/last-event.log，并顺带记录共享技能根当前有多少个技能（用于事后确认沉淀是否真的发生）",
+    "background_self_review": "有等价物的占位：distill_queue.md 就是待自审队列；真正跑 LLM 复审需两步——要么人工/子代理消费队列，要么用 goose 的 headless 运行（goose run -<'prompt'>）在 SessionEnd 后异步跑一次",
+    "self_config_edit": "护栏在 guard.ps1：受保护清单含 AGENTS.md / CLAUDE.md / SOUL.md 与 .agents/plugins/task-distiller（自进化脚本本体）。默认只记录不拦截，确认决策 JSON schema 后改为 Deny",
+    "trigger_mechanism": "事件驱动（SessionEnd / PostToolUse / PreToolUse）+ 定时（goose schedule 的 cron 驱动 recipe），不需要任何外部调度器",
+    "iteration_axes_coverage": "轴1 已接（SessionEnd → 队列 → 待判定）；轴2 已接（state/ 目录 + last-event.log）；轴3 占位（队列 + 建议由 schedule 任务定期整理）；轴4 已接（outcome.ps1 写 skill_outcomes.json 的 use/fail/last）；轴5 已接（PreToolUse 受保护清单 + 安装侧 extension_malware_check 兜底）",
+    "reward_signal": "有。.agents/plugins/task-distiller/state/skill_outcomes.json，结构 {\"<skill>\": {\"use\":n,\"fail\":n,\"last\":ISO}}，由 PostToolUse 钩子在每次技能调用后更新",
+    "human_approval_gate": "两道：① PreToolUse 的 Deny（对自指令文件与插件本体）② 沉淀动作本身降级为入队，落地需人工或子代理确认。注意 goose 在**安装侧**没有 Hermes 式首次使用同意名单——新插件自动 enabled: true，这是需要用户自己把关的地方",
+    "state_dir": "C:\\Users\\Admin\\.agents\\plugins\\task-distiller\\state\\：distill_queue.md、skill_outcomes.json、last-event.log、guard.log"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "改造前 goose 只缺 ③ curator 与 ④ 的 reward；改造后仍缺 ① curator 的 provenance（Hermes 用 bundled/hub/agent 三类标记，保证既有技能永不被动）② 姿态差异：Hermes 是『默认拒绝自我改写』，goose 是『默认放行安装』",
+    "how_to_fill": "落地顺序：第 1 步 只放插件、只观察，会话结束后看 state/last-event.log 与 distill_queue.md 是否增长（这一步就能验证 hooks 是否真的被触发）第 2 步 用一次技能调用验证 skill_outcomes.json 是否出现计数 第 3 步 手工写一个 SKILL.md 到 ~/.agents/skills，重启 opencode 与 goose 各确认一次都能看到（验证共享根）第 4 步 用 goose schedule add 起日度整理 recipe 第 5 步 把 guard.ps1 从『只记录』切到 Deny 第 6 步（可选）把沉淀改成 goose headless 自动执行",
+    "code_effort": "**三家里最低**：一份 hooks.json + 三个 PowerShell 脚本（已产出），零上游改动、零配置改动（自动发现 + 自动 enabled）。对照：opencode 侧必须写 TS 插件框架；Hermes 侧这些能力是内置的但不可改"
+  },
+  "evidence": {
+    "official_doc_url": "https://open-plugins.com/agent-builders/components/hooks  ·  https://goose-docs.ai/docs/guides/context-engineering/plugins  ·  https://goose-docs.ai/docs/guides/recipes/",
+    "local_path": "C:\\Users\\Admin\\Documents\\默认项目\\opencode-goose-self-evolving-agent\\deliverables\\goose\\ ；证据来源 C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\src\\key\\crates__goose__src__hooks__mod.rs、…__plugins__discovery.rs、…__plugins__formats__open_plugins.rs、…__goose-cli__src__commands__{plugin,schedule,skills}.rs、_verify\\extra_docs\\documentation\\blog\\2026-05-14-goose-hooks\\index.md",
+    "verify_cmd": "① 复制插件后起一个 goose 会话，检查 .agents\\plugins\\task-distiller\\state\\last-event.log 是否被写入 ② goose plugin 相关命令确认插件已出现在 config.yaml 的 plugins map 且 enabled: true ③ goose skills 确认技能可见与其 token 数",
+    "evidence_date": "2026-10-16",
+    "verified_on": "未验证（脚本未在 goose 内实跑；事件名、hooks.json 位置与自动启用行为均来自源码）"
+  },
+  "risk": {
+    "permission_gate": "PreToolUse Deny 是强原语（matcher 正则直接对工具名/路径），但**默认策略是放行**：插件从 git 一键安装后自动启用，没有首次使用同意。弱于 Hermes 的 shell-hooks-allowlist",
+    "injection_surface": "三家里最大：插件可同时携带 skills、hooks、mcpServers，且安装即启用。一个恶意插件能在 SessionEnd 写任意技能文件、在 PreToolUse 读工具入参。缓解只有 extension_malware_check（自动恶检）与人工审查；本方案的护栏脚本本身也是被保护对象",
+    "upgrade_breakage": "较高：goose 正处在平台扩展重构（#7675 / #6160）中，manifest 字段与 config.yaml extensions 形态可能变。缓解：本方案只依赖两个最稳的东西——~/.agents/plugins/ 路径与 hooks.json 的 Open Plugins 规范，其余尽量不碰",
+    "stability": "优于另两家：hook 有逐条 timeout 与默认值（脚本挂死不会拖住会话）、未知事件名忽略而非报错、插件安装走 staging + 原子 rename；goose skills 的原生 token 计量也让技能库体积可观测可收敛"
+  },
+  "uncertain": ["basic.version"]
+}

@@ -1,0 +1,214 @@
+field_groups:
+  - group: basic
+    description: 对象基本信息，用于建立可比性
+    fields:
+      - name: name
+        description: 对象名称（harness / 机制 / 方案 / 工具）
+        detail_level: 极简
+      - name: type
+        description: 对象类型，取值：harness 本体 / 扩展机制 / 改造方案 / 基座组件 / 先例
+        detail_level: 极简
+      - name: repo
+        description: 官方仓库或官网地址
+        detail_level: 简要
+      - name: license
+        description: 许可证（注明是否 copyleft、是否带 CLA，影响「会不会被收回」）
+        detail_level: 简要
+      - name: install_method
+        description: 安装/部署方式（npm / pip / binary / git / docker / 内置）
+        detail_level: 简要
+      - name: version
+        description: 调研时点的版本号与发布日期
+        detail_level: 简要
+      - name: maturity
+        description: >
+          成熟度：stars / commits / 最后提交日期 / 是否单人维护 / 是否 0.x。
+          **必填**——本领域现成轮子多为早期实验（已知案例：opencode 自进化插件 2★ / 7 commits），
+          没有这个字段会把实验当生产方案。
+        detail_level: 简要
+      - name: governance
+        description: 维护主体与治理结构（公司/基金会/个人），用于判断「会不会死」与「许可能否被收回」（带 CLA 的 copyleft 才不可撤回）
+        detail_level: 简要
+      - name: standard_compliance
+        description: 是否符合 Agent Skills 规范（必填字段、name 是否必须等于目录名）；跨工具可移植性的硬约束
+        detail_level: 简要
+
+  - group: extension_surface
+    description: >
+      七项扩展面的「有/无 + 证据」。核心用途是横向对齐三个 harness。
+      每项都必须给出证据（文档链接或本地路径或实测命令），禁止只写「支持/不支持」。
+    fields:
+      - name: skills_support
+        description: 是否支持技能（SKILL.md 类）；技能目录在哪；是否可被 agent 自己创建
+        detail_level: 简要
+      - name: mcp_support
+        description: MCP 接入方式（配置文件路径 / CLI / 运行时注册）、是否需要重启生效
+        detail_level: 简要
+      - name: plugin_support
+        description: 插件/扩展代码能力；插件可访问哪些事件
+        detail_level: 简要
+      - name: hook_support
+        description: 生命周期钩子（会话开始/工具调用/回合结束/提交前）；无则明确写「无」
+        detail_level: 简要
+      - name: memory_support
+        description: 跨会话持久记忆；存储位置与格式；谁写入
+        detail_level: 简要
+      - name: scheduler_support
+        description: 定时/心跳/后台任务调度能力
+        detail_level: 简要
+      - name: subagent_support
+        description: 子代理派生能力（含并发上限、结果回传方式）
+        detail_level: 简要
+      - name: cross_tool_read_paths
+        description: >
+          该工具实际扫描的共享技能目录清单（逐条列出）。
+          **必填**——仅写 skills_support=true 无法判断互操作性。
+          已知：opencode 读 .opencode/skills、~/.config/opencode/skills、.claude/skills、~/.claude/skills、
+          .agents/skills、~/.agents/skills；goose 读 ~/.agents/skills（全局可写）、(project)/.agents/skills、
+          ~/.agents/plugins/*/skills/。同名冲突优先级必须一并记录。
+        detail_level: 简要
+      - name: hook_events_used
+        description: >
+          插件/hook 实际可挂钩的事件名清单。这是「某机制feasibility」的证据——
+          例如没有 session.idle 就无法做 outcome 记录，没有 PreToolUse 就无法做拦截。
+          opencode：Session/Tool/Permission/Shell/Message/File 等 + experimental.session.compacting；
+          goose：PreToolUse/PreToolUseResult/PostToolUse/PostToolUseFailure/SessionStart/SessionEnd/UserPromptSubmit/Stop。
+        detail_level: 简要
+      - name: skill_embedded_mcp
+        description: 技能能否内嵌 MCP，或 MCP 能否反向转成技能（决定 token 成本与部署粒度）
+        detail_level: 简要
+      - name: distribution_channel
+        description: 安装/分发渠道（npm 自动装 / git clone 到 plugins / goose plugin install --auto-update / npx skills add / MCP registry 一键 Install）
+        detail_level: 简要
+      - name: update_mechanism
+        description: 更新机制与是否自动更新（直接影响 upgrade_breakage 判断）
+        detail_level: 简要
+      - name: token_cost_model
+        description: >
+          上下文开销策略：渐进披露 / lazy-loading / slim MCP / disabled_skills / 技能 token 计量。
+          自进化会不断新增技能，没有成本模型的项目三个月后会被自己灌爆。
+        detail_level: 简要
+
+  - group: self_evolution
+    description: >
+      自进化 5 条独立轴（v2）。禁止笼统写「支持自我改进」，必须落到
+      「由谁触发、写到哪里、有没有人工闸门、有没有 reward signal」。
+      轴1 技能习得/蒸馏 · 轴2 记忆写入 · 轴3 后台复审/curator ·
+      轴4 可测量的进化(reward signal) · 轴5 自我配置改写。
+      判据：只有轴1+轴2 的「自我改进」是采集，不是进化；轴4 才是分水岭。
+    fields:
+      - name: auto_skill_creation
+        description: agent 能否在完成任务后自动沉淀出新技能；触发方式（轮数 nudge / 显式命令 / 事后审查）
+        detail_level: 详细
+      - name: auto_memory_write
+        description: agent 能否自动写入长期记忆；写入位置与去重策略
+        detail_level: 详细
+      - name: background_self_review
+        description: 是否存在回合后的后台自我审查/改进流程（对照 Hermes background_review）
+        detail_level: 详细
+      - name: self_config_edit
+        description: agent 能否改自己的配置/指令文件；是否强制人工批准（对照 Hermes 的 yolo 下仍需批准）
+        detail_level: 详细
+      - name: trigger_mechanism
+        description: 全套自进化的触发链（时间驱动 / 事件驱动 / 人工驱动），以及会不会在无人值守时静默失败
+        detail_level: 简要
+      - name: iteration_axes_coverage
+        description: >
+          该对象覆盖 5 条轴中的哪几条（轴1~轴5 打勾 + 每条的实现证据）。
+          这是横向对齐的主表，必须逐轴给证据而非给总分。
+        detail_level: 详细
+      - name: reward_signal
+        description: >
+          是否有客观反馈回环（reward signal）驱动技能重写——例如落盘 skill_outcomes.json，
+          记录 use 次数 / 失败次数 / 用户纠正，达阈值才触发重写。
+          **没有 reward signal 的「自我改进」只是采集，不是进化**——这是与 Hermes 的核心差距所在。
+          若存在，须注明 reward 的形式（LLM-judge / 成败计数 / Pareto / GEPA）。
+        detail_level: 详细
+      - name: human_approval_gate
+        description: >
+          permission_gate 的细化：明确「哪一步必须人工」。范例：
+          opencode-evolve 用 per-file permission（"SOUL.md": "deny"）；
+          某自进化插件规定「蒸馏自动、重写必须人工批准」；
+          Hermes 规定改 AGENTS.md/CLAUDE.md/SOUL.md 即使 --yolo 也须人工。
+        detail_level: 简要
+      - name: state_dir
+        description: >
+          自进化状态的落盘位置（如 ~/.config/opencode/self-improve/：
+          skill_usage.json、skill_outcomes.json、nudge_state.json、curator_state.json、backups/）。
+          可验证、可迁移、可回滚的证据来源。
+        detail_level: 简要
+
+  - group: gap_vs_hermes
+    description: 逐件对照 Hermes 的 7 件工程件，给出缺失项与补法
+    fields:
+      - name: missing_component
+        description: 相对 Hermes 缺失的具体工程件（①~⑦ 编号 + 名称）
+        detail_level: 简要
+      - name: how_to_fill
+        description: 补法：配置片段 / 插件代码 / 外部 MCP / 目录约定，尽量给可粘贴的形态
+        detail_level: 详细
+      - name: code_effort
+        description: 落地成本估算（无需写码 / 单文件脚本 / 需写插件 / 需改上游），并注明是否需要管理员权限或额外运行时依赖
+        detail_level: 简要
+
+  - group: evidence
+    description: 可复核性。每条结论都要能回到出处
+    fields:
+      - name: official_doc_url
+        description: 官方文档/仓库链接（优先一手源；社区博客需标注可信度）
+        detail_level: 简要
+      - name: local_path
+        description: 本机可核对路径（配置文件、日志、状态库）
+        detail_level: 简要
+      - name: verify_cmd
+        description: 一条可复制执行的验证命令及其预期输出
+        detail_level: 简要
+      - name: evidence_date
+        description: 证据取得日期（harness 迭代快，超过 6 个月的结论需标注可能失效）
+        detail_level: 极简
+      - name: verified_on
+        description: 是否已在本机实跑验证（已验证 / 仅文档推断 / 未验证）；逻辑外推必须显式标注
+        detail_level: 极简
+
+  - group: risk
+    description: 自进化的代价面。Hermes 专门设了闸门，说明这层不可省
+    fields:
+      - name: permission_gate
+        description: 写自身配置/指令/技能时是否需要人工批准；无人应答时的降级行为
+        detail_level: 简要
+      - name: injection_surface
+        description: 提示注入的传播面（抓取内容 → 记忆 → 技能 → 后续会话自我放大）
+        detail_level: 详细
+      - name: upgrade_breakage
+        description: 升级/重装是否会冲掉积累的技能与记忆；配置格式是否稳定
+        detail_level: 简要
+      - name: stability
+        description: 长跑稳定性：调度静默失败、上下文膨胀、工具数过多导致的选择失败
+        detail_level: 简要
+
+uncertain:
+  # ---- 已于 2026-10-16 用本机源码/文档快照解决（保留记录，避免重复调研）----
+  resolved:
+    - opencode 是否有生命周期 hooks → 有。Session/Tool/Permission/Shell/Message/File 等事件 + experimental.session.compacting
+    - goose 是否有 skills 概念 → 有。~/.agents/skills 为全局「可写」技能位置；goose skills 子命令可列出并计量 token
+    - goose 是否有 hooks 与插件容器 → 有。HookEvent 八种事件，PreToolUse 可 Block；plugin 可同时含 skills/ 与 hooks/
+    - 「一份技能喂三家」是否成立 → 成立。opencode 与 goose 共读 ~/.agents/skills
+
+  # ---- 仍待 deep 阶段回答 ----
+  open:
+    - 现成自进化插件（okdk7788 / khimaros 等）的功能是否与 README 一致（须对源码；且 maturity 极低，2★/7commits）
+    - 这些插件是否存在真正的轴4（reward signal），还是只做采集
+    - MCP 服务器能否被 agent 在运行中动态注册（还是必须改配置文件并重启）
+    - 三条 MCP 通道（官方 registry / github.com/mcp / Smithery）是否有可被 agent 调用的 CLI
+    - Hermes background_review 的确切触发间隔与写入边界
+    - Hermes curator 的去重/淘汰/合并策略细节
+    - opencode 六条技能路径的优先级与同名冲突规则
+    - goose 是否已有任何「任务后自动写 skill」的入口（若无，Stop hook 能否实现、是否幂等）
+    - goose 平台扩展重构（#7675 / PR #6160）落定后，~/.agents 路径与 hooks.json 字段是否保持兼容
+    - opencode v2 对插件/配置 API 的破坏面
+    - 三家升级路径对用户自建技能/记忆的保留策略
+    - Windows 本机可用的调度方式（goose 有内建 scheduler；opencode 侧 opencode-scheduler 假设 launchd/systemd，需另找）
+    - 技能数量增长与上下文成本的实测曲线（何时该把 MCP 转成 skill）
+
+# 说明：detail_level 分层为 极简 → 简要 → 详细
+# 极简：一个词/一个数即可；简要：1-2 句 + 证据；详细：需要机制层面的展开，允许给代码片段

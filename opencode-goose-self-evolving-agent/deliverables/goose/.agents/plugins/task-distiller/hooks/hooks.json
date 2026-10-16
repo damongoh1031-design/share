@@ -1,0 +1,53 @@
+{
+  "_comment": [
+    "goose 自进化挂载点。放置位置：C:\\Users\\Admin\\.agents\\plugins\\task-distiller\\hooks\\hooks.json",
+    "goose 启动时会自动发现 ~/.agents/plugins/<name>/hooks/hooks.json，并把新插件写入 config.yaml 的 plugins map 且 enabled: true —— 无需任何配置改动。",
+    "事件名取自源码 crates/goose/src/hooks/mod.rs 的 HookEvent 枚举（八种）。",
+    "matcher 是正则：工具类事件对『工具名』测试，文件类事件对『文件路径』测试。",
+    "action 目前仅支持 type=command；支持逐条 timeout（秒），不写则用默认值。",
+    "PreToolUse 的返回可 Deny 并回传 reason，从而阻断工具调用 —— 这是护栏的实现手段。"
+  ],
+
+  "hooks": {
+    "SessionEnd": [
+      {
+        "_comment": "轴1：会话结束时判断本轮是否值得沉淀为技能（写共享根 ~/.agents/skills）",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/distill.ps1\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "matcher": "developer__shell|developer__text_editor|skill.*",
+        "_comment": "轴4：累计技能的使用与失败计数，作为 reward signal",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/outcome.ps1\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "matcher": "AGENTS\\.md|CLAUDE\\.md|SOUL\\.md|\\.agents[/\\\\]plugins[/\\\\]task-distiller",
+        "_comment": "轴5：对应 Hermes 的人工批准闸门 —— 禁止 agent 改写自身指令文件与自进化脚本本体。Deny 会阻断调用并回传 reason。",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/guard.ps1\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

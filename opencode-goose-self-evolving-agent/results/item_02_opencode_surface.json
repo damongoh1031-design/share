@@ -1,0 +1,58 @@
+{
+  "basic": {
+    "name": "opencode",
+    "type": "harness 本体（目标机）",
+    "repo": "https://opencode.ai",
+    "license": "[不确定]",
+    "install_method": "[不确定]（本机以已运行形态存在；未采集安装方式）",
+    "version": "[不确定]（官方文档快照为 v1192 分支，文档 updated 2026-10-15；官网已上线 v2）",
+    "maturity": "活跃。官方文档站 2026-10-15 更新；docs/ 下已有 v1 与 v2 两代 schema（packages/schema/src/v1/ 与顶层并存），说明正在做版本迁移",
+    "governance": "[不确定]",
+    "standard_compliance": "符合 Agent Skills 规范。SKILL.md + YAML frontmatter；troubleshooting 明确要求目录名与 name 匹配（『Match the directory name that contains SKILL.md』）"
+  },
+  "extension_surface": {
+    "skills_support": "有。原生 skill 工具按需加载（渐进披露）；agent 在工具描述里看到 <available_skills> 列表。**本机已装 46 个技能**于 ~/.config/opencode/skills/",
+    "mcp_support": "有。opencode.json/jsonc 顶层 mcp 对象，每项 type=local（command 数组 + environment）或 type=remote（url），enabled 布尔开关；支持从组织远程配置按名启用某个 server",
+    "plugin_support": "有。JS/TS 模块，导出一个或多个 plugin 函数（签名 async ({ project, client, $, directory, worktree }) => hooks 对象）。npm 插件由 Bun 在启动时自动安装并缓存到 ~/.cache/opencode/node_modules/；本地插件从 plugins/ 目录直接加载；可在 config 目录放 package.json 声明依赖，启动时 bun install",
+    "hook_support": "有（这是本次调研最重要的更正）。事件全集：command.executed；file.edited / file.watcher.updated；installation.updated；lsp.client.diagnostics / lsp.updated；message.part.removed / message.part.updated / message.removed / message.updated；permission.asked / permission.replied；server.connected；session.created / session.compacted / session.deleted / session.diff / session.error / session.idle / session.status / session.updated；todo.updated；shell.env；tool.execute.before / tool.execute.after；tui.prompt.append / tui.command.execute / tui.toast.show。另有命名 hook experimental.session.compacting（压缩前注入自定义上下文）",
+    "memory_support": "无原生。config schema 中无 memory 字段（对照 Hermes 的 MEMORY.md/USER.md 双存储）→ 必须外挂（MCP 记忆服务或插件自建文件）",
+    "scheduler_support": "无原生。config schema 中无 scheduler/cron 字段 → 必须外挂（Windows 任务计划程序，或社区插件 opencode-scheduler，后者假设 launchd/systemd）",
+    "subagent_support": "有。agents/ 目录定义 agent（含模式与权限），config 有 subagent depth 配置项；本会话即运行于该 harness 之上",
+    "cross_tool_read_paths": "项目级：.opencode/skills/<name>/SKILL.md、.claude/skills/…、.agents/skills/…；全局：~/.config/opencode/skills/…、~/.claude/skills/…、~/.agents/skills/…（共 6 条，source: docs/skills.mdx L16-21 与 L28-30）",
+    "hook_events_used": "见 hook_support（共 26 个事件 + 1 个 experimental hook）",
+    "skill_embedded_mcp": "[不确定]",
+    "distribution_channel": "npm 插件（启动自动安装）/ 本地 plugins 目录 / opencode.json 的 plugin 字段；技能走文件目录",
+    "update_mechanism": "autoupdate 配置项（true / \"notify\" / false），默认只通知不自动装，需手动 /update",
+    "token_cost_model": "技能按需加载（渐进披露，只在工具描述里暴露摘要）；无技能 token 计量工具（对照 goose skills 的 token counter）"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "无自动触发。技能文件可被 agent 用写文件能力直接创建（无技术障碍），但 harness 本身不提供 nudge 或回合后触发——**这正是与 Hermes 的第一个缺口**",
+    "auto_memory_write": "无。无记忆存储，也无写入触发",
+    "background_self_review": "无。无回合后 fork 自审机制",
+    "self_config_edit": "技术上可以（agent 有文件写入能力，自身配置与技能都在可写目录内），但无专用闸门——只有通用 permission 系统",
+    "trigger_mechanism": "无自进化触发链。可用于自行搭建的挂载点是 session.idle（回合空闲）、tool.execute.before/after、session.compacted、experimental.session.compacting",
+    "iteration_axes_coverage": "五轴中仅部分覆盖：轴1 部分（可写技能但无触发）、轴2 无、轴3 无、轴4 无、轴5 部分（可改自身文件但无细化闸门）。缺口集中在轴2/3/4",
+    "reward_signal": "无。无技能使用统计、无成败记录、无 prune/pin 语义",
+    "human_approval_gate": "有通用 permission 系统（permission.asked / permission.replied 事件、permissions.mdx、policies.mdx）；技能维度可按模式 deny，deny 的技能从 <available_skills> 整体隐藏。但**没有**『自指令文件必须人工批准』这种针对性闸门",
+    "state_dir": "[不确定]（未见专用自进化状态目录，需插件自建，例如 ~/.config/opencode/self-improve/）"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "缺 4 件：② 回合后后台自审（background_review）；③ 技能库 curator（含 provenance 与 archive/restore/prune/pin）；④ 有界持久记忆（MEMORY.md/USER.md 类）；④的配套 reward signal。另缺 cron 调度与技能 token 计量",
+    "how_to_fill": "① 自审闭环：写 1 个本地插件，挂 session.idle（或 tool.execute.after 计数达阈值）+ experimental.session.compacting，在回合后 fork 一次 LLM 调用判断『本轮是否值得沉淀成技能』，值得则写 ~/.agents/skills/<name>/SKILL.md（共享根，三家复用）② 幂等与回滚：写入前备份到自建 backups/，frontmatter 校验失败则回滚 ③ 闸门：对技能目录与自指令文件加 permission deny ④ 记忆：接一个记忆 MCP（basic-memory 等）或自建 MEMORY.md/USER.md 两文件 + 每会话注入 ⑤ 调度：Windows 任务计划程序调用 headless 运行 ⑥ 成本：随技能数增长需自行加 token 计量（goose 有现成 counter 可借鉴）",
+    "code_effort": "需写代码，但**无需改上游**：一个本地插件文件（TS/JS，约百行量级）+ 一份 opencode.jsonc 片段 + 一个 hooks 侧的 memo 文件。若直接采用社区现成插件（见 item 11），可能降为『装 + 改配置』，但成熟度存疑"
+  },
+  "evidence": {
+    "official_doc_url": "https://opencode.ai/docs/skills/  ·  https://opencode.ai/docs/plugins/  ·  https://opencode.ai/docs/mcp-servers/",
+    "local_path": "C:\\Users\\Admin\\WorkBuddy AI\\2026-10-15-12-57-23\\_verify\\opencode\\v1192\\packages__web__src__content__docs\\{skills,plugins,mcp-servers,permissions,policies,config,rules}.mdx 与 packages__schema__src\\{skill,plugin,event-manifest}.ts；本机 C:\\Users\\Admin\\.config\\opencode\\opencode.jsonc",
+    "verify_cmd": "opencode --version ; 检查 ~/.config/opencode/plugins/ 是否存在",
+    "evidence_date": "2026-10-16",
+    "verified_on": "已验证（官方文档与 schema 快照逐行核对）；运行版本号未采集"
+  },
+  "risk": {
+    "permission_gate": "有通用 permission 与 policies；技能可按 pattern deny 并整体隐藏。但自指令文件（AGENTS.md 等）无 Hermes 式强制人工批准",
+    "injection_surface": "若自行补上自动写技能闭环而不加闸门，则形成『抓取内容 → 写入技能 → 后续会话自动加载并遵从』的自我放大回路。opencode 的缓解手段是按 pattern deny 与技能整体隐藏",
+    "upgrade_breakage": "中等偏高。docs 中 v1 与 v2 schema 并存，官网 2026-10 已上线 v2，插件/配置 API 存在变动风险；技能文件本身是纯 Markdown，迁移成本低",
+    "stability": "无技能数量治理机制，技能持续增长会推高 <available_skills> 描述体积（渐进披露只加载摘要，风险低于全文注入，但仍线性增长）"
+  },
+  "uncertain": ["basic.license", "basic.install_method", "basic.version", "basic.governance", "extension_surface.skill_embedded_mcp", "self_evolution.state_dir"]
+}

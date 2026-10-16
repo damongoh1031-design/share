@@ -1,0 +1,58 @@
+{
+  "basic": {
+    "name": "Hermes Agent（Nous Research）",
+    "type": "harness 本体（对标基线）",
+    "repo": "https://hermes-agent.org/",
+    "license": "[不确定]",
+    "install_method": "git 安装（hermes-setup.exe 引导；自带 Python 3.11.16 运行时于 .hermes-runtime/）",
+    "version": "vgit.4e74031（2026.9.24，upstream 4e740313）",
+    "maturity": "活跃。git 方式安装并可持续 upstream 更新；本机 skills/ 下已有 .bundled_manifest 与 .curator_state 两套状态机",
+    "governance": "Nous Research（商业公司主导）",
+    "standard_compliance": "通过 skills.external_dirs 直接读取共享技能目录（配置注释原文举例 ~/.agents/skills），与 Agent Skills 规范的 SKILL.md 同构；逐字段一致性未核验"
+  },
+  "extension_surface": {
+    "skills_support": "有。~/.hermes/skills/（含 apple/devops/software-development 等分类目录）；CLI 子命令 20+ 个：trust/untrust、browse、search、install、inspect、list、check、update、audit、uninstall、reset、list-modified、diff、opt-out/opt-in、repair-official、publish、snapshot、tap",
+    "mcp_support": "有。`hermes mcp` 子命令（管理 MCP 服务器，并支持把 Hermes 自身作为 MCP server 运行）；config.yaml 注释说明 mcp_* 工具结果按 50000 字符阈值 spillover 到磁盘（通用阈值 100K）",
+    "plugin_support": "有。`hermes plugins` 子命令（管理并校验插件）；~/.hermes/desktop-plugins/ 目录",
+    "hook_support": "有，且是 shell 脚本 hook。config.yaml 中声明；`hermes hooks` 子命令含 list/ls/test/revoke/remove/doctor；首次使用需进 ~/.hermes/shell-hooks-allowlist.json 同意名单；`hooks test <event>` 可用合成 payload 试跑",
+    "memory_support": "有。两个有界存储：MEMORY.md（agent 自用笔记：环境事实/约定/学到的东西）与 USER.md（用户画像：偏好/沟通风格/期望）；字符上限 2200 与 1375（约 800/500 token）；每会话注入 system prompt；agent 自行修剪（到限须 consolidate 或 replace）",
+    "scheduler_support": "有。`hermes cron` 子命令；config.cron.catch_up_missed=true（停机后补跑错过的周期任务）",
+    "subagent_support": "有。~/.hermes/spawn-ledger.json 记录派生；config 讨论了后台评审与并发上限",
+    "cross_tool_read_paths": "~/.hermes/skills/（本地技能，创建时总写这里）；skills.external_dirs 可追加外部只读目录（配置注释示例 ~/.agents/skills、/home/shared/team-skills）；同名冲突时本地技能优先",
+    "hook_events_used": "shell hooks（事件名由 config.yaml 声明，需进一步列出）；已知含 pre_verify 一类生命周期钩子",
+    "skill_embedded_mcp": "[不确定]",
+    "distribution_channel": "bundled（随装自带）+ hub（`hermes skills install/search/browse`）+ agent-created 三类，provenance 可区分",
+    "update_mechanism": "upstream git 更新；bundled 技能可 reset/repair-official/opt-out；hub 技能可 check/update/audit",
+    "token_cost_model": "技能与记忆都有显式 token 意识：memory_char_limit 以「~2.75 字符/token」换算；MCP 结果按字符阈值 spillover 到磁盘并只留预览+路径"
+  },
+  "self_evolution": {
+    "auto_skill_creation": "有。skills.creation_nudge_interval=15——每 15 次工具调用迭代提醒模型考虑保存技能；配合 background_review 在回合后 fork 出写入动作",
+    "auto_memory_write": "有。memory.nudge_interval=10——每 10 个用户回合提醒；写入 MEMORY.md/USER.md，且有 2200/1375 字符硬上限迫使 agent 去重合并",
+    "background_self_review": "有。config 注释原文：『Post-turn memory/skill self-improvement review fork. Runs after a turn when the nudge intervals fire; writes skills/memories in a daemon thread. Usage is recorded under session_model_usage task=\"background_review\"』；可 enabled:false 关闭后用 /refine 手动触发；provider 可 pin 到更便宜的辅助模型",
+    "self_config_edit": "有但受限。改 AGENTS.md / CLAUDE.md / SOUL.md 这类『会反过来操纵 agent 自身』的指令文件时，即使 --yolo 也必须人工批准，无人可答时直接拒绝（配置注释原文）",
+    "trigger_mechanism": "三路叠加：轮数 nudge（15 次工具调用 / 10 个用户回合）、回合后事件（background_review fork）、定时（cron + catch_up_missed）",
+    "iteration_axes_coverage": "五轴全覆盖。轴1=creation_nudge_interval + background_review；轴2=MEMORY.md/USER.md + memory nudge；轴3=curator（独立辅助模型后台任务，定期复核 agent 创建的技能、剪除陈旧、合并重叠、归档过时）；轴4=usage telemetry 驱动的 prune/pin（curator usage/ledger）；轴5=shell hooks + 自指令文件（带人工批准闸门）",
+    "reward_signal": "有。`hermes curator usage` 显示『ALL skills (built-in, hub, agent) with provenance』的使用遥测；curator prune 按 idle ≥ archive_after_days 批量归档；`hermes curator pin` 可冻结某个技能不被自动迁移",
+    "human_approval_gate": "两道独立闸门：① 自指令文件（SOUL.md / AGENTS.md / CLAUDE.md）改动强制人工批准，--yolo 下不放行，无人应答则拒绝；② shell hooks 首次使用需写入 ~/.hermes/shell-hooks-allowlist.json 同意名单，可 revoke",
+    "state_dir": "~/.hermes/ 下：state.db、shared-state.db、spawn-ledger.json、projects.db、skills/.curator_state 与 .bundled_manifest、memories/、cron/、hooks/、shell-hooks-allowlist.json、backups/"
+  },
+  "gap_vs_hermes": {
+    "missing_component": "作为对标基线，本身无缺失（它是被对标物）",
+    "how_to_fill": "不适用。其价值在于给出了可复制的机制清单：① 轮数 nudge ② 回合后 fork 自审 ③ curator（provenance + archive/restore/prune/pin）④ 有界记忆两文件 + 每会话注入 ⑤ cron 6 shell hooks + 首次使用同意名单 ⑦ external_dirs 共享技能目录 + 自指令人工批准",
+    "code_effort": "不适用"
+  },
+  "evidence": {
+    "official_doc_url": "https://hermes-agent.org/",
+    "local_path": "C:\\Users\\Admin\\AppData\\Local\\hermes\\  （config.yaml、SOUL.md、skills/.curator_state、memories/、cron/、hooks/、spawn-ledger.json）",
+    "verify_cmd": "hermes curator --help / hermes hooks --help / hermes skills --help / hermes memory --help / hermes cron --help",
+    "evidence_date": "2026-10-16",
+    "verified_on": "已验证（本机 CLI 实跑 + config.yaml 原文）"
+  },
+  "risk": {
+    "permission_gate": "最强。自指令文件改动须人工批准（--yolo 亦不放行）；shell hooks 首次使用进 allowlist；无人值守时拒绝而非放行",
+    "injection_surface": "设计上已识别该风险——正因如此才对 SOUL.md/AGENTS.md/CLAUDE.md 设了『即使 --yolo 也要人工批准』。但 background_review 自动写 skills/memories 这条链仍然是无人工环节的注入传播路径",
+    "upgrade_breakage": "有边界保护：Bundled 与 hub 安装的技能永不被动，只有 agent 自己创建的技能才归 curator 管；archive 可 restore，auto-deletion never happens；另有 backup/rollback 子命令",
+    "stability": "bounded 设计（记忆有字符上限、MCP 结果 spillover、tool_loop_guardrails 防模型忽略循环告警、cron_drain_timeout 给在飞 cron 单独宽限窗口）；本机 .curator_state 显示 run_count=0 / deferred first run，即 curator 尚未真正跑过一轮，长期效果未知"
+  },
+  "uncertain": ["basic.license", "extension_surface.skill_embedded_mcp", "extension_surface.hook_events_used", "basic.standard_compliance"]
+}
