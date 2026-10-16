@@ -1,6 +1,6 @@
 # Ubuntu 26.04 LTS：第三方内核（XanMod / Liquorix 等）+ Mesa PPA 值不值得？
 
-> 第十三轮 · Linux 游戏性能系列（共 13 组 18 份报告）｜ 2026-10-16
+> 第十三轮 · Linux 游戏性能系列（共 13 组报告 = 13 × .md + 13 × .html）｜ 2026-10-16
 > 方法：一手 HTTP/API 探测（Ubuntu 归档、Launchpad PPA、deb.xanmod.org、liquorix.net）+ Phoronix 同机实测 + 结构性推断
 
 ---

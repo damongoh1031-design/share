@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS vs Fedora 深度对比</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--pink);background:rgba(255,122,178,.1);border:1px solid rgba(255,122,178,.28);padding:5px 12px;border-radius:999px}
+  h1{font-size:34px;line-height:1.24;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#ff7ab2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:900px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:32px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#9fd0ff}
+  pre{background:#0a0e13;border:1px solid var(--line);border-radius:10px;padding:13px 16px;overflow:auto;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#a8d4ff;font-size:12.8px}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(124,92,255,.08));border:1px solid rgba(124,92,255,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.4px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:12.6px}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle;white-space:nowrap}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .infobox{border-left:3px solid var(--acc);background:rgba(78,161,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .bar{height:20px;border-radius:6px;background:linear-gradient(90deg,#4ea1ff,#7c5cff);display:inline-block;vertical-align:middle;margin-right:10px}
+  .barwrap{display:flex;align-items:center;margin:7px 0;font-size:13.2px}
+  .barwrap .lbl{width:220px;flex:0 0 220px;color:#cfd9e4}
+  .scroll{overflow-x:auto}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){h1{font-size:26px}.wrap{padding:32px 16px 64px}.barwrap .lbl{width:130px;flex:0 0 130px}.cols{grid-template-columns:1fr}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Head-to-Head · CachyOS vs Fedora</span>
+  <h1>CachyOS <span class="grad">vs Fedora</span> 深度对比</h1>
+  <p class="sub">全面比较 · 结果分析 · 差异原因 · 差异为何不突出 · <strong>以及：在没有第三方仓库的前提下，Fedora 能复现 CachyOS 的哪些优化策略？</strong></p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">含 12 项可复现清单</span>
+    <span class="chip">含 10 项需第三方清单</span>
+    <span class="chip">含 Arch vs Fedora 关键差异</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">一句话结论</h3>
+  <p style="margin-bottom:0">CachyOS 更快是"<strong>编译层</strong>"的功劳；<strong>Fedora 慢在"配置/打包层"</strong>（Phoronix 实测其垫底源于两个<strong>可修复</strong>的打包决策，而非编译优化）。而 Fedora 官方仓库<strong>连 <code>scx-scheds</code> 和 BORE 内核都没有</strong>，所以在"调度器实验"这一层，Fedora 比 Arch 更受限。</p>
+</div>
+
+<h2>0. 结论速览</h2>
+<table>
+  <thead><tr><th style="width:190px">问题</th><th>答案</th></tr></thead>
+  <tbody>
+    <tr><td><strong>谁更快？</strong></td><td>CachyOS。Phoronix 9950X 59 项：<strong>CachyOS 第 2，Fedora Workstation 40 第 4</strong></td></tr>
+    <tr><td><strong>Fedora 的"慢"来自哪？</strong></td><td><strong>不是编译优化，而是打包/配置</strong>——Phoronix 在 Framework 13 Pro（Panther Lake）六发行版横评中 <strong>Fedora 垫底</strong>，根因是 <strong>thermald + tuned-ppd 两个可修复的打包决策</strong></td></tr>
+    <tr><td><strong>结构性差异核心？</strong></td><td>Fedora 是 <strong>x86-64 v1 基线</strong>（v3 推迟至 ≥Fedora 46）；CachyOS 是 v3/v4/znver4 + LTO/PGO/BOLT</td></tr>
+    <tr><td><strong>Fedora 反而更强的地方？</strong></td><td><strong>tuned 电源/性能档体系</strong>（官方且默认）；<strong>内核更新更快</strong>（F45 = Linux 7.2）</td></tr>
+    <tr><td><strong>纯官方 Fedora 能复现多少？</strong></td><td><strong>约 12 项可复现</strong>；但 <strong>scx-scheds、BORE 内核、NVIDIA 驱动、全仓库 v3 重编译</strong> 全部<strong>必须走第三方</strong>（COPR / RPM Fusion）</td></tr>
+  </tbody>
+</table>
+
+<h2>1. 全面比较</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:140px">维度</th><th>CachyOS</th><th>Fedora</th></tr></thead>
+  <tbody>
+    <tr><td><strong>上游</strong></td><td>Arch Linux（下游再发行）</td><td>独立发行版（Red Hat 上游试验田）</td></tr>
+    <tr><td><strong>更新模型</strong></td><td>滚动</td><td><strong>6 个月一版</strong> + 约 13 个月支持</td></tr>
+    <tr><td><strong>指令集基线</strong></td><td><span class="pill p-ok">v3 / v4 / znver4</span></td><td><span class="pill p-bad">x86-64（v1）</span><br><span class="dim">v3 提案推迟至 ≥Fedora 46</span></td></tr>
+    <tr><td><strong>编译优化</strong></td><td>LTO + PGO + BOLT + AutoFDO</td><td><strong>部分 LTO</strong>（F33 起）；无 PGO/BOLT</td></tr>
+    <tr><td><strong>内核</strong></td><td>自研 <code>linux-cachyos</code>（默认/BORE/EEVDF/BMQ/RT/LTS/Hardened/Server/deckify）</td><td>上游 vanilla + Fedora 补丁，<strong>版本最新</strong>（F45 = Linux 7.2）</td></tr>
+    <tr><td><strong>调度器</strong></td><td>BORE / BMQ / sched-ext / RT</td><td>EEVDF；<strong>内核已启用 sched-ext 但官方仓库无 scx 调度器包</strong></td></tr>
+    <tr><td><strong>包管理</strong></td><td><code>pacman</code> + AUR（20 万+）</td><td><code>dnf5</code> + COPR + Flatpak + RPM Fusion</td></tr>
+    <tr><td><strong>默认文件系统</strong></td><td>Btrfs + 快照</td><td><strong>Btrfs（F33 起）+ swap-on-zram 默认</strong></td></tr>
+    <tr><td><strong>安全默认</strong></td><td>常规</td><td><strong>SELinux enforcing + firewalld</strong>（默认开启）</td></tr>
+    <tr><td><strong>电源管理</strong></td><td><code>game-performance</code> 脚本（调用 PPD）</td><td><strong><code>tuned</code> + <code>tuned-ppd</code></strong>（F41 起取代 PPD，官方且默认）</td></tr>
+    <tr><td><strong>专有驱动</strong></td><td><strong>官方仓库内置预编译 NVIDIA 模块</strong></td><td><strong>官方仓库无 NVIDIA 专有驱动，需 RPM Fusion</strong></td></tr>
+    <tr><td><strong>安装器</strong></td><td>Calamares 图形 + CLI，17+ DE 可选</td><td>Anaconda（WebUI），Workstation 默认 GNOME</td></tr>
+    <tr><td><strong>治理</strong></td><td>社区小团队（约 9 人），无公司实体</td><td><strong>Fedora 项目</strong>（Red Hat 赞助，FESCo + 正式流程）</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox"><strong>关系本质：</strong>两者<strong>没有任何血缘关系</strong>——CachyOS 基于 Arch，Fedora 是独立 RPM 系。所以差异不只是"编译参数"，还包括<strong>包管理体系、默认服务、安全策略</strong>这些结构性因素。</div>
+
+<h2>2. 结果分析</h2>
+
+<h3>2.1 Phoronix — Ryzen 9 9950X，6 发行版，59 项（2024-08-20）</h3>
+<div class="card">
+  <div class="barwrap"><span class="lbl">1. Clear Linux</span><span class="bar" style="width:94%"></span></div>
+  <div class="barwrap"><span class="lbl">2. CachyOS</span><span class="bar" style="width:88%"></span></div>
+  <div class="barwrap"><span class="lbl">3. Arch Linux</span><span class="bar" style="width:86%"></span></div>
+  <div class="barwrap"><span class="lbl">4. Fedora Workstation 40</span><span class="bar" style="width:82%"></span></div>
+  <div class="barwrap"><span class="lbl">5. Ubuntu 24.10 Snapshot</span><span class="bar" style="width:79%"></span></div>
+  <div class="barwrap"><span class="lbl">6. Ubuntu 24.04 LTS</span><span class="bar" style="width:77%"></span></div>
+  <p style="margin-bottom:0"><span class="dim">（条形长度仅示意相对次序；硬数字是"第 1 名比第 6 名快 16%"。）</span></p>
+</div>
+<p>第 1 名比第 6 名快 <strong>16%</strong>（全跨度）。<strong>CachyOS 与 Fedora 之间隔了 Arch 一个名次，实际差距通常在 2–6%。</strong></p>
+
+<h3>2.2 Phoronix 2026-08 — Framework Laptop 13 Pro（Intel Panther Lake），六发行版 <span class="pill p-bad">关键</span></h3>
+<table>
+  <thead><tr><th style="width:520px">文章</th><th style="width:140px">日期</th></tr></thead>
+  <tbody>
+    <tr><td>Benchmarking Six Linux Distributions On The Framework Laptop 13 Pro</td><td>2026-08</td></tr>
+    <tr><td><strong>Analyzing Fedora's Slow Performance On The Framework Laptop 13 Pro With Intel Panther Lake</strong></td><td><strong>2026-08-11</strong></td></tr>
+    <tr><td>Tuned-PPD Performance Regression Should Be Fixed With New Linux Kernel</td><td>2026-08-26</td></tr>
+    <tr><td>CachyOS Outperforming Windows 11, Slight Advantage Over Ubuntu…</td><td>2026 年</td></tr>
+  </tbody>
+</table>
+<div class="badbox">
+  <strong>结论：</strong>在最新的 Panther Lake 硬件上，<strong>Fedora Workstation 排名垫底</strong>。Phoronix 深入分析后指出，<strong>根因不是编译优化，而是两个可修复的打包决策</strong>：
+  <ol style="margin-bottom:0">
+    <li><strong><code>thermald</code> 的问题</strong>（散热/功耗策略未正确适配新硬件）</li>
+    <li><strong><code>tuned</code> 与 <code>tuned-ppd</code> 电源守护进程的交互</strong>导致性能被压制</li>
+  </ol>
+</div>
+<div class="warnbox">⚠️ <strong>这是理解"CachyOS vs Fedora"最重要的一条</strong>：Fedora 的落后<strong>主要来自配置层，而不是它缺少 v3 编译</strong>。这同时也说明——<strong>配置层的坑可以修，编译层的差距不能"修"</strong>。</div>
+
+<h3>2.3 其他相关数据点</h3>
+<table>
+  <thead><tr><th style="width:170px">来源</th><th>数据</th></tr></thead>
+  <tbody>
+    <tr><td>Phoronix 2026-07</td><td>Razer Blade 18 上 CachyOS 99 项赢 51 项（geomean 76.19 vs Win11 76.12）</td></tr>
+    <tr><td>Phoronix 2026-07-28</td><td>AMD Ryzen AI 9 HX 470 上 <strong>Windows 11 略微领先 Ubuntu 与 Fedora</strong></td></tr>
+    <tr><td>Phoronix 2026-03-12</td><td>Ubuntu 26.04 相比 25.10，RTX 5090 游戏性能最高 <strong>+12%（平均 +4.4%）</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>3. 差异的原因</h2>
+
+<h3>3.1 编译层 —— CachyOS 的最大优势</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>Fedora</th><th>CachyOS</th><th style="width:150px">影响</th></tr></thead>
+  <tbody>
+    <tr><td>指令集基线</td><td><code>x86-64</code>（<strong>v1</strong>）</td><td><code>v3</code>/<code>v4</code>/<code>znver4</code></td><td><strong>CPU 密集 2–8%</strong></td></tr>
+    <tr><td>LTO</td><td>部分（F33 起）</td><td>全栈 ThinLTO</td><td>1–3%</td></tr>
+    <tr><td>PGO</td><td>无</td><td>核心包 + 内核 AutoFDO</td><td>1–4%</td></tr>
+    <tr><td>BOLT</td><td>无</td><td>核心包</td><td>1–3%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Fedora 的 x86-64-v3 提案已在 2026 年被<strong>推迟至至少 Fedora 46</strong>，官方仓库<strong>至今仍是 v1 基线</strong>。</p>
+
+<h3>3.2 内核层 —— Fedora 部分占优，部分落后</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:190px">项</th><th>Fedora</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>内核版本</td><td><strong>最新</strong>（F45 = Linux 7.2，上游优先）</td><td>跟随 Arch（也很新）</td></tr>
+    <tr><td>调度器</td><td>EEVDF（原生）+ <strong>sched-ext 已启用</strong></td><td>EEVDF 调参 / <strong>BORE</strong> / <strong>BMQ</strong> / RT</td></tr>
+    <tr><td><strong>scx 调度器包</strong></td><td>❌ <strong>官方仓库没有</strong>（需 COPR）</td><td>✅ 内置</td></tr>
+    <tr><td>Tick rate</td><td>常规</td><td><strong>1000Hz</strong></td></tr>
+    <tr><td>补丁集</td><td>Fedora 补丁（面向企业/新硬件）</td><td>15 个 topic 分支 + <code>CONFIG_CACHY</code></td></tr>
+  </tbody>
+</table>
+</div>
+<p>→ <strong>Fedora 的内核更新，但"调度器可玩性"不如 CachyOS，甚至不如 Arch</strong>（Arch 官方 extra 有 <code>scx-scheds</code>）。</p>
+
+<h3>3.3 配置/打包层 —— <span class="pill p-bad">Fedora 特有的坑（也是最可修复的）</span></h3>
+<ul>
+  <li><strong><code>tuned</code> + <code>tuned-ppd</code></strong>：Fedora 41 起用它们取代 <code>power-profiles-daemon</code>。这是<strong>系统化的电源/性能档管理</strong>（优势），但<strong>与 <code>thermald</code> 的交互曾导致性能回归</strong>（Phoronix 2026-08 实测）。</li>
+  <li><strong>SELinux enforcing + firewalld + auditd</strong>：默认开启，开销通常 <strong>&lt;1–2%</strong>，但在 IO/系统调用密集负载上可测。</li>
+  <li><strong>默认 GNOME + 更多后台服务</strong>：相对 CachyOS 的精简默认有额外开销。</li>
+</ul>
+
+<h3>3.4 包生态层</h3>
+<table>
+  <thead><tr><th style="width:190px">项</th><th>Fedora</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>专有 NVIDIA</td><td><strong>需 RPM Fusion（第三方）</strong></td><td>官方仓库内置预编译模块</td></tr>
+    <tr><td>ZFS</td><td>官方无，需第三方</td><td>官方预编译模块</td></tr>
+    <tr><td>AUR 等价物</td><td>COPR（第三方）+ Flatpak</td><td>AUR（原生）</td></tr>
+  </tbody>
+</table>
+
+<h2>4. 差异"没突出"的原因</h2>
+<ol>
+  <li><strong>Fedora 的内核其实更新</strong>：F45 = Linux 7.2，上游优先策略让 Fedora 在<strong>新硬件/新特性</strong>上不落后——"内核红利"它也有。</li>
+  <li><strong>Fedora 从 F33 起已用部分 LTO</strong>，并非"零优化"。</li>
+  <li><strong>Fedora 的落后主因是配置而非编译</strong>：Phoronix 已证明其垫底源于 <code>thermald</code> / <code>tuned-ppd</code> 两个<strong>可修复</strong>问题——<strong>能被修好的差距，就不是结构性差距</strong>。</li>
+  <li><strong>SELinux / firewalld 的开销通常很小</strong>（1–2% 量级），多数基准测不出来。</li>
+  <li><strong>瓶颈不在 CPU</strong>（Amdahl 定律）：4K 游戏 GPU 受限、桌面受 IO/网络限制。</li>
+  <li><strong>软件版本差异被发行节奏抹平</strong>：Fedora 半年一版 + 滚动内核，与 Arch 的"最新"差距不大。</li>
+  <li><strong>测量噪声同量级</strong>：run-to-run 方差常有 1–3%。</li>
+  <li><strong>部分"优化"是取舍</strong>：<code>max_performance</code>、激进电源档是<strong>用功耗/续航换响应</strong>。</li>
+</ol>
+
+<h2>5. 纯官方 Fedora 能复现哪些优化策略？</h2>
+<div class="infobox"><strong>前提界定：</strong>"第三方仓库"指 <strong>COPR / RPM Fusion / Terra</strong> 等外部仓库。</div>
+
+<h3>5.1 ✅ 可以复现（12 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:230px">CachyOS 的优化策略</th><th>纯 Fedora 复现方法</th><th style="width:170px">来源</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>CPU 性能档 / 电源档</strong></td><td><code>tuned-adm profile latency-performance</code>（低延迟）/ <code>throughput-performance</code>（吞吐）/ <code>accelerator-performance</code>（GPU）</td><td><span class="pill p-ok">官方 tuned，且是默认</span><strong>比 CachyOS 的脚本更系统</strong></td></tr>
+    <tr><td>2</td><td><strong>EEVDF 调参</strong></td><td><code>kernel.sched_base_slice_ns</code>（默认 base slice 3ms）</td><td>官方内核自带</td></tr>
+    <tr><td>3</td><td><strong>抢占模型选择</strong></td><td>内核 cmdline <code>preempt=full</code>（Fedora 内核为 PREEMPT_DYNAMIC）</td><td>官方内核自带</td></tr>
+    <tr><td>4</td><td><strong>全套 sysctl 调优</strong></td><td><code>/etc/sysctl.d/99-cachy.conf</code>：swappiness、dirty_*、page-cluster=0、nmi_watchdog=0、file-max、max_map_count</td><td>官方内核</td></tr>
+    <tr><td>5</td><td><strong>I/O 调度器按设备分配</strong></td><td>udev 规则：HDD→<code>bfq</code>、SATA SSD→<code>mq-deadline</code>、NVMe→<code>kyber</code></td><td>三种都在官方内核</td></tr>
+    <tr><td>6</td><td><strong>THP defrag = defer+madvise</strong></td><td><code>tmpfiles.d</code></td><td>官方内核</td></tr>
+    <tr><td>7</td><td><strong>zram + zstd</strong></td><td><code>zram-generator</code>（官方）+ 配置文件；<strong>Fedora 自 F33 起已默认启用 swap-on-zram</strong></td><td><span class="pill p-ok">官方仓库</span></td></tr>
+    <tr><td>8</td><td><strong>NTSync</strong></td><td><code>modprobe ntsync</code>（Linux 6.14 起主线）</td><td>官方内核自带（模块）</td></tr>
+    <tr><td>9</td><td><strong>游戏运行时工具</strong></td><td><code>dnf install gamemode mangohud goverlay</code></td><td><span class="pill p-ok">官方仓库</span>（gamemode <strong>1.8.2</strong> 在 F43/F44/F45，已核实）</td></tr>
+    <tr><td>10</td><td><strong>Btrfs 快照回滚</strong></td><td><code>dnf install snapper</code> 或 <code>btrfs-assistant</code></td><td>官方仓库</td></tr>
+    <tr><td>11</td><td><strong>SATA 链接电源 / hdparm</strong></td><td>udev 规则 + <code>hdparm -B 254 -S 0</code></td><td>官方仓库</td></tr>
+    <tr><td>12</td><td><strong>音频 rtprio / PCI latency</strong></td><td><code>/etc/security/limits.d/</code> + <code>setpci</code> 脚本</td><td>官方仓库</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="okbox"><strong>Fedora 的加分项：</strong>第 1 条（<code>tuned</code>）在 Fedora 上是<strong>官方、默认、有 profile 体系</strong>的，比 CachyOS 的脚本式做法更规范；第 7 条（zram）Fedora <strong>默认就已经开了</strong>。</div>
+
+<h3>5.2 ❌ 无法复现（10 项，均需第三方）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:250px">CachyOS 的优化策略</th><th>为什么做不到</th><th style="width:200px">需要什么</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>全仓库 x86-64-v3 / v4 重编译</strong></td><td>官方仓库是 <strong>v1</strong> 二进制；v3 提案推迟至 ≥Fedora 46</td><td>COPR 或自建</td></tr>
+    <tr><td>2</td><td><strong>LTO / PGO / BOLT 预编译包</strong></td><td>属构建产物</td><td>同上</td></tr>
+    <tr><td>3</td><td><strong>BORE 调度器内核</strong></td><td><strong>官方无 BORE</strong>（非主线）</td><td><strong>COPR <code>kernel-cachyos-bore</code></strong></td></tr>
+    <tr><td>4</td><td><strong>BMQ / RT-BORE 内核</strong></td><td>同上</td><td>COPR <code>kernel-cachyos-bmq</code> / <code>-rt-bore</code></td></tr>
+    <tr><td>5</td><td><strong>sched-ext 调度器（<code>scx-scheds</code>）</strong></td><td>⚠️ <strong>已核实：Fedora 官方仓库（F43/F44/F45/Rawhide/EPEL）搜索结果均为 0</strong></td><td><strong>COPR</strong>（如 <code>bieszczaders/kernel-cachyos-addons</code>）</td></tr>
+    <tr><td>6</td><td><strong>1000Hz + AutoFDO 内核</strong></td><td>官方内核非 1000Hz，无 AutoFDO profile</td><td>COPR <code>kernel-cachyos</code>（1000Hz + BORE，含 GCC 与 LLVM-ThinLTO 两种构建）</td></tr>
+    <tr><td>7</td><td><strong>NVIDIA 专有驱动 / 预编译模块</strong></td><td>⚠️ <strong>Fedora 官方仓库不含 NVIDIA 专有驱动</strong>（只有 nouveau）</td><td><strong>RPM Fusion</strong></td></tr>
+    <tr><td>8</td><td><strong>ZFS 支持</strong></td><td>官方仓库不含 ZFS（许可原因）</td><td>第三方仓库</td></tr>
+    <tr><td>9</td><td><strong>CachyOS 专有工具链 / Proton-CachyOS</strong></td><td>不在官方仓库</td><td>COPR / 自建</td></tr>
+    <tr><td>10</td><td><strong>ananicy-cpp</strong></td><td>不在官方仓库</td><td>COPR</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.3 直接回答你的问题</h3>
+<div class="card tldr">
+  <p style="margin-top:0"><strong>Fedora 在"没有第三方仓库"的前提下，能复现 CachyOS 约 12 项"运行时/配置类"优化</strong>——包括 <strong><code>tuned</code> 电源/性能档体系、EEVDF 参数、抢占模式、全套 sysctl、I/O 调度器分配、zram、THP、NTSync、Gamemode/MangoHud/Goverlay、Btrfs 快照</strong>。</p>
+  <p style="margin-bottom:0"><strong>但 Fedora 官方仓库的"缺口"比 Arch 更大</strong>，以下四项<strong>必须走第三方</strong>：① 全仓库 v3/v4 重编译（v3 推迟至 ≥Fedora 46）；② BORE / BMQ 内核（需 COPR）；③ <strong>sched-ext 调度器包 <code>scx-scheds</code>（官方仓库完全没有）</strong>；④ <strong>NVIDIA 专有驱动（需 RPM Fusion）</strong>。</p>
+</div>
+
+<h3>5.4 ★ Arch 与 Fedora 的关键差异（值得单独记住）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:280px">能力</th><th style="width:200px">Arch 官方仓库</th><th>Fedora 官方仓库</th></tr></thead>
+  <tbody>
+    <tr><td><code>scx-scheds</code>（sched-ext 调度器）</td><td>✅ <strong>有</strong>（extra）</td><td>❌ <strong>没有</strong>（需 COPR）</td></tr>
+    <tr><td>NVIDIA 专有驱动</td><td>✅ <strong>有</strong>（extra）</td><td>❌ 没有（需 RPM Fusion）</td></tr>
+    <tr><td><code>tuned</code> 电源/性能档体系</td><td>❌ 没有（用 PPD）</td><td>✅ <strong>有且默认</strong></td></tr>
+    <tr><td>zram 默认启用</td><td>❌ 需自配</td><td>✅ <strong>默认开启</strong></td></tr>
+    <tr><td>指令集基线</td><td>v1</td><td>v1</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="cols">
+  <div class="card okbox" style="margin:0">
+    <h4 style="margin-top:0;color:#7ee2a8">Fedora 唯一"官方就能碾压 Arch"的一项</h4>
+    <p style="margin-bottom:0"><strong><code>tuned</code> 性能档体系</strong>——官方、默认、带 profile，CachyOS 只是用脚本调用 PPD。</p>
+  </div>
+  <div class="card badbox" style="margin:0">
+    <h4 style="margin-top:0;color:#ff9b93">Fedora 上想玩 sched-ext / BORE</h4>
+    <p style="margin-bottom:0"><strong>必须开 COPR</strong>——好在 CachyOS 官方维护了一个：<code>CachyOS/copr-linux-cachyos</code>，提供 <code>kernel-cachyos</code>、<code>-bore</code>、<code>-bmq</code>、<code>-rt-bore</code>，含 GCC 与 LLVM-ThinLTO 两种构建。</p>
+  </div>
+</div>
+
+<h2>6. 参考来源</h2>
+<div class="card refs">
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（Analyzing Fedora's Slow Performance / Benchmarking Six Linux Distributions On The Framework Laptop 13 Pro）</a>
+  <a href="https://www.phoronix.com/linux/Fedora">Phoronix — Fedora 分类（x86-64-v3 推迟至 Fedora 46 / Tuned-PPD 回归修复）</a>
+  <a href="https://www.phoronix.com/news">Phoronix — 新闻列表（Tuned-PPD Performance Regression / Fedora CoreOS To Enable systemd-oomd &amp; zRAM）</a>
+  <a href="https://www.ithome.com/0/790/322.htm">IT之家 —《哪个 Linux 发行版最能发挥 AMD 锐龙 9 9950X 处理器实力？59 项实测》</a>
+  <a href="https://packages.fedoraproject.org/search?query=scx-scheds">Fedora Packages — scx-scheds 搜索（F43/F44/F45/Rawhide/EPEL 均为 0 结果）</a>
+  <a href="https://packages.fedoraproject.org/pkgs/gamemode/gamemode/">Fedora Packages — gamemode 1.8.2（F43/F44/F45）</a>
+  <a href="https://packages.fedoraproject.org/pkgs/mangohud/mangohud">Fedora Packages — mangohud</a>
+  <a href="https://packages.fedoraproject.org/pkgs/goverlay/goverlay">Fedora Packages — goverlay</a>
+  <a href="https://fedoraproject.org/wiki/Releases/41/ChangeSet">Fedora Wiki — Releases/41/ChangeSet（tuned 取代 power-profiles-daemon）</a>
+  <a href="https://fedoraproject.org/wiki/Changes/Optimized_Binaries_for_the_AMD64_Architecture">Fedora Wiki — Changes/Optimized Binaries for the AMD64 Architecture</a>
+  <a href="https://bugzilla.redhat.com/show_bug.cgi?id=2293665">Red Hat Bugzilla #2293665 — tuned / tuned-ppd 取代 power-profiles-daemon</a>
+  <a href="https://github.com/CachyOS/copr-linux-cachyos">GitHub — CachyOS/copr-linux-cachyos（Fedora 用 CachyOS 内核 COPR）</a>
+  <a href="https://www.fosslinux.com/category/fedora">FossLinux — How to Fix Slow Fedora（Fedora 垫底的两个打包原因）</a>
+  <a href="https://post.smzdm.com/p/a6zdpkz0/">什么值得买 —《Fedora 45 倒计时2个月：x86-64-v3 延到 F46》</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">CachyOS 官方 Wiki — Why CachyOS?</a>
+  <a href="https://wiki.cachyos.org/features/kernel">CachyOS 官方 Wiki — Kernel</a>
+  <a href="https://www.mankier.com/7/tuned-profiles">tuned-profiles 手册（latency-performance / throughput-performance / accelerator-performance）</a>
+  <a href="https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html">Linux Kernel 文档 — /proc/sys/kernel/</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：Phoronix、Fedora 官方包页（packages.fedoraproject.org）、Fedora Wiki、CachyOS 官方 Wiki、tuned 手册为一手来源；IT之家、什么值得买、FossLinux 为二手转述；CSDN 文章仅用于交叉验证细节。</p>
+  <p>报告生成于 2026-10-16 ｜ Head-to-Head · CachyOS vs Fedora</p>
+</footer>
+
+</div>
+</body>
+</html>

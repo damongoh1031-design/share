@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>x86-64-v3 编译的 Mesa（AMD RADV）· 各发行版供给清单</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161d27; --line:#243040;
+    --fg:#e6edf3; --fg2:#9fb0c3; --fg3:#6b7d92;
+    --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:29px;line-height:1.32;margin:12px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--fg2);font-size:14px}
+  h2{font-size:19px;margin:52px 0 16px;padding-left:12px;border-left:3px solid var(--accent)}
+  h3{font-size:15px;margin:28px 0 10px;color:var(--fg)}
+  p{color:var(--fg2);margin:10px 0}
+  strong{color:var(--fg)}
+  code{font-family:var(--mono);background:#1f2733;padding:1.5px 6px;border-radius:4px;font-size:.88em;color:#79c0ff}
+  .tldr{background:linear-gradient(135deg,#15202e,#131a23);border:1px solid var(--line);
+    border-left:3px solid var(--good);border-radius:10px;padding:22px 24px;margin:0 0 8px}
+  .tldr p{margin:0;color:var(--fg);font-size:15px}
+  .answer{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:22px 0}
+  .acard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+  .acard .who{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);font-weight:700}
+  .acard .yn{font-size:26px;font-weight:800;margin:8px 0 6px;font-family:var(--mono)}
+  .acard .d{font-size:13px;color:var(--fg2);line-height:1.65}
+  .yes{border-color:#2d4a34}.yes .yn{color:var(--good)}
+  .no{border-color:#4a2d2d}.no .yn{color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#131a23;color:var(--fg2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  td{color:var(--fg2)}
+  td strong{color:var(--fg)}
+  tr:hover td{background:#121924}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+    font-family:var(--mono);white-space:nowrap}
+  .t-yes{background:#1d3a26;color:#56d364}
+  .t-no{background:#3a1d1d;color:#ff8b84}
+  .t-mid{background:#1d2f3a;color:#79c0ff}
+  .t-warn{background:#3a331d;color:#e3b341}
+  ul{color:var(--fg2);padding-left:22px;margin:12px 0}
+  li{margin:7px 0}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .box.warn{border-left:3px solid var(--warn)}
+  .box.bad{border-left:3px solid var(--bad)}
+  .box.good{border-left:3px solid var(--good)}
+  .box h3{margin-top:0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d1d9;margin:16px 0}
+  pre .c{color:var(--fg3)}
+  pre .ok{color:#56d364}
+  pre .no{color:#ff8b84}
+  @media(max-width:720px){.wrap{padding:28px 16px 64px}h1{font-size:22px}}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">CachyOS 深度调研 · 第十二轮</div>
+  <h1>除 CachyOS 外，哪些发行版提供 x86-64-v3 编译的 Mesa（AMD RADV）？</h1>
+  <div class="sub">openSUSE / Ubuntu 专项核查 &nbsp;|&nbsp; 2026-10-16 &nbsp;|&nbsp; 含本次直接 HTTP 探测证据</div>
+</header>
+
+<div class="tldr">
+  <p><strong>Ubuntu 有</strong>（实验性、非官方支持、默认关闭，但<strong>实测确认归档里含 v3 编译的 Mesa，含 RADV</strong>）；<strong>openSUSE 没有</strong>（Tumbleweed 基线是 x86-64-<strong>v2</strong>，镜像里没有任何 v3 仓库）。顺带扫全：<strong>Fedora 也没有</strong>（推迟到至少 F46）；真正"基线即 v3"的是 <strong>RHEL 10 系</strong>；<strong>Gentoo</strong> 有官方 v3 二进制包；<strong>Arch 官方是 v1</strong>，需靠第三方 <strong>ALHP</strong>。</p>
+</div>
+
+<h2>一、两个问题的直接答案</h2>
+<div class="answer">
+  <div class="acard yes">
+    <div class="who">Ubuntu 25.10 / 26.10</div>
+    <div class="yn">有 ✅</div>
+    <div class="d">归档里的独立架构组件 <code>binary-amd64v3</code>，实测含 <code>mesa-vulkan-drivers</code>（RADV）/ <code>mesa-libgallium</code> / <code>libgl1-mesa-dri</code>。<br><strong>实验性、非官方支持、默认不启用。</strong></div>
+  </div>
+  <div class="acard no">
+    <div class="who">openSUSE Tumbleweed</div>
+    <div class="yn">没有 ❌</div>
+    <div class="d">基线是 <strong>x86-64-v2</strong>（2022 年起）。<code>download.opensuse.org/tumbleweed/repo/</code> 下只有 oss / non-oss / update / debug / ports / source / factory，<strong>无任何 v3 仓库</strong>（多路径探测全 404）。</div>
+  </div>
+</div>
+
+<h2>二、全发行版供给清单</h2>
+<table>
+  <thead><tr><th>发行版</th><th>v3 编译的 Mesa？</th><th>形式</th><th>状态</th></tr></thead>
+  <tbody>
+    <tr><td><strong>CachyOS</strong></td><td><span class="tag t-yes">✅</span></td><td>官方 <code>cachyos-v3</code> / <code>cachyos-v4</code> 仓库</td><td>默认</td></tr>
+    <tr><td><strong>Ubuntu 25.10 / 26.10</strong></td><td><span class="tag t-yes">✅ 有</span></td><td>归档独立架构组件 <code>binary-amd64v3</code></td><td><span class="tag t-warn">实验性 / 非官方 / 默认关闭</span></td></tr>
+    <tr><td><strong>openSUSE Tumbleweed</strong></td><td><span class="tag t-no">❌ 没有</span></td><td>—（基线 v2）</td><td>未提供</td></tr>
+    <tr><td><strong>Fedora</strong></td><td><span class="tag t-no">❌ 没有</span></td><td>—</td><td>推迟到至少 <strong>Fedora 46</strong></td></tr>
+    <tr><td><strong>Arch Linux（官方）</strong></td><td><span class="tag t-no">❌ 没有</span></td><td>官方仓库仍是 <code>x86_64</code>（v1）</td><td>—</td></tr>
+    <tr><td><strong>Arch + ALHP</strong></td><td><span class="tag t-yes">✅</span></td><td>第三方 <code>core/extra/multilib-x86-64-v{2,3,4}</code></td><td>活跃（2026-10-16 仍有更新）</td></tr>
+    <tr><td><strong>RHEL 10 / Rocky 10 / Alma 10</strong></td><td><span class="tag t-yes">✅</span></td><td><strong>整仓库基线就是 x86-64-v3</strong></td><td>正式</td></tr>
+    <tr><td><strong>Gentoo</strong></td><td><span class="tag t-yes">✅</span></td><td>官方二进制包 <code>binpackages/23.0/x86-64-v3/</code></td><td>正式（无 v4）</td></tr>
+    <tr><td><strong>Amazon Linux 2027</strong></td><td><span class="tag t-yes">✅</span></td><td>x86-64-v3 + LTO</td><td>预览</td></tr>
+    <tr><td><strong>NixOS</strong></td><td><span class="tag t-no">❌ 官方缓存无</span></td><td>nixpkgs 支持 v3 system type，官方缓存只发通用构建</td><td>需全量自编译</td></tr>
+  </tbody>
+</table>
+
+<h2>三、Ubuntu：实测证据</h2>
+<pre><span class="c"># 本次直接抓取归档索引（HTTP 状态码）</span>
+dists/stonking/main/binary-amd64v3/Packages.gz      <span class="ok">200</span>   <span class="c"># 26.10</span>
+dists/stonking/universe/binary-amd64v3/Packages.gz  <span class="ok">200</span>
+dists/questing/main/binary-amd64v3/Packages.gz      <span class="ok">200</span>   <span class="c"># 25.10</span>
+dists/questing/universe/binary-amd64v3/Packages.gz  <span class="ok">200</span>
+dists/plucky/main/binary-amd64v3/Packages.gz        <span class="no">404</span>   <span class="c"># 25.04 —— 还没有</span></pre>
+<p><strong>→ 从 25.10 起才有 amd64v3；25.04 及更早没有。</strong></p>
+
+<h3>Mesa 确实在里面（问题核心）</h3>
+<p><strong>26.10 <code>main/binary-amd64v3</code></strong>（该组件共 <strong>6,446 个包</strong>）：</p>
+<pre>Package: mesa-vulkan-drivers     <span class="c">← RADV（AMD Vulkan 驱动）在这里</span>
+Package: mesa-libgallium
+Package: libgl1-mesa-dri
+Package: libglx-mesa0
+Package: mesa-common-dev
+Package: libgl1-mesa-dev</pre>
+<p><strong>26.10 <code>universe/binary-amd64v3</code></strong>：<code>mesa-utils</code> / <code>mesa-va-drivers</code> / <code>mesa-vdpau-drivers</code> / <code>mesa-opencl-icd</code> / <code>mesa-drm-shim</code></p>
+<p><strong>25.10 <code>main/binary-amd64v3</code></strong> 同样含 <code>mesa-vulkan-drivers</code> / <code>mesa-libgallium</code> / <code>libgl1-mesa-dri</code>。</p>
+
+<h3>怎么用（两条路径）</h3>
+<ol style="color:var(--fg2)">
+  <li><strong>直接用 amd64v3 ISO</strong>（推荐）：Ubuntu 26.10 的 daily ISO 自 <strong>2026-09-04</strong> 起同时发布 <code>amd64v3</code> 镜像。</li>
+  <li><strong>改装</strong>：先装通用 amd64 的 ISO/包，再调整 APT 指向 <code>binary-amd64v3</code> 组件并升级。</li>
+</ol>
+<div class="box warn">
+  <h3>官方定位（Phoronix 原文）</h3>
+  <p>"Canonical hasn't <strong>officially introduced a supported solution</strong> but they have offered x86_64-v3/amd64v3 package archives <strong>for testing</strong>."</p>
+  <p>"the amd64v3 archive <strong>isn't currently enabled by default</strong> on capable systems or anything along those lines"</p>
+</div>
+
+<h2>四、openSUSE：实测无 v3</h2>
+<table>
+  <thead><tr><th>检查项</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>Tumbleweed 指令集基线</td><td><strong>x86-64-v2</strong>（2022 年起从 v1 过渡）</td></tr>
+    <tr><td><code>download.opensuse.org/tumbleweed/repo/</code> 实际内容</td><td><code>oss</code> / <code>non-oss</code> / <code>update</code> / <code>debug</code> / <code>ports</code> / <code>source</code> / <code>factory</code> —— <strong>无 v3 仓库</strong></td></tr>
+    <tr><td>探测 <code>repo/oss-x86_64-v3/</code></td><td><span class="tag t-no">404</span></td></tr>
+    <tr><td>探测 <code>repo/x86_64-v3/</code></td><td><span class="tag t-no">404</span></td></tr>
+    <tr><td>探测 <code>ports/x86_64-v3/</code></td><td><span class="tag t-no">404</span></td></tr>
+  </tbody>
+</table>
+<p><strong>结论</strong>：openSUSE Tumbleweed 想要 v3 编译的 Mesa，<strong>只能自己编译</strong>（或用 OBS 自建仓库），发行版不提供。</p>
+<p>注意区分：openSUSE 的 <strong>v2</strong> 基线已高于 Arch / Fedora / Ubuntu 官方仓库的 <strong>v1</strong>——但它不是 v3。</p>
+
+<h2>五、重要校准：v3 Mesa 到底值多少？（别高估）</h2>
+<table>
+  <thead><tr><th>证据</th><th>结论</th></tr></thead>
+  <tbody>
+    <tr><td>Phoronix《Ubuntu 25.10 amd64v3 Benchmarks》<strong>2025-10-31</strong></td><td>标题即：<strong>"Some Minor &amp; Rare Performance Advantages For Desktop Workloads"</strong> —— <strong>收益小且零散</strong></td></tr>
+    <tr><td>Phoronix《Ubuntu 26.10 amd64v3 Packages...》<strong>2026-10-14</strong></td><td>在 <strong>AMD EPYC</strong> 上有 "some additional uplift"（<strong>服务器负载更明显</strong>）</td></tr>
+    <tr><td>机制</td><td>RADV 的<strong>着色器编译走 LLVM</strong>，面向实际 GPU、与宿主 ISA 级别基本无关；受益的是<strong>主机侧 Mesa 代码</strong>（状态设置、命令缓冲构建、描述符管理），AVX2 能帮上的幅度有限</td></tr>
+  </tbody>
+</table>
+<div class="box good">
+  <p style="margin:0"><strong>对游戏而言：Mesa 的「版本」≫ Mesa 的「ISA 级别」。</strong><br>
+  想提升 A 卡游戏性能，优先级应是：<strong>更新的 Mesa（mesa-git / kisak PPA / 新发行版）&gt; 内核与固件 &gt; v3 重编译</strong>。</p>
+</div>
+
+<h2>六、坑与反直觉</h2>
+<ul>
+  <li><strong>把 Ubuntu amd64v3 当正式功能</strong> —— ❌ 实验性、不受官方支持；混装 v1/v3 包有依赖风险。</li>
+  <li><strong>以为 openSUSE 有 v3</strong> —— ❌ 它是 <strong>v2</strong> 基线。比 v1 高，但不是 v3。</li>
+  <li><strong>以为 Fedora 有 v3</strong> —— ❌ 提案推迟到至少 Fedora 46。</li>
+  <li><strong>把 ALHP 与 CachyOS 仓库混用</strong> —— ❌ 两套都覆盖 core/extra，混用会打架。</li>
+  <li><strong>忽略硬件门槛</strong> —— v3 需 Intel Haswell（2013）/ AMD Excavator 及更新；v4 需 AVX-512（消费级大多没有，这也是 CachyOS 只给 Proton 发 v3 变体的原因）。</li>
+  <li><strong>期待"换 v3 白捡帧数"</strong> —— 桌面游戏负载实测是<strong>小且零散</strong>的收益；4K / GPU 受限时归零。</li>
+</ul>
+
+<h2>七、未核实 / 存疑</h2>
+<ul>
+  <li><strong>ALHP 的确切仓库 URL</strong>：常见路径探测得 404，但 <code>alhp.dev/</code> 目录列表明确显示 <code>core-x86-64-v3/</code>、<code>extra-x86-64-v3/</code>、<code>multilib-x86-64-v3/</code>（含 v2/v4）存在且 <code>lastupdate</code> 为 <strong>2026-10-16</strong> → 仓库存在，路径以官方文档为准。</li>
+  <li><strong>Void Linux 是否有 v3 仓库</strong>：未找到证据，暂记"无"。</li>
+  <li><strong>openMandriva 的 znver4 优化构建</strong>：未核实。</li>
+  <li><strong>Amazon Linux 2027</strong>：仅知为预览状态，包覆盖未核实。</li>
+  <li><strong>Ubuntu amd64v3 的实测游戏帧率增益</strong>：Phoronix 结论是"桌面负载收益小且零散"，但<strong>没有游戏专项对照数据</strong>。</li>
+</ul>
+
+<footer>
+  <p>第十二轮 · CachyOS 系列（共 12 组 17 份报告）｜ 报告日期 2026-10-16</p>
+  <p>一手证据：Ubuntu 归档索引、ALHP 目录列表、Gentoo 二进制仓库、Arch 官方包页、openSUSE 镜像目录 —— 均为本次直接 HTTP 探测/抓取。未核实项已在第七节标注。</p>
+</footer>
+
+</div>
+</body>
+</html>

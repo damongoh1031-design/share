@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS 深度调研报告</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:36px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--acc);background:rgba(78,161,255,.1);border:1px solid rgba(78,161,255,.28);padding:5px 12px;border-radius:999px}
+  h1{font-size:38px;line-height:1.22;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#ff7ab2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:820px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:30px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.8px;color:#9fd0ff}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(124,92,255,.08));border:1px solid rgba(124,92,255,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.8px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:11px 13px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:13px;letter-spacing:.02em}
+  td{padding:11px 13px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .stars{color:var(--warn);letter-spacing:1px;white-space:nowrap}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:18px 0}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .kpi .n{font-size:26px;font-weight:700;letter-spacing:-.5px;background:linear-gradient(100deg,#4ea1ff,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .kpi .l{font-size:12.5px;color:var(--tx2);margin-top:4px}
+  .quote{border-left:3px solid var(--acc2);background:rgba(124,92,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;color:#d9e2ec;font-style:normal;margin:16px 0}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}h1{font-size:28px}.wrap{padding:32px 16px 64px}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13.2px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+  .toc{columns:2;column-gap:26px}
+  .toc a{display:block;padding:3px 0;font-size:13.5px;border-bottom:none;color:var(--tx2)}
+  .toc a:hover{color:var(--acc)}
+  @media(max-width:760px){.toc{columns:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Deep Research · Linux Distro</span>
+  <h1>CachyOS <span class="grad">深度调研报告</span></h1>
+  <p class="sub">基于 Arch Linux 的性能优化发行版 —— 从优化技术、社区活跃度、团队治理、打包质量到 Bug 风险的全维度评估。</p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">维度 5 项</span>
+    <span class="chip">来源 20+</span>
+    <span class="chip">定位：Arch 阵营的性能样板间</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">结论速览</h3>
+  <table>
+    <thead><tr><th style="width:120px">维度</th><th style="width:118px">评分</th><th>核心结论</th></tr></thead>
+    <tbody>
+      <tr><td><strong>优化技术</strong></td><td class="stars">★★★★★</td><td>全仓库按 x86-64-v3/v4/znver4 重编译 + LTO/PGO/BOLT；自研内核提供 EEVDF 调参 / BORE / sched-ext / BMQ / RT 多方案</td></tr>
+      <tr><td><strong>社区活跃度</strong></td><td class="stars">★★★★☆</td><td>2026 年长期霸榜 DistroWatch 第一；Discord / 论坛 / Reddit 活跃；年 5 次 ISO 节奏</td></tr>
+      <tr><td><strong>团队治理</strong></td><td class="stars">★★★☆☆</td><td>社区驱动、无公司实体；公开核心成员仅 9 人，ptr1337 主导；靠捐赠 + Framework 赞助；<span class="pill p-warn">bus factor 偏高</span></td></tr>
+      <tr><td><strong>打包质量</strong></td><td class="stars">★★★★☆</td><td>独立签名仓库、Docker 自动化多架构构建、AUR 衍生仓库；<span class="pill p-warn">与上游混装存在同步风险</span></td></tr>
+      <tr><td><strong>Bug 风险</strong></td><td class="stars">★★★☆☆</td><td>滚动发行固有风险 + 前沿调度器/编译优化 + NVIDIA、引导、AUR 供应链等具体坑位</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-bottom:0"><strong>总体判断：</strong>工程完成度与社区热度都是真实的，性能收益在 CPU 敏感 / 低帧场景最明显；但收益幅度高度依赖硬件与游戏，且作为小团队主导的滚动发行，用户需具备基本的快照回滚与排障能力。它不是"更好的 Arch"，而是"更省事的 Arch + 一层性能改装"。</p>
+</div>
+
+<h2 id="toc">目录</h2>
+<div class="card toc">
+  <a href="#bg">1. 项目背景</a>
+  <a href="#opt">2. 做了什么优化（技术拆解）</a>
+  <a href="#comm">3. 社区活跃度</a>
+  <a href="#gov">4. 团队治理</a>
+  <a href="#pkg">5. 打包质量</a>
+  <a href="#bug">6. Bug 风险</a>
+  <a href="#concl">7. 结论与建议</a>
+  <a href="#refs">8. 参考来源</a>
+</div>
+
+<h2 id="bg">1. 项目背景</h2>
+<ul>
+  <li>基于 Arch Linux 的滚动发行版，主打 <strong>性能</strong>（而非外观或 AI 概念）。项目约于 2021–2022 年起步（不同来源说法不一），创始 / 主导者为 <strong>Peter Jung（GitHub: ptr1337）</strong>。</li>
+  <li>官方站点 <a href="https://cachyos.org">cachyos.org</a> ｜ 包索引 <a href="https://packages.cachyos.org">packages.cachyos.org</a> ｜ Wiki <a href="https://wiki.cachyos.org">wiki.cachyos.org</a>。</li>
+  <li>2024 年全年发布 <strong>13 个版本</strong>；2025–2026 年改为 <strong>每年约 5 次 ISO 更新</strong>（2026 年 8 月的 2608 镜像为当年第 5 版）。</li>
+  <li>2025–2026 年长期位居 <strong>DistroWatch 人气榜第一</strong>；Steam 硬件调查中占比一度约 <strong>4.21%</strong>，接近 Ubuntu 24.04 <span class="pill p-warn">二手来源，谨慎引用</span>。</li>
+</ul>
+
+<h2 id="opt">2. 做了什么优化（技术拆解）</h2>
+
+<h3>2.1 软件仓库：全栈重编译</h3>
+<ul>
+  <li>维护<strong>独立软件仓库</strong>，不直接复用 Arch 官方二进制，而是把 Arch 的 PKGBUILD 按现代 CPU 指令集<strong>重新编译</strong>：
+    <ul>
+      <li><code>x86-64-v3</code>（Haswell / Excavator 及更新）</li>
+      <li><code>x86-64-v4</code>（需 AVX-512，Skylake-X / Zen4 等）</li>
+      <li><code>znver4</code>（AMD Zen 4 / Zen 5 专属；2024 年 7 月起新装系统对 Zen4/5 自动启用）</li>
+    </ul>
+  </li>
+  <li>编译优化叠加：<strong>LTO</strong> 为基线；<strong>核心包额外启用 PGO + BOLT</strong>；内核另有 <strong>AutoFDO + Propeller</strong>（linux-cachyos-lto 变体）。</li>
+</ul>
+
+<h3>2.2 内核：linux-cachyos 系列 + 调度器可选</h3>
+<ul>
+  <li>基于上游 Linux，叠加 CachyOS 自有 <strong>patch set</strong>（含未主线化 / 未进 stable 的补丁），官方称<strong>先内部测试再发布</strong>。</li>
+  <li>提供多种<strong>内核变体</strong>：<code>linux-cachyos</code>（默认，对 EEVDF 做响应性调参）、<code>-bore</code>、<code>-eevdf</code>、<code>-bmq</code>、<code>-rt-bore</code>（实时）、<code>-lts</code>、<code>-hardened</code>、<code>-server</code>、手持设备变体等。</li>
+  <li><strong>sched-ext（SCX）</strong>：支持用户态可插拔调度器（BPF 实现），由 <code>scx_loader</code> 管理、可运行时切换。<span class="pill p-warn">SCX 与 BMQ 内核变体不兼容</span></li>
+</ul>
+
+<h3>2.3 系统级调优与工具链</h3>
+<table>
+  <thead><tr><th style="width:230px">组件</th><th>作用</th></tr></thead>
+  <tbody>
+    <tr><td><code>ananicy-cpp</code> + <code>ananicy-rules</code></td><td>按规则自动调整进程 CPU / IO 优先级</td></tr>
+    <tr><td><code>CachyOS-Settings</code></td><td>sysctl / udev 全系统微调，对 NVIDIA 显卡有专门适配</td></tr>
+    <tr><td><code>chwd</code></td><td>硬件检测与配置，自动识别并安装所需驱动</td></tr>
+    <tr><td><code>CachyOS Hello</code></td><td>欢迎 / 一键应用优化与修复</td></tr>
+    <tr><td><code>CachyOS Kernel Manager</code></td><td>图形化安装、配置内核与 sched-ext</td></tr>
+    <tr><td><code>cachyos-rate-mirrors</code></td><td>自动测速并排序 Arch / CachyOS 镜像源</td></tr>
+    <tr><td><code>systemd-boot-manager</code></td><td>自动生成 systemd-boot 启动项</td></tr>
+    <tr><td><code>cachy-chroot</code></td><td>便捷 chroot，自动挂载 fstab 与 LUKS</td></tr>
+    <tr><td><code>Shelly</code></td><td>默认图形包管理器（2026 年从 C# <strong>重写为 Zig</strong>，启动更快，支持 AUR PKGBUILD 预览）</td></tr>
+    <tr><td><code>Proton-CachyOS</code></td><td>优化版 Proton 兼容层（含 vkd3d-low-latency 实现的 NVIDIA Reflex 低延迟）</td></tr>
+  </tbody>
+</table>
+
+<h3>2.4 安装体验</h3>
+<ul>
+  <li>两套安装器：<strong>Calamares 图形安装器</strong> + <strong>CLI 安装器</strong>（New-Cli-Installer，C++）。</li>
+  <li>支持 <strong>17+ 桌面环境 / 窗口管理器</strong>（KDE Plasma、GNOME、COSMIC、Hyprland、Sway、Niri、i3、XFCE…）。</li>
+  <li>默认 <strong>Btrfs + 快照回滚</strong>；支持 LUKS2 加密、Plymouth、bcachefs、T2 MacBook、手持设备游戏模式；2026 年起默认启用 <strong>Wayland</strong>。</li>
+</ul>
+
+<h3>2.5 性能成色：证据与反证</h3>
+<div class="cols">
+  <div class="card okbox" style="margin:0">
+    <h4 style="margin-top:0;color:#7ee2a8">正面证据</h4>
+    <ul style="margin-bottom:0">
+      <li>Phoronix 在 Razer Blade 18 上做 <strong>Windows 11 vs Ubuntu 26.04 LTS vs CachyOS</strong> 的 <strong>99 项</strong>测试（2026-07-15），CachyOS <strong>赢下 51 项</strong>；几何平均分 <strong>76.19</strong> vs Windows 11 的 <strong>76.12</strong>（差 0.07），Ubuntu 明显落后。</li>
+      <li>社区实测（i7-13700KF + RTX 5090）中 CS2 的 <strong>1% low 帧比 Windows 11 高约 20%</strong>。</li>
+      <li>RX 5700 XT 上 11 款游戏实测，Linux 侧平均帧率比 Win11 高约 <strong>6.4%</strong>。</li>
+    </ul>
+  </div>
+  <div class="card warnbox" style="margin:0">
+    <h4 style="margin-top:0;color:#f0cd6b">反证与局限</h4>
+    <ul style="margin-bottom:0">
+      <li>99 项里赢的是"<strong>项数</strong>"不是"51%"，且多为<strong>小分差</strong>，测试混合编译 / 渲染 / 模拟负载，并非全是游戏。</li>
+      <li>提升集中在<strong>低帧与 CPU 敏感的高帧竞技游戏</strong>；GPU 吃满的 3A 差距小得多。</li>
+      <li>社区共识：Linux 游戏收益大头来自 <strong>Proton / 驱动 / 内核</strong>，任何发行版都能吃到；CachyOS 独有的是编译优化 + 调度器调校那一层。</li>
+      <li>现有测试多为<strong>单样本、高端硬件</strong>，缺少多机型对照。同机本地 AI 推理测试中 Windows 11 反而大幅领先。</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="comm">3. 社区活跃度</h2>
+<div class="grid">
+  <div class="kpi"><div class="n">4500+</div><div class="l">Discord 成员（2024 底）</div></div>
+  <div class="kpi"><div class="n">3100+</div><div class="l">Reddit r/cachyos 成员</div></div>
+  <div class="kpi"><div class="n">1500+</div><div class="l">官方论坛成员</div></div>
+  <div class="kpi"><div class="n">1.4 PB</div><div class="l">2024 全年数据传输</div></div>
+  <div class="kpi"><div class="n">7.65 亿</div><div class="l">2024 全年请求数</div></div>
+  <div class="kpi"><div class="n">23.4 万</div><div class="l">月独立访客</div></div>
+  <div class="kpi"><div class="n">1.9 万</div><div class="l">月 ISO 下载量</div></div>
+  <div class="kpi"><div class="n">#1</div><div class="l">DistroWatch 人气榜（长期）</div></div>
+</div>
+<ul>
+  <li><strong>发布节奏</strong>：2024 年 13 个版本 → 2025/2026 年每年 5 次 ISO，节奏稳定且密集。</li>
+  <li><strong>GitHub</strong>：<code>linux-cachyos</code> 约 4.6k star，<code>proton-cachyos</code> 约 1.5k star，组织下 123 个仓库，多个仓库更新日期就在调研当天。</li>
+  <li><strong>第三方关注</strong>：Linus Tech Tips 的"该换哪款 Linux"视频（B 站 6 万+ 播放）、Phoronix 多轮基准、HowToGeek / Linuxiac 持续报道。</li>
+  <li><strong>社区氛围</strong>：用户反馈具体（掌机风扇控制、MSI Claw 兼容性等），属于 Arch 衍生发行中热度最靠前的一档。</li>
+</ul>
+<div class="warnbox"><strong>需注意：</strong>热度很大程度由 2025–2026 年"Arch 桌面 / 游戏"这波大趋势（SteamOS、Omarchy 带动）推动，存在<strong>热度周期性回落</strong>的可能。</div>
+
+<h2 id="gov">4. 团队治理</h2>
+<h3>4.1 组织结构</h3>
+<p>性质：<strong>独立、社区驱动的开源项目</strong>，<strong>没有公司实体</strong>。GitHub 组织公开可见成员 <strong>9 人</strong>：</p>
+<table>
+  <thead><tr><th style="width:180px">姓名</th><th style="width:150px">GitHub</th><th>备注</th></tr></thead>
+  <tbody>
+    <tr><td>Peter Jung</td><td><code>ptr1337</code></td><td>创始人 / 主导者，邮箱 admin@cachyos.org，大量 PR 由他 merge</td></tr>
+    <tr><td>Eric Naim</td><td><code>1Naim</code></td><td>内核配置维护</td></tr>
+    <tr><td>Anton Ždanov</td><td><code>azdanov</code></td><td>成员</td></tr>
+    <tr><td>Lysec</td><td><code>Ly-sec</code></td><td>成员</td></tr>
+    <tr><td>NextWorks</td><td><code>NextWork123</code></td><td>成员</td></tr>
+    <tr><td>Piotr Górski</td><td><code>sirlucjan</code></td><td>成员</td></tr>
+    <tr><td>SoulHarsh007</td><td><code>SoulHarsh007</code></td><td>成员</td></tr>
+    <tr><td>Vasiliy Stelmachenok</td><td><code>ventureoo</code></td><td>工具链 / 镜像测速等</td></tr>
+    <tr><td>Vladislav Nepogodin</td><td><code>vnepogodin</code></td><td>成员</td></tr>
+  </tbody>
+</table>
+<p>组织外重要贡献者：<strong>firelzrd</strong>（BORE 调度器作者）、<strong>loathingKernel</strong>（Proton-CachyOS）。</p>
+
+<h3>4.2 资金与赞助</h3>
+<ul>
+  <li>官网设 <strong>Support / 捐赠</strong> 入口，用途明确：<strong>镜像与构建服务器、网站托管等基础设施</strong>；<strong>让核心团队投入更多时间做内核优化与打包</strong>；<strong>购买不同硬件做兼容性测试</strong>。</li>
+  <li>外部赞助：模块化笔记本厂商 <strong>Framework</strong> 已成为赞助商，提供<strong>硬件用于测试优化</strong>并承诺<strong>每月捐赠</strong>。</li>
+  <li>镜像站合作：清华 TUNA、中科大 USTC 等。</li>
+</ul>
+
+<h3>4.3 决策模式与治理风险</h3>
+<div class="badbox">
+  <ol style="margin:0">
+    <li><strong>关键人物依赖（bus factor 低）</strong>：公开核心成员仅 9 人，方向与发布高度依赖创始人。</li>
+    <li><strong>无正式治理章程 / 基金会</strong>：没有公开的选举、决策委员会或路线图治理机制。</li>
+    <li><strong>资金来源单一</strong>：以个人捐赠 + 单一硬件厂商赞助为主，抗风险能力弱。</li>
+    <li><strong>与上游关系</strong>：深度依赖 Arch 上游包与 PKGBUILD，属"寄生式创新"，上游策略变化会直接传导。</li>
+  </ol>
+</div>
+
+<h2 id="pkg">5. 打包质量</h2>
+<h3>5.1 打包流程</h3>
+<ul>
+  <li><strong>来源</strong>：以 Arch 官方 PKGBUILD 为基础，修改编译参数（<code>_processor_opt</code> 等）后重建，产出独立仓库。</li>
+  <li><strong>构建基础设施</strong>：<strong>Docker 构建镜像</strong>（如 <code>pttrr/docker-makepkg-znver4</code>）+ <code>makepkg</code>；脚本 <code>script.sh</code> / <code>script-v3-v4.sh</code> 支持多架构批量构建；<code>repo-manage-util</code> 更新仓库索引。</li>
+  <li><strong>多仓库矩阵</strong>：<code>x86_64</code> / <code>x86_64_v3</code> / <code>x86_64_v4</code> / <code>znver4</code>。</li>
+  <li><strong>签名</strong>：仓库包由 CachyOS 签名密钥签名（<code>pacman-key --recv-keys F3B607488DB35A47</code>）。</li>
+  <li><strong>AUR 衍生仓库</strong>：<code>cachyos-aur-derived</code> 托管部分 AUR 衍生包。</li>
+  <li><strong>索引与镜像</strong>：<code>packages.cachyos.org</code> 包检索；官方 mirrorlist API + <code>cachyos-rate-mirrors</code> 自动测速换源。</li>
+</ul>
+<h3>5.2 质量保障</h3>
+<ul>
+  <li>内核补丁<strong>先内部测试再发布</strong>；发行前 ISO 快照做 <strong>sha256 + GPG 双签名校验</strong>。</li>
+  <li>工具链持续现代化：Shelly 重写为 Zig、Cachy-Updater 基于 Arch-Update 4.x + Rust 重写、安装器代码重构并修了一批 bug。</li>
+</ul>
+<h3>5.3 打包质量风险点</h3>
+<div class="warnbox">
+  <ol style="margin:0">
+    <li><strong>与 Arch 官方仓库混装</strong>：优化包与官方包混用可能造成版本 / ABI 漂移，建议<strong>整仓切换而非混装</strong>。</li>
+    <li><strong>同步延迟</strong>：独立仓库相对 Arch 官方存在滞后，上游紧急安全更新需等重建后才进入。</li>
+    <li><strong>AUR 供应链</strong>：AUR / AUR 衍生包存在恶意包风险（2025-06 AUR 恶意包事件）；新版 Shelly 增加 PKGBUILD 预览作为缓解。</li>
+    <li><strong>keyring / 镜像运维</strong>：常见问题为 keyring 过期、镜像不同步、磁盘空间不足导致更新中断（建议更新前预留 ≥10GB 并备份 <code>/var/lib/pacman/local</code> 与 <code>/etc/pacman.conf</code>）。</li>
+  </ol>
+</div>
+<div class="okbox"><strong>小结：</strong>打包工程质量在同类 Arch 衍生项目中属<strong>上游水平</strong>——自动化、多架构、签名、索引齐备；但"独立仓库 + 重编译"模式天然带来<strong>同步</strong>与<strong>混装</strong>两类风险。</div>
+
+<h2 id="bug">6. Bug 风险</h2>
+<h3>6.1 结构性与固有风险</h3>
+<ul>
+  <li><strong>滚动发行固有风险</strong>：上游更新随时可能引入回归，需自备快照回滚（默认 Btrfs + 快照，但需用户<strong>安装时主动选择并实测恢复流程</strong>）。</li>
+  <li><strong>前沿特性风险</strong>：sched-ext / BORE / BMQ / 实时内核、AutoFDO / Propeller 属"尝鲜级"，稳定性与主线内核有差距。</li>
+  <li><strong>硬件门槛</strong>：不支持<strong>无 SSE4.2</strong> 的 CPU；v3/v4 仓库要求较新 CPU（v4 需 AVX-512）。</li>
+</ul>
+<h3>6.2 已观察到的具体问题</h3>
+<table>
+  <thead><tr><th style="width:110px">类别</th><th>具体问题</th></tr></thead>
+  <tbody>
+    <tr><td><span class="pill p-info">调度器</span></td><td>sched-ext / scx 在<strong>登录前加载</strong>时报 warning（源自 CachyOS 社区报告，scx issue #1160）；<strong>SCX 与 BMQ 内核变体不兼容</strong></td></tr>
+    <tr><td><span class="pill p-bad">NVIDIA</span></td><td>Arch 侧 <strong>590 驱动放弃 Pascal</strong>，GTX 10 系需切 <strong>legacy 分支</strong>；<strong>Secure Boot 下闭源驱动签名验证</strong>易失败；<strong>Wayland + NVIDIA explicit-sync</strong> 致部分 WebKit/GTK 应用闪退</td></tr>
+    <tr><td><span class="pill p-bad">引导</span></td><td>GRUB <strong>未识别 Windows</strong> 致双系统菜单缺失；<code>grub.cfg</code> 参数 / UUID 错误致无法启动；UEFI 下 grub-install 目标错误</td></tr>
+    <tr><td><span class="pill p-warn">游戏</span></td><td><strong>内核级反作弊网游基本无解</strong>；部分游戏需特定 Proton-CachyOS 版本</td></tr>
+    <tr><td><span class="pill p-warn">安装</span></td><td>地区判定服务、镜像源、NVIDIA 闭源驱动等环节易出错；失败原因集中在内核安装、Proton 兼容、GRUB 配置、AUR 包</td></tr>
+    <tr><td><span class="pill p-bad">供应链</span></td><td>AUR / AUR 衍生仓库的<strong>恶意包</strong>风险（2025-06 事件）</td></tr>
+  </tbody>
+</table>
+<h3>6.3 争议与需存疑的说法</h3>
+<ul>
+  <li><strong>"性能提升"的宣传口径</strong>：收益主要在低帧与 CPU 敏感场景，部分"Linux 游戏更强"结论被归因于 Proton / 驱动而非发行版；测试样本偏少。</li>
+  <li><strong>部分二手来源需谨慎</strong>：如"2026 年 1 月版本率先支持 FSR 4.0 AI 补帧"来自百科 / 聚合站，未在官方渠道一致确认。</li>
+  <li><strong>中文技术博客（CSDN 等）多为 SEO 聚合内容</strong>，技术细节可参考但不宜作权威依据。</li>
+</ul>
+
+<h2 id="concl">7. 结论与建议</h2>
+<div class="cols">
+  <div class="card okbox" style="margin:0">
+    <h4 style="margin-top:0;color:#7ee2a8">适合安装</h4>
+    <ul style="margin-bottom:0">
+      <li>显卡为 AMD 或较新 NVIDIA，游戏库以 Steam 单机 + Proton 兼容网游为主。</li>
+      <li>掌机用户（官方支持 ROG Ally、Steam Deck OLED/LCD、Legion Go / Go S）。</li>
+      <li>想要 Arch 的滚动更新与 AUR，但不想手动装系统的"不想折腾的 Arch"用户。</li>
+      <li>国内用户友好：官方 ISO 下载列表含清华 TUNA 源，可自动换源。</li>
+    </ul>
+  </div>
+  <div class="card badbox" style="margin:0">
+    <h4 style="margin-top:0;color:#ff9b93">不建议安装</h4>
+    <ul style="margin-bottom:0">
+      <li>主力是<strong>强反作弊网游</strong>（内核级反作弊基本无解）。</li>
+      <li><strong>GTX 10 系及更老的 Pascal 卡</strong>（需 legacy 驱动，维护成本高）。</li>
+      <li>完全不想折腾、且必须使用特定专业软件的用户。</li>
+    </ul>
+  </div>
+</div>
+<h3>落地建议（四条安全路线）</h3>
+<ol>
+  <li>别直接抹盘，先双系统或装到第二块盘，日用一周再决定。</li>
+  <li>安装时选 <strong>Btrfs</strong> 方案，装完<strong>亲手测一次快照恢复</strong>。</li>
+  <li>AUR 装包<strong>先看 PKGBUILD</strong>（Shelly 已支持预览），别盲装。</li>
+  <li>滚动更新前<strong>备份 pacman 数据库与配置</strong>、预留磁盘空间。</li>
+</ol>
+<h3>后续值得关注的三个信号</h3>
+<ol>
+  <li><strong>服务器版（Server Edition）</strong> 何时从实验性转正（2026 年 8 月已出现在 CLI 安装器中）。</li>
+  <li><strong>掌机支持名单</strong>是否继续扩大。</li>
+  <li><strong>NVIDIA legacy 驱动支持</strong>是否继续收缩。</li>
+</ol>
+
+<h2 id="refs">8. 参考来源</h2>
+<div class="card refs">
+  <a href="https://cachyos.org/">CachyOS 官网</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">Why CachyOS? — CachyOS Wiki</a>
+  <a href="https://wiki.cachyos.org/">CachyOS Wiki 首页</a>
+  <a href="https://github.com/CachyOS">CachyOS GitHub 组织</a>
+  <a href="https://github.com/orgs/CachyOS/people">CachyOS GitHub 组织成员</a>
+  <a href="https://github.com/CachyOS/linux-cachyos">linux-cachyos 仓库</a>
+  <a href="https://github.com/CachyOS/distribution">CachyOS/distribution（通用 bug 反馈仓库）</a>
+  <a href="https://github.com/CachyOS/linux-cachyos/pull/450">linux-cachyos PR #450（1Naim / ptr1337）</a>
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（含 Ubuntu 26.04 LTS vs Windows 11 vs CachyOS）</a>
+  <a href="https://post.smzdm.com/p/a6zdp68o/">什么值得买 —《CS2低帧暴涨20%、99项测试赢51项》</a>
+  <a href="https://zhuanlan.zhihu.com/p/15207016754">知乎 —《CachyOS 2024 年终总结》（引用官方 blog）</a>
+  <a href="https://cachyos.org/blog/2412-december-release/">CachyOS 官方 blog 2412 December Release</a>
+  <a href="https://baike.baidu.com/item/CachyOS/67612806">百度百科 — CachyOS（运营模式 / 核心团队）</a>
+  <a href="https://www.howtogeek.com/cachyos-august-2025-update/">HowToGeek — CachyOS August Update</a>
+  <a href="https://baijiahao.baidu.com/s?id=1873191297072040767">IT之家/百家号 — 2026 第 5 个镜像：Shelly 用 Zig 重写</a>
+  <a href="https://baijiahao.baidu.com/s?id=1874543976873000903">百家号 — CachyOS 八月大更：服务器版要来了</a>
+  <a href="https://baijiahao.baidu.com/s?id=1871489454503971896">百家号 — proton-cachyos 加入 NVIDIA Reflex 支持</a>
+  <a href="https://baijiahao.baidu.com/s?id=1877015523615591832">百家号 — RX 5700 XT 实测 11 款游戏</a>
+  <a href="https://news.17173.com/content/07202026/180059320.shtml">17173 — 实测 AI 性能对比</a>
+  <a href="https://github.com/sched-ext/scx/issues/1160">sched-ext/scx Issue #1160（CachyOS 社区报告）</a>
+  <a href="https://blog.csdn.net/gitblog_00388/article/details/150696048">CSDN — CachyOS 内核编译脚本详解</a>
+  <a href="https://blog.csdn.net/gitblog_01109/article/details/148464921">CSDN — CachyOS 仓库配置完全指南</a>
+  <a href="https://blog.csdn.net/weixin_33483304/article/details/167228794">CSDN — CachyOS 2026 首轮更新与软件源同步排查</a>
+  <a href="https://ask.csdn.net/questions/8340900">CSDN — 手动安装 CachyOS 时配置 GRUB</a>
+  <a href="https://ipv4.mirrors.ustc.edu.cn/help/cachyos.html">USTC 镜像站 — CachyOS 帮助</a>
+  <a href="https://discuss.cachyos.org/">CachyOS 论坛</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：官方站点（cachyos.org / wiki.cachyos.org）、GitHub、Phoronix 为一手 / 权威来源；知乎年度总结与什么值得买文章转述了官方 blog 与 Phoronix / LTT 的数据，可信度较高；百度百科、CSDN、百家号、17173 等为二手或聚合来源，其数字与表述已在正文中标注"需谨慎引用"。</p>
+  <p>报告生成于 2026-10-16 ｜ Deep Research · CachyOS</p>
+</footer>
+
+</div>
+</body>
+</html>

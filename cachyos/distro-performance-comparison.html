@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六大 Linux 发行版性能横向对比</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--pink);background:rgba(255,122,178,.1);border:1px solid rgba(255,122,178,.28);padding:5px 12px;border-radius:999px}
+  h1{font-size:35px;line-height:1.24;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#ff7ab2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:880px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:32px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#9fd0ff}
+  pre{background:#0a0e13;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;margin:14px 0}
+  pre code{background:none;border:none;padding:0;color:#a8d4ff;font-size:12.8px}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(124,92,255,.08));border:1px solid rgba(124,92,255,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.4px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:12.6px}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .stars{color:var(--warn);letter-spacing:1px;white-space:nowrap}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle;white-space:nowrap}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .infobox{border-left:3px solid var(--acc);background:rgba(78,161,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .tier{border:1px solid var(--line);border-radius:12px;padding:4px 18px 14px;margin:14px 0;background:var(--panel)}
+  .tier h4{margin-top:14px}
+  .bar{height:22px;border-radius:6px;background:linear-gradient(90deg,#4ea1ff,#7c5cff);display:inline-block;vertical-align:middle;margin-right:10px}
+  .barwrap{display:flex;align-items:center;margin:7px 0;font-size:13.2px}
+  .barwrap .lbl{width:190px;flex:0 0 190px;color:#cfd9e4}
+  @media(max-width:820px){h1{font-size:26px}.wrap{padding:32px 16px 64px}.barwrap .lbl{width:120px;flex:0 0 120px}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+  .scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Head-to-Head · Performance</span>
+  <h1>六大发行版 <span class="grad">性能横向对比</span></h1>
+  <p class="sub">CachyOS · Arch Linux · openSUSE · Ubuntu · NixOS · Fedora —— 从结构性差异到第三方基准证据的完整评估</p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">6 个发行版</span>
+    <span class="chip">含 Phoronix 9950X 59 项排名</span>
+    <span class="chip">含置信度标注</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">一句话结论</h3>
+  <p style="margin-bottom:0"><strong>六个发行版之间的性能差异通常在个位数百分比内</strong>（Phoronix 六方测试中最快与最慢的差距约 16%），<strong>远小于"硬件换代"或"内核/Mesa 版本差异"带来的影响</strong>。CachyOS 是六者中"开箱性能"最高的，Arch / Fedora 紧随其后，Ubuntu LTS 与 NixOS 在默认配置下相对保守。</p>
+</div>
+
+<h2>0. 结论速览</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:120px">发行版</th><th style="width:130px">默认性能档位</th><th>决定性因素</th><th style="width:230px">关键短板</th></tr></thead>
+  <tbody>
+    <tr><td><strong>CachyOS</strong></td><td class="stars">★★★★★ 最快</td><td>x86-64-v3/v4/znver4 + LTO/PGO/BOLT + 自研内核（BORE/SCX）</td><td>独立仓库与上游同步延迟；滚动风险</td></tr>
+    <tr><td><strong>Arch Linux</strong></td><td class="stars">★★★★☆ 很快</td><td>官方 x86-64(v1) 基线，但<strong>软件最新</strong>；可加 ALHP 的 v3/v4 仓库</td><td>默认无指令集优化；需自行调优</td></tr>
+    <tr><td><strong>Fedora</strong></td><td class="stars">★★★★☆ 很快</td><td>内核/工具链最新（上游优先）；<strong>x86-64(v1) 基线</strong>（v3 已推迟至 ≥Fedora 46）</td><td>专有驱动需手动启用 RPM Fusion</td></tr>
+    <tr><td><strong>openSUSE Tumbleweed</strong></td><td class="stars">★★★★☆ 较快</td><td>滚动更新 + <strong>x86-64-v2 基线</strong>（高于 v1，低于 v3）</td><td>默认服务 / 快照机制带来少量开销</td></tr>
+    <tr><td><strong>Ubuntu</strong></td><td class="stars">★★★☆☆ 中等</td><td><strong>x86-64(v1) 基线</strong> + LTS 较旧内核/Mesa；26.10 起有实验性 amd64v3</td><td>LTS 版本软件栈偏旧，CPU 密集场景吃亏</td></tr>
+    <tr><td><strong>NixOS</strong></td><td class="stars">★★★☆☆ 中等</td><td><strong>通用 x86-64 构建</strong>，官方缓存不含 CPU 特定优化，默认无 LTO/PGO</td><td>想拿 v3 需自行设 <code>gcc.arch</code> 并自建，失去缓存红利</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="warnbox"><strong>重要校准：</strong>Phoronix 在锐龙 9 9950X 上的 59 项六方测试中，第一名（Clear Linux）仅比最后一名（Ubuntu 24.04 LTS）快 <strong>16%</strong>；CachyOS 第 2、Arch 第 3、Fedora 第 4、Ubuntu 24.10 第 5。<strong>也就是说，CachyOS 与 Arch 之间的差距远小于"16%"这个跨度，通常在几个百分点内。</strong></div>
+
+<h2>1. 方法论声明（必读）</h2>
+<p><strong>目前不存在一份覆盖这六个发行版的权威统一横评。</strong>原因：</p>
+<ol>
+  <li><strong>Phoronix 的发行版横评从不包含 NixOS</strong>（NixOS 极少出现在其 distro 对比中）。</li>
+  <li><strong>openSUSE Tumbleweed 在近年的发行版对比中也基本缺席</strong>（最近一次出现在 2022 年的 HP Dev One 测试）。</li>
+  <li>各家评测的<strong>内核版本、Mesa 版本、驱动版本都不同</strong>，差异<strong>不完全来自"发行版优化"</strong>。</li>
+</ol>
+<p>因此本报告采取<strong>三重证据法</strong>：</p>
+<ul>
+  <li><strong>(A) 结构性差异</strong>（最可靠、可验证）：指令集基线、编译优化、内核策略 —— 这些是<strong>确定性事实</strong>，不依赖跑分。</li>
+  <li><strong>(B) 第三方基准</strong>：逐次列出机型、测试数、排名与数值。</li>
+  <li><strong>(C) 分层推断</strong>：在 (A)(B) 基础上给出排名，并标注置信度。</li>
+</ul>
+
+<h2>2. 结构性差异：性能的"根因"</h2>
+<p>这是六个发行版性能差异的<strong>最可靠解释</strong>——因为它们全部公开可查。</p>
+<div class="scroll">
+<table>
+  <thead><tr>
+    <th style="width:110px">维度</th><th>CachyOS</th><th>Arch Linux</th><th>Fedora</th><th>openSUSE Tumbleweed</th><th>Ubuntu</th><th>NixOS</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>指令集基线</strong></td>
+      <td><span class="pill p-ok">v3 / v4 / znver4</span></td>
+      <td><span class="pill p-bad">v1</span></td>
+      <td><span class="pill p-bad">v1</span><br><span class="dim">v3 推迟至 ≥F46</span></td>
+      <td><span class="pill p-warn">v2</span></td>
+      <td><span class="pill p-bad">v1</span><br><span class="dim">26.10 实验 amd64v3</span></td>
+      <td><span class="pill p-bad">v1 通用</span></td>
+    </tr>
+    <tr><td><strong>编译优化</strong></td><td>LTO + PGO + BOLT + AutoFDO</td><td>无（可加 ALHP 的 -O3+LTO）</td><td>部分 LTO</td><td>部分优化</td><td>部分优化</td><td>默认无 LTO/PGO</td></tr>
+    <tr><td><strong>内核</strong></td><td>自研 <code>linux-cachyos</code>，BORE/SCX/EEVDF/BMQ/RT</td><td>上游 vanilla，最新</td><td>上游 + Fedora 补丁，最新</td><td>上游 + openSUSE 补丁，滚动</td><td>LTS 较旧（26.10 起 7.3）</td><td>上游 vanilla，较保守</td></tr>
+    <tr><td><strong>更新模型</strong></td><td>滚动</td><td>滚动</td><td>约 6 个月</td><td>滚动</td><td>6 个月 / LTS 2 年+</td><td>滚动（声明式）</td></tr>
+    <tr><td><strong>GPU 驱动</strong></td><td>预编译 NVIDIA 模块（含补丁）</td><td>官方仓库（<code>nvidia</code>/<code>nvidia-open</code>）</td><td>需 RPM Fusion</td><td>官方仓库</td><td>官方最便捷（含 Pro）</td><td>由 nixpkgs 提供</td></tr>
+    <tr><td><strong>可加优化仓库</strong></td><td>内置</td><td>ALHP（非官方）</td><td>无（等 F46）</td><td>有限</td><td>amd64v3（实验）</td><td>需自建</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox">
+  <strong>关键读数：</strong>
+  <ul style="margin-bottom:0">
+    <li><strong>CachyOS 是唯一默认同时具备"高指令集 + 全栈编译优化 + 自研内核"的</strong>——这是它排第一的结构性原因。</li>
+    <li><strong>Arch 与 Fedora 的"快"来自软件新，而不是编译优化</strong>——Arch 官方明确写着 "packages optimized for the x86-64 architecture"（即 v1）。</li>
+    <li><strong>openSUSE Tumbleweed 的 v2 基线</strong>使其在指令集上高于 Arch/Fedora/Ubuntu/NixOS，低于 CachyOS。</li>
+    <li><strong>NixOS 的结构性劣势最明确</strong>：官方二进制缓存为通用构建，要拿 v3 就得本地重编译，代价是放弃缓存。</li>
+  </ul>
+</div>
+
+<h2>3. 第三方基准证据</h2>
+
+<h3>3.1 Phoronix — AMD Ryzen 9 9950X，6 发行版，59 项测试（2024-08-20）<span class="pill p-ok">最相关</span></h3>
+<div class="card">
+  <div class="barwrap"><span class="lbl">1. Clear Linux</span><span class="bar" style="width:92%"></span><span class="dim">最快（上限参照）</span></div>
+  <div class="barwrap"><span class="lbl">2. CachyOS</span><span class="bar" style="width:86%"></span></div>
+  <div class="barwrap"><span class="lbl">3. Arch Linux</span><span class="bar" style="width:83%"></span></div>
+  <div class="barwrap"><span class="lbl">4. Fedora Workstation 40</span><span class="bar" style="width:80%"></span></div>
+  <div class="barwrap"><span class="lbl">5. Ubuntu 24.10 Snapshot</span><span class="bar" style="width:77%"></span></div>
+  <div class="barwrap"><span class="lbl">6. Ubuntu 24.04 LTS</span><span class="bar" style="width:74%"></span><span class="dim">最慢</span></div>
+  <p style="margin-bottom:0"><span class="dim">（条形长度仅示意相对次序，非精确数值；Phoronix 公布的唯一硬数字是"第 1 名比第 6 名快 16%"。）</span></p>
+</div>
+<ul>
+  <li><strong>数值</strong>：Clear Linux 比最慢的 Ubuntu 24.04 LTS 快 <strong>16%</strong>。</li>
+  <li>⚠️ <strong>未包含</strong>：openSUSE Tumbleweed、NixOS。</li>
+  <li>✅ <strong>价值</strong>：唯一同时包含 CachyOS / Arch / Fedora / Ubuntu 的同机同套件对比，<strong>"CachyOS &gt; Arch &gt; Fedora &gt; Ubuntu"这个次序由此确立</strong>。</li>
+</ul>
+
+<h3>3.2 Phoronix — HP Dev One（Ryzen 7 PRO），6 发行版（2022-06）<span class="pill p-warn">数据较旧</span></h3>
+<table>
+  <thead><tr><th style="width:150px">结果</th><th>发行版</th></tr></thead>
+  <tbody>
+    <tr><td>整体最快</td><td>Clear Linux（<strong>约 +13%</strong>，且是唯一默认 Performance governor 的）</td></tr>
+    <tr><td>基本持平</td><td>Pop!_OS 22.04 ≈ openSUSE Tumbleweed ≈ Fedora 36 ≈ Ubuntu 22.04</td></tr>
+    <tr><td><strong>明显落后</strong></td><td><strong>Arch Linux</strong></td></tr>
+  </tbody>
+</table>
+<p>⚠️ 注意：<strong>2022 年的结论（Arch 落后）已不适用于今天</strong>。唯一仍有价值的信息：<strong>openSUSE Tumbleweed 与 Fedora / Ubuntu 处于同一档</strong>。</p>
+
+<h3>3.3 Phoronix — Ubuntu 26.04 LTS vs Windows 11 vs CachyOS（2026-07-15，Razer Blade 18，99 项）</h3>
+<table>
+  <thead><tr><th style="width:150px">指标</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>胜项数</td><td><strong>CachyOS 51</strong> / Windows 11 约 38 / <strong>Ubuntu 26.04 LTS 约 10</strong></td></tr>
+    <tr><td>几何平均分</td><td>CachyOS <strong>76.19</strong> / Windows 11 <strong>76.12</strong> / Ubuntu 明显更低</td></tr>
+  </tbody>
+</table>
+<p>✅ 直接证明 <strong>CachyOS 明显快于 Ubuntu 26.04 LTS</strong>。<br>
+⚠️ 混杂变量：CachyOS 用更新的内核 + Mesa，Ubuntu 是 LTS 快照；且 geomean 与 Win11 仅差 0.07（噪声级）。</p>
+
+<h3>3.4 Phoronix — CachyOS 专题系列（2026）</h3>
+<table>
+  <thead><tr><th style="width:400px">文章</th><th style="width:110px">日期</th><th>内容</th></tr></thead>
+  <tbody>
+    <tr><td>Benchmarking The Different CachyOS Linux Kernel Flavors</td><td>2026-06-02</td><td>CachyOS 各内核变体横评</td></tr>
+    <tr><td>Benchmarking The BORE Scheduler Performance With CachyOS Linux</td><td>2026-06-04</td><td><strong>BORE 调度器专项</strong></td></tr>
+    <tr><td>CachyOS Delivers Lead Over Arch Linux, Pop!_OS &amp; …（标题截断）</td><td>约 2026 上半年</td><td><strong>CachyOS 直接对比 Arch Linux / Pop!_OS</strong></td></tr>
+    <tr><td>Performance Benefits To Ubuntu 26.10 amd64v3 Packages</td><td>2026-06-11</td><td>Ubuntu v3 vs v1 包对比</td></tr>
+    <tr><td>Ubuntu 26.10 amd64v3 Packages Provide Some Additional Uplift On AMD EPYC</td><td>2026-10-14</td><td>v3 在 EPYC 服务器上的额外收益</td></tr>
+  </tbody>
+</table>
+<p>✅ 这组文章表明：<strong>Phoronix 已多次确认 CachyOS 领先 Arch Linux</strong>，且<strong>指令集（v3）本身确实带来可测收益</strong>。</p>
+
+<h3>3.5 其他相关数据点</h3>
+<table>
+  <thead><tr><th style="width:170px">来源</th><th>数据</th><th style="width:300px">说明</th></tr></thead>
+  <tbody>
+    <tr><td>Phoronix 2026-03-12</td><td>Ubuntu 26.04 相比 25.10，<strong>RTX 5090 游戏性能最高 +12%，平均 +4.4%</strong></td><td>证明<strong>版本/内核/Mesa 更新</strong>对游戏的影响可能大于发行版差异</td></tr>
+    <tr><td>Phoronix 2026-07-28</td><td>AMD Ryzen AI 9 HX 470 上 <strong>Windows 11 略微领先 Ubuntu 与 Fedora</strong></td><td>Linux 侧并非恒强</td></tr>
+    <tr><td>Phoronix 2026-07-20</td><td>同机<strong>本地 AI 推理</strong>：Windows 11 大幅领先（最高 3.43×）</td><td>场景特定，反证"全面碾压"叙事</td></tr>
+    <tr><td>Phoronix 2023-12-27</td><td>Ubuntu 的 x86-64-v3 构建在现代 CPU 上有明显收益</td><td>v3 收益的独立佐证</td></tr>
+  </tbody>
+</table>
+
+<div class="badbox">
+  <strong>3.6 需谨慎对待的来源</strong><br>
+  CSDN 一篇"CachyOS 内核 vs 官方内核 10 项基准"给出极具体的数字（启动快 8–12%、游戏平均帧 +5–7%、1% low +12–15%、内核编译 +18.5%、输入延迟 −8ms 等）。该文<strong>未披露测试平台、样本量与方法</strong>，且数字过于整齐，<strong>高度疑似内容农场 / AI 生成</strong>，<strong>不应作为可靠证据</strong>引用。其量级与 Phoronix 的观测大致同向，但具体数值不可信。
+</div>
+
+<h2>4. 综合排名（分层 + 置信度）</h2>
+<div class="tier">
+  <h4>第 1 档 · 开箱即用最快</h4>
+  <ul>
+    <li><strong>CachyOS</strong> —— 置信度 <span class="pill p-ok">高</span>（Phoronix 9950X 第 2；多篇领先 Arch）</li>
+    <li class="dim">[参照] Clear Linux —— 通常最快，但非本次对比对象</li>
+  </ul>
+</div>
+<div class="tier">
+  <h4>第 2 档 · 很快（软件新 / 可自加优化）</h4>
+  <ul>
+    <li><strong>Arch Linux</strong> —— 置信度 <span class="pill p-ok">中高</span>（9950X 第 3；加 ALHP 后可逼近 CachyOS）</li>
+    <li><strong>Fedora</strong> —— 置信度 <span class="pill p-warn">中</span>（9950X 第 4；内核最新但 v1 基线）</li>
+    <li><strong>openSUSE Tumbleweed</strong> —— 置信度 <span class="pill p-warn">中</span>（2022 年与 Fedora/Ubuntu 同档；v2 基线）</li>
+  </ul>
+</div>
+<div class="tier">
+  <h4>第 3 档 · 默认配置相对保守</h4>
+  <ul>
+    <li><strong>Ubuntu</strong> —— 置信度 <span class="pill p-ok">高</span>（9950X 垫底；但 26.10 amd64v3 可追平）</li>
+    <li><strong>NixOS</strong> —— 置信度 <span class="pill p-bad">中低</span>（缺直接基准；结构上为通用构建）</li>
+  </ul>
+</div>
+<div class="warnbox"><strong>为什么 NixOS 置信度最低</strong>：Phoronix 从未做过包含 NixOS 的发行版横评，本报告的 NixOS 结论<strong>主要基于结构推断</strong>（通用二进制 + 无 LTO/PGO），而非实测排名。实际使用中 NixOS 在多数负载下与其他发行版<strong>差距不大</strong>（个位数百分比）。</div>
+
+<h2>5. 分场景结论</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:230px">场景</th><th style="width:300px">最优 → 次优</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><strong>CPU 密集型计算</strong><br><span class="dim">编译、渲染、科学计算</span></td><td><strong>CachyOS</strong> &gt; Arch ≈ Fedora &gt; openSUSE &gt; Ubuntu ≈ NixOS</td><td>直接受益于 v3/v4 + LTO/PGO/BOLT；差距通常 3–10%</td></tr>
+    <tr><td><strong>游戏（平均帧）</strong></td><td><strong>CachyOS</strong> ≈ Arch &gt; Fedora &gt; openSUSE &gt; Ubuntu(LTS) &gt; NixOS</td><td>主要取决于<strong>内核 + Mesa + 驱动版本</strong>，发行版自身优化贡献较小</td></tr>
+    <tr><td><strong>游戏（1% low / 卡顿）</strong></td><td><strong>CachyOS</strong> 明显领先</td><td>BORE 等调度器专治尾部延迟——这是 CachyOS 最独特的优势</td></tr>
+    <tr><td><strong>桌面交互响应</strong></td><td>CachyOS ≈ Arch ≈ Fedora</td><td>1000Hz tick + 低延迟补丁带来可感知差异，但幅度有限</td></tr>
+    <tr><td><strong>服务器 / 长稳</strong></td><td>Ubuntu LTS ≈ openSUSE ≈ Fedora</td><td>稳定性优先；CachyOS 的 Server Edition 仍属实验性</td></tr>
+    <tr><td><strong>笔记本续航</strong></td><td>差异不显著，取决于默认电源策略</td><td>CachyOS 默认更激进，续航可能略差</td></tr>
+    <tr><td><strong>可复现性 / 可回滚</strong></td><td><strong>NixOS</strong> &gt; openSUSE &gt; CachyOS</td><td>这是 NixOS 的真正优势，与性能无关</td></tr>
+    <tr><td><strong>AI / CUDA 生态</strong></td><td><strong>Ubuntu</strong>（官方支持最好）</td><td>Phoronix 实测 Windows 在本地 AI 上反而领先，Linux 侧 Ubuntu 生态最成熟</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>6. 如何自己验证（避免被宣传带偏）</h2>
+<div class="card">
+  <p style="margin-top:0"><strong>核心原则</strong>：发行版差异通常只有<strong>几个百分点</strong>；测出可信结论必须控制变量。</p>
+  <ol style="margin-bottom:0">
+    <li><strong>同一台机器、同一时段</strong>，用 Live USB 或独立分区安装对比系统。</li>
+    <li><strong>对齐软件版本</strong>：让两边内核 / Mesa / 驱动版本尽量接近，否则你测的是"版本差异"而非"发行版差异"。</li>
+    <li><strong>用 Phoronix Test Suite</strong>（跨发行版通用、结果可上传 OpenBenchmarking 复核）：
+      <pre><code>phoronix-test-suite benchmark build-linux-kernel</code></pre>
+    </li>
+    <li><strong>游戏要测 1% low 与帧时间，不要只看平均帧</strong>：
+      <pre><code>MANGOHUD=1 MANGOHUD_CONFIG=fps,frametime,frame_timing %command%</code></pre>
+    </li>
+    <li><strong>重复 3 次以上</strong>，取中位数，关注方差。</li>
+    <li><strong>至少覆盖两类负载</strong>：CPU 密集型 + 内存/IO 密集型（不同发行版的短板不同）。</li>
+  </ol>
+</div>
+
+<h2>7. 参考来源</h2>
+<div class="card refs">
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（CachyOS 内核变体 / BORE 专项 / 三系统横评 / Ubuntu amd64v3）</a>
+  <a href="https://www.phoronix.com/linux/Fedora">Phoronix — Fedora 分类（x86-64-v3 推迟至 Fedora 46）</a>
+  <a href="https://www.phoronix.com/linux/Ubuntu">Phoronix — Ubuntu 分类</a>
+  <a href="https://www.ithome.com/0/790/322.htm">IT之家 —《哪个 Linux 发行版最能发挥 AMD 锐龙 9 9950X 处理器实力？59 项实测》（Phoronix 六发行版排名）</a>
+  <a href="https://baijiahao.baidu.com/s?id=1736212434621794887&wfr=spider&for=pc">开源中国/百家号 —《六大 Linux 发行版在 HP Dev One 上的性能表现》（Phoronix 2022）</a>
+  <a href="https://post.smzdm.com/p/a6zdp68o/">什么值得买 —《CS2低帧暴涨20%、99项测试赢51项》</a>
+  <a href="https://post.smzdm.com/p/ad72697p">什么值得买 —《CachyOS 8月大版本解读：帧率暴涨20%有几分真》</a>
+  <a href="https://archlinux.org/">Arch Linux 官网（"official packages optimized for the x86-64 architecture"）</a>
+  <a href="https://fedoraproject.org/wiki/Changes/Optimized_Binaries_for_the_AMD64_Architecture">Fedora Wiki — Changes/Optimized Binaries for the AMD64 Architecture</a>
+  <a href="https://news.17173.com/content/04262026/020218031.shtml">Phoronix/17173 — 微软 Azure Linux 将重新基于 Fedora 构建，应用 x86_64-v3</a>
+  <a href="https://baijiahao.baidu.com/s?id=1750799707561198248&wfr=spider&for=pc">openSUSE Tumbleweed 过渡到 x86-64-v2 要求</a>
+  <a href="https://mirror.kescher.at/">ALHP 镜像说明（Arch 官方仓库的 x86-64 feature levels + -O3 + LTO）</a>
+  <a href="https://baijiahao.baidu.com/s?id=1859512162622176649&wfr=spider&for=pc">Phoronix — Ubuntu 26.04 游戏性能最高提升 12%（RTX 5090 实测）</a>
+  <a href="https://news.17173.com/content/07202026/180059320.shtml">17173 — 实测 AI 性能：Windows 11 碾压 Linux</a>
+  <a href="https://post.smzdm.com/p/amoq8dzd/">什么值得买 —《别吵了！Ubuntu 26.04、Fedora 44 与 Arch：谁才是 2026 年的桌面之王？》</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">CachyOS 官方 Wiki — Why CachyOS?</a>
+  <a href="https://openbenchmarking.org/">OpenBenchmarking.org（Phoronix Test Suite 公开结果库）</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：Phoronix（含 IT之家 / 开源中国对其的转述）、各发行版官网与官方 Wiki 为一手 / 权威来源；什么值得买、17173、百度百家号属二手转述；CSDN 一篇"CachyOS 内核 vs 官方内核 10 项基准"未披露方法且数字可疑，<strong>已在正文明确标注为不可靠</strong>。</p>
+  <p>报告生成于 2026-10-16 ｜ Head-to-Head · 六大发行版性能对比</p>
+</footer>
+
+</div>
+</body>
+</html>

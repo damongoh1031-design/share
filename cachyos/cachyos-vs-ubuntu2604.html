@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS vs Ubuntu 26.04 LTS 深度对比</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf; --orange:#ff9a52;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--orange);background:rgba(255,154,82,.1);border:1px solid rgba(255,154,82,.3);padding:5px 12px;border-radius:999px}
+  h1{font-size:34px;line-height:1.24;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#ff9a52);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:900px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:32px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#9fd0ff}
+  pre{background:#0a0e13;border:1px solid var(--line);border-radius:10px;padding:13px 16px;overflow:auto;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#a8d4ff;font-size:12.8px}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(255,154,82,.08));border:1px solid rgba(255,154,82,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.4px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:12.6px}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle;white-space:nowrap}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .p-org{color:#ffbd85;border-color:rgba(255,154,82,.45);background:rgba(255,154,82,.1)}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .infobox{border-left:3px solid var(--acc);background:rgba(78,161,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .orgbox{border-left:3px solid var(--orange);background:rgba(255,154,82,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .bar{height:20px;border-radius:6px;background:linear-gradient(90deg,#4ea1ff,#7c5cff);display:inline-block;vertical-align:middle;margin-right:10px}
+  .barwrap{display:flex;align-items:center;margin:7px 0;font-size:13.2px}
+  .barwrap .lbl{width:230px;flex:0 0 230px;color:#cfd9e4}
+  .scroll{overflow-x:auto}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){h1{font-size:26px}.wrap{padding:32px 16px 64px}.barwrap .lbl{width:140px;flex:0 0 140px}.cols{grid-template-columns:1fr}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Head-to-Head · CachyOS vs Ubuntu 26.04 LTS</span>
+  <h1>CachyOS <span class="grad">vs Ubuntu 26.04 LTS</span> 深度对比</h1>
+  <p class="sub">全面比较 · 结果分析 · 差异原因 · 差异为何不突出 · <strong>以及：在没有第三方仓库的前提下，Ubuntu 26.04 能复现 CachyOS 的哪些优化策略？</strong></p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">含 13 项可复现清单</span>
+    <span class="chip">含 10 项做不到清单</span>
+    <span class="chip">含五发行版官方仓库横比</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">一句话结论</h3>
+  <p style="margin-bottom:0">CachyOS 与 Ubuntu 26.04 的实测差距<strong>只有约 3.8%</strong>（Phoronix 同机 99 项几何平均：<strong>76.19 vs 73.38</strong>）。Ubuntu 的短板不在内核（它是 <strong>Linux 7.0</strong>），而在<strong>编译层（v1 基线）</strong>与 <strong>sched-ext 缺失（需源码编译）</strong>；它的强项是 <strong>NVIDIA 驱动与 ZFS 官方支持</strong>。</p>
+</div>
+
+<h2>0. 结论速览</h2>
+<table>
+  <thead><tr><th style="width:200px">问题</th><th>答案</th></tr></thead>
+  <tbody>
+    <tr><td><strong>谁更快？</strong></td><td>CachyOS，但<strong>只快约 3.8%</strong>（Phoronix Razer Blade 18 同机 99 项，geomean 76.19 vs 73.38）</td></tr>
+    <tr><td><strong>Ubuntu 26.04 的短板？</strong></td><td><strong>编译层 v1 基线</strong>；<strong>官方仓库无 <code>scx-scheds</code></strong>（需源码编译）；无 BORE/BMQ 内核；默认 ext4 无快照</td></tr>
+    <tr><td><strong>Ubuntu 26.04 的强项？</strong></td><td><strong>NVIDIA 驱动支持全 Linux 最好</strong>（官方仓库 + <code>ubuntu-drivers</code> + <strong>原生 CUDA 集成</strong>）；<strong>ZFS 官方支持</strong>；内核不旧（<strong>Linux 7.0 + Mesa 26.0.x</strong>）；10 年支持</td></tr>
+    <tr><td><strong>差异为何不突出？</strong></td><td>差距实测仅 3.8%；Ubuntu 内核版本并不落后；差距来自 v1→v3 编译层（收益本就有限）；sched-ext 缺失只影响尾部延迟</td></tr>
+    <tr><td><strong>纯官方 Ubuntu 能复现多少？</strong></td><td><strong>约 13 项可复现</strong>（含 Gamemode/MangoHud、NVIDIA 驱动、ZFS）；<strong>全仓库 v3 重编译、BORE 内核、sched-ext 包</strong>做不到</td></tr>
+  </tbody>
+</table>
+
+<h2>1. 全面比较</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:140px">维度</th><th>CachyOS</th><th>Ubuntu 26.04 LTS</th></tr></thead>
+  <tbody>
+    <tr><td><strong>上游</strong></td><td>Arch Linux（下游再发行）</td><td>独立发行版（Canonical）</td></tr>
+    <tr><td><strong>发布模型</strong></td><td>滚动</td><td><strong>LTS</strong>：5 年标准支持，Ubuntu Pro 可延至 <strong>10 年</strong>（2026-04-23 发布）</td></tr>
+    <tr><td><strong>指令集基线</strong></td><td><span class="pill p-ok">v3 / v4 / znver4</span></td><td><span class="pill p-bad">amd64（v1）</span><br><span class="dim">amd64v3 为实验性变体</span></td></tr>
+    <tr><td><strong>编译优化</strong></td><td>LTO + PGO + BOLT + AutoFDO</td><td>部分优化；无 PGO/BOLT</td></tr>
+    <tr><td><strong>内核</strong></td><td>自研 <code>linux-cachyos</code>（默认/BORE/EEVDF/BMQ/RT/LTS/Hardened/Server/deckify）</td><td><strong>Linux 7.0</strong>（LTS 版）+ Ubuntu 补丁</td></tr>
+    <tr><td><strong>GPU 栈</strong></td><td>预编译 NVIDIA 模块 + Mesa 最新</td><td><strong>Mesa 26.0.x</strong>；<strong>原生集成 NVIDIA CUDA</strong></td></tr>
+    <tr><td><strong>调度器</strong></td><td>BORE / BMQ / sched-ext / RT</td><td>EEVDF；<strong>官方仓库无 scx 包</strong>（需源码编译）</td></tr>
+    <tr><td><strong>默认文件系统</strong></td><td>Btrfs + 快照</td><td><strong>ext4</strong>（Btrfs/ZFS 可选，无默认快照）</td></tr>
+    <tr><td><strong>安全默认</strong></td><td>常规</td><td><strong>AppArmor</strong>（默认）+ 大量 <strong>snap</strong> 应用</td></tr>
+    <tr><td><strong>显示会话</strong></td><td>Wayland / X11 均可</td><td><strong>仅 Wayland</strong>（首个移除 Xorg 会话的 LTS）</td></tr>
+    <tr><td><strong>包管理</strong></td><td><code>pacman</code> + AUR</td><td><code>apt</code> + snap + PPA</td></tr>
+    <tr><td><strong>游戏工具</strong></td><td><code>cachyos-gaming-meta</code> 一键装</td><td><strong><code>gamemode 1.8.2</code>、<code>mangohud 0.8.2</code> 在官方仓库</strong>（已核实）</td></tr>
+    <tr><td><strong>NVIDIA 驱动</strong></td><td>官方仓库内置预编译模块</td><td><strong>官方仓库 + <code>ubuntu-drivers</code> 自动安装（Linux 阵营最佳）</strong> ✅</td></tr>
+    <tr><td><strong>ZFS</strong></td><td>官方预编译模块</td><td><strong>官方支持（<code>zfsutils-linux</code> 在 main，安装器可选 ZFS 根）</strong> ✅</td></tr>
+    <tr><td><strong>系统要求</strong></td><td>较低</td><td><strong>内存要求提升至 6GB</strong></td></tr>
+    <tr><td><strong>治理</strong></td><td>社区小团队（约 9 人）</td><td><strong>Canonical 商业公司</strong>（正式治理 + 商业支持）</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox"><strong>关系本质：</strong>两者<strong>没有血缘关系</strong>。Ubuntu 由 <strong>Canonical 商业公司</strong>主导，卖点是<strong>稳定、生态、长期支持</strong>；CachyOS 是社区小团队，卖点是<strong>性能</strong>。这两者的取舍是"<strong>稳定 vs 极致</strong>"的典型对立。</div>
+
+<h2>2. 结果分析</h2>
+
+<h3>2.1 ★ Phoronix — Razer Blade 18，三系统，99 项（2026-07-15）</h3>
+<div class="card">
+  <div class="barwrap"><span class="lbl">CachyOS — 76.19</span><span class="bar" style="width:96%"></span></div>
+  <div class="barwrap"><span class="lbl">Windows 11 — 76.12</span><span class="bar" style="width:95.9%"></span></div>
+  <div class="barwrap"><span class="lbl">Ubuntu 26.04 LTS — 73.38</span><span class="bar" style="width:92.4%"></span></div>
+  <p style="margin-bottom:0"><span class="dim">（条形长度按几何平均分等比换算。）</span></p>
+</div>
+<ul>
+  <li><strong>换算</strong>：CachyOS 比 Ubuntu 26.04 LTS <strong>高约 3.8%</strong>（76.19 / 73.38）。</li>
+  <li><strong>胜项数</strong>：CachyOS 51 项 / Windows 11 约 38 项 / <strong>Ubuntu 约 10 项</strong>。</li>
+  <li>✅ 这是<strong>最干净的同机同套件三方对比</strong>，也是"Ubuntu 26.04 比 CachyOS 慢多少"的<strong>唯一硬数字</strong>。</li>
+  <li>⚠️ 混杂变量：CachyOS 用更新的内核 + Mesa，Ubuntu 是 LTS 快照（但 26.04 内核已是 <strong>Linux 7.0</strong>，差距没那么大）。</li>
+</ul>
+
+<h3>2.2 Phoronix — Ryzen 9 9950X，6 发行版，59 项（2024-08）</h3>
+<table>
+  <thead><tr><th style="width:80px">排名</th><th>发行版</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Clear Linux</td></tr>
+    <tr><td>2</td><td>CachyOS</td></tr>
+    <tr><td>3</td><td>Arch Linux</td></tr>
+    <tr><td>4</td><td>Fedora Workstation 40</td></tr>
+    <tr><td>5</td><td>Ubuntu 24.10 Snapshot</td></tr>
+    <tr><td>6</td><td><strong>Ubuntu 24.04 LTS</strong></td></tr>
+  </tbody>
+</table>
+<p>⚠️ <strong>Ubuntu 在发行版性能横评中长期垫底</strong>（此轮第 5、第 6 都是 Ubuntu）。但注意：<strong>这是 24.04/24.10，不是 26.04</strong>——26.04 换上了 <strong>Linux 7.0</strong>，情况已改善。</p>
+
+<h3>2.3 Ubuntu 版本内的性能变化（重要参照）</h3>
+<table>
+  <thead><tr><th style="width:170px">来源</th><th>数据</th></tr></thead>
+  <tbody>
+    <tr><td>Phoronix 2026-03-12</td><td><strong>Ubuntu 26.04 相比 25.10，RTX 5090 游戏性能最高 +12%，平均 +4.4%</strong></td></tr>
+    <tr><td>Phoronix 2026-06-11</td><td>《Benchmarking The Performance Benefits To Ubuntu 26.10 amd64v3 Packages》</td></tr>
+    <tr><td>Phoronix 2026-10-14</td><td>《Ubuntu 26.10 amd64v3 Packages Provide Some Additional Uplift On AMD EPYC》</td></tr>
+  </tbody>
+</table>
+<div class="warnbox"><strong>关键校准：</strong><strong>一次 Ubuntu 版本升级（25.10 → 26.04）的游戏收益最高就有 +12%</strong>，而 <strong>CachyOS 与 Ubuntu 26.04 之间的差距只有 3.8%</strong>。<br>→ <strong>也就是说：等一次 Ubuntu 大版本升级，比换发行版带来的收益可能更大。</strong></div>
+
+<h3>2.4 amd64v3：Canonical 自己也在做指令集优化</h3>
+<ul>
+  <li>Ubuntu 26.04 默认 ISO 仍是 <strong>amd64（v1）</strong>，以确保最大硬件兼容性。</li>
+  <li><strong>amd64v3（x86-64-v3）是 Canonical 自家的实验性归档</strong>；Phoronix 明确提到"<strong>Ubuntu 26.10 的 snapshot/daily ISO 提供 amd64v3 形式</strong>"，并在 EPYC 服务器上实测到额外收益。</li>
+  <li>部分中文来源称 Ubuntu 26.04 已提供可选的 amd64v3 包——<strong>该细节建议以 Canonical 官方 release notes 为准</strong>。</li>
+</ul>
+
+<h2>3. 差异的原因</h2>
+
+<h3>3.1 编译层 —— CachyOS 的最大优势（也是 3.8% 差距的主要来源）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>Ubuntu 26.04</th><th>CachyOS</th><th style="width:150px">影响</th></tr></thead>
+  <tbody>
+    <tr><td>指令集基线</td><td><strong><code>amd64</code>（v1）</strong></td><td><code>v3</code>/<code>v4</code>/<code>znver4</code></td><td><strong>CPU 密集 2–8%</strong></td></tr>
+    <tr><td>LTO</td><td>部分</td><td>全栈 ThinLTO</td><td>1–3%</td></tr>
+    <tr><td>PGO</td><td>无</td><td>核心包 + 内核 AutoFDO</td><td>1–4%</td></tr>
+    <tr><td>BOLT</td><td>无</td><td>核心包</td><td>1–3%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.2 内核层 —— Ubuntu 并不落后</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>Ubuntu 26.04</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>内核版本</td><td><strong>Linux 7.0</strong>（LTS 基线）</td><td>跟随 Arch（也很新）</td></tr>
+    <tr><td>GPU 栈</td><td><strong>Mesa 26.0.x</strong> + 原生 CUDA</td><td>Mesa 最新</td></tr>
+    <tr><td>调度器</td><td>EEVDF</td><td>EEVDF 调参 / <strong>BORE</strong> / <strong>BMQ</strong> / RT</td></tr>
+    <tr><td><strong>sched-ext 包</strong></td><td>❌ <strong>官方仓库无</strong>（sched-ext 官方 INSTALL.md 明确：Ubuntu 需<strong>源码编译</strong>）</td><td>✅ 内置</td></tr>
+    <tr><td>Tick rate</td><td>常规</td><td><strong>1000Hz</strong></td></tr>
+    <tr><td>补丁集</td><td>Ubuntu 补丁</td><td>15 个 topic 分支 + <code>CONFIG_CACHY</code> + AutoFDO</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="okbox"><strong>Ubuntu 的内核版本其实不旧</strong>（Linux 7.0），所以"内核红利"它基本也能吃到——这是差距只有 3.8% 的重要原因之一。</div>
+
+<h3>3.3 系统 / 默认配置层</h3>
+<table>
+  <thead><tr><th style="width:130px">项</th><th>Ubuntu 26.04</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>文件系统</td><td><strong>ext4 默认</strong>（Btrfs/ZFS 可选）</td><td>Btrfs + 快照</td></tr>
+    <tr><td>快照</td><td>❌ 默认无（可用 ZFS 或 timeshift）</td><td>✅ 安装时可选</td></tr>
+    <tr><td>zram</td><td>❌ 未默认</td><td>✅ 启用</td></tr>
+    <tr><td>安全</td><td><strong>AppArmor 默认</strong> + snap 沙箱</td><td>常规</td></tr>
+    <tr><td>显示</td><td><strong>仅 Wayland</strong>（移除 Xorg）</td><td>Wayland / X11 均可</td></tr>
+    <tr><td>桌面</td><td>GNOME 50（较重）</td><td>17+ DE 可选</td></tr>
+  </tbody>
+</table>
+
+<h3>3.4 生态层 —— Ubuntu 反而更强</h3>
+<table>
+  <thead><tr><th style="width:150px">项</th><th>Ubuntu 26.04</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td><strong>NVIDIA 驱动</strong></td><td>✅ <strong>官方仓库 + <code>ubuntu-drivers</code> + 原生 CUDA 集成</strong>（Linux 最佳）</td><td>官方仓库内置预编译模块</td></tr>
+    <tr><td><strong>ZFS</strong></td><td>✅ <strong>官方 main 仓库，安装器支持 ZFS 根</strong></td><td>官方预编译模块</td></tr>
+    <tr><td>游戏工具</td><td>gamemode 1.8.2 / mangohud 0.8.2（<strong>官方仓库</strong>，已核实）</td><td>meta 包一键装</td></tr>
+    <tr><td>第三方生态</td><td>PPA + snap + Flatpak</td><td>AUR（20 万+）</td></tr>
+    <tr><td>文档 / 社区</td><td><strong>Linux 世界最丰富</strong></td><td>Arch Wiki（质量高但偏技术）</td></tr>
+  </tbody>
+</table>
+
+<h2>4. 差异"没突出"的原因</h2>
+<ol>
+  <li><strong>实测差距只有 3.8%</strong>（geomean 76.19 vs 73.38）——<strong>这个数字本身就在"不突出"的范畴内</strong>。</li>
+  <li><strong>Ubuntu 26.04 的内核不旧</strong>：<strong>Linux 7.0 + Mesa 26.0.x</strong>，甚至比很多滚动发行版的某些组件还新——"内核红利"它也有。</li>
+  <li><strong>一次 Ubuntu 版本升级的收益可能大于发行版差异</strong>：25.10 → 26.04 在 RTX 5090 上游戏最高 <strong>+12%（平均 +4.4%）</strong>。</li>
+  <li><strong>差距主要来自 v1→v3 编译层</strong>，而这段收益本就只有个位数百分比。</li>
+  <li><strong>Ubuntu 的短板影响的是"尾部"不是"均值"</strong>：缺 sched-ext、缺 BORE → 影响的是 1% low / 卡顿 / 输入延迟，而 Phoronix Test Suite 多数项目测的是吞吐与总耗时。</li>
+  <li><strong>瓶颈不在 CPU</strong>（Amdahl 定律）：4K 游戏 GPU 受限、桌面受 IO/网络限制。</li>
+  <li><strong>测量噪声同量级</strong>：run-to-run 方差常有 1–3%，与 3.8% 的差距部分重叠。</li>
+  <li><strong>部分"优化"是取舍</strong>：<code>max_performance</code>、激进电源档是<strong>用功耗/续航换响应</strong>——这对笔记本形态的 Ubuntu 用户未必是优点。</li>
+</ol>
+
+<h2>5. 纯官方 Ubuntu 26.04 能复现哪些优化策略？</h2>
+<div class="infobox"><strong>前提界定：</strong>"第三方仓库"指 <strong>PPA / Flatpak / 外部 deb 仓库</strong>等。Ubuntu 的 <code>main</code> + <code>universe</code> + <code>restricted</code> + <code>multiverse</code> 视为官方。</div>
+
+<h3>5.1 ✅ 可以复现（13 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:210px">CachyOS 的优化策略</th><th>纯 Ubuntu 复现方法</th><th style="width:190px">来源</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>全套 sysctl 调优</strong></td><td><code>/etc/sysctl.d/99-cachy.conf</code>：swappiness、dirty_*、page-cluster=0、nmi_watchdog=0、file-max、max_map_count</td><td>官方内核</td></tr>
+    <tr><td>2</td><td><strong>I/O 调度器按设备分配</strong></td><td>udev 规则：HDD→<code>bfq</code>、SATA SSD→<code>mq-deadline</code>、NVMe→<code>kyber</code></td><td>三种都在官方内核</td></tr>
+    <tr><td>3</td><td><strong>THP defrag = defer+madvise</strong></td><td><code>tmpfiles.d</code></td><td>官方内核</td></tr>
+    <tr><td>4</td><td><strong>zram + zstd</strong></td><td><code>zram-config</code> 或 <code>systemd-zram-generator</code>（<strong>需自行启用，Ubuntu 默认不开</strong>）</td><td>官方 universe</td></tr>
+    <tr><td>5</td><td><strong>NTSync</strong></td><td><code>modprobe ntsync</code>（Linux 6.14 起主线，<strong>Ubuntu 26.04 用 Linux 7.0，内核已含</strong>）</td><td>官方内核自带（模块）</td></tr>
+    <tr><td>6</td><td><strong>Gamemode</strong></td><td><code>sudo apt install gamemode</code></td><td><span class="pill p-ok">官方仓库</span>已核实：<strong>1.8.2-2build1</strong> 在 resolute/26.04</td></tr>
+    <tr><td>7</td><td><strong>MangoHud</strong></td><td><code>sudo apt install mangohud</code></td><td><span class="pill p-ok">官方 universe</span>已核实：<strong>0.8.2~rc2-1</strong> 在 resolute/26.04</td></tr>
+    <tr><td>8</td><td><strong>CPU 性能档 / 电源档</strong></td><td><code>powerprofilesctl set performance</code>（Ubuntu 默认 PPD）；或 <code>apt install tuned</code> → <code>tuned-adm profile latency-performance</code></td><td>官方仓库</td></tr>
+    <tr><td>9</td><td><strong>抢占模型选择</strong></td><td>内核 cmdline <code>preempt=full</code>（Ubuntu 内核为 PREEMPT_DYNAMIC）</td><td>官方内核自带</td></tr>
+    <tr><td>10</td><td><strong>EEVDF 调参</strong></td><td><code>kernel.sched_base_slice_ns</code>（默认 base slice 3ms）</td><td>官方内核自带</td></tr>
+    <tr><td>11</td><td><strong>NVIDIA 驱动 / 模块参数</strong></td><td><code>ubuntu-drivers autoinstall</code> 或 <code>apt install nvidia-driver-XXX</code>；参数写 <code>/etc/modprobe.d/</code></td><td><span class="pill p-org">官方仓库</span><strong>Ubuntu 最强项</strong></td></tr>
+    <tr><td>12</td><td><strong>ZFS（含快照）</strong></td><td><code>apt install zfsutils-linux</code>；安装器可选 <strong>ZFS 根</strong>，配合 <code>zfs-auto-snapshot</code></td><td><span class="pill p-org">官方 main 仓库</span></td></tr>
+    <tr><td>13</td><td><strong>SATA max_performance / hdparm / 音频 rtprio</strong></td><td>udev 规则 + <code>hdparm -B 254 -S 0</code> + <code>/etc/security/limits.d/</code></td><td>官方仓库</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="orgbox"><strong>Ubuntu 的加分项：</strong>第 11 条（NVIDIA）与第 12 条（ZFS）是 <strong>Ubuntu 独有的官方优势</strong>——CachyOS 的 NVIDIA 虽在官方仓库，但 Ubuntu 的 <code>ubuntu-drivers</code> 自动化 + <strong>原生 CUDA 集成</strong>体验更好；而 <strong>ZFS 官方支持</strong>是 Ubuntu 在主流发行版中的独门能力。</div>
+
+<h3>5.2 ❌ 无法复现（10 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:250px">CachyOS 的优化策略</th><th>为什么做不到</th><th style="width:200px">需要什么</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>全仓库 x86-64-v3 / v4 重编译</strong></td><td>默认 ISO 是 <strong>amd64（v1）</strong></td><td><strong>amd64v3 实验归档</strong>（Canonical 自有但非默认，26.10 起有 ISO）或自建</td></tr>
+    <tr><td>2</td><td><strong>LTO / PGO / BOLT 预编译包</strong></td><td>属构建产物</td><td>同上</td></tr>
+    <tr><td>3</td><td><strong>sched-ext 调度器（<code>scx-scheds</code>）</strong></td><td>⚠️ <strong>官方仓库无</strong>——sched-ext 官方 INSTALL.md 明确 Ubuntu <strong>需从源码编译</strong></td><td>源码编译（<code>cargo build --release</code>）</td></tr>
+    <tr><td>4</td><td><strong>BORE 调度器内核</strong></td><td>官方无 BORE（非主线）</td><td>自编译</td></tr>
+    <tr><td>5</td><td><strong>BMQ 内核</strong></td><td>同上</td><td>自编译</td></tr>
+    <tr><td>6</td><td><strong>CachyOS 内核补丁集</strong>（<code>CONFIG_CACHY</code>、1000Hz、AutoFDO profile、POC Selector）</td><td>官方内核不含</td><td>自编译</td></tr>
+    <tr><td>7</td><td><strong>1000Hz tick 内核</strong></td><td>官方内核非 1000Hz</td><td>自编译</td></tr>
+    <tr><td>8</td><td><strong>默认 Btrfs 快照回滚</strong></td><td>默认 ext4，无快照</td><td>安装时选 Btrfs/ZFS + 自行配 <code>timeshift</code>/<code>snapper</code>/<code>zfs-auto-snapshot</code></td></tr>
+    <tr><td>9</td><td><strong>CachyOS 专有工具链 / Proton-CachyOS</strong></td><td>不在官方仓库</td><td>PPA / 自建</td></tr>
+    <tr><td>10</td><td><strong>ananicy-cpp</strong></td><td>不在官方仓库</td><td>PPA / 自建</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.3 直接回答你的问题</h3>
+<div class="card tldr">
+  <p style="margin-top:0"><strong>Ubuntu 26.04 在"没有第三方仓库"的前提下，能复现 CachyOS 约 13 项优化</strong>——其中<strong>两项是 Ubuntu 独有的官方优势</strong>：</p>
+  <ol>
+    <li><strong>NVIDIA 驱动</strong>（官方仓库 + <code>ubuntu-drivers</code> + <strong>原生 CUDA 集成</strong>）——比 CachyOS 的预编译模块体验更好</li>
+    <li><strong>ZFS</strong>（官方 <code>main</code> 仓库，安装器可选 ZFS 根 + 快照）</li>
+  </ol>
+  <p>另有 <strong>Gamemode 1.8.2 / MangoHud 0.8.2</strong> 直接在官方仓库、<strong>NTSync</strong> 内核已含（Linux 7.0）、<strong>EEVDF 参数与 <code>preempt=full</code></strong> 可调。</p>
+  <p style="margin-bottom:0"><strong>但 Ubuntu 有两个明显缺口</strong>：① <strong>sched-ext 调度器（<code>scx-scheds</code>）不在官方仓库</strong>——必须<strong>源码编译</strong>（这是 Ubuntu 相对 Arch/openSUSE 的明显劣势）；② <strong>全仓库 v3/v4 重编译</strong>做不到。加上 <strong>BORE / BMQ 内核</strong>必须自编译——这四项就是 CachyOS 在 Ubuntu 上<strong>无法"官方即用"地复现</strong>的部分。</p>
+</div>
+
+<h3>5.4 ★ 五个发行版的"官方仓库能力"横比（实用速查）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:220px">能力</th><th>CachyOS</th><th>Arch</th><th>openSUSE TW</th><th>Fedora</th><th>Ubuntu 26.04</th></tr></thead>
+  <tbody>
+    <tr><td>sched-ext 调度器</td><td>✅ 内置</td><td>✅ <code>scx-scheds</code></td><td>✅ <code>scx</code></td><td>❌ 需 COPR</td><td>❌ <strong>需源码编译</strong></td></tr>
+    <tr><td>游戏工具（gamemode/mangohud）</td><td>✅ meta 包</td><td>✅ extra</td><td>✅ 官方</td><td>✅ 官方</td><td>✅ <strong>官方</strong>（1.8.2 / 0.8.2）</td></tr>
+    <tr><td>Btrfs 快照默认</td><td>⚠️ 需选择</td><td>❌ 需自配</td><td>✅ <strong>默认+GRUB</strong></td><td>❌ 需自配</td><td>❌（但 <strong>ZFS 官方可选</strong>）</td></tr>
+    <tr><td>NVIDIA 专有驱动</td><td>✅ 官方仓库</td><td>✅ extra</td><td>⚠️ NVIDIA 官方仓库</td><td>❌ 需 RPM Fusion</td><td>✅ <strong>官方 + ubuntu-drivers + CUDA</strong></td></tr>
+    <tr><td>ZFS 官方支持</td><td>✅</td><td>✅（官方仓库）</td><td>❌</td><td>❌</td><td>✅ <strong>main 仓库</strong></td></tr>
+    <tr><td>zram 默认启用</td><td>✅</td><td>❌</td><td>❌</td><td>✅</td><td>❌</td></tr>
+    <tr><td>指令集基线</td><td><strong>v3/v4</strong></td><td>v1</td><td><strong>v2</strong></td><td>v1</td><td>v1（amd64v3 实验）</td></tr>
+    <tr><td>内核版本</td><td>最新</td><td>最新</td><td>最新</td><td>最新</td><td><strong>Linux 7.0</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox">
+  <strong>读数：</strong>
+  <ul style="margin-bottom:0">
+    <li><strong>Ubuntu 在"官方仓库能力"上呈现明显的两极</strong>：<strong>NVIDIA 与 ZFS 是五者中最好的</strong>（甚至优于 CachyOS），但 <strong>sched-ext 是五者中最差的（连 Fedora 都不如）</strong>。</li>
+    <li><strong>指令集基线最低档</strong>（v1，与 Arch/Fedora 同）——这是它性能落后 3.8% 的主因。</li>
+    <li><strong>内核版本并不落后</strong>（Linux 7.0），所以差距没有被进一步拉大。</li>
+  </ul>
+</div>
+
+<h2>6. 参考来源</h2>
+<div class="card refs">
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（Ubuntu 26.04 LTS vs Windows 11 vs CachyOS / amd64v3 系列）</a>
+  <a href="https://g.pconline.com.cn/x/2178/21789100.html">太平洋科技 —《Windows真不差：实测 AI 性能 3.4 倍碾压 Linux》（99 项 geomean：CachyOS 76.19 / Win11 76.12 / Ubuntu 26.04 LTS 73.38）</a>
+  <a href="https://post.smzdm.com/p/a6zdp68o/">什么值得买 —《CS2低帧暴涨20%、99项测试赢51项》</a>
+  <a href="https://www.ithome.com/0/790/322.htm">IT之家 —《哪个 Linux 发行版最能发挥 AMD 锐龙 9 9950X 处理器实力？59 项实测》</a>
+  <a href="https://soft.ithome.com/archiver/0/943/001.htm">IT之家 — Ubuntu 26.04 LTS 发布：原生集成 NVIDIA CUDA，内存要求提至 6GB（Linux 7.0 + Mesa 26.0.x + 仅 Wayland）</a>
+  <a href="https://kubuntu.org/news/kubuntu-26-04-release-notes/">Kubuntu 26.04 LTS Release Notes（基于 Linux kernel 7.0）</a>
+  <a href="https://developer.aliyun.com/article/1730855">阿里云开发者社区 — Ubuntu 26.04 LTS (Resolute Raccoon) 正式版发布（Linux 内核 7.0 + GNOME 50）</a>
+  <a href="https://github.com/sched-ext/scx/blob/main/INSTALL.md">sched-ext/scx — INSTALL.md（Ubuntu 需源码编译；openSUSE 官方含 scx；Fedora 需 COPR；Arch 官方 scx-scheds）</a>
+  <a href="https://packages.ubuntu.com/search?keywords=gamemode">Ubuntu Packages — gamemode（resolute/26.04 LTS：1.8.2-2build1）</a>
+  <a href="https://packages.ubuntu.com/search?keywords=mangohud">Ubuntu Packages — mangohud（resolute/26.04 LTS：0.8.2~rc2-1，universe）</a>
+  <a href="https://baijiahao.baidu.com/s?id=1859512162622176649&wfr=spider&for=pc">Phoronix/IT之家 — Ubuntu 26.04 游戏性能最高提升 12%（RTX 5090 实测）</a>
+  <a href="https://blog.csdn.net/xiangxianghehe/article/details/158284560">CSDN — Ubuntu 26.04 LTS 新特性前瞻（amd64v3 可选包说明）</a>
+  <a href="https://www.iplaysoft.com/?post_type=xpost&p=6534">异次元软件 — Ubuntu 26.04 LTS 新功能汇总（AMD64v3 架构变体）</a>
+  <a href="https://blog.csdn.net/weixin_30225755/article/details/165316648">CSDN — Ubuntu 26.04 LTS 安装指南（默认 ext4，Btrfs 可选）</a>
+  <a href="https://baike.baidu.com/item/Ubuntu%2026.04/67513823">百度百科 — Ubuntu 26.04（10 年支持、发布计划）</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">CachyOS 官方 Wiki — Why CachyOS?</a>
+  <a href="https://wiki.cachyos.org/features/kernel">CachyOS 官方 Wiki — Kernel</a>
+  <a href="https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html">Linux Kernel 文档 — /proc/sys/kernel/</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：Phoronix（含太平洋科技/IT之家对其的转述）、Ubuntu 官方包页（packages.ubuntu.com）、Kubuntu 官方 release notes、sched-ext 官方 INSTALL.md、CachyOS 官方 Wiki 为一手来源；CSDN、异次元、百度百科为二手转述。<strong>需注意</strong>：Ubuntu 26.04 的内核版本在不同来源间存在分歧（早期预览文章称 Linux 6.18，发布时官方与 IT之家均称 <strong>Linux 7.0</strong>）——本报告采信发布时的官方口径。</p>
+  <p>报告生成于 2026-10-16 ｜ Head-to-Head · CachyOS vs Ubuntu 26.04 LTS</p>
+</footer>
+
+</div>
+</body>
+</html>

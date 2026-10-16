@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS vs NixOS 26.05 深度对比</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf; --cyan:#53d3e8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cyan);background:rgba(83,211,232,.1);border:1px solid rgba(83,211,232,.3);padding:5px 12px;border-radius:999px}
+  h1{font-size:34px;line-height:1.24;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#53d3e8);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:900px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:32px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#9fd0ff}
+  pre{background:#0a0e13;border:1px solid var(--line);border-radius:10px;padding:13px 16px;overflow:auto;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#a8d4ff;font-size:12.8px;line-height:1.7}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(83,211,232,.08));border:1px solid rgba(83,211,232,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.2px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:12.5px}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle;white-space:nowrap}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .p-cyan{color:#8fe6f5;border-color:rgba(83,211,232,.45);background:rgba(83,211,232,.1)}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .infobox{border-left:3px solid var(--acc);background:rgba(78,161,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .cyanbox{border-left:3px solid var(--cyan);background:rgba(83,211,232,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .scroll{overflow-x:auto}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){h1{font-size:26px}.wrap{padding:32px 16px 64px}.cols{grid-template-columns:1fr}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Head-to-Head · CachyOS vs NixOS 26.05</span>
+  <h1>CachyOS <span class="grad">vs NixOS 26.05</span> 深度对比</h1>
+  <p class="sub">全面比较 · 结果分析 · 差异原因 · 差异为何不突出 · <strong>以及：在没有第三方仓库的前提下，NixOS 26.05 能复现 CachyOS 的哪些优化策略？</strong></p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">NixOS 26.05「Yarara」</span>
+    <span class="chip">含 13 项可复现清单</span>
+    <span class="chip">含六发行版总横比</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">一句话结论</h3>
+  <p style="margin-bottom:0"><strong>NixOS 是六者中"证据最弱、定位最不同"的一个</strong>——它从不在性能上竞争，卖点是<strong>声明式配置与原子回滚</strong>。但它有个反直觉的发现：<strong>sched-ext 调度器与 NVIDIA 驱动都是官方 nixpkgs 原生支持</strong>（比 Fedora 省事），<strong>唯一真正做不到的是"全仓库 v3 重编译"</strong>——虽然 nixpkgs 在<strong>配置上支持</strong> <code>x86_64-v3-linux</code>，但那意味着<strong>几乎全部包都要本地编译</strong>。</p>
+</div>
+
+<h2>0. 结论速览</h2>
+<table>
+  <thead><tr><th style="width:190px">问题</th><th>答案</th></tr></thead>
+  <tbody>
+    <tr><td><strong>谁更快？</strong></td><td><strong>无法确证</strong>——⚠️ <strong>Phoronix 从未做过包含 NixOS 的发行版横评</strong>，本报告结论<strong>全部基于结构性推断</strong></td></tr>
+    <tr><td><strong>结构性判断</strong></td><td>NixOS 官方缓存是<strong>通用 x86_64 构建（v1 档）</strong>，与 Arch/Fedora/Ubuntu 同档，落后 CachyOS 的 v3/v4</td></tr>
+    <tr><td><strong>NixOS 反而更强的地方？</strong></td><td><strong>sched-ext 官方声明式支持</strong>（<code>services.scx.enable</code>）；<strong>NVIDIA 驱动官方 nixpkgs 支持（无需第三方仓库）</strong>；<strong>generations 原子回滚</strong>（比 Btrfs 快照更彻底）</td></tr>
+    <tr><td><strong>最大短板？</strong></td><td><strong>官方二进制缓存不提供 CPU 优化构建</strong>；要 v3 必须<strong>全量本地编译</strong>；无 BORE/BMQ 内核；默认 LTS 内核</td></tr>
+    <tr><td><strong>差异为何不突出？</strong></td><td>NixOS 的内核可自由切换、scx 官方可用；且它<strong>根本不以性能为卖点</strong>——卖点是可复现性</td></tr>
+    <tr><td><strong>纯官方 NixOS 能复现多少？</strong></td><td><strong>约 13 项可复现</strong>（且多为<strong>声明式一行配置</strong>）；<strong>全仓库 v3 重编译、BORE/BMQ 内核</strong>做不到</td></tr>
+  </tbody>
+</table>
+
+<h2>1. 全面比较</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:130px">维度</th><th>CachyOS</th><th>NixOS 26.05「Yarara」</th></tr></thead>
+  <tbody>
+    <tr><td><strong>上游</strong></td><td>Arch Linux（下游再发行）</td><td>独立发行版（NixOS 项目）</td></tr>
+    <tr><td><strong>发布模型</strong></td><td>滚动</td><td><strong>半年一版</strong>（26.05 于 2026-05-30 发布，支持至 <strong>2026-12-31</strong>）</td></tr>
+    <tr><td><strong>核心理念</strong></td><td>性能优先</td><td><strong>声明式配置 + 可复现 + 原子回滚</strong></td></tr>
+    <tr><td><strong>配置方式</strong></td><td>命令式（改 <code>/etc</code>、装包）</td><td><strong>声明式（<code>configuration.nix</code>，配置即代码）</strong></td></tr>
+    <tr><td><strong>指令集基线</strong></td><td><span class="pill p-ok">v3 / v4 / znver4</span></td><td><span class="pill p-bad">通用 x86_64（v1 档）</span><br><span class="dim">nixpkgs 另有 v1/v2/v3 system type</span></td></tr>
+    <tr><td><strong>二进制缓存</strong></td><td>自建 v3/v4 仓库</td><td><strong>cache.nixos.org（通用构建）</strong></td></tr>
+    <tr><td><strong>编译优化</strong></td><td>LTO + PGO + BOLT + AutoFDO</td><td>无系统性 PGO/BOLT</td></tr>
+    <tr><td><strong>内核</strong></td><td>自研 <code>linux-cachyos</code>（BORE/EEVDF/BMQ/RT…）</td><td>默认 <strong><code>linuxPackages</code>（LTS）</strong>；可切 <code>linuxPackages_latest</code> 等<strong>任意版本</strong></td></tr>
+    <tr><td><strong>调度器</strong></td><td>BORE / BMQ / sched-ext / RT</td><td>EEVDF；<strong>sched-ext 官方声明式支持</strong> ✅</td></tr>
+    <tr><td><strong>默认文件系统</strong></td><td>Btrfs + 快照</td><td><strong>ext4</strong>（安装器可配 Btrfs）</td></tr>
+    <tr><td><strong>回滚机制</strong></td><td>Btrfs 快照</td><td><strong>generations（原子、声明式，可选启动项）</strong> ✅</td></tr>
+    <tr><td><strong>安全默认</strong></td><td>常规</td><td>无强制 MAC 默认（可选 AppArmor/SELinux）</td></tr>
+    <tr><td><strong>NVIDIA 驱动</strong></td><td>官方仓库预编译模块</td><td><strong><code>services.xserver.videoDrivers = ["nvidia"]</code>（官方 nixpkgs，需 allowUnfree）</strong> ✅</td></tr>
+    <tr><td><strong>游戏工具</strong></td><td><code>cachyos-gaming-meta</code></td><td><code>programs.steam.enable</code>；gamemode / mangohud / lutris 在 nixpkgs</td></tr>
+    <tr><td><strong>包数量</strong></td><td>Arch + AUR（20 万+）</td><td><strong>nixpkgs 12 万+</strong>（26.05 新增 20442、移除 17532）</td></tr>
+    <tr><td><strong>本版亮点</strong></td><td>—</td><td><strong>systemd stage 1 成为默认</strong>；GNOME 50；<strong>GCC 15</strong>；LLVM 21；x86_64-darwin 弃用</td></tr>
+    <tr><td><strong>贡献规模</strong></td><td>核心约 9 人</td><td><strong>2842 名贡献者 / 59703 commits（单版）</strong></td></tr>
+    <tr><td><strong>学习曲线</strong></td><td>中等（Arch 系）</td><td><strong>陡峭（需学 Nix 语言）</strong></td></tr>
+    <tr><td><strong>治理</strong></td><td>社区小团队</td><td>NixOS 基金会 + 正式 RFC 流程</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox"><strong>关系本质：</strong>两者<strong>没有血缘关系</strong>，且<strong>目标完全不同</strong>——CachyOS 追求"<strong>开箱最快</strong>"，NixOS 追求"<strong>配置可复现、系统可原子回滚</strong>"。<strong>性能从来不是 NixOS 的竞争维度</strong>，这是理解本对比的前提。</div>
+
+<h2>2. 结果分析</h2>
+
+<h3>2.1 ⚠️ 证据缺口：NixOS 是六者中证据最弱的</h3>
+<table>
+  <thead><tr><th style="width:470px">评测</th><th>是否含 NixOS</th></tr></thead>
+  <tbody>
+    <tr><td>Phoronix Ryzen 9 9950X，6 发行版，59 项（2024-08）</td><td>❌</td></tr>
+    <tr><td>Phoronix Framework Laptop 13 Pro，6 发行版（2026-08）</td><td>❌</td></tr>
+    <tr><td>Phoronix Razer Blade 18 三系统（2026-07）</td><td>❌</td></tr>
+    <tr><td>Phoronix HP Dev One，6 发行版（2022-06）</td><td>❌</td></tr>
+    <tr><td><strong>Phoronix 全部发行版横评</strong></td><td><strong>❌ 从未包含 NixOS</strong></td></tr>
+  </tbody>
+</table>
+<div class="badbox">→ <strong>本报告关于 NixOS 性能的结论全部基于结构性推断，置信度最低。</strong> 请把下面的判断当作"原理推演"，而非"实测排名"。</div>
+
+<h3>2.2 结构性推断</h3>
+<table>
+  <thead><tr><th style="width:110px">维度</th><th>判断</th><th style="width:280px">依据</th></tr></thead>
+  <tbody>
+    <tr><td>指令集</td><td><strong>通用 x86_64（v1 档）</strong>——与 Arch/Fedora/Ubuntu 同档，落后 CachyOS</td><td>官方缓存 <code>cache.nixos.org</code> 为通用构建</td></tr>
+    <tr><td>编译优化</td><td>无系统性 PGO/BOLT</td><td>nixpkgs 构建策略</td></tr>
+    <tr><td>内核</td><td><strong>默认 LTS</strong>（较旧）；但<strong>可自由切到 latest</strong></td><td><code>boot.kernelPackages</code></td></tr>
+    <tr><td>调度器</td><td><strong>scx 官方声明式可用</strong>——与 Arch/openSUSE 同档，<strong>强于 Fedora 与 Ubuntu</strong></td><td>sched-ext 官方 INSTALL.md</td></tr>
+    <tr><td>回滚</td><td><strong>generations 原子回滚</strong>——<strong>强于所有对手</strong></td><td>NixOS 核心机制</td></tr>
+  </tbody>
+</table>
+<div class="okbox"><strong>综合判断：</strong>NixOS 的<strong>默认性能档位大致与 Arch/Fedora/Ubuntu 同档（v1 档）</strong>，落后 CachyOS 若干个百分点；但它的<strong>内核可自由切换</strong>、<strong>scx 官方可用</strong>，所以<strong>用户有充分手段自行补齐</strong>。它的真正价值在<strong>性能之外的维度</strong>。</div>
+
+<h2>3. 差异的原因</h2>
+
+<h3>3.1 编译层 —— CachyOS 的最大优势，也是 NixOS 的最大结构性劣势</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>NixOS 26.05</th><th>CachyOS</th><th style="width:150px">影响</th></tr></thead>
+  <tbody>
+    <tr><td>指令集基线</td><td><strong>通用 <code>x86_64-linux</code>（v1）</strong></td><td><code>v3</code>/<code>v4</code>/<code>znver4</code></td><td><strong>CPU 密集 2–8%</strong></td></tr>
+    <tr><td>LTO</td><td>部分包</td><td>全栈 ThinLTO</td><td>1–3%</td></tr>
+    <tr><td>PGO</td><td>无</td><td>核心包 + 内核 AutoFDO</td><td>1–4%</td></tr>
+    <tr><td>BOLT</td><td>无</td><td>核心包</td><td>1–3%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="warnbox">
+  <strong>关键机制：</strong>nixpkgs <strong>原生支持</strong> <code>x86_64-v1-linux</code> / <code>x86_64-v2-linux</code> / <code>x86_64-v3-linux</code> 作为 system type，所以<strong>配置层面你可以启用 v3</strong>。<strong>但官方二进制缓存只提供通用 <code>x86_64-linux</code> 构建</strong>——一旦改成 v3，<strong>几乎全部包都要在本地重新编译</strong>（可能数小时到数天），且<strong>无法再从官方缓存下载</strong>。<br><br>
+  <strong>这就是 NixOS 与 CachyOS 的本质差异：CachyOS 提供现成的 v3/v4 二进制仓库，NixOS 提供"能编译 v3 的能力"但不提供现成产物。</strong>
+</div>
+
+<h3>3.2 内核层 —— NixOS 有弹性，但默认保守</h3>
+<table>
+  <thead><tr><th style="width:150px">项</th><th>NixOS 26.05</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>默认内核</td><td><strong><code>linuxPackages</code>（LTS，较旧）</strong></td><td>跟随 Arch（较新）</td></tr>
+    <tr><td>可切换性</td><td>✅ <strong>任意版本</strong>（<code>linuxPackages_latest</code>、<code>_rt</code>、<code>_hardened</code>…）</td><td>✅ 多种变体</td></tr>
+    <tr><td>调度器</td><td>EEVDF + <strong>scx 官方声明式</strong> ✅</td><td>EEVDF 调参 / <strong>BORE</strong> / <strong>BMQ</strong> / RT</td></tr>
+    <tr><td>BORE/BMQ</td><td>❌ 无</td><td>✅ 内置</td></tr>
+    <tr><td>Tick rate</td><td>常规</td><td><strong>1000Hz</strong></td></tr>
+    <tr><td>AutoFDO</td><td>无</td><td>有</td></tr>
+  </tbody>
+</table>
+
+<h3>3.3 系统 / 默认配置层 —— NixOS 全部"声明式"</h3>
+<table>
+  <thead><tr><th style="width:130px">项</th><th>NixOS 26.05</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>sysctl</td><td><strong><code>boot.kernel.sysctl = { ... }</code>（声明式）</strong></td><td><code>/etc/sysctl.d/</code>（命令式）</td></tr>
+    <tr><td>内核参数</td><td><strong><code>boot.kernelParams = [ ... ]</code></strong></td><td>引导器配置</td></tr>
+    <tr><td>zram</td><td><strong><code>zramSwap.enable = true;</code></strong></td><td>配置文件</td></tr>
+    <tr><td>回滚</td><td><strong>generations（原子）</strong> ✅</td><td>Btrfs 快照</td></tr>
+    <tr><td>文件系统</td><td>ext4 默认</td><td>Btrfs + 快照</td></tr>
+    <tr><td>本版变化</td><td><strong>systemd stage 1 成为默认</strong>（initrd 现代化）</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h3>3.4 生态层</h3>
+<table>
+  <thead><tr><th style="width:150px">项</th><th>NixOS 26.05</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td><strong>NVIDIA 驱动</strong></td><td>✅ <strong>官方 nixpkgs（<code>videoDrivers = ["nvidia"]</code>，需 allowUnfree）</strong></td><td>官方仓库预编译模块</td></tr>
+    <tr><td>游戏工具</td><td>nixpkgs（<code>programs.steam.enable</code>、gamemode、mangohud、lutris）</td><td>meta 包一键装</td></tr>
+    <tr><td>专有软件</td><td>官方支持（需 allowUnfree）</td><td>AUR</td></tr>
+    <tr><td>第三方生态</td><td><strong>Flakes（nix-gaming、nixos-hardware 等）</strong></td><td>AUR（20 万+）</td></tr>
+    <tr><td>可复现性</td><td><strong>★★★★★（配置即代码）</strong></td><td>★★</td></tr>
+  </tbody>
+</table>
+
+<h2>4. 差异"没突出"的原因</h2>
+<ol>
+  <li><strong>NixOS 根本不以性能为卖点</strong>：它的核心价值是<strong>声明式、可复现、原子回滚</strong>——性能不在它的竞争清单上。这是"差异不突出"的<strong>最根本原因</strong>。</li>
+  <li><strong>内核可自由切换</strong>：<code>boot.kernelPackages = pkgs.linuxPackages_latest</code> 一行就能拿到与 CachyOS 同代的内核——"内核红利"可自取。</li>
+  <li><strong>scx 官方可用</strong>：NixOS 在<strong>调度器实验这一层不落后</strong>（比 Fedora、Ubuntu 都强）。</li>
+  <li><strong>NVIDIA 无需第三方仓库</strong>：比 Fedora（需 RPM Fusion）省事，接近 Arch/CachyOS 的体验。</li>
+  <li><strong>官方缓存是通用构建</strong>：这是 NixOS 唯一"结构性吃亏"的点，但它是<strong>可复现性的代价</strong>——为了"同一份配置在所有机器上得到同一个系统"，必须用通用二进制。</li>
+  <li><strong>瓶颈不在 CPU</strong>（Amdahl 定律）：4K 游戏 GPU 受限、桌面受 IO/网络限制。</li>
+  <li><strong>测量噪声同量级</strong>：run-to-run 方差常有 1–3%。</li>
+  <li><strong>部分"优化"是取舍</strong>：激进电源档是<strong>用功耗/续航换响应</strong>。</li>
+</ol>
+
+<h2>5. 纯官方 NixOS 26.05 能复现哪些优化策略？</h2>
+<div class="infobox"><strong>前提界定：</strong>"第三方仓库"指<strong>第三方 Flake / Cachix 缓存 / 外部 overlay</strong>等。<strong>nixpkgs 官方仓库 + cache.nixos.org 视为官方</strong>。</div>
+
+<h3>5.1 ✅ 可以复现（13 项，且几乎全是"声明式一行"）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:190px">CachyOS 的优化策略</th><th>纯 NixOS 复现方法（写进 <code>configuration.nix</code>）</th><th style="width:170px">来源</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>可插拔调度器（sched-ext）</strong></td><td><pre><code>services.scx.enable = true;
+services.scx.scheduler = "scx_lavd";
+boot.kernelPackages = pkgs.linuxPackages_latest;</code></pre></td><td><span class="pill p-cyan">官方 nixpkgs</span>（24.11 起）<strong>声明式</strong>，比 CachyOS 手动切换更规范</td></tr>
+    <tr><td>2</td><td><strong>NVIDIA 驱动</strong></td><td><pre><code>services.xserver.videoDrivers = [ "nvidia" ];
+hardware.nvidia.modesetting.enable = true;</code></pre><span class="dim">（需 nixpkgs.config.allowUnfree = true）</span></td><td><span class="pill p-cyan">官方 nixpkgs</span><strong>无需第三方仓库</strong></td></tr>
+    <tr><td>3</td><td><strong>游戏工具</strong></td><td><code>programs.steam.enable = true;</code> + <code>environment.systemPackages = [ pkgs.gamemode pkgs.mangohud pkgs.lutris ];</code></td><td>官方 nixpkgs</td></tr>
+    <tr><td>4</td><td><strong>CPU 性能档</strong></td><td><code>services.power-profiles-daemon.enable = true;</code>（或 <code>services.tuned.enable = true;</code>）</td><td>官方模块</td></tr>
+    <tr><td>5</td><td><strong>全套 sysctl</strong></td><td><code>boot.kernel.sysctl = { "vm.swappiness" = 100; "kernel.nmi_watchdog" = 0; ... };</code></td><td>官方内核</td></tr>
+    <tr><td>6</td><td><strong>内核启动参数</strong></td><td><code>boot.kernelParams = [ "preempt=full" ];</code></td><td>官方内核</td></tr>
+    <tr><td>7</td><td><strong>zram + zstd</strong></td><td><code>zramSwap.enable = true;</code></td><td>官方模块</td></tr>
+    <tr><td>8</td><td><strong>THP defrag</strong></td><td>通过 <code>boot.kernel.sysctl</code> 或 tmpfiles</td><td>官方内核</td></tr>
+    <tr><td>9</td><td><strong>I/O 调度器按设备分配</strong></td><td><code>services.udev.extraRules = '' ... '';</code></td><td>官方内核</td></tr>
+    <tr><td>10</td><td><strong>NTSync</strong></td><td><code>boot.kernelModules = [ "ntsync" ];</code>（Linux 6.14 起主线）</td><td>官方内核</td></tr>
+    <tr><td>11</td><td><strong>EEVDF 调参</strong></td><td><code>boot.kernel.sysctl."kernel.sched_base_slice_ns" = 3000000;</code></td><td>官方内核</td></tr>
+    <tr><td>12</td><td><strong>快照 / 回滚</strong></td><td><strong>generations 原子回滚</strong>（<code>nixos-rebuild --rollback</code>，或启动菜单选上一代）</td><td><span class="pill p-cyan">NixOS 核心机制</span><strong>强于 Btrfs 快照</strong></td></tr>
+    <tr><td>13</td><td><strong>任意内核版本</strong></td><td><code>boot.kernelPackages = pkgs.linuxPackages_latest;</code>（或 <code>_rt</code> / <code>_hardened</code>）</td><td>官方 nixpkgs</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="cyanbox"><strong>NixOS 的加分项：</strong>第 1、2、12 项——<strong>sched-ext 与 NVIDIA 都是官方支持</strong>（比 Fedora 省事），<strong>generations 回滚比 Btrfs 快照更彻底</strong>（整个系统状态原子切换，不依赖文件系统）。而且<strong>全部通过配置文件声明</strong>，可版本控制、可复现。</div>
+
+<h3>5.2 ❌ 无法复现（8 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:240px">CachyOS 的优化策略</th><th>为什么做不到</th><th style="width:190px">需要什么</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>现成的全仓库 x86-64-v3 / v4 二进制</strong></td><td>⚠️ <strong>官方缓存 <code>cache.nixos.org</code> 只提供通用 <code>x86_64-linux</code>（v1）构建</strong></td><td><strong>本地全量重编译</strong>（配置上支持，见下注）或第三方 Cachix</td></tr>
+    <tr><td>2</td><td><strong>LTO / PGO / BOLT 预编译包</strong></td><td>无系统性优化构建</td><td>本地重编译</td></tr>
+    <tr><td>3</td><td><strong>BORE 调度器内核</strong></td><td>nixpkgs 无 BORE（非主线）</td><td>第三方 Flake / 自建内核</td></tr>
+    <tr><td>4</td><td><strong>BMQ 内核</strong></td><td>同上</td><td>同上</td></tr>
+    <tr><td>5</td><td><strong>1000Hz + AutoFDO 内核</strong></td><td>官方内核无这些配置</td><td>自建内核</td></tr>
+    <tr><td>6</td><td><strong>CachyOS 工具链 / Proton-CachyOS</strong></td><td>不在 nixpkgs</td><td>第三方 Flake（如 <code>nix-gaming</code>）</td></tr>
+    <tr><td>7</td><td><strong>ananicy-cpp</strong></td><td>不在 nixpkgs</td><td>第三方 Flake / overlay</td></tr>
+    <tr><td>8</td><td><strong>预编译 NVIDIA 模块（免本地构建）</strong></td><td>内核非官方标准版本时需本地构建模块</td><td>用官方缓存内核版本，或本地构建</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="warnbox"><strong>⚠️ 关于第 1 条的重要澄清：</strong><strong>nixpkgs 在配置层面原生支持 <code>x86_64-v3-linux</code></strong>（<code>nix-env</code> 会列出 <code>Additional system types: ... x86_64-v3-linux</code>），你可以通过 <code>nixpkgs.hostPlatform</code> 与 <code>gcc.arch = "x86-64-v3"</code> 启用。<strong>但官方缓存不提供 v3 产物</strong>——一旦启用，<strong>几乎全部包都要本地编译</strong>，代价是数小时到数天的构建时间 + 磁盘空间。<br><strong>所以准确表述是：NixOS "能编译 v3"，但不"提供现成的 v3 二进制"。</strong>这与 CachyOS 的现成 v3/v4 仓库是<strong>工程便利性</strong>上的本质差别。</div>
+
+<h3>5.3 直接回答你的问题</h3>
+<div class="card tldr">
+  <p style="margin-top:0"><strong>NixOS 26.05 在"没有第三方仓库"的前提下，能复现 CachyOS 约 13 项优化</strong>——而且<strong>几乎每一项都是 <code>configuration.nix</code> 里的一行声明</strong>，可版本控制、可复现、可原子回滚。</p>
+  <p>其中<strong>三项是 NixOS 的相对优势</strong>：</p>
+  <ol>
+    <li><strong>sched-ext 调度器</strong>（<code>services.scx.enable</code>）——<strong>官方 nixpkgs 原生支持</strong>（比 Fedora 的 COPR、Ubuntu 的源码编译都省事）</li>
+    <li><strong>NVIDIA 驱动</strong>（<code>videoDrivers = ["nvidia"]</code>）——<strong>官方 nixpkgs</strong>，无需第三方仓库</li>
+    <li><strong>generations 原子回滚</strong>——比 CachyOS 的 Btrfs 快照更彻底</li>
+  </ol>
+  <p style="margin-bottom:0"><strong>唯一真正做不到的是"全仓库 v3/v4 重编译"</strong>：nixpkgs <strong>配置上支持</strong> <code>x86_64-v3-linux</code>，但<strong>官方缓存只提供通用构建</strong>，启用 v3 意味着<strong>几乎全部包都要本地编译</strong>。加上 <strong>BORE / BMQ 内核</strong>必须自建——这两项是 CachyOS 在 NixOS 上<strong>无法"官方即用"地复现</strong>的部分。</p>
+</div>
+
+<h3>5.4 ★ 六个发行版的"官方仓库能力"总横比（实用速查）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:180px">能力</th><th>CachyOS</th><th>Arch</th><th>openSUSE TW</th><th>Fedora</th><th>Ubuntu 26.04</th><th>NixOS 26.05</th></tr></thead>
+  <tbody>
+    <tr><td>sched-ext 调度器</td><td>✅ 内置</td><td>✅ <code>scx-scheds</code></td><td>✅ <code>scx</code></td><td>❌ 需 COPR</td><td>❌ 需源码编译</td><td>✅ <strong><code>services.scx</code></strong></td></tr>
+    <tr><td>游戏工具</td><td>✅ meta 包</td><td>✅ extra</td><td>✅ 官方</td><td>✅ 官方</td><td>✅ 官方</td><td>✅ <strong>nixpkgs</strong></td></tr>
+    <tr><td>默认快照/回滚</td><td>⚠️ 需选择</td><td>❌ 需自配</td><td>✅ <strong>默认+GRUB</strong></td><td>❌ 需自配</td><td>❌（ZFS 可选）</td><td>✅ <strong>generations 原子回滚</strong></td></tr>
+    <tr><td>NVIDIA 专有驱动</td><td>✅ 官方</td><td>✅ extra</td><td>⚠️ NVIDIA 官方仓库</td><td>❌ 需 RPM Fusion</td><td>✅ 官方+CUDA</td><td>✅ <strong>官方 nixpkgs</strong></td></tr>
+    <tr><td>ZFS 官方支持</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>✅ <strong>main 仓库</strong></td><td>✅</td></tr>
+    <tr><td>zram 默认启用</td><td>✅</td><td>❌</td><td>❌</td><td>✅</td><td>❌</td><td>❌（一行可开）</td></tr>
+    <tr><td><strong>指令集基线</strong></td><td><strong>v3/v4</strong></td><td>v1</td><td><strong>v2</strong></td><td>v1</td><td>v1（实验 v3）</td><td><strong>v1（配置可切 v3，需全量编译）</strong></td></tr>
+    <tr><td>内核版本自由度</td><td>多种变体</td><td>多种</td><td>多种</td><td>较新</td><td>Linux 7.0</td><td><strong>任意版本</strong></td></tr>
+    <tr><td>可复现性</td><td>★★</td><td>★★</td><td>★★★</td><td>★★★</td><td>★★★</td><td><strong>★★★★★</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox">
+  <strong>读数：</strong>
+  <ul style="margin-bottom:0">
+    <li><strong>NixOS 在"官方仓库能力"上并不弱</strong>——sched-ext、NVIDIA、游戏工具全在官方，<strong>回滚机制是六者中最强的</strong>。它的唯一结构性劣势是<strong>"官方缓存不提供 CPU 优化构建"</strong>。</li>
+    <li><strong>NixOS 与 CachyOS 的对比本质不是"性能之争"，而是"极致性能 vs 极致可复现"的取舍。</strong></li>
+  </ul>
+</div>
+
+<h2>6. 参考来源</h2>
+<div class="card refs">
+  <a href="https://nixos.org/blog/announcements/2026/nixos-2605/">NixOS 官方博客 — NixOS 26.05 released（2026-05-30；systemd stage 1 默认、GNOME 50、GCC 15、2842 贡献者 / 59703 commits）</a>
+  <a href="https://github.com/sched-ext/scx/blob/main/INSTALL.md">sched-ext/scx — INSTALL.md（NixOS 24.11+ 官方：<code>services.scx.enable</code>）</a>
+  <a href="https://github.com/NixOS/nixpkgs/issues/384035">NixOS/nixpkgs Issue #384035（<code>Additional system types: x86_64-v1-linux, x86_64-v2-linux, x86_64-v3-linux</code>）</a>
+  <a href="https://github.com/NixOS/nixpkgs/issues/342989">NixOS/nixpkgs Issue #342989（<code>services.power-profiles-daemon.enable</code>）</a>
+  <a href="https://github.com/NixOS/nixpkgs/issues/467814">NixOS/nixpkgs Issue #467814（NVIDIA 内核模块由 nixpkgs 提供）</a>
+  <a href="https://nixos.org/manual/nixos/stable/release-notes">NixOS 官方手册 — NixOS 26.05 Release Notes</a>
+  <a href="https://nixos.org/manual/nixpkgs/stable/release-notes">NixOS 官方手册 — Nixpkgs 26.05 Release Notes</a>
+  <a href="https://blog.csdn.net/techforward/article/details/161599018">CSDN — NixOS 26.05 "Yarara" 正式发布（版本支持情况）</a>
+  <a href="https://www.chenxutan.com/d/3099.html">程序员茄子 — NixOS 26.05 "Yarara" 深度实战（<code>boot.kernelPackages</code> 默认 LTS / latest）</a>
+  <a href="https://blog.csdn.net/gitblog_00456/article/details/152106889">CSDN — NixOS 硬件支持详解（<code>services.xserver.videoDrivers = ["nvidia"]</code>）</a>
+  <a href="https://101.lug.ustc.edu.cn/Appendix/distribution/">USTC Linux 101 — 其他的 Linux 发行版：技术差异简介</a>
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（确认：所有发行版横评均未包含 NixOS）</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">CachyOS 官方 Wiki — Why CachyOS?</a>
+  <a href="https://wiki.cachyos.org/features/kernel">CachyOS 官方 Wiki — Kernel</a>
+  <a href="https://wiki.cachyos.org/configuration/sched-ext/">CachyOS 官方 Wiki — sched-ext 使用指南</a>
+  <a href="https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html">Linux Kernel 文档 — /proc/sys/kernel/</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：NixOS 官方博客与官方手册、sched-ext 官方 INSTALL.md、NixOS/nixpkgs 官方 Issue 为一手来源；CSDN、程序员茄子为二手转述。</p>
+  <p><strong>⚠️ 最重要的证据声明</strong>：<strong>Phoronix 从未发布过包含 NixOS 的发行版性能横评</strong>。本报告对 NixOS 的性能判断<strong>全部基于结构性推断</strong>（官方缓存为通用构建、无系统性 PGO/BOLT、默认 LTS 内核），<strong>没有任何同机实测数据支撑</strong>——置信度是六个对比对象中最低的。</p>
+  <p>报告生成于 2026-10-16 ｜ Head-to-Head · CachyOS vs NixOS 26.05</p>
+</footer>
+
+</div>
+</body>
+</html>

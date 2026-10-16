@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS vs openSUSE 深度对比</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.28);padding:5px 12px;border-radius:999px}
+  h1{font-size:34px;line-height:1.24;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#ff7ab2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:900px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:32px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#9fd0ff}
+  pre{background:#0a0e13;border:1px solid var(--line);border-radius:10px;padding:13px 16px;overflow:auto;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#a8d4ff;font-size:12.8px}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(124,92,255,.08));border:1px solid rgba(124,92,255,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.4px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:12.6px}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle;white-space:nowrap}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .infobox{border-left:3px solid var(--acc);background:rgba(78,161,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .bar{height:20px;border-radius:6px;background:linear-gradient(90deg,#4ea1ff,#7c5cff);display:inline-block;vertical-align:middle;margin-right:10px}
+  .barwrap{display:flex;align-items:center;margin:7px 0;font-size:13.2px}
+  .barwrap .lbl{width:230px;flex:0 0 230px;color:#cfd9e4}
+  .scroll{overflow-x:auto}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){h1{font-size:26px}.wrap{padding:32px 16px 64px}.barwrap .lbl{width:140px;flex:0 0 140px}.cols{grid-template-columns:1fr}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Head-to-Head · CachyOS vs openSUSE</span>
+  <h1>CachyOS <span class="grad">vs openSUSE</span> 深度对比</h1>
+  <p class="sub">全面比较 · 结果分析 · 差异原因 · 差异为何不突出 · <strong>以及：在没有第三方仓库的前提下，openSUSE 能复现 CachyOS 的哪些优化策略？</strong></p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">含 13 项可复现清单</span>
+    <span class="chip">含 10 项需第三方清单</span>
+    <span class="chip">含四发行版官方仓库横比</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">一句话结论</h3>
+  <p style="margin-bottom:0">openSUSE Tumbleweed 是六者中<strong>"官方仓库能力"最完整</strong>的之一——<strong>sched-ext 调度器、Gamemode/MangoHud/Steam 全在官方仓库，Btrfs+snapper 快照更是默认自带</strong>。它比 CachyOS 差的只有<strong>编译层（v2 vs v3/v4 + LTO/PGO/BOLT）</strong>和 <strong>BORE 内核</strong>。</p>
+</div>
+
+<h2>0. 结论速览</h2>
+<table>
+  <thead><tr><th style="width:190px">问题</th><th>答案</th></tr></thead>
+  <tbody>
+    <tr><td><strong>谁更快？</strong></td><td>CachyOS。<strong>openSUSE 指令集基线为 x86-64-v2</strong>（高于 Arch/Fedora/Ubuntu/NixOS 的 v1，低于 CachyOS 的 v3/v4）</td></tr>
+    <tr><td><strong>openSUSE 反而更强的地方？</strong></td><td><strong>sched-ext 调度器在官方仓库</strong>（<code>scx</code> 包）；<strong>Btrfs + snapper 快照默认自带</strong>；YaST 图形化管理</td></tr>
+    <tr><td><strong>最大短板？</strong></td><td><strong>编译层</strong>（无 v3/v4 重编译、无 PGO/BOLT）；<strong>无 BORE/BMQ 内核</strong></td></tr>
+    <tr><td><strong>证据强度？</strong></td><td>⚠️ <strong>最弱</strong>——近年 Phoronix 的六发行版横评（9950X、Framework 13 Pro）<strong>均未包含 openSUSE</strong>，最新直接数据是 <strong>2022 年</strong>的 HP Dev One 测试</td></tr>
+    <tr><td><strong>纯官方 openSUSE 能复现多少？</strong></td><td><strong>约 13 项可复现</strong>（含 sched-ext 与快照）；<strong>全仓库 v3 重编译、BORE 内核、NVIDIA 专有驱动</strong>必须走第三方</td></tr>
+  </tbody>
+</table>
+
+<h2>1. 全面比较</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:140px">维度</th><th>CachyOS</th><th>openSUSE Tumbleweed</th></tr></thead>
+  <tbody>
+    <tr><td><strong>上游</strong></td><td>Arch Linux（下游再发行）</td><td>独立发行版（SUSE 赞助）</td></tr>
+    <tr><td><strong>更新模型</strong></td><td>滚动</td><td>滚动（快照式，另有 <strong>Slowroll</strong> 慢速滚动）</td></tr>
+    <tr><td><strong>指令集基线</strong></td><td><span class="pill p-ok">v3 / v4 / znver4</span></td><td><span class="pill p-warn">x86-64-v2</span>（2022 年起从 v1 过渡）</td></tr>
+    <tr><td><strong>编译优化</strong></td><td>LTO + PGO + BOLT + AutoFDO</td><td>部分 LTO；无 PGO/BOLT</td></tr>
+    <tr><td><strong>内核</strong></td><td>自研 <code>linux-cachyos</code>（默认/BORE/EEVDF/BMQ/RT/LTS/Hardened/Server/deckify）</td><td><code>kernel-default</code>（滚动最新）+ 多种风味</td></tr>
+    <tr><td><strong>调度器</strong></td><td>BORE / BMQ / sched-ext / RT</td><td>EEVDF；<strong>sched-ext 官方仓库有 <code>scx</code> 包</strong> ✅</td></tr>
+    <tr><td><strong>包管理</strong></td><td><code>pacman</code> + AUR</td><td><code>zypper</code> + OBS / Packman</td></tr>
+    <tr><td><strong>默认文件系统</strong></td><td>Btrfs + 快照</td><td><strong>Btrfs + snapper（默认，招牌特性）</strong> ✅</td></tr>
+    <tr><td><strong>安全默认</strong></td><td>常规</td><td><strong>AppArmor</strong>（默认启用）+ firewalld</td></tr>
+    <tr><td><strong>快照回滚</strong></td><td>需自行配置</td><td><strong>默认自带 <code>snapper rollback</code>，与 GRUB 集成</strong> ✅</td></tr>
+    <tr><td><strong>系统管理</strong></td><td>CLI + 自研 GUI 工具</td><td><strong>YaST（Linux 世界最完整的图形化管理面板）</strong> ✅</td></tr>
+    <tr><td><strong>电源管理</strong></td><td><code>game-performance</code> 脚本</td><td><code>power-profiles-daemon</code>（默认）；<code>tuned</code> 也在官方仓库</td></tr>
+    <tr><td><strong>专有 NVIDIA</strong></td><td>官方仓库内置预编译模块</td><td><strong>NVIDIA 官方为 openSUSE 提供独立仓库</strong>，非 openSUSE OSS 仓库</td></tr>
+    <tr><td><strong>zram 默认</strong></td><td>启用</td><td><strong>未默认启用</strong>（用 swap 分区/文件）</td></tr>
+    <tr><td><strong>游戏工具</strong></td><td><code>cachyos-gaming-meta</code> 一键装</td><td><strong><code>steam</code>/<code>lutris</code>/<code>mangohud</code>（含 32bit）/ <code>gamemode</code> 全在官方仓库</strong> ✅</td></tr>
+    <tr><td><strong>安装器</strong></td><td>Calamares 图形 + CLI，17+ DE 可选</td><td>YaST 安装器，可选 GNOME/KDE/Xfce 等</td></tr>
+    <tr><td><strong>治理</strong></td><td>社区小团队（约 9 人）</td><td>openSUSE 项目（<strong>SUSE 赞助</strong>，正式治理 + OBS 基础设施）</td></tr>
+    <tr><td><strong>企业关联</strong></td><td>无</td><td>与 <strong>SUSE Linux Enterprise</strong> 共享代码基础</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox"><strong>关系本质：</strong>两者<strong>没有血缘关系</strong>。openSUSE 是独立 RPM 系，且背后有 <strong>SUSE 的商业支持与 OBS（Open Build Service）</strong> 这套成熟基础设施——这是它在"官方仓库完整度"上占优的根本原因。</div>
+
+<h2>2. 结果分析</h2>
+
+<h3>2.1 ⚠️ 先说证据缺口</h3>
+<p><strong>近年 Phoronix 的发行版横评都没有包含 openSUSE</strong>：</p>
+<table>
+  <thead><tr><th style="width:400px">评测</th><th style="width:110px">日期</th><th>是否含 openSUSE</th></tr></thead>
+  <tbody>
+    <tr><td>Ryzen 9 9950X，6 发行版，59 项</td><td>2024-08</td><td>❌ 未包含</td></tr>
+    <tr><td>Framework Laptop 13 Pro（Panther Lake），6 发行版</td><td>2026-08</td><td>❌ 未包含</td></tr>
+    <tr><td>Razer Blade 18 三系统（CachyOS/Win11/Ubuntu）</td><td>2026-07</td><td>❌ 未包含</td></tr>
+    <tr><td><strong>HP Dev One（Ryzen 7 PRO），6 发行版</strong></td><td><strong>2022-06</strong></td><td>✅ <strong>唯一包含</strong></td></tr>
+  </tbody>
+</table>
+<div class="badbox">→ <strong>openSUSE 是所有对比对象中"直接基准证据最弱"的一个</strong>。以下结论需按此折扣理解。</div>
+
+<h3>2.2 Phoronix 2022-06 — HP Dev One，6 发行版（唯一直接数据）</h3>
+<table>
+  <thead><tr><th style="width:170px">结果</th><th>发行版</th></tr></thead>
+  <tbody>
+    <tr><td>整体最快</td><td>Clear Linux（<strong>约 +13%</strong>）</td></tr>
+    <tr><td><strong>基本持平</strong></td><td><strong>Pop!_OS 22.04 ≈ openSUSE Tumbleweed ≈ Fedora 36 ≈ Ubuntu 22.04</strong></td></tr>
+    <tr><td>明显落后</td><td>Arch Linux</td></tr>
+  </tbody>
+</table>
+<ul>
+  <li><strong>关键读数</strong>：<strong>openSUSE Tumbleweed 与 Fedora、Ubuntu 处于同一档</strong>——即"中游"，不是领先者也不是落后者。</li>
+  <li>⚠️ 数据为 <strong>2022 年</strong>（内核 5.x 时代），今天只可作为"档位"参考。</li>
+</ul>
+
+<h3>2.3 结构性推断（结合 2026 年现状）</h3>
+<table>
+  <thead><tr><th style="width:120px">维度</th><th>判断</th><th style="width:300px">依据</th></tr></thead>
+  <tbody>
+    <tr><td>指令集</td><td>openSUSE <strong>v2</strong> &gt; Arch/Fedora/Ubuntu/NixOS 的 v1，但 &lt; CachyOS 的 v3/v4</td><td>官方 2022 年起的过渡计划</td></tr>
+    <tr><td>编译优化</td><td>openSUSE 有部分 LTO，无 PGO/BOLT</td><td>发行版构建策略</td></tr>
+    <tr><td>内核</td><td>openSUSE 滚动，<strong>版本与 Arch/CachyOS 接近</strong></td><td>Tumbleweed 快照节奏</td></tr>
+    <tr><td>调度器</td><td><strong>官方有 <code>scx</code></strong>（与 Arch 同档，强于 Fedora）</td><td>sched-ext 官方 INSTALL.md</td></tr>
+    <tr><td>快照开销</td><td>snapper + Btrfs 有轻微运行时开销</td><td>社区共识</td></tr>
+  </tbody>
+</table>
+<div class="okbox"><strong>综合判断：</strong>openSUSE Tumbleweed 的性能档位大致与 <strong>Arch / Fedora 同档</strong>（中上游），<strong>落后 CachyOS 约 2–6%</strong>，但<strong>领先点在于"官方即可拿到 sched-ext + 成熟的快照体系"</strong>。</div>
+
+<h2>3. 差异的原因</h2>
+
+<h3>3.1 编译层 —— CachyOS 的最大优势</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>openSUSE TW</th><th>CachyOS</th><th style="width:200px">影响</th></tr></thead>
+  <tbody>
+    <tr><td>指令集基线</td><td><strong><code>x86-64-v2</code></strong></td><td><code>v3</code>/<code>v4</code>/<code>znver4</code></td><td><strong>CPU 密集 2–8%</strong>（v2→v3 增量小于 v1→v3）</td></tr>
+    <tr><td>LTO</td><td>部分</td><td>全栈 ThinLTO</td><td>1–3%</td></tr>
+    <tr><td>PGO</td><td>无</td><td>核心包 + 内核 AutoFDO</td><td>1–4%</td></tr>
+    <tr><td>BOLT</td><td>无</td><td>核心包</td><td>1–3%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>注意：openSUSE 已是 <strong>v2</strong>，所以它相对 CachyOS 的<strong>编译层劣势小于 Arch/Fedora</strong>（后者是 v1）。</p>
+
+<h3>3.2 内核层</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>openSUSE TW</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>内核版本</td><td>滚动最新</td><td>跟随 Arch（也很新）</td></tr>
+    <tr><td>调度器</td><td>EEVDF + <strong>官方 <code>scx</code> 包</strong> ✅</td><td>EEVDF 调参 / <strong>BORE</strong> / <strong>BMQ</strong> / RT</td></tr>
+    <tr><td>BORE/BMQ</td><td>❌ 官方无</td><td>✅ 内置</td></tr>
+    <tr><td>Tick rate</td><td>常规</td><td><strong>1000Hz</strong></td></tr>
+    <tr><td>补丁集</td><td>openSUSE 补丁</td><td>15 个 topic 分支 + <code>CONFIG_CACHY</code> + AutoFDO</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.3 系统 / 默认配置层</h3>
+<table>
+  <thead><tr><th style="width:120px">项</th><th>openSUSE TW</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>快照</td><td><strong>Btrfs + snapper 默认，GRUB 集成</strong> ✅</td><td>Btrfs + 快照（需安装时选择）</td></tr>
+    <tr><td>zram</td><td>❌ 未默认</td><td>✅ 启用</td></tr>
+    <tr><td>安全</td><td><strong>AppArmor 默认</strong></td><td>常规</td></tr>
+    <tr><td>后台服务</td><td>YaST 相关服务、snapper 定时任务</td><td>更精简</td></tr>
+    <tr><td>元数据</td><td>zypper 元数据处理较重</td><td>pacman 更轻</td></tr>
+  </tbody>
+</table>
+
+<h3>3.4 生态层</h3>
+<table>
+  <thead><tr><th style="width:150px">项</th><th>openSUSE TW</th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>游戏工具</td><td><strong>steam/lutris/mangohud/gamemode 官方仓库</strong> ✅</td><td>需装 meta 包（也是官方）</td></tr>
+    <tr><td>专有 NVIDIA</td><td>NVIDIA 官方为 openSUSE 提供独立仓库</td><td>官方仓库内置预编译模块</td></tr>
+    <tr><td>ZFS</td><td>官方 OSS 不含</td><td>官方预编译模块</td></tr>
+    <tr><td>第三方生态</td><td><strong>OBS（高度规范的构建服务）</strong></td><td>AUR（20 万+）</td></tr>
+  </tbody>
+</table>
+
+<h2>4. 差异"没突出"的原因</h2>
+<ol>
+  <li><strong>openSUSE 已是 v2 基线</strong>：相对 CachyOS 的编译层劣势<strong>小于 Arch/Fedora</strong>（它们是 v1）。v2→v3 的收益本就比 v1→v3 小。</li>
+  <li><strong>内核版本接近</strong>：Tumbleweed 滚动更新，内核与 Arch/CachyOS 基本同步——"内核红利"共享。</li>
+  <li><strong>瓶颈不在 CPU</strong>（Amdahl 定律）：4K 游戏 GPU 受限、桌面受 IO/网络限制。</li>
+  <li><strong>openSUSE 官方仓库的"配置能力"很强</strong>：sched-ext、Gamemode、MangoHud、Btrfs 快照都能官方拿到——<strong>它不需要靠"重编译"来拉性能</strong>。</li>
+  <li><strong>snapper/Btrfs 的额外开销很小</strong>：定时快照与 CoW 的运行时开销通常 &lt;1%，且换来完整回滚能力。</li>
+  <li><strong>AppArmor 开销通常很小</strong>（&lt;1–2%）。</li>
+  <li><strong>测量噪声同量级</strong>：run-to-run 方差常有 1–3%。</li>
+  <li><strong>部分"优化"是取舍</strong>：<code>max_performance</code>、激进电源档是<strong>用功耗/续航换响应</strong>。</li>
+</ol>
+
+<h2>5. 纯官方 openSUSE 能复现哪些优化策略？</h2>
+<div class="infobox"><strong>前提界定：</strong>"第三方仓库"指 <strong>Packman / OBS（非 Factory）/ NVIDIA 官方仓库</strong>等外部仓库。</div>
+
+<h3>5.1 ✅ 可以复现（13 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:220px">CachyOS 的优化策略</th><th>纯 openSUSE 复现方法</th><th style="width:180px">来源</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>可插拔调度器（sched-ext）</strong></td><td><code>sudo zypper install scx</code> → <code>scx_rusty</code> / <code>scx_lavd</code> 等</td><td><span class="pill p-ok">官方 Factory/Tumbleweed</span>（sched-ext 官方 INSTALL.md 明确）</td></tr>
+    <tr><td>2</td><td><strong>EEVDF 调参</strong></td><td><code>kernel.sched_base_slice_ns</code>（默认 base slice 3ms）</td><td>官方内核自带</td></tr>
+    <tr><td>3</td><td><strong>抢占模型选择</strong></td><td>内核 cmdline <code>preempt=full</code>（PREEMPT_DYNAMIC）</td><td>官方内核自带</td></tr>
+    <tr><td>4</td><td><strong>全套 sysctl 调优</strong></td><td><code>/etc/sysctl.d/99-cachy.conf</code>：swappiness、dirty_*、page-cluster=0、nmi_watchdog=0、file-max、max_map_count</td><td>官方内核</td></tr>
+    <tr><td>5</td><td><strong>I/O 调度器按设备分配</strong></td><td>udev 规则：HDD→<code>bfq</code>、SATA SSD→<code>mq-deadline</code>、NVMe→<code>kyber</code></td><td>三种都在官方内核</td></tr>
+    <tr><td>6</td><td><strong>THP defrag = defer+madvise</strong></td><td><code>tmpfiles.d</code></td><td>官方内核</td></tr>
+    <tr><td>7</td><td><strong>zram + zstd</strong></td><td><code>zram-generator</code> + 配置文件（<strong>需自行启用，openSUSE 默认不开</strong>）</td><td>官方仓库</td></tr>
+    <tr><td>8</td><td><strong>NTSync</strong></td><td><code>modprobe ntsync</code>（Linux 6.14 起主线）</td><td>官方内核自带（模块）</td></tr>
+    <tr><td>9</td><td><strong>游戏运行时工具</strong></td><td><code>sudo zypper install steam lutris mangohud gamemode</code></td><td><span class="pill p-ok">官方仓库</span>（openSUSE News 官方推荐；含 <code>mangohud-32bit</code>）</td></tr>
+    <tr><td>10</td><td><strong>CPU 性能档 / 电源档</strong></td><td><code>powerprofilesctl set performance</code>（默认 PPD）；或 <code>tuned-adm profile latency-performance</code></td><td>官方仓库</td></tr>
+    <tr><td>11</td><td><strong>Btrfs 快照回滚</strong></td><td><strong>默认已启用</strong> —— <code>snapper list</code> / <code>snapper rollback</code>，与 GRUB 集成</td><td><span class="pill p-ok">openSUSE 招牌特性</span>比 CachyOS 更成熟</td></tr>
+    <tr><td>12</td><td><strong>SATA 链接电源 / hdparm</strong></td><td>udev 规则 + <code>hdparm -B 254 -S 0</code></td><td>官方仓库</td></tr>
+    <tr><td>13</td><td><strong>音频 rtprio / PCI latency</strong></td><td><code>/etc/security/limits.d/</code> + <code>setpci</code> 脚本</td><td>官方仓库</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="okbox"><strong>openSUSE 的加分项：</strong>第 1 条（sched-ext）与第 9 条（游戏工具）<strong>都在官方仓库</strong>，第 11 条（Btrfs+snapper 快照）<strong>默认就开</strong>——这三项让 openSUSE 在"官方即用"维度上<strong>明显强于 Fedora，与 Arch 相当或更好</strong>。</div>
+
+<h3>5.2 ❌ 无法复现（10 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:250px">CachyOS 的优化策略</th><th>为什么做不到</th><th style="width:180px">需要什么</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>全仓库 x86-64-v3 / v4 重编译</strong></td><td>openSUSE 是 <strong>v2</strong> 基线</td><td>OBS 或自建</td></tr>
+    <tr><td>2</td><td><strong>LTO / PGO / BOLT 预编译包</strong></td><td>属构建产物</td><td>同上</td></tr>
+    <tr><td>3</td><td><strong>BORE 调度器内核</strong></td><td><strong>官方无 BORE</strong>（非主线）</td><td>OBS / sirlucjan 的仓库</td></tr>
+    <tr><td>4</td><td><strong>BMQ 内核</strong></td><td>同上</td><td>同上</td></tr>
+    <tr><td>5</td><td><strong>CachyOS 内核补丁集</strong>（<code>CONFIG_CACHY</code>、1000Hz、AutoFDO profile、POC Selector）</td><td>官方内核不含</td><td>自编译</td></tr>
+    <tr><td>6</td><td><strong>预编译 NVIDIA 内核模块（随内核更新）</strong></td><td>⚠️ openSUSE <strong>OSS 仓库不含 NVIDIA 专有驱动</strong>；需 NVIDIA 官方独立仓库（属厂商仓库，非发行版官方）</td><td>NVIDIA 官方仓库</td></tr>
+    <tr><td>7</td><td><strong>ZFS 支持</strong></td><td>官方 OSS 仓库不含 ZFS</td><td>OBS filesystems 仓库</td></tr>
+    <tr><td>8</td><td><strong>CachyOS 专有工具链 / Proton-CachyOS</strong></td><td>不在官方仓库</td><td>OBS / 自建</td></tr>
+    <tr><td>9</td><td><strong>ananicy-cpp</strong></td><td>不在官方仓库</td><td>OBS</td></tr>
+    <tr><td>10</td><td><strong>1000Hz tick 内核</strong></td><td>官方内核非 1000Hz</td><td>自编译</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.3 直接回答你的问题</h3>
+<div class="card tldr">
+  <p style="margin-top:0"><strong>openSUSE Tumbleweed 在"没有第三方仓库"的前提下，能复现 CachyOS 约 13 项优化</strong>——而且其中<strong>三项含金量很高</strong>：</p>
+  <ol>
+    <li><strong>sched-ext 可插拔调度器</strong>（<code>zypper install scx</code>，<strong>官方仓库</strong>）</li>
+    <li><strong>Gamemode / MangoHud / Steam / Lutris</strong>（<strong>全在官方仓库</strong>）</li>
+    <li><strong>Btrfs + snapper 快照回滚</strong>（<strong>默认自带，与 GRUB 集成</strong>）</li>
+  </ol>
+  <p style="margin-bottom:0"><strong>唯一无法复现的仍是那两项</strong>：<strong>全仓库 v3/v4 重编译 + LTO/PGO/BOLT</strong>，以及 <strong>BORE / BMQ 内核</strong>（需 OBS/第三方）。</p>
+</div>
+
+<h3>5.4 ★ 四个发行版的"官方仓库能力"横比（实用速查）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:230px">能力</th><th>CachyOS</th><th>Arch</th><th>openSUSE TW</th><th>Fedora</th></tr></thead>
+  <tbody>
+    <tr><td>sched-ext 调度器</td><td>✅ 内置</td><td>✅ <code>scx-scheds</code></td><td>✅ <strong><code>scx</code></strong></td><td>❌ 需 COPR</td></tr>
+    <tr><td>游戏工具（gamemode/mangohud）</td><td>✅ meta 包</td><td>✅ extra</td><td>✅ <strong>官方</strong></td><td>✅ 官方</td></tr>
+    <tr><td>Btrfs 快照默认</td><td>⚠️ 需选择</td><td>❌ 需自配</td><td>✅ <strong>默认+GRUB 集成</strong></td><td>❌ 需自配</td></tr>
+    <tr><td>NVIDIA 专有驱动</td><td>✅ 官方仓库</td><td>✅ extra</td><td>⚠️ NVIDIA 官方仓库</td><td>❌ 需 RPM Fusion</td></tr>
+    <tr><td>zram 默认启用</td><td>✅</td><td>❌</td><td>❌</td><td>✅</td></tr>
+    <tr><td><code>tuned</code> 性能档</td><td>❌（用脚本）</td><td>❌（用 PPD）</td><td>⚠️ 有包但非默认</td><td>✅ <strong>默认</strong></td></tr>
+    <tr><td>指令集基线</td><td><strong>v3/v4</strong></td><td>v1</td><td><strong>v2</strong></td><td>v1</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox">
+  <strong>读数：</strong>
+  <ul style="margin-bottom:0">
+    <li><strong>openSUSE 是四者中"官方仓库能力"最均衡的</strong>——sched-ext、游戏工具、快照三项全在官方，且指令集基线（v2）还高于 Arch/Fedora。</li>
+    <li><strong>Fedora 的官方仓库缺口最大</strong>（sched-ext 与 NVIDIA 都要第三方），但它是唯一<strong>默认启用 zram + tuned</strong> 的。</li>
+    <li><strong>Arch 的官方仓库最"硬核"</strong>（scx-scheds + NVIDIA 都有），但什么都不默认配置。</li>
+    <li><strong>CachyOS 是唯一在编译层领先的</strong>。</li>
+  </ul>
+</div>
+
+<h2>6. 参考来源</h2>
+<div class="card refs">
+  <a href="https://github.com/sched-ext/scx/blob/main/INSTALL.md">sched-ext/scx — INSTALL.md（openSUSE 官方含 <code>scx</code> 包；Fedora 需 COPR；Arch 官方 scx-scheds；NixOS 24.11+ 官方）</a>
+  <a href="https://news.opensuse.org/2025/05/16/why-gaming-w-opensuse-is-a-good-move/">openSUSE News — Why Gaming with openSUSE Is A Good Move（官方推荐 zypper install steam lutris mangohud gamemode）</a>
+  <a href="https://get.opensuse.org/tumbleweed/">openSUSE — Get Tumbleweed（Btrfs / snapper / YaST 官方特性）</a>
+  <a href="https://baijiahao.baidu.com/s?id=1750799707561198248&wfr=spider&for=pc">IT之家 — openSUSE Tumbleweed 正过渡到 x86-64-v2 要求</a>
+  <a href="https://baijiahao.baidu.com/s?id=1736212434621794887&wfr=spider&for=pc">开源中国/百家号 —《六大 Linux 发行版在 HP Dev One 上的性能表现》（Phoronix 2022）</a>
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（9950X / Framework 13 Pro 六发行版，均未含 openSUSE）</a>
+  <a href="https://www.ithome.com/0/790/322.htm">IT之家 —《哪个 Linux 发行版最能发挥 AMD 锐龙 9 9950X 处理器实力？59 项实测》</a>
+  <a href="https://repology.org/project/scx-scheds/versions">Repology — scx-scheds 版本与发行版覆盖</a>
+  <a href="https://gitlab.com/sirlucjan/workbench">GitLab — Piotr Górski / workbench（CachyOS 成员维护的 Fedora/openSUSE COPR）</a>
+  <a href="https://github.com/CachyOS/copr-linux-cachyos">GitHub — CachyOS/copr-linux-cachyos</a>
+  <a href="https://github.com/FantasyGmm/MangoHud">MangoHud — README（openSUSE 官方仓库提供 Mangohud）</a>
+  <a href="https://planet.opensuse.org/en">openSUSE Planet（power-profiles-daemon 与 tuned 的取舍讨论）</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">CachyOS 官方 Wiki — Why CachyOS?</a>
+  <a href="https://wiki.cachyos.org/features/kernel">CachyOS 官方 Wiki — Kernel</a>
+  <a href="https://wiki.cachyos.org/configuration/sched-ext/">CachyOS 官方 Wiki — sched-ext 使用指南</a>
+  <a href="https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html">Linux Kernel 文档 — /proc/sys/kernel/</a>
+  <a href="https://news.opensuse.org/2025/06/02/tw-monthly-update-may/">openSUSE News — Tumbleweed Monthly Update</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：sched-ext 官方 INSTALL.md、openSUSE 官方站点与官方 News、Repology、CachyOS 官方 Wiki 为一手来源；IT之家、百度百家号、开源中国为二手转述。<strong>需特别注意</strong>：openSUSE 在近年的 Phoronix 发行版横评中长期缺席，其"性能档位"结论<strong>主要基于 2022 年数据 + 结构性推断</strong>，置信度低于 Arch/Fedora 的对应结论。</p>
+  <p>报告生成于 2026-10-16 ｜ Head-to-Head · CachyOS vs openSUSE</p>
+</footer>
+
+</div>
+</body>
+</html>

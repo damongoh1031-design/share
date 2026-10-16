@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CachyOS vs Arch Linux 深度对比</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#12181f; --panel:#161d26; --panel2:#1c242f;
+    --line:#28313d; --line2:#333d4b;
+    --tx:#e6edf3; --tx2:#a9b6c4; --tx3:#7d8b9c;
+    --acc:#4ea1ff; --acc2:#7c5cff; --ok:#3fb950; --warn:#e3b341; --bad:#f85149;
+    --pink:#ff7ab2; --teal:#2dd4bf;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 15% -10%, #16202c 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--tx); font-family:"Segoe UI","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    line-height:1.75; font-size:15px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:34px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.28);padding:5px 12px;border-radius:999px}
+  h1{font-size:34px;line-height:1.24;margin:18px 0 12px;letter-spacing:-.5px}
+  h1 .grad{background:linear-gradient(100deg,#4ea1ff,#7c5cff 55%,#ff7ab2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--tx2);font-size:15.5px;max-width:880px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);padding:5px 11px;border-radius:8px}
+  h2{font-size:23px;margin:52px 0 16px;padding-left:14px;border-left:4px solid var(--acc);letter-spacing:-.2px}
+  h3{font-size:17.5px;margin:32px 0 12px;color:#dbe6f2}
+  h4{font-size:15px;margin:20px 0 8px;color:var(--tx2)}
+  p{margin:10px 0;color:#d5dee8}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px dotted rgba(78,161,255,.4)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#0a0e13;border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#9fd0ff}
+  pre{background:#0a0e13;border:1px solid var(--line);border-radius:10px;padding:13px 16px;overflow:auto;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#a8d4ff;font-size:12.8px}
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:6px 0;color:#d5dee8}
+  strong{color:#fff}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .tldr{background:linear-gradient(135deg,rgba(78,161,255,.10),rgba(124,92,255,.08));border:1px solid rgba(124,92,255,.35)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.4px;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--panel2);text-align:left;padding:10px 12px;font-weight:600;color:#cfdbe8;border-bottom:1px solid var(--line2);font-size:12.6px}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);color:#cfd9e4;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(78,161,255,.045)}
+  .dim{color:var(--tx3)}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid;margin-right:5px;vertical-align:middle;white-space:nowrap}
+  .p-ok{color:#7ee2a8;border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.1)}
+  .p-warn{color:#f0cd6b;border-color:rgba(227,179,65,.45);background:rgba(227,179,65,.1)}
+  .p-bad{color:#ff9b93;border-color:rgba(248,81,73,.45);background:rgba(248,81,73,.1)}
+  .p-info{color:#8cc4ff;border-color:rgba(78,161,255,.45);background:rgba(78,161,255,.1)}
+  .warnbox{border-left:3px solid var(--warn);background:rgba(227,179,65,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .badbox{border-left:3px solid var(--bad);background:rgba(248,81,73,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .okbox{border-left:3px solid var(--ok);background:rgba(63,185,80,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .infobox{border-left:3px solid var(--acc);background:rgba(78,161,255,.07);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+  .bar{height:20px;border-radius:6px;background:linear-gradient(90deg,#4ea1ff,#7c5cff);display:inline-block;vertical-align:middle;margin-right:10px}
+  .barwrap{display:flex;align-items:center;margin:7px 0;font-size:13.2px}
+  .barwrap .lbl{width:210px;flex:0 0 210px;color:#cfd9e4}
+  .scroll{overflow-x:auto}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){h1{font-size:26px}.wrap{padding:32px 16px 64px}.barwrap .lbl{width:130px;flex:0 0 130px}.cols{grid-template-columns:1fr}}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);color:var(--tx3);font-size:12.8px}
+  .refs a{display:block;padding:5px 0;font-size:13px;border-bottom:none;color:var(--tx2)}
+  .refs a:hover{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">Head-to-Head · CachyOS vs Arch</span>
+  <h1>CachyOS <span class="grad">vs Arch Linux</span> 深度对比</h1>
+  <p class="sub">全面比较 · 结果分析 · 差异原因 · 差异为何不突出 · <strong>以及：在没有第三方仓库的前提下，Arch 能复现 CachyOS 的哪些优化策略？</strong></p>
+  <div class="meta">
+    <span class="chip">调研日期 2026-10-16</span>
+    <span class="chip">含 15 项可复现清单</span>
+    <span class="chip">含 10 项不可复现清单</span>
+  </div>
+</header>
+
+<div class="card tldr">
+  <h3 style="margin-top:0">一句话结论</h3>
+  <p style="margin-bottom:0">CachyOS ≈ <strong>Arch + ①全仓库指令集重编译 + ②自研内核（调度器补丁）+ ③一套出厂预置的系统调优</strong>。其中<strong>只有 ① 和 ②（BORE/BMQ 部分）无法在纯官方 Arch 上复现；③ 几乎全部可以手工做到。</strong></p>
+</div>
+
+<h2>0. 结论速览</h2>
+<table>
+  <thead><tr><th style="width:180px">问题</th><th>答案</th></tr></thead>
+  <tbody>
+    <tr><td><strong>谁更快？</strong></td><td>CachyOS，但<strong>领先幅度通常是几个百分点</strong>（Phoronix 9950X 59 项：CachyOS 第 2、Arch 第 3）</td></tr>
+    <tr><td><strong>差在哪？</strong></td><td><strong>编译层（v3/v4 + LTO/PGO/BOLT）</strong> 是最大差异；其次是<strong>内核调度器</strong>；系统调优差异最小</td></tr>
+    <tr><td><strong>为什么不突出？</strong></td><td>①多数负载不是 CPU 受限 ②软件版本几乎一致 ③编译器早已自动向量化 ④调度器只影响尾部延迟 ⑤测量噪声同量级</td></tr>
+    <tr><td><strong>纯官方 Arch 能复现多少？</strong></td><td><strong>约 80% 的"运行时/配置类"优化可复现</strong>；<strong>唯一无法复现的是全仓库重编译</strong>（及 BORE/BMQ 内核）</td></tr>
+  </tbody>
+</table>
+
+<h2>1. 全面比较</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:140px">维度</th><th>CachyOS</th><th>Arch Linux</th></tr></thead>
+  <tbody>
+    <tr><td><strong>定位</strong></td><td>性能优化型 Arch 衍生发行版</td><td>极简、KISS 的滚动发行版（"毛坯房"）</td></tr>
+    <tr><td><strong>起步时间</strong></td><td>约 2021–2022</td><td>2002</td></tr>
+    <tr><td><strong>主导者</strong></td><td>Peter Jung（ptr1337）等社区核心团队</td><td>Arch 项目团队（有正式治理与选举）</td></tr>
+    <tr><td><strong>软件仓库</strong></td><td>自建仓库（<code>x86_64</code> / <code>_v3</code> / <code>_v4</code> / <code>znver4</code>）</td><td>官方 <code>core</code>/<code>extra</code>/<code>multilib</code>（<strong>x86-64 v1 基线</strong>）</td></tr>
+    <tr><td><strong>包来源</strong></td><td>拿 Arch 的 PKGBUILD <strong>改编译参数后重建</strong></td><td>官方自行构建</td></tr>
+    <tr><td><strong>AUR</strong></td><td>完整可用（另有 <code>cachyos-aur-derived</code>）</td><td>原生 AUR</td></tr>
+    <tr><td><strong>内核</strong></td><td>自研 <code>linux-cachyos</code>（默认/BORE/EEVDF/BMQ/RT/LTS/Hardened/Server/deckify）</td><td>官方 <code>linux</code>、<code>linux-lts</code>、<code>linux-hardened</code>、<code>linux-zen</code></td></tr>
+    <tr><td><strong>安装器</strong></td><td>Calamares 图形安装器 + CLI 安装器</td><td><code>archinstall</code>（官方 CLI 引导）</td></tr>
+    <tr><td><strong>桌面环境</strong></td><td>17+ 种开箱可选</td><td>自行安装（不预装）</td></tr>
+    <tr><td><strong>出厂调优</strong></td><td><code>cachyos-settings</code>、<code>chwd</code>、ananicy-cpp、zram、快照…<strong>预置</strong></td><td><strong>无</strong>（一切自行配置）</td></tr>
+    <tr><td><strong>游戏工具</strong></td><td><code>cachyos-gaming-meta</code>、Proton-CachyOS、<code>game-performance</code></td><td>需自行安装（<code>gamemode</code>/<code>mangohud</code> 在官方仓库，Proton 由 Steam 提供）</td></tr>
+    <tr><td><strong>更新节奏</strong></td><td>滚动（2025/2026 约 5 个 ISO/年）</td><td>滚动（持续）</td></tr>
+    <tr><td><strong>发行版风险</strong></td><td>独立仓库与上游存在同步延迟；依赖小团队</td><td>上游即源头，无中间层</td></tr>
+    <tr><td><strong>治理</strong></td><td>社区驱动、无公司实体，核心成员约 9 人</td><td>Arch 项目（选举 + RFC 流程 + 正式章程）</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="infobox"><strong>关系本质：</strong>CachyOS 不是 Arch 的"分支"，而是 Arch 的<strong>下游再发行（respin）</strong>——它消费 Arch 的 PKGBUILD 与上游源码，产出自己的二进制仓库。<strong>上游一变，CachyOS 必须跟着重建</strong>，这是它结构性的耦合点。</div>
+
+<h2>2. 结果分析</h2>
+<h3>2.1 Phoronix — Ryzen 9 9950X，6 发行版，59 项（2024-08-20）</h3>
+<div class="card">
+  <div class="barwrap"><span class="lbl">1. Clear Linux</span><span class="bar" style="width:94%"></span><span class="dim">上限参照</span></div>
+  <div class="barwrap"><span class="lbl">2. CachyOS</span><span class="bar" style="width:88%"></span></div>
+  <div class="barwrap"><span class="lbl">3. Arch Linux</span><span class="bar" style="width:86%"></span></div>
+  <div class="barwrap"><span class="lbl">4. Fedora Workstation 40</span><span class="bar" style="width:83%"></span></div>
+  <div class="barwrap"><span class="lbl">5. Ubuntu 24.10 Snapshot</span><span class="bar" style="width:80%"></span></div>
+  <div class="barwrap"><span class="lbl">6. Ubuntu 24.04 LTS</span><span class="bar" style="width:78%"></span><span class="dim">最慢</span></div>
+  <p style="margin-bottom:0"><span class="dim">（条形长度仅示意相对次序；Phoronix 公布的硬数字是"第 1 名比第 6 名快 16%"。）</span></p>
+</div>
+<div class="warnbox">⚠️ 这是<strong>全跨度</strong>。CachyOS 与 Arch 相邻两个名次之间的差距<strong>远小于 16%</strong>，实际通常在 <strong>1–5%</strong> 量级。</div>
+
+<h3>2.2 Phoronix 2026 年 CachyOS 专题（直接涉及 Arch）</h3>
+<table>
+  <thead><tr><th style="width:420px">文章</th><th style="width:130px">日期</th></tr></thead>
+  <tbody>
+    <tr><td>Benchmarking The Different CachyOS Linux Kernel Flavors</td><td>2026-06-02</td></tr>
+    <tr><td>Benchmarking The BORE Scheduler Performance With CachyOS Linux</td><td>2026-06-04</td></tr>
+    <tr><td><strong>CachyOS Delivers Lead Over Arch Linux, Pop!_OS &amp; …</strong>（标题截断）</td><td>约 2026 上半年</td></tr>
+  </tbody>
+</table>
+<p>→ Phoronix 明确给出过"CachyOS 领先 Arch Linux"的结论，但同样是"领先"，而非"碾压"。</p>
+
+<h3>2.3 关键校准</h3>
+<ul>
+  <li>Phoronix 2026-07：CachyOS 在 Razer Blade 18 上 99 项<strong>赢 51 项</strong>，但<strong>几何平均分 76.19 vs Windows 11 的 76.12</strong>（差 0.07，<strong>噪声级</strong>）。</li>
+  <li>Phoronix 2026-03：Ubuntu 26.04 相比 25.10，<strong>RTX 5090 游戏性能最高 +12%（平均 +4.4%）</strong>——<strong>仅一次版本更新的收益就可能超过"CachyOS vs Arch"的差距</strong>。</li>
+</ul>
+<div class="okbox"><strong>结论：</strong>CachyOS 确实更快，但<strong>优势幅度小且场景依赖</strong>。把它理解成"出厂就帮你调好的 Arch"，而不是"换了一颗 CPU"。</div>
+
+<h2>3. 差异的原因（分层拆解）</h2>
+
+<h3>3.1 编译层 —— <span class="pill p-bad">最大，也是唯一不可替代</span></h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:150px">项</th><th>Arch</th><th>CachyOS</th><th style="width:150px">影响</th></tr></thead>
+  <tbody>
+    <tr><td>指令集基线</td><td><code>x86-64</code>（v1）</td><td><code>v3</code> / <code>v4</code> / <code>znver4</code></td><td><strong>CPU 密集负载 2–8%</strong></td></tr>
+    <tr><td>LTO</td><td>无</td><td>Clang ThinLTO</td><td>1–3%</td></tr>
+    <tr><td>PGO</td><td>无</td><td>核心包 + 内核 AutoFDO</td><td>1–4%</td></tr>
+    <tr><td>BOLT</td><td>无</td><td>核心包</td><td>1–3%</td></tr>
+    <tr><td>内核 GCC flag</td><td>默认</td><td><code>-fivopts</code>、<code>-fmodulo-sched</code></td><td>极小</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>为什么 v3 有效</strong>：v3 基线启用 AVX2、BMI2、FMA 等指令，让编译器生成更宽的向量化代码。<strong>但现代编译器在 -O2 下已做大量自动向量化</strong>，所以增量有限——Ubuntu 官方 v3 实验与 Fedora 的 v3 提案给出的预期收益都在<strong>个位数百分比</strong>。</p>
+
+<h3>3.2 内核层 —— <span class="pill p-warn">影响"手感"多于"跑分"</span></h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:190px">项</th><th>Arch 官方 <code>linux</code></th><th>CachyOS</th></tr></thead>
+  <tbody>
+    <tr><td>调度器</td><td>EEVDF（原生）+ <strong>sched-ext 可用</strong></td><td>EEVDF 调参 / <strong>BORE</strong> / <strong>BMQ</strong> / RT</td></tr>
+    <tr><td>Tick rate</td><td>默认（视配置 250/1000Hz）</td><td><strong>1000Hz</strong></td></tr>
+    <tr><td>抢占</td><td>PREEMPT_DYNAMIC</td><td>PREEMPT_DYNAMIC + 低延迟补丁</td></tr>
+    <tr><td>补丁集</td><td>少量</td><td>15 个 topic 分支 + <code>CONFIG_CACHY</code></td></tr>
+    <tr><td>AutoFDO</td><td>无</td><td>有</td></tr>
+    <tr><td>POC Selector（降唤醒延迟）</td><td>无</td><td>有</td></tr>
+  </tbody>
+</table>
+</div>
+<p>→ <strong>BORE 是主线没有的</strong>，必须打补丁。<strong>EEVDF 调参和 sched-ext 则是 Arch 也能碰的。</strong></p>
+
+<h3>3.3 系统层 —— <span class="pill p-ok">差异最小，且完全可以手工复现</span></h3>
+<p>CachyOS 的 sysctl / udev / systemd / THP / zram / NVIDIA 模块参数等<strong>全部是"配置文件"，不是"重编译产物"</strong>。这意味着<strong>这一层在 Arch 上抄过来即可</strong>。</p>
+
+<h3>3.4 工具层</h3>
+<p><code>chwd</code>（硬件检测）、<code>cachyos-hello</code>、<code>Shelly</code>、<code>cachyos-rate-mirrors</code>、<code>Proton-CachyOS</code> —— 属于<strong>便利性</strong>，不直接提升性能。</p>
+
+<h2>4. 差异"没突出"的原因</h2>
+<ol>
+  <li><strong>瓶颈不在 CPU</strong>：4K 游戏 GPU 受限；桌面应用受 IO/网络/等待限制；编译受磁盘 IO 影响。指令集优化只作用于 CPU 计算那一段（<strong>Amdahl 定律</strong>）。</li>
+  <li><strong>软件版本几乎一致</strong>：两者都是滚动发行，CachyOS 的包就是从 Arch 的 PKGBUILD 重建的——<strong>版本号基本同步</strong>。所以"软件新"这个红利<strong>两者共享</strong>。</li>
+  <li><strong>编译器已经很聪明</strong>：GCC/Clang 在 -O2 下自动向量化已相当充分，v1→v3 的增量被压缩到个位数。</li>
+  <li><strong>调度器优化的是尾部而非均值</strong>：BORE 改善的是 <strong>1% low / 卡顿 / 输入延迟</strong>，而绝大多数基准测的是吞吐或总耗时——所以跑分看不出来。</li>
+  <li><strong>PGO/BOLT 只覆盖核心包</strong>：不是全仓库，收益被大量未优化包稀释。</li>
+  <li><strong>测量噪声同量级</strong>：很多基准的 run-to-run 方差就有 1–3%，与"发行版差异"同一数量级。</li>
+  <li><strong>部分"优化"是取舍而非净收益</strong>：<code>max_performance</code>、激进电源档、关闭 watchdog 会<strong>牺牲功耗/续航/安全</strong>换响应。</li>
+  <li><strong>上游同源</strong>：内核、Mesa、GCC、glibc 都是同一份上游代码——<strong>发行版只能在"编译参数 + 配置"上做文章</strong>，天花板本来就不高。</li>
+</ol>
+
+<h2>5. 纯官方 Arch 能复现哪些优化策略？</h2>
+<div class="infobox"><strong>前提界定：</strong>"第三方仓库"指 <strong>ALHP / chaotic-aur / CachyOS 仓库</strong>等外部二进制仓库。<strong>AUR 属于 Arch 官方基础设施</strong>（构建脚本仓库），但为严谨起见，下面把"AUR 才能拿到的"单独标出。</div>
+
+<h3>5.1 ✅ 可以复现（15 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:230px">CachyOS 的优化策略</th><th>纯 Arch 复现方法</th><th style="width:150px">来源</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>可插拔调度器（sched-ext / SCX）</strong></td><td><code>pacman -S scx-scheds</code>，用 <code>scx_loader</code> 或 systemd 服务切换（<code>scx_lavd</code> 游戏向、<code>scx_bpfland</code> 桌面向）</td><td><span class="pill p-ok">官方 extra</span>（已是 <code>linux</code>/<code>linux-hardened</code> 可选依赖）</td></tr>
+    <tr><td>2</td><td><strong>EEVDF 调参</strong></td><td>运行时调 <code>kernel.sched_base_slice_ns</code>（默认 base slice 3ms）；查看 <code>/sys/kernel/debug/sched/base_slice_ns</code></td><td>官方内核自带</td></tr>
+    <tr><td>3</td><td><strong>抢占模型选择</strong></td><td>内核 cmdline 加 <code>preempt=full</code></td><td>官方内核自带</td></tr>
+    <tr><td>4</td><td><strong>CPU 性能档 / EPP</strong></td><td><code>pacman -S power-profiles-daemon</code> → <code>powerprofilesctl set performance</code>；或 <code>cpupower frequency-set -g performance</code></td><td><span class="pill p-ok">官方 extra</span></td></tr>
+    <tr><td>5</td><td><strong><code>game-performance</code> 脚本的全部动作</strong></td><td>第 4 条 + <code>systemd-inhibit</code> 抑制屏保</td><td>官方仓库</td></tr>
+    <tr><td>6</td><td><strong>全套 sysctl 调优</strong></td><td>写 <code>/etc/sysctl.d/99-cachy.conf</code>：<code>vm.swappiness</code>、<code>vm.dirty_*</code>、<code>vm.page-cluster=0</code>、<code>kernel.nmi_watchdog=0</code>、<code>fs.file-max</code>、<code>vm.max_map_count</code></td><td>官方内核</td></tr>
+    <tr><td>7</td><td><strong>I/O 调度器按设备分配</strong></td><td>udev 规则：HDD→<code>bfq</code>、SATA SSD→<code>mq-deadline</code>、NVMe→<code>kyber</code></td><td>三种都在官方内核</td></tr>
+    <tr><td>8</td><td><strong>SATA 链接电源 / hdparm</strong></td><td>udev 规则 + <code>hdparm -B 254 -S 0</code></td><td>官方仓库</td></tr>
+    <tr><td>9</td><td><strong>THP defrag = defer+madvise</strong></td><td><code>tmpfiles.d</code> 一行</td><td>官方内核</td></tr>
+    <tr><td>10</td><td><strong>zram + zstd + swap-priority</strong></td><td><code>pacman -S zram-generator</code> + <code>/etc/systemd/zram-generator.conf</code></td><td><span class="pill p-ok">官方 extra</span>（已验证 1.2.1）</td></tr>
+    <tr><td>11</td><td><strong>NTSync</strong></td><td><code>modprobe ntsync</code>（Linux 6.14 起主线），可设为开机加载</td><td>官方内核自带（模块）</td></tr>
+    <tr><td>12</td><td><strong>NVIDIA 模块参数</strong></td><td>官方 <code>nvidia</code> 包 + <code>/etc/modprobe.d/nvidia.conf</code>（<code>NVreg_*</code>）</td><td>官方 <code>extra</code></td></tr>
+    <tr><td>13</td><td><strong>游戏运行时工具</strong></td><td><code>pacman -S gamemode mangohud lutris</code></td><td><span class="pill p-ok">官方 extra</span>（gamemode 1.8.2 / mangohud 0.8.2 已验证）</td></tr>
+    <tr><td>14</td><td><strong>Btrfs 快照回滚</strong></td><td><code>pacman -S snapper btrfs-assistant</code> 或 <code>snap-pac</code></td><td>官方仓库</td></tr>
+    <tr><td>15</td><td><strong>音频 rtprio 99 / PCI latency</strong></td><td><code>/etc/security/limits.d/</code> + <code>setpci</code> 脚本</td><td>官方仓库</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="okbox"><strong>这一档的意义：</strong>CachyOS 出厂预置的<strong>"系统调优 + 游戏运行时"</strong>这一整层，<strong>在纯官方 Arch 上基本可以 1:1 手工复刻</strong>——因为它们的本质是<strong>配置</strong>，不是<strong>重编译</strong>。</div>
+
+<h3>5.2 ❌ 无法复现（10 项）</h3>
+<div class="scroll">
+<table>
+  <thead><tr><th style="width:38px">#</th><th style="width:250px">CachyOS 的优化策略</th><th>为什么做不到</th><th style="width:200px">需要什么</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>全仓库 x86-64-v3 / v4 / znver4 重编译</strong></td><td>官方仓库就是 v1 二进制，无法"就地升级"别人的二进制</td><td><strong>ALHP（第三方仓库）</strong> 或全量 <code>makepkg</code></td></tr>
+    <tr><td>2</td><td><strong>LTO / PGO / BOLT 预编译包</strong></td><td>同上，属构建产物</td><td>同上</td></tr>
+    <tr><td>3</td><td><strong>BORE / BMQ 调度器</strong></td><td><strong>不在主线内核</strong>（BORE 是 out-of-tree 补丁）</td><td>AUR 的 <code>linux-cachyos</code>/<code>linux-tkg</code>，或自行打补丁编译</td></tr>
+    <tr><td>4</td><td><strong>CachyOS 内核补丁集</strong>（<code>CONFIG_CACHY</code>、15 个 topic 分支、AutoFDO profile）</td><td>官方内核不含这些补丁</td><td>AUR / 自编译</td></tr>
+    <tr><td>5</td><td><strong>1000Hz + POC Selector</strong>（内核补丁带来）</td><td>同上</td><td>自编译</td></tr>
+    <tr><td>6</td><td><strong>预编译 NVIDIA / ZFS 内核模块</strong></td><td>CachyOS 为自家内核预编译</td><td>部分可由官方 <code>nvidia</code>/<code>zfs</code> 替代</td></tr>
+    <tr><td>7</td><td><strong>CachyOS 专有工具链</strong>（<code>chwd</code>、<code>cachyos-hello</code>、<code>Shelly</code>、<code>cachyos-settings</code>…）</td><td>不在官方仓库</td><td>AUR / CachyOS 仓库</td></tr>
+    <tr><td>8</td><td><strong>Proton-CachyOS</strong></td><td>不在官方仓库</td><td>AUR（<code>proton-cachyos</code>）或 CachyOS 仓库</td></tr>
+    <tr><td>9</td><td><strong>ananicy-cpp + ananicy-rules</strong></td><td><span class="pill p-warn">仅在 AUR</span>，不在官方仓库</td><td>AUR</td></tr>
+    <tr><td>10</td><td><strong>17+ DE 开箱安装 / Calamares</strong></td><td>官方只有 <code>archinstall</code></td><td>手工配置</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.3 直接回答你的问题</h3>
+<div class="card tldr">
+  <p style="margin-top:0"><strong>Arch 在"没有第三方仓库"的前提下，能复现 CachyOS 的绝大部分"运行时与配置类"优化策略</strong>——包括 <strong>sched-ext 可插拔调度器、EEVDF 参数调整、抢占模式、CPU 性能档、全套 sysctl、I/O 调度器分配、zram、THP、NTSync、NVIDIA 模块参数、Gamemode/MangoHud、Btrfs 快照</strong>（第 5.1 节 15 项）。</p>
+  <p style="margin-bottom:0"><strong>但唯一无法复现、也恰恰是 CachyOS 立身之本的那一项是：全仓库指令集重编译（v3/v4/znver4）+ LTO/PGO/BOLT 预编译包</strong>；以及依赖打补丁的 <strong>BORE / BMQ 内核</strong>（这两项必须靠第三方仓库或自编译）。</p>
+</div>
+<div class="cols">
+  <div class="card okbox" style="margin:0">
+    <h4 style="margin-top:0;color:#7ee2a8">想要 CachyOS 的"系统调优 + 游戏体验"</h4>
+    <p style="margin-bottom:0"><strong>纯 Arch 手写配置即可达到</strong>（约 15 项，见 5.1）。</p>
+  </div>
+  <div class="card badbox" style="margin:0">
+    <h4 style="margin-top:0;color:#ff9b93">想要 CachyOS 的"编译层红利"</h4>
+    <p style="margin-bottom:0"><strong>只能靠 ALHP（第三方仓库）或自己编译</strong>，纯官方 Arch 做不到。</p>
+  </div>
+</div>
+
+<h2>6. 参考来源</h2>
+<div class="card refs">
+  <a href="https://www.phoronix.com/reviews/Operating+Systems">Phoronix — Operating Systems 评测列表（CachyOS 内核变体 / BORE 专项 / CachyOS 领先 Arch）</a>
+  <a href="https://www.ithome.com/0/790/322.htm">IT之家 —《哪个 Linux 发行版最能发挥 AMD 锐龙 9 9950X 处理器实力？59 项实测》</a>
+  <a href="https://post.smzdm.com/p/a6zdp68o/">什么值得买 —《CS2低帧暴涨20%、99项测试赢51项》</a>
+  <a href="https://archlinux.org/">Arch Linux 官网（"official packages optimized for the x86-64 architecture"）</a>
+  <a href="https://www.archlinux.org/packages/extra/x86_64/linux-hardened/">Arch Linux — linux-hardened 包页（scx-scheds 为其可选依赖，证明 sched-ext 可用）</a>
+  <a href="https://archlinux.org/packages/extra/x86_64/gamemode/">Arch Linux — gamemode 1.8.2（Repository: Extra）</a>
+  <a href="https://archlinux.org/packages/extra/x86_64/zram-generator/">Arch Linux — zram-generator 1.2.1（Repository: Extra）</a>
+  <a href="https://archlinux.org/packages/extra/x86_64/mangohud/">Arch Linux — mangohud 0.8.2（Repository: Extra）</a>
+  <a href="https://wiki.cachyos.org/cachyos_basic/why_cachyos">CachyOS 官方 Wiki — Why CachyOS?</a>
+  <a href="https://wiki.cachyos.org/features/kernel">CachyOS 官方 Wiki — Kernel</a>
+  <a href="https://github.com/CachyOS/CachyOS-Settings">CachyOS-Settings — GitHub</a>
+  <a href="https://github.com/YuZyu9527/bore-scheduler">BORE Scheduler — GitHub（参数与默认值）</a>
+  <a href="https://github.com/CachyOS/kernel-patches">CachyOS/kernel-patches — GitHub</a>
+  <a href="https://mirror.kescher.at/">ALHP 镜像说明（Arch 官方仓库的 x86-64 feature levels + -O3 + LTO）</a>
+  <a href="https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html">Linux Kernel 文档 — /proc/sys/kernel/</a>
+  <a href="https://baike.baidu.com/item/NTSync/67641008">NTSync 百度百科（Linux 6.14 主线，模块形式）</a>
+  <a href="https://github.com/chaotic-aur/packages">Chaotic-AUR 包列表（ananicy-cpp 等，说明其不在官方仓库）</a>
+  <a href="https://fedoraproject.org/wiki/Changes/Optimized_Binaries_for_the_AMD64_Architecture">Fedora Wiki — Optimized Binaries for the AMD64 Architecture（v3 收益预期）</a>
+</div>
+
+<footer>
+  <p><strong>来源质量说明</strong>：Arch Linux 官方包页、CachyOS 官方 Wiki、Phoronix、Linux 内核官方文档为一手来源；IT之家 / 什么值得买为二手转述；CSDN 相关文章仅用于交叉验证 <code>sched_base_slice_ns</code> 等细节，不作为权威依据。</p>
+  <p>报告生成于 2026-10-16 ｜ Head-to-Head · CachyOS vs Arch Linux</p>
+</footer>
+
+</div>
+</body>
+</html>
