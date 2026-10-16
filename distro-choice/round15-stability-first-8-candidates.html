@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>稳定优先下的发行版选型 · 第 15 轮 · 8 候选</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --line:#30363d;
+    --fg:#e6edf3; --fg2:#9198a1; --fg3:#6e7681;
+    --accent:#58a6ff; --green:#3fb950; --yellow:#d29922; --red:#f85149;
+    --purple:#bc8cff; --orange:#ffa657; --cyan:#39c5cf;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.75; font-size:15px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 28px 96px;}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:40px;}
+  .kicker{color:var(--accent);font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:12px;}
+  h1{font-size:30px;line-height:1.3;margin:0 0 14px;font-weight:700;letter-spacing:-.01em;}
+  .meta{color:var(--fg2);font-size:13.5px;}
+  .meta b{color:var(--fg);font-weight:600;}
+  h2{font-size:21px;margin:52px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);font-weight:650;}
+  h3{font-size:17px;margin:34px 0 12px;font-weight:650;color:var(--fg);}
+  h4{font-size:15px;margin:22px 0 10px;font-weight:650;color:var(--accent);}
+  p{margin:12px 0;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  code{background:var(--bg3);padding:2px 6px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,"SF Mono",Consolas,monospace;font-size:13px;color:var(--orange);}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:16px 18px;overflow-x:auto;margin:16px 0;}
+  pre code{background:none;padding:0;color:var(--fg);font-size:12.8px;line-height:1.65;}
+  .cmt{color:var(--fg3);}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;display:block;overflow-x:auto;}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
+  th{background:var(--bg3);font-weight:650;white-space:nowrap;}
+  tbody tr:nth-child(even){background:rgba(255,255,255,.017);}
+  .tldr{background:linear-gradient(135deg,rgba(88,166,255,.09),rgba(188,140,255,.06));border:1px solid rgba(88,166,255,.3);border-radius:11px;padding:22px 24px;margin:26px 0;}
+  .tldr h3{margin-top:0;color:var(--accent);}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:20px 22px;margin:20px 0;}
+  .card.win{border-color:rgba(63,185,80,.45);}
+  .card.new{border-color:rgba(188,140,255,.5);}
+  .card.out{border-color:rgba(248,81,73,.35);}
+  .badge{display:inline-block;font-size:11.5px;font-weight:650;padding:2px 9px;border-radius:20px;margin-right:7px;vertical-align:middle;}
+  .b-win{background:rgba(63,185,80,.16);color:var(--green);border:1px solid rgba(63,185,80,.4);}
+  .b-new{background:rgba(188,140,255,.16);color:var(--purple);border:1px solid rgba(188,140,255,.4);}
+  .b-out{background:rgba(248,81,73,.14);color:var(--red);border:1px solid rgba(248,81,73,.35);}
+  .b-mid{background:rgba(210,153,34,.16);color:var(--yellow);border:1px solid rgba(210,153,34,.4);}
+  .ok{color:var(--green);font-weight:600;}
+  .no{color:var(--red);font-weight:600;}
+  .warn{color:var(--yellow);font-weight:600;}
+  .dim{color:var(--fg3);}
+  ul,ol{padding-left:24px;margin:12px 0;}
+  li{margin:6px 0;}
+  .flow{background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:18px 20px;font-family:ui-monospace,monospace;font-size:12.8px;line-height:1.85;white-space:pre;overflow-x:auto;color:var(--fg2);}
+  .flow b{color:var(--fg);}
+  .flow .hi{color:var(--green);}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);color:var(--fg3);font-size:12.5px;}
+  .note{border-left:3px solid var(--accent);background:rgba(88,166,255,.05);padding:12px 18px;margin:18px 0;border-radius:0 7px 7px 0;font-size:14px;}
+  .note.w{border-left-color:var(--yellow);background:rgba(210,153,34,.06);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Linux 游戏性能调研 · 第 15 轮</div>
+  <h1>稳定优先下的发行版选型<br><span style="color:var(--fg2);font-size:22px;font-weight:500;">不要 CachyOS · 8 候选 · 三场景分别选一个</span></h1>
+  <div class="meta">
+    <b>调研日期</b> 2026-10-16 &nbsp;·&nbsp;
+    <b>候选池</b> openSUSE Tumbleweed / Slowroll · Arch · Fedora 44 KDE · Kubuntu 26.04 / 26.10 · NixOS 26.05 · <b style="color:var(--purple)">Bazzite</b><br>
+    <b>本轮变化</b> 新增 <b>Bazzite</b>（全新）与 <b>Kubuntu 26.10</b>（昨日 10-15 发布）· 修正 NixOS 26.05 实测值 · 移除 Debian / Solus
+  </div>
+</header>
+
+<div class="tldr">
+  <h3>一句话结论</h3>
+  <table>
+    <thead><tr><th>场景</th><th>冠军</th><th>亚军</th><th>核心理由</th></tr></thead>
+    <tbody>
+      <tr><td><b>① CPU 密集 Linux 原生</b><br><span class="dim">RimWorld / 群星 / CK3</span></td><td class="ok">openSUSE Slowroll</td><td>Bazzite</td><td>发行版贡献 <b>≈ 0</b> → 把稳定性拉满</td></tr>
+      <tr><td><b>② CPU 密集 Proton</b><br><span class="dim">2077 CPU 受限 / Palworld / Soulmask</span></td><td class="ok">openSUSE Tumbleweed</td><td>Bazzite</td><td>唯一杠杆是<b>翻译层 + 图形栈时效性</b></td></tr>
+      <tr><td><b>③ GPU 密集 Proton（AMD）</b></td><td class="ok">openSUSE Tumbleweed</td><td>Bazzite / Kubuntu 26.10</td><td>杠杆是 <b>Mesa RADV 版本</b></td></tr>
+      <tr><td><b>③ GPU 密集 Proton（NVIDIA）</b></td><td class="ok">Kubuntu 26.04 LTS</td><td>Bazzite（nvidia）</td><td>N 卡用专有驱动 → <b>Mesa 版本无关</b></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-bottom:0;"><b>只装一个系统</b> → <b class="ok">openSUSE Slowroll</b> &nbsp;|&nbsp; <b>如果这台机器只用来玩游戏</b> → <b style="color:var(--purple)">Bazzite</b> 可以取代上表全部答案。</p>
+</div>
+
+<h2>1. 一手版本总表（2026-10-16 直接抓取）</h2>
+<p class="dim" style="font-size:13.5px;">基准点：<b>Mesa 26.2.4 发布于 2026-10-01</b>，为当前最新稳定版。</p>
+
+<table>
+  <thead><tr><th>候选</th><th>Mesa</th><th>内核</th><th>更新模型</th><th>默认回滚</th><th>scx / sched-ext</th><th>ISA</th></tr></thead>
+  <tbody>
+    <tr><td><b>openSUSE Tumbleweed</b></td><td class="ok">26.2.4</td><td class="ok">7.2.10</td><td>滚动（日快照）</td><td class="ok">✅ Btrfs+snapper 自带</td><td class="ok">✅ 官方 1.1.3</td><td class="ok">v2</td></tr>
+    <tr><td><b>openSUSE Slowroll</b></td><td>26.2.3</td><td>7.2.8</td><td>滚动（<b>月批量</b>）</td><td class="ok">✅ 同 TW</td><td class="ok">✅ 官方</td><td class="ok">v2</td></tr>
+    <tr><td><b>Arch Linux</b></td><td class="ok">26.2.4</td><td>7.2.9.arch1</td><td>滚动（日）</td><td class="warn">⚠️ 需手动</td><td class="warn">⚠️ AUR</td><td>v1（+ALHP）</td></tr>
+    <tr><td><b>Fedora 44 KDE</b></td><td class="ok">26.2.4</td><td class="ok">7.2.10</td><td>6 个月 + 滚动</td><td class="warn">⚠️ 需手动</td><td class="no">❌ 官方无</td><td>v1（v3 ≥F46）</td></tr>
+    <tr><td><b>Kubuntu 26.04 LTS</b></td><td class="warn">26.0.3</td><td>7.0.0-14</td><td>LTS 2 年 + HWE</td><td class="no">❌</td><td class="no">❌</td><td>v1（+实验 v3）</td></tr>
+    <tr><td><b>Kubuntu 26.10</b></td><td class="ok">26.2.4</td><td class="ok">7.3.0-9.9 ⭐</td><td>9 个月</td><td class="no">❌</td><td class="no">❌</td><td>v1（+<b>官方 v3</b>）</td></tr>
+    <tr><td><b>NixOS 26.05</b></td><td>26.1.8</td><td>6.18 默认 / 7.2 可选</td><td>6 个月 + 声明式</td><td class="ok">✅✅ 最强</td><td class="ok">✅ 有 scx 包</td><td>v1</td></tr>
+    <tr style="background:rgba(188,140,255,.06);"><td><b>Bazzite</b> <span class="badge b-new">新</span></td><td class="ok">26.2.4</td><td>7.2.9-ogc3.1</td><td><b>镜像化，每日自动</b></td><td class="ok">✅✅ 原子 + greenboot</td><td class="ok">✅ <b>CachyOS COPR 1.1.4</b></td><td>v1</td></tr>
+  </tbody>
+</table>
+
+<h4>六条关键读数</h4>
+<ol>
+  <li><b>Kubuntu 26.10 是全池性能最高的</b>（Mesa 26.2.4 + 内核 7.3.0），但它<b>无任何回滚</b>且<b>仅 9 个月支持</b> → 与"稳定优先"直接冲突。</li>
+  <li><b>Bazzite 是唯一"游戏栈全预装"的</b>：gamescope 3.16.31 + Gamescope Session + MangoHud 0.8.4 + UMU 1.4.4 + ScopeBuddy + Distrobox。</li>
+  <li><b>Bazzite 从 CachyOS 维护者（sirlucjan）的 COPR 装 <code>scx-scheds</code> + <code>scx-tools</code></b> —— 非 CachyOS 发行版里唯一自带 CachyOS 生态调度器。</li>
+  <li><b>Fedora 44 KDE 官方确认无 <code>scx-scheds</code></b>（<code>packages.fedoraproject.org</code> / <code>src.fedoraproject.org</code> 均 404）。</li>
+  <li><b>NixOS 26.05 实测值修正</b>：Mesa <b>26.1.8</b>、默认内核 <b>6.18</b>（有 NTSync）、<b>有 scx 包</b> → 第 14 轮的"未核实"闭环。</li>
+  <li><b>Slowroll 的"慢"几乎不花钱</b>：Mesa 差 1 个补丁版本（~2 周），内核差 2 个。降的是更新频率，不是版本水平。</li>
+</ol>
+
+<h2>2. 三场景的有效杠杆（全部结论的根）</h2>
+<table>
+  <thead><tr><th>场景</th><th>瓶颈</th><th>发行版能碰到的杠杆</th><th>占比</th></tr></thead>
+  <tbody>
+    <tr><td><b>① CPU 密集原生</b></td><td>单核 IPC × 频率、内存延迟、L3</td><td>内核内存管理（MGLRU / THP / ZRAM / swappiness）+ 调度延迟层</td><td class="no">极小</td></tr>
+    <tr><td><b>② CPU 密集 Proton</b></td><td>翻译开销 + 同步开销</td><td><b>翻译层 + 运行时栈</b>（Wine / DXVK / vkd3d / Mesa 的构建与版本）+ NTSync + 调度</td><td class="warn">中</td></tr>
+    <tr><td><b>③ GPU 密集 Proton</b></td><td>GPU 算力 / 驱动效率</td><td><b>GPU 驱动版本</b>（Mesa RADV / NVIDIA）+ 内核 amdgpu 修复 + 升频</td><td class="warn">中</td></tr>
+  </tbody>
+</table>
+
+<div class="flow">场景 ①  发行版贡献 <b>≈ 0</b>
+        └─▶ 既然谁都不快 → 优化目标 = <span class="hi">稳定性最大化</span>
+            └─▶ 需要：内核 ≥ 6.14（NTSync）+ 能调 sysctl/ZRAM/THP + 出事能回滚
+                └─▶ 【openSUSE Slowroll】月度批量 + 默认快照 + 内核 7.2.8
+
+场景 ②  发行版贡献 = <b>中</b>（唯一杠杆是翻译层与图形栈）
+        └─▶ 优化目标 = <span class="hi">时效性最大化</span>，但仍要能兜底
+            └─▶ 需要：Mesa/DXVK/vkd3d 最新 + 内核最新 + 回滚能力
+                └─▶ 【openSUSE Tumbleweed】Mesa 26.2.4 + 内核 7.2.10 + Btrfs 快照兜底
+
+场景 ③  发行版贡献 = <b>中</b>（唯一杠杆是驱动版本）
+        ├─ AMD  ──▶ Mesa RADV 版本是硬指标 ──▶ 【openSUSE Tumbleweed】(26.2.4)
+        └─ NVIDIA ─▶ 用专有驱动，Mesa 版本无关 ──▶ 【Kubuntu 26.04 LTS】</div>
+
+<h2>3. "稳定"的三个独立维度</h2>
+<table>
+  <thead><tr><th>维度</th><th>含义</th><th>谁给得了</th></tr></thead>
+  <tbody>
+    <tr><td><b>① 更新频率可控</b></td><td>不会某天开机被迫接受 500 个包</td><td>固定周期（Fedora / Kubuntu / NixOS）或慢速滚动（<b>Slowroll</b>）&gt; 日滚动（TW / Arch / Bazzite 默认）</td></tr>
+    <tr><td><b>② 出问题能回滚</b></td><td>升级炸了能一键退回</td><td><b>Bazzite（原子镜像 + greenboot 自动健康检查）≥ openSUSE（Btrfs+snapper）&gt; NixOS（声明式）&gt; Arch（需手动）&gt; Fedora / Kubuntu（无）</b></td></tr>
+    <tr><td><b>③ 软件质量（测试窗口）</b></td><td>进仓库前经过更多测试</td><td>Kubuntu LTS / NixOS stable / Slowroll &gt; Fedora / TW &gt; Arch</td></tr>
+  </tbody>
+</table>
+<div class="note"><b>关键校准</b>：维度 ③ 常被高估。滚动的包<b>不是"未测试的"</b>，只是"测试窗口短"；真风险是你的硬件组合踩到回归 —— 此时 <b>维度 ② 比 ③ 重要得多</b>。这是 openSUSE 系与 Bazzite 共同胜出的根本原因。</div>
+
+<h2>4. 8 候选逐一裁决</h2>
+
+<div class="card win">
+  <h3><span class="badge b-win">场景 ① 冠军</span>openSUSE Slowroll <span class="dim" style="font-size:13px;font-weight:400;">（兼"只装一个系统"的答案）</span></h3>
+  <table>
+    <tbody>
+      <tr><th style="width:120px;">Mesa / 内核</th><td><b>26.2.3 / 7.2.8</b>（实测，仅滞后 TW ~2 周）</td></tr>
+      <tr><th>更新节奏</th><td><b>月度批量</b>（官方口径：TW 快照发布后 5–10 天进入 Slowroll）</td></tr>
+      <tr><th>回滚</th><td class="ok">✅ Btrfs + snapper 默认自带，<code>snapper rollback</code> 一键退回</td></tr>
+      <tr><th>官方仓库</th><td class="ok">✅ gamemode / mangohud / <b>scx</b> / steam / NVIDIA 驱动全部在官方仓库</td></tr>
+      <tr><th>ISA 基线</th><td class="ok">v2（高于 Arch / Fedora / Kubuntu / NixOS / Bazzite 的 v1）</td></tr>
+      <tr><th>短板</th><td>滚动固有风险（被月度节奏 + 快照大幅削弱）；中文资料少于 Ubuntu</td></tr>
+    </tbody>
+  </table>
+  <p><b>为什么赢场景 ①</b>：原生游戏瓶颈在硬件，不在发行版 → 唯一正确策略是把稳定性拉满。Slowroll 是候选池里<b>唯一同时具备「慢速可控更新」+「开箱即用回滚」+「内核 7.2.8 远超门槛」+「官方仓库一站式游戏工具」</b>的选项。性能代价约 2 周包滞后，实测无法察觉。</p>
+</div>
+
+<div class="card win">
+  <h3><span class="badge b-win">场景 ②③（AMD）冠军</span>openSUSE Tumbleweed</h3>
+  <table>
+    <tbody>
+      <tr><th style="width:120px;">Mesa / 内核</th><td><b>26.2.4 / 7.2.10</b>（实测，<b>双料最新</b>）</td></tr>
+      <tr><th>更新节奏</th><td>滚动（日快照，<b>手动触发 <code>zypper dup</code></b>）</td></tr>
+      <tr><th>回滚</th><td class="ok">✅ Btrfs + snapper 默认自带 ← 这是它胜过 Arch / Fedora 的关键</td></tr>
+      <tr><th>官方仓库</th><td class="ok">✅ gamemode 1.8.2 / mangohud 0.8.4 / scx 1.1.3 / steam / NVIDIA 驱动</td></tr>
+    </tbody>
+  </table>
+  <p><b>为什么赢场景 ②</b>：Proton 的 CPU 开销全在翻译层（Wine → DXVK/vkd3d → Mesa RADV），而这些全是发行版自己编译的包。TW 给最新版本 + 最新内核，且在滚动发行里唯一默认带原子回滚。</p>
+</div>
+
+<div class="card new">
+  <h3><span class="badge b-new">本轮新增</span>Bazzite <span class="dim" style="font-size:13px;font-weight:400;">（场景 ① 亚军 / ②③ 强亚军）</span></h3>
+  <table>
+    <tbody>
+      <tr><th style="width:120px;">基础</th><td><b>Fedora 44 Atomic Desktop</b>（Kinoite 系，<code>rpm-ostree</code> 镜像化）</td></tr>
+      <tr><th>Mesa / 内核</th><td><b>26.2.4</b>（最新）/ <b>7.2.9-ogc3.1</b>（ublue 自编译 flavour）</td></tr>
+      <tr><th>更新节奏</th><td>Desktop 镜像<b>每日自动</b>；Deck 镜像手动（可关、可换 stable / testing / unstable 分支）</td></tr>
+      <tr><th>回滚</th><td class="ok">✅✅ GRUB 选旧镜像 / <code>rpm-ostree rollback</code> / <code>bazzite-rollback-helper</code> + <b><code>greenboot</code> 启动健康检查失败自动回滚</b></td></tr>
+      <tr><th>调度器</th><td class="ok">✅ <code>scx-scheds</code> + <code>scx-tools</code>，来自 <code>bieszczaders/kernel-cachyos-addons</code> COPR（<b>CachyOS 维护者 sirlucjan 维护</b>）</td></tr>
+      <tr><th>游戏栈</th><td class="ok">✅ <b>全部预装</b>：gamescope 3.16.31 + Gamescope Session + MangoHud 0.8.4 + UMU 1.4.4 + ScopeBuddy + InputPlumber + Distrobox 1.8.2.5</td></tr>
+      <tr><th>HDR / NVIDIA</th><td class="ok">✅ Gamescope HDR 管线（SteamOS 同源）；专用镜像预装 <b>615.78.08</b>（open）/ <b>580.178.04</b>（LTS）</td></tr>
+      <tr><th>短板</th><td class="warn">⚠️ <b>不可变系统</b>（装系统级软件需 <code>rpm-ostree install</code> 或 Distrobox）；<b>内核是 ublue 自编译</b>（不在 Fedora 安全更新覆盖内）；每日自动更新需手动关；中文资料少</td></tr>
+    </tbody>
+  </table>
+  <p><b>为什么它是本轮的"变量"</b>：一次性解决了三个场景里最麻烦的部分 ——</p>
+  <ul>
+    <li><b>场景 ①</b>：<code>greenboot</code> 自动回滚（<b>比 snapper 更"硬"</b>，升级失败自动退回上一镜像）+ 预装 scx 调度器</li>
+    <li><b>场景 ②</b>：游戏栈全预装（省掉 gamemode / mangohud / gamescope / UMU 全部手工配置）+ 原子兜底</li>
+    <li><b>场景 ③</b>：NVIDIA 镜像预装驱动 + HDR + gamescope</li>
+  </ul>
+  <p><b>为什么它仍不是主答案（对"稳定优先"而言）</b>：① 每日自动更新与"更新频率可控"直接冲突；② 不可变 → 场景 ① 要调的内核参数需 <code>rpm-ostree kargs</code>；③ 内核 <code>7.2.9-ogc</code> 是 ublue 自编译，硬件踩坑排查路径不同且不在 Fedora 承诺内；④ 社区规模与中文资料远少于 openSUSE / Ubuntu。</p>
+  <div class="note"><b>一句话定位</b>：Bazzite 是"把 SteamOS 的思路做到通用 PC 上"的答案。如果这台机器是<b>纯游戏机 / 客厅 HTPC / 掌机</b>，它是本候选池最优解；如果是<b>主力工作机顺便玩游戏</b>，openSUSE 系更合适。</div>
+</div>
+
+<div class="card out">
+  <h3><span class="badge b-out">落选（对稳定优先）</span>Kubuntu 26.10 <span class="dim" style="font-size:13px;font-weight:400;">（性能第一，但无回滚 + 非 LTS）</span></h3>
+  <table>
+    <tbody>
+      <tr><th style="width:120px;">Mesa / 内核</th><td class="ok"><b>26.2.4 / 7.3.0-9.9</b> ⭐ <b>全候选池最新</b>（含内核）</td></tr>
+      <tr><th>发布日期</th><td><b>2026-10-15</b>（昨天）</td></tr>
+      <tr><th>支持周期</th><td class="warn"><b>9 个月</b>（非 LTS）</td></tr>
+      <tr><th>回滚</th><td class="no">❌ 无</td></tr>
+      <tr><th>ISA</th><td>v1，但 <b><code>amd64v3</code> 是官方架构之一</b>（<code>Release</code> 文件 <code>Architectures: amd64 amd64v3 …</code>）</td></tr>
+      <tr><th>独家优势</th><td>性能最高 + <code>amd64v3</code> 官方可切（<code>APT::Architecture-Variants "amd64v3"</code>）</td></tr>
+    </tbody>
+  </table>
+  <p><b>裁决</b>：场景 ①②③ 均落选。它是"性能最大化"路线的答案，不是"稳定优先"路线的答案 —— 没有回滚机制 + 9 个月就要再升级一次，两条都违背首要约束。<br><b>但值得知道</b>：如果后来改成"性能优先"，<b>Kubuntu 26.10 + amd64v3</b> 是候选池里跑分最高的组合。</p>
+</div>
+
+<div class="card win">
+  <h3><span class="badge b-win">场景 ③ NVIDIA 冠军</span>Kubuntu 26.04 LTS</h3>
+  <table>
+    <tbody>
+      <tr><th style="width:120px;">Mesa / 内核</th><td>26.0.3 / 7.0.0-14</td></tr>
+      <tr><th>支持周期</th><td class="ok"><b>LTS 2 年 + HWE</b>（→ 2031）</td></tr>
+      <tr><th>回滚</th><td class="no">❌ 无</td></tr>
+      <tr><th>ISA</th><td>v1，<b>提供实验性 <code>amd64v3</code></b>（实测含 <code>mesa-vulkan-drivers</code>）</td></tr>
+      <tr><th>独家优势</th><td class="ok"><b>NVIDIA 专有驱动分发最省事</b>（<code>ubuntu-drivers</code>）+ AI / CUDA 生态最成熟</td></tr>
+    </tbody>
+  </table>
+  <p><b>裁决</b>：场景 ① 可用但不最优；场景 ② <b>落选</b>（Mesa 26.0.3 落后 0.5 个大版本）；<b>场景 ③（NVIDIA）冠军</b> —— N 卡用专有驱动 → Mesa 版本几乎无关，此时"驱动分发省事 + LTS 到 2031"压过 Mesa 时效性劣势。</p>
+  <div class="note w">⚠️ <b>26.04 移除 X11、只剩 Wayland</b> → 图形栈出问题<b>没有 X11 兜底</b>，N 卡用户尤其注意。</div>
+</div>
+
+<div class="card out">
+  <h3><span class="badge b-out">落选</span>Arch Linux <span class="dim" style="font-size:13px;font-weight:400;">（场景 ②③ 亚军，因"无默认回滚"让位）</span></h3>
+  <p>Mesa <b>26.2.4</b> / 内核 <b>7.2.9.arch1</b>（最新梯队）；回滚 <span class="warn">⚠️ 无默认机制</span>（<code>archinstall</code> 可勾 Btrfs+snapper，但非默认）；AUR 生态最强；ISA v1（需第三方 ALHP 才有 v3/v4）。</p>
+  <p><b>裁决</b>：性能与 TW <b>基本同档</b>。输在"回滚" —— Arch 升级炸了要自己进 chroot 救，TW 是开机菜单直接选旧快照。ALHP 的 v3/v4 是加分项，但 <b>v3 对游戏实际收益极小</b>，不值得为它牺牲回滚能力。</p>
+</div>
+
+<div class="card out">
+  <h3><span class="badge b-out">落选</span>Fedora 44 KDE <span class="dim" style="font-size:13px;font-weight:400;">（版本最新，但缺 scx 且无回滚）</span></h3>
+  <p>Mesa <b>26.2.4</b> / 内核 <b>7.2.10-200.fc44</b> ✅ <b>双料最新</b>（本轮实测确认）；回滚 <span class="warn">⚠️ 需手动配</span>；<b class="no">❌ 官方仓库无 <code>scx-scheds</code></b>（两处 404 确认）；ISA v1（v3 推迟 ≥F46）；SELinux 默认 enforcing；NVIDIA 需 RPM Fusion；KDE 自 Fedora 42 起为官方 Edition。</p>
+  <p><b>裁决</b>：Mesa 与内核都在最新梯队，软件质量有保障；但 ① 官方无 scx 包；② 无默认回滚；③ NVIDIA 需 RPM Fusion。<b>在"稳定 + 发挥硬件"综合分上不如 openSUSE 系与 Bazzite。</b></p>
+  <div class="note"><b>有意思的对照</b>：Bazzite 就是"Fedora 44 + 补上 Fedora 缺的东西"（scx 走 COPR、回滚用 rpm-ostree、游戏栈预装）。<b>Fedora 44 KDE 的所有缺口，Bazzite 都补上了 —— 代价是不可变性。</b></div>
+</div>
+
+<div class="card out">
+  <h3><span class="badge b-out">落选</span>NixOS 26.05 <span class="dim" style="font-size:13px;font-weight:400;">（回滚最强，但时效性与配置成本吃亏）</span></h3>
+  <p>版本 <b>26.05 "Yarara"</b>（2026-05-30）；Mesa <b>26.1.8</b>（落后最新一个次版本）；内核 <b>默认 6.18</b>（6.18.56，≥6.14 故<b class="ok">有 NTSync</b>）/ 可选 <b>7.2</b>（7.2.10）；回滚 <b class="ok">✅✅ 声明式 + 原子（最强之一）</b>；<b class="ok">✅ 有 <code>scx</code> 包</b>；ISA v1，v3 需全量本地编译 → 失去缓存红利。</p>
+  <p><b>裁决</b>：场景 ① 理论可用但 ZRAM / THP / sysctl 都要写进 Nix 表达式，配置成本高；场景 ②③ <b>落选</b> —— Mesa 落后一个次版本，且 DXVK/vkd3d 更新要等 nixpkgs PR 合并，<b>时效性天然落后</b>，而这两个场景的唯一杠杆就是时效性。</p>
+  <p><b>一句话</b>：NixOS 是"配置管理最优解"，不是"游戏性能最优解"。</p>
+  <div class="note w">⚠️ <b>Phoronix 从未做过含 NixOS 的发行版横评</b>，其性能结论全部基于结构性推断。</div>
+</div>
+
+<h2>5. 最终裁决矩阵</h2>
+<table>
+  <thead><tr><th>候选</th><th>① CPU 原生</th><th>② CPU Proton</th><th>③ GPU Proton (AMD)</th><th>③ GPU Proton (NVIDIA)</th><th>一句话</th></tr></thead>
+  <tbody>
+    <tr><td><b>openSUSE Slowroll</b></td><td class="ok">🥇 冠军</td><td>🥈 备选</td><td>🥈 备选</td><td>🥈 备选</td><td>稳 + 默认回滚 + 内核够新；"只装一个"最佳答案</td></tr>
+    <tr><td><b>openSUSE Tumbleweed</b></td><td>🥉 可用</td><td class="ok">🥇 冠军</td><td class="ok">🥇 冠军</td><td>🥈 备选</td><td>双料最新 + 默认快照兜底</td></tr>
+    <tr style="background:rgba(188,140,255,.06);"><td><b>Bazzite</b></td><td>🥈 <b>亚军</b></td><td>🥈 <b>强亚军</b></td><td>🥈 <b>强亚军</b></td><td>🥈 <b>亚军</b></td><td>游戏栈全预装 + 原子回滚 + CachyOS 调度器；<b>纯游戏机首选</b></td></tr>
+    <tr><td><b>Arch</b></td><td class="no">❌ 无默认回滚</td><td>🥉</td><td>🥉</td><td>🥉</td><td>性能同档 TW，输在"炸了要自己救"</td></tr>
+    <tr><td><b>Fedora 44 KDE</b></td><td class="warn">⚠️</td><td class="warn">⚠️</td><td class="warn">⚠️</td><td class="warn">⚠️</td><td>Mesa / 内核都最新，但无 scx + 无回滚</td></tr>
+    <tr><td><b>Kubuntu 26.04 LTS</b></td><td class="warn">⚠️</td><td class="no">❌ Mesa 落后</td><td class="warn">⚠️</td><td class="ok">🥇 冠军</td><td>N 卡 + 求稳最佳解；A 卡吃亏</td></tr>
+    <tr><td><b>Kubuntu 26.10</b></td><td class="warn">⚠️</td><td class="warn">⚠️（跑分第一）</td><td class="warn">⚠️（跑分第一）</td><td class="warn">⚠️</td><td>跑分第一但无回滚 + 仅 9 个月</td></tr>
+    <tr><td><b>NixOS 26.05</b></td><td class="warn">⚠️</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td>回滚最强，游戏栈时效性最弱</td></tr>
+  </tbody>
+</table>
+<p><b>"如果只能装一个"</b> → <b class="ok">openSUSE Slowroll</b> &nbsp;|&nbsp; <b>"如果这是纯游戏机"</b> → <b style="color:var(--purple)">Bazzite</b></p>
+
+<h2>6. 落地方案</h2>
+
+<h4>场景 ①：openSUSE Slowroll</h4>
+<pre><code><span class="cmt"># 1) 确认内核能力（应 >= 7.2，含 sched_ext / MGLRU / NTSync）</span>
+uname -r
+ls /sys/kernel/sched_ext 2>/dev/null && echo "sched_ext OK"
+ls /dev/ntsync 2>/dev/null || sudo modprobe ntsync
+
+<span class="cmt"># 2) 游戏工具链（全部官方仓库，无需第三方）</span>
+sudo zypper install gamemode mangohud scx steam
+
+<span class="cmt"># 3) 内存层调参（对"后期卡顿"最有效，配合 ZRAM）</span>
+sudo zypper install systemd-zram-service
+sudo tee /etc/sysctl.d/99-gaming.conf &lt;&lt;'EOF'
+vm.swappiness=100
+vm.vfs_cache_pressure=50
+vm.dirty_ratio=10
+vm.dirty_background_ratio=5
+EOF
+sudo sysctl --system
+
+<span class="cmt"># 4) THP 设 defer+madvise（减少内存抖动）</span>
+echo 'defer+madvise' | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+
+<span class="cmt"># 5) 出事回滚（这是选它的核心理由）</span>
+sudo snapper list && sudo snapper rollback &lt;编号&gt;</code></pre>
+<p class="dim" style="font-size:13.5px;"><b>实测预期</b>：对 RimWorld / 群星 / CK3，唯一可能产生量级差异的是内存吃紧时避免磁盘 swap。其余为个位数百分比。<b>换发行版救不了后期卡顿 —— 换 X3D 或加内存才行。</b></p>
+
+<h4>场景 ②：openSUSE Tumbleweed</h4>
+<pre><code>sudo zypper install gamemode mangohud scx steam
+
+<span class="cmt"># 【关键】装 CachyOS 官方的 v3 优化 Proton —— 不需要装 CachyOS</span>
+<span class="cmt">#    先查最新 tag：https://github.com/CachyOS/proton-cachyos/releases</span>
+TAG="cachyos-11.0-20261005-slr"
+mkdir -p ~/.steam/root/compatibilitytools.d
+curl -LO "https://github.com/CachyOS/proton-cachyos/releases/download/$TAG/proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz"
+tar -xf proton-cachyos-11.0-20261005-slr-x86_64_v3.tar.xz -C ~/.steam/root/compatibilitytools.d/
+<span class="cmt"># Steam → 属性 → 兼容性 → 强制指定该 Proton 版本</span>
+
+ls -l /dev/ntsync                      <span class="cmt"># 内核 7.2.10 >= 6.14 ✅</span>
+MANGOHUD=1 MANGOHUD_CONFIG=fps,frametime,gpu_util %command%   <span class="cmt"># GPU &lt; 90% 才是 CPU 受限</span></code></pre>
+
+<h4>场景 ③：AMD → TW；NVIDIA → Kubuntu 26.04 LTS</h4>
+<pre><code><span class="cmt"># AMD（openSUSE Tumbleweed）</span>
+sudo zypper install mesa-vulkan-drivers mesa-dri-drivers vulkan-tools
+vulkaninfo --summary | grep -E "driverName|driverInfo"   <span class="cmt"># 确认 RADV 版本</span>
+
+<span class="cmt"># NVIDIA（Kubuntu 26.04 LTS；注意只有 Wayland）</span>
+ubuntu-drivers devices && sudo ubuntu-drivers install && nvidia-smi
+
+<span class="cmt"># 可选：整体切 amd64v3（26.04 官方提供，实测含 mesa-vulkan-drivers）</span>
+echo 'APT::Architecture-Variants "amd64v3";' | sudo tee /etc/apt/apt.conf.d/99enable-amd64v3
+sudo apt update && sudo apt full-upgrade
+
+flatpak install flathub com.valvesoftware.Steam
+flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud</code></pre>
+
+<h4>【替代路线】Bazzite（三场景通用）</h4>
+<pre><code><span class="cmt"># 1) 安装：官网按硬件/桌面选镜像（AMD / NVIDIA / 掌机 / Deck 版）</span>
+<span class="cmt">#    https://bazzite.gg/</span>
+
+<span class="cmt"># 2) 先关掉每日自动更新（如果你要"更新频率可控"）</span>
+ujust --help                       <span class="cmt"># 看可用任务</span>
+rpm-ostree status                  <span class="cmt"># 看当前镜像与可回滚的版本</span>
+
+<span class="cmt"># 3) 回滚（出事时）</span>
+rpm-ostree rollback
+bazzite-rollback-helper list && bazzite-rollback-helper rebase &lt;旧版本&gt;
+<span class="cmt">#   或在 GRUB 菜单直接选上一个镜像</span>
+
+<span class="cmt"># 4) 调度器（已预装 scx-scheds / scx-tools，来自 CachyOS COPR）</span>
+scxctl start -s scx_bpfland
+ls /dev/ntsync                     <span class="cmt"># 内核 7.2.9 >= 6.14 ✅</span>
+
+<span class="cmt"># 5) 场景① 的内存层调参（/etc 在 rpm-ostree 下可写）</span>
+sudo tee /etc/sysctl.d/99-gaming.conf &lt;&lt;'EOF'
+vm.swappiness=100
+vm.vfs_cache_pressure=50
+EOF
+sudo sysctl --system
+
+<span class="cmt"># 6) 需要系统级软件时（不可变系统的正确姿势）</span>
+rpm-ostree install &lt;pkg&gt;           <span class="cmt"># 会叠加一层，慎用</span>
+distrobox create --image archlinux:latest --name arch   <span class="cmt"># 更推荐：容器里折腾</span></code></pre>
+
+<h2>7. 坑与反直觉</h2>
+<table>
+  <thead><tr><th>坑</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><b>"换个发行版游戏就快了"</b></td><td>❌ 对原生游戏<b>几乎为零</b>；对 Proton 是<b>个位数百分比</b>（除非内存吃紧或 GPU 驱动差 1.5 代）。<b>硬件（X3D / 内存容量 / GPU）才是最大杠杆。</b></td></tr>
+    <tr><td><b>"Kubuntu 26.10 版本最新所以最好"</b></td><td>❌ 版本最新 ≠ 最适合。它<b>无任何回滚</b>且<b>仅 9 个月支持</b> → 对"稳定优先"是负分。</td></tr>
+    <tr><td><b>"Bazzite 就是个 Fedora 皮肤"</b></td><td>❌ 它补了 Fedora 的三个硬缺口：<b>scx（走 CachyOS 维护者的 COPR）</b>、<b>原子回滚 + greenboot 自动健康检查</b>、<b>游戏栈全预装</b>。</td></tr>
+    <tr><td><b>"不可变系统不能调游戏参数"</b></td><td>❌ 可以。<code>/etc/sysctl.d</code> 可写、<code>/sys/kernel/mm/...</code> 运行时可变、ZRAM 用 <code>zram-generator</code> 配置。<b>只有内核参数需要 <code>rpm-ostree kargs</code>。</b></td></tr>
+    <tr><td><b>"Bazzite 自带 CachyOS 内核"</b></td><td>❌ 它用的是 <b>ublue 自编译的 <code>ogc</code> flavour</b>（7.2.9-ogc），不是 <code>linux-cachyos</code>。<b>只有 <code>scx-scheds</code>/<code>scx-tools</code> 来自 CachyOS 维护者的 COPR。</b></td></tr>
+    <tr><td><b>"Debian 最稳所以最适合游戏"</b></td><td>稳定 ≠ 适合。Debian 13 的 Mesa 25.0.7 / 内核 6.12 是<b>实打实的性能损失</b>，且<b>无默认回滚</b>。</td></tr>
+    <tr><td><b>"Arch 比 TW 快"</b></td><td>实测<b>同档</b>（都 Mesa 26.2.4）。差异在<b>运维模型</b>：Arch 炸了要 chroot 救，TW 开机选旧快照。</td></tr>
+    <tr><td><b>"Slowroll 是降级版"</b></td><td>❌ 实测只滞后 <b>~2 周</b>（Mesa 26.2.3 vs 26.2.4）。降的是<b>更新频率</b>，不是<b>版本水平</b>。</td></tr>
+    <tr><td><b>"v3 重编译能提升帧数"</b></td><td>收益<b>极小且零散</b>。RADV 着色器编译走 LLVM，与宿主 ISA 级别基本无关。<b>Mesa 的"版本" ≫ 它的"ISA 级别"。</b></td></tr>
+    <tr><td><b>"装 proton-cachyos 必须用 CachyOS"</b></td><td>❌ 官方发布独立 <code>x86_64_v3</code> tarball，任何发行版放进 <code>compatibilitytools.d</code> 即可。</td></tr>
+    <tr><td><b>"NixOS 游戏栈太旧"</b></td><td>半对：Mesa <b>26.1.8</b> 确实偏旧，但它<b>有 scx 包</b>、默认内核 <b>6.18（含 NTSync）</b>、回滚最强。它的问题不是"旧"，是<b>配置成本</b>与<b>时效性跟不上</b>。</td></tr>
+  </tbody>
+</table>
+
+<h2>8. 未核实 / 存疑</h2>
+<table>
+  <thead><tr><th>项</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><b>Bazzite 的 <code>ogc</code> 内核 flavour 具体补丁集</b></td><td>仅确认 flavour 名与版本号（7.2.9-ogc3.1），<b>未取得补丁清单</b>（是否含 BORE / fsync / 游戏向补丁不明）。</td></tr>
+    <tr><td><b>Bazzite stable 跟随 Fedora 44 → 45 的时间点</b></td><td>抓取时 <code>unstable-45</code> 已在构建、<code>fedora-release-common</code> 44-18 → 45-0.10，<b>stable 迁移时点未确认</b>。</td></tr>
+    <tr><td><b>Kubuntu 26.04 LTS 的 NVIDIA 驱动版本</b></td><td>本轮未测（<code>ubuntu-drivers</code> 的候选版本未抓）。</td></tr>
+    <tr><td><b>三套方案的实际帧率增益</b></td><td>不存在公开的同机对照基准；量级判断来自前 14 轮结构性分析 + 一手版本差异。</td></tr>
+    <tr><td><b>Slowroll 的长期项目承诺</b></td><td>相对较新的变体，维护承诺与社区规模<b>弱于 Tumbleweed</b>，未取得官方路线图确认。</td></tr>
+    <tr><td><b>Bazzite 与 openSUSE 的同机游戏对照</b></td><td>不存在。<b>Bazzite 在场景 ②③ 与 TW 的"胜负"是结构性推断</b>，不是实测。</td></tr>
+  </tbody>
+</table>
+
+<h2>9. 参考来源（本轮一手探测）</h2>
+<ul>
+  <li><b>Bazzite</b>：GitHub Releases API（stable <code>44.20261012.1</code>：Mesa 26.2.4-1 / 内核 7.2.9-ogc3.1 / gamescope 3.16.31 / MangoHud 0.8.4-2 / KDE 6.7.5 / NVIDIA Open 615.78.08 / NVIDIA LTS 580.178.04；unstable <code>45.20261016</code>：scx-scheds 1.1.3-3 → 1.1.4-1）；<code>Containerfile</code>（<code>KERNEL_FLAVOR=ogc</code>、<b><code>dnf5 -y copr enable bieszczaders/kernel-cachyos-addons</code> + <code>dnf5 -y install scx-scheds scx-tools</code></b>、<code>greenboot</code>、<code>ScopeBuddy</code>、<code>bpftune-gaming</code>）；官方文档 FAQ 与 Updates/Rollbacks；COPR API（<code>source_package.name = scx-scheds</code>，submitter <code>sirlucjan</code>）</li>
+  <li><b>Kubuntu 26.10（stonking）</b>：<code>archive.ubuntu.com/ubuntu/dists/stonking/Release</code>（<code>Version: 26.10</code>，<code>Date: Thu, 15 Oct 2026</code>，<code>Architectures: amd64 amd64v3 arm64 …</code>）+ <code>main/binary-amd64/Packages.gz</code>（mesa-vulkan-drivers 26.2.4-1ubuntu1 / linux-image-generic 7.3.0-9.9 / libc6 2.44-1ubuntu2；6,446 包）</li>
+  <li><b>Fedora 44</b>：<code>dl.fedoraproject.org/pub/fedora/linux/updates/44/Everything/x86_64/Packages/</code>（mesa-vulkan-drivers-26.2.4-1.fc44 / kernel-7.2.10-200.fc44）；<code>packages.fedoraproject.org/pkgs/scx-scheds/scx-scheds/</code> → <b>404</b></li>
+  <li><b>NixOS 26.05</b>：<code>nixos-26.05/pkgs/development/libraries/mesa/common.nix</code>（26.1.8）；<code>pkgs/top-level/linux-kernels.nix</code>（<code>linux_default = linux_6_18</code>、<code>linux_latest = linux_7_2</code>）；<code>pkgs/os-specific/linux/scx/default.nix</code> → 200</li>
+  <li><b>openSUSE / Arch</b>：沿用第 14 轮实测</li>
+</ul>
+
+<footer>
+  Linux 游戏性能调研 · 第 15 轮 ｜ 承接 <code>distro-choice/README.md</code>（第 14 轮）与 <code>cachyos/</code>（前 13 轮）<br>
+  生成日期 2026-10-16 ｜ 所有版本号均来自直接 HTTP 抓取发行版官方仓库 / GitHub API / nixpkgs 源文件
+</footer>
+
+</div>
+</body>
+</html>
