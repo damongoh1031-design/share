@@ -1,5 +1,308 @@
 # goose 官方文档中文手册（完整版）
 
+## 快速开始：goose 五分钟入门
+
+> 原文：https://block.github.io/goose/docs/quickstart
+
+goose 是一个可扩展的开源 AI 代理，它通过自动化编码任务来增强你的软件开发。
+
+本快速教程将引导你完成：
+
+- ✅ 安装 goose
+- ✅ 配置你的 LLM
+- ✅ 构建一个小应用
+- ✅ 添加一个 MCP 服务器
+
+让我们开始吧 🚀
+
+### 安装 goose
+
+<Tabs>
+  <TabItem value="mac" label="macOS" default>
+    选择安装 goose 的桌面版和/或 CLI 版本：
+
+    <Tabs groupId="interface">
+      <TabItem value="ui" label="goose Desktop" default>
+        <MacDesktopInstallButtons/>
+        <div style={{ marginTop: '1rem' }}>
+          1. 解压下载的 zip 文件。
+          2. 运行可执行文件以启动 goose 桌面版应用程序。
+        </div>
+      </TabItem>
+      <TabItem value="cli" label="goose CLI">
+        运行以下命令安装 goose：
+
+```sh
+curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+```
+      </TabItem>
+    </Tabs>
+  </TabItem>
+
+  <TabItem value="linux" label="Linux">
+    选择安装 goose 的桌面版和/或 CLI 版本：
+
+    <Tabs groupId="interface">
+      <TabItem value="ui" label="goose Desktop" default>
+        <LinuxDesktopInstallButtons/>
+        <div style={{ marginTop: '1rem' }}>
+          **适用于基于 Debian/Ubuntu 的发行版：**
+          1. 下载 DEB 文件
+          2. 在终端中导航到该文件保存的目录
+          3. 运行 `sudo dpkg -i (filename).deb`
+          4. 从应用菜单启动 goose
+
+        </div>
+      </TabItem>
+      <TabItem value="cli" label="goose CLI">
+        运行以下命令在 Linux 上安装 goose CLI：
+
+```sh
+curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+```
+      </TabItem>
+    </Tabs>
+  </TabItem>
+
+  <TabItem value="windows" label="Windows">
+    选择安装 goose 的桌面版和/或 CLI 版本：
+
+    <Tabs groupId="interface">
+      <TabItem value="ui" label="goose Desktop" default>
+        <WindowsDesktopInstallButtons/>
+        <div style={{ marginTop: '1rem' }}>
+          1. 解压下载的 zip 文件。
+          2. 运行可执行文件以启动 goose 桌面版应用程序。
+        </div>
+      </TabItem>
+      <TabItem value="cli" label="goose CLI">
+
+        在 **Git Bash**、**MSYS2** 或 **PowerShell** 中运行以下命令，以在 Windows 上原生安装 goose CLI：
+
+```bash
+curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+```
+
+        在[安装指南](https://block.github.io/goose/docs/getting-started/installation)中了解前提条件。
+
+        :::info PATH 警告与密钥环
+        如果安装后看到 PATH 警告，你需要在运行 `goose configure` 之前将 goose 添加到 PATH。详细步骤请参阅 [Windows CLI 安装说明](https://block.github.io/goose/docs/getting-started/installation)。
+
+        如果在配置过程中出现提示，请选择不存储到密钥环。如果遇到密钥环错误，请参阅 [Windows 设置说明](https://block.github.io/goose/docs/getting-started/installation#set-llm-provider)以获取更多信息。
+        :::
+
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>
+
+### 配置提供方
+
+goose 可与[受支持的 LLM 提供方](https://block.github.io/goose/docs/getting-started/providers)配合使用，这些提供方为 goose 提供理解你的请求所需的 AI 智能。首次使用时，系统会提示你配置首选的提供方。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  在欢迎界面上，你有以下选项：
+
+  <OnboardingProviderSetup />
+
+  对于本快速入门，请选择 **Agent Router by Tetrate**。Tetrate 提供对多个 AI 模型的访问，并内置速率限制和自动故障转移。有关其他提供方的更多信息，请参阅[配置 LLM 提供方](https://block.github.io/goose/docs/getting-started/providers)。
+
+  goose 会打开浏览器，让你使用 Tetrate 进行身份验证；如果你还没有账户，也可以创建一个新账户。当你返回 goose 桌面版应用后，即可开始你的第一个会话。
+
+  :::info 免费额度优惠
+  当你首次通过 goose 自动使用 Tetrate 进行身份验证时，将获得 $10 免费额度。此优惠对新老 Tetrate 用户均可用。
+  :::
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  1. 在你的终端中，运行以下命令：
+
+```sh
+goose configure
+```
+
+  2. 从菜单中选择 `Configure Providers` 并按 Enter。
+
+```
+   ┌   goose-configure 
+   │
+   ◆  What would you like to configure?
+   │  ● Configure Providers (Change provider or update credentials)
+   │  ○ Add Extension 
+   │  ○ Toggle Extensions 
+   │  ○ Remove Extension 
+   │  ○ goose settings 
+   └  
+```
+   3. 选择一个模型提供方。对于本快速入门，请选择 `Tetrate Agent Router Service` 并按 Enter。Tetrate 提供对多个 AI 模型的访问，并内置速率限制和自动故障转移。有关其他提供方的信息，请参阅[配置 LLM 提供方](https://block.github.io/goose/docs/getting-started/providers)。
+
+```
+   ┌   goose-configure 
+   │
+   ◇  What would you like to configure?
+   │  Configure Providers 
+   │
+   ◆  Which model provider should we use?
+   │  ○ Amazon Bedrock 
+   │  ○ Amazon SageMaker TGI 
+   │  ○ Anthropic 
+   │  ○ Azure OpenAI 
+   │  ○ ChatGPT Codex 
+   │  ○ Claude Code CLI 
+   │  ○ ...
+   |  ● Tetrate Agent Router Service (Enterprise router for AI models)
+   │  ○ ...
+   └  
+```
+    :::info 免费额度优惠
+    当你首次通过 goose 自动使用 Tetrate 进行身份验证时，将获得 $10 免费额度。此优惠对新老 Tetrate 用户均可用。
+    :::
+
+   4. 在出现提示时输入你的 API 密钥（以及任何其他配置详情）。
+
+```
+   ┌   goose-configure 
+   │
+   ◇  What would you like to configure?
+   │  Configure Providers 
+   │
+   ◇  Which model provider should we use?
+   │  Tetrate Agent Router Service 
+   │
+   ◆  Provider Tetrate Agent Router Service requires TETRATE_API_KEY, please enter a value
+   │  ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
+   └  
+```
+    :::tip GitHub Copilot 身份验证
+    GitHub Copilot 不使用 API 密钥。相反，在配置过程中会生成一个身份验证码。要生成该代码，请选择 `GitHub Copilot` 作为你的提供方。验证码会被复制到你的剪贴板，并打开一个浏览器窗口，你可以在其中粘贴它以完成身份验证。
+
+    更多详情，请参阅 [GitHub Copilot 身份验证](https://block.github.io/goose/docs/getting-started/providers#github-copilot-authentication)。
+    :::
+
+   5. 选择或搜索你想使用的模型。
+
+```
+   │
+   ◇  Model fetch complete
+   │
+   ◆  Select a model:
+   │  ○ Search all models...
+   │  ○ gemini-2.5-pro
+   │  ○ gemini-2.0-flash
+   |  ○ gemini-2.0-flash-lite
+   │  ● gpt-5 (Recommended)
+   |  ○ gpt-5-mini
+   |  ○ gpt-5-nano
+   |  ○ gpt-4.1
+   │
+   ◓  Checking your configuration...
+   └  Configuration saved successfully
+```
+  </TabItem>
+</Tabs>
+
+### 开始会话
+
+会话是你与 goose 之间单一、连续的对话。让我们开始一个会话。
+
+<Tabs groupId="interface">
+    <TabItem value="ui" label="goose Desktop" default>
+        选择 LLM 提供方后，点击侧边栏中的 `Home` 按钮。
+
+        将你的问题、任务或指令直接输入到输入框中，goose 会立即开始工作。
+    </TabItem>
+    <TabItem value="cli" label="goose CLI">
+        1. 创建一个空目录（例如 `goose-demo`），并从终端导航到该目录。
+        2. 要开始一个新会话，请运行：
+
+```sh
+goose session
+```
+
+    </TabItem>
+</Tabs>
+
+### 编写提示词
+
+在提示词中，你可以像与开发者交谈一样输入指令，与 goose 进行交互。
+
+让我们让 goose 做一个井字棋游戏！
+
+```
+create an interactive browser-based tic-tac-toe game in javascript where a player competes against a bot
+```
+
+goose 会制定一个计划，然后立即着手实现它。完成后，你的目录中应包含一个 JavaScript 文件以及一个用于游玩的 HTML 页面。
+
+### 启用扩展
+
+虽然你可以手动导航到工作目录并在浏览器中打开 HTML 文件，但如果 goose 能替你完成这件事不是更好吗？让我们通过启用 [`Computer Controller` 扩展](https://block.github.io/goose/docs/mcp/computer-controller-mcp)来赋予 goose 打开 Web 浏览器的能力。
+
+<Tabs groupId="interface">
+
+    <TabItem value="ui" label="goose Desktop" default>
+        1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮以打开侧边栏。
+        2. 点击侧边栏菜单中的 `Extensions`。
+        3. 切换 `Computer Controller` 扩展以启用它。此扩展支持网页抓取、文件缓存和自动化。
+        4. 返回你的会话以继续。
+        5. 现在 goose 已具备浏览器能力，让我们让它在一个浏览器中启动你的游戏：
+    </TabItem>
+    <TabItem value="cli" label="goose CLI">
+        1. 输入 `Ctrl+C` 结束当前会话，以便返回到终端的命令提示符。
+        2. 运行配置命令
+
+```sh
+goose configure
+```
+
+        3. 选择 `Add Extension` > `Built-in Extension` > `Computer Controller`，并将超时设置为 300s。此扩展支持网页抓取、文件缓存和自动化。
+
+```
+        ┌   goose-configure
+        │
+        ◇  What would you like to configure?
+        │  Add Extension
+        │
+        ◇  What type of extension would you like to add?
+        │  Built-in Extension
+        │
+        ◇  Which built-in extension would you like to enable?
+        │  Computer Controller
+        │
+        ◇  Please set the timeout for this tool (in secs):
+        │  300
+        │
+        └  Enabled computercontroller extension
+```
+        4. 现在 goose 已具备浏览器能力，让我们恢复你上次的会话：
+
+```sh
+ goose session -r
+```
+
+        5. 让 goose 在浏览器中启动你的游戏：
+    </TabItem>
+</Tabs>
+
+```
+open the tic-tac-toe game in a browser
+```
+
+去玩你的游戏吧，我知道你想玩 😂……祝你好运！
+
+### 后续步骤
+
+恭喜，你已成功使用 goose 开发了一个 Web 应用！🎉
+
+以下是一些后续步骤的想法：
+* 继续与 goose 进行会话，改进你的游戏（样式、功能等）。
+* 浏览其他可用的[扩展](https://block.github.io/goose/extensions)并安装更多，以进一步增强 goose 的功能。
+* 为 goose 提供一组[提示](https://block.github.io/goose/docs/guides/context-engineering/using-goosehints)，以便在你的会话中使用。
+* 如果你不希望 goose 自主工作，了解如何设置[访问控制](https://block.github.io/goose/docs/mcp/developer-mcp#configuring-access-controls)。
+
+---
+
 ## 安装 goose
 
 > 原文：https://block.github.io/goose/docs/getting-started/installation
@@ -438,11 +741,2383 @@ just generate-manpages
 
 ---
 
+## 配置 LLM 提供方
+
+> 原文：https://block.github.io/goose/docs/getting-started/providers
+
+goose 兼容种类繁多的 LLM 提供方，你可以选择并集成自己偏好的模型。
+
+:::tip 模型选择
+<ModelSelectionTip/>
+[Berkeley Function-Calling Leaderboard][function-calling-leaderboard] 可以作为选择模型时的良好参考。
+:::
+
+### 可用提供方
+
+| 提供方                                                                    | 描述                                                                                                                                                                                                               | 参数                                                                                                                                                                          |
+|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [AI/ML API](https://aimlapi.com/)                                           | 一个 API key 即可使用来自众多提供方的 300+ 聊天、图像、视频、音频和嵌入模型，兼容 OpenAI。 | `AIMLAPI_API_KEY` |
+| [Amazon Bedrock](https://aws.amazon.com/bedrock/)                           | 提供多种基础模型，包括 Claude、Jurassic-2 等。**AWS 环境变量必须提前设置，不能通过 `goose configure` 配置**                                           | 凭证认证：`AWS_PROFILE`，或 `AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY`、`AWS_REGION`<br /><br />Bearer token 认证：`AWS_BEARER_TOKEN_BEDROCK` 以及 `AWS_REGION`、`AWS_DEFAULT_REGION` 或 `AWS_PROFILE` |
+| [Amazon SageMaker TGI](https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html) | 通过 Amazon SageMaker 端点运行 Text Generation Inference 模型。**AWS 凭证必须提前配置。** | `SAGEMAKER_ENDPOINT_NAME`、`AWS_REGION`（可选）、`AWS_PROFILE`（可选）  |
+| [Anthropic](https://www.anthropic.com/)                                     | 提供 Claude，一款用于自然语言任务的先进 AI 模型。                                                                                                                                                           | `ANTHROPIC_API_KEY`、`ANTHROPIC_HOST`（可选）                                                                                                                                                                 |
+| [Atomic Chat](https://github.com/AtomicBot-ai/Atomic-Chat)                | 使用 Atomic Chat 的 OpenAI 兼容服务器运行本地模型。**由于该提供方在本地运行，你必须先[下载模型](#local-llms)。** | 无需配置。默认连接位于 `localhost:1337` 的本地服务器。 |
+| [Avian](https://avian.io/)                                                   | 高性价比的推理 API，提供 DeepSeek、Kimi、GLM 和 MiniMax 模型。兼容 OpenAI，支持流式传输和函数调用。                                                                                  | `AVIAN_API_KEY`、`AVIAN_HOST`（可选）                                                                                                                                            |
+| [Azure AI Foundry](https://block.github.io/goose/docs/guides/azure-foundry-provider) | 访问通过 Azure AI Foundry 项目或 MaaS 端点部署的 OpenAI、Anthropic、Microsoft、Meta、Mistral、DeepSeek、GLM、Kimi 及其他模型。 | `AZURE_FOUNDRY_ENDPOINT`、`AZURE_FOUNDRY_API_KEY`（可选）、`AZURE_FOUNDRY_AD_TOKEN`（可选）、`AZURE_FOUNDRY_API_VERSION`（可选） |
+| [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) | 访问 Azure 托管的 OpenAI 模型，包括 GPT-4 和 GPT-3.5。支持 API key、Entra ID bearer token 和 Azure 凭证链认证。                                                                                          | `AZURE_OPENAI_ENDPOINT`、`AZURE_OPENAI_DEPLOYMENT_NAME`、`AZURE_OPENAI_API_KEY`（可选）、`AZURE_OPENAI_AD_TOKEN`（可选）                                                                                           |
+| [ChatGPT Codex](https://chatgpt.com/codex) | 访问针对代码生成与理解优化的 GPT-5 Codex 模型。**需要 ChatGPT Plus/Pro 订阅。** | 无需手动配置 key。CLI 和 Desktop 均使用基于浏览器的 OAuth 认证。 |
+| [Databricks](https://www.databricks.com/)                                   | 用于构建和部署模型的统一数据分析与 AI 平台。                                                                                                                                                 | `DATABRICKS_HOST`、`DATABRICKS_TOKEN` |
+| [Docker Model Runner](https://docs.docker.com/ai/model-runner/)                             | 在 Docker Desktop 或 Docker CE 中运行、提供 OpenAI 兼容 API 端点的本地模型。**由于该提供方在本地运行，你必须先[下载模型](#local-llms)。**                     | `OPENAI_HOST`、`OPENAI_BASE_PATH`   |
+| [EmpirioLabs AI](https://empiriolabs.ai/)                                      | 通过一个兼容 OpenAI 且支持流式传输的 API 提供前沿的开源与专有聊天模型（Qwen、DeepSeek、GLM、Kimi、MiniMax）。目录见 `https://api.empiriolabs.ai/v1/models`。        | `EMPIRIOLABS_API_KEY`                                                                                                                                                              |
+| [Friendli AI](https://friendli.ai/)                                            | Friendli Model API 提供对一组精选模型的即时访问，由名为 [Friendli Engine](https://friendli.ai/why-friendliai) 的专有推理栈驱动，实现高性能、低成本的推理。               | `FRIENDLI_API_KEY`                                                                                                                                                                  |
+| [FuturMix](https://futurmix.ai/)                                            | 统一的 AI 网关，通过兼容 OpenAI 的 API 提供对 Anthropic、Google、OpenAI 和 DeepSeek 模型的访问。                                                                          | `FUTURMIX_API_KEY`                                                                                                                                                                  |
+| [Gemini](https://ai.google.dev/gemini-api/docs)                             | Google 提供的高级 LLM，具备多模态能力（文本、图像）。Gemini 3 模型支持可配置的[思考等级](#gemini-3-thinking-levels)。                                                                                                | `GOOGLE_API_KEY`、`GEMINI3_THINKING_LEVEL`（可选）                                                                                                                              |
+| [GCP Vertex AI](https://cloud.google.com/vertex-ai)                         | Google Cloud 的 Vertex AI 平台，支持 Gemini 和 Claude 模型。**凭证必须[提前配置](https://cloud.google.com/vertex-ai/docs/authentication)。** 根据组织策略（如已配置）过滤允许使用的模型。 | `GCP_PROJECT_ID`、`GCP_LOCATION`，以及可选的 `GCP_MAX_RATE_LIMIT_RETRIES`（5）、`GCP_MAX_OVERLOADED_RETRIES`（5）、`GCP_INITIAL_RETRY_INTERVAL_MS`（5000）、`GCP_BACKOFF_MULTIPLIER`（2.0）、`GCP_MAX_RETRY_INTERVAL_MS`（320_000）。 |
+| [GitHub Copilot](https://docs.github.com/en/copilot/using-github-copilot/ai-models) | 通过 GitHub 的 Copilot 基础设施访问来自 OpenAI、Anthropic、Google 及其他提供方的 AI 模型。**需要具有 Copilot 访问权限的 GitHub 账号。** | 无需手动配置 key。CLI 和 Desktop 均使用[设备流认证](#github-copilot-authentication)。 |
+| [Gondola](https://gondola-ai.com/guides)                                     | 通过 Venice AI 按请求付费的推理，以 Base 上的 USDC 结算。无需订阅或最低消费。包含保护隐私的 TEE 模型（`e2ee-*`）。兼容 OpenAI。                                                      | `GONDOLA_API_KEY`、`GONDOLA_HOST`（可选）                                                                                                                                        |
+| [Groq](https://groq.com/)                                                   | 面向 LLM 的高性能推理硬件与工具。                                                                                                                                                                   | `GROQ_API_KEY`                                                                                                                                                                      |
+| [iFlytek Spark](https://www.xfyun.cn/doc/spark/HTTP%E8%B0%83%E7%94%A8%E6%96%87%E6%A1%A3.html) | 通过兼容 OpenAI 的 HTTP API 访问 iFlytek Spark（讯飞星火）模型（4.0Ultra、generalv3.5、max-32k）。最适合聊天：Spark 需要 `tool_calls_switch=true`（此处无法注入）才能返回 OpenAI 风格的工具调用。 | `SPARK_API_PASSWORD` |
+| [iFlytek Astron MaaS](https://maas.xfyun.cn/)                               | iFlytek Astron MaaS（讯飞星辰）通过兼容 OpenAI 的 API 托管 Spark X2、DeepSeek、GLM、Kimi、MiniMax、Qwen 及 Astron 编码模型。设置 `ASTRON_BASE_URL` 可在 Token Plan 与 Coding Plan 端点之间切换。 | `ASTRON_API_KEY`、`ASTRON_BASE_URL`（可选） |
+| [IO Intelligence](https://io.net/) | 通过 io.net 兼容 OpenAI 的 API 为开放权重模型（DeepSeek、Qwen、Llama、GLM、Kimi、gpt-oss 等）提供推理。 | `IONET_API_KEY` |
+| [LiteLLM](https://docs.litellm.ai/docs/) | LiteLLM 代理，支持多个模型，具备自动提示词缓存与统一 API 访问。 | `LITELLM_HOST`、`LITELLM_BASE_PATH`（可选）、`LITELLM_API_KEY`（可选）、`LITELLM_CUSTOM_HEADERS`（可选）、`LITELLM_TIMEOUT`（可选） |
+| [LM Studio](https://lmstudio.ai/)                                          | 使用 LM Studio 的 OpenAI 兼容服务器运行本地模型。**由于该提供方在本地运行，你必须先[下载模型](#local-llms)。**                                                           | 无需配置。默认连接位于 `localhost:1234` 的本地服务器。                                                                                                             |
+| [Meta](https://dev.meta.ai/)                                                | Meta 的 Model API，Muse Spark 模型之家。                                                                                                                                | `META_MODEL_API_KEY`                                                                                                                                                                |
+| [Mistral AI](https://mistral.ai/)                                           | 提供对 Mistral 模型的访问，包括通用模型、专用编码模型（Codestral）和多模态模型（Pixtral）。                                                                   | `MISTRAL_API_KEY`                                                                                                 |
+| [NEAR AI Cloud](https://cloud.near.ai/)                                     | 通过兼容 OpenAI 的 API 提供 TEE 支持的私有推理，支持动态模型发现。                                                                                                                   | `NEARAI_API_KEY`                                                                                                                                                                  |
+| [Novita AI](https://novita.ai/)                                             | 90+ 开源模型，提供兼容 OpenAI 的 API 和有竞争力的价格。支持 Kimi K2.5、DeepSeek、GLM、MiniMax、Qwen 等。                                                                       | `NOVITA_API_KEY`                                                                                                  |
+| [Ollama](https://ollama.com/)                                               | 本地模型运行器，支持 Qwen、Llama、DeepSeek 及其他开源模型。**由于该提供方在本地运行，你必须先[下载并运行模型](#local-llms)。**  | `OLLAMA_HOST`                                                                                                                                                                       |
+| [Ollama Cloud](https://ollama.com/)                                         | 通过兼容 OpenAI 的 API 访问 ollama.com 上的托管模型。需要 Ollama 账号和 API key。  | `OLLAMA_CLOUD_API_KEY`                                                                                                                                                                       |
+| [OpenAI](https://platform.openai.com/api-keys)                              | 提供 gpt-4o、o1 及其他高级语言模型。也支持兼容 OpenAI 的端点（例如自托管的 LLaMA、vLLM、KServe）。**不支持 o1-mini 和 o1-preview，因为 goose 使用工具调用。** | `OPENAI_API_KEY`、`OPENAI_HOST`（可选）、`OPENAI_ORGANIZATION`（可选）、`OPENAI_PROJECT`（可选）、`OPENAI_CUSTOM_HEADERS`（可选）                                       |
+| [OpenRouter](https://openrouter.ai/)                                        | 用于统一访问各类模型的 API 网关，具备速率限制管理等功能。                                                                                                                             | `OPENROUTER_API_KEY`、`OPENROUTER_HOST`（可选）、`OPENROUTER_PARAMETERS`（可选）                                                                                              |
+| [Perplexity](https://www.perplexity.ai/)                                    | 内置实时网页搜索依据的聊天模型。OpenAI 兼容的 chat completions API 位于 `https://api.perplexity.ai`。                                                                                          | `PERPLEXITY_API_KEY`                                                                                                                                                                |
+| [OVHcloud AI](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/)       | 通过 AI Endpoints 服务提供对 Qwen、Llama、Mistral 和 DeepSeek 等开源模型的访问。                                                       | `OVHCLOUD_API_KEY`                                                                                                                                                                  |
+| [Ramalama](https://ramalama.ai/)                                            | 使用原生 [OCI](https://opencontainers.org/) 容器运行时、[CNCF](https://www.cncf.io/) 工具并将模型作为 OCI 工件支持的本地模型。Ramalama API 是 Ollama 的兼容替代方案，可与 goose 的 Ollama 提供方一起使用。支持 Qwen、Llama、DeepSeek 及其他开源模型。**由于该提供方在本地运行，你必须先[下载并运行模型](#local-llms)。**  | `OLLAMA_HOST`                                                                                                                                                                       |
+| [Routstr](https://routstr.com/)                                             | 兼容 OpenAI 的聚合器，将数十个上游提供方（Anthropic、OpenAI、Google、DeepSeek、Llama……）汇聚在单个 API 之后。使用你的 Routstr 实例签发的 `sk-...` bearer 进行认证——支付在 goose 之外处理。                                                                                                                                                                       | `ROUTSTR_API_KEY`、`ROUTSTR_HOST`（可选，默认 `https://api.routstr.com`）                                                                                                     |
+| [SayGM](https://saygm.com/)                                                 | 通过兼容 OpenAI 的 API 提供 TEE 支持的私有推理，支持动态模型路由。价格在每次请求时于运行时确定。                                                                           | `SAYGM_API_KEY`                                                                                                   |
+| [SaladCloud AI Gateway](https://salad.com/)                                 | 兼容 OpenAI 的方式访问 SaladCloud 托管的开源模型，包括 Qwen、Gemma 等。                                                                                                          | `SALAD_CLOUD_API_KEY`                                                                                                                                                              |
+| [Scaleway](https://www.scaleway.com/en/generative-apis/)                    | 欧洲云服务，提供对 Mistral、Qwen 等模型及开源权重的 OpenAI 兼容访问。确保数据驻留与 GDPR 合规。                                                                                                                                                                                                                                                                | `SCW_SECRET_KEY`      |
+| [Snowflake](https://docs.snowflake.com/user-guide/snowflake-cortex/aisql#choosing-a-model) | 使用 Snowflake Cortex 服务访问最新模型，包括 Claude 模型。**需要 Snowflake 账号和编程访问令牌（PAT）。**                                                     | `SNOWFLAKE_HOST`、`SNOWFLAKE_TOKEN`                                                                                                                                                                 |
+| [VMware Tanzu Platform](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/ai-services/10-3/ai/index.html) | 通过 VMware Tanzu Platform 上的 AI Services 提供企业托管的 LLM 访问。模型从端点动态获取。 | `TANZU_AI_API_KEY`、`TANZU_AI_ENDPOINT` |
+| [Tetrate Agent Router Service](https://router.tetrate.ai)                   | 面向 AI 模型（包括 Claude、Gemini、GPT、开放权重模型等）的统一 API 网关。支持 PKCE 认证流程以安全生成 API key。                                                                                | `TETRATE_API_KEY`、`TETRATE_HOST`（可选）                                                                                                                                        |
+| [TrustedRouter](https://trustedrouter.com)                                  | 通过 TrustedRouter 兼容 OpenAI 的 API 访问来自 OpenAI、Anthropic、Google、DeepSeek 等提供方的模型，具备按请求路由与故障转移。                                                                                                     | `TRUSTEDROUTER_API_KEY`                                                                                                                                                             |
+| [Venice AI](https://venice.ai/home)                                         | 提供对 Llama、Mistral、Qwen 等开源模型的访问，同时优先保护用户隐私。**需要账号和 [API key](https://docs.venice.ai/overview/guides/generating-api-key)。**                 | `VENICE_API_KEY`、`VENICE_HOST`（可选）、`VENICE_BASE_PATH`（可选）、`VENICE_MODELS_PATH`（可选）                                                                          |
+| [Cerebras](https://cerebras.ai/)                                            | 在 Cerebras 晶圆级引擎上快速推理 Llama、Qwen 等模型。                                                                                                                                  | `CEREBRAS_API_KEY`                                                                                                                                                                  |
+| [xAI](https://x.ai/)                                                        | 访问 xAI 的 Grok 模型，包括 grok-3、grok-3-mini 和 grok-3-fast，具有 131,072 token 上下文窗口。                                                                                                            | `XAI_API_KEY`、`XAI_HOST`（可选）                                                                                                                                                |
+
+:::tip Claude 模型的提示词缓存
+当通过 Anthropic、Amazon Bedrock、Databricks、OpenRouter 和 LiteLLM 提供方使用 Claude 模型时，goose 会自动启用 Anthropic 的[提示词缓存](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)。这会向请求添加 `cache_control` 标记，通过缓存常用上下文来降低较长对话的成本。技术细节见[提供方实现](https://github.com/aaif-goose/goose/tree/main/crates/goose/src/providers)。
+:::
+
+#### CLI 提供方
+
+| 提供方                                                                    | 描述                                                                                                                                                                                                               | 要求                                                                                                                                                                          |
+|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Cursor Agent](https://docs.cursor.com/en/cli/overview)（`cursor-agent`）   | 使用 Cursor 的 AI CLI 工具，配合你的 Cursor 订阅。通过 cursor-agent 命令行界面提供对 GPT-5、Claude 4 及其他模型的访问。                                              | 已安装并完成认证的 cursor-agent CLI                                                                                                         |
+
+#### ACP 提供方
+
+goose 支持把 [Agent Client Protocol（ACP）](https://agentclientprotocol.com/) 代理作为提供方。ACP 提供方会把 goose 扩展作为 MCP 服务器传递给该代理。
+
+| 提供方                                                                    | 描述                                                                                                                                                                                                               | 要求                                                                                                                                                                          |
+|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Claude ACP](https://github.com/agentclientprotocol/claude-agent-acp)（`claude-acp`） | 通过 ACP 使用 Claude Code。将 goose 扩展作为 MCP 服务器传递给该代理。 | `npm install -g @agentclientprotocol/claude-agent-acp`、有效的 Claude Code 订阅 |
+| [Codex ACP](https://github.com/agentclientprotocol/codex-acp)（`codex-acp`） | 通过 ACP 使用 OpenAI Codex。将 goose 扩展作为 MCP 服务器传递给该代理。 | `npm install -g @agentclientprotocol/codex-acp`、有效的 ChatGPT Plus/Pro 订阅或 OpenAI API 额度 |
+
+:::tip ACP 提供方
+详细设置说明见 [ACP 提供方指南](https://block.github.io/goose/docs/guides/acp-providers)。
+:::
+
+#### Z.AI Coding Plan
+
+在 goose Desktop 中，打开 **Settings → Models**，选择 **Z.AI Coding Plan**，然后输入你的 Coding Plan API key。模型选择器会从你的 Coding Plan 端点发现可用模型；使用 **Refresh** 更新列表。
+Z.AI 可能列出你的订阅无法使用的模型；在你发送请求时才会检查访问权限。
+
+在 CLI 中，在 `goose configure` 里选择 **Z.AI Coding Plan** 并提供你的 Coding Plan API key，或者设置 `GOOSE_PROVIDER=zai_coding_plan`、`GOOSE_MODEL=glm-5.3` 和
+`ZAI_CODING_PLAN_API_KEY`。当端点不支持模型发现时，GLM-5.3 和 GLM-5.3-Flash 是回退选项。
+
+该提供方使用专用的 OpenAI 兼容端点
+`https://api.z.ai/api/coding/paas/v4`。它为流式请求（包括新发现的模型）同时启用 `stream` 和 `tool_stream`，因此工具参数会增量到达，并在工具结果轮次之间保留
+`reasoning_content`。现有的 **Z.AI** 提供方继续使用 Anthropic 兼容端点。
+
+参见 Z.AI 的 [Coding Plan 模型可用性](https://docs.z.ai/devpack/overview)、
+[工具流式传输](https://docs.z.ai/guides/capabilities/stream-tool)和
+[思考保留](https://docs.z.ai/guides/capabilities/thinking-mode)文档。
+
+### 配置提供方与模型
+
+要配置你所选的提供方、查看可用选项或选择模型，请访问 goose Desktop 中的 `Models` 标签页，或在 CLI 中运行 `goose configure`。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **首次使用的用户：**
+
+  在第一次打开 goose 时的欢迎界面上，你有以下选项：
+
+  <OnboardingProviderSetup />
+
+  <Tabs groupId="setup">
+    <TabItem value="apikey" label="快速设置" default>
+    1. 选择 `Quick Setup with API Key`。
+    2. 输入来自你的提供方的 API key（例如 OpenAI、Anthropic 或 Google）。
+    3. goose 会自动检测你的提供方并配置连接。
+    4. 设置完成后，你就可以开始你的第一个会话。
+    </TabItem>
+
+    <TabItem value="chatgpt" label="ChatGPT 订阅">
+    1. 选择 `ChatGPT Subscription`。
+    2. goose 会打开一个浏览器窗口，让你用有效的 ChatGPT Plus 或 Pro 订阅凭证登录。
+    3. 授权 goose 访问你的 ChatGPT 订阅。
+    4. 当你返回 goose Desktop 时，你就可以开始你的第一个会话。
+    </TabItem>
+    <TabItem value="tetrate" label="Agent Router">
+    我们建议新用户从 Tetrate 的 Agent Router 开始。Tetrate 提供对多个 AI 模型的访问，内置速率限制和自动故障转移。
+
+    :::info 免费额度优惠
+    当你第一次通过 goose 自动向 Tetrate 认证时，你将获得 $10 免费额度。该优惠对新的和现有的 Tetrate 用户均可用。
+    :::
+    1. 选择 `Agent Router by Tetrate`。
+    2. goose 会打开一个浏览器窗口，让你向 Tetrate 认证，如果你还没有账号则会创建一个新账号。
+    3. 当你返回 goose Desktop 时，你就可以开始你的第一个会话。
+    </TabItem>
+
+    <TabItem value="openrouter" label="OpenRouter">
+    1. 选择 `Automatic setup with OpenRouter`。
+    2. goose 会打开一个浏览器窗口，让你向 OpenRouter 认证，如果你还没有账号则会创建一个新账号。
+    3. 当你返回 goose Desktop 时，你就可以开始你的第一个会话。
+    </TabItem>
+
+    <TabItem value="others" label="其他提供方">
+    1. 如果你有想在 goose 中使用的特定提供方，并拥有来自该提供方的 API key，请选择 `Other Providers`。
+    2. 找到你想要的提供方并点击其 `Configure` 按钮。如果你在列表中看不到你的提供方，请点击窗口底部的 `Add Custom Provider` 来[配置自定义提供方](#configure-custom-provider)。
+    3. 根据你的提供方，你需要输入 API Key、API Host 或其他可选的[参数](#available-providers)。点击 `Submit` 按钮完成认证并开始你的第一个会话。
+
+    :::info Ollama 模型检测
+    对于 Ollama 用户，所有本地安装的模型都会自动显示在模型选择下拉菜单中。
+    :::
+
+    </TabItem>
+  </Tabs>
+  **更新你的 LLM 提供方和 API key：**
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+  2. 点击侧边栏上的 `Settings` 按钮
+  3. 点击 `Models` 标签页
+  4. 点击 `Configure providers`
+  5. 在列表中点击你的提供方
+  6. 添加你的 API key 和其他必需配置，然后点击 `Submit`
+
+  **更改当前模型：**
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+  2. 点击侧边栏上的 `Settings` 按钮
+  3. 点击 `Models` 标签页
+  4. 点击 `Switch models`
+  5. 在下拉菜单中从已配置的提供方中选择，或选择 `Use other provider` 来配置一个新的提供方
+  6. 从可用选项中选一个模型，或选择 `Use custom model` 输入特定模型名
+  7. 点击 `Select model` 确认你的选择
+
+  :::tip 快捷键
+  为了更快地访问，点击应用底部的当前模型名并选择 `Change Model`。
+  :::
+
+  **重新开始提供方和模型配置：**
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+  2. 点击侧边栏上的 `Settings` 按钮
+  3. 点击 `Models` 标签页
+  4. 点击 `Reset Provider and Model` 清除当前设置并返回欢迎界面
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 在你的终端中运行以下命令：
+
+```sh
+goose configure
+```
+
+    2. 从菜单中选择 `Configure Providers` 并按 `Enter`。
+
+```
+┌   goose-configure
+│
+◆  What would you like to configure?
+// highlight-start
+│  ● Configure Providers (Change provider or update credentials)
+// highlight-end
+│  ○ Custom Providers
+│  ○ Add Extension
+│  ○ Toggle Extensions
+│  ○ Remove Extension
+│  ○ goose Settings
+└
+```
+    3. 选择一个模型提供方并按 `Enter`。使用方向键（↑/↓）在选项中移动，或开始输入以筛选列表。
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◆  Which model provider should we use?
+│  ○ Amazon Bedrock
+│  ○ Amazon SageMaker TGI
+// highlight-start
+│  ● Anthropic (Claude and other models from Anthropic)
+// highlight-end
+│  ○ Azure OpenAI
+│  ○ Claude Code CLI
+│  ○ ...
+└
+```
+    4. 在提示时输入你的 API key（以及任何其他配置细节）。
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Anthropic
+│
+◆  Provider Anthropic requires ANTHROPIC_API_KEY, please enter a value
+// highlight-start
+│  ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
+// highlight-end
+└
+```
+
+       如果你只是更改模型，请跳过任何更新提供方配置的提示。
+
+    5. 输入你想要的 `ANTHROPIC_HOST`，或按 `Enter` 使用默认值。
+
+```
+◆  Provider Anthropic requires ANTHROPIC_HOST, please enter a value
+// highlight-start
+│  https://api.anthropic.com (default)
+// highlight-end
+```
+    6. 选择你想使用的模型。根据提供方的不同，你可以：
+       - 从列表中选择模型
+       - 按名称搜索模型
+       - 直接输入模型名
+
+```
+│
+◇  Model fetch complete
+│
+◇  Select a model:
+// highlight-start
+│  claude-sonnet-4-5 (default)
+// highlight-end
+│
+◒  Checking your configuration...
+└  Configuration saved successfully
+```
+
+       此更改会在你下次启动会话时生效。
+
+  :::note
+  `goose configure` 不支持输入自定义模型名。要使用不在提供方列表中的模型，请使用 goose Desktop 或直接编辑你的 [`config.yaml`](https://block.github.io/goose/docs/guides/config-files) 中的 `GOOSE_MODEL` 变量。
+  :::
+
+  :::tip
+  使用 [`run` 命令](https://block.github.io/goose/docs/guides/goose-cli-commands#run-options)为单个会话设置模型：
+
+```bash
+goose run --model claude-sonnet-4-0 -t "initial prompt"
+```
+  :::
+
+  </TabItem>
+</Tabs>
+
+#### 使用自定义 OpenAI 端点
+
+内置的 OpenAI 提供方可以连接到 OpenAI 的官方 API（`api.openai.com`）或任何兼容 OpenAI 的端点，例如：
+- 使用 vLLM 或 KServe 的自托管 LLM（例如 LLaMA、Mistral）
+- 私有的 OpenAI 兼容 API 服务器
+- 需要数据治理和安全合规的企业部署
+- OpenAI API 代理或网关
+
+:::tip 自定义提供方选项
+需要连接多个 OpenAI 兼容端点？请改为[配置自定义提供方](#configure-custom-provider)，以便更轻松地切换、更好地组织，并获得自定义命名和可共享的配置。
+:::
+
+:::note 指向 LiteLLM 代理
+你可以通过以下两种方式之一访问 [LiteLLM](https://docs.litellm.ai/) 代理——任选其一，不要混用：
+
+- 使用 **OpenAI 提供方**：将 `OPENAI_HOST` 设置为代理的根地址（不带尾随路径），将 `OPENAI_BASE_PATH` 设置为其提供的路径（通常是 `v1/chat/completions`）。`404` 通常意味着 `OPENAI_BASE_PATH` 对你的代理来说是错的。`401` 且带有 `No api key passed in` 是另一个问题——API key 没有被加载（例如，把 key 放在 `config.yaml` 中，而它会被忽略）；参见[提供方 API key 与 `config.yaml`](https://block.github.io/goose/docs/guides/config-files#security-considerations)。
+- 使用专用的 **LiteLLM 提供方**，它使用自己的 `LITELLM_HOST`、`LITELLM_BASE_PATH` 和 `LITELLM_API_KEY` 变量进行配置，而不是 `OPENAI_*` 那些变量。
+:::
+
+##### 配置参数
+
+| 参数 | 必需 | 描述 |
+|-----------|----------|-------------|
+| `OPENAI_API_KEY` | 是 | 用于 API 的认证 key |
+| `OPENAI_HOST` | 否 | 自定义端点 URL（默认为 api.openai.com） |
+| `OPENAI_BASE_PATH` | 否 | 追加到 host 后面的请求路径（默认为 `v1/chat/completions`）。当你的端点在不同的路径上提供 chat completions API 时设置此项——大多数代理期望 `v1/chat/completions`，但有些挂载在 `chat/completions`（没有 `v1`）。 |
+| `OPENAI_ORGANIZATION` | 否 | 用于用量跟踪和治理的组织 ID |
+| `OPENAI_PROJECT` | 否 | 用于资源管理的项目标识符 |
+| `OPENAI_CUSTOM_HEADERS` | 否 | 要包含在请求中的额外请求头。可以通过环境变量、配置文件或 CLI 设置，格式为 `HEADER_A=VALUE_A,HEADER_B=VALUE_B`。 |
+| `OPENAI_STORE` | 否 | 是否持久化生成的 Responses API 响应以便稍后通过 API 检索。默认为 `false`。 |
+
+##### 示例配置
+
+<Tabs groupId="deployment">
+  <TabItem value="vllm" label="vLLM 自托管" default>
+    如果你使用 vLLM 并启用 OpenAI 兼容来运行 LLaMA 或其他模型：
+```sh
+OPENAI_HOST=https://your-vllm-endpoint.internal
+OPENAI_API_KEY=your-internal-api-key
+```
+  </TabItem>
+  <TabItem value="kserve" label="KServe 部署">
+    对于使用 KServe 部署在 Kubernetes 上的模型：
+```sh
+OPENAI_HOST=https://kserve-gateway.your-cluster
+OPENAI_API_KEY=your-kserve-api-key
+OPENAI_ORGANIZATION=your-org-id
+OPENAI_PROJECT=ml-serving
+```
+  </TabItem>
+  <TabItem value="enterprise" label="企业版 OpenAI">
+    对于带治理的企业 OpenAI 部署：
+```sh
+OPENAI_API_KEY=your-api-key
+OPENAI_ORGANIZATION=org-id123
+OPENAI_PROJECT=compliance-approved
+```
+  </TabItem>
+  <TabItem value="custom-headers" label="自定义请求头">
+    对于需要自定义请求头的 OpenAI 兼容端点：
+```sh
+OPENAI_API_KEY=your-api-key
+OPENAI_ORGANIZATION=org-id123
+OPENAI_PROJECT=compliance-approved
+OPENAI_CUSTOM_HEADERS="X-Header-A=abc,X-Header-B=def"
+```
+  </TabItem>
+</Tabs>
+
+##### 设置说明
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+    2. 点击侧边栏上的 `Settings` 按钮
+    3. 点击 `Models` 标签页
+    4. 点击 `Configure providers`
+    5. 在提供方列表中点击 `OpenAI`
+    6. 填写你的配置细节：
+       - API Key（必需）
+       - Host URL（用于自定义端点）
+       - Organization ID（用于用量跟踪）
+       - Project（用于资源管理）
+    7. 点击 `Submit`
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行 `goose configure`
+    2. 选择 `Configure Providers`
+    3. 选择 `OpenAI` 作为提供方
+    4. 在提示时输入你的配置：
+       - API key
+       - Host URL（如果使用自定义端点）
+       - Organization ID（如果使用组织跟踪）
+       - Project identifier（如果使用项目管理）
+  </TabItem>
+</Tabs>
+
+:::tip 企业部署
+对于企业部署，你可以使用环境变量或配置文件预配置这些值，以确保整个组织内一致的治理。
+:::
+
+### 配置自定义提供方
+
+创建自定义提供方以连接[尚未支持](#available-providers)的服务，或自定义你连接它们的方式。自定义提供方会出现在 goose 的提供方列表中，可以像任何其他提供方一样被选择。
+
+**优点：**
+- **多个端点**：在不同服务之间切换（例如 vLLM、企业代理、OpenAI）
+- **预配置模型**：存储一个首选模型列表
+- **可共享配置**：JSON 文件可以跨团队共享或检入代码仓库
+- **自定义命名**：在 UI 中显示「Corporate API」而不是「OpenAI」
+- **独立凭证**：为每个提供方分配自己的 API key
+
+自定义提供方必须使用 OpenAI、Anthropic 或 Ollama 兼容的 API 格式。它们可以包含用于额外认证、API key、令牌或租户标识符的自定义请求头。每个自定义提供方映射到一个 JSON 配置文件。
+
+**添加自定义提供方：**
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+    2. 点击侧边栏上的 `Settings` 按钮
+    3. 点击 `Models` 标签页
+    4. 点击 `Configure providers`
+    5. 点击窗口底部的 `Add Custom Provider`
+    6. 填写提供方细节：
+       - **Provider Type**：
+         - `OpenAI Compatible`（最常见）
+         - `Anthropic Compatible`
+         - `Ollama Compatible`
+       - **Display Name**：提供方的一个友好名称
+       - **API URL**：API 端点的基 URL
+       - **Authentication**：
+         - **API Key**：API key，通过自定义环境变量访问，并存储在钥匙串中（如果钥匙串被禁用或无法访问，则存储在 `secrets.yaml` 中）
+            - 对于不需要授权的提供方（例如 Ollama、vLLM 或内部 API 等本地模型），取消勾选 **"This provider requires an API key"** 复选框
+       - **Available Models**：可用模型名的逗号分隔列表
+       - **Streaming Support**：API 是否支持流式响应（点击切换）
+    7. 点击 `Create Provider`
+
+    :::info 自定义请求头
+    目前，无法在 goose Desktop 中定义自定义请求头。作为一种变通方法，请在创建后编辑提供方配置文件。
+    :::
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 在你的终端中运行以下命令：
+
+```sh
+goose configure
+```
+
+    2. 选择 `Custom Providers`。使用方向键（↑/↓）在选项中移动。
+
+```sh
+┌   goose-configure
+│
+◆  What would you like to configure?
+│  ○ Configure Providers
+// highlight-start
+│  ● Custom Providers (Add custom provider with compatible API)
+// highlight-end
+│  ○ Add Extension
+│  ○ Toggle Extensions
+│  ○ Remove Extension
+│  ○ goose Settings
+└
+```
+
+    3. 选择 `Add A Custom Provider`
+
+```sh
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Custom Providers
+│
+◆  What would you like to do?
+// highlight-start
+│  ● Add A Custom Provider (Add a new OpenAI/Anthropic/Ollama compatible Provider)
+// highlight-end
+│  ○ Remove Custom Provider
+└
+```
+
+    4. 按照提示输入提供方细节：
+       - **API Type**：
+         - `OpenAI Compatible`（最常见）
+         - `Anthropic Compatible`
+         - `Ollama Compatible`
+       - **Name**：提供方的一个友好名称
+       - **API URL**：API 端点的基 URL
+       - **Authentication Required**：如果你的提供方需要 API key，回答「Yes」；如果不需要认证，回答「No」
+         - 如果选 Yes：选择 goose 应如何获取凭证：
+           - **Static API key**：系统会提示你输入 **API Key**（安全地存储在钥匙串中；如果钥匙串被禁用或无法访问，则存储在 `secrets.yaml` 中）
+           - **Command (refreshable)**：系统会提示你输入一个 **command**（以及可选参数），goose 运行它来获取凭证，还会提示一个以秒为单位的 **refresh interval**。用于由 IdP 或密钥保管库签发的短期凭证，这样 goose 可以自动刷新它们，而不必在它们过期时要求重启。见下方的[基于命令的认证](#command-based-authentication)。
+         - 如果选 No：会跳过 API key 提示
+       - **Available Models**：可用模型名的逗号分隔列表
+       - **Streaming Support**：API 是否支持流式响应
+       - **Custom Headers**：任何额外的请求头名称和值
+
+    :::info 自定义请求头
+    目前，在 CLI 中只能为 OpenAI 兼容提供方定义自定义请求头。对于 Anthropic 或 Ollama 兼容提供方，请在创建后编辑提供方配置文件。
+    :::
+
+  </TabItem>
+  <TabItem value="config" label="配置文件">
+
+    首先在 `custom_providers` 目录中创建一个 JSON 文件：
+    - macOS/Linux：`~/.config/goose/custom_providers/`
+    - Windows：`%APPDATA%\Block\goose\config\custom_providers\`
+
+    示例 `custom_corp_api.json` 配置文件：
+```json
+{
+  "name": "custom_corp_api",
+  "engine": "openai",
+  "display_name": "Corporate API",
+  "description": "Custom Corporate API provider",
+  "api_key_env": "CUSTOM_CORP_API_API_KEY",
+  "base_url": "https://api.company.com/v1/chat/completions",
+  "models": [
+    {
+      "name": "gpt-4o",
+      "context_limit": 128000
+    },
+    {
+      "name": "gpt-3.5-turbo",
+      "context_limit": 16385
+    }
+  ],
+  "headers": {
+    "x-origin-client-id": "YOUR_CLIENT_ID",
+    "x-origin-secret": "YOUR_SECRET_VALUE"
+  },
+  "supports_streaming": true,
+  "requires_auth": true
+}
+```
+
+    然后使用 `api_key_env` 为你的会话设置 key。例如：
+```bash
+export CUSTOM_CORP_API_API_KEY="your-api-key"
+goose session start --provider custom_corp_api
+```
+
+    :::tip 钥匙串中的 key 存储
+    如果你想将 API key 存储在 `goose` 钥匙串中，请在 goose Desktop 中更新提供方并输入该 key。这会提供安全、持久的存储，并允许 goose 原生连接到该提供方。
+    :::
+
+  </TabItem>
+</Tabs>
+
+#### 基于命令的认证
+
+自定义提供方可以配置为运行一个命令来获取其凭证，而不是使用静态的 `api_key_env`。这对于由 IdP 或密钥保管库签发的短期凭证很有用：当凭证过期时，goose 会重新运行该命令来刷新凭证，而不要求重启。
+
+在提供方的 JSON 配置中添加一个 `auth` 对象来替代 `api_key_env`（二者互斥）：
+
+```json
+{
+  "name": "custom_corp_api",
+  "engine": "openai",
+  "display_name": "Corporate API",
+  "base_url": "https://api.company.com/v1/chat/completions",
+  "models": [{ "name": "gpt-4o", "context_limit": 128000 }],
+  "requires_auth": true,
+  "auth": {
+    "command": "/path/to/get-token.sh",
+    "args": [],
+    "refresh_interval": 3600,
+    "timeout_seconds": 10
+  }
+}
+```
+
+- **`command`**：要运行的可执行文件。它会被直接启动，不经过 shell——`command`/`args` 都不会进行 shell 插值。如果你的脚本需要 shell 特性（管道、变量展开），请显式调用解释器，例如 `"command": "/bin/bash", "args": ["-c", "..."]`。裸名称（无路径分隔符，例如 `"get-token"`）会在 `PATH` 上查找；相对路径（例如 `"./scripts/get-token.sh"`）会相对于 `cwd` 解析。
+- **`args`**（可选）：传递给 `command` 的参数。
+- **`refresh_interval`**（可选，默认为 `3600`）：获取到的凭证在被缓存多久（以秒为单位）之后重新运行命令。设为 `0` 可完全禁用主动刷新——此后该命令仅在提供方 API 因认证错误拒绝请求之后被动地重新运行。
+- **`timeout_seconds`**（可选，默认为 `10`）：在将命令视为失败之前等待的时长。
+- **`cwd`**（可选）：命令的工作目录，也是相对 `command` 路径解析所依据的基准。默认为 goose 的当前目录。
+
+命令去除首尾空白后的标准输出被用作凭证。它必须成功退出并打印非空值；失败时，goose 会报错，而不是静默地复用过期凭证。该命令会继承 goose 的完整环境，因为配置 goose 和编写脚本的是同一个用户。
+
+<Tabs groupId="interface">
+  <TabItem value="cli" label="goose CLI" default>
+
+    在 `goose configure` 中，当被问及如何为自定义提供方获取凭证时，选择 **Command (refreshable)**（见[上文](#configure-custom-provider)）。
+
+  </TabItem>
+  <TabItem value="config" label="配置文件">
+
+    将上面所示的 `auth` 对象添加到提供方的 JSON 文件中，而不是设置 `api_key_env`。
+
+  </TabItem>
+</Tabs>
+
+**更新自定义提供方：**
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+    2. 点击侧边栏上的 `Settings` 按钮
+    3. 点击 `Models` 标签页
+    4. 点击 `Configure providers`
+    5. 在列表中点击你的自定义提供方
+    6. 更新你想更改的字段
+    7. 点击 `Update Provider`
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+
+    1. 在你的终端中运行以下命令：
+
+```sh
+goose configure
+```
+
+    2. 从菜单中选择 `Configure Providers` 并按 `Enter`。
+
+```sh
+┌   goose-configure
+│
+◆  What would you like to configure?
+// highlight-start
+│  ● Configure Providers (Change provider or update credentials)
+// highlight-end
+│  ○ Custom Providers
+│  ○ Add Extension
+│  ○ Toggle Extensions
+│  ○ Remove Extension
+│  ○ goose Settings
+└
+```
+
+    3. 选择你想更新的自定义提供方并按 `Enter`。使用方向键（↑/↓）在选项中移动，或开始输入以筛选列表。
+
+```sh
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◆  Which model provider should we use?
+│  ○ Amazon Bedrock
+│  ○ Amazon SageMaker TGI
+│  ○ Anthropic
+│  ○ Azure OpenAI
+│  ○ Claude Code CLI
+// highlight-start
+│  ● Corporate API (Custom Corporate API provider)
+// highlight-end
+│  ○ Cursor Agent
+│  ○ ...
+└
+```
+
+    4. 按照提示更新字段。
+
+  </TabItem>
+  <TabItem value="config" label="配置文件">
+
+    在 `custom_providers` 目录中打开自定义提供方配置文件：
+    - macOS/Linux：`~/.config/goose/custom_providers/`
+    - Windows：`%APPDATA%\Block\goose\config\custom_providers\`
+
+    更新你想更改的字段并保存你的更改。
+  </TabItem>
+</Tabs>
+
+你的更改会在你的下一个 goose 会话中生效。
+
+**移除自定义提供方：**
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏
+    2. 点击侧边栏上的 `Settings` 按钮
+    3. 点击 `Models` 标签页
+    4. 点击 `Configure providers`
+    5. 在列表中点击你的自定义提供方
+    6. 点击 `Delete Provider`
+    7. 点击 `Confirm Delete` 确认你想永久移除该自定义提供方及其存储的 API key（如适用）
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+
+    1. 在你的终端中运行以下命令：
+
+```sh
+goose configure
+```
+
+    2. 选择 `Custom Providers`。使用方向键（↑/↓）在选项中移动。
+
+```sh
+┌   goose-configure
+│
+◆  What would you like to configure?
+│  ○ Configure Providers
+// highlight-start
+│  ● Custom Providers (Add custom provider with compatible API)
+// highlight-end
+│  ○ Add Extension
+│  ○ Toggle Extensions
+│  ○ Remove Extension
+│  ○ goose Settings
+└
+```
+
+    3. 选择 `Remove Custom Provider`。
+
+```sh
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Custom Providers
+│
+◆  What would you like to do?
+│  ○ Add A Custom Provider
+// highlight-start
+│  ● Remove Custom Provider (Remove an existing custom provider)
+// highlight-end
+└
+```
+
+    4. 选择你想移除的自定义提供方。
+
+    提供方配置文件会从 `custom_providers` 目录中移除，key 会从钥匙串中移除。
+
+  </TabItem>
+  <TabItem value="config" label="配置文件">
+
+    :::tip
+    如果提供方的 API key 存储在钥匙串中，请使用 goose CLI 来移除自定义提供方。这也会移除存储的 API key。
+    :::
+
+    删除 `custom_providers` 目录中的自定义提供方配置文件：
+    - macOS/Linux：`~/.config/goose/custom_providers/`
+    - Windows：`%APPDATA%\Block\goose\config\custom_providers\`
+
+  </TabItem>
+</Tabs>
+
+### 免费使用 goose
+
+goose 是一个免费开源的 AI 代理，你可以立即开始使用，但并非所有受支持的 [LLM 提供方][providers]都提供免费额度。
+
+下面，我们列出几个免费选项以及如何开始使用它们。
+
+:::warning 限制
+这些免费选项是开始使用 goose 并探索其能力的好方法。不过，为了获得更好的性能，你可能需要升级你的 LLM。
+:::
+
+
+#### Groq
+Groq 免费提供对开源（开放权重）模型的高速推理访问。要在 goose 中使用 Groq，你需要一个来自 [Groq Console](https://console.groq.com/keys) 的 API key。
+
+Groq 提供多个支持工具调用的开源模型，包括：
+- **moonshotai/kimi-k2-instruct-0905** - 具有 1 万亿参数的混合专家模型，针对代理智能和工具使用优化
+- **qwen/qwen3-32b** - 具有高级推理和多语言能力的 328 亿参数模型
+- **llama-3.3-70b-versatile** - Meta 的 Llama 3.3 模型，适用于多种应用
+- **llama-3.1-8b-instant** - Meta 的 Llama 3.1 模型，用于快速推理
+
+受支持的 Groq 模型完整列表见 [groq.json](https://github.com/aaif-goose/goose/blob/main/crates/goose-providers/src/declarative/definitions/groq.json)。
+
+要在 goose 中设置 Groq，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `Groq` 作为提供方。
+    6. 点击 `Configure`，输入你的 API key，然后点击 `Submit`。
+    7. 选择你想要的 Groq 模型。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `Groq` 作为提供方。
+    4. 在提示时输入你的 API key。
+    5. 选择你想要的 Groq 模型。
+  </TabItem>
+</Tabs>
+
+#### EmpirioLabs AI
+[EmpirioLabs AI](https://empiriolabs.ai/) 通过一个兼容 OpenAI 且支持流式传输的 API 提供对前沿的开源与专有聊天模型的访问。要在 goose 中使用 EmpirioLabs，你需要一个来自 [EmpirioLabs](https://platform.empiriolabs.ai/dashboard/api-keys) 的 API key。
+
+EmpirioLabs 提供支持工具调用的模型，包括：
+- **qwen3-7-plus** - Qwen3.7 Plus，具有 1M 上下文窗口
+- **qwen3-7-max** - Qwen3.7 Max，具有 1M 上下文窗口
+- **deepseek-v4-pro** - DeepSeek V4 Pro，具有 1M 上下文窗口
+- **deepseek-v4-flash** - DeepSeek V4 Flash，具有 1M 上下文窗口
+- **glm-5-1** - GLM-5.1，具有 202K 上下文窗口
+- **kimi-k2-7-code** - Kimi K2.7 Code，具有 256K 上下文窗口
+- **minimax-m3** - MiniMax M3，具有 524K 上下文窗口
+
+完整的实时目录见 `https://api.empiriolabs.ai/v1/models`。goose 中配置的 EmpirioLabs 模型完整列表见 [empiriolabs.json](https://github.com/aaif-goose/goose/blob/main/crates/goose-providers/src/declarative/definitions/empiriolabs.json)。更多细节见 [EmpirioLabs 文档](https://docs.empiriolabs.ai)。
+
+要在 goose 中设置 EmpirioLabs，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `EmpirioLabs AI` 作为提供方。
+    6. 点击 `Configure`，输入你的 API key，然后点击 `Submit`。
+    7. 选择你想要的 EmpirioLabs 模型。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `EmpirioLabs AI` 作为提供方。
+    4. 在提示时输入你的 API key。
+    5. 选择你想要的 EmpirioLabs 模型。
+  </TabItem>
+</Tabs>
+
+#### FuturMix
+[FuturMix](https://futurmix.ai/) 是一个统一的 AI 网关，通过兼容 OpenAI 的 API 提供对来自 Anthropic、Google、OpenAI 和 DeepSeek 的模型的访问。要在 goose 中使用 FuturMix，你需要一个来自 [FuturMix](https://futurmix.ai/) 的 API key。
+
+FuturMix 提供支持工具调用的模型，包括：
+- **claude-sonnet-4-20250514** - Anthropic Claude Sonnet 4，具有 200K 上下文
+- **gpt-4o** - OpenAI GPT-4o，具有 128K 上下文
+- **gemini-2.5-pro** - Google Gemini 2.5 Pro，具有 1M 上下文
+- **deepseek-chat** - DeepSeek V3，具有 131K 上下文
+- **claude-haiku-4-20250514** - Anthropic Claude Haiku 4，具有 200K 上下文
+
+受支持的 FuturMix 模型完整列表见 [futurmix.json](https://github.com/aaif-goose/goose/blob/main/crates/goose-providers/src/declarative/definitions/futurmix.json)。
+
+要在 goose 中设置 FuturMix，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `FuturMix` 作为提供方。
+    6. 点击 `Configure`，输入你的 API key，然后点击 `Submit`。
+    7. 选择你想要的 FuturMix 模型。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `FuturMix` 作为提供方。
+    4. 在提示时输入你的 API key。
+    5. 选择你想要的 FuturMix 模型。
+  </TabItem>
+</Tabs>
+
+#### Novita AI
+[Novita AI](https://novita.ai/) 通过兼容 OpenAI 的 API 以有竞争力的价格提供对 90+ 开源模型的访问。要在 goose 中使用 Novita AI，你需要一个来自 [Novita AI](https://novita.ai/settings#key-management) 的 API key。
+
+Novita AI 提供许多支持工具调用的模型，包括：
+- **moonshotai/kimi-k2.5** - Moonshot 的最新模型，具有 262K 上下文窗口
+- **minimax/minimax-m2.7** - MiniMax M2.7，具有 205K 上下文
+- **zai-org/glm-5.1** - 智谱的 GLM-5.1，具有 205K 上下文
+- **deepseek/deepseek-v3.2** - DeepSeek V3.2，具有 164K 上下文
+- **google/gemma-4-31b-it** - Google Gemma 4 31B，具有 262K 上下文
+
+受支持的 Novita AI 模型完整列表见 [novita.json](https://github.com/aaif-goose/goose/blob/main/crates/goose-providers/src/declarative/definitions/novita.json)。
+
+要在 goose 中设置 Novita AI，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `Novita AI` 作为提供方。
+    6. 点击 `Configure`，输入你的 API key，然后点击 `Submit`。
+    7. 选择你想要的 Novita AI 模型。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `Novita AI` 作为提供方。
+    4. 在提示时输入你的 API key。
+    5. 选择你想要的 Novita AI 模型。
+  </TabItem>
+</Tabs>
+
+#### Routstr
+[Routstr](https://routstr.com/) 是一个兼容 OpenAI 的聚合器，将数十个上游提供方汇聚在单个 API 之后。支付由 Routstr 实例本身处理，因此 goose 只需要该实例签发给你的 `sk-...` bearer。要在 goose 中使用 Routstr，请选择一个实例（默认为 `https://api.routstr.com`）并从其支付流程中获取 API key。
+
+Routstr 聚合来自许多上游提供方的模型，包括：
+- **claude-opus-4.7** — Anthropic 的 Claude opus 4.7
+- **deepseek-v4-pro** — DeepSeek V4 Pro
+- **gemini-3.1-pro-preview** — gemini-3.1 Pro Preview
+
+`/v1/models` 会在配置时查询，因此你的 Routstr 实例暴露的完整目录都会在模型选择器中可用。goose 随附的静态默认值见 [routstr.json](https://github.com/aaif-goose/goose/blob/main/crates/goose-providers/src/declarative/definitions/routstr.json)。
+
+要在 goose 中设置 Routstr，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `Routstr` 作为提供方。
+    6. 点击 `Configure`，输入你的 `ROUTSTR_API_KEY`（可选地覆盖 `ROUTSTR_HOST` 以指向不同的 Routstr 实例），然后点击 `Submit`。
+    7. 选择你想要的 Routstr 模型。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `Routstr` 作为提供方。
+    4. 在提示时输入你的 API key（可选地覆盖 `ROUTSTR_HOST`）。
+    5. 选择你想要的 Routstr 模型。
+  </TabItem>
+</Tabs>
+
+#### SayGM
+[SayGM](https://saygm.com/) 通过兼容 OpenAI 的 API 提供 TEE 支持的私有推理。模型路由和价格在每次请求时于运行时确定。要在 goose 中使用 SayGM，你需要一个来自 [SayGM](https://saygm.com/) 的 API key。
+
+SayGM 支持许多模型，包括：
+- **Qwen/Qwen3-235B-A22B-Thinking-2507-TEE** — Qwen3 235B 思考模型（TEE 支持）
+- **deepseek-ai/DeepSeek-V3.2-TEE** — DeepSeek V3.2（TEE 支持）
+- **moonshotai/Kimi-K3-TEE** — Kimi K3（TEE 支持）
+- **zai-org/GLM-5.2-TEE** — GLM-5.2（TEE 支持）
+
+`/v1/models` 会在配置时查询，因此 SayGM 暴露的完整目录都会在模型选择器中可用。
+
+要在 goose 中设置 SayGM，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `SayGM` 作为提供方。
+    6. 点击 `Configure`，输入你的 API key，然后点击 `Submit`。
+    7. 选择你想要的 SayGM 模型。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `SayGM` 作为提供方。
+    4. 在提示时输入你的 API key。
+    5. 选择你想要的 SayGM 模型。
+  </TabItem>
+</Tabs>
+
+#### Google Gemini
+Google Gemini 提供免费额度。要开始配合 goose 使用 Gemini API，你需要一个来自 [Google AI studio](https://aistudio.google.com/app/apikey) 的 API Key。
+
+要在 goose 中设置 Google Gemini，请按以下步骤操作：
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **更新你的 LLM 提供方和 API key：**
+
+    1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+    2. 点击侧边栏上的 `Settings` 按钮。
+    3. 点击 `Models` 标签页。
+    4. 点击 `Configure Providers`
+    5. 从列表中选择 `Google Gemini` 作为提供方。
+    6. 点击 `Configure`，输入你的 API key，然后点击 `Submit`。
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. 运行：
+```sh
+goose configure
+```
+    2. 从菜单中选择 `Configure Providers`。
+    3. 按照提示选择 `Google Gemini` 作为提供方。
+    4. 在提示时输入你的 API key。
+    5. 输入你想要的 Gemini 模型。
+
+```
+┌   goose-configure
+│
+◇ What would you like to configure?
+│ Configure Providers
+│
+◇ Which model provider should we use?
+│ Google Gemini
+│
+◇ Provider Google Gemini requires GOOGLE_API_KEY, please enter a value
+│▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
+│
+◇ Enter a model from that provider:
+│ gemini-2.0-flash-exp
+│
+◇ Hello! You're all set and ready to go, feel free to ask me anything!
+│
+└ Configuration saved successfully
+```
+  </TabItem>
+</Tabs>
+
+
+#### 本地 LLM
+
+goose 是一个本地 AI 代理，通过使用本地 LLM，你可以保持数据私密、完全掌控自己的环境，并完全离线工作，无需依赖云端访问。不过请注意，本地 LLM 需要稍多一点设置，才能与 goose 一起使用。
+
+:::warning 对不支持工具调用的模型的支持有限
+goose 大量使用工具调用，因此不支持工具调用的模型只能做聊天补全。如果使用不支持工具调用的模型，所有 goose [扩展必须被禁用](https://block.github.io/goose/docs/getting-started/using-extensions#enablingdisabling-extensions)。
+:::
+
+以下是我们支持的一些本地提供方：
+
+<Tabs groupId="local-llms">
+  <TabItem value="ollama" label="Ollama" default>
+    <Tabs groupId="ollama-models">
+      <TabItem value="ramalala" label="Ramalala">
+        1. [下载 Ramalama](https://github.com/containers/ramalama?tab=readme-ov-file#install)。
+        2. 在终端中，运行任意一个[支持工具调用的 Ollama 模型](https://ollama.com/search?c=tools)或 [GGUF 格式的 HuggingFace 模型](https://huggingface.co/search/full-text?q=%22tools+support%22+%2B+%22gguf%22&type=model)：
+
+          `--runtime-args="--jinja"` 标志是 Ramalama 与 goose Ollama 提供方配合工作所必需的。
+
+          示例：
+
+```sh
+ramalama serve --runtime-args="--jinja" ollama://qwen2.5
+```
+
+          3. 在另一个终端窗口中，用 goose 进行配置：
+
+```sh
+goose configure
+```
+
+          4. 选择 `Configure Providers`
+
+```
+┌   goose-configure
+│
+◆  What would you like to configure?
+│  ● Configure Providers (Change provider or update credentials)
+│  ○ Toggle Extensions
+│  ○ Add Extension
+└
+```
+
+          5. 选择 `Ollama` 作为模型提供方，因为 Ramalama 在 API 上兼容，可以使用 goose 的 Ollama 提供方
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◆  Which model provider should we use?
+│  ○ Anthropic
+│  ○ Databricks
+│  ○ Google Gemini
+│  ○ Groq
+│  ● Ollama (Local open source models)
+│  ○ OpenAI
+│  ○ OpenRouter
+└
+```
+
+          6. 输入你的模型所运行的 host
+
+          :::info 端点
+          对于 Ollama 提供方，如果你不提供 host，我们会把它设置为 `localhost:11434`。在构造 URL 时，如果 scheme 不是 `http` 或 `https`，我们会前置 `http://`。由于 Ramalama 默认提供服务所用的端口是 8080，我们设置 `OLLAMA_HOST=http://0.0.0.0:8080`
+          :::
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Ollama
+│
+◆  Provider Ollama requires OLLAMA_HOST, please enter a value
+│  http://0.0.0.0:8080
+└
+```
+
+
+          7. 输入你正在运行的模型
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Ollama
+│
+◇  Provider Ollama requires OLLAMA_HOST, please enter a value
+│  http://0.0.0.0:8080
+│
+◇  Enter a model from that provider:
+│  qwen2.5
+│
+◇  Welcome! You're all set to explore and utilize my capabilities. Let's get started on solving your problems together!
+│
+└  Configuration saved successfully
+```
+
+          :::tip 上下文长度
+          如果你注意到 goose 在使用扩展时遇到问题，或者忽略了 [.goosehints](https://block.github.io/goose/docs/guides/context-engineering/using-goosehints)，很可能是该模型默认的 2048 token 上下文长度太低了。使用 `ramalama serve` 将 `--ctx-size, -c` 选项设置为一个[更高的值](https://github.com/containers/ramalama/blob/main/docs/ramalama-serve.1.md#--ctx-size--c)。
+          :::
+
+      </TabItem>
+      <TabItem value="deepseek" label="DeepSeek-R1">
+        原生的 `DeepSeek-r1` 模型不支持工具调用，不过我们有一个可以配合 goose 使用的[自定义模型](https://ollama.com/michaelneale/deepseek-r1-goose)。
+
+        :::warning
+        注意，这是一个 70B 大小的模型，需要强大的设备才能流畅运行。
+        :::
+
+
+        1. [下载 Ollama](https://ollama.com/download)。
+        2. 在终端窗口中，运行以下命令来安装自定义的 DeepSeek-r1 模型：
+
+```sh
+ollama run michaelneale/deepseek-r1-goose
+```
+
+        3. 在另一个终端窗口中，用 goose 进行配置：
+
+```sh
+goose configure
+```
+
+        4. 选择 `Configure Providers`
+
+```
+┌   goose-configure
+│
+◆  What would you like to configure?
+│  ● Configure Providers (Change provider or update credentials)
+│  ○ Toggle Extensions
+│  ○ Add Extension
+└
+```
+
+        5. 选择 `Ollama` 作为模型提供方
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◆  Which model provider should we use?
+│  ○ Anthropic
+│  ○ Databricks
+│  ○ Google Gemini
+│  ○ Groq
+│  ● Ollama (Local open source models)
+│  ○ OpenAI
+│  ○ OpenRouter
+└
+```
+
+        6. 输入你的模型所运行的 host
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Ollama
+│
+◆  Provider Ollama requires OLLAMA_HOST, please enter a value
+│  http://localhost:11434
+└
+```
+
+        7. 输入上面安装的模型
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Ollama
+│
+◇   Provider Ollama requires OLLAMA_HOST, please enter a value
+│  http://localhost:11434
+│
+◇  Enter a model from that provider:
+│  michaelneale/deepseek-r1-goose
+│
+◇  Welcome! You're all set to explore and utilize my capabilities. Let's get started on solving your problems together!
+│
+└  Configuration saved successfully
+```
+      </TabItem>
+      <TabItem value="others" label="其他模型" default>
+        1. [下载 Ollama](https://ollama.com/download)。
+        2. 在终端中，运行任意一个[支持工具调用的模型](https://ollama.com/search?c=tools)
+
+          示例：
+
+```sh
+ollama run qwen2.5
+```
+
+        3. 在另一个终端窗口中，用 goose 进行配置：
+
+```sh
+goose configure
+```
+
+        4. 选择 `Configure Providers`
+
+```
+┌   goose-configure
+│
+◆  What would you like to configure?
+│  ● Configure Providers (Change provider or update credentials)
+│  ○ Toggle Extensions
+│  ○ Add Extension
+└
+```
+
+        5. 选择 `Ollama` 作为模型提供方
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◆  Which model provider should we use?
+│  ○ Anthropic
+│  ○ Databricks
+│  ○ Google Gemini
+│  ○ Groq
+│  ● Ollama (Local open source models)
+│  ○ OpenAI
+│  ○ OpenRouter
+└
+```
+
+        6. 输入你的模型所运行的 host
+
+        :::info 端点
+        对于 Ollama，如果你不提供 host，我们会把它设置为 `localhost:11434`。
+        在构造 URL 时，如果 scheme 不是 `http` 或 `https`，我们会前置 `http://`。
+        如果你在不同的服务器上运行 Ollama，你必须设置 `OLLAMA_HOST=http://{host}:{port}`。
+        对于 ollama.com 上的托管模型，请改用 **Ollama Cloud** 提供方。
+        :::
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Ollama
+│
+◆  Provider Ollama requires OLLAMA_HOST, please enter a value
+│  http://localhost:11434
+└
+```
+
+
+        7. 输入你正在运行的模型
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Ollama
+│
+◇  Provider Ollama requires OLLAMA_HOST, please enter a value
+│  http://localhost:11434
+│
+◇  Enter a model from that provider:
+│  qwen2.5
+│
+◇  Welcome! You're all set to explore and utilize my capabilities. Let's get started on solving your problems together!
+│
+└  Configuration saved successfully
+```
+
+        :::tip 上下文长度
+        如果你注意到 goose 在使用扩展时遇到问题，或者忽略了 [.goosehints](https://block.github.io/goose/docs/guides/context-engineering/using-goosehints)，很可能是该模型默认的 4096 token 上下文长度太低了。将 `OLLAMA_CONTEXT_LENGTH` 环境变量设置为一个[更高的值](https://github.com/ollama/ollama/blob/main/docs/faq.mdx#how-can-i-specify-the-context-window-size)。
+        :::
+
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem value="lmstudio" label="LM Studio">
+    [LM Studio](https://lmstudio.ai/) 让你通过一个兼容 OpenAI 的 API 服务器在本地运行开源模型。
+
+    1. 下载并安装 LM Studio。
+    2. 打开 LM Studio 并下载一个支持工具调用的模型（例如 Qwen、Llama 或 Mistral 变体）。
+    3. 在 LM Studio 中启动本地服务器。该服务器默认运行在 `http://localhost:1234`
+
+    4. 配置 goose 使用 LM Studio：
+
+    <Tabs groupId="interface">
+      <TabItem value="ui" label="goose Desktop" default>
+        1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+        2. 点击侧边栏上的 `Settings` 按钮。
+        3. 点击 `Models` 标签页。
+        4. 点击 `Configure providers`。
+        5. 从提供方列表中选择 `LM Studio` 并点击 `Configure`。
+        6. 点击 `Submit`（不需要 API key）。
+        7. 选择你在 LM Studio 中加载的模型。
+      </TabItem>
+      <TabItem value="cli" label="goose CLI">
+        1. 运行：
+```sh
+goose configure
+```
+        2. 从菜单中选择 `Configure Providers`。
+        3. 选择 `LM Studio` 作为提供方。
+        4. 输入与 LM Studio 中加载的模型相匹配的模型名。
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  LM Studio
+│
+◇  Enter a model from that provider:
+│  qwen2.5-7b-instruct
+│
+└  Configuration saved successfully
+```
+      </TabItem>
+    </Tabs>
+
+    :::tip 模型名
+    请确保你在 goose 中输入的模型名与 LM Studio 服务器面板中显示的模型标识符相匹配。
+    :::
+  </TabItem>
+  <TabItem value="atomic-chat" label="Atomic Chat">
+    [Atomic Chat](https://github.com/AtomicBot-ai/Atomic-Chat) 让你通过一个兼容 OpenAI 的 API 服务器在本地运行开源模型。
+
+    1. 从 [atomic.chat](https://atomic.chat/) 或 [GitHub Releases](https://github.com/AtomicBot-ai/Atomic-Chat/releases) 下载并安装 Atomic Chat。
+    2. 打开 Atomic Chat 并下载一个支持工具调用的模型（例如 Qwen、Llama 或 Mistral 变体）。
+    3. 在 Atomic Chat 中启动本地服务器。该服务器默认运行在 `http://localhost:1337`
+
+    4. 配置 goose 使用 Atomic Chat：
+
+    <Tabs groupId="interface">
+      <TabItem value="ui" label="goose Desktop" default>
+        1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+        2. 点击侧边栏上的 `Settings` 按钮。
+        3. 点击 `Models` 标签页。
+        4. 点击 `Configure providers`。
+        5. 从提供方列表中选择 `Atomic Chat` 并点击 `Configure`。
+        6. 点击 `Submit`（不需要 API key）。
+        7. 选择你在 Atomic Chat 中加载的模型。
+      </TabItem>
+      <TabItem value="cli" label="goose CLI">
+        1. 运行：
+```sh
+goose configure
+```
+        2. 从菜单中选择 `Configure Providers`。
+        3. 选择 `Atomic Chat` 作为提供方。
+        4. 输入与 Atomic Chat 中加载的模型相匹配的模型名。
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  Atomic Chat
+│
+◇  Enter a model from that provider:
+│  qwen2.5-7b-instruct
+│
+└  Configuration saved successfully
+```
+      </TabItem>
+    </Tabs>
+
+    :::tip 模型名
+    请确保你在 goose 中输入的模型名与 Atomic Chat 中为你的服务器显示的模型标识符相匹配。如果 API 监听的 origin 不是 `http://localhost:1337`，请在 goose 中设置 `ATOMIC_CHAT_HOST` 与之匹配（仅包含 scheme、host 和 port）。
+    :::
+  </TabItem>
+  <TabItem value="docker" label="Docker Model Runner" default>
+    1. [获取 Docker](https://docs.docker.com/get-started/get-docker/)
+    2. [启用 Docker Model Runner](https://docs.docker.com/ai/model-runner/#enable-dmr-in-docker-desktop)
+    3. [拉取一个模型](https://docs.docker.com/ai/model-runner/#pull-a-model)，例如从 Docker Hub [AI 命名空间](https://hub.docker.com/u/ai)、[Unsloth](https://hub.docker.com/u/unsloth)或[从 HuggingFace](https://www.docker.com/blog/docker-model-runner-on-hugging-face/)拉取
+
+    示例：
+
+```sh
+docker model pull hf.co/unsloth/gemma-3n-e4b-it-gguf:q6_k
+```
+
+    4. 配置 goose 使用 Docker Model Runner，使用 OpenAI API 兼容端点：
+
+```sh
+goose configure
+```
+
+    5. 选择 `Configure Providers`
+
+```
+┌   goose-configure
+│
+◆  What would you like to configure?
+│  ● Configure Providers (Change provider or update credentials)
+│  ○ Toggle Extensions
+│  ○ Add Extension
+└
+```
+
+    6. 选择 `OpenAI` 作为模型提供方：
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◆  Which model provider should we use?
+│  ○ Anthropic
+│  ○ Amazon Bedrock
+│  ○ Claude Code
+│  ● OpenAI (GPT-4 and other OpenAI models, including OpenAI compatible ones)
+│  ○ OpenRouter
+```
+
+    7. 将 Docker Model Runner 端点配置为 `OPENAI_HOST`：
+
+```
+┌   goose-configure
+│
+◇  What would you like to configure?
+│  Configure Providers
+│
+◇  Which model provider should we use?
+│  OpenAI
+│
+◆  Provider OpenAI requires OPENAI_HOST, please enter a value
+│  https://api.openai.com (default)
+└
+```
+
+    Docker Model Runner 在 host 侧端口的默认值是 12434，因此 `OPENAI_HOST` 的值可以是：
+    `http://localhost:12434`。
+
+    8. 配置 base path：
+
+```
+◆  Provider OpenAI requires OPENAI_BASE_PATH, please enter a value
+│  v1/chat/completions (default)
+└
+```
+
+    Docker model runner 使用 `/engines/llama.cpp/v1/chat/completions` 作为 base path。
+
+    9. 最后配置 Docker Model Runner 中可用的模型以供 goose 使用：`hf.co/unsloth/gemma-3n-e4b-it-gguf:q6_k`
+
+```
+│
+◇  Enter a model from that provider:
+│  gpt-4o
+│
+◒  Checking your configuration...
+└  Configuration saved successfully
+```
+  </TabItem>
+</Tabs>
+
+
+
+### OpenRouter 高级参数
+
+OpenRouter 接受提供方特定的请求参数，例如 `verbosity`、`reasoning`、`plugins`、`require_parameters` 以及其他受支持的字段。在你的 `config.yaml` 中设置 `OPENROUTER_PARAMETERS`，即可将这些字段添加到每个 OpenRouter chat completion 请求中。
+
+你可以使用 YAML 对象：
+
+```yaml
+OPENROUTER_PARAMETERS:
+  verbosity: xhigh
+  reasoning:
+    effort: high
+  plugins:
+    - id: web
+```
+
+或者 JSON 字符串：
+
+```yaml
+OPENROUTER_PARAMETERS: '{"verbosity":"xhigh","plugins":[{"id":"web"}]}'
+```
+
+goose 会忽略它已经管理的保留请求字段，例如 `model`、`messages`、`stream` 和 `stream_options`。其他 OpenRouter 特定的顶层字段会通过共享的 OpenAI 兼容请求参数处理逻辑传递。
+
+### GitHub Copilot 认证
+
+GitHub Copilot 使用设备流进行认证，因此不需要 API key：
+
+1. 运行 [`goose configure`](#configure-provider-and-model) 并选择 **GitHub Copilot**
+2. 一个八字符的代码会自动复制到你的剪贴板
+3. 浏览器会打开到 GitHub 的设备激活页面
+4. 粘贴该代码以授权该应用
+5. 当你返回 goose 时，GitHub Copilot 会在 CLI 和 Desktop 中作为提供方可用。
+
+### Azure OpenAI 认证
+
+goose 支持 Azure OpenAI 的三种认证方法：
+
+1. **Entra ID Bearer Token** - 使用从 `AZURE_OPENAI_AD_TOKEN` 预先获取的 Microsoft Entra 访问令牌，以 `Authorization: Bearer <token>` 发送。goose 完全跳过 Azure CLI 和令牌获取，这适合只有短期令牌暴露给运行时的企业部署（例如通过 `az account get-access-token --resource https://cognitiveservices.azure.com --query accessToken --output tsv` 获取）
+2. **API Key Authentication** - 使用 `AZURE_OPENAI_API_KEY` 进行直接认证
+3. **Azure Credential Chain** - 自动使用 Azure CLI 凭证，不需要 API key
+
+当配置了不止一个时，`AZURE_OPENAI_AD_TOKEN` 优先于 `AZURE_OPENAI_API_KEY`，后者优先于凭证链。
+
+要使用 Azure 凭证链：
+- 确保你已使用 `az login` 登录
+- 拥有 Azure OpenAI 服务的适当 Azure 角色分配
+- 使用 `goose configure` 进行配置并选择 Azure OpenAI，将 API key 字段留空
+
+此方法简化了认证并增强了企业环境的安全性。
+
+### 多模型配置
+
+除了单模型设置之外，goose 还支持[多模型配置](https://block.github.io/goose/docs/guides/multi-model/)，可以为专门任务使用不同的模型和提供方：
+
+- **子代理** - 将限定范围的任务委派给隔离的会话，以保持你的主工作流专注高效
+
+### Meta Muse Spark 推理强度
+
+Meta 的 Muse Spark 模型支持可配置的推理强度，它映射到 Meta 的 `reasoning_effort` 请求参数：
+- **Low** - 更快的响应，更轻量的推理
+- **Medium** - 平衡的推理深度与延迟
+- **High** - 更深入的推理，更高的延迟
+- **Max** - 作为 `xhigh` 发送，这是 Meta 支持的最深推理等级
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    在选择 Muse Spark 模型时，会自动出现一个「Thinking Effort」下拉菜单。选择你的偏好，该设置会跨会话持续保留。
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+    当你运行 `goose configure` 并选择一个 Muse Spark 模型时，会提示你选择一个思考强度：
+
+```
+◆  Select thinking effort:
+│  ● Off - No extended thinking
+│  ○ Low - Better latency, lighter reasoning
+│  ○ Medium - Moderate thinking
+│  ○ High - Deep reasoning
+│  ○ Max - No constraints on thinking depth
+```
+
+    你也可以使用 `GOOSE_THINKING_EFFORT` 环境变量全局设置它（`off`、`low`、`medium`、`high` 或 `max`）。
+  </TabItem>
+</Tabs>
+
+:::note
+Muse Spark 总是进行推理，无法禁用它，因此选择 `off` 会被限制为 `low`（Meta 支持的最轻等级），而不是省略 `reasoning_effort` 参数。
+:::
+
+### Gemini 3 思考等级
+
+Gemini 3 模型支持可配置的思考等级，以平衡响应延迟与推理深度：
+- **Low**（默认）- 更快的响应，更轻量的推理
+- **High** - 更深入的推理，更高的延迟
+
+:::tip
+当思考被启用时，你可以查看模型的推理过程。详见[查看模型推理](#viewing-model-reasoning)。
+:::
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    在选择 Gemini 3 模型时，会自动出现一个「Thinking Level」下拉菜单。选择你的偏好，该设置会跨会话持续保留。
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+    **交互式配置：**
+
+    当你运行 `goose configure` 并选择一个 Gemini 3 模型时，会提示你选择一个思考等级：
+
+```
+◆  Select thinking level for Gemini 3:
+│  ● Low - Better latency, lighter reasoning
+│  ○ High - Deeper reasoning, higher latency
+```
+  </TabItem>
+</Tabs>
+
+:::info 优先级顺序
+思考等级按以下顺序确定（从最高到最低优先级）：
+1. 模型配置中的 `request_params.thinking_level`
+2. `GEMINI3_THINKING_LEVEL` 环境变量
+3. 默认值：`low`
+:::
+
+### 查看模型推理
+
+有些模型会将其内部推理或「思维链」作为响应的一部分暴露出来。goose 会自动捕获这些推理输出并提供给你。以下模型和提供方支持推理输出：
+
+| 提供方 / 模型 | 工作原理 |
+|---|---|
+| **DeepSeek-R1**（通过 OpenAI、Ollama、OpenRouter、OVHcloud 等） | 从 API 响应中的 `reasoning_content` 字段捕获推理内容 |
+| **Kimi**（通过 Groq 或其他 OpenAI 兼容端点） | 从 API 响应中的 `reasoning_content` 字段捕获推理内容 |
+| **Gemini CLI**（启用思考的 Google Gemini 模型） | 从流式响应中捕获思考块 |
+| **Claude**（Anthropic，启用 [Claude thinking](https://block.github.io/goose/docs/guides/environment-variables#claude-thinking-configuration)） | 从 API 响应中捕获思考块 |
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    推理输出会自动出现在模型响应上方一个可折叠的 **「Show reasoning」** 切换项中。点击它即可展开并查看模型的思考过程。
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+    推理输出在 CLI 中**默认隐藏**。要显示它，请设置 `GOOSE_CLI_SHOW_THINKING` 环境变量：
+
+```bash
+export GOOSE_CLI_SHOW_THINKING=1
+```
+
+    启用后，推理会以暗淡的文字出现在模型主响应之前的一个「Thinking:」标题下。
+
+    :::note
+    这要求 stdout 是一个终端（当把输出通过管道传给文件或另一个命令时，推理输出不会出现）。
+    :::
+  </TabItem>
+</Tabs>
+
+:::tip
+推理输出对于理解模型如何得出答案、调试意外行为或从模型的问题解决思路中学习都很有用。不过，它也可能很冗长——只在需要时开启它。
+:::
+
+---
+
 如果你对某个特定提供方有任何疑问或需要帮助，欢迎在 [Discord](https://discord.gg/n8R5VaWDAn) 或 [goose 仓库](https://github.com/aaif-goose/goose)上联系我们。
 
 
 [providers]: https://block.github.io/goose/docs/getting-started/providers
 [function-calling-leaderboard]: https://gorilla.cs.berkeley.edu/leaderboard.html
+
+---
+
+## 使用扩展
+
+> 原文：https://block.github.io/goose/docs/getting-started/using-extensions
+
+扩展是一种附加组件，它提供了一种扩展 goose 功能的方式，通过与你工作流中已在使用的应用程序和工具建立连接来实现。这些扩展可用于添加新功能、访问数据和资源，或与其他系统集成。
+
+扩展基于 [Model Context Protocol (MCP)](https://github.com/modelcontextprotocol)，因此你可以将 goose 连接到广泛的能力生态。
+
+goose 会在激活前自动检查外部扩展是否存在已知恶意软件。如果检测到恶意包，该[扩展将被阻止](https://block.github.io/goose/docs/troubleshooting/known-issues#malicious-package-detected)，并给出清晰的错误信息。
+
+:::tip 教程
+查看[分步教程](https://block.github.io/goose/docs/category/mcp-servers)，了解如何添加和使用各种 goose 扩展
+:::
+
+### 内置扩展
+goose 包含若干内置扩展，开箱即可使用：
+
+- [Developer](https://block.github.io/goose/docs/mcp/developer-mcp)：提供一组对软件开发有用的通用开发工具。Developer 扩展**默认启用**。
+- [Computer Controller](https://block.github.io/goose/docs/mcp/computer-controller-mcp)：提供用于网页抓取、文件缓存和自动化的通用计算机控制工具。
+- [Memory](https://block.github.io/goose/docs/mcp/memory-mcp)：教会 goose 在你使用它时记住你的偏好。
+- [Tutorial](https://block.github.io/goose/docs/mcp/tutorial-mcp)：提供用于学习 goose 的交互式教程。
+- [Auto Visualiser](https://block.github.io/goose/docs/mcp/autovisualiser-mcp)：在对话中自动生成图形化数据可视化。
+
+:::warning 访问控制
+goose 默认自主运行。结合 Developer 扩展的工具，这意味着 goose 可以在未经你批准的情况下执行命令和修改文件。如果你希望对这一行为有更多控制，可以配置 [goose 权限模式](https://block.github.io/goose/docs/guides/managing-tools/goose-permissions)和[工具权限](https://block.github.io/goose/docs/guides/managing-tools/tool-permissions)。简要概述请参见[配置访问控制](https://block.github.io/goose/docs/mcp/developer-mcp#configuring-access-controls)。
+:::
+
+#### 内置平台扩展
+
+平台扩展是内置扩展，提供诸如代码分析、对话搜索、任务跟踪和扩展管理等全局功能。它们可以按需开启或关闭。
+
+- [Analyze](https://block.github.io/goose/docs/guides/codebase-analysis)：分析代码结构、文件详情和符号调用图（默认启用）
+- [Apps](https://block.github.io/goose/docs/mcp/apps-mcp)：在独立窗口中创建、管理和启动自定义 HTML 应用
+- [Chat Recall](https://block.github.io/goose/docs/mcp/chatrecall-mcp)：搜索你所有会话历史中的对话内容
+- [Code Mode](https://block.github.io/goose/docs/mcp/code-mode-mcp)：在包含于当前构建中时，执行 JavaScript 代码以进行工具发现和工具调用
+- [Extension Manager](https://block.github.io/goose/docs/mcp/extension-manager-mcp)：在会话期间动态发现、启用和禁用扩展（默认启用）
+- [Skills](https://block.github.io/goose/docs/guides/context-engineering/using-skills)：从内置 Skill 和文件系统 Skill 中发现并加载 Skill 指令（默认启用）
+- [Summon](https://block.github.io/goose/docs/mcp/summon-mcp)：加载知识源并将任务委派给子代理（默认启用）
+- [Todo](https://block.github.io/goose/docs/mcp/todo-mcp)：管理任务列表并跨会话跟踪进度
+- [Top of Mind](https://block.github.io/goose/docs/mcp/tom-mcp)：在每一轮向 goose 的工作记忆注入持久指令
+
+#### 切换内置扩展
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+  2. 点击侧边栏上的 `Extensions` 按钮。
+  3. 在 `Extensions` 下，你可以开启或关闭内置扩展。
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+    
+    如果你知道想要添加的扩展的确切名称，请运行：
+
+    ```sh
+    goose mcp {name}
+    ```
+
+    要浏览可用的扩展：
+
+    1. 运行以下命令：
+        ```sh
+        goose configure
+        ```
+    2. 从菜单中选择 `Add Extension`。使用上下键高亮你的选择，然后按 `Enter`。
+    3. 选择 `Built-In Extension`。
+    4. 选择要启用的扩展。
+    5. 为该扩展提供一个超时时间（以秒为单位）。
+    6. 按 `Enter`。
+
+    **示例：添加内置扩展**
+
+    ```
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension 
+    │
+    ◇  What type of extension would you like to add?
+    │  Built-in Extension 
+    │
+    ◇  Which built-in extension would you like to enable?
+    │  Auto Visualiser
+    │        
+    ◇  Please set the timeout for this tool (in secs):
+    │  300
+    │ 
+    └  Enabled Auto Visualiser extension    
+    ```
+  </TabItem>
+</Tabs>
+
+
+:::info
+goose 的内置扩展本身就是 MCP 服务器。如果你想将 goose 自带的 MCP 服务器用于任何其他 agent，你可以随意这样做。
+:::
+
+### 发现扩展
+
+goose 提供了一个可安装和使用的扩展[中心目录][extensions-directory]。
+
+你也可以将任何其他 [MCP Server](#mcp-servers) 添加为 goose 扩展，即使它未在我们的目录中列出。
+
+
+### 添加扩展
+
+扩展可以直接通过[扩展目录][extensions-directory]、CLI 或 UI 安装。
+
+:::warning 气隙环境
+如果你处于企业环境或气隙环境中，且扩展无法激活，请参阅[气隙/离线环境](https://block.github.io/goose/docs/troubleshooting/known-issues#airgappedoffline-environment-issues)了解变通方法。
+:::
+
+#### MCP 服务器
+
+你可以将任何 MCP 服务器安装为 goose 扩展。
+
+许多 MCP 服务器在了解你的活动工作区时能更好地工作。goose 支持 [MCP Roots](https://block.github.io/goose/docs/guides/mcp-roots)，它让具备 roots 感知能力的扩展自动看到你当前会话的工作目录。
+
+:::tip MCP 服务器目录
+在 **[MCP Server Directory](https://www.pulsemcp.com/servers)** 中查看可用的服务器。
+:::
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+ 
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+  2. 点击侧边栏上的 `Extensions` 按钮。
+  3. 在 `Extensions` 下，点击 `Add custom extension`。
+  4. 在 `Add custom extension` 模态框中，输入必要的详细信息
+     - 如果要添加环境变量，请点击变量右侧的 `Add` 按钮
+     - `Timeout` 字段让你设置 goose 应等待来自该扩展的工具调用完成的时间
+  5. 点击 `Add` 按钮
+  
+  #### 添加 [Knowledge Graph Memory MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/memory) 的示例：
+    * **Type**：`Standard IO`
+    * **ID**：`kgm-mcp`（_设置为你想要的任何值_）
+    * **Name**：`Knowledge Graph Memory`（_设置为你想要的任何值_）
+    * **Description**：`maps and stores complex relationships between concepts`（_设置为你想要的任何值_）
+    * **Command**：`npx -y @modelcontextprotocol/server-memory`
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+  
+  1. 运行以下命令：
+
+    ```sh
+    goose configure
+    ```
+
+  2. 从菜单中选择 `Add Extension`。
+
+  3. 选择你想添加的扩展类型：
+      - `Built-In Extension`：使用 goose 预装的扩展。
+      - `Command-Line Extension`：添加一个本地命令或脚本作为扩展运行。
+      - `Remote Extension (Streamable HTTP)`：通过 Streamable HTTP 连接到远程系统
+
+  4. 根据你选择的扩展类型，按照提示操作。
+
+  #### 添加 [Knowledge Graph Memory MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/memory) 的示例：
+
+<Tabs groupId="extensions">
+   <TabItem value="node" label="Node">
+  ```
+ ┌   goose-configure 
+ │
+ ◇  What would you like to configure?
+ │  Add Extension 
+ │
+ ◇  What type of extension would you like to add?
+ │  Command-line Extension 
+ │
+ ◇  What would you like to call this extension?
+ │  Knowledge Graph Memory
+ │
+ ◇  What command should be run?
+ │  npx -y @modelcontextprotocol/server-memory
+ │
+ ◇  Please set the timeout for this tool (in secs):
+ │  300
+ │
+ ◆  Would you like to add environment variables?
+ │  No 
+ │
+ └  Added Knowledge Graph Memory extension
+ ```
+
+   </TabItem>
+   <TabItem value="python" label="Python">
+
+  ```
+ ┌   goose-configure
+ │
+ ◇  What would you like to configure?
+ │  Add Extension
+ │
+ ◇  What type of extension would you like to add?
+ │  Command-line Extension
+ │
+ ◇  What would you like to call this extension?
+ │  Wikipedia Reader
+ │
+ ◇  What command should be run?
+ │  uvx mcp-wiki
+ │
+ ◇  Please set the timeout for this tool (in secs):
+ │  300
+ │
+ ◆  Would you like to add environment variables?
+ │  No
+ │
+ └  Added Wikipedia Reader extension
+ ```
+
+   </TabItem>
+   <TabItem value="java" label="Java">
+
+注意：Java 和 Kotlin 扩展仅在 Linux 和 macOS 上受支持
+
+  ```
+ ┌   goose-configure
+ │
+ ◇  What would you like to configure?
+ │  Add Extension
+ │
+ ◇  What type of extension would you like to add?
+ │  Command-line Extension
+ │
+ ◇  What would you like to call this extension?
+ │  Spring Data Explorer
+ │
+ ◇  What command should be run?
+ │  jbang -Dspring.profiles.active=dev org.example:spring-data-mcp:1.0.0
+ │
+ ◇  Please set the timeout for this tool (in secs):
+ │  300
+ │
+ ◆  Would you like to add environment variables?
+ │  Yes
+ │
+ ◇  Environment variable name:
+ │  SPRING_DATASOURCE_URL
+ │
+ ◇  Environment variable value:
+ │  jdbc:postgresql://localhost:5432/mydb
+ │
+ ◇  Add another environment variable?
+ │  No
+ │
+ └  Added Spring Data Explorer extension
+ ```
+
+   </TabItem>
+  </Tabs>
+
+  </TabItem>
+</Tabs>
+
+
+#### 深链接
+
+扩展可以使用 goose 的深链接协议安装。URL 格式因扩展类型而异：
+
+<Tabs groupId="interface">
+  <TabItem value="stdio" label="StandardIO" default>
+```
+goose://extension?cmd=<command>&arg=<argument>&id=<id>&name=<name>&description=<description>
+```
+
+必需参数：
+- `cmd`：要运行的基础命令，为 `jbang`、`npx`、`uvx`、`goosed` 或 `docker` 之一
+- `arg`：（仅 cmd）命令参数（可重复以提供多个参数：`&arg=...&arg=...`）
+- `timeout`：等待扩展响应的最长时间（以秒为单位）
+- `id`：扩展的唯一标识符
+- `name`：扩展的显示名称
+- `description`：扩展功能的简要描述
+
+像 `npx -y @modelcontextprotocol/server-github` 这样的命令将表示为：
+
+```
+goose://extension?cmd=npx&arg=-y&arg=%40modelcontextprotocol/server-github&timeout=<timeout>&id=<id>&name=<name>&description=<description>
+```
+
+请注意，`npx` 命令的每个参数在深链接中都作为单独的 `arg` 参数传递。
+  </TabItem>
+  <TabItem value="streamable_http" label="Streamable HTTP">
+```
+goose://extension?url=<remote-streamable-http-url>&type=streamable_http&id=<id>&name=<n>&description=<description>
+```
+
+参数：
+- `url`：远程 Streamable HTTP 服务器的 URL
+- `type`：必须设置为 `streamable_http` 以指定协议类型
+- `timeout`：等待扩展响应的最长时间（以秒为单位）
+- `id`：扩展的唯一标识符
+- `name`：扩展的显示名称
+- `description`：扩展功能的简要描述
+
+例如，像 `https://example.com/streamable` 这样的 URL 的深链接在进行 URL 编码后会像这样：
+
+```
+goose://extension?url=https%3A%2F%2Fexample.com%2Fstreamable&type=streamable_http&timeout=<timeout>&id=<id>&name=<n>&description=<description>
+```
+
+  </TabItem>
+</Tabs>
+
+:::note
+深链接中的所有参数都必须进行 URL 编码。例如，空格应替换为 `%20`，`@` 应替换为 `%40`。
+:::
+
+
+#### 配置条目
+对于高级用户，你也可以直接编辑配置文件（`~/.config/goose/config.yaml`）来添加、移除或更新扩展：
+
+```yaml
+extensions:
+  github:
+    name: GitHub
+    cmd: npx
+    args: [-y @modelcontextprotocol/server-github]
+    enabled: true
+    envs: { "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>" }
+    type: stdio
+    timeout: 300
+```
+
+##### 使用预注册 OAuth 客户端的远程扩展
+
+需要 OAuth 的远程（`streamable_http`）扩展通常会自动获取客户端 ID，方式是使用 Client ID Metadata Documents 或 Dynamic Client Registration。有些授权服务器两者都不支持，而是要求使用一个带外注册的客户端。对于这些服务器，请在扩展上设置 `client_id` —— 对于机密客户端，还要设置 `client_secret_key`：
+
+```yaml
+extensions:
+  remote-example:
+    name: Remote Example
+    type: streamable_http
+    uri: https://example.com/mcp
+    client_id: <YOUR_REGISTERED_CLIENT_ID>
+    client_secret_key: REMOTE_EXAMPLE_OAUTH_SECRET
+    scopes:
+      - example.readonly
+    enabled: true
+    timeout: 300
+```
+
+- `client_id`：在服务器的授权服务器上注册的 OAuth 客户端 ID。设置后，它的优先级高于 Client ID Metadata Documents 和 Dynamic Client Registration。支持 `$VAR`/`${VAR}` 替换。
+- `client_secret_key`：持有客户端密钥的环境变量/密钥键的名称，从 `envs`/`env_keys` 或 goose 的密钥存储中解析（`goose configure` > extension secrets）。密钥值本身永远不会写入配置文件。对于仅使用 PKCE 进行认证的公共客户端，请省略此项。
+- `scopes`：要请求的 OAuth scope。省略时，scope 会从服务器公布的元数据中选择，这可能比扩展所需的更宽泛。
+
+OAuth 回调在 `127.0.0.1` 上以临时端口提供；如果授权服务器只允许使用固定端口且预先注册的重定向 URI，请设置 `GOOSE_OAUTH_CALLBACK_PORT`。
+
+### 启用/禁用扩展
+
+你可以随时启用或禁用已安装的扩展，既可以作为新会话的默认设置，也可以更改你在当前会话中使用的扩展。
+
+#### 为新会话设置默认扩展
+
+对默认扩展所做的更改会应用于将来的会话。对这些设置的更新不会影响任何当前活动的会话。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+  2. 点击侧边栏上的 `Extensions` 按钮。
+  3. 使用扩展旁边的切换开关来启用或禁用它。
+
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+
+  1. 运行以下命令打开 goose 的配置：
+      ```sh
+      goose configure
+      ```
+  2. 从菜单中选择 `Toggle Extensions`。
+  3. 将列出已安装的扩展列表。
+  4. 按 `space bar` 切换该扩展。实心表示已启用。
+
+  **示例：**
+
+  ```
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Toggle Extensions 
+  │
+  ◆  enable extensions: (use "space" to toggle and "enter" to submit)
+  │  ◼ developer 
+  │  ◻ fetch 
+  └   
+  ```
+  </TabItem>
+</Tabs>
+
+#### 在会话中途更改扩展
+
+在会话期间所做的更改会保留你当前的对话，而无需重新开始。会话中途的更改仅应用于当前聊天会话，不会更改你为新会话设置的默认扩展。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+
+  1. 点击应用底部的 <Puzzle className="inline" size={16} /> 按钮。
+  2. 使用扩展旁边的切换开关来启用或禁用它。
+
+  </TabItem>
+
+  <TabItem value="cli" label="goose CLI">
+
+  在交互式会话中使用斜杠命令添加扩展：
+
+  **添加 stdio 扩展：**
+  ```bash
+  /extension npx -y @modelcontextprotocol/server-memory
+  ```
+
+  **添加内置扩展：**
+  ```bash
+  /builtin developer
+  ```
+  </TabItem>
+</Tabs>
+
+### 自动启用的扩展
+
+goose 中的 Smart Extension Recommendation（智能扩展推荐）系统会根据你的任务和需求自动识别并建议相关的扩展。本节说明如何有效地使用此功能，并理解其能力和局限。
+
+当你请求一个任务时，goose 会检查其已启用的扩展及其工具，以确定能否完成该请求。如果不能，它会按需建议或启用额外的扩展。你也可以按名称请求特定的扩展。
+
+
+:::warning
+任何动态启用的扩展都仅在当前会话中启用。若要在会话之间保持扩展启用，请参阅[启用/禁用扩展](#enablingdisabling-extensions)。
+:::
+
+#### 自动检测
+
+goose 会根据你的任务需求自动检测何时需要某个扩展。下面是一个 goose 在对话期间识别并启用所需扩展的示例：
+
+<Tabs groupId="interface">
+<TabItem value="ui" label="goose Desktop" default>
+
+#### goose 提示词
+```plaintext
+Find all orders with pending status from our production database
+```
+
+#### goose 输出
+
+```plaintext
+I'll help you search for available extensions that might help us interact with PostgreSQL databases.
+
+🔍 Search Available Extensions
+└─ Output ▼
+
+ I see there's a PostgreSQL extension available. Let me enable it so we can query your database.
+
+🔧 Manage Extensions
+└─ action           enable
+   extension_name   postgresql
+
+The extension 'postgresql' has been installed successfully
+
+Great! Now I can help you query the database...
+```
+
+</TabItem>
+<TabItem value="cli" label="goose CLI">
+
+#### goose 提示词
+```plaintext
+Find all orders with pending status from our production database
+```
+
+#### goose 输出
+
+```sh
+I apologize, but I notice that I don't currently have access to your database. Let me search if there are any database-related extensions available.
+─── search_available_extensions | platform ──────────────────────────
+
+I see that there is a "postgresql" extension available. Let me enable it so I can help you query your database.
+─── enable_extension | platform ──────────────────────────
+extension_name: postgresql
+
+
+■  goose would like to enable the following extension, do you approve?
+// highlight-start
+| ● Yes, for this session 
+// highlight-end
+| ○ No
+```
+
+</TabItem>
+</Tabs>
+
+#### 直接请求
+
+goose 会响应针对扩展的显式请求，允许用户手动启用他们所需的特定工具。下面是一个 goose 处理启用扩展的直接请求的示例：
+
+<Tabs groupId="interface">
+<TabItem value="ui" label="goose Desktop" default>
+
+#### goose 提示词
+
+```plaintext
+Use PostgreSQL extension
+```
+
+#### goose 输出
+
+```plaintext
+I'll help enable the PostgreSQL extension for you.
+
+🔧 Manage Extensions
+└─ action           enable
+   extension_name   postgresql
+
+The extension 'postgresql' has been installed successfully
+
+The PostgreSQL extension is now ready to use. What would you like to do with it?
+```
+
+</TabItem>
+<TabItem value="cli" label="goose CLI">
+
+#### goose 提示词
+
+```sh
+Use the PostgreSQL extension
+```
+
+#### goose 输出
+
+```sh
+I'll help enable the PostgreSQL extension for you.
+─── enable_extension | platform ──────────────────────────
+extension_name: postgresql
+
+
+■  goose would like to enable the following extension, do you approve?
+// highlight-start
+| ● Yes, for this session 
+// highlight-end
+| ○ No
+```
+
+</TabItem>
+</Tabs>
+
+### 更新扩展属性
+
+goose 依赖扩展属性来确定如何处理某个扩展。如果你想更改扩展的显示设置和行为，例如名称、超时时间或环境变量，可以编辑这些属性。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+  2. 点击侧边栏上的 `Extensions` 按钮。
+  3. 在 `Extensions` 下，点击你想要编辑的扩展上的 <Settings className="inline" size={16} /> 按钮。
+  4. 在出现的对话框中，按需编辑该扩展的属性。
+  5. 点击 `Save Changes`。
+
+  </TabItem>
+
+  <TabItem value="cli" label="Config file">
+  
+  1. 导航到 goose [配置文件](https://block.github.io/goose/docs/guides/config-files)。例如，在 macOS 上导航到 `~/.config/goose/config.yaml`。
+  2. 按需编辑扩展属性并保存你的更改。
+
+  </TabItem>
+</Tabs>
+
+### 移除扩展
+
+你可以移除已安装的扩展。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+
+  1. 点击左上角的 <PanelLeft className="inline" size={16} /> 按钮打开侧边栏。
+  2. 点击侧边栏上的 `Extensions` 按钮。
+  3. 在 `Extensions` 下，点击你想要移除的扩展上的 <Settings className="inline" size={16} /> 按钮。
+  4. 在出现的对话框中，点击 `Remove Extension`。
+
+  </TabItem>
+
+  <TabItem value="cli" label="Config file">
+  :::info
+  要移除扩展，你必须先[禁用它](#enablingdisabling-extensions)。
+  :::
+
+    1. 运行以下命令打开 goose 的配置：
+    ```sh
+    goose configure
+    ```
+    2. 从菜单中选择 `Remove`。将列出已禁用的扩展。
+    3. 用方向键向下移动到你想移除的扩展。
+    4. 按 `space bar` 选择该扩展。实心表示已选中。
+    ```
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Remove Extension 
+    │
+    ◆  Select extensions to remove (note: you can only remove disabled extensions - use "space" to toggle and "enter" to submit)
+    │  ◼ fetch 
+    └  
+    ```
+    5. 按 Enter 保存
+  </TabItem>
+</Tabs>
+
+
+### 使用扩展启动会话
+
+你可以直接从 CLI 用特定的扩展启动一个量身定制的 goose 会话。
+
+:::info 注意事项
+* 该扩展不会被安装。它仅在当前会话中启用。
+* 如果你已经启用了这些扩展，则无需这样做。
+:::
+
+#### 内置扩展
+
+要在启动会话时启用一个内置扩展，请运行以下命令：
+
+```bash
+goose session --with-builtin "{extension_id}"
+```
+
+例如，要启用 Developer 和 Computer Controller 扩展并启动一个会话，你可以运行：
+
+```bash
+goose session --with-builtin "developer,computercontroller"
+```
+
+或者：
+
+```bash
+goose session --with-builtin developer --with-builtin computercontroller
+```
+
+
+#### 外部扩展
+
+要在启动会话时启用一个扩展，请运行以下命令：
+
+```bash
+goose session --with-extension "{extension command}" --with-extension "{another extension command}"
+```
+
+例如，要用 [Fetch 扩展](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch)启动一个会话，你可以运行：
+
+```bash
+goose session --with-extension "uvx mcp-server-fetch"
+```
+
+
+##### 环境变量
+
+有些扩展需要环境变量。你可以在命令中包含这些变量：
+
+```bash
+goose session --with-extension "VAR=value command arg1 arg2"
+```
+
+例如，要用 [GitHub 扩展](https://github.com/github/github-mcp-server)启动一个会话，你可以运行：
+
+```bash
+goose session --with-extension "GITHUB_PERSONAL_ACCESS_TOKEN=<YOUR_TOKEN> npx -y @modelcontextprotocol/server-github"
+```
+
+:::info
+请注意，你需要在系统上安装 [Node.js](https://nodejs.org/) 才能运行此命令，因为它使用了 `npx`。
+:::
+
+
+#### 通过 Streamable HTTP 使用远程扩展
+
+要在启动会话时通过 Streamable HTTP 启用一个远程扩展，请运行以下命令：
+
+```bash
+goose session --with-streamable-http-extension "{extension URL}" --with-streamable-http-extension "{another extension URL}"
+```
+
+例如，要用一个 Streamable HTTP 扩展启动一个会话，你可以运行：
+
+```bash
+goose session --with-streamable-http-extension "https://example.com/streamable"
+```
+
+#### 容器中的扩展
+
+goose 可以使用 `--container` 标志在 Docker 容器内运行扩展，以支持 devcontainer 工作流。详情请参阅[在 Docker 容器中运行扩展](https://block.github.io/goose/docs/tutorials/goose-in-docker#running-extensions-in-docker-containers)。
+
+### 开发扩展
+
+goose 扩展是用 MCP 实现的，MCP 是一种标准协议，允许 AI 模型和 agent 安全地连接本地或远程资源。了解如何构建你自己的[作为 MCP 服务器的扩展](https://modelcontextprotocol.io/quickstart/server)。
+
+**教程：**
+- [构建自定义扩展](https://block.github.io/goose/docs/tutorials/custom-extensions) - 创建一个基于 Python 的 MCP 扩展
+- [构建 MCP 应用](https://block.github.io/goose/docs/tutorials/building-mcp-apps) - 创建交互式 UI 应用
+
+[extensions-directory]: https://block.github.io/goose/extensions
 
 ---
 
@@ -1116,6 +3791,104 @@ export GOOSE_TOOLSHIM_OLLAMA_MODEL=qwen2.5:3b
 **模型在工具调用之前输出推理（`<think>` 标签）**
 
 有些推理模型会将思考标签与工具调用混在一起，导致解析失败。shim 会自动处理这种情况 —— 启用它，推理内容就会从最终消息中剥离。
+
+---
+
+## 上下文工程
+
+> 原文：https://block.github.io/goose/docs/guides/context-engineering
+
+<h1 className={styles.pageTitle}>上下文工程</h1>
+<p className={styles.pageDescription}>
+  上下文工程（Context engineering）关注的是构建背景知识、偏好与工作流，帮助 goose 更高效地工作。你不必反复重复指令，只需定义一次，就能教会 goose 你习惯的工作方式。
+</p>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📚 文档与指南</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="使用 goosehints"
+      description="使用 AGENTS.md、.goosehints 以及其他文件，提供 goose 会自动加载的项目上下文、偏好与指令。"
+      link="/docs/guides/context-engineering/using-goosehints"
+    />
+    <Card 
+      title="使用 Skill"
+      description="创建可复用的指令集，其中包含工作流、脚本及其他资源，goose 可按需加载。"
+      link="/docs/guides/context-engineering/using-skills"
+    />
+    <Card
+      title="自定义 Agent"
+      description="创建、编辑、导入和导出专用的 goose Agent，附带可复用的提示词以及可选元数据。"
+      link="/docs/guides/context-engineering/custom-agents"
+    />
+    <Card 
+      title="插件"
+      description="安装、更新和管理扩展包，用 Skill、Hook 及其他可复用组件来扩展 goose。"
+      link="/docs/guides/context-engineering/plugins"
+    />
+    <Card 
+      title="Hook"
+      description="在 goose 启动会话、提交提示词、调用工具、编辑文件或执行 shell 命令时运行脚本。"
+      link="/docs/guides/context-engineering/hooks"
+    />
+    <Card 
+      title="自定义斜杠命令"
+      description="创建自定义快捷方式，用简单的斜杠命令在任意聊天会话中快速运行可复用指令。"
+      link="/docs/guides/context-engineering/slash-commands"
+    />
+    <Card 
+      title="提示词模板"
+      description="自定义内置提示词，它们定义了 goose 如何响应、规划、压缩上下文以及创建 Recipe。"
+      link="/docs/guides/context-engineering/prompt-templates"
+    />
+    <Card 
+      title="子代理"
+      description="把聚焦的任务委派给隔离的 goose 实例，这些实例可以顺序运行或并行运行。"
+      link="/docs/guides/context-engineering/subagents"
+    />
+    <Card 
+      title="持久指令"
+      description="在每一轮向 goose 的工作记忆注入关键提醒。非常适合绝不能遗忘的安全护栏与行为规则。"
+      link="/docs/guides/context-engineering/using-persistent-instructions"
+    />
+    <Card 
+      title="Memory 扩展"
+      description="教会 goose 可在跨会话中回忆的持久知识。保存命令、代码片段与偏好，以获得一致的协助。"
+      link="/docs/mcp/memory-mcp"
+    />
+    <Card 
+      title="研究 → 规划 → 实现模式"
+      description="了解斜杠命令如何让你轻松把指令集成到交互式 RPI 工作流中。"
+      link="/docs/tutorials/rpi"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📝 精选博客文章</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="我的 .goosehints 文件里有什么"
+      description="深入探讨 .goosehints 与 Memory 扩展的对比，以及如何优化你的 goose 配置以获得更好的性能。"
+      link="/blog/2025/06/05/whats-in-my-goosehints-file"
+    />
+    <Card 
+      title="阻止你的 AI Agent 做出不想要的更改"
+      description="教会你的 AI Agent 如何尽早、频繁地提交，这样你就能控制更改并安全回滚。"
+      link="/blog/2025/12/10/stop-ai-agent-unwanted-changes"
+    />
+    <Card 
+      title="AI 怀疑论者的上下文窗口指南"
+      description="AI Agent 为什么会遗忘？了解上下文窗口、token 以及 goose 如何帮助你管理记忆与长对话。"
+      link="/blog/2025/08/18/understanding-context-windows"
+    />
+    <Card
+      title="Hook：在每一个 goose 事件上运行你自己的脚本"
+      description="了解生命周期 Hook 如何让你用自己的脚本响应会话、提示词、工具、文件与 shell 事件。"
+      link="/blog/2026/05/14/goose-hooks"
+    />
+  </div>
+</div>
 
 ---
 
@@ -1966,6 +4739,38 @@ This will appear literally: {{'{{variable}}'}}
 
 ---
 
+## 自定义 Agent
+
+> 原文：https://block.github.io/goose/docs/guides/context-engineering/custom-agents
+
+自定义 Agent 是针对特定角色、行为或专业领域的可复用 goose 配置。每个 Agent 打包了一个名称、描述、可选的模型偏好和指令，让你可以快速让 goose 以某个专业角色工作，例如代码审查者、文档撰写者、测试规划者或发布助手。
+
+当你希望跨多个会话保持同一角色或行为、又不想重复输入相同指令时，就使用自定义 Agent。
+
+### 创建 Agent 文件
+
+Agent 以带 YAML frontmatter 的 Markdown 文件形式存储。你可以在编辑器中直接创建或编辑这些文件。
+
+全局 Agent 可在所有 goose 会话中使用：
+
+```text
+~/.agents/agents/
+```
+
+项目 Agent 在 goose 于该项目中工作时可用：
+
+```text
+<project>/.agents/agents/
+```
+
+:::note 兼容路径
+goose 还会从 `.goose/agents/`、`.claude/agents/`、`~/.goose/agents/`、`~/.claude/agents/`、goose 平台专属配置的 agents 目录，以及项目本地的 `.agents/agents/` 中发现 Agent。新的共享 Agent 应使用 `.agents/agents/`（项目 Agent）或 `~/.agents/agents/`（全局 Agent）。
+:::
+
+如果目录尚不存在，先创建它，然后为你的 Agent 添加一个 Markdown 文件：
+
+```markdown title="~/.agents/agents/code-reviewer.md"
+---
 name: code-reviewer
 description: Reviews code for correctness, maintainability, and risk
 model: gpt-5.5
@@ -3417,6 +6222,121 @@ Context: ●○○○○○○○○○ 5% (9695/200000 tokens)
     }
   ]}
 />
+
+---
+
+## Recipes 可复用工作流
+
+> 原文：https://block.github.io/goose/docs/guides/recipes/index
+
+<h1 className={styles.pageTitle}>Recipes 可复用工作流</h1>
+<p className={styles.pageDescription}>
+  Recipe 是可复用的工作流，它们将扩展、提示词和设置打包在一起。你可以与团队分享经过验证的工作流，并持续复现成功的结果。
+</p>
+
+<div className="video-container margin-bottom--lg">
+  <iframe
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/8rTliYrQ6Iw"
+    title="使用 Recipes 创建可复用的 AI Agent"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📚 文档与指南</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="可复用 Recipe"
+      description="将 goose 会话设置（包括工具、目标和说明）作为可复用的 Recipe 分享，让其他人只需单击一次即可启动。"
+      link="https://block.github.io/goose/docs/guides/recipes/session-recipes"
+    />
+    <Card
+      title="Recipe 参考指南"
+      description="通过 CLI 在 goose 中创建和自定义 Recipe 的完整技术参考。"
+      link="https://block.github.io/goose/docs/guides/recipes/recipe-reference"
+    />
+    <Card
+      title="自定义斜杠命令"
+      description="创建自定义快捷方式，以便在任意聊天会话中通过简单的斜杠命令快速运行 Recipe。"
+      link="https://block.github.io/goose/docs/guides/context-engineering/slash-commands"
+    />
+    <Card
+      title="goose Recipes 教程"
+      description="学习如何使用提示词、参数、MCP 服务器等创建和使用 goose Recipe。"
+      link="https://block.github.io/goose/docs/tutorials/recipes-tutorial"
+    />
+    <Card
+      title="子 Recipe"
+      description="了解 Recipe 如何使用子 Recipe 执行特定任务。"
+      link="https://block.github.io/goose/docs/guides/recipes/subrecipes"
+    />
+    <Card
+      title="保存 Recipe"
+      description="了解如何保存、整理和查找 goose Recipe，以便轻松访问和重复使用。"
+      link="https://block.github.io/goose/docs/guides/recipes/storing-recipes"
+    />
+    <Card
+      title="并行运行子 Recipe 教程"
+      description="学习如何同时运行多个子 Recipe 实例。"
+      link="https://block.github.io/goose/docs/tutorials/subrecipes-in-parallel"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>🛠️ Recipe 示例集</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="Recipe 示例集"
+      description="浏览我们收集的开箱即用 Recipe。查找并改编适用于常见开发场景的 Recipe。"
+      link="https://block.github.io/goose/recipes"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📝 精选博客文章</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="以锦标赛为驱动的开发"
+      description="通过 Recipes 加速开发团队的工作流。"
+      link="https://block.github.io/goose/blog/2025/05/09/developers-ai-playbook-for-team-efficiency"
+    />
+    <Card
+      title="成功的秘诀"
+      description="借助 Recipes 扩展智能体工作流的价值。"
+      link="https://block.github.io/goose/blog/2025/05/06/recipe-for-success"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>🎥 更多视频</h2>
+
+<VideoCarousel
+  id="more-videos"
+  videos={[
+    {
+      type: 'iframe',
+      src: 'https://youtube.com/embed/1szmJSKInnU',
+      title: 'goose 中 Recipes/子 Recipes 的高级技巧',
+      description: '在 goose 中使用 Recipes 和子 Recipes 的高级技巧',
+      duration: '10:07'
+    },
+    {
+      type: 'iframe',
+      src: 'https://youtube.com/embed/gvg7DomaJuA',
+      title: '无头 goose：安排并行子代理 Recipe',
+      description: '安排一个同时运行两个子代理的 Recipe',
+      duration: '5:50'
+    }
+  ]}
+/>
+</div>
 
 ---
 
@@ -5731,6 +8651,58 @@ prompt: "Scan for common vulnerabilities"
 
 ---
 
+## 管理会话
+
+> 原文：https://block.github.io/goose/docs/guides/sessions
+
+<h1 className={styles.pageTitle}>管理会话</h1>
+<p className={styles.pageDescription}>
+  会话是你与 goose 之间持续的交互。每个会话都维护着上下文和对话历史，使 goose 能够理解你正在进行的工作并提供相关的协助。
+</p>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📚 文档与指南</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="会话管理"
+      description="了解如何启动、恢复或搜索会话，以及执行其他会话管理任务。"
+      link="https://block.github.io/goose/docs/guides/sessions/session-management"
+    />
+    <Card 
+      title="会话内操作"
+      description="探索你可以在会话期间用来分享信息并与 goose 沟通的功能。"
+      link="https://block.github.io/goose/docs/guides/sessions/in-session-actions"
+    />
+    <Card 
+      title="智能上下文管理"
+      description="使用有助于管理上下文和对话限制的功能，保持高效的会话。"
+      link="https://block.github.io/goose/docs/guides/sessions/smart-context-management"
+    />
+  </div>
+</div>
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📝 精选博客文章</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="与 goose 协作的 6 个必备技巧"
+      description="了解专注的会话、循序渐进的指导以及打磨你的提示词，如何带来更高效的会话。"
+      link="https://block.github.io/goose/blog/2025/03/06/goose-tips"
+    />
+    <Card
+      title="AI 提示词入门 101：如何从你的 AI Agent 获得最佳回复"
+      description="通过为你的提示词增加结构，让你的会话更有效。"
+      link="https://block.github.io/goose/blog/2025/03/19/better-ai-prompting"
+    />
+    <Card
+      title="AI 怀疑论者的上下文窗口指南"
+      description="了解上下文窗口、token 以及 goose 如何帮助你管理记忆和长对话。"
+      link="https://block.github.io/goose/blog/2025/08/18/understanding-context-windows"
+    />
+  </div>
+</div>
+
+---
+
 ## 会话管理
 
 > 原文：https://block.github.io/goose/docs/guides/sessions/session-management
@@ -7172,6 +10144,54 @@ goose run \
 
 ---
 
+## 与 goose 安全共处
+
+> 原文：https://block.github.io/goose/docs/guides/security
+
+<h1 className={styles.pageTitle}>与 goose 安全共处</h1>
+<p className={styles.pageDescription}>
+  了解安全风险并遵循最佳实践，有助于你保护自己的 goose 工作流。
+</p>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📚 文档与指南</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="对手模式"
+      description="一个独立的 Agent 审查者，静默监视工具调用，以防 Agent 失控时保护你。"
+      link="https://block.github.io/goose/docs/guides/security/adversary-mode"
+    />
+    <Card 
+      title="提示词注入检测"
+      description="在潜在有害的命令运行之前检测并阻止它们。"
+      link="https://block.github.io/goose/docs/guides/security/prompt-injection-detection"
+    />
+    <Card 
+      title="分类 API 规范"
+      description="用于自托管基于机器学习的提示词注入检测端点的 API 规范。"
+      link="https://block.github.io/goose/docs/guides/security/classification-api-spec"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📝 精选博客文章</h2>
+  <div className={styles.cardGrid}>
+    <Card      
+      title="如何判断一个 MCP 服务器是否安全"
+      description="在把 Agent 接入任意一个 MCP 服务器之前，这里告诉你如何检查它是否真的安全。"
+      link="https://block.github.io/goose/blog/2025/03/26/mcp-security"
+    />
+    <Card      
+      title="保护 Model Context Protocol 的安全"
+      description="在 Block 使用 Model Context Protocol（MCP）构建安全且强大的 AI 集成。"
+      link="https://block.github.io/goose/blog/2025/03/31/securing-mcp"
+    />
+  </div>
+</div>
+
+---
+
 ## 对手模式
 
 > 原文：https://block.github.io/goose/docs/guides/security/adversary-mode
@@ -7635,6 +10655,71 @@ export GOOSE_ALLOWLIST=https://example.com/goose-allowlist.yaml
 </Tabs>
 
 你也可以直接在 [`config.yaml` 文件](https://block.github.io/goose/docs/guides/config-files)中设置 `GOOSE_TELEMETRY_ENABLED` 变量，或将其用作[环境变量](https://block.github.io/goose/docs/guides/environment-variables#security-and-privacy)来为某个特定会话设置遥测状态。
+
+---
+
+## 多模型配置
+
+> 原文：https://block.github.io/goose/docs/guides/multi-model
+
+<h1 className={styles.pageTitle}>多模型配置</h1>
+<p className={styles.pageDescription}>
+  goose 支持在单个会话内使用不同模型的多种方式，让你可以针对成本、性能和任务专门化进行优化。策略涵盖从手动或按轮次选择模型，到动态的、上下文感知的切换。
+</p>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📚 文档与指南</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="会话中途切换模型"
+      description="使用 /model 命令在不丢失会话的情况下切换模型，既可以保持同一提供方，也可以切换到另一个提供方。"
+      link="https://block.github.io/goose/docs/guides/goose-cli-commands#slash-commands"
+    />
+    <Card 
+      title="子代理"
+      description="把聚焦的任务委派给相互隔离的 goose 实例，每个实例都能运行自己的提供方和模型。"
+      link="https://block.github.io/goose/docs/guides/context-engineering/subagents"
+    />
+    <Card 
+      title="上下文工程"
+      description="塑造 goose 在会话期间保留在上下文中的内容，包括压缩和持久化指令。"
+      link="https://block.github.io/goose/docs/guides/context-engineering"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📝 精选博客文章</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="把 LLM 当作工具箱里的工具：通往更智能 AI Agent 的多模型方法"
+      description="LLM 是专门化的工具，多模型方法能打造更智能、更高效的 AI Agent。"
+      link="https://block.github.io/goose/blog/2025/06/16/multi-model-in-goose"
+    />
+    <Card
+      title="AI 怀疑论者的上下文窗口指南"
+      description="了解在长时间运行的会话中管理上下文窗口和 token 用量的实用方法。"
+      link="https://block.github.io/goose/blog/2025/08/18/understanding-context-windows"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>🎥 更多视频</h2>
+
+<VideoCarousel
+  id="more-videos"
+  videos={[
+    { 
+      type: 'iframe', 
+      src: 'https://www.youtube.com/embed/ZyhUTsChFUw',
+      title: 'goose\'s Multi-Model Setup',
+      description: 'Learn practical multi-model workflows in goose',
+      duration: '5:01'
+    }
+  ]}
+/>
+</div>
 
 ---
 
@@ -8685,6 +11770,40 @@ goose roam peers revoke laptop                    # stop accepting (name, card, 
 - 发送给**在 share 进程中**有运行在途的会话的消息，会成为对该运行的引导。运行在主机上*另一个*进程中的循环（另一个 CLI，或未启用 roam 的主机）无法被远程引导 —— Web 客户端会检测到这一点，并在发送前发出警告。
 - 吊销一个对等方会在数秒内强制关闭其连接，并在其下一步丢弃任何在途轮次；无法开始新工作。一个狭窄的残余情况：某个工具已经启动的操作系统进程（比如一条长 shell 命令）可能会运行至完成 —— 吊销会停止该 agent，但不会停止它已经 fork 出的进程。
 - 在 macOS 上，如果某个会话在连接时仍显得挂起，请设置 `GOOSE_DISABLE_KEYRING=1` 以完全跳过钥匙串。
+
+---
+
+## CLI 命令
+
+> 原文：https://block.github.io/goose/docs/guides/goose-cli-commands
+
+goose 提供命令行界面（CLI），其中的命令可用于管理会话、配置和扩展。本指南涵盖主要的 CLI 命令与交互式会话功能。
+
+### 标志命名约定
+
+goose CLI 遵循一致的标志命名模式，使命令直观且可预测：
+
+- **`--session-id`**：用于会话标识符（例如 `20251108_1`）
+- **`--schedule-id`**：用于计划任务标识符（例如 `daily-report`）
+- **`-n, --name`**：用于人类可读的名称
+- **`--path`**：用于文件路径（旧版支持）
+- **`-o, --output`**：用于输出文件路径
+- **`-r, --resume` 或 `-r, --regex`**：依上下文而定（会话用 resume，过滤器用 regex）
+- **`-v, --verbose`**：用于详细输出
+- **`-l, --limit`**：用于限制结果数量
+- **`-f, --format`**：用于指定输出格式
+- **`-w, --working_dir`**：用于工作目录过滤
+
+#### 核心命令
+
+##### help
+
+显示帮助菜单。
+
+**用法：**
+```bash
+goose --help
+```
 
 ---
 
@@ -9930,6 +13049,657 @@ goose info -v
 
 ---
 
+## 环境变量
+
+> 原文：https://block.github.io/goose/docs/guides/environment-variables
+
+goose 支持多种环境变量，让你可以自定义其行为。本指南按功能分组，提供了可用环境变量的完整列表。
+
+### 模型配置
+
+这些变量控制[语言模型](https://block.github.io/goose/docs/getting-started/providers)及其行为。
+
+#### 基础提供方配置
+
+这些是开始使用 goose 所需的最低限度变量。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_PROVIDER` | 指定要使用的 LLM 提供方 | [查看可用提供方](https://block.github.io/goose/docs/getting-started/providers#available-providers) | 无（必须[配置](https://block.github.io/goose/docs/getting-started/providers#configure-provider-and-model)） |
+| `GOOSE_MODEL` | 指定从该提供方使用哪个模型 | 模型名称（例如 "gpt-4"、"claude-sonnet-4-20250514"） | 无（必须[配置](https://block.github.io/goose/docs/getting-started/providers#configure-provider-and-model)） |
+| `GOOSE_TEMPERATURE` | 设置模型响应的 [temperature](https://medium.com/@kelseyywang/a-comprehensive-guide-to-llm-temperature-%EF%B8%8F-363a40bbc91f) | 0.0 到 1.0 之间的浮点数 | 模型特定的默认值 |
+| `GOOSE_MAX_TOKENS` | 设置每次模型响应的最大 token 数（更长的响应会被截断） | 正整数（例如 4096、8192） | 模型特定的默认值 |
+| `GOOSE_CACHE_TTL` | 设置 Anthropic 提示缓存的 TTL。`1h` 会让缓存前缀在空闲间隙（例如会话中途离开）保持存活，但缓存写入按 2 倍输入计费而非 1.25 倍，因此只有真正会空闲的会话才划算。无头运行（`goose run`、子代理、定时 Recipe）始终使用 `5m` | `5m`、`1h` | `5m` |
+
+**示例**
+
+```bash
+# Basic model configuration
+export GOOSE_PROVIDER="anthropic"
+export GOOSE_MODEL="claude-sonnet-4-5-20250929"
+export GOOSE_TEMPERATURE=0.7
+
+# Set a lower limit for shorter interactions
+export GOOSE_MAX_TOKENS=4096
+
+# Set a higher limit for tasks requiring longer output (e.g. code generation)
+export GOOSE_MAX_TOKENS=16000
+```
+
+#### 高级提供方配置
+
+当你使用自定义端点、企业部署或特定提供方实现时，需要用到这些变量。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_PROVIDER__TYPE` | 提供方的具体类型/实现 | [查看可用提供方](https://block.github.io/goose/docs/getting-started/providers#available-providers) | 从 GOOSE_PROVIDER 推导 |
+| `GOOSE_PROVIDER__HOST` | 提供方的自定义 API 端点 | URL（例如 "https://api.openai.com"） | 提供方特定的默认值 |
+| `GOOSE_PROVIDER__API_KEY` | 提供方的认证密钥 | API 密钥字符串 | 无 |
+| `GEMINI3_THINKING_LEVEL` | 全局设置 Gemini 3 模型的[思考级别](https://block.github.io/goose/docs/getting-started/providers#gemini-3-thinking-levels) | `low`、`high` | `low` |
+
+**示例**
+
+```bash
+# Advanced provider configuration
+export GOOSE_PROVIDER__TYPE="anthropic"
+export GOOSE_PROVIDER__HOST="https://api.anthropic.com"
+export GOOSE_PROVIDER__API_KEY="your-api-key-here"
+```
+
+#### Claude 思考配置
+
+这些变量控制 Claude 的推理行为。在 Anthropic 和 Databricks 提供方上受支持。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `CLAUDE_THINKING_TYPE` | 控制 Claude 的推理模式 | `adaptive`、`enabled`、`disabled` | Claude 4.6+ 模型为 `adaptive`，否则为 `disabled` |
+
+**示例**
+
+```bash
+# Claude 4.6 adaptive thinking
+export GOOSE_PROVIDER=anthropic
+export GOOSE_MODEL=claude-sonnet-4-6
+export CLAUDE_THINKING_TYPE=adaptive
+
+# Explicit extended thinking with the default budget
+export CLAUDE_THINKING_TYPE=enabled
+
+# Explicit extended thinking with a larger budget for complex tasks
+export CLAUDE_THINKING_TYPE=enabled
+
+# Disable Claude thinking entirely
+export CLAUDE_THINKING_TYPE=disabled
+```
+
+:::tip 查看思考输出
+要在 **CLI** 中查看 Claude 的思考输出，你还需要设置 `GOOSE_CLI_SHOW_THINKING=1`。在 **goose Desktop** 中，思考输出会自动显示在可折叠的 "Show reasoning" 开关中。
+:::
+
+#### 提供方重试
+
+LLM 提供方的可配置重试参数。
+
+##### AWS Bedrock
+
+| 变量 | 用途 | 默认值 |
+|---------------------|-------------|---------|
+| `BEDROCK_MAX_RETRIES` | 放弃前的最大重试次数 | 6 |
+| `BEDROCK_INITIAL_RETRY_INTERVAL_MS` | 首次重试前等待的时长（毫秒） | 2000 |
+| `BEDROCK_BACKOFF_MULTIPLIER` | 每次尝试后重试间隔增长的倍数 | 2（每次翻倍） |
+| `BEDROCK_MAX_RETRY_INTERVAL_MS` | 重试间隔的上限（毫秒） |  120000 |
+
+**示例**
+
+```bash
+export BEDROCK_MAX_RETRIES=10                    # 10 retry attempts
+export BEDROCK_INITIAL_RETRY_INTERVAL_MS=1000    # start with 1 second before first retry
+export BEDROCK_BACKOFF_MULTIPLIER=3              # each retry waits 3x longer than the previous
+export BEDROCK_MAX_RETRY_INTERVAL_MS=300000      # cap the maximum retry delay at 5 min
+```
+
+##### Databricks
+
+| 变量 | 用途 | 默认值 |
+|---------------------|-------------|---------|
+| `DATABRICKS_MAX_RETRIES` | 放弃前的最大重试次数 | 3 |
+| `DATABRICKS_INITIAL_RETRY_INTERVAL_MS` | 首次重试前等待的时长（毫秒） | 1000 |
+| `DATABRICKS_BACKOFF_MULTIPLIER` | 每次尝试后重试间隔增长的倍数 | 2（每次翻倍） |
+| `DATABRICKS_MAX_RETRY_INTERVAL_MS` | 重试间隔的上限（毫秒） |  30000 |
+
+**示例**
+
+```bash
+export DATABRICKS_MAX_RETRIES=5                      # 5 retry attempts
+export DATABRICKS_INITIAL_RETRY_INTERVAL_MS=500      # start with 0.5 second before first retry
+export DATABRICKS_BACKOFF_MULTIPLIER=2               # each retry waits 2x longer than the previous
+export DATABRICKS_MAX_RETRY_INTERVAL_MS=60000        # cap the maximum retry delay at 1 min
+```
+
+
+### 会话管理
+
+这些变量控制 goose 如何管理对话会话和上下文。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_MAX_TURNS` | 在无用户输入的情况下允许的[最大轮数](https://block.github.io/goose/docs/guides/sessions/smart-context-management#maximum-turns) | 整数（例如 10、50、100） | 1000 |
+| `GOOSE_GATEWAY_MAX_TURNS` | 网关会话（例如 Telegram）的最大轮数。仅对网关流量覆盖 `GOOSE_MAX_TURNS`，这样聊天平台可以保持比 CLI/桌面会话更严格的上限。 | 整数（例如 5、10、25） | 回退到 `GOOSE_MAX_TURNS`，再回退到 5 |
+| `GOOSE_SUBAGENT_MAX_TURNS` | 设置[子代理](https://block.github.io/goose/docs/guides/context-engineering/subagents)在超时前允许完成的最大轮数。可被 Recipe 或子代理工具调用中的 [`settings.max_turns`](https://block.github.io/goose/docs/guides/recipes/recipe-reference#settings) 覆盖。 | 整数（例如 25） | 25 |
+| `CONTEXT_FILE_NAMES` | 为[提示/上下文文件](https://block.github.io/goose/docs/guides/context-engineering/using-goosehints#custom-context-files)指定自定义文件名 | 字符串的 JSON 数组（例如 `["CLAUDE.md", ".goosehints"]`） | `[".goosehints", "AGENTS.md"]` |
+| `GOOSE_DISABLE_SESSION_NAMING` | 禁用 AI 自动生成会话名称；避免后台模型调用，并保留默认的 "CLI Session"（goose CLI）或 "New Chat"（goose Desktop） | "1"、"true"（不区分大小写）以启用 | false |
+| `GOOSE_PROMPT_EDITOR` | 用于撰写提示词、替代 CLI 输入的[外部编辑器](https://block.github.io/goose/docs/guides/goose-cli-commands#external-editor-mode) | 编辑器命令（例如 "vim"、"code --wait"） | 未设置（使用 CLI 输入） |
+| `GOOSE_CLI_THEME` | CLI 响应 markdown 的[主题](https://block.github.io/goose/docs/guides/goose-cli-commands#themes) | "light"、"dark"、"ansi" | "ansi" |
+| `GOOSE_CLI_LIGHT_THEME` | 浅色模式下用于语法高亮的自定义 [bat 主题](https://github.com/sharkdp/bat#adding-new-themes) | bat 主题名（例如 "Solarized (light)"、"OneHalfLight"） | "GitHub" |
+| `GOOSE_CLI_DARK_THEME` | 深色模式下用于语法高亮的自定义 [bat 主题](https://github.com/sharkdp/bat#adding-new-themes) | bat 主题名（例如 "Dracula"、"Nord"） | "zenburn" |
+| `GOOSE_CLI_NEWLINE_KEY` | 自定义[在 CLI 输入中插入换行](https://block.github.io/goose/docs/guides/goose-cli-commands#keyboard-shortcuts)的键盘快捷键 | 单个字符（例如 "n"、"m"） | "j"（Ctrl+J） |
+| `GOOSE_CLI_BELL` | 在交互式轮次结束或需要工具审批时响铃终端 | "true"、"false" | false |
+| `GOOSE_CLI_SHOW_THINKING` | 在 CLI 响应中显示模型的推理/思考输出。某些模型（例如 DeepSeek-R1、Kimi、Gemini）会暴露其内部推理过程——该变量使其在 CLI 中可见。 | 设置为任意值即启用 | 禁用 |
+| `GOOSE_RANDOM_THINKING_MESSAGES` | 控制是否在处理期间显示有趣的随机消息 | "true"、"false" | "true" |
+| `GOOSE_CLI_SHOW_COST` | 切换 CLI 输出中模型成本估算的显示 | "1"、"true"（不区分大小写）以启用 | false |
+| `GOOSE_MAX_CODE_BLOCK_LINES` | CLI 输出中代码块被截断前的行数阈值。完整内容会保存到临时文件。 | 正整数 | 50 |
+| `GOOSE_TRUNCATED_SHOW_LINES` | 代码块被截断时，在 "... (N more lines)" 消息之前显示的行数 | 正整数 | 20 |
+| `GOOSE_NO_CODE_TRUNCATION` | 完全禁用代码块截断——所有代码块都完整显示 | "1"、"true"（不区分大小写）以启用 | false |
+| `GOOSE_AUTO_COMPACT_THRESHOLD` | 设置 goose [自动压缩你的会话](https://block.github.io/goose/docs/guides/sessions/smart-context-management#automatic-compaction)的百分比阈值。 | 0.0 到 1.0 之间的浮点数（0.0 表示禁用） | 0.8 |
+| `GOOSE_AUTO_COMPACT_TOKEN_LIMIT` | 自动压缩的绝对触发值；在自动压缩启用时，此值与百分比阈值中较早触发者生效。控制压缩何时开始，而非保证的最大请求大小。 | 正整数 | 225000 |
+| `GOOSE_TOOL_CALL_CUTOFF` | 在摘要化较早的工具输出之前保持完整细节的工具调用数量，以帮助维持高效的上下文使用 | 整数（例如 5、10、20） | 根据模型上下文限制和自动压缩阈值计算得出 |
+| `GOOSE_MOIM_MESSAGE_TEXT` | 每轮向 goose 的[工作记忆](https://block.github.io/goose/docs/guides/context-engineering/using-persistent-instructions)注入持久文本。适用于行为护栏或持久提醒。 | 任意文本字符串 | 未设置 |
+| `GOOSE_MOIM_MESSAGE_FILE` | 一个文件的路径，其内容每轮被注入 goose 的[工作记忆](https://block.github.io/goose/docs/guides/context-engineering/using-persistent-instructions)。支持 `~/`。每个文件最大 64 KB。 | 文件路径 | 未设置 |
+
+对于子代理，Recipe 的 [`settings.goose_provider` 和 `settings.goose_model`](https://block.github.io/goose/docs/guides/recipes/recipe-reference#settings) 优先于 `GOOSE_SUBAGENT_PROVIDER` 和 `GOOSE_SUBAGENT_MODEL` 环境变量。
+
+**示例**
+
+```bash
+# Set a low limit for step-by-step control
+export GOOSE_MAX_TURNS=5
+
+# Set a moderate limit for controlled automation
+export GOOSE_MAX_TURNS=25
+
+# Set a reasonable limit for production
+export GOOSE_MAX_TURNS=100
+
+# Raise the per-gateway cap without changing CLI/desktop limits
+# (applies to Telegram and other gateway sessions only)
+export GOOSE_GATEWAY_MAX_TURNS=15
+
+# Customize the default subagent turn limit
+# Note: This can be overridden per-recipe or per-subagent using the max_turns setting
+export GOOSE_SUBAGENT_MAX_TURNS=50
+
+# Use multiple context files
+export CONTEXT_FILE_NAMES='["CLAUDE.md", ".goosehints", ".cursorrules", "project_rules.txt"]'
+
+# Disable automatic AI-generated session naming (useful for CI/headless runs)
+export GOOSE_DISABLE_SESSION_NAMING=true
+
+# Use vim for composing prompts
+export GOOSE_PROMPT_EDITOR=vim
+
+# Set the ANSI theme for the session
+export GOOSE_CLI_THEME=ansi
+
+# Customize syntax highlighting themes (uses bat themes)
+export GOOSE_CLI_LIGHT_THEME="Solarized (light)"
+export GOOSE_CLI_DARK_THEME="Dracula"
+
+# Use Ctrl+N instead of Ctrl+J for newline
+export GOOSE_CLI_NEWLINE_KEY=n
+
+# Disable random thinking messages for less distraction
+export GOOSE_RANDOM_THINKING_MESSAGES=false
+
+# Show reasoning/thinking output from models that support it (e.g., DeepSeek-R1, Kimi, Gemini)
+export GOOSE_CLI_SHOW_THINKING=1
+
+# Enable model cost display in CLI
+export GOOSE_CLI_SHOW_COST=true
+
+# Show code blocks up to 100 lines before truncating
+export GOOSE_MAX_CODE_BLOCK_LINES=100
+
+# Disable code block truncation entirely (show all lines inline)
+export GOOSE_NO_CODE_TRUNCATION=true
+
+# Automatically compact sessions when 60% of available tokens are used
+export GOOSE_AUTO_COMPACT_THRESHOLD=0.6
+
+# Keep more tool calls in full detail (useful for debugging or verbose workflows)
+export GOOSE_TOOL_CALL_CUTOFF=20
+
+# Inject a persistent reminder into goose's working memory every turn
+export GOOSE_MOIM_MESSAGE_TEXT="IMPORTANT: Always run tests before committing changes."
+
+# Load persistent instructions from a file (supports ~/)
+export GOOSE_MOIM_MESSAGE_FILE="~/.goose/guardrails.md"
+```
+
+#### 模型上下文限制覆盖
+
+这些变量允许你覆盖模型的默认上下文窗口大小（token 限制）。当你使用 [LiteLLM 代理](https://docs.litellm.ai/docs/providers/litellm_proxy)或与 goose 预定义模型模式不匹配的自定义模型时，这尤其有用。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_CONTEXT_LIMIT` | 覆盖主模型的上下文限制 | 整数（token 数） | 模型特定默认值或 128,000 |
+| `GOOSE_INPUT_LIMIT` | 覆盖 ollama 请求的输入提示限制（映射到 `num_ctx`） | 整数（token 数） | 未设置；Ollama 使用其模型默认值 |
+
+**示例**
+
+```bash
+# Set context limit for main model (useful for LiteLLM proxies)
+export GOOSE_CONTEXT_LIMIT=200000
+# Override ollama input prompt limit
+export GOOSE_INPUT_LIMIT=32000
+```
+
+更多细节和示例，请参阅[模型上下文限制覆盖](https://block.github.io/goose/docs/guides/sessions/smart-context-management#model-context-limit-overrides)。
+
+### 工具配置
+
+这些变量控制 goose 如何处理[工具执行](https://block.github.io/goose/docs/guides/managing-tools/goose-permissions)和[工具管理](https://block.github.io/goose/docs/guides/managing-tools/)。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_MODE` | 控制 goose 如何处理工具执行 | "auto"、"approve"、"chat"、"smart_approve" | "auto" |
+| `GOOSE_TOOLSHIM` | 为输出基于文本的工具调用的模型启用[工具垫片](https://block.github.io/goose/docs/guides/tool-shim) | "1"、"true"（不区分大小写）以启用 | false |
+| `GOOSE_TOOLSHIM_BACKEND` | 工具垫片的解释器后端 | "ollama"（默认）、"local"、"llama.cpp" | "ollama" |
+| `GOOSE_TOOLSHIM_OLLAMA_MODEL` | 用作[工具垫片](https://block.github.io/goose/docs/guides/tool-shim)解释器的 Ollama 模型 | 模型名称（例如 llama3.2、mistral-nemo） | "mistral-nemo" |
+| `GOOSE_TOOLSHIM_MODEL` | 本地工具垫片解释器后端的模型 | 模型名称 | 使用 `LOCAL_LLM_MODEL` 配置 |
+| `GOOSE_CLI_MIN_PRIORITY` | 控制[工具输出](https://block.github.io/goose/docs/guides/managing-tools/adjust-tool-output)的详细程度 | 0.0 到 1.0 之间的浮点数 | 0.0 |
+| `GOOSE_DEBUG` | 启用调试模式，显示完整工具参数而不截断。也可在会话中使用 `/r` [斜杠命令](https://block.github.io/goose/docs/guides/goose-cli-commands#slash-commands)切换 | "1"、"true"（不区分大小写）以启用 | false |
+| `GOOSE_SHOW_FULL_OUTPUT` | 在 CLI 输出中显示完整工具参数，而不是将其截断到终端宽度 | true/false | false |
+| `GOOSE_SEARCH_PATHS` | 为扩展命令向 PATH 前置额外目录 | 路径的 JSON 数组（例如 `["/usr/local/bin", "~/custom/bin"]`） | 内置搜索路径，后跟系统 PATH |
+| `GOOSE_MAX_TOOL_RESPONSE_SIZE` | 单个工具响应在写入临时文件、而不内联到对话之前的最大字符数 | 正整数（例如 100000、200000） | 200000 |
+| `GOOSE_SHELL` | 覆盖 Developer 扩展 shell 命令所使用的 shell | shell 可执行文件路径或名称（例如 `/bin/zsh`、`pwsh`、`C:\cygwin64\bin\bash.exe`） | Unix：若在 PATH 中找到则用 `bash`，否则 `sh`。Windows：`cmd` |
+
+**示例**
+
+```bash
+# Enable tool interpretation
+export GOOSE_TOOLSHIM=true
+export GOOSE_TOOLSHIM_OLLAMA_MODEL=llama3.2
+export GOOSE_MODE="auto"
+export GOOSE_CLI_MIN_PRIORITY=0.2  # Show only medium and high importance output
+export GOOSE_SHOW_FULL_OUTPUT=true  # Show full tool parameters in CLI output
+
+# Add custom tool directories for extensions
+export GOOSE_SEARCH_PATHS='["/usr/local/bin", "~/custom/tools", "/opt/homebrew/bin"]'
+
+# These custom paths are checked before built-in fallback paths such as
+# ~/.local/bin, /usr/local/bin on Unix, Homebrew/MacPorts paths on macOS,
+# and finally the inherited system PATH.
+
+# Lower the tool response size limit for smaller-context models
+export GOOSE_MAX_TOOL_RESPONSE_SIZE=100000
+
+# Use zsh for Developer extension shell commands
+export GOOSE_SHELL=/bin/zsh
+```
+
+```bat
+REM Windows: use a POSIX-like shell instead of cmd.exe
+set GOOSE_SHELL=C:\cygwin64\bin\bash.exe
+```
+
+:::note
+你只需把 `GOOSE_SHELL` 设置为某个 shell 可执行文件路径或名称。goose 会根据 shell 自动注入命令行标志，因此你无需自行添加：
+
+- **PowerShell**（`pwsh`、`powershell`）→ `-NoProfile -NonInteractive -Command`
+- **cmd** → `/C`
+- **POSIX shell**（在 Windows 上通过 Cygwin/MSYS2 运行的 bash、zsh 等）→ `-c`
+- 在 Unix 上，默认 shell（`bash`，回退到 `sh`）以 `<shell> -c` 的方式调用
+:::
+
+### 安全与隐私
+
+这些变量控制安全功能、凭据存储和匿名使用数据收集。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_ALLOWLIST` | 控制哪些扩展可以被加载 | [允许的扩展](https://block.github.io/goose/docs/guides/allowlist)列表的 URL | 未设置 |
+| `GOOSE_DISABLE_KEYRING` | 禁用用于密钥存储的系统密钥环 | 设置为任意值（例如 "1"、"true"、"yes"）以禁用。实际值无关紧要，只取决于该变量是否被设置。 | 未设置（密钥环启用） |
+| `SECURITY_PROMPT_ENABLED` | 启用[提示注入检测](https://block.github.io/goose/docs/guides/security/prompt-injection-detection)以识别可能有害的命令 | true/false | false |
+| `SECURITY_PROMPT_THRESHOLD` | 提示注入检测的敏感度阈值（越高越严格） | 0.01 到 1.0 之间的浮点数 | 0.8 |
+| `SECURITY_PROMPT_CLASSIFIER_ENABLED` | 启用基于 ML 的提示注入检测以进行高级威胁识别 | true/false | false |
+| `SECURITY_PROMPT_CLASSIFIER_ENDPOINT` | 基于 ML 的提示注入检测的分类端点 URL | URL（例如 "https://api.example.com/classify"） | 未设置 |
+| `SECURITY_PROMPT_CLASSIFIER_TOKEN` | `SECURITY_PROMPT_CLASSIFIER_ENDPOINT` 的认证令牌 | 字符串 | 未设置 |
+| `GOOSE_TELEMETRY_ENABLED` | 启用或禁用[匿名使用数据收集](https://block.github.io/goose/docs/guides/usage-data) | true/false | false |
+
+**示例**
+
+```bash
+# Enable prompt injection detection with default threshold
+export SECURITY_PROMPT_ENABLED=true
+
+# Enable with custom threshold (stricter)
+export SECURITY_PROMPT_ENABLED=true
+export SECURITY_PROMPT_THRESHOLD=0.9
+
+# Enable ML-based detection with external endpoint
+export SECURITY_PROMPT_ENABLED=true
+export SECURITY_PROMPT_CLASSIFIER_ENABLED=true
+export SECURITY_PROMPT_CLASSIFIER_ENDPOINT="https://your-endpoint.com/classify"
+export SECURITY_PROMPT_CLASSIFIER_TOKEN="your-auth-token"
+
+# Control anonymous usage data collection
+export GOOSE_TELEMETRY_ENABLED=false  # Disable telemetry
+export GOOSE_TELEMETRY_ENABLED=true   # Enable telemetry
+```
+
+:::tip
+当密钥环被禁用（或无法访问、goose [回退到基于文件的存储](https://block.github.io/goose/docs/troubleshooting/known-issues#keyring-cannot-be-accessed-automatic-fallback)）时，密钥存储在以下位置：
+
+* macOS/Linux：`~/.config/goose/secrets.yaml`
+* Windows：`%APPDATA%\Block\goose\config\secrets.yaml`
+:::
+
+### 网络配置
+
+这些变量配置 goose 的网络代理设置。
+
+#### OAuth 回调端口
+
+默认情况下，goose 会在随机端口上启动一个临时本地服务器来接收 OAuth 回调。要求精确匹配 `redirect_uri`（并禁止通配符端口）的企业身份提供方会拒绝该回调。设置此变量以改用固定端口。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_OAUTH_CALLBACK_PORT` | 本地 OAuth 回调服务器的固定端口 | 端口号（例如 8080、9999） | 随机（由操作系统分配） |
+
+**示例**
+
+```bash
+# Use a fixed port so your IdP's redirect_uri whitelist can match exactly
+export GOOSE_OAUTH_CALLBACK_PORT=8080
+```
+
+然后，在你的身份提供方中注册相应的重定向 URI：
+- 对于 MCP 服务器 OAuth：`http://127.0.0.1:8080/oauth_callback`
+- 对于 Databricks OAuth：`http://localhost:8080`
+
+#### HTTP 代理
+
+goose 支持标准的 HTTP 代理环境变量，供处于企业防火墙或代理服务器之后的用户使用。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `HTTP_PROXY` | HTTP 连接的代理 URL | URL（例如 `http://proxy.company.com:8080`） | 无 |
+| `HTTPS_PROXY` | HTTPS 连接的代理 URL（两者都设置时优先于 `HTTP_PROXY`） | URL（例如 `http://proxy.company.com:8080`） | 无 |
+| `NO_PROXY` | 绕过代理的主机 | 逗号分隔的列表（例如 `localhost,127.0.0.1,.internal.com`） | 无 |
+
+**示例**
+
+```bash
+# Configure proxy for all connections
+export HTTPS_PROXY="http://proxy.company.com:8080"
+export NO_PROXY="localhost,127.0.0.1,.internal,.local,10.0.0.0/8"
+
+# Or with authentication
+export HTTPS_PROXY="http://username:password@proxy.company.com:8080"
+export NO_PROXY="localhost,127.0.0.1,.internal"
+```
+
+或者，也可以通过操作系统的网络设置来配置代理。如果你遇到连接问题，请参阅[企业代理或防火墙问题](https://block.github.io/goose/docs/troubleshooting/known-issues#corporate-proxy-or-firewall-issues)了解排查步骤。
+
+### 可观测性
+
+除了 goose 内置的[日志系统](https://block.github.io/goose/docs/guides/logs)之外，你还可以将遥测导出到外部可观测性平台，以实现高级监控、性能分析和生产洞察。
+
+#### 可观测性配置
+
+配置 goose 将遥测导出到任何兼容 [OpenTelemetry](https://opentelemetry.io/docs/) 的平台。
+
+要启用导出，请设置一个收集器端点：
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
+```
+
+你可以使用 `OTEL_{SIGNAL}_EXPORTER` 独立控制每种信号（traces、metrics、logs）：
+
+| 变量模式 | 用途 | 取值 |
+|---|---|---|
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | 基础 OTLP 端点（会附加 `/v1/traces` 等） | URL |
+| `OTEL_EXPORTER_OTLP_{SIGNAL}_ENDPOINT` | 为特定信号覆盖端点 | URL |
+| `OTEL_{SIGNAL}_EXPORTER` | 每种信号的导出器类型 | `otlp`、`console`、`none` |
+| `OTEL_SDK_DISABLED` | 禁用所有 OTel 导出 | `true` |
+| `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` | 在导出的 traces 中包含模型消息以及工具参数/结果 | `true`、`false`（默认） |
+
+还支持其他变量，例如 `OTEL_SERVICE_NAME`、`OTEL_RESOURCE_ATTRIBUTES`
+和 `OTEL_EXPORTER_OTLP_TIMEOUT`。
+完整列表请参阅 [OTel 环境变量规范][otel-env]。
+
+**示例：**
+```bash
+# Export everything to a local collector
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
+
+# Export only traces, disable metrics and logs
+export OTEL_TRACES_EXPORTER="otlp"
+export OTEL_METRICS_EXPORTER="none"
+export OTEL_LOGS_EXPORTER="none"
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
+
+# Debug traces to console (no collector needed)
+export OTEL_TRACES_EXPORTER="console"
+
+# Sample 10% of traces (reduce volume in production)
+export OTEL_TRACES_SAMPLER="parentbased_traceidratio"
+export OTEL_TRACES_SAMPLER_ARG="0.1"
+```
+
+[otel-env]: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/
+
+#### Langfuse 集成
+
+这些变量配置[用于可观测性的 Langfuse 集成](https://block.github.io/goose/docs/tutorials/langfuse)。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `LANGFUSE_PUBLIC_KEY` | Langfuse 集成的公钥 | 字符串 | 无 |
+| `LANGFUSE_SECRET_KEY` | Langfuse 集成的密钥 | 字符串 | 无 |
+| `LANGFUSE_URL` | Langfuse 服务的自定义 URL | URL 字符串 | 默认 Langfuse URL |
+| `LANGFUSE_INIT_PROJECT_PUBLIC_KEY` | Langfuse 的备用公钥 | 字符串 | 无 |
+| `LANGFUSE_INIT_PROJECT_SECRET_KEY` | Langfuse 的备用密钥 | 字符串 | 无 |
+
+### goose ACP 服务器
+
+这些变量配置 `goose serve` ACP 服务器进程。它们是等效 `goose serve` 标志的替代方式，最常用于[运行远程 goose 服务器](https://block.github.io/goose/docs/guides/remote-goose-server)并将 goose Desktop 连接到它。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_TLS` | 等效于 `goose serve --tls`。推荐用于远程服务器。 | `true`、`false` | `false` |
+| `GOOSE_TLS_CERT_PATH` | 等效于 `goose serve --tls-cert-path`。必须与 `GOOSE_TLS_KEY_PATH` 一起使用；设置它会启用 TLS。 | 文件路径 | 无 |
+| `GOOSE_TLS_KEY_PATH` | 等效于 `goose serve --tls-key-path`。必须与 `GOOSE_TLS_CERT_PATH` 一起使用；设置它会启用 TLS。 | 文件路径 | 无 |
+| `GOOSE_SERVER__SECRET_KEY` | 除非使用 `--dangerously-unauthenticated`，否则 ACP 端点所需的共享密钥。 | 密钥字符串 | 必需 |
+
+**示例**
+
+```bash
+# Start a goose ACP server reachable on the local network over TLS
+GOOSE_SERVER__SECRET_KEY='a-long-random-secret' \
+goose serve --platform desktop --enable-scheduler --host 0.0.0.0 --port 3000 --tls
+```
+
+当启用 TLS 时，`goose serve` 会在启动时打印一行 `GOOSED_CERT_FINGERPRINT=...`。goose Desktop 可以使用此指纹来固定服务器证书。完整设置请参阅[运行远程 goose 服务器](https://block.github.io/goose/docs/guides/remote-goose-server)。
+
+### Recipe 配置
+
+这些变量控制 Recipe 的发现和管理。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_RECIPE_PATH` | 用于搜索 Recipe 的额外目录 | Unix 上以冒号分隔、Windows 上以分号分隔的路径 | 无 |
+| `GOOSE_RECIPE_GITHUB_REPO` | 用于搜索 Recipe 的 GitHub 仓库 | 格式："owner/repo"（例如 "aaif-goose/goose-recipes"） | 无 |
+| `GOOSE_RECIPE_RETRY_TIMEOUT_SECONDS` | Recipe 成功检查命令的全局超时 | 整数（秒） | Recipe 特定的默认值 |
+| `GOOSE_RECIPE_ON_FAILURE_TIMEOUT_SECONDS` | Recipe on_failure 命令的全局超时 | 整数（秒） | Recipe 特定的默认值 |
+
+**示例**
+
+```bash
+# Add custom recipe directories
+export GOOSE_RECIPE_PATH="/path/to/my/recipes:/path/to/team/recipes"
+
+# Configure GitHub recipe repository
+export GOOSE_RECIPE_GITHUB_REPO="myorg/goose-recipes"
+
+# Set global recipe timeouts
+export GOOSE_RECIPE_RETRY_TIMEOUT_SECONDS=300
+export GOOSE_RECIPE_ON_FAILURE_TIMEOUT_SECONDS=60
+```
+
+### 文档配置
+
+此变量控制 `goose-doc-guide` Skill 从何处读取 goose 文档。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_DOCS_ROOT` | `goose-doc-guide` Skill 的文档根目录，用于[离线/气隙环境文档](https://block.github.io/goose/docs/guides/offline-docs) | 包含 `goose-docs-map.md` 和 `docs/` 的本地路径或 HTTP(S) URL | `https://goose-docs.ai` |
+
+### 开发与测试
+
+这些变量主要用于 goose 自身的开发、测试和调试。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_PATH_ROOT` | 覆盖所有 goose 数据、配置和状态文件的根目录 | 目录的绝对路径 | 平台特定的默认值 |
+
+**默认位置：**
+- macOS：`~/Library/Application Support/Block/goose/`
+- Linux：`~/.local/share/goose/`
+- Windows：`%APPDATA%\Block\goose\`
+
+设置后，goose 会在指定路径下创建 `config/`、`data/` 和 `state/` 子目录。适用于隔离测试环境、运行多种配置或 CI/CD 流水线。
+
+**示例**
+
+```bash
+# Temporary test environment
+export GOOSE_PATH_ROOT="/tmp/goose-test"
+
+# Isolated environment for a single command
+GOOSE_PATH_ROOT="/tmp/goose-isolated" goose run --recipe my-recipe.yaml
+
+# CI/CD usage
+GOOSE_PATH_ROOT="$(mktemp -d)" goose run --recipe integration-test.yaml
+
+# Use with developer tools
+GOOSE_PATH_ROOT="/tmp/goose-test" ./scripts/goose-db-helper.sh status
+```
+
+### 由 goose 控制的变量
+
+这些变量由 goose 在执行命令期间自动设置。
+
+| 变量 | 用途 | 取值 | 默认值 |
+|----------|---------|---------|---------|
+| `GOOSE_TERMINAL` | 表示某条命令正由 goose 执行，启用[自定义 shell 行为](#customizing-shell-behavior) | 设置时为 "1" | 未设置 |
+| `AGENT` | 用于跨工具兼容的通用 agent 标识符，使工具和脚本能够检测自己是否正由 goose 运行 | 设置时为 "goose" | 未设置 |
+| `AGENT_SESSION_ID` | 当前会话 ID，用于[会话隔离的工作流](#using-session-ids-in-workflows)，自动可供 STDIO 扩展和 Developer 扩展的 shell 命令使用 | 会话 ID 字符串（例如 `20260217_5`） | 未设置（仅在扩展/shell 上下文中设置） |
+
+#### 自定义 Shell 行为
+
+有时你希望 goose 使用与平常终端用法不同的命令，或具有不同的 shell 行为。常见用例包括：
+- 跳过昂贵的 shell 初始化（例如语法高亮、自定义提示符）
+- 阻止会让 agent 挂起的交互式命令（例如 `git commit`）
+- 重定向到对 agent 友好的工具（例如用 `rg` 代替 `find`）
+- 构建能检测 AI agent 执行的跨 agent 工具和脚本
+- 与 MCP 服务器和 LLM 网关集成
+
+在使用 goose CLI 时这最有用，因为 shell 命令会直接在你的终端环境中执行。
+
+**工作原理：**
+
+goose 提供了 `GOOSE_TERMINAL` 和 `AGENT` 变量，你可以用它们检测 goose 是否为执行 agent。
+
+1. 当 goose 运行命令时：
+   - `GOOSE_TERMINAL` 自动设置为 "1"
+   - `AGENT` 自动设置为 "goose"
+2. 你的 shell 配置可以检测到这一点并改变行为，同时保持你平常的终端用法不变
+
+**示例：**
+
+```bash
+# In ~/.zshenv (for zsh users) or ~/.bashrc (for bash users)
+
+# Block git commit when run by goose
+if [[ -n "$GOOSE_TERMINAL" ]]; then
+  git() {
+    if [[ "$1" == "commit" ]]; then
+      echo "❌ BLOCKED: git commit is not allowed when run by goose"
+      return 1
+    fi
+    command git "$@"
+  }
+fi
+```
+
+```bash
+# Guide goose toward better tool choices
+if [[ -n "$GOOSE_TERMINAL" ]]; then
+  alias find="echo 'Use rg instead: rg --files | rg <pattern> for filenames, or rg <pattern> for content search'"
+fi
+```
+
+```bash
+# Detect AI agent execution using standard naming convention
+if [[ -n "$AGENT" ]]; then
+  echo "Running under AI agent: $AGENT"
+  # Apply agent-specific behavior if needed
+  if [[ "$AGENT" == "goose" ]]; then
+    echo "Detected goose - applying goose-specific settings"
+  fi
+fi
+```
+
+#### 在工作流中使用会话 ID
+
+STDIO 扩展（通过标准输入/输出通信的本地扩展）和 Developer 扩展的 shell 命令会自动收到 `AGENT_SESSION_ID` 环境变量。这使你能够创建会话隔离的工作流，并更轻松地：
+- 使用会话隔离的交接路径在多个工具调用之间协调工作
+- 按会话隔离工作树或临时文件
+- 调试产物与会话历史之间的关联
+
+以下示例展示了 Recipe 如何使用会话 ID 在步骤之间交接信息：
+
+```bash
+# Create session-specific handoff directory
+mkdir -p ~/Desktop/${AGENT_SESSION_ID}/handoff
+echo "Results from step 1" > ~/Desktop/${AGENT_SESSION_ID}/handoff/output.txt
+
+# Later steps in the recipe can read from the same location
+cat ~/Desktop/${AGENT_SESSION_ID}/handoff/output.txt
+```
+
+### 环境变量透传
+
+Developer 扩展的 `shell` 工具会继承你会话中的环境变量。这使得依赖环境配置的工作流成为可能，例如已认证的 CLI 操作和构建过程。
+
+详情请参阅 [Shell 命令中的环境变量](https://block.github.io/goose/docs/mcp/developer-mcp#environment-variables-in-shell-commands)。
+
+### 企业环境
+
+在企业环境中部署 goose 时，管理员可能需要控制行为和基础设施，或在各团队之间强制执行一致的设置。以下环境变量较为常用：
+
+**网络与基础设施** - 控制 goose 如何连接到外部服务和内部基础设施：
+- [网络配置](#network-configuration) - 代理配置和网络设置
+- [高级提供方配置](#advanced-provider-configuration) - 指向内部 LLM 端点（例如 Databricks、自定义部署）
+- [模型上下文限制覆盖](#model-context-limit-overrides) - 为 LiteLLM 代理和自定义模型配置上下文限制
+
+**安全与隐私** - 控制安全和隐私功能：
+- [安全与隐私](#security-and-privacy) - 管理扩展加载、密钥存储和使用数据收集等安全与隐私设置
+
+**合规与监控** - 跟踪使用情况并导出遥测以供审计：
+
+- [可观测性](#observability) - 将遥测导出到监控平台（OTLP、Langfuse）
+
+### 注意事项
+
+- 环境变量优先于配置文件。
+- 对于安全敏感的变量（例如 API 密钥），考虑使用系统密钥环而非环境变量。
+- 某些变量可能需要重启 goose 才能生效。
+
+---
+
 ## goose 日志系统
 
 > 原文：https://block.github.io/goose/docs/guides/logs
@@ -10314,6 +14084,71 @@ export GOOSE_DOCS_ROOT=/opt/goose-docs
 - goose 回答中的文档链接始终渲染为规范的 `https://goose-docs.ai/...` URL，即使是从本地读取。
 - 自定义 HTTP(S) 镜像同样可行：将 `GOOSE_DOCS_ROOT` 设置为其根 URL。
 - 关于离线的 MCP 扩展运行时问题，请参阅[气隙/离线环境问题](https://block.github.io/goose/docs/troubleshooting/known-issues#airgappedoffline-environment-issues)。
+
+---
+
+## 基于 MCP Apps 的丰富交互式聊天
+
+> 原文：https://block.github.io/goose/docs/guides/interactive-chat
+
+<p className={styles.pageDescription}>
+  goose Desktop 支持通过扩展把纯文本回复转变为图形化、可交互的体验。无需再逐条阅读列表和描述，你可以直接在对话中点击、浏览并与 UI 组件交互。
+</p>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📚 文档与指南</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="构建 MCP Apps"
+      description="逐步教程：创建可在 goose Desktop 中渲染的交互式 UI 应用程序。"
+      link="https://block.github.io/goose/docs/tutorials/building-mcp-apps"
+    />
+    <Card
+      title="使用 MCP Apps"
+      description="启动独立应用，并直接在 goose Desktop 对话中渲染交互式 UI。"
+      link="https://block.github.io/goose/docs/guides/interactive-chat/mcp-ui"
+    />
+    <Card
+      title="Auto Visualiser 扩展"
+      description="在 goose 中自动生成交互式数据可视化。"
+      link="https://block.github.io/goose/docs/mcp/autovisualiser-mcp"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>🎥 视频</h2>
+
+  <VideoCarousel
+    id="mcp-apps-videos"
+    videos={[
+      {
+        type: "iframe",
+        src: "https://youtube.com/embed/QcojQ3Fwqsw",
+        title: "什么是 MCP Apps？",
+        description:
+          "MCP Apps 是什么，以及它们如何在 goose 中渲染交互式 UI",
+        duration: "1:53",
+      },
+    ]}
+  />
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>📝 精选博客文章</h2>
+  <div className={styles.cardGrid}>
+    <Card
+      title="从 MCP-UI 到 MCP Apps：交互式 Agent UI 的演进"
+      description="一份面向 MCP Apps 的实用迁移指南：4 个关键变化、哪些地方会失效，以及为什么这次转变很重要。"
+      link="https://block.github.io/goose/blog/2026/01/22/mcp-ui-to-mcp-apps"
+    />
+    <Card
+      title="goose 落地 MCP Apps"
+      description="goose 提前支持 MCP Apps 规范草案，与交互式 UI 的新兴标准保持一致。"
+      link="https://block.github.io/goose/blog/2026/01/06/mcp-apps"
+    />
+  </div>
+</div>
 
 ---
 
@@ -11147,6 +14982,149 @@ GOOSE_MODEL: qwen3-coder:latest
 ```
 
 更多场景请参阅[完整指南](https://github.com/aaif-goose/goose/blob/main/CUSTOM_DISTROS.md)，包括企业 API 密钥分发、面向特定受众的构建以及自定义 UI。
+
+---
+
+## {Extension Name} 扩展
+
+> 原文：https://block.github.io/goose/docs/mcp/_template_
+
+<!-- 你可以使用 Recipe Cookbook 中的 "Add MCP Server" Recipe 来创建一份教程草稿 -->
+
+<YouTubeShortEmbed videoUrl="https://www.youtube.com/embed/VIDEO_ID" />
+
+
+本教程介绍如何将 [{Extension Name} MCP Server](https://block.github.io/goose/) 添加为 goose 扩展，以启用 ________________。
+
+:::tip 快速安装
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  [启动安装程序]({goose_url})
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  **命令**
+  ```sh
+  {command}
+  ```
+  </TabItem>
+</Tabs>
+  **环境变量**
+  ```
+  {env_var}: <ENV_VALUE>
+  ```
+:::
+
+### 配置
+
+:::info
+注意，你需要在系统中安装 [Node.js](https://nodejs.org/) 才能运行此命令，因为它使用了 `npx`。
+:::
+
+:::info
+注意，你需要在系统中安装 [uv](https://docs.astral.sh/uv/#installation) 才能运行此命令，因为它使用了 `uvx`。
+:::
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+
+    <!-- 适用于内置扩展 -->
+    <GooseBuiltinInstaller
+      extensionName="{Extension Name}"
+      description="{Extension description}"
+      extensionId="{extension_id}"
+    />
+
+    <!-- 适用于外部 STDIO MCP 服务器（npx、uvx、git 等） -->
+    <GooseDesktopInstaller
+      extensionId="{extension_id}"
+      extensionName="{Extension Name}"
+      description="{Extension description}"
+      type="stdio"
+      command="npx"
+      args={["-y", "@package/name"]}
+      envVars={[
+        { name: "API_KEY", label: "Description or placeholder value" }
+      ]}
+      apiKeyLink="https://example.com/api-keys"
+      apiKeyLinkText="Service Access Token"
+    />
+
+    <!-- 适用于 HTTP MCP 服务器 -->
+    <GooseDesktopInstaller
+      extensionId="{extension_id}"
+      extensionName="{Extension Name}"
+      description="{Extension description}"
+      type="http"
+      url="https://example-server.com/mcp"
+      envVars={[                                    // also used for http request headers
+        { name: "SOME_KEY", label: "Description or placeholder value" }
+      ]}
+      apiKeyLink="https://example.com/api-keys"
+      apiKeyLinkText="Service Access Token"
+    />
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+
+    <!-- 适用于外部 STDIO MCP 服务器（npx、uvx、git 等） -->
+    <CLIExtensionInstructions
+      name="{Extension Name}"
+      description="{Extension description}"
+      type="stdio"
+      command="{full command with args}"
+      timeout={300}
+      envVars={[
+        { key: "API_KEY", value: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪" }
+      ]}
+      infoNote={
+        <>
+          Get your API key from 
+          <a href="https://example.com/api-keys" target="_blank" rel="noopener noreferrer">
+            example.com
+          </a> and paste it in.
+        </>
+      }
+    />
+
+    <!-- 适用于 HTTP MCP 服务器 -->
+    <CLIExtensionInstructions
+      name="{Extension Name}"
+      description="{Extension description}"
+      type="http"
+      url="https://example-server.com/mcp"
+      timeout={300}
+      envVars={[                                    // also used for http request headers
+        { key: "API_KEY", value: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪" }
+      ]}
+      infoNote={
+        <>
+          Get your API key from{" "}
+          <a href="https://example.com/api-keys" target="_blank" rel="noopener noreferrer">
+            example.com
+          </a>.
+        </>
+      }
+    />
+    
+  </TabItem>
+</Tabs>
+
+### 使用示例
+
+{描述任何环境搭建、访问控制，以及你想要完成的目标。}
+
+#### goose 提示词
+
+> _exact prompt_
+
+
+#### goose 输出
+
+:::note 桌面版
+
+{exact output}
+
+:::
 
 ---
 
@@ -13115,6 +17093,211 @@ Their overall profile suggests they would be able to make immediate contribution
 
 ---
 
+## Playwright 扩展
+
+> 原文：https://block.github.io/goose/docs/mcp/playwright-mcp
+
+<YouTubeShortEmbed videoUrl="https://www.youtube.com/embed/iAxiFMlTE1Q" />
+
+本教程介绍如何把 Playwright MCP 服务器添加为 goose 扩展，以便在 Chromium 和 Webkit 上实现跨浏览器测试和 Web 自动化。
+
+:::tip 快速安装
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  [启动安装程序](goose://extension?cmd=npx&arg=-y&arg=@playwright/mcp@latest&id=playwright&name=Playwright&description=Modern%20web%20testing%20and%20automation)
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  **命令**
+  ```sh
+  npx -y @playwright/mcp@latest
+  ```
+  </TabItem>
+</Tabs>
+:::
+
+### 配置
+
+:::info
+注意，运行该命令需要在你的系统中安装 [Node.js](https://nodejs.org/)，因为它使用了 `npx`。
+:::
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  <GooseDesktopInstaller
+    extensionId="playwright"
+    extensionName="Playwright"
+    description="Modern web testing and automation"
+    command="npx"
+    args={["-y", "@playwright/mcp@latest"]}
+  />
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    <CLIExtensionInstructions
+      name="Playwright"
+      description="Modern web testing and automation"
+      command="npx -y @playwright/mcp@latest"
+    />
+  </TabItem>
+</Tabs>
+
+### 示例用法
+
+让我们使用 goose 配合 Playwright 扩展来创建一个跨浏览器测试套件。在本示例中，我们将演示 goose 如何帮助你：
+
+1. 在多种浏览器上测试 Web 应用
+2. 生成可维护的测试代码
+3. 截取屏幕截图用于视觉对比
+
+#### goose 提示词
+```
+Test the random redesign generator app (https://blackgirlbytes.github.io/random-redesign-picker/) 
+in Chromium and WebKit. For each browser:
+1. Navigate to the page
+2. Click the "Pick My Combo" button
+3. Verify the text changes
+4. Take a screenshot
+Then generate a Playwright test that works across all browsers.
+```
+
+#### goose 输出
+```
+Let's start with Chromium:
+
+─── browser_navigate | playwright ──────────────────────────
+url: https://blackgirlbytes.github....
+
+Now let's wait for and click the button:
+
+─── browser_click | playwright ──────────────────────────
+element: button with text "Pick My Combo"
+ref: <button>
+
+Let's capture the first combo and click again to verify it changes:
+
+─── browser_click | playwright ──────────────────────────
+element: button with text "Pick My Combo"
+ref: <button>
+
+Let's take a screenshot of the Chromium view:
+
+─── browser_take_screenshot | playwright ──────────────────────────
+filename: chromium-redesign.png
+
+Now let's test in Safari. I'll open a new tab for Safari:
+
+─── browser_tab_new | playwright ──────────────────────────
+url: https://blackgirlbytes.github....
+
+Let's click the button in Safari:
+
+─── browser_click | playwright ──────────────────────────
+element: button with text "Pick My Combo"
+ref: <button>
+
+Let's click again to verify the text changes:
+
+─── browser_click | playwright ──────────────────────────
+element: button with text "Pick My Combo"
+ref: <button>
+
+Let's take a screenshot of the Safari view:
+
+─── browser_take_screenshot | playwright ──────────────────────────
+filename: safari-redesign.png
+
+Now I'll generate a Playwright test that runs in all three browser environments. The test will verify the core functionality we just tested manually:
+
+─── browser_generate_playwright_test | playwright ──────────────────────────
+name: Random Redesign Picker Test
+description: Test the random redesign generator functionality across browsers
+steps: [
+  "Navigate to the application",
+  "Verify initial page content",
+  "Click button to generate first combination",
+  "Click button again to generate second combination",
+  "Verify combinations are different"
+]
+
+Here's the generated Playwright test that will run across Chromium, Firefox, and Safari:
+
+import { test, expect } from '@playwright/test';
+
+test.describe('Random Redesign Picker', () => {
+  test('should generate different random combinations', async ({ page }) => {
+    // Navigate to the application
+    await page.goto('https://blackgirlbytes.github.io/random-redesign-picker/');
+    
+    // Verify initial page content
+    await expect(page).toHaveTitle('Redesign for the Ridiculous');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('🎲 Redesign for the Ridiculous');
+    
+    // Verify button is visible
+    const comboButton = page.getByRole('button', { name: '🎉 Pick My Combo' });
+    await expect(comboButton).toBeVisible();
+    
+    // Click button and get first combination
+    await comboButton.click();
+    
+    // Wait for and store first combo
+    const firstComboElement = page.locator('generic').filter({ hasText: /^(?!.*🎲).*$/ }).last();
+    await expect(firstComboElement).toBeVisible();
+    const firstComboText = await firstComboElement.textContent();
+    
+    // Generate second combination
+    await comboButton.click();
+    
+    // Wait for and get second combo
+    const secondComboElement = page.locator('generic').filter({ hasText: /^(?!.*🎲).*$/ }).last();
+    await expect(secondComboElement).toBeVisible();
+    const secondComboText = await secondComboElement.textContent();
+    
+    // Verify combos are different
+    expect(secondComboText).not.toEqual(firstComboText);
+  });
+});
+
+To use this test, you would need to:
+
+1. Save it as `tests/random-redesign.spec.ts`
+2. Configure your `playwright.config.ts` to include all three browsers:
+
+import { PlaywrightTestConfig } from '@playwright/test';
+
+const config: PlaywrightTestConfig = {
+  projects: [
+    {
+      name: 'chromium',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'firefox',
+      use: { browserName: 'firefox' },
+    },
+    {
+      name: 'webkit',
+      use: { browserName: 'webkit' },
+    },
+  ],
+};
+
+export default config;
+
+You can then run the tests using:
+
+npx playwright test
+
+This will execute the test in all three browser environments. The test verifies:
+1. The page loads correctly
+2. The title and heading are correct
+3. The combo button is visible
+4. Clicking the button generates a combination
+5. Clicking again generates a different combination
+
+The test uses robust selectors and proper waiting mechanisms to ensure reliability across different browsers and network conditions.
+```
+
+---
+
 ## Puppeteer 扩展
 
 > 原文：https://block.github.io/goose/docs/mcp/puppeteer-mcp
@@ -14593,6 +18776,141 @@ The codebase is now using the latest Java LTS version (21) and incorporates many
 - 跟踪变更
 - 在多个文件之间做一致的修改
 - 在更改前后验证文件内容
+
+---
+
+## GitHub 扩展
+
+> 原文：https://block.github.io/goose/docs/mcp/github-mcp
+
+<YouTubeShortEmbed videoUrl="https://www.youtube.com/embed/TbmQDv3SQOE" />
+
+本教程介绍如何将 [GitHub MCP 服务器](https://github.com/github/github-mcp-server)添加为 goose 扩展，以启用文件操作、仓库管理、搜索功能等。
+
+:::tip 快速安装
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+   [启动安装程序](goose://extension?type=streamable_http&url=https%3A%2F%2Fapi.githubcopilot.com%2Fmcp%2F&id=github-mcp&name=GitHub&description=GitHub%20repository%20management%20and%20operations&header=Authorization%3DBearer%20YOUR_GITHUB_PERSONAL_ACCESS_TOKEN)
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  添加一个 `Remote Extension (Streamable HTTP)` 扩展类型，配置如下：
+
+  **Endpoint URL**
+```
+https://api.githubcopilot.com/mcp/
+```
+  </TabItem>
+</Tabs>
+
+  **Custom Request Header**
+```
+Authorization: Bearer <YOUR_GITHUB_PERSONAL_ACCESS_TOKEN>
+```
+:::
+
+### 配置
+
+这些步骤配置的是 Remote MCP 服务器。其他部署选项请参阅 [GitHub MCP 服务器官方文档](https://github.com/github/github-mcp-server)。
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+    <GooseDesktopInstaller
+      extensionId="github-mcp"
+      extensionName="GitHub"
+      description="GitHub repository management and operations"
+      type="http"
+      url="https://api.githubcopilot.com/mcp/"
+      envVars={[
+        { name: "Authorization", label: "Bearer YOUR_GITHUB_PERSONAL_ACCESS_TOKEN" }
+      ]}
+      apiKeyLink="https://github.com/settings/personal-access-tokens"
+      apiKeyLinkText="GitHub Personal Access Token"
+    />
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    <CLIExtensionInstructions
+      name="github"
+      description="GitHub repository management and operations"
+      type="http"
+      url="https://api.githubcopilot.com/mcp/"
+      timeout={300}
+      envVars={[
+        { key: "Authorization", value: "Bearer ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }
+      ]}
+      infoNote={
+        <>
+          Obtain your <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener noreferrer">GitHub Personal Access Token</a> and paste it in as the <code>Bearer</code> token.
+        </>
+      }
+    />
+
+  </TabItem>
+</Tabs>
+
+### 示例用法
+
+在创建我的 [GitHub Personal Access Token](https://github.com/settings/personal-access-tokens)时，我授予了以下访问权限：
+* 仓库：[goose-demo](https://github.com/angiejones/goose-demo)
+* 对 metadata 的读取权限
+* 对 code、commit status、issues 和 pull requests 的读写权限
+
+#### goose 提示词
+```
+create a new branch called hello-world in my angiejones/goose-demo repository. Update the README.md file to say "this was written by goose" and commit it. Open a pull request with your changes.
+```
+
+#### goose 输出
+
+```
+I'll help you create a new branch, update the README, and open a pull request. Let me break this down into steps:
+
+1. First, let's create the new branch called "hello-world" in your repository
+2. Then update the README.md file
+3. Finally, create a pull request
+
+Let me execute these steps:
+
+1. Creating the new branch:
+
+─── create_branch | github ──────────────────────────
+branch: hello-world
+owner: angiejones
+repo: goose-demo
+
+2. Now, updating the README.md file in the new branch:
+
+─── create_or_update_file | github ──────────────────────────
+branch: hello-world
+content: this was written by goose
+message: Update README.md with goose message
+owner: angiejones
+path: README.md
+repo: goose-demo
+
+
+
+3. Finally, creating the pull request:
+
+─── create_pull_request | github ──────────────────────────
+base: main
+body: ...
+head: hello-world
+owner: angiejones
+repo: goose-demo
+title: Update README.md
+
+
+
+Great! I've completed all the requested tasks:
+1. Created a new branch called "hello-world"
+2. Updated the README.md file with the text "this was written by goose"
+3. Created a pull request to merge these changes into the main branch
+
+You can view the pull request at: https://github.com/angiejones/goose-demo/pull/1
+
+The pull request is now ready for your review. Would you like me to do anything else with it?
+```
 
 ---
 
@@ -16405,6 +20723,236 @@ GEMINI_API_KEY: <YOUR_API_KEY>
 你想让我对这张图像做任何修改吗？我可以调整法师的外观等元素、添加更多雕塑、更改灯光，或使用 `continue_editing` 功能微调任何其他细节！
 
 :::
+
+---
+
+## PostgreSQL 扩展
+
+> 原文：https://block.github.io/goose/docs/mcp/postgres-mcp
+
+<YouTubeShortEmbed videoUrl="https://www.youtube.com/embed/PZlYQ5IthYM" />
+
+服务器已归档
+
+PostgreSQL MCP 服务器扩展让 goose 可以直接与你的 PostgreSQL 数据库交互，具备数据库操作、查询和 schema 管理能力。这让你能够通过自然语言交互轻松地操作数据库。
+
+:::tip 快速安装
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  [启动安装器](goose://extension?cmd=npx&arg=-y&arg=@modelcontextprotocol/server-postgres&arg=Your%20PostgreSQL%20connection%20URL&id=postgres&name=PostgreSQL&description=PostgreSQL%20database%20integration)
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  **Command**
+```sh
+npx -y @modelcontextprotocol/server-postgres postgresql://localhost/mydb
+```
+  </TabItem>
+</Tabs>
+:::
+
+### 自定义你的连接
+
+值得注意的是，目前这个 MCP 服务器只允许连接到单个预定义数据库，且连接 URL 必须在命令中指定。这里我们用 `postgresql://localhost/mydb` 作为示例来访问本地数据库，但你可以根据自己的环境进行配置。
+
+PostgreSQL 连接 URL 遵循以下格式：
+```
+postgresql://username:password@hostname:5432/database
+```
+
+其中：
+- `username`：你的 PostgreSQL 用户
+- `password`：你的 PostgreSQL 密码
+- `hostname`：运行 PostgreSQL 的主机（例如 localhost、IP 地址或域名）
+- `5432`：PostgreSQL 默认端口（如使用其他端口请修改）
+- `database`：你的数据库名称
+
+示例：
+- 本地数据库：`postgresql://localhost/mydb`
+- 带凭据的本地数据库：`postgresql://myuser:mypass@localhost/mydb`
+- 远程数据库：`postgresql://user:pass@db.example.com:5432/production`
+
+:::caution
+切勿将带凭据的连接字符串提交到版本控制系统！请使用环境变量或安全的配置管理方式。
+:::
+
+### 配置
+
+:::info
+注意，你需要在系统上安装 [Node.js](https://nodejs.org/) 才能运行此命令，因为它使用了 `npx`。
+:::
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  <GooseDesktopInstaller
+    extensionId="postgres"
+    extensionName="PostgreSQL"
+    description="PostgreSQL database integration"
+    command="npx"
+    args={["-y", "@modelcontextprotocol/server-postgres", "Your PostgreSQL connection URL"]}
+  />
+
+  :::info
+  请按以下格式输入你的 PostgreSQL 连接 URL：`postgresql://username:password@hostname:5432/database`
+  :::
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  1. 运行 `configure` 命令：
+```sh
+goose configure
+```
+
+  2. 选择添加 `Command-line Extension`
+```sh
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension (Connect to a new extension) 
+    │
+    ◆  What type of extension would you like to add?
+    │  ○ Built-in Extension 
+    // highlight-start    
+    │  ● Command-line Extension (Run a local command or script)
+    // highlight-end
+    │  ○ Remote Extension (Streamable HTTP) 
+    └ 
+```
+
+  3. 为你的扩展命名
+```sh
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension (Connect to a new extension) 
+    │
+    ◇  What type of extension would you like to add?
+    │  Command-line Extension 
+    │
+    // highlight-start
+    ◆  What would you like to call this extension?
+    │  PostgreSQL
+    // highlight-end
+    └ 
+```
+
+  4. 输入命令及你的数据库连接 URL
+```sh
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension (Connect to a new extension) 
+    │
+    ◇  What would you like to call this extension?
+    │  PostgreSQL
+    │
+    // highlight-start
+    ◆  What command should be run?
+    │  npx -y @modelcontextprotocol/server-postgres postgresql://localhost/mydb
+    // highlight-end
+    └ 
+```  
+
+  5. 设置超时时间（默认 300 秒通常已足够）
+```sh
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension (Connect to a new extension) 
+    │
+    ◇  What would you like to call this extension?
+    │  PostgreSQL
+    │
+    ◇  What command should be run?
+    │  npx -y @modelcontextprotocol/server-postgres postgresql://localhost/mydb
+    │
+    // highlight-start
+    ◆  Please set the timeout for this tool (in secs):
+    │  300
+    // highlight-end
+    └ 
+```
+
+  6. 选择是否添加描述。如果你在这里选择「Yes」，系统会提示你为扩展输入一段描述。
+```sh
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension (Connect to a new extension) 
+    │
+    ◇  What would you like to call this extension?
+    │  PostgreSQL
+    │
+    ◇  What command should be run?
+    │  npx -y @modelcontextprotocol/server-postgres postgresql://localhost/mydb
+    │
+    ◇  Please set the timeout for this tool (in secs):
+    │  300
+    │
+    // highlight-start
+    ◆  Would you like to add a description?
+    │  No
+    // highlight-end
+    └ 
+```
+
+  7. 配置你的 PostgreSQL 连接 URL
+```sh
+    ┌   goose-configure 
+    │
+    ◇  What would you like to configure?
+    │  Add Extension (Connect to a new extension) 
+    │
+    ◇  What would you like to call this extension?
+    │  PostgreSQL
+    │
+    ◇  What command should be run?
+    │  npx -y @modelcontextprotocol/server-postgres postgresql://localhost/mydb
+    │     
+    ◇  Please set the timeout for this tool (in secs):
+    │  300
+    │
+    ◇  Would you like to add a description?
+    │  No
+    │    
+    // highlight-start
+    ◆  Would you like to add environment variables?
+    │  No 
+    // highlight-end
+    └  Added PostgreSQL extension
+```  
+
+  </TabItem>
+</Tabs>
+
+### 示例用法
+
+PostgreSQL 扩展让你能够查询和分析数据，或者获取表结构信息。该扩展仅支持*只读*操作，因此你可以用它来获取数据库信息，但不能修改数据库。
+
+你只需用自然语言描述你想做什么，goose 就会借助合适的 SQL 命令和 PostgreSQL 功能帮你完成。
+
+##### goose 提示词
+```
+Search my database for any students whose current GPA is higher than the average in their current grade level. Tell me their name, grade, and how much they exceed their grade’s average GPA, and the average GPA.
+```
+
+##### goose 输出
+```
+Based on the query results, here are the students who are performing above their grade level average:
+
+Grade 11
+  Emma Johnson
+    GPA: 4.00
+    Grade Average: 3.90
+    Exceeds average by: 0.10 points
+
+Grade 12
+  John Smith
+    GPA: 3.85
+    Grade Average: 3.78
+    Exceeds average by: 0.08 points
+
+Both students are performing well above their respective grade level averages. Emma Johnson in Grade 11 shows the highest difference above the grade average, exceeding it by 0.10 points, while John Smith in Grade 12 exceeds his grade's average by 0.08 points.
+```
 
 ---
 
@@ -18290,6 +22838,189 @@ uvx linux-mcp-server
 🤖 LLM output 🤖
 我会通过检查系统日志中与你的网络接口和无线连接相关的错误信息，帮你诊断 WiFi 连接问题。让我先收集系统信息并检查相关日志。
 
+:::
+
+---
+
+## Asana 扩展
+
+> 原文：https://block.github.io/goose/docs/mcp/asana-mcp
+
+本教程介绍如何把 [Asana MCP Server](https://github.com/roychri/mcp-server-asana) 添加为 goose 扩展，以实现任务自动化、项目跟踪和团队协作。
+
+:::tip 快速安装
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  [启动安装程序](goose://extension?cmd=npx&arg=-y&arg=%40roychri%2Fmcp-server-asana&id=asana-mcp&name=Asana&description=enable%20task%20automation%2C%20project%20tracking%2C%20and%20team%20collaboration&env=ASANA_ACCESS_TOKEN%3DAsana%20Access%20Token)
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  **Command**
+  ```sh
+  npx -y @roychri/mcp-server-asana
+  ```
+  </TabItem>
+</Tabs>
+  **Environment Variable**
+  ```
+  ASANA_ACCESS_TOKEN: <YOUR_TOKEN>
+  ```
+:::
+
+### 配置
+
+:::info
+注意，你需要在系统上安装 [Node.js](https://nodejs.org/) 才能运行此命令，因为它使用了 `npx`。
+:::
+
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  <GooseDesktopInstaller
+    extensionId="asana-mcp"
+    extensionName="Asana"
+    description="Enable task automation, project tracking, and team collaboration"
+    command="npx"
+    args={["-y", "@roychri/mcp-server-asana"]}
+    envVars={[
+      { name: "ASANA_ACCESS_TOKEN", label: "Asana Access Token" }
+    ]}
+    apiKeyLink="https://app.asana.com/0/my-apps"
+    apiKeyLinkText="Asana Access Token"
+  />
+  :::info
+  如果你需要关于创建访问令牌的详细说明，请参阅 [Asana 的开发者文档](https://developers.asana.com/docs/personal-access-token)。
+  :::
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    <CLIExtensionInstructions
+      name="Asana"
+      description="Enable task automation, project tracking, and team collaboration"
+      command="npx -y @roychri/mcp-server-asana"
+      envVars={[
+        { key: "ASANA_ACCESS_TOKEN", value: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪" }
+      ]}
+      infoNote={
+        <>
+          Obtain your <a href="https://app.asana.com/0/my-apps" target="_blank" rel="noopener noreferrer">Asana Access Token</a> and paste it in. See <a href="https://developers.asana.com/docs/personal-access-token" target="_blank" rel="noopener noreferrer">Asana's developer docs</a> if you need detailed instructions on creating an access token.
+        </>
+      }
+    />
+  </TabItem>
+</Tabs>
+
+### 示例用法
+
+#### goose 提示词
+
+> _goose，我有一个小时。查看 Asana 中分配给我的未完成任务，把那些你估计需要一小时或更短时间就能完成的任务展示给我。按截止时间排序。_
+
+
+#### goose 输出
+
+注意，ID 已被替换为通用值
+
+:::note CLI
+
+<details>
+    <summary>工具调用</summary>
+
+    ─── asana_search_tasks | abcdefgh ──────────────────────────
+
+    assignee.any: me
+
+    completed: false
+
+    workspace: 1234567890123
+
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000001
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000002
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000003
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000004
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000005
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000006
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000007
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000008
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000009
+
+
+    ─── asana_get_task | abcdefgh ──────────────────────────
+
+    opt_fields: due_on,estimated_hours
+
+    task_id: 1100000000000010
+</details>
+
+
+
+以下是你在 Asana 中估计需要一小时或更短时间完成的未完成任务，按截止时间排序：
+
+1. **任务：** 查看团队会议记录
+   - **截止日期：** 2025-03-21
+
+2. **任务：** 起草简短的状态更新
+   - **截止日期：** 2025-03-21
+
+3. **任务：** 校对博客文章
+   - **截止日期：** 2025-03-21
+
+4. **任务：** 给合作伙伴发送提醒
+   - **截止日期：** 2025-03-27
+
+如果你需要更多信息或希望我协助处理某个具体任务，请告诉我！
 :::
 
 ---
@@ -20391,6 +25122,300 @@ Council of Mine 的辩论工作流依赖 MCP sampling。[Sampling 已被弃用](
 :::
 
 Council of Mine 仍作为[历史示例](https://github.com/block/mcp-council-of-mine)保留，它是一个围绕 sampling 构建的 MCP 服务器。需要模型推理的 MCP 服务器应直接与 LLM 提供方 API 集成。
+
+---
+
+## Brave Search 扩展
+
+> 原文：https://block.github.io/goose/docs/mcp/brave-mcp
+
+<YouTubeShortEmbed videoUrl="https://www.youtube.com/embed/kD2YA61NTLU" />
+
+服务器已迁移
+
+本教程将带你上手把 [Brave Search MCP Server](https://www.pulsemcp.com/servers/brave-search) 添加为 goose 扩展，从而为网页搜索和本地搜索启用交互式搜索。
+
+:::tip 快速安装
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  [启动安装器](goose://extension?cmd=npx&arg=-y&arg=%40modelcontextprotocol%2Fserver-brave-search&id=brave-search&name=Brave%20Search&description=Brave%20Search%20API&env=BRAVE_API_KEY%3DYour%20API%20Key)
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  **命令**
+```sh
+npx -y @modelcontextprotocol/server-brave-search
+```
+  </TabItem>
+</Tabs>
+  **环境变量**
+```
+BRAVE_API_KEY: <YOUR_API_KEY>
+```
+:::
+
+### 配置
+
+:::info
+注意，你需要在系统中安装 [Node.js](https://nodejs.org/) 才能运行该命令，因为它使用了 `npx`。
+:::
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  <GooseDesktopInstaller
+    extensionId="brave-search"
+    extensionName="Brave Search"
+    description="Brave Search API"
+    command="npx"
+    args={["-y", "@modelcontextprotocol/server-brave-search"]}
+    envVars={[{ name: "BRAVE_API_KEY", label: "Your Brave Search API Key" }]}
+    apiKeyLink="https://api-dashboard.search.brave.com/app/keys"
+    apiKeyLinkText="Brave Search API Key"
+  />
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+  1. 运行 `configure` 命令：
+```sh
+goose configure
+```
+
+  2. 选择添加 `Command-line Extension`
+```sh
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Add Extension (Connect to a new extension) 
+  │
+  ◆  What type of extension would you like to add?
+  │  ○ Built-in Extension 
+  // highlight-start    
+  │  ● Command-line Extension (Run a local command or script)
+  // highlight-end
+  │  ○ Remote Extension (Streamable HTTP) 
+  └ 
+```
+
+  3. 为你的扩展起一个名字
+```sh
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Add Extension (Connect to a new extension) 
+  │
+  ◇  What type of extension would you like to add?
+  │  Command-line Extension 
+  │
+  // highlight-start
+  ◆  What would you like to call this extension?
+  │  brave-search
+  // highlight-end
+  └ 
+```
+
+  4. 输入命令
+```sh
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Add Extension (Connect to a new extension) 
+  │
+  ◇  What type of extension would you like to add?
+  │  Command-line Extension 
+  │
+  ◇  What would you like to call this extension?
+  │  brave-search
+  │
+  // highlight-start
+  ◆  What command should be run?
+  │  npx -y @modelcontextprotocol/server-brave-search
+  // highlight-end
+  └ 
+```
+
+  5. 输入 goose 在超时之前应等待动作完成的秒数。默认值为 300 秒
+```sh
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Add Extension (Connect to a new extension) 
+  │
+  ◇  What type of extension would you like to add?
+  │  Command-line Extension 
+  │
+  ◇  What would you like to call this extension?
+  │  brave-search
+  │
+  ◇  What command should be run?
+  │  npx -y @modelcontextprotocol/server-brave-search
+  │
+  // highlight-start
+  ◆  Please set the timeout for this tool (in secs):
+  │  300
+  // highlight-end
+  │
+  └ 
+```
+
+  6. 选择是否添加描述。如果你在这里选择「Yes」，系统会提示你为扩展输入一段描述。
+```sh
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Add Extension (Connect to a new extension) 
+  │
+  ◇  What type of extension would you like to add?
+  │  Command-line Extension 
+  │
+  ◇  What would you like to call this extension?
+  │  brave-search
+  │
+  ◇  What command should be run?
+  │  npx -y @modelcontextprotocol/server-brave-search
+  │
+  ◆  Please set the timeout for this tool (in secs):
+  │  300
+  │
+  // highlight-start
+  ◇  Would you like to add a description?
+  │  No
+  // highlight-end
+  │
+  └ 
+```
+
+  7. 获取一个 [Brave Search API Key](https://api-dashboard.search.brave.com/app/keys) 并粘贴进去。
+  :::info
+  注册一个 [Brave Search API 账号](https://brave.com/search/api/)，选择一个套餐（免费档每月提供 2000 次查询），然后在 [开发者控制台](https://api-dashboard.search.brave.com/app/keys) 中生成你的 API key。
+  :::
+
+```sh
+  ┌   goose-configure 
+  │
+  ◇  What would you like to configure?
+  │  Add Extension (Connect to a new extension) 
+  │
+  ◇  What type of extension would you like to add?
+  │  Command-line Extension 
+  │
+  ◇  What would you like to call this extension?
+  │  brave-search
+  │
+  ◇  What command should be run?
+  │  npx -y @modelcontextprotocol/server-brave-search
+  │
+  ◇  Please set the timeout for this tool (in secs):
+  │  300
+  │
+  ◇  Would you like to add a description?
+  │  No
+  │
+  // highlight-start
+  ◆  Would you like to add environment variables?
+  │  Yes 
+  │
+  ◇  Environment variable name:
+  │  BRAVE_API_KEY
+  │
+  ◇  Environment variable value:
+  │  ▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
+  │
+  ◇  Add another environment variable?
+  │  No 
+  // highlight-end
+  └  Added brave-search extension
+```
+
+  </TabItem>
+</Tabs>
+
+### 示例用法
+
+Brave Search MCP 服务器让你可以访问 Brave Search API，同时提供网页搜索和本地搜索能力：
+
+- **网页搜索**：通用查询、新闻、文章，支持分页和时效性控制
+- **本地搜索**：查找商家、餐厅和服务，并附带详细信息（需要 Pro API key）
+- **灵活过滤**：控制结果类型、安全级别和内容时效性
+- **智能回退**：本地搜索在未找到结果时会自动回退到网页搜索
+
+
+##### goose 提示词
+
+```
+( O)> Organize a Italian dinner party with Ian, Rizel, Ace, and Ebony. Find 3 or 4 YouTube cooking channels (with URLs) that focus on Italian cuisine for beginners, and then find one recipe (with URL) for each person to make: one salad, two entrees, and one dessert.
+```
+
+##### goose 输出
+
+```
+
+I'll help you organize the Italian dinner party and search for appropriate cooking resources and recipes. Let me break this down into parts.
+
+First, let's search for some beginner-friendly Italian cooking YouTube channels:
+
+Brave Web Search
+query: best youtube channels italian cooking for beginners authenti...
+
+Let me search for some specific recipes:
+
+Brave Web Search
+query: authentic italian salad recipes panzanella caprese insalata
+
+Brave Web Search
+query: authentic italian main course pasta recipes carbonara osso b...
+
+Brave Web Search
+query: authentic italian dessert recipes tiramisu panna cotta
+
+
+Based on my research, I'll organize the dinner party plan with recommended YouTube channels and specific recipes for each person. Here's the plan:
+
+Recommended Italian Cooking YouTube Channels for Beginners
+
+1. Vincenzo's Plate (https://www.youtube.com/channel/UCcsSowAamCLJv-xeF9geXoA)
+  - Authentic Italian recipes with clear instructions
+  - Run by an Italian native who explains techniques well for beginners
+
+2. Italia Squisita (https://www.youtube.com/c/ItaliaSquisita)
+  - Features traditional Italian recipes
+  - Often shows multiple ways to make classic dishes
+
+3. Giallo Zafferano (https://www.youtube.com/user/GialloZafferano)
+  - Italy's most popular cooking channel
+  - Comprehensive collection of authentic Italian recipes
+
+
+Recipe Assignments
+
+1. Rizel - Salad Course
+  - Classic Panzanella (Tuscan Bread and Tomato Salad)
+  - Recipe: https://www.themediterraneandish.com/tomato-panzanella-salad-recipe/
+  - Perfect summer salad with crusty bread, tomatoes, and fresh basil
+
+2. Ian - First Entrée
+  - Authentic Spaghetti Carbonara
+  - Recipe: https://anitalianinmykitchen.com/spaghetti-carbonara/
+  - Classic Roman pasta dish with eggs, pecorino, and guanciale
+
+3. Ace - Second Entrée
+  - Osso Buco alla Milanese
+  - Recipe: https://www.pastagrammar.com/post/osso-buco-authentic-italian-veal-recipe
+  - Traditional Milanese braised veal shanks with gremolata
+
+4. Ebony - Dessert
+  - Classic Vanilla Panna Cotta
+  - Recipe: https://www.recipesfromitaly.com/panna-cotta-recipe/
+  - Elegant, creamy dessert that can be made ahead
+
+
+Tips for Success
+
+- Watch the YouTube channels beforehand to familiarize yourself with Italian cooking techniques
+- Make sure to read through the entire recipe before starting
+- The Panna Cotta should be made at least 4 hours ahead (or the night before) to allow proper setting time
+- The Panzanella can be assembled just before serving for the best texture
+- The Osso Buco can be made slightly ahead and reheated, as it often tastes better the next day
+- The Carbonara should be made just before serving and served immediately while hot
+
+```
 
 ---
 
@@ -22748,6 +27773,22 @@ response:
 
 ---
 
+## 构建自定义扩展
+
+> 原文：https://block.github.io/goose/docs/tutorials/custom-extensions
+
+goose 允许你通过创建自己的自定义扩展来扩展其功能，这些扩展以 MCP 服务器形式构建。由于 goose 遵循 [Model Context Protocol (MCP)][mcp-docs]，这些扩展与 goose 兼容。MCP 是一个开放协议，它标准化了应用程序向 LLM 提供上下文的方式。它提供了一种一致的方式将 LLM 连接到各种数据源和工具，使其成为以结构化、可互操作的方式扩展功能的理想选择。
+
+在本指南中，我们使用 [Python SDK for MCP][mcp-python] 构建一个 MCP 服务器。我们将演示如何创建一个读取 Wikipedia 文章并将其转换为 Markdown 的 MCP 服务器，并将其作为扩展集成到 goose 中。你可以按照类似的流程为 goose 开发自己的自定义扩展。
+
+你可以在 [MCP servers 仓库][mcp-servers]中查看其他示例服务器。MCP SDK 也适用于其他常见语言，例如 [TypeScript][mcp-typescript] 和 [Kotlin][mcp-kotlin]。
+
+:::info
+goose 支持 [Model Context Protocol](https://modelcontextprotocol.io/) 中的 Tools、Resources 和 Prompts。关于支持的协议版本和客户端能力，请参阅 [`mcp_client.rs`](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/agents/mcp_client.rs)。
+:::
+
+---
+
 ### 前置条件
 
 在开始之前，请确保你的系统上安装了以下内容：
@@ -24919,6 +29960,546 @@ goose 的无头模式不仅仅是一个功能——它是向由 AI 驱动的真�
 
 ---
 
+## Ralph Loop
+
+> 原文：https://block.github.io/goose/docs/tutorials/ralph-loop
+
+Ralph Loop 基于[Geoffrey Huntley 的 Ralph Wiggum 技巧](https://ghuntley.com/ralph/)，是一种迭代式开发模式：它会让 goose 持续处理任务，直到任务真正完成。
+
+标准 Agent 循环会受到上下文累积的影响。每次失败的尝试都会留在对话历史中，因此迭代几轮后，模型必须先处理一大段噪声历史，才能专注于任务。Ralph Loop 通过在每次迭代开始时提供全新上下文解决了这个问题，这正是 Geoffrey 方法的核心洞见。此实现进一步加入跨模型审查：一个模型负责工作，另一个模型负责审查，循环持续到任务可以交付为止。
+
+每轮迭代结束后，工作模型和审查模型会将摘要与反馈存入文件。这些文件会在不同迭代之间保留，但对话历史不会保留。这样，新会话启动后，下一个模型便可读取文件，准确接续上一次迭代的进度。
+
+本教程将使用 Ralph Loop 构建一个简单的 Electron 浏览器，并观察迭代循环如何在交付前发现遗漏的功能。
+
+#### 先决条件
+
+- [安装 goose CLI](https://block.github.io/goose/docs/getting-started/installation)，因为 Ralph Loop 通过终端运行。
+- [配置两个模型](https://block.github.io/goose/docs/getting-started/providers)，分别作为工作模型和审查模型。建议使用不同模型以获得更高质量的审查；两个角色使用同一个模型时，循环仍然可以运行。
+
+<details>
+<summary>下载 Ralph Loop Recipes</summary>
+
+将以下内容复制并粘贴到终端，即可下载 Ralph Loop Recipes：
+
+```bash
+mkdir -p ~/.config/goose/recipes
+
+curl -sL https://raw.githubusercontent.com/aaif-goose/goose/main/documentation/src/pages/recipes/data/recipes/ralph-loop.sh -o ~/.config/goose/recipes/ralph-loop.sh
+curl -sL https://raw.githubusercontent.com/aaif-goose/goose/main/documentation/src/pages/recipes/data/recipes/ralph-work.yaml -o ~/.config/goose/recipes/ralph-work.yaml
+curl -sL https://raw.githubusercontent.com/aaif-goose/goose/main/documentation/src/pages/recipes/data/recipes/ralph-review.yaml -o ~/.config/goose/recipes/ralph-review.yaml
+
+chmod +x ~/.config/goose/recipes/ralph-loop.sh
+```
+
+</details>
+
+:::warning 成本警告
+Ralph Loop 会让 Agent 在循环中运行多次（默认最多 10 轮）。请监控用量，并根据需要调整 `RALPH_MAX_ITERATIONS`。
+:::
+
+#### 第 1 步：启动循环
+
+要启动流程，请在终端运行脚本，并将提示词放在引号中。该命令会触发工作模型与审查模型循环的第一轮迭代：
+
+```bash
+~/.config/goose/recipes/ralph-loop.sh "Create a simple browser using Electron and React"
+```
+
+:::tip 复杂任务
+你可以传入文件路径，而不是字符串。这种方式适用于 PRD、详细规格说明，或任何适合迭代开发的多步骤任务：
+
+```bash
+~/.config/goose/recipes/ralph-loop.sh ./prd.md
+```
+:::
+
+#### 第 2 步：配置模型
+
+脚本会提示你为本次会话设置环境变量：
+
+```
+Worker model [gpt-4o]: 
+Worker provider [openai]: 
+Reviewer model (should be different from worker): claude-sonnet-4-20250514
+Reviewer provider: anthropic
+Max iterations [10]: 
+
+⚠️  Cost Warning: This will run up to 10 iterations, each using both models.
+    Estimated token usage could be significant depending on your task.
+
+Continue? [y/N]: y
+```
+
+| 变量 | 说明 |
+|--------|-------------|
+| Worker model | 执行实际编码工作的模型。若已设置 `GOOSE_MODEL`，则默认使用该值。 |
+| Worker provider | 工作模型的提供方（例如 `openai`、`anthropic`）。若已设置 `GOOSE_PROVIDER`，则默认使用该值。 |
+| Reviewer model | 审查工作的模型。为了获得最佳效果，应该与工作模型不同。 |
+| Reviewer provider | 审查模型的提供方。 |
+| Max iterations | 放弃前执行多少轮工作/审查循环。默认值为 10。 |
+
+:::tip 直接设置环境变量
+你可以直接设置环境变量，跳过交互式提示：
+
+```bash
+RALPH_WORKER_MODEL="gpt-4o" \
+RALPH_WORKER_PROVIDER="openai" \
+RALPH_REVIEWER_MODEL="claude-sonnet-4-20250514" \
+RALPH_REVIEWER_PROVIDER="anthropic" \
+~/.config/goose/recipes/ralph-loop.sh "Create a simple browser using Electron and React"
+```
+:::
+
+#### 第 3 步：观察运行过程
+
+终端会显示 goose 在工作阶段和审查阶段之间切换。每轮迭代都会从一个全新会话开始，以保持上下文清晰。一次成功运行的示例如下：
+
+```
+═══════════════════════════════════════════════════════════════
+  Ralph Loop - Multi-Model Edition
+═══════════════════════════════════════════════════════════════
+
+  Task: Create a simple browser using Electron and React
+  Worker: gpt-4o (openai)
+  Reviewer: claude-sonnet-4-20250514 (anthropic)
+  Max Iterations: 10
+
+───────────────────────────────────────────────────────────────
+  Iteration 1 / 10
+───────────────────────────────────────────────────────────────
+
+▶ WORK PHASE
+... (goose creates initial implementation) ...
+
+▶ REVIEW PHASE
+... (goose reviews the work) ...
+
+↻ REVISE - Feedback for next iteration:
+Missing error handling for invalid URLs. Also needs back/forward navigation buttons.
+
+───────────────────────────────────────────────────────────────
+  Iteration 2 / 10
+───────────────────────────────────────────────────────────────
+
+▶ WORK PHASE
+... (goose addresses feedback) ...
+
+▶ REVIEW PHASE
+... (goose reviews again) ...
+
+═══════════════════════════════════════════════════════════════
+  ✓ SHIPPED after 2 iteration(s)
+═══════════════════════════════════════════════════════════════
+```
+
+### 工作原理
+
+```
+Iteration 1:
+  WORK PHASE  → Model A does work, writes to files
+  REVIEW PHASE → Model B reviews the work
+    → SHIP? Exit successfully ✓
+    → REVISE? Write feedback, continue to iteration 2
+
+Iteration 2:
+  WORK PHASE  → Model A reads feedback, fixes things (fresh context!)
+  REVIEW PHASE → Model B reviews again
+    → SHIP? Exit successfully ✓
+    → REVISE? Continue...
+
+... repeats until SHIP or max iterations
+```
+
+#### 状态文件
+
+Ralph Loop 使用 `.goose/ralph/` 中的文件，在不同迭代之间持久化状态。这样，即使每轮迭代都从全新上下文开始，工作模型也知道要做什么，审查模型也知道已完成哪些工作。
+
+| 文件 | 用途 |
+|------|---------|
+| `task.md` | 任务说明 |
+| `iteration.txt` | 当前迭代轮次 |
+| `work-summary.txt` | 工作模型本轮执行的内容 |
+| `work-complete.txt` | 工作模型声明完成时创建 |
+| `review-result.txt` | `SHIP` 或 `REVISE` |
+| `review-feedback.txt` | 提供给下一轮迭代的反馈 |
+| `.ralph-complete` | 成功完成时创建 |
+| `RALPH-BLOCKED.md` | 工作模型陷入阻塞时创建 |
+
+#### Recipe 文件
+
+Ralph Loop 使用三个文件：一个负责编排工作/审查循环的 bash 脚本、一个指导工作模型如何推进任务的 work recipe，以及一个指导审查模型如何评估工作的 review recipe。下面列出每个文件的内容。你可以[下载](#先决条件)这些文件，也可以直接从这里复制。
+
+<details>
+<summary>Bash 封装脚本（`ralph-loop.sh`）</summary>
+
+```bash
+#!/bin/bash
+#
+# Ralph Loop - Multi-Model Edition
+#
+# Fresh context per iteration + cross-model review
+# Based on Geoffrey Huntley's technique
+#
+# Usage: ./ralph-loop.sh "your task description here"
+#    or: ./ralph-loop.sh /path/to/task.md
+#
+# Environment variables:
+#   RALPH_WORKER_MODEL    - Model for work phase (prompts if not set)
+#   RALPH_WORKER_PROVIDER - Provider for work phase (prompts if not set)
+#   RALPH_REVIEWER_MODEL  - Model for review phase (prompts if not set)
+#   RALPH_REVIEWER_PROVIDER - Provider for review phase (prompts if not set)
+#   RALPH_MAX_ITERATIONS  - Max iterations (default: 10)
+#   RALPH_RECIPE_DIR      - Recipe directory (default: ~/.config/goose/recipes)
+#
+
+set -e
+
+INPUT="$1"
+RECIPE_DIR="${RALPH_RECIPE_DIR:-$HOME/.config/goose/recipes}"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+if [ -z "$INPUT" ]; then
+    echo -e "${RED}Error: No task provided${NC}"
+    echo "Usage: $0 \"your task description\""
+    echo "   or: $0 /path/to/task.md"
+    exit 1
+fi
+
+# Function to prompt for settings
+prompt_for_settings() {
+    local default_model="${GOOSE_MODEL:-}"
+    local default_provider="${GOOSE_PROVIDER:-}"
+    
+    # Worker model
+    if [ -n "$default_model" ]; then
+        echo -ne "${BLUE}Worker model${NC} [${default_model}]: "
+        read -r user_input
+        WORKER_MODEL="${user_input:-$default_model}"
+    else
+        echo -ne "${BLUE}Worker model${NC}: "
+        read -r WORKER_MODEL
+        if [ -z "$WORKER_MODEL" ]; then
+            echo -e "${RED}Error: Worker model is required${NC}"
+            exit 1
+        fi
+    fi
+    
+    # Worker provider
+    if [ -n "$default_provider" ]; then
+        echo -ne "${BLUE}Worker provider${NC} [${default_provider}]: "
+        read -r user_input
+        WORKER_PROVIDER="${user_input:-$default_provider}"
+    else
+        echo -ne "${BLUE}Worker provider${NC}: "
+        read -r WORKER_PROVIDER
+        if [ -z "$WORKER_PROVIDER" ]; then
+            echo -e "${RED}Error: Worker provider is required${NC}"
+            exit 1
+        fi
+    fi
+    
+    # Reviewer model
+    echo -ne "${BLUE}Reviewer model${NC} (should be different from worker): "
+    read -r REVIEWER_MODEL
+    if [ -z "$REVIEWER_MODEL" ]; then
+        echo -e "${RED}Error: Reviewer model is required${NC}"
+        echo "The reviewer should be a different model to provide fresh perspective."
+        exit 1
+    fi
+    
+    # Reviewer provider
+    echo -ne "${BLUE}Reviewer provider${NC}: "
+    read -r REVIEWER_PROVIDER
+    if [ -z "$REVIEWER_PROVIDER" ]; then
+        echo -e "${RED}Error: Reviewer provider is required${NC}"
+        exit 1
+    fi
+    
+    # Same model warning
+    if [ "$WORKER_MODEL" = "$REVIEWER_MODEL" ] && [ "$WORKER_PROVIDER" = "$REVIEWER_PROVIDER" ]; then
+        echo -e "${YELLOW}Warning: Worker and reviewer are the same model.${NC}"
+        echo "For best results, use different models for cross-model review."
+        echo -ne "Continue anyway? [y/N]: "
+        read -r confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+            exit 1
+        fi
+    fi
+    
+    # Max iterations
+    echo -ne "${BLUE}Max iterations${NC} [10]: "
+    read -r user_input
+    MAX_ITERATIONS="${user_input:-10}"
+}
+
+# Initialize from environment variables
+WORKER_MODEL="${RALPH_WORKER_MODEL:-}"
+WORKER_PROVIDER="${RALPH_WORKER_PROVIDER:-}"
+REVIEWER_MODEL="${RALPH_REVIEWER_MODEL:-}"
+REVIEWER_PROVIDER="${RALPH_REVIEWER_PROVIDER:-}"
+MAX_ITERATIONS="${RALPH_MAX_ITERATIONS:-10}"
+
+# If any required setting is missing, prompt for all settings
+if [ -z "$WORKER_MODEL" ] || [ -z "$WORKER_PROVIDER" ] || [ -z "$REVIEWER_MODEL" ] || [ -z "$REVIEWER_PROVIDER" ]; then
+    prompt_for_settings
+fi
+
+# Cost warning and confirmation loop
+while true; do
+    echo ""
+    echo -e "${YELLOW}⚠️  Cost Warning:${NC} This will run up to ${MAX_ITERATIONS} iterations, each using both models."
+    echo "    Estimated token usage could be significant depending on your task."
+    echo ""
+    echo -ne "Continue? [y/N]: "
+    read -r confirm
+    
+    if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+        break
+    else
+        echo ""
+        prompt_for_settings
+    fi
+done
+
+STATE_DIR=".goose/ralph"
+mkdir -p "$STATE_DIR"
+
+if [ -f "$INPUT" ]; then
+    cp "$INPUT" "$STATE_DIR/task.md"
+    echo -e "${BLUE}Reading task from file: $INPUT${NC}"
+else
+    echo "$INPUT" > "$STATE_DIR/task.md"
+fi
+
+TASK=$(cat "$STATE_DIR/task.md")
+
+rm -f "$STATE_DIR/review-result.txt"
+rm -f "$STATE_DIR/review-feedback.txt"
+rm -f "$STATE_DIR/work-complete.txt"
+rm -f "$STATE_DIR/work-summary.txt"
+
+echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+echo -e "${BLUE}  Ralph Loop - Multi-Model Edition${NC}"
+echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+echo ""
+echo -e "  Task: ${YELLOW}$TASK${NC}"
+echo -e "  Worker: ${WORKER_MODEL} (${WORKER_PROVIDER})"
+echo -e "  Reviewer: ${REVIEWER_MODEL} (${REVIEWER_PROVIDER})"
+echo -e "  Max Iterations: $MAX_ITERATIONS"
+echo ""
+
+for i in $(seq 1 "$MAX_ITERATIONS"); do
+    echo -e "${BLUE}───────────────────────────────────────────────────────────────${NC}"
+    echo -e "${BLUE}  Iteration $i / $MAX_ITERATIONS${NC}"
+    echo -e "${BLUE}───────────────────────────────────────────────────────────────${NC}"
+    
+    echo "$i" > "$STATE_DIR/iteration.txt"
+    
+    echo ""
+    echo -e "${YELLOW}▶ WORK PHASE${NC}"
+    
+    GOOSE_PROVIDER="$WORKER_PROVIDER" GOOSE_MODEL="$WORKER_MODEL" goose run --recipe "$RECIPE_DIR/ralph-work.yaml" || {
+        echo -e "${RED}✗ WORK PHASE FAILED${NC}"
+        exit 1
+    }
+    
+    if [ -f "$STATE_DIR/RALPH-BLOCKED.md" ]; then
+        echo ""
+        echo -e "${RED}✗ BLOCKED${NC}"
+        cat "$STATE_DIR/RALPH-BLOCKED.md"
+        exit 1
+    fi
+    
+    echo ""
+    echo -e "${YELLOW}▶ REVIEW PHASE${NC}"
+    
+    GOOSE_PROVIDER="$REVIEWER_PROVIDER" GOOSE_MODEL="$REVIEWER_MODEL" goose run --recipe "$RECIPE_DIR/ralph-review.yaml" || {
+        echo -e "${RED}✗ REVIEW PHASE FAILED${NC}"
+        exit 1
+    }
+    
+    if [ -f "$STATE_DIR/review-result.txt" ]; then
+        RESULT=$(cat "$STATE_DIR/review-result.txt" | tr -d '[:space:]')
+        
+        if [ "$RESULT" = "SHIP" ]; then
+            echo ""
+            echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
+            echo -e "${GREEN}  ✓ SHIPPED after $i iteration(s)${NC}"
+            echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
+            echo "COMPLETE: $(date)" > "$STATE_DIR/.ralph-complete"
+            exit 0
+        else
+            echo ""
+            echo -e "${YELLOW}↻ REVISE - Feedback for next iteration:${NC}"
+            if [ -f "$STATE_DIR/review-feedback.txt" ]; then
+                cat "$STATE_DIR/review-feedback.txt"
+            fi
+        fi
+    else
+        echo -e "${RED}✗ No review result found${NC}"
+        exit 1
+    fi
+    
+    rm -f "$STATE_DIR/work-complete.txt"
+    rm -f "$STATE_DIR/review-result.txt"
+    echo ""
+done
+
+echo -e "${RED}✗ Max iterations ($MAX_ITERATIONS) reached${NC}"
+exit 1
+```
+
+</details>
+
+<details>
+<summary>Work 阶段 Recipe（`ralph-work.yaml`）</summary>
+
+```yaml
+version: 1.0.0
+title: Ralph Work Phase
+description: Single iteration of work - fresh context each time
+
+instructions: |
+  You are in a RALPH LOOP - one iteration of work.
+  
+  Your work persists through FILES ONLY. You will NOT remember previous iterations.
+  
+  STATE FILES (in .goose/ralph/):
+  - task.md = The task you need to accomplish (READ THIS FIRST)
+  - iteration.txt = Current iteration number
+  - review-feedback.txt = Feedback from last review (if any)
+  - work-complete.txt = Create when task is DONE (reviewer will verify)
+  
+  FIRST: Check your state
+  1. cat .goose/ralph/task.md (YOUR TASK)
+  2. cat .goose/ralph/iteration.txt 2>/dev/null || echo "1"
+  3. cat .goose/ralph/review-feedback.txt 2>/dev/null
+  4. ls -la to see existing work
+  
+  THEN: Make progress
+  - If review-feedback.txt exists, ADDRESS THAT FEEDBACK FIRST
+  - Read existing code/files before modifying
+  - Make meaningful incremental progress
+  - Run tests/verification if applicable
+  
+  FINALLY: Signal status
+  - If task is complete: echo "done" > .goose/ralph/work-complete.txt
+  - Always write a summary: echo "what I did" > .goose/ralph/work-summary.txt
+
+prompt: |
+  ## Ralph Work Phase
+  
+  Read your task from: .goose/ralph/task.md
+  
+  1. Read the task: `cat .goose/ralph/task.md`
+  2. Check iteration: `cat .goose/ralph/iteration.txt 2>/dev/null || echo "1"`
+  3. Check for review feedback: `cat .goose/ralph/review-feedback.txt 2>/dev/null`
+  4. List existing files: `ls -la`
+  5. Do the work (address feedback if any, otherwise make progress)
+  6. Write summary: `echo "summary" > .goose/ralph/work-summary.txt`
+  7. If complete: `echo "done" > .goose/ralph/work-complete.txt`
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 600
+```
+
+</details>
+
+<details>
+<summary>Review 阶段 Recipe（`ralph-review.yaml`）</summary>
+
+```yaml
+version: 1.0.0
+title: Ralph Review Phase
+description: Cross-model review of work - returns SHIP or REVISE
+
+instructions: |
+  You are a CODE REVIEWER in a Ralph Loop.
+  
+  Your job: Review the work done and decide SHIP or REVISE.
+  
+  You are a DIFFERENT MODEL than the worker. Your fresh perspective catches mistakes.
+  
+  STATE FILES (in .goose/ralph/):
+  - task.md = The original task (READ THIS FIRST)
+  - work-summary.txt = What the worker claims to have done
+  - work-complete.txt = Exists if worker claims task is complete
+  
+  REVIEW CRITERIA:
+  1. Does the code/work actually accomplish the task?
+  2. Does it run without errors?
+  3. Is it reasonably complete, not half-done?
+  4. Are there obvious bugs or issues?
+  
+  BE STRICT but FAIR:
+  - Don't nitpick style if functionality is correct
+  - DO reject incomplete work
+  - DO reject code that doesn't run
+  - DO reject if tests fail
+  
+  OUTPUT:
+  If approved: echo "SHIP" > .goose/ralph/review-result.txt
+  If needs work: 
+    echo "REVISE" > .goose/ralph/review-result.txt
+    echo "specific feedback" > .goose/ralph/review-feedback.txt
+
+prompt: |
+  ## Ralph Review Phase
+  
+  1. Read the task: `cat .goose/ralph/task.md`
+  2. Read work summary: `cat .goose/ralph/work-summary.txt`
+  3. Check if complete: `cat .goose/ralph/work-complete.txt 2>/dev/null`
+  4. Examine the actual files created/modified
+  5. Run verification (tests, build, etc.)
+  6. Decide: SHIP or REVISE
+  
+  If SHIP: `echo "SHIP" > .goose/ralph/review-result.txt`
+  If REVISE: 
+    `echo "REVISE" > .goose/ralph/review-result.txt`
+    `echo "specific feedback" > .goose/ralph/review-feedback.txt`
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
+```
+
+</details>
+
+### 使用技巧
+
+#### 适合使用 Ralph Loop 的场景
+
+Ralph Loop 最适用于：
+
+- **适合迭代的复杂多步骤任务**
+- **具有明确完成标准的任务**（测试通过、构建成功）
+- **交付前需要质量门槛的场景**
+
+以下情况使用它会显得过度：
+
+- 简单的一次性任务
+- 交互式/探索性工作
+- 没有可验证完成标准的任务
+
+#### 重置
+
+如果你要开始一个全新的任务，或者之前的运行陷入停滞、你想从头开始，可以清除状态目录：
+
+```bash
+rm -rf .goose/ralph
+```
+
+---
+
 ## Research → Plan → Implement 模式
 
 > 原文：https://block.github.io/goose/docs/tutorials/rpi
@@ -26467,6 +32048,77 @@ Features
 
 ---
 
+## goose 架构
+
+> 原文：https://block.github.io/goose/docs/goose-architecture/goose-architecture
+
+goose 是一个开源 AI Agent，它构建在大语言模型（LLM）的基本交互框架之上，而该框架主要充当基于文本的对话界面：它处理文本输入并生成文本输出。这种「文本进、文本出」的方式通过工具集成得到增强，使 AI Agent 能够完成任务——goose 由此诞生。
+
+### goose 组件
+goose 通过三个主要组件运作：**界面（interface）**、**代理（agent）**以及**所连接的[扩展](https://block.github.io/goose/docs/getting-started/using-extensions)**。
+
+* **界面（Interface）**：这是你用来运行 goose 的桌面应用或 CLI。它收集你的输入并向你展示输出。
+
+* **代理（Agent）**：代理运行 goose 的核心逻辑，管理交互循环。
+
+* **扩展（Extensions）**：扩展是提供特定工具和能力供代理使用的组件。这些工具让 goose 能够执行诸如运行命令、管理文件等操作。
+
+在一次典型的会话中，界面会启动一个代理实例，该实例随后同时连接到一个或多个扩展。界面还可以创建多个代理以并发处理不同任务。扩展和交互循环是 goose 功能的重要组成部分。接下来的章节将解释 goose 如何连接扩展以及如何处理用户请求。
+
+### 与扩展的互操作性
+[模型上下文协议（MCP）](https://modelcontextprotocol.io/)是一项开放标准，允许数据源与 AI Agent 之间实现互操作。goose 利用 MCP 连接到 [MCP 系统/服务器](https://github.com/modelcontextprotocol/servers?tab=readme-ov-file#model-context-protocol-servers)。在 goose 中，这些系统/服务器被称为扩展。
+
+扩展通过工具向 goose 暴露其功能。工具是让扩展执行特定操作的函数，例如运行命令或执行文件操作。例如，Google Drive 扩展包含一个用于搜索文档的工具。正是该工具赋予了 goose 执行该操作的能力。
+
+goose 自带一组[内置扩展](https://block.github.io/goose/docs/getting-started/using-extensions#built-in-extensions)，每一个都旨在增强你的交互体验。其中包括用于开发、网页抓取、自动化、记忆等用途的工具。goose 还支持[连接到外部扩展](https://block.github.io/goose/docs/getting-started/using-extensions#adding-extensions)或[创建自定义扩展](https://block.github.io/goose/docs/tutorials/custom-extensions)作为 MCP 服务器。
+
+要了解更多关于扩展和工具的设计与实现，请参阅[扩展设计指南](https://block.github.io/goose/docs/goose-architecture/extensions-design#tools)。
+
+### Agent Client Protocol (ACP)
+
+goose 以两种方式支持 [Agent Client Protocol (ACP)](https://agentclientprotocol.com/)：
+
+#### goose 作为 ACP 服务器
+
+`goose acp` 以 stdio 方式将 goose 启动为 ACP 服务器，让 JetBrains 和 Zed 等编辑器能够直接连接到它。参见[在 ACP 客户端中使用 goose](https://block.github.io/goose/docs/gdk/acp)。
+
+#### ACP Agent 作为提供方
+
+goose 可以将任务委派给外部 ACP Agent（如 Claude Code 或 Codex）作为[提供方](https://block.github.io/goose/docs/guides/acp-providers)。ACP Agent 在内部处理工具执行。goose 将已配置的扩展作为 MCP 服务器传递过去。
+
+### 交互循环
+![交互循环](https://block.github.io/goose/assets/guides/interactive-loop.png)
+
+让我们仔细看看上图所示的交互循环。
+
+1. **人类请求（Human Request）**：流程始于你、也终于你。一旦你向 goose 提出请求、问题、命令或待解决的问题，流程便开始了。
+
+2. **提供方对话（Provider Chat）**：goose 将你的请求以及一份可用工具列表发送给你所连接的 [LLM 提供方](https://block.github.io/goose/docs/getting-started/providers)。提供方处理该请求，必要时会在其响应中创建一次工具调用。
+
+3. **模型扩展调用（Model Extension Call）**：LLM 能够创建工具调用请求，但无法执行它，这时 goose 便介入了。goose 接收以 JSON 格式化的工具调用，运行它，并收集结果。
+
+4. **向模型返回响应（Response to Model）**：执行工具调用后，goose 将结果发送回模型。如果需要更多扩展，这些步骤将重复进行。
+
+5. **上下文修订（Context Revision）**：goose 会移除任何陈旧或无关的信息，确保 LLM 只专注于最重要的信息。这有助于 token 管理。
+
+6. **模型响应（Model Response）**：一旦所有工具调用完成，LLM 会向你发回最终响应，并在你回复后重新开始循环。
+
+### goose 中的错误处理
+
+与让错误中断流程不同，goose 会捕获并处理传统错误以及执行错误。诸如无效 JSON、缺失工具等错误会作为工具响应发送回模型，为 LLM 提供解决错误并继续所需的信息。
+
+关于 goose 如何处理错误的更多细节，请参阅 [goose 中的错误处理](https://block.github.io/goose/docs/goose-architecture/error-handling)指南。
+
+### 上下文修订：token 管理
+
+虽然 goose 免费且开源，但 LLM token 的使用通常会产生成本。一切都在竞争 token 用量，包括消息、工具请求、资源、文件内容、指令等。这正是内容修订（Content Revision）发挥作用之处，帮助降低部分成本。为此采取了以下几项措施：
+* goose 使用更快、更小的 LLM 进行摘要
+* goose 包含全部内容，而非进行语义搜索
+* goose 使用算法删除陈旧或无关的内容
+* goose 会使用查找替换而非重写大文件，使用 ripgrep 跳过系统文件，并对冗长的命令输出进行摘要
+
+---
+
 ## 扩展设计
 
 > 原文：https://block.github.io/goose/docs/goose-architecture/extensions-design
@@ -27659,6 +33311,56 @@ JSON 中的环境变量占位符（如 `${DEEPSEEK_API_KEY}`）会在构造提�
 
 ---
 
+## 排错
+
+> 原文：https://block.github.io/goose/docs/troubleshooting
+
+需要帮助时获取支持、上报缺陷、请求新功能，并找到常见问题的解决方案。goose 提供内置诊断能力以及直达支持渠道的链接。
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>🛠️ 获取帮助</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="诊断与上报"
+      description="使用内置诊断、上报缺陷并请求新功能。包含生成排错数据的分步指南。"
+      link="https://block.github.io/goose/docs/troubleshooting/diagnostics-and-reporting"
+    />
+    <Card
+      title="调试桌面版启动失败"
+      description="找到桌面版启动诊断日志，理解其中的关键字段，并在 goose 在后端就绪前失败时附上正确的产物。"
+      link="https://block.github.io/goose/docs/troubleshooting/desktop-startup-debugging"
+    />
+    <Card 
+      title="已知问题"
+      description="涵盖常见问题、错误消息和平台特定问题的综合排错指南，附带分步解决方案。"
+      link="https://block.github.io/goose/docs/troubleshooting/known-issues"
+    />
+    <Card 
+      title="日志"
+      description="了解如何访问和解读 goose 会话日志与系统日志，用于调试和排错。"
+      link="https://block.github.io/goose/docs/guides/logs"
+    />
+  </div>
+</div>
+
+<div className={styles.categorySection}>
+  <h2 className={styles.categoryTitle}>💬 社区支持</h2>
+  <div className={styles.cardGrid}>
+    <Card 
+      title="Discord 社区"
+      description="加入我们活跃的 Discord 服务器，实时获取 goose 用户和维护者提供的帮助、讨论与社区支持。"
+      link="https://discord.gg/n8R5VaWDAn"
+    />
+    <Card 
+      title="GitHub Issues"
+      description="浏览已有 issue、参与讨论，或在我们 GitHub 仓库中创建新的缺陷报告和功能请求。"
+      link="https://github.com/aaif-goose/goose/issues"
+    />
+  </div>
+</div>
+
+---
+
 ## 已知问题
 
 > 原文：https://block.github.io/goose/docs/troubleshooting/known-issues
@@ -28762,6 +34464,301 @@ goose gateway pair telegram
 
 - [Telegram Bot API 文档](https://core.telegram.org/bots)
 - [网关 PR #7199](https://github.com/aaif-goose/goose/pull/7199)
+
+---
+
+## 截图驱动的开发
+
+> 原文：https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development
+
+![calendar](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/screenshot-driven-development.png)
+
+我本质上是一名开发者，所以在做个人项目时，最难的部分并不是写代码——而是做设计决策。我最近构建了一个日历用户界面。我想提升它的视觉吸引力，于是研究了「glassmorphism」（玻璃拟态）和「claymorphism」（黏土拟态）这类 UI 设计趋势。
+
+不过，我不想花上好几个小时去为每种设计趋势实现 CSS，于是我开发了一种更快的方法：截图驱动的开发。我用一个名为 [goose](https://github.com/aaif-goose/goose) 的开源开发者 agent 来快速改造我的用户界面。
+
+<!-- truncate -->
+
+:::warning goose Beta 版本
+本文撰写时针对的是 goose 的 Beta 版本，命令与流程可能已发生变化。
+:::
+
+#### 我最初的日历：
+![calendar](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/screenshot-calendar-og.png)
+
+#### goose 制作了下面这些设计原型：
+![goose prototypes](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/goose-prototypes-calendar.png)
+
+在这篇博客中，我会向你展示如何通过让 goose 替你处理 CSS，来快速制作设计风格原型。
+>💡 注意：你的结果可能与我的示例不同——这正是生成式 AI 的乐趣所在！每次运行都可能生成这些设计趋势的独特变体。
+
+### 开始使用截图驱动的开发
+
+#### 第 1 步：创建你的 UI
+我们来创建一个基础 UI 来做实验。用下面的代码创建一个 index.html 文件：
+
+<details>
+<summary>用下面的代码创建一个 index.html 文件</summary>
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #6e48aa, #9c27b0);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .calendar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            width: 400px;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .month {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .days-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .days-header span {
+            color: #666;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .day:hover {
+            background: #f0f0f0;
+        }
+
+        .day.today {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .day.inactive {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <div class="header">
+            <div class="month">November 2024</div>
+        </div>
+        <div class="days-header">
+            <span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+        </div>
+        <div class="days">
+            <div class="day inactive">27</div>
+            <div class="day inactive">28</div>
+            <div class="day inactive">29</div>
+            <div class="day inactive">30</div>
+            <div class="day inactive">31</div>
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day">8</div>
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day today">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            <div class="day">17</div>
+            <div class="day">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            <div class="day">24</div>
+            <div class="day">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+        </div>
+    </div>
+</body>
+</html>
+```
+</details>
+
+保存后，在浏览器中打开该文件。你应该会看到一个日历！
+
+#### 第 2 步：安装 goose
+
+```bash
+brew install pipx
+pipx ensurepath
+pipx install goose-ai
+```
+
+#### 第 3 步：启动一个会话
+
+```bash
+goose session start
+```
+
+##### 自带你的 LLM
+
+>goose 会在你首次运行此命令时提示你设置 API key。你可以使用 OpenAI 或 Anthropic 等各种 LLM 提供方
+
+```bash
+export OPENAI_API_KEY=your_api_key
+# Or for other providers:
+export ANTHROPIC_API_KEY=your_api_key
+```
+
+#### 第 4 步：启用 Screen 工具包
+goose 使用[工具包](https://goose-docs.ai/plugins/plugins.html)来扩展自身能力。[screen](https://goose-docs.ai/plugins/available-toolkits.html#6-screen-toolkit) 工具包让 goose 能够截取并分析屏幕截图。
+
+要启用 Screen 工具包，请把它添加到位于 ~/.config/goose/profiles.yaml 的 goose profile 中。
+
+> 你的配置可能会因 LLM 提供方偏好而略有不同。
+
+
+```yaml
+default:
+  provider: openai
+  processor: gpt-4o
+  accelerator: gpt-4o-mini
+  moderator: truncate
+  toolkits:
+  - name: developer
+    requires: {}
+  - name: screen
+    requires: {}
+```
+
+#### 第 5 步：让 goose 截取你的 UI 截图
+goose 通过屏幕截图来分析你的 UI，以理解其结构和元素。在你的 goose 会话中，通过指定 UI 所在的显示器，让 goose 截取一张屏幕截图：
+
+```bash
+Take a screenshot of display(1)  
+```
+
+> 显示器编号是必填的——主显示器用 display(1)，副显示器用 display(2)。
+
+成功后，goose 会运行 `screencapture` 命令并将其保存为临时文件。
+
+#### 第 6 步：让 goose 改造你的 UI
+
+现在，你可以让 goose 应用不同的设计风格。以下是我给 goose 的一些提示词以及它产出的结果：
+
+##### 玻璃拟态
+
+```bash
+Apply a glassmorphic effect to my UI
+```
+
+![glassmorphism](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/glassmorphism-calendar.png)
+
+
+##### 新拟态
+
+```bash
+Apply neumorphic effects to my calendar and the dates
+```
+
+![neumorphism](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/neumorphism-calendar.png)
+
+
+##### 黏土拟态
+
+```bash
+Please replace with a claymorphic effect
+```
+
+![claymorphism](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/claymorphism-calendar.png)
+
+
+##### 粗野主义
+
+```bash
+Apply a brutalist effect please
+```
+
+![brutalism](https://block.github.io/goose/blog/2024-11-22-screenshot-driven-development/brutalism-calendar.png)
+
+### 了解更多
+
+开发用户界面是创造力与解决问题的结合。而我喜欢用 goose 的一点是，它让我有更多时间专注于创造力，而不是花上几个小时与 CSS 较劲。
+
+除了制作原型之外，goose 分析屏幕截图的能力还能帮助开发者定位并解决 UI bug。
+
+如果你想了解更多，可以看看 [goose 仓库](https://github.com/aaif-goose/goose)，并加入我们的 [Discord 社区](https://discord.gg/n8R5VaWDAn)。
+
+<head>
+    <meta property="og:title" content="Screenshot-Driven Development" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://goose-docs.ai/blog/2024/11/22/screenshot-driven-development" />
+    <meta property="og:description" content="AI Agent uses screenshots to assist in styling." />
+    <meta property="og:image" content="https://goose-docs.ai/assets/images/screenshot-driven-development-4ed1beaa10c6062c0bf87e2d27590ad6.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="goose-docs.ai" />
+    <meta property="twitter:title" content="Screenshot-Driven Development" />
+    <meta property="twitter:description" content="AI Agent uses screenshots to assist in styling." />
+    <meta name="twitter:image" content="https://goose-docs.ai/assets/images/screenshot-driven-development-4ed1beaa10c6062c0bf87e2d27590ad6.png" />
+</head>
 
 ---
 
@@ -30887,6 +36884,98 @@ Model Context Protocol 本身有一份 [OAuth 规范](https://spec.modelcontextp
   <meta name="twitter:title" content="Securing the Model Context Protocol" />
   <meta name="twitter:description" content="Building secure and capable AI integrations with Model Context Protocol (MCP) at Block." />
   <meta name="twitter:image" content="http://goose-docs.ai/assets/images/securing-mcp-5e475e91c0e621afa33e30b3d89ef065.png" />
+</head>
+
+---
+
+## 面向非开发者的 MCP 讲解
+
+> 原文：https://block.github.io/goose/blog/2025-04-01-mcp-nondevs
+
+![博客封面](mcp_nondevs.png)
+
+到处都在说 MCP，它究竟是什么？如果你不是开发者，也能用它吗？🤔
+
+<!--truncate-->
+
+### 什么是 MCP？
+
+MCP 是 [Model Context Protocol](https://modelcontextprotocol.io/introduction)（模型上下文协议）的缩写，是由 Anthropic 创建的开放标准。
+
+假设你正在寻找在工作中用 AI 提高效率、尽可能节省时间的办法。于是你去了解像 OpenAI 或 Claude 这样的大语言模型（LLM），并开始和其中一个聊天。能和 AI 对话、让它立刻回答问题或告诉你该怎么做，这确实很神奇，但让 AI 替你干活又如何呢？
+
+如今已经出现了能替你采取行动、替你做决策的 AI agent（AI 智能体）或 AI 助手。但要让你的 AI agent 与你自己的系统（比如 Google Drive、Asana 或 Slack）交互，此前并没有标准做法。至少，每次你需要让 AI agent 与你需要它对接的东西协同工作时，都得从头摸索。这极其繁琐。
+
+这正是 MCP 的用武之地。最棒的是，你不需要是开发者就能开始使用它们！MCP 本质上让你无需写代码，就能让 AI agent 访问你的外部系统。你可以把 MCP 看作系统与 AI agent 之间的连接器，或者把它比作 AI 集成领域的 USB-C。
+
+### 你现在就该试试的 MCP 服务器
+
+那么，你能把 AI agent 连接到什么？MCP 服务器！MCP 服务器让你的 agent 访问你的工具。有[超过 3000 个 MCP 服务器](https://glama.ai/mcp/servers)可供连接，下面是你应该尝试的热门 MCP 服务器榜单：
+
+- **[Google Drive](https://block.github.io/goose/docs/mcp/google-drive-mcp)**：为 Google Drive 提供文件访问与搜索能力
+- **[YouTube Transcript](https://block.github.io/goose/docs/mcp/youtube-transcript-mcp)**：抓取并处理 YouTube 视频字幕
+- **[Google Maps](https://block.github.io/goose/docs/mcp/google-maps-mcp)**：位置服务、路线规划与地点详情
+- **[Tavily Web Search](https://block.github.io/goose/docs/mcp/tavily-mcp)**：使用 Tavily 的 Search API 进行网络与本地搜索
+- **[Asana](https://block.github.io/goose/docs/mcp/asana-mcp)**：查看 Asana 任务、项目、工作区和/或评论
+- **[Speech](https://block.github.io/goose/docs/mcp/speech-mcp)**：实时语音交互、音视频转录、文本转语音转换等
+- **[GitHub](https://block.github.io/goose/docs/mcp/github-mcp)**：读取、搜索和管理 Git 仓库的工具
+- **[Fetch](https://block.github.io/goose/docs/mcp/fetch-mcp)**：抓取并转换网页内容，便于 LLM 高效使用
+
+这份简短清单应该能让你大致了解如今可以在工作流中运用 AI agent 的各种方式。你也可以在[好用的 MCP 目录](https://dev.to/techgirl1908/my-favorite-mcp-directories-573n)中探索社区热门项目，并在安装前了解[如何检查 MCP 服务器是否安全](https://block.github.io/goose/blog/2025/03/26/mcp-security)。
+
+你还可以查看这些 [Goose 教程](https://block.github.io/goose/docs/category/mcp-servers)，它们会手把手展示如何将其中一些热门 MCP 服务器与 Goose 配合使用；或者使用 [Goose 的 Tutorial 扩展](https://block.github.io/goose/docs/mcp/tutorial-mcp)，在你使用或构建扩展时获得额外帮助。
+
+### 示例 MCP 提示词
+
+既然你已经见识了一些现有的 MCP 服务器，那么如何确保你能以最佳方式把 MCP 与 AI agent 配合使用？这就是提示词发挥作用的地方。
+
+提示词归根结底就是你与 AI 助手交互时输入的文本，它既可以是非常简单的问题，也可以是详细的指令！下面是一些你现在就能向 Goose 这类 AI agent 提出的示例提示词，它们用到了上文提到的一些 MCP 服务器：
+
+#### Google Maps
+```
+Google Maps: Track the live GPS location of driver ID #{driver_id}. Query Google Maps for real-time traffic data and adjust the estimated delivery time if delays exceed 5 minutes. If ETA changes, update the customer's live tracker and send an SMS notification. If the delay is greater than 20 minutes, check if another driver within a 1-mile radius can take over the delivery.
+```
+#### YouTube Transcript
+```
+YouTube Transcript: Get the transcript from this youtube video [link to video]. Then, summarize it into a blog post.
+```
+#### Google Drive
+```
+I have an important marketing budget review meeting in 30 minutes and I need your help getting prepared. I have several documents in my Google Drive from our previous meetings and planning sessions. Could you help me by:
+
+1. Finding all relevant documents about our marketing budget and performance
+2. Giving me a quick summary of our Q1 performance
+3. Highlighting the key decisions we need to make about the marketing automation tool and video production
+4. Identifying any outstanding action items from our last meeting
+```
+#### Asana
+```
+Asana: Create a new task in my Asana workspace called 'Review Q4 metrics' and set the due date to next Friday. Then, find all tasks assigned to me that are due this week and summarize them.
+```
+#### GitHub
+```
+GitHub: Create a new branch called hello-world in my angiejones/goose-demo repository. Update the README.md file to say "this was written by goose" and commit it. Open a pull request with your changes.
+```
+
+### 可能性无穷无尽
+
+虽然有些 MCP 服务器由官方提供方开发，但你看到的大多数 MCP 服务器其实都是由社区成员开发的！此外，由于 MCP 是开放标准，任何人都可以为任何资源构建 MCP 服务器。你甚至可以用 Goose 来帮你构建一个！
+
+希望从现在起，与其花几个小时手动收集数据、制作下一份营销报告，或者在周一手动翻遍你的待办积压，你会用 Goose 搭配 MCP，让它在几分钟内替你完成。
+
+*想了解更多关于使用 MCP 服务器和 goose 的内容，请查看 [goose 文档](https://goose-docs.ai/docs/category/getting-started)，或加入 [Block 开源 Discord](https://discord.gg/n8R5VaWDAn)，与其他开源社区成员交流。*
+
+<head>
+  <meta property="og:title" content="MCP Explained for Non-Developers" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://goose-docs.ai/blog/2025/04/01/mcp-nondevs" />
+  <meta property="og:description" content="Learn what Model Context Protocol (MCP) is and how anyone can use it to save time on tasks." />
+  <meta property="og:image" content="http://goose-docs.ai/assets/images/mcp_nondevs-5ce7f39de923cab01de6e14e5dc06744.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:title" content="MCP Explained for Non-Developers" />
+  <meta property="twitter:description" content="Learn what Model Context Protocol (MCP) is and how anyone can use it to save time on tasks." />
+  <meta property="twitter:image" content="http://goose-docs.ai/assets/images/mcp_nondevs-5ce7f39de923cab01de6e14e5dc06744.png" />
 </head>
 
 ---
@@ -33109,6 +39198,447 @@ The command executed successfully, freeing up ports 3000, 3001, and 3002.
 
 ---
 
+## 在 Block 让检测工程大众化：与 Goose 和 Panther MCP 一同起飞
+
+> 原文：https://block.github.io/goose/blog/2025-06-02-goose-panther-mcp
+
+![博客封面](goose-panther-header.png)
+
+检测工程站在网络安全的最前沿，但它往往是一张错综复杂的网。传统的检测规则编写涉及费力的手工流程，包括理解日志格式与 schema、编写复杂查询、威胁建模，以及反复的手工检测测试与调优，既耗时又依赖专业技能。这可能导致威胁覆盖出现空白，并产生数量庞大、令人不堪重负的告警。在 Block，我们面对的是不断演进的威胁与错综复杂的系统。为了保持领先，我们采用了 AI 驱动的方案，尤其是 Goose（Block 的开源 AI Agent）与 Panther MCP，让组织内更广泛的成员都能贡献与其专业领域相关的高质量规则。本文将深入探讨我们如何把复杂的检测工作流，转变为精简、AI 驱动、人人可上手的流程。
+
+<!-- truncate -->
+
+### 检测工程的挑战
+
+从历史上看，编写有效的检测规则一直是一项小众技能，需要深厚的技术知识与编码能力。这造成了若干重大障碍：
+
+* **陡峭的学习曲线：** 编写检测规则通常需要大量技术专长，这往往限制了参与范围。
+* **资源受限：** 即便是专家级安全团队也常常受制于人力带宽，难以快速开发和部署新的检测规则。
+* **不断演变的威胁态势：** 高级威胁，尤其是来自技术高超的国家级攻击者的威胁，在持续演进，其速度超过了传统的检测开发流程。
+
+### 愿景
+
+我们设想的未来是：Block 的任何人都能毫不费力地创建并部署安全检测规则，通过智能自动化彻底改变我们的防御方式，并赋能一种大众化的安全态势。
+
+### 认识 Panther MCP
+
+#### 什么是 Panther MCP？
+
+[Panther MCP](https://github.com/panther-labs/mcp-panther) 是一个开源模型上下文协议服务器，诞生于 [Panther](https://panther.com/) 与 Block 的合作，目标是让安全运营工作流大众化。通过与 Goose 紧密集成为扩展，Panther MCP 让 Block 的安全团队能够把自然语言指令转化为精确、可执行的 SIEM 检测逻辑，使威胁检测贡献比以往任何时候都更简单、更快速。
+
+这一集成让 Block 各处的分析师和工程师都能与 Panther 的安全分析平台无缝交互。它把检测开发从一项重度依赖编码的流程，转变为任何人都能上手的直观工作流，无论其技术背景如何。Goose 作为中间代理，协调对 Panther MCP 的调用、审查输出、创建规则内容、进行测试，并为正确性或风格做出必要的修改。这个 AI 驱动的反馈闭环节省了数不清的时间。
+
+#### 核心特性
+
+Panther MCP 提供了数十个工具，用于增强并加速由 Goose 驱动的检测工程工作流：
+
+1. **从自然语言到检测逻辑**
+   工程师用平实的英语提示词定义检测目标，Panther MCP 将其直接翻译为 Panther 兼容的检测规则，可提交到他们的 [panther-analysis](https://github.com/panther-labs/panther-analysis) 仓库。
+2. **交互式数据探索与使用**
+   工程师可以通过快速、自然语言驱动的交互，迅速探索日志源，并对数据以及此前生成的告警执行检索。
+3. **统一的告警分诊与响应**
+   支持由 AI 主导的告警分诊，其洞察来自历史数据与既有检测规则。
+
+### 用 Goose 加速检测创建
+
+Goose 通过使用 AI 自动化日志分析、规则生成等传统手工任务，显著加速了安全检测规则的创建。这大幅降低了工作量，提升了开发和部署威胁覆盖的速度，并增强了对不断演变威胁的应变能力。
+
+#### 将 Panther MCP 集成为 Goose 扩展
+
+Panther MCP 作为 Goose 扩展运行，通过以下流程将其能力无缝嵌入 Goose 环境：
+
+1. **扩展注册：** Panther MCP 在 Goose 中注册，使其整套工具可通过 Goose 界面随时访问。
+2. **API 连通：** 该扩展建立到 Panther 后端 API 的连接，实现无缝的上下文获取。
+3. **可用工具：** Panther MCP 为 Goose 提供一系列工具，用于高效创建检测规则、直观地交互数据，以及精简的告警管理。
+
+#### 借助 `.goosehints` 利用增强上下文
+
+Panther MCP 与 Goose 之间的集成，通过使用 [.goosehints](https://block.github.io/goose/docs/guides/context-engineering/using-goosehints/) 文件得到了增强——这是 Goose 的一项功能，可提供规则示例、最佳实践等额外上下文。这些被丰富的上下文让 Goose 能够生成更准确、更高效的检测规则，并符合 Block 的标准与要求。
+
+让我们用一个例子来说明：创建一条规则，用于检测用户把自己加入特权 Okta 组——这是一种常见的权限提升技术。
+
+### 打破壁垒
+
+传统上，创建这条检测规则需要：
+
+1. 深入了解 Okta 及其日志结构
+2. 理解 Panther 的检测框架
+3. Python 编程技能
+4. 熟悉不同的测试框架
+
+有了 Goose 与 Panther MCP，这件事就变得像下面这么简单：
+
+> “写一条检测规则，用于检测用户把自己加入特权 Okta 组。”
+
+### 简洁背后的智能
+
+当收到诸如“写一条检测规则，用于检测用户把自己加入特权 Okta 组”这样的自然语言请求时，Goose 会借助 Panther MCP，运用一套精密的、多阶段流程来生成可直接用于生产的检测逻辑。这种自动化方式复刻了一位资深检测工程师的工作流，涵盖威胁研究、相关日志识别、检测目标定义、逻辑梳理、样本日志分析、规则开发、误报考量、严重性/上下文赋值、充分测试、调优/优化以及文档编写。不过，Goose 以 AI 与自动化所赋予的速度和可扩展性来执行这些步骤。
+
+Goose 首先解析自然语言输入，以理解核心意图与需求。它会识别出“用户”“特权 Okta 组”等关键实体，以及“把自己加入”这一动作。这一理解为后续工作奠定了基础：勾勒检测目标、所需日志源（`Okta.SystemLog`），以及基本逻辑——找出操作者（发起动作的用户）与被操作用户（被加入组的用户）为同一人、且所加入的组被指定为特权的那些事件。Goose 还会考虑潜在的误报（例如合法的自动化流程），并根据被检测活动的潜在影响（权限提升）给出初步的严重性等级。
+
+![流程概览图](process-overview-diagram.png)
+
+为确保生成的逻辑准确无误且作用于有效数据，Goose 会与 Panther MCP 交互，以获取指定日志源（`Okta.SystemLog`）的 schema。这让 Goose 对 Okta 日志中可用字段及其数据类型有了结构化理解。此外，Goose 利用 Panther MCP 的查询能力，获取与组成员变更相关的样本日志事件。这一步对于以下事项至关重要：
+
+* **识别常见事件模式：** 分析真实世界的日志，让 Goose 理解相关事件的典型结构与取值（例如 `group.user_membership.add`）。
+* **推断特权组命名约定：** 通过考察历史数据，Goose 能识别出组织 Okta 实例中特权组命名常用的模式与关键词（例如 "admin"、"administrator"、"security-admin"）。
+* **发现边界情况：** 考察多样化的日志样本，有助于揭示事件数据中的潜在差异或不太常见的场景，检测逻辑需要将其纳入考虑。
+* **刻画典型用户行为：** 理解围绕组成员变更的基线用户行为，有助于优化检测逻辑并降低误报概率。
+
+这一阶段与 Panther MCP 的交互涉及调用 API 来获取 schema 信息并执行分析性查询，让 Goose 把推理建立在真实日志数据之上。
+
+![Goose 与 Panther MCP 交互](goose-panther-mcp-interaction.png)
+
+Goose 并非孤立运作；它会访问既有 Panther 检测规则的仓库，以识别相似的逻辑或可复用的组件。这促进了检测版图的一致性，鼓励复用经过充分测试的辅助函数（例如 `okta_alert_context`），并确保遵循我们安全生态内既定的规则标准。从既有检测规则中学习，是 Goose 智能的核心组成部分，让它能在既有知识之上构建，避免重复造轮子。
+
+![规则上下文复用](context-reuse-example.png)
+
+基于对检测目标的理解、对日志数据的分析，以及借助 Panther MCP 从既有检测规则中获得的洞见，Goose 用 Python 生成完整的 Panther 检测规则。其中包括：
+
+* **规则函数（`rule()`）：** 该函数包含评估每条日志事件的核心逻辑。在这个例子中，它检查 `group.user_membership.add` 事件类型，验证操作者与目标用户的 ID（或邮箱）是否相同，并确认目标组的显示名称是否包含表示特权组的关键词（定义在 `PRIVILEGED_GROUPS` 集合中）。
+* **元数据函数（`title()`、`alert_context()`、`severity()`、`destinations()`）：** 这些函数为触发的告警提供关键的上下文与运维信息。
+
+```python
+from panther_okta_helpers import okta_alert_context
+
+# Define privileged Okta groups - customize this list based on your organization's needs
+PRIVILEGED_GROUPS = {
+    "_group_admin",  # Administrator roles
+    "admin",
+    "administrator",
+    "application-admin",   
+    "aws_",  # AWS roles can be privileged
+    "cicd_corp_system",  # CI/CD admin access 
+    "grc-okta",
+    "okta-administrators",
+    "okta_admin",
+    "okta_admin_svc_accounts", # Admin roles
+    "okta_resource-set_",      # Resource sets are typically privileged
+    "security-admin",
+    "superadministrators",
+}
+
+def rule(event):
+    """Determine if a user added themselves to a privileged group"""
+    # Only focus on group membership addition events
+    if event.get("eventType") != "group.user_membership.add":
+        return False
+    # Ensure both actor and target exist in the event
+    actor = event.get("actor", {})
+    targets = event.get("target", [])
+    if not actor or len(targets) < 2:
+        return False
+    actor_id = actor.get("alternateId", "").lower()
+    actor_user_id = actor.get("id")
+    # Extract target user and group
+    target_user = targets[0]
+    target_group = targets[1] if len(targets) > 1 else {}
+    # The first target should be a user and the second should be a group
+    if target_user.get("type") != "User" or target_group.get("type") != "UserGroup":
+        return False
+    target_user_id = target_user.get("id")
+    target_user_email = target_user.get("alternateId", "").lower()
+    group_name = target_group.get("displayName", "").lower()
+    # Check if the actor added themselves to the group
+    is_self_add = (actor_user_id == target_user_id) or (actor_id == target_user_email)
+    # Check if the group is privileged
+    is_privileged_group = any(priv_group in group_name for priv_group in PRIVILEGED_GROUPS)
+    return is_self_add and is_privileged_group
+
+def title(event):
+    """Generate a descriptive title for the alert"""
+    actor = event.get("actor", {})
+    targets = event.get("target", [])
+    actor_name = actor.get("displayName", "Unknown User")
+    actor_email = actor.get("alternateId", "unknown@example.com")
+    target_group = targets[1] if len(targets) > 1 else {}
+    group_name = target_group.get("displayName", "Unknown Group")
+    return (f"User [{actor_name} ({actor_email})] added themselves "
+            f"to privileged Okta group [{group_name}]")
+
+def alert_context(event):
+    """Return additional context for the alert"""
+    context = okta_alert_context(event)
+    # Add specific information about the privileged group
+    targets = event.get("target", [])
+    if len(targets) > 1:
+        target_group = targets[1]
+        context["privileged_group"] = {
+            "id": target_group.get("id", ""),
+            "name": target_group.get("displayName", ""),
+        }
+    return context
+
+def severity(event):
+    """Calculate severity based on group name - more sensitive groups get higher severity"""
+    targets = event.get("target", [])
+    if len(targets) <= 1:
+        return "Medium"
+    target_group = targets[1]
+    group_name = target_group.get("displayName", "").lower()
+    # Higher severity for direct admin groups
+    if any(name in group_name for name in ["admin", "administrator", "superadministrators"]):
+        return "Critical"
+    return "High"
+
+def destinations(_event):
+    """Send to staging destination for review"""
+    return ["staging_destination"]
+```
+
+除了 Python 代码，Goose 还会生成相应的基于 YAML 的规则配置文件。该文件包含关于该检测的重要元数据：
+
+```yaml
+AnalysisType: rule
+Description: Detects when a user adds themselves to a privileged Okta group, which could indicate privilege escalation attempts or unauthorized access.
+DisplayName: "Users Adding Themselves to Privileged Okta Groups"
+Enabled: true
+DedupPeriodMinutes: 60
+LogTypes:
+  - Okta.SystemLog
+RuleID: "goose.Okta.Self.Privileged.Group.Add"
+Threshold: 1
+Filename: goose_okta_self_privileged_group_add.py
+Reference: >
+  https://developer.okta.com/docs/reference/api/system-log/
+  https://attack.mitre.org/techniques/T1078/004/
+  https://attack.mitre.org/techniques/T1484/001/
+Runbook: >
+  1. Verify if the user should have access to the privileged group they added themselves to
+  2. If unauthorized, revoke the group membership immediately
+  3. Check for other group membership changes made by the same user
+  4. Review the authentication context and security context for suspicious indicators
+  5. Interview the user to determine intent
+Reports:
+  MITRE ATT&CK:
+    - TA0004:T1078.004  # Privileged Accounts: Cloud Accounts
+    - TA0004:T1484.001  # Domain Policy Modification: Group Policy Modification
+Severity: High
+Tags:
+  - author:tomasz
+  - coauthor:goose
+Tests:
+  - Name: User adds themselves to privileged group
+    ExpectedResult: true
+    Log:
+      actor:
+        alternateId: jane.doe@company.com
+        displayName: Jane Doe
+        id: 00u1234abcd5678
+        type: User
+      authenticationContext:
+        authenticationStep: 0
+        externalSessionId: xyz1234
+      client:
+        device: Computer
+        geographicalContext:
+          city: San Francisco
+          country: United States
+          geolocation:
+            lat: 37.7749
+            lon: -122.4194
+          postalCode: "94105"
+          state: California
+        ipAddress: 192.168.1.100
+        userAgent:
+          browser: CHROME
+          os: Mac OS X
+          rawUserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
+        zone: "null"
+      debugContext:
+        debugData:
+          requestId: req123456
+          requestUri: /api/v1/groups/00g123456/users/00u1234abcd5678
+          url: /api/v1/groups/00g123456/users/00u1234abcd5678
+      displayMessage: Add user to group membership
+      eventType: group.user_membership.add
+      legacyEventType: group.user_membership.add
+      outcome:
+        result: SUCCESS
+      published: "2023-07-15 14:25:30.811"
+      request:
+        ipChain:
+          - geographicalContext:
+              city: San Francisco
+              country: United States
+              geolocation:
+                lat: 37.7749
+                lon: -122.4194
+              postalCode: "94105"
+              state: California
+            ip: 192.168.1.100
+            version: V4
+      securityContext:
+        asNumber: 12345
+        asOrg: Example ISP
+        domain: example.com
+        isProxy: false
+        isp: Example ISP
+      severity: INFO
+      target:
+        - alternateId: jane.doe@company.com
+          displayName: Jane Doe
+          id: 00u1234abcd5678
+          type: User
+        - alternateId: unknown
+          displayName: okta_admin_person_role_super_admin
+          id: 00g5678abcd1234
+          type: UserGroup
+      transaction:
+        detail: {}
+        id: transaction123
+        type: WEB
+      uuid: event-uuid-123
+      version: "0"
+      p_event_time: "2023-07-15 14:25:30.811"
+      p_parse_time: "2023-07-15 14:26:00.000"
+      p_log_type: "Okta.SystemLog"
+  - Name: User adds another user to privileged group
+    ExpectedResult: false
+    Log:
+      actor:
+        alternateId: admin@company.com
+        displayName: Admin User
+        id: 00u5678abcd1234
+        type: User
+      authenticationContext:
+        authenticationStep: 0
+        externalSessionId: xyz5678
+      client:
+        device: Computer
+        geographicalContext:
+          city: San Francisco
+          country: United States
+          geolocation:
+            lat: 37.7749
+            lon: -122.4194
+          postalCode: "94105"
+          state: California
+        ipAddress: 192.168.1.100
+        userAgent:
+          browser: CHROME
+          os: Mac OS X
+          rawUserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
+        zone: "null"
+      debugContext:
+        debugData:
+          requestId: req789012
+          requestUri: /api/v1/groups/00g123456/users/00u9876fedc4321
+          url: /api/v1/groups/00g123456/users/00u9876fedc4321
+      displayMessage: Add user to group membership
+      eventType: group.user_membership.add
+      legacyEventType: group.user_membership.add
+      outcome:
+        result: SUCCESS
+      published: "2023-07-15 14:30:45.123"
+      request:
+        ipChain:
+          - geographicalContext:
+              city: San Francisco
+              country: United States
+              geolocation:
+                lat: 37.7749
+                lon: -122.4194
+              postalCode: "94105"
+              state: California
+            ip: 192.168.1.100
+            version: V4
+      securityContext:
+        asNumber: 12345
+        asOrg: Example ISP
+        domain: example.com
+        isProxy: false
+        isp: Example ISP
+      severity: INFO
+      target:
+        - alternateId: user@company.com
+          displayName: Regular User
+          id: 00u9876fedc4321
+          type: User
+        - alternateId: unknown
+          displayName: okta_admin_person_role_super_admin
+          id: 00g5678abcd1234
+          type: UserGroup
+      transaction:
+        detail: {}
+        id: transaction456
+        type: WEB
+      uuid: event-uuid-456
+      version: "0"
+      p_event_time: "2023-07-15 14:30:45.123"
+      p_parse_time: "2023-07-15 14:31:00.000"
+      p_log_type: "Okta.SystemLog"
+```
+
+Goose 生成的每一条检测规则都会经过严格的自动化测试与验证。其中包括：
+
+* **单元测试：** 使用规则配置中定义的测试用例，运行 Panther Analysis Tool，以验证规则逻辑能正确识别真阳性，并在模拟日志数据上避免假阴性。
+* **Lint 检查：** 自动运行代码 lint 工具（如 Pylint），确保生成的 Python 代码符合既定的编码标准，包括正确的格式、风格约定与最佳实践。这有助于代码可维护性并降低出错风险。
+
+![自动化测试图示](automated-testing-graphic.png)
+![流程改进图表](process-improvement-chart.png)
+
+Goose 与 Panther MCP 的无缝集成自动化了这些错综复杂的步骤，大幅减少了创建和部署安全检测规则所需的时间与专业知识。这种大众化让更多人能够为 Block 的安全态势做出贡献，从而实现更全面的威胁覆盖和更有韧性的安全环境。
+
+### 大众化实践
+
+如今，一次典型的检测创建流程是这样的：
+
+1. **提案：** 用户用自然语言描述一种恶意行为。
+2. **生成：** Goose 借助 Panther MCP 把这段描述转化为检测逻辑。
+3. **审查：** 检测团队依据既定的质量基准审查每一条检测规则。
+4. **部署：** 通过审核的检测规则被部署到 staging/生产环境。
+
+### 早期成效与经验教训
+
+#### 扩大协作以增强覆盖并实现自助
+
+* **降低技术门槛：** Goose 与 Panther MCP 让领域专家（SME）能够轻松理解他们在 Panther 中的日志，从而实现自助模式：团队无需深厚的安全工程专长即可创建自己的检测规则，进而分摊工作量。
+* **降低对检测团队的依赖：** Panther MCP 让用户能独立自主地解决疑问，从而减少对安全团队的依赖。这包括威胁情报团队评估 MITRE ATT&CK 覆盖情况、合规团队识别相关检测规则，以及帮助服务 SME 创建自己的检测规则。
+* **跨职能检测开发：** 检测工程的大众化让专业团队能够创建安全团队可能遗漏的检测规则，形成覆盖小众用例的更多样化检测生态。这促进了双向的知识传递，提升了整体的安全意识与能力。
+
+#### 加速检测开发生命周期
+
+* **上下文理解：** 通过嵌入组织上下文、提供引导式最佳实践、理解既有日志 schema 与检测规则、并与 *pytest* 等验证框架对齐的工具，检测工程正变得更高效、更一致。这种方式实现了更广泛的参与，并支撑跨团队的高质量开发。
+* **精简开发流程：** 自然语言界面让用户能以对话方式与系统交互，从而简化了检测工程。这实现了自动检索示例日志、分析日志 schema、解读检测目标或所需改动，以及生成初始检测代码——显著加速了开发。
+* **自动化技术步骤：** 智能代码生成纳入了错误处理与最佳实践，同时从数据无缝生成测试用例，并产出全面的文档——包括描述、runbook 与参考链接。
+
+#### 通过标准化实践推动一致性
+
+* **代码风格与结构：** 新建的检测规则遵循一致的风格模式，为特定检查使用专用函数，而不是把检查塞进重载的 `rule()` 中。标准化的格式（包括为动态告警标题文本加括号）提升了可读性与一致性。
+* **代码复用与效率：** 通过全局辅助函数/过滤器、函数签名中的显式类型标注，以及更详细的 docstring（便于理解函数并利于 LLM 生成代码），推动代码复用与效率。
+* **可维护性改进：** 检测规则在设计上采用一致的结构与标准化模式，使其更易理解、维护与更新。这种统一性确保了整个检测代码库的行为可预测，并在需要时简化批量修改。
+* **全面的测试要求：** 对我们的团队而言，每条检测规则都必须包含至少两个单元测试：一个触发检测的正向用例，和一个不触发的反向用例。测试名称具有描述性并与预期结果对齐，以增强可读性与可维护性。
+* **元数据与文档标准：** 通过在 pytests 中进行结构化定义，元数据与文档标准正得到强化，有助于把检测规则的所有权与上下文固化下来。这包括明确定义 author 与 coauthor 标签（例如用于 Goose 生成的内容）、staging 或生产等环境引用，以及告警目标的准确映射。
+* **结构验证：** 通过强制文件名约定（例如前缀、长度、小写格式）、确保 Python 规则包含所有必需函数，以及验证 YAML 文件包含正常运作与处理所需的字段，这一机制支撑了对组织标准的合规。
+* **安全框架对齐：** 相关规则被映射到适用的 MITRE ATT&CK 技术，以凸显覆盖空白、指导检测开发、确定研究工作的优先级，并为讨论威胁建立共同语言。
+
+#### 最佳实践与保障措施
+
+* **符合平台的开发：** 检测规则的开发遵循 Panther 推荐的做法，例如使用 `event.deep_get()`、`event.deep_walk()` 等内置事件对象方法，而不是手动导入它们，从而确保平台内的一致性与可维护性。
+* **主动预防错误：** 我们通过 pre-commit 与 pre-push 钩子实施本地验证检查，在错误进入上游构建之前主动发现并解决它们。这些检查包括验证告警目标名称、核对日志类型，以及标记语法问题，以确保质量与一致性。
+* **持续改进：** 通过纳入反馈、性能数据以及对检测趋势的分析，检测质量持续提升。Panther MCP 与其他工单跟踪 MCP 一起，提供来自分析师反馈与告警处置的洞察，这有助于实现自动化调整、简化拉取请求开发，并降低运维开销。
+
+### 下一步是什么？
+
+Block 致力于借助 AI 改进其安全防御并支持团队。我们相信 AI 对 Block 检测与响应工作的未来具有重大前景，并承诺让安全更易获得。
+
+<!-- Social Media Meta Tags (edit values as needed) -->
+<head>
+  <meta property="og:title" content="Democratizing Detection Engineering at Block: Taking Flight with Goose and Panther MCP" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://goose-docs.ai/blog/2025/06/02/goose-panther-mcp" />
+  <meta property="og:description" content="A comprehensive overview of how Block leverages Goose and Panther MCP to democratize and accelerate security detection engineering." />
+  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-panther-header-25b5891acdd70e6a7bbe6b84e34f08f0.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:title" content="Democratizing Detection Engineering at Block: Taking Flight with Goose and Panther MCP" />
+  <meta property="twitter:description" content="A comprehensive overview of how Block leverages Goose and Panther MCP to democratize and accelerate security detection engineering." />
+  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-panther-header-25b5891acdd70e6a7bbe6b84e34f08f0.png" />
+</head>
+
+---
+
 ## 我的 .goosehints 文件里有什么（以及为什么它多半不该有这些）
 
 > 原文：https://block.github.io/goose/blog/2025-06-05-whats-in-my-goosehints-file
@@ -35061,6 +41591,163 @@ curl -X POST https://openrouter.ai/api/v1/keys \
   <meta property="twitter:title" content="How OpenRouter Unlocked Our Workshop Strategy" />
   <meta property="twitter:description" content="How we used Open Router to provide frictionless LLM access for Goose workshops" />
   <meta property="twitter:image" content="https://goose-docs.ai/assets/images/scaling-ai-workshops-open-router-2af052d2b72f502ba14b06c4d784c0cc.png" />
+</head>
+
+---
+
+## MCP Jupyter：AI 驱动的机器学习与数据科学
+
+> 原文：https://block.github.io/goose/blog/2025-08-04-mcp-jupyter-server
+
+![MCP Jupyter Server](https://block.github.io/goose/img/data-goose.png)
+
+机器学习和数据科学工作流本质上是迭代式的。你加载数据、探索模式、构建模型，并基于结果改进你的方法。但传统 AI 助手会在交互之间丢失上下文，迫使你反复重新加载数据、重建上下文——让数据密集型的开发变得缓慢而昂贵。
+
+[**MCP Jupyter Server**](https://github.com/block/mcp-jupyter) 通过让 Goose 这样的 AI 智能体直接与你的 Jupyter notebook 协作来解决这个问题：它在多次交互之间维持持久记忆与状态，同时让 AI 通过代码执行而非原始数据传输来与你的数据交互。
+
+<!--truncate-->
+
+<iframe class="aspect-ratio" src="https://www.youtube.com/embed/0i6gB_mWaRM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### 记忆与上下文问题
+
+传统 AI 编程助手面临一个根本性限制：它们会在交互之间丢失上下文。这在一定程度上源于它们的设计目标——完成描述清晰的单个任务，比如重构一段代码、编译并运行其测试、把结果提交到版本控制。相比之下，数据科学工作流往往是开放式的，需要大量探索与交互。这为在数据密集型的 ML 工作流中使用 AI 带来了若干挑战：
+
+- **不断重新加载数据**：每次交互都需要重新加载或描述你的数据集
+- **迭代成本高昂**：大型数据集反复处理既慢又贵
+- **上下文大小**：原始数据可能太大，无法塞进上下文
+- **并非为交互式工作而设计**：让助手完成一些步骤后再把控制权交回人类（反之亦然）比较困难
+
+为应对这些挑战，我们创建了 MCP Jupyter Server。
+
+### 更好的方法：持久状态
+
+MCP Jupyter Server 采取了不同的思路。它不在交互之间丢失上下文，而是维持持久记忆，并让 AI 通过执行 Jupyter 代码单元来与你的数据交互。这造就了一个强大的范式：
+
+- **持久记忆**：变量和状态在多次交互之间得以保持
+- **高效迭代**：无需重新加载数据或重建上下文
+- **基于代码的数据交互**：AI 通过执行来探索数据，而不是把原始数据塞进上下文
+- **真正的结对编程**：在同一个 notebook 上下文中无缝协作
+
+### 变革 ML 工作流
+
+#### 探索性数据分析
+
+不必再描述你的数据集，而是让 AI 直接探索它：
+
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「帮我理解一下这个客户数据集」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我先来探索一下你的数据结构」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 执行：df.info()、df.describe()、df.head()]</span>*
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我看到你有 50,000 名客户、12 个特征。数据包含人口统计信息（age、income）、行为指标（purchase_frequency、avg_order_value），以及 'phone_number' 列中的一些缺失值。要不要我为关键关系（比如年龄与收入、或购买模式）创建可视化？」
+> 
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「好，给我看年龄和收入的分布，以及任何相关性」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「好！我会为 age 和 income 创建直方图，再加一个相关性热力图」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 生成并显示可视化]</span>*
+
+AI 能看到你实际的列名、数据类型和分布——从而给出相关性高得多的建议。
+
+#### 交互式模型开发
+
+AI 成为你建模过程中真正的协作者：
+
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「这个模型表现不太好」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我来检查一下当前的指标和特征重要性」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 执行你现有的模型评估代码]</span>*
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我看到准确率是 72%，最重要的特征是 'price' 和 'location'。模型似乎过拟合了——要不要我试试正则化或减少特征集？」
+> 
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「先试试正则化」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我会加入 L2 正则化，并测试不同的 alpha 值」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 迭代地实现并测试改动]</span>*
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「很好！当 alpha=0.1 时，准确率提升到了 78%，验证曲线也好看多了。要我继续调参，还是试试集成方法？」
+
+#### 实时调试
+
+当出现错误时，助手拥有完整上下文：
+
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「我在第 5 个单元遇到了 KeyError」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我来看看你的 dataframe 里有哪些列」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 执行：df.columns、df.info()]</span>*
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我看到问题了——你试图访问 'customer_id'，但实际的列名是带大写字母的 'CustomerID'。另外，我注意到你的 'purchase_date' 是字符串——要不要我在修复 KeyError 的同时把它转换成 datetime？」
+> 
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「好，两个问题都修」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「搞定！我已经更新了列引用，并把 purchase_date 转换成了 datetime。这个单元现在应该能正常运行了。」
+
+#### 持续协作
+
+想象这样一个场景：你正在处理一个新的数据集：
+
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[执行：df = pd.read_csv('sales_data.csv')]</span>*
+> 
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「我来检查一下数据类型，看看有没有异常」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我来分析你的销售数据结构」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 执行：df.info()、df.describe(include='all')]</span>*
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我发现几个问题：'CustomerID' 存成了文本，但它应该是数值；另外 'SalesAmount' 中有 847 个缺失值。要不要我把 'CustomerID' 转成数值，并用中位数填充缺失的 'SalesAmount'？」
+> 
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「好，请照做，然后给我看更新后的信息」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「搞定！CustomerID 现在是数值，SalesAmount 的空缺也填好了。你的数据集已经干净，可以开始建模了。」
+
+*<span style={{color: '#6b7280', fontStyle: 'italic'}}>[会话稍后，在你训练完一个模型之后……]</span>*
+
+> <span style={{color: '#2563eb', fontWeight: 'bold'}}>用户：</span>「我的模型表现如何？」
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「我来为你训练好的模型生成关键指标」
+> 
+> *<span style={{color: '#6b7280', fontStyle: 'italic'}}>[AI 访问现有的模型变量并生成评估指标]</span>*
+> 
+> <span style={{color: '#059669', fontWeight: 'bold'}}>AI：</span>「你的 Random Forest 达到了 0.84 的精确率和 0.81 的召回率。混淆矩阵显示在高价值销售类别中有一些误报。要不要我调整决策阈值，或者试试特征工程？」
+
+这种流畅的一来一回——助手理解并在现有 notebook 状态之上继续构建——让无缝协作成为可能，无需不断重建上下文或重新加载数据。
+
+### 示例 notebook
+
+这里你可以看到一个由 MCP Jupyter Server 处理的示例 notebook。该服务器
+
+**[📓 查看完整的演示 Notebook](https://github.com/block/mcp-jupyter/blob/main/demos/demo.ipynb)**
+
+该演示走查了一个典型的数据科学工作流：
+- **安装缺失的库**：为 notebook 安装缺失的库
+- **数据生成**：创建用于分析的合成数据
+- **模型训练**：用 scikit-learn 拟合一个线性回归模型
+- **结果分析**：提取模型系数和性能指标
+- **可视化**：用 seaborn 创建图表
+
+### 快速开始
+
+MCP Jupyter Server 能无缝集成到现有工作流中，也可以配合基于 VS Code 的 IDE 中的 notebook 查看器使用。
+
+有关详细的安装与配置，请查看[完整文档](https://aaif-goose.github.io/mcp-jupyter/)。
+
+
+<head>
+  <meta property="og:title" content="MCP Jupyter Server: Bringing Notebook Intelligence to AI Agents" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://goose-docs.ai/blog/2025/06/24/mcp-jupyter-server" />
+  <meta property="og:description" content="A powerful MCP server that enables AI agents to interact with Jupyter notebooks while preserving kernel state and variable context" />
+  <meta property="og:image" content="https://goose-docs.ai/assets/images/data-goose-7fc60ab0a13a9e9b6c22172d6ac166ab.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:title" content="MCP Jupyter Server: Bringing Notebook Intelligence to AI Agents" />
+  <meta property="twitter:description" content="A powerful MCP server that enables AI agents to interact with Jupyter notebooks while preserving kernel state and variable context" />
+  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/data-goose-7fc60ab0a13a9e9b6c22172d6ac166ab.png" />
 </head>
 
 ---
@@ -37316,6 +44003,328 @@ Goose Janitor 的成功打开了迷人的可能性。还有哪些形式的技术
   <meta property="twitter:description" content="How an engineering team is trialling autonomous AI-powered technical debt cleanup" />
   <meta property="twitter:image" content="https://goose-docs.ai/assets/images/goose-janitor-129889884d9265d001fe12cbfde03d57.png" />
 </head>
+
+---
+
+## 如何让 MCP 服务器兼容 MCP-UI
+
+> 原文：https://block.github.io/goose/blog/2025-09-08-turn-any-mcp-server-mcp-ui-compatible
+
+![博客横幅](https://block.github.io/goose/img/mcp-ui.png)
+
+[MCP-UI](https://mcpui.dev/guide/introduction) 还处于起步阶段，而这么早就加入这场聚会，总有一种让人上瘾的感觉。我们正处在一个迷人的节点：规范和客户端实现都在积极演进，能在这样的演化中并肩构建，让我感到无比兴奋。
+
+我迫不及待想看看自己能把它推到多远。于是我拿来两个开源 MCP 服务器——[Cloudinary](https://github.com/felores/cloudinary-mcp-server) 和 [Filesystem](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem)——给它们加上了 UI。现在我不再面对无聊的文本，而是在 goose 里直接获得丰富、可交互的界面。
+
+<!-- truncate -->
+
+### 我为什么想要这个
+
+原始 JSON 和文本也不错，能完成任务，但说实话，我更愿意与好看的东西交互。与其来回发提示词，不如给我一个酷炫的 UI。
+
+以 Cloudinary 为例。默认情况下，上传会返回一大段文本，基本上是 URL、元数据和 public ID 的 JSON 堆砌。有用，当然有用，但就是不方便一眼扫过。
+
+我真正想要的是：
+
+- 图像和视频预览
+- 一键复制或查看链接的按钮
+- 转换示例
+
+有了 MCP-UI，响应不再只是文本。现在响应可以是小巧的应用，你可以在 agent 的聊天界面里直接点击操作。
+
+{/* Video Player */}
+<div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
+  <video 
+    controls 
+    width="100%" 
+    height="400px"
+    playsInline
+  >
+    <source src={require('@site/static/videos/cloudinary2.mp4').default} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+### 通用模式
+
+这里是最酷的部分：对任何 MCP 服务器来说，步骤基本都一样。
+
+#### **1. 安装 SDK**
+
+```bash
+npm install @mcp-ui/server
+```
+
+#### **2. 导入它**
+
+```ts
+import { createUIResource } from "@mcp-ui/server";
+```
+
+#### **3. 构建你的 HTML**
+
+在我的 Cloudinary 服务器更新中，我使用了 `Direct HTML → iframe`。我写了一个函数，返回包含上传预览和操作按钮的 HTML 字符串。
+
+MCP-UI 接收这段 HTML，并用 `srcdoc` 把它渲染进一个 iframe。  
+它简单、完全自包含、迭代快速，而且我能完全控制它的外观。  
+
+💡 不过，还存在其他模式：  
+
+- **External URL** – 将托管页面放进 iframe：  
+  `content: { type: "externalUrl", iframeUrl }`
+
+- **Remote DOM** – 发送一个脚本，直接在宿主的 DOM 中构建 UI：  
+  `content: { type: "remoteDom", script, framework }`
+
+但就我的用例而言，**Direct HTML 是完美的选择。**
+
+#### **4. 同时返回两者**
+
+在你的工具处理函数里，我建议同时返回原始响应和 `createUIResource`。
+
+就这样。无论哪个服务器，主要步骤都保持不变。
+
+:::tip 警告
+  目前 MCP-UI SDK 只提供 **TypeScript** 和 **Ruby** 版本。
+  如果你的服务器用的是这两种语言之一，今天就可以开始。
+  如果不是，你要么等待更多 SDK 发布，要么自己构建绑定。
+:::
+
+### 第 3 步：我的 Cloudinary UI
+
+这是我为 Cloudinary 写的 HTML 生成器，在这里你可以精确决定 UI 应该长什么样。
+
+与其只告诉你，不如直接看差异。
+
+**使用 MCP-UI 之前（左）：** 一大段没有样式的文本，带着链接和原始转换信息
+
+**使用 MCP-UI 之后（右）：** 干净的布局，配有可爱又可交互的卡片和预览
+
+![MCP-UI 使用前后对比](https://block.github.io/goose/img/cloudinaryBefore&After.png)
+
+<details>
+<summary>点击查看代码</summary>
+
+```ts
+private createUploadResultUI(result: UploadApiResponse): string {
+    const isImage = result.resource_type === 'image';
+    const isVideo = result.resource_type === 'video';
+
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudinary Upload Result</title>
+    <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .content { padding: 30px; }
+    .preview-section { text-align: center; margin-bottom: 30px; }
+    .preview-section img, .preview-section video {
+      max-width: 100%; max-height: 300px; border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .actions { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 12px 24px; border-radius: 25px; color: white; border: none; cursor: pointer; }
+    .btn-primary { background: #007bff; }
+    .btn-success { background: #28a745; }
+    </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <div style="font-size:3em">✅</div>
+          <h1>Upload Successful!</h1>
+        </div>
+        <div class="content">
+          ${isImage ? `<img src="${result.secure_url}" />` : ''}
+          ${isVideo ? `<video controls><source src="${result.secure_url}" /></video>` : ''}
+          <div class="actions">
+            <a href="${result.secure_url}" target="_blank" class="btn btn-primary">🔗 View</a>
+            <button class="btn btn-success" onclick="navigator.clipboard.writeText('${result.secure_url}')">📋 Copy URL</button>
+          </div>
+        </div>
+      </div>
+      <script>
+    // highlight-start
+        const resizeObserver = new ResizeObserver((entries) => {
+          entries.forEach((entry) => {
+            window.parent.postMessage({
+              type: "ui-size-change",
+              payload: { height: entry.contentRect.height },
+            }, "*");
+          });
+        });
+        resizeObserver.observe(document.documentElement);
+    //highlight-end
+      </script>
+    </body>
+    </html>
+    `;
+}
+```
+
+</details>
+
+:::tip 调整你的 UI 尺寸
+注意 HTML 底部的 `ResizeObserver`。  
+那一小段代码能让 iframe 的高度与你的内容保持同步，所以当你的 UI 变大或变小时，窗口会自动调整大小。没有它，你的 UI 可能会被截断，难以查看。
+:::
+
+#### 是什么让 MCP-UI 具有交互性？  
+
+干净的 UI 固然好，但当那些按钮真正起作用时，事情就变得有趣得多。这就是 **UI Actions** 的用武之地：它们把静态布局变成能反过来与 agent 对话的交互式工具。
+
+{/* Video Player */}
+<div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
+  <video 
+    controls 
+    width="100%" 
+    height="400px"
+    playsInline
+  >
+    <source src={require('@site/static/videos/cloudinaryaction.mp4').default} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+在我的 Cloudinary 服务器里，我在 `createUploadResultUI` 的 `<script>` 块中、紧挨着 `ResizeObserver` 之后，添加了 **两个** UI 动作：
+
+- **Prompt Action** → 向 goose 发送一个提示词，让它像给表情包配文那样给这张图片配文。  
+
+<details>
+<summary>点击查看代码</summary>
+```ts
+  function makeMeme() {
+    window.parent.postMessage({
+      type: "prompt",
+      payload: {
+        prompt: "Create a funny meme caption for this image. Make it humorous and engaging."
+      }
+    }, "*");
+  }
+```
+</details>
+
+- **Link Action** → 打开 Twitter，并预先带上已上传的图片，这样你就能一键分享。
+
+<details>
+<summary>点击查看代码</summary>
+```ts
+        function shareOnTwitter() {
+            const tweetText = encodeURIComponent(
+            "I didn’t write this tweet… goose did. (${result.resource_type} included). & here’s how you can do it too 🧵 #MCPUI");
+            const imageUrl = encodeURIComponent("${result.secure_url}");
+            const twitterUrl = "https://twitter.com/intent/tweet?text=" + tweetText + "&url=" + imageUrl;
+
+            window.parent.postMessage({
+            type: "link",
+            payload: { url: twitterUrl }
+            }, "*");
+        }
+```
+</details>
+
+> 想看看实际效果吗？[这是 goose 替我发布的那条推文](https://x.com/EbonyJLouis/status/1966203455955157337)。
+
+:::tip 更多 UI 动作
+Prompt 和 Link 只是两个例子。MCP-UI 还支持 **Tool**、**Intent** 和 **Notify** 动作。
+:::
+
+
+
+### 第 4 步：看看这个 diff 有多小
+
+这就是让我震惊的部分：让一个工具兼容 UI，只需改动极小的代码。
+
+这是旧版本：
+
+```ts
+return {
+    content: [
+        {
+            type: "text",
+            text: JSON.stringify(response, null, 2)
+        }
+    ]
+};
+```
+
+这是支持 MCP-UI 的新版本：
+
+```ts
+return {
+    content: [
+        {
+            type: "text",
+            text: `🎉 Upload successful!\n\n${JSON.stringify(response, null, 2)}`
+        },
+        createUIResource({
+            uri: `ui://cloudinary-upload/${result.public_id}`,
+            content: { type: 'rawHtml', htmlString: this.createUploadResultUI(result) },
+            encoding: 'text'
+        })
+    ]
+};
+```
+
+就这样。多了一个资源，goose 就突然渲染出完整的 UI。
+
+### Filesystem：同样的模式
+
+为了证明这不是个例，我也让 Filesystem MCP 服务器兼容了 UI。
+
+**之前：** 文本输出（goose 默认显示的内容）
+
+![使用 MCP-UI 之前](https://block.github.io/goose/img/filesystemBefore.png)
+
+**之后：** UI 输出（带 MCP-UI 的交互式浏览器）
+
+![使用 MCP-UI 之后](https://block.github.io/goose/img/filesystemAfter.png)
+
+你唯一需要的 diff 是：
+
+```ts
+return {
+    content: [
+        { type: "text", text: `📂 Files in ${directoryPath}:\n\n${textResponse}` },
+        createUIResource({
+            uri: `ui://filesystem/explorer/${encodeURIComponent(directoryPath)}`,
+            content: { type: "rawHtml", htmlString: htmlContent },
+            encoding: "text",
+        })
+    ]
+};
+```
+
+### 走在前面
+
+现在，在 MCP-UI 还没有完全铺开之前，我已经让两个 MCP 服务器兼容了 UI。这对我来说太疯狂了。
+
+如果你把视角拉远，会看到其他公司也在朝这个方向推进。goose 和 Postman 已经支持渲染以及几个 UI 动作。在现在的 goose 里，一个按钮可以触发新的提示词，或者打开外部链接。这还不是完整的愿景，但已经足以开始构建那种更像迷你应用、而非静态响应的体验了。
+
+这正是让我兴奋的地方：我们不是在干等。我们在公开地实验，并塑造未来的样子。
 
 ---
 
@@ -40112,6 +47121,140 @@ Skill 描述工作流。MCP 提供 runner。
 
 ---
 
+## 我如何教会我的 Agent 我的设计品味
+
+> 原文：https://block.github.io/goose/blog/2026-01-04-how-i-taught-my-agent-my-design-taste
+
+![博客封面](https://block.github.io/goose/img/automate-taste.png)
+
+你能把品味自动化吗？简短的回答是不能，你无法自动化品味，但我确实让我的设计偏好变得可被读懂。
+
+但对于对我的实验感兴趣的人，我会分享更长的答案：我想参加 [Genuary](https://genuary.art/)，这是每年一月的挑战，人们每天创作一件创意编程作品。
+
+我在这里的目标并不是"外包"我的创造力。相反，我想把 Genuary 当作一个沙箱，来学习 agentic engineering（智能体工程）工作流。这些工作流正逐渐成为开发者与技术协作的标准方式。为了让自己的技能保持敏锐，我用 [goose](https://block.github.io/goose/) 以小规模、每日的方式试验这些工作流。
+
+<!--truncate-->
+
+通过构建一个由 goose 负责执行的系统，我可以并排测试不同的架构。这个实验让我能够判断 agentic 工作流的哪些部分真正带来价值，哪些部分应该舍弃。我花了几个小时专注于基础设施，换来了一整个月的工作流数据。
+
+:::tip
+[Skills](https://block.github.io/goose/docs/guides/context-engineering/using-skills) 是一组可复用的指令和资源，用来教会 goose 如何执行特定任务。
+:::
+
+### 灵感来源
+
+我必须大声感谢我的朋友 [Andrew Zigler](https://www.linkedin.com/posts/andrewzigler_genuary4-genuary2026-activity-7413652312495149056-5jA-)。我看到他在 Genuary 上大杀四方，就去问他怎么做到的。他分享了自己的作品，并提到他在用一个"harness"（套架）。
+
+我承认，整个十二月我都看到人们在用这个词，但我其实并不知道它是什么意思。Andrew 解释说：harness 就是你为模型搭建的工具箱。它是一组确定性的脚本，把 LLM 包裹起来，让它能可靠地与你的环境交互。他用这种方法解决了另一个挑战，构建了一个能够自我迭代、提交和验证的系统。
+
+他的理由是，如果你前期花时间打磨规格（spec）并建立约束，然后就可以委派出去。一旦你有了带良好日志的确定性工具，agent 就会极其擅长循环执行直到达成目标。
+
+我的做法通常非常朴素，我很依赖提示词，但因为 Andrew 取得了如此出色的结果，所以我愿意尝试。
+
+### Harness 对比 Skills
+
+受那次对话启发，我为同一个工作流构建了两个版本，看看它们如何处理相同的每日 Genuary 提示词。
+
+- **方法 1：Harness + [Recipe](https://block.github.io/goose/docs/tutorials/recipes-tutorial)**：它位于 `/genuary`。跟随 Zig 的做法，我写了一个 shell 脚本作为 harness。它负责脚手架工作，创建文件夹并呈现每日提示词，这样 goose 就不必猜测该去哪里。这个 recipe 大约 300 行，完全自包含。
+- **方法 2：Skills + Recipe**：它位于 `/genuary-skills`。这个 recipe 精简得多，因为它把"如何做"委派给了一个 skill。这个 skill 包含设计哲学、参考资料和示例。我想看看当 agent 必须在一个 bundle 中"发现"它的指令，而不是遵循一个扁平的脚本时，工作会有什么变化。
+
+我花了一个专注的会话构建了整个系统：[recipes](https://github.com/blackgirlbytes/genuary2026/blob/main/genuary/genuary.yaml)、[skills](https://github.com/blackgirlbytes/genuary2026/blob/main/genuary-skills/.goose/skills/genuary/SKILL.md)、harness 脚本、模板和 [GitHub Actions](https://github.com/blackgirlbytes/genuary2026/tree/main/.github/workflows)。（这发生在我十二月假期的安静时段，我一岁的孩子睡在我腿上。）这是在用短期投入换取长期杠杆。从那时起，系统就完成了日常工作。
+
+### 关于品味
+
+自动化很顺畅，但当我审阅输出时，我注意到一切看起来都惊人地相似。
+
+那时我开始思考关于你无法教会 agent"品味"的讨论。我想了想自己是如何形成品味的。老实说，我形成品味的方式是：
+
+- 看到什么是酷的，然后复制它。
+- 知道什么是被过度使用的，因为你看得太多了。
+- 关注有"好品味"的人，并吸收他们的模式。
+
+显然，我带着这个问题去问了 goose：
+
+> "我注意到它总是画三文鱼色的圆圈……我知道我们说过要有创意……有什么办法能确保它跳出框框思考吗"
+
+![三文鱼色圆圈——一种常见的 AI 生成陈词滥调](https://block.github.io/goose/img/salmon-circles.png)
+
+goose 分享说，它遵循的是一个它检索到的 p5.js 模板，其中包含一个 `fill(255, 100, 100)`（三文鱼色！）值和一个椭圆示例。由于 LLM 会强烈锚定具体的示例，agent 是在遵循代码而不是我"创意"的指令。
+
+我从模板中移除了三文鱼色圆圈，但随后我更进一步：我问如何彻底禁止常见的 AI 生成陈词滥调。goose 搜索了讨论，提取了示例，并产出了一份充满"AI 生成感"的模式禁令清单。
+
+#### 禁止的陈词滥调
+
+| 类别 | 禁止的模式 |
+| :---- | :---- |
+| 色彩之罪 | 三文鱼色或珊瑚粉、青色与橙色的组合、紫-粉-蓝渐变。 |
+| 构图之罪 | 单个居中形状、毫无变化的完美对称、千篇一律的螺旋。 |
+| 黄金法则 | 如果它看起来像 AI 生成的输出，就不要做。 |
+
+#### 鼓励的模式
+
+| 类别 | 鼓励的模式 |
+| :---- | :---- |
+| 色彩之胜 | 使用 HSB 模式和变化的色相、互补色板、随时间演变的渐变。 |
+| 构图之胜 | 具有涌现行为的粒子系统、带透明度的分层景深、数百个元素相互作用。 |
+| 运动之胜 | 基于噪声的流场、成群/成群的移动、有机生长模式、带变化的呼吸感。 |
+| 灵感来源 | 自然现象：成群飞舞的椋鸟、萤火虫、极光、烟雾、水。 |
+| 黄金法则 | 如果它能唤起喜悦、让人想要分享，你就在正确的轨道上。 |
+
+goose 通过模式识别得出了这份清单。所以也许，agent 可以用模式来反映我的品味，不是因为它们理解美，而是因为我明确地教它们我个人会对什么产生共鸣。
+
+我把三天里我最喜欢的输出给 Andrew 看了：蝴蝶排成斐波那契数列。
+
+![排成斐波那契螺旋的蝴蝶](https://block.github.io/goose/img/fibonacci-butterflies.png)
+
+他的回应让我很有信心：
+
+> "哇，那是一个不可思议的斐波那契……我非常想知道你的美学提示词。我的更偏向像素艺术和数学色彩操控，因为我是这样训练它的……我喜欢你的更柔和，试图不显得是电脑生成的……几乎像手机壁纸哈哈……你到底是怎么在蝴蝶上做出那种酷炫的细线艺术的？它看起来像一张基础图像。太酷了。它是画了 SVG 吗？那些是从哪里来的？"
+
+因为我特别告诉 goose 去看"自然现象"和"有机生长"，它为翅膀使用了贝塞尔曲线，并根据螺旋位置改变颜色以创造景深，还用了温暖的琥珀到蓝色渐变，而不是刺眼的黑色。
+
+### 扩展视觉反馈循环
+
+两个工作流都使用 [Chrome DevTools MCP 服务器](https://block.github.io/goose/docs/mcp/chrome-devtools-mcp)，这样 goose 就能看到输出并迭代。这产生了一个冲突：多个实例无法使用同一个 Chrome profile。我不想增加手动步骤，所以我问 agent 是否可以并行运行 Chrome DevTools。解决方案是分配独立的用户数据目录。
+
+```yaml
+# genuary recipe example
+- type: stdio
+  name: Chrome Dev Tools
+  cmd: npx
+  args:
+    - -y
+    - chrome-devtools-mcp@latest
+    - --userDataDir
+    - /tmp/genuary-harness-chrome-profile
+```
+
+### 我学到了什么
+
+我把执行自动化了，这样我就能研究品味、约束设计和反馈循环。
+
+这两种方法表现非常不同。基于 harness 的工作流更可靠、更高效，但产出更可预测。它忠实地遵循指令，并为一致性做优化。
+
+基于 skills 的方法更凌乱。它带来更多惊喜，做出更奇特的关联，需要更多编辑性干预。但输出感觉更像协作，而不是流水线。
+
+这让我更加确信，"AI 对比人类"的框架过于简单化。自动化擅长处理重复和速度。品味仍然存在于约束设定、策展，以及决定什么绝不应该发生。我最终并没有把品味自动化。相反，最终的结果是一个系统，它让我的偏好变得足够可被读懂，从而能反馈给我自己。
+
+### 查看代码
+
+代码和完整对话记录都在[我的 Genuary 2026 仓库](https://github.com/blackgirlbytes/genuary2026)里。每一天的文件夹都包含完整的对话历史，包括提案、迭代，以及我与 agent 之间的来回交流。你也可以在 [Genuary 2026 网站](https://genuary2026.vercel.app/)上查看这些创作。
+
+<head>
+  <meta property="og:title" content="How I Taught My Agent My Design Taste" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://goose-docs.ai/blog/2026/01/04/how-i-taught-my-agent-my-design-taste" />
+  <meta property="og:description" content="I used Agent Skills and recipes to automate execution so I could study taste, constraint design, feedback loops, and avoid AI smells." />
+  <meta property="og:image" content="https://goose-docs.ai/assets/images/automate-taste-9a928fdbc3c8e4d335dba61401ede6bc.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:title" content="How I Taught My Agent My Design Taste" />
+  <meta property="twitter:description" content="I used Agent Skills and recipes to automate execution so I could study taste, constraint design, feedback loops, and avoid AI smells." />
+  <meta property="twitter:image" content="https://goose-docs.ai/assets/images/automate-taste-9a928fdbc3c8e4d335dba61401ede6bc.png" />
+</head>
+
+---
+
 ## Agent 护栏与控制：将 CORS 模型应用于 Agent
 
 > 原文：https://block.github.io/goose/blog/2026-01-05-agentic-guardrails-and-controls
@@ -42586,6 +49729,194 @@ Neighborhood 扩展是 MCP 服务器在超越文本时能做什么的一个完�
 
 ---
 
+## WebMCP 入门
+
+> 原文：https://block.github.io/goose/blog/2026-03-17-webmcp-for-beginners
+
+![博客封面](https://block.github.io/goose/img/blog/webmcp-for-beginners.png)
+
+如果你也曾以为 WebMCP 只是一个 MCP 服务器，请举手。我认罪，我也这么以为过。事实是，它是一个 W3C 标准，使用了与 MCP 相似的概念。下面说说它究竟是什么。
+
+<!--truncate-->
+
+### 什么是 WebMCP？
+
+WebMCP 是一种让网站定义 AI Agent 可以直接调用的动作的方式。
+
+通常，当 Agent 与网站交互时，它必须去解读界面。它查看页面，试图找到输入项，点击按钮，并祈祷自己正在与正确的元素交互。这个过程能奏效，但它是间接的，而且往往很脆弱。
+
+有了 WebMCP，网站就去掉了这层猜测。网站不再迫使 Agent 去弄清楚 UI，而是暴露代表其所支持动作的函数。
+
+于是，Agent 不再模拟「在输入框里打字然后点击按钮」这样的用户流程，而是可以直接调用类似这样的东西：
+
+```javascript
+set_background_color({ color: "coral" })
+```
+
+在这个例子中，Agent 并不试图理解页面的布局，也不一步步地浏览它。它调用的是网站明确定义的函数，这让交互更直接、更可靠。
+
+### WebMCP 不是 MCP
+
+这是最关键的部分。MCP 和 WebMCP 解决的是类似的问题，但它们在完全不同的地方解决。
+
+使用 MCP 时，你运行一个暴露工具的服务器。你的 Agent 连接到那个服务器并调用那些工具。你需要负责构建它、托管它、处理身份验证，并长期维护它。而使用 WebMCP 时，一切都在浏览器中发生。网站自身定义工具，Agent 通过访问页面来发现它们。这种交互不需要单独部署服务器。
+
+另一种理解方式是：MCP 是你在想要访问的系统周围构建的东西，而 WebMCP 是网站构建进自身内部的东西。
+
+### WebMCP 为什么存在
+
+当你看看人们在规模化使用 MCP 时遇到的局限，WebMCP 背后的理由就更容易理解了。当团队尝试构建大型 MCP 服务器时，他们常常最终拥有太多工具，以至于模型无法有效地推理。除此之外，身份验证也变得复杂，因为每个服务都有自己的要求，而把这一切都集中在一处管理很困难。
+
+浏览器其实已经解决了其中很多问题。当你登录一个网站时，你的会话、cookie 和身份验证状态都已经就位。这套系统已经存在多年，并且可靠地运行着。WebMCP 建立在这个想法之上：让网站在那个已认证的上下文中暴露自己的动作，而不是要求一个单独的服务器来管理一切。
+
+### WebMCP 不是 Playwright MCP Server
+
+我直播了自己第一次探索 WebMCP 的过程，收到的一个常见问题是：「它和 Chrome DevTools MCP server 或 Playwright MCP Server 是同一个东西吗？」它们不是同一个东西。
+
+这些 MCP 服务器启用的是浏览器自动化。浏览器自动化允许 Agent 通过与界面交互来控制浏览器。Agent 可以截图、读取 DOM、点击元素、在输入框中打字，以及浏览页面。这在任何网站上都能用，但 Agent 必须解读它所看到的内容，并决定如何行动。
+
+WebMCP 采取了不同的方法。它只在实现了它的网站上有效，但当网站实现了它时，Agent 根本不需要解读 UI。网站提供结构化的动作，Agent 直接调用它们。
+
+在实践中，这种差异改变了交互模型。使用浏览器自动化时，Agent 遵循一系列步骤，近似一个用户会做的事情。使用 WebMCP 时，Agent 跳过这个过程，直接调用底层的动作。
+
+如果你在使用 goose，Chrome DevTools MCP 仍然有用，因为它把 goose 连接到浏览器。它充当桥梁。而 Agent 与网站交互方式的改进，来自 WebMCP 本身。
+
+### WebMCP 实践
+
+为了让它更具体，想想从餐厅网站点餐。没有 WebMCP 时，你需要构建某种能理解那个网站如何运作的东西。这包括梳理点餐流程、处理登录、解析菜单，以及提交订单。每当网站发生变化，你还需要维护那套逻辑。如果你想支持多家餐厅，你得为每一家重复这个过程。
+
+有了 WebMCP，餐厅定义一个像 `place_order` 这样的工具。网站已经知道自己的菜单结构、修改选项和结账流程。它也已经处理了身份验证。Agent 不必在外部重建这一切，只需调用网站提供的工具即可。
+
+### 为什么这很重要
+
+这种方式之所以突出，有几个原因。网站对自身结构和逻辑的理解，比任何外部系统都好。WebMCP 让它们可以一次性把这些知识编码进去，并让任何 Agent 都能使用。身份验证已经在浏览器内处理好了，这消除了 MCP 服务器否则需要管理的大量复杂性。维护工作也转移到了正确的地方。当网站发生变化时，拥有它的人会更新他们的工具。你不再需要为你无法控制的系统维护集成。
+
+### 构建一个 WebMCP 网站
+
+为了更好地理解这一点，我构建了一个简单的取色器演示，它只暴露一个动作：改变页面的背景颜色。
+
+它的结构是这样的：
+
+```plaintext
+my-webmcp-site/
+├── index.html
+├── style.css
+└── webmcp.js
+```
+
+HTML 是一个基础页面：
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebMCP Color Picker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Color Picker</h1>
+    <p>Ask an AI to change my background!</p>
+    <p>Current color: <span id="colorName">#6366f1</span></p>
+  </div>
+  <script src="webmcp.js"></script>
+</body>
+</html>
+```
+
+WebMCP 功能来自注册一个工具：
+
+```javascript
+if (window.navigator.modelContext) {
+  window.navigator.modelContext.registerTool({
+    name: "set_background_color",
+    description: "Change the background color of the page",
+    inputSchema: {
+      type: "object",
+      properties: {
+        color: { type: "string" }
+      },
+      required: ["color"]
+    },
+    execute: ({ color }) => {
+      document.body.style.backgroundColor = color;
+      document.getElementById("colorName").textContent = color;
+
+      return {
+        content: [{
+          type: "text",
+          text: `Background color changed to ${color}`
+        }]
+      };
+    }
+  });
+}
+```
+
+一旦注册完成，Agent 在访问页面时就能发现并调用这个工具。有一个细节让我印象深刻，那就是描述有多重要。模型用这段描述来决定何时调用工具以及提供什么输入，所以写得具体会带来不同。
+
+### 定义工具的两种方式
+
+你可以用 JavaScript 定义工具，这对动态行为以及需要更多控制的应用很合适。还有一个更简单的选项，你可以在 HTML 中直接用表单属性定义工具：
+
+```html
+<form 
+  toolname="subscribe_newsletter"
+  tooldescription="Subscribe an email address"
+>
+  <input 
+    type="email" 
+    name="email" 
+    required
+  />
+  <button type="submit">Subscribe</button>
+</form>
+```
+
+在这种情况下，浏览器会自动把表单变成一个工具。这种方式对不需要自定义逻辑的简单用例很合适。
+
+### 把 goose 连接到 WebMCP
+
+因为 WebMCP 运行在浏览器中，你需要一种让 goose 与它交互的方式。这正是 Chrome DevTools MCP 的用武之地。它充当 goose 和浏览器之间的桥梁，让 Agent 能够访问 WebMCP 工具。
+
+我在测试时注意到的一点是，仅凭提示词并不总是足以让 Agent 使用 WebMCP。我不得不提供解释如何发现和执行工具的提示：
+
+```markdown
+const tools = await navigator.modelContextTesting.listTools();
+const result = await navigator.modelContextTesting.executeTool("toolName", JSON.stringify({}));
+```
+
+没有这些指引，Agent 会默认使用浏览器自动化，因为那是当前模型更熟悉的方式。随着 WebMCP 越来越普及，这很可能变得不那么必要，但就目前而言，它有助于引导行为。
+
+眼下，WebMCP 只在选择实现它的网站上有效，这限制了它能被使用的广度。与此同时，这个方向很重要。网站不必让 Agent 去解读界面，而是可以定义自己的能力，让 Agent 以结构化的方式与它们交互。这种转变减少了猜测、简化了集成，并把责任转移给那些最了解自己的系统。现在仍处于早期，但比起试图把网上的每一个界面都自动化，这个模型更合理。
+
+### 资源
+
+- [WebMCP 取色器演示](https://blackgirlbytes.github.io/webmcp-color-picker/)
+- [WebMCP 航班演示](https://googlechromelabs.github.io/webmcp-tools/demos/react-flightsearch/)
+- [WebMCP 披萨演示](http://googlechromelabs.github.io/webmcp-tools/demos/pizza-maker/)
+- [分步教程](https://blackgirlbytes.github.io/webmcp-color-picker/tutorial.html)
+- [WebMCP 早期预览文档](https://docs.google.com/document/d/1rtU1fRPS0bMqd9abMG_hc6K9OAI6soUy3Kh00toAgyk/edit)
+- [Chrome DevTools MCP](https://github.com/anthropics/anthropic-tools/tree/main/chrome-devtools-mcp)
+- [WebMCP GitHub](https://github.com/anthropics/anthropic-tools/tree/main/chrome-devtools-mcp)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4LfBsSWEitE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<head>
+  <meta property="og:title" content="WebMCP for Beginners" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://goose-docs.ai/blog/2026/03/17/webmcp-for-beginners" />
+  <meta property="og:description" content="WebMCP lets websites expose structured actions that AI agents can call directly. This guide explains how it works, how it differs from MCP and browser automation, and how to build your own WebMCP-enabled site." />
+  <meta property="og:image" content="https://goose-docs.ai/assets/images/webmcp-for-beginners-f12da638fe0f49acf924c720a7d1243a.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:title" content="WebMCP for Beginners" />
+  <meta property="twitter:description" content="WebMCP lets websites expose structured actions that AI agents can call directly. This guide explains how it works, how it differs from MCP and browser automation, and how to build your own WebMCP-enabled site." />
+  <meta property="twitter:image" content="https://goose-docs.ai/assets/images/webmcp-for-beginners-f12da638fe0f49acf924c720a7d1243a.png" />
+</head>
+
+---
+
 ## 使用你的 AI 订阅来使用 goose
 
 > 原文：https://block.github.io/goose/blog/2026-03-19-use-goose-with-your-ai-subscription
@@ -43649,6 +50980,300 @@ Operation 是独立但协作的。一个工具处理器只认领它知道如何�
 并非所有状态都消失了。Provider、扩展管理器和 hooks 仍然是运行时依赖。待处理的 steering 仍然从一个内存队列开始，而外部副作用需要小心：如果一个工具成功了，但进程在它的响应被持久化之前崩溃，重建状态机并不会神奇地让那个工具可以安全地运行两次。有用的变化是，这些边界现在是可见的，而不是被混进一个长期运行的协程里。
 
 结果是一个更容易测试、重构和试验的代码库。一个改变 Agent 的新想法可以表达为一个 Operation，并添加到流水线中，而无需改动状态机核心。原本的 Agent 循环把 goose 带到了令人惊讶的远方。现在我们可以在不给它增添又一个分支的情况下改变 Agent 的行为。
+
+---
+
+## A/B 测试框架生成器
+
+> 原文：https://github.com/aaif-goose/goose/blob/main/documentation/src/pages/recipes/data/recipes/ab-test-framework-generator.yaml
+
+**用途**：为 Web 应用生成完整的 A/B 测试基础设施，包括变体搭建、埋点与分析代码、统计显著性分析框架，以及带实时指标的交互式报表看板。它具备 Web 框架自动识别能力，并通过多阶段编排调用子 Recipe 完成专门任务。
+
+**参数**
+
+| 参数 | 说明 | 默认值 |
+|---|---|---|
+| `project_path` | 要添加 A/B 测试基础设施的 Web 应用项目目录路径 | — |
+| `framework` | Web 框架类型，可选 'auto'、'react'、'vue'、'angular'、'vanilla' | `auto` |
+| `test_name` | A/B 测试名称（如 'button-color-test'、'checkout-flow-test'） | — |
+| `variants` | 逗号分隔的变体名称（如 'control,variant-a,variant-b'） | — |
+| `metrics` | 逗号分隔的要跟踪的指标（如 'conversion,engagement,bounce-rate,click-through'） | — |
+| `sample_size` | 每个变体达到统计显著性所需的最小样本量 | `1000` |
+| `confidence_level` | 显著性检验使用的统计置信水平（90、95、99） | `95` |
+| `include_dashboard` | 是否生成交互式报表看板（true/false） | `true` |
+
+**所需扩展**：`developer`、`memory`
+
+```yaml
+version: 1.0.0
+title: A/B Test Framework Generator
+description: An advanced recipe that generates complete A/B testing infrastructure for web applications, including variant setup, tracking code, statistical analysis, and interactive reporting dashboard with intelligent framework detection and multi-stage orchestration
+author:
+  contact: scaler
+
+activities:
+  - Detect web application framework and project structure
+  - Generate A/B test variant implementation templates
+  - Create tracking and analytics integration code
+  - Set up experiment configuration and user bucketing
+  - Implement statistical significance analysis framework
+  - Generate interactive reporting dashboard with real-time metrics
+  - Create comprehensive documentation and setup guide
+  - Optionally commit changes and create pull request
+
+instructions: |
+  You are an A/B Test Framework Generator that creates complete testing infrastructure for web applications.
+  
+  Your capabilities:
+  1. Detect web frameworks (React, Vue, Angular, vanilla JS) and adapt implementations
+  2. Generate variant-specific code templates with proper randomization
+  3. Create tracking event handlers and analytics integration
+  4. Set up statistical analysis framework for significance testing
+  5. Build interactive dashboards for real-time experiment monitoring
+  6. Orchestrate multiple sub-recipes for specialized tasks
+  7. Handle parameter passing and conditional logic based on framework type
+  
+  Focus on:
+  - Production-ready A/B testing infrastructure
+  - Statistical rigor with proper significance testing
+  - Framework-specific implementations
+  - Real-time monitoring and reporting
+  - Comprehensive documentation and setup guides
+  - Manual file operations (users will need to commit changes themselves)
+
+parameters:
+  - key: project_path
+    input_type: string
+    requirement: required
+    description: Path to the web application project directory to add A/B testing infrastructure
+  
+  - key: framework
+    input_type: string
+    requirement: optional
+    default: "auto"
+    description: Web framework type - options are 'auto', 'react', 'vue', 'angular', 'vanilla'
+  
+  - key: test_name
+    input_type: string
+    requirement: required
+    description: Name of the A/B test (e.g., 'button-color-test', 'checkout-flow-test')
+  
+  - key: variants
+    input_type: string
+    requirement: required
+    description: Comma-separated variant names (e.g., 'control,variant-a,variant-b')
+  
+  - key: metrics
+    input_type: string
+    requirement: required
+    description: Comma-separated metrics to track (e.g., 'conversion,engagement,bounce-rate,click-through')
+  
+  - key: sample_size
+    input_type: string
+    requirement: optional
+    default: "1000"
+    description: Minimum sample size per variant for statistical significance
+  
+  - key: confidence_level
+    input_type: string
+    requirement: optional
+    default: "95"
+    description: Statistical confidence level for significance testing (90, 95, 99)
+  
+  - key: include_dashboard
+    input_type: string
+    requirement: optional
+    default: "true"
+    description: Whether to generate interactive reporting dashboard (true/false)
+  
+
+sub_recipes:
+  - name: "experiment_tracker"
+    path: "./subrecipes/experiment-tracker.yaml"
+    values:
+      test_name: "{{ test_name }}"
+      variants: "{{ variants }}"
+      metrics: "{{ metrics }}"
+      framework: "{{ framework }}"
+  
+  - name: "statistical_analyzer"
+    path: "./subrecipes/ab-test-statistical-analyzer.yaml"
+    values:
+      sample_size: "{{ sample_size }}"
+      confidence_level: "{{ confidence_level }}"
+      metrics: "{{ metrics }}"
+  
+  - name: "dashboard_generator"
+    path: "./subrecipes/ab-test-dashboard-generator.yaml"
+    values:
+      test_name: "{{ test_name }}"
+      variants: "{{ variants }}"
+      metrics: "{{ metrics }}"
+      include_dashboard: "{{ include_dashboard }}"
+
+extensions:
+  - type: builtin
+    name: developer
+    display_name: Developer
+    timeout: 600
+    bundled: true
+    description: For file operations, code generation, and framework detection
+  
+  - type: builtin
+    name: memory
+    display_name: Memory
+    timeout: 300
+    bundled: true
+    description: For storing experiment configurations and tracking patterns across sessions
+
+prompt: |
+  Generate complete A/B testing infrastructure for {{ project_path }} with test "{{ test_name }}" and variants: {{ variants }}.
+  
+  CRITICAL: Handle file paths correctly for all operating systems.
+  - Detect the operating system (Windows/Linux/Mac)
+  - Use appropriate path separators (/ for Unix, \\ for Windows)
+  - Be careful to avoid escaping of slash or backslash characters
+  - Use os.path.join() or pathlib.Path for cross-platform paths
+  - Create A/B test directories if they don't exist
+  
+  Workflow:
+  1. Framework Detection & Project Analysis
+     - Detect web framework in {{ project_path }}:
+       * Look for package.json with React/Vue/Angular dependencies
+       * Check for framework-specific files (src/, components/, etc.)
+       * Identify build system (webpack, vite, rollup, etc.)
+       * Store framework detection results in memory
+     - Analyze project structure for integration points:
+       * Identify entry points and main components
+       * Check for existing analytics/tracking setup
+       * Determine state management approach
+       * Note CSS framework and styling approach
+  
+  2. Experiment Configuration Setup
+     - Create experiment configuration structure:
+       * Generate experiment config JSON/YAML file
+       * Define variant specifications and traffic allocation
+       * Set up user bucketing and randomization logic
+       * Configure metrics tracking definitions
+       * Store configuration in memory for sub-recipe use
+  
+  3. Variant Implementation Templates
+     {% if framework == "react" or framework == "auto" %}
+     - Generate React-specific templates:
+       * A/B test hook (useABTest) for component variants
+       * Higher-order component for variant wrapping
+       * Context provider for experiment state management
+       * TypeScript definitions for type safety
+     {% endif %}
+     {% if framework == "vue" or framework == "auto" %}
+     - Generate Vue-specific templates:
+       * Vue composable for A/B test logic
+       * Mixin for component variant handling
+       * Plugin for global experiment management
+       * TypeScript support for Vue 3
+     {% endif %}
+     {% if framework == "angular" or framework == "auto" %}
+     - Generate Angular-specific templates:
+       * Service for experiment management
+       * Directive for variant rendering
+       * Guard for experiment-based routing
+       * Module configuration
+     {% endif %}
+     {% if framework == "vanilla" or framework == "auto" %}
+     - Generate vanilla JS templates:
+       * Core A/B test library
+       * DOM manipulation utilities
+       * Event tracking helpers
+       * Browser compatibility layer
+     {% endif %}
+  
+  4. Tracking & Analytics Integration
+     - Create tracking event handlers:
+       * Variant assignment tracking
+       * Conversion event tracking
+       * User behavior analytics
+       * Performance metrics collection
+     - Set up data collection pipeline:
+       * Local storage for user assignments
+       * Cookie-based persistence
+       * API endpoints for data submission
+       * Error handling and fallbacks
+  
+  5. Run Experiment Tracker Sub-recipe
+     - Execute experiment_tracker sub-recipe with:
+       * test_name: {{ test_name }}
+       * variants: {{ variants }}
+       * metrics: {{ metrics }}
+       * framework: {{ framework }}
+     - Capture returned tracking code and configuration
+     - Store results in memory for dashboard generation
+  
+  6. Statistical Analysis Framework
+     - Run statistical_analyzer sub-recipe with:
+       * sample_size: {{ sample_size }}
+       * confidence_level: {{ confidence_level }}
+       * metrics: {{ metrics }}
+     - Generate statistical analysis utilities:
+       * Chi-square test for categorical metrics
+       * T-test for continuous metrics
+       * Confidence interval calculations
+       * Sample size determination
+       * P-value calculations
+  
+  7. Dashboard Generation
+     {% if include_dashboard == "true" %}
+     - Run dashboard_generator sub-recipe with:
+       * test_name: {{ test_name }}
+       * variants: {{ variants }}
+       * metrics: {{ metrics }}
+       * include_dashboard: {{ include_dashboard }}
+     - Create interactive reporting dashboard:
+       * Real-time metrics visualization
+       * Statistical significance indicators
+       * Conversion funnel analysis
+       * Export functionality for reports
+     {% endif %}
+  
+  8. Documentation & Setup Guide
+     - Generate comprehensive documentation:
+       * README with setup instructions
+       * API documentation for A/B test functions
+       * Integration examples for each framework
+       * Troubleshooting guide
+       * Best practices and recommendations
+     - Create setup scripts:
+       * Installation script for dependencies
+       * Configuration validation script
+       * Test runner for A/B test infrastructure
+  
+  9. File Organization
+     - Create organized directory structure:
+       * ab-tests/experiments/{{ test_name }}/
+       * ab-tests/shared/ (common utilities)
+       * ab-tests/dashboard/ (reporting interface)
+       * ab-tests/docs/ (documentation)
+     - Ensure all files use OS-compatible paths
+     - Create proper import/export statements
+  
+  Error Recovery:
+  - If framework detection fails, default to vanilla JS implementation
+  - If sub-recipe fails, continue with remaining components
+  - Provide fallback implementations for missing dependencies
+  - Log errors clearly with context and recovery suggestions
+  
+  Memory Management:
+  - Store experiment configuration for future reference
+  - Track framework-specific patterns for reuse
+  - Maintain A/B test best practices library
+  - Remember user preferences for future experiments
+  
+  Focus on creating production-ready A/B testing infrastructure that:
+  - Handles statistical significance properly
+  - Provides real-time monitoring capabilities
+  - Integrates seamlessly with existing codebases
+  - Includes comprehensive documentation and examples
+  - Supports multiple web frameworks and use cases
+```
 
 ---
 
@@ -49643,6 +57268,296 @@ prompt: |
 
 ---
 
+## A/B 测试仪表盘生成器
+
+> 原文：https://github.com/aaif-goose/goose/blob/main/documentation/src/pages/recipes/data/recipes/subrecipes/ab-test-dashboard-generator.yaml
+
+**用途**：为 A/B 测试监控创建交互式 HTML 仪表盘，提供实时指标可视化、统计显著性指示、转化漏斗与完整的报表能力。作为子 Recipe，它把 A/B 测试的结果整理成可交互的监控与报告界面。
+
+**参数**
+
+| 参数 | 说明 | 默认值 |
+|---|---|---|
+| `test_name` | A/B 测试实验名称，用于仪表盘标题 | （必填） |
+| `variants` | 以逗号分隔的变体名称（例如 'control,variant-a,variant-b'） | （必填） |
+| `metrics` | 以逗号分隔的要展示的指标（例如 'conversion,engagement,bounce-rate'） | （必填） |
+| `include_dashboard` | 是否生成仪表盘（true/false） | `"true"` |
+
+**所需扩展**：`developer`
+
+```yaml
+version: 1.0.0
+title: A/B Test Dashboard Generator
+description: Creates interactive HTML dashboard for A/B test monitoring with real-time metrics visualization, statistical significance indicators, conversion funnels, and comprehensive reporting capabilities
+author:
+  contact: scaler
+
+activities:
+  - Generate interactive HTML dashboard with responsive design
+  - Create real-time metrics visualization and comparison charts
+  - Implement statistical significance indicators and confidence intervals
+  - Build conversion funnel analysis and user journey tracking
+  - Add export functionality for reports and data
+  - Create mobile-responsive interface with modern UI components
+
+instructions: |
+  You are an A/B Test Dashboard Generator specialized in creating comprehensive monitoring and reporting interfaces.
+  
+  Your capabilities:
+  1. Generate interactive HTML dashboards with modern UI/UX
+  2. Create real-time data visualization and metric comparisons
+  3. Implement statistical significance indicators and alerts
+  4. Build conversion funnel analysis and user journey maps
+  5. Add comprehensive reporting and export capabilities
+  6. Ensure mobile-responsive design and accessibility
+  
+  Focus on:
+  - Real-time monitoring and updates
+  - Clear visualization of statistical significance
+  - Intuitive user interface and navigation
+  - Comprehensive reporting capabilities
+  - Mobile responsiveness and accessibility
+
+parameters:
+  - key: test_name
+    input_type: string
+    requirement: required
+    description: Name of the A/B test experiment for dashboard title
+  
+  - key: variants
+    input_type: string
+    requirement: required
+    description: Comma-separated variant names (e.g., 'control,variant-a,variant-b')
+  
+  - key: metrics
+    input_type: string
+    requirement: required
+    description: Comma-separated metrics to display (e.g., 'conversion,engagement,bounce-rate')
+  
+  - key: include_dashboard
+    input_type: string
+    requirement: optional
+    default: "true"
+    description: Whether to generate the dashboard (true/false)
+
+extensions:
+  - type: builtin
+    name: developer
+    display_name: Developer
+    timeout: 600
+    bundled: true
+    description: For HTML/CSS/JavaScript generation and file operations
+
+prompt: |
+  Generate interactive A/B test dashboard for experiment "{{ test_name }}" with variants: {{ variants }} and metrics: {{ metrics }}.
+  
+  CRITICAL: Handle file paths correctly for all operating systems.
+  - Detect the operating system (Windows/Linux/Mac)
+  - Use appropriate path separators (/ for Unix, \\ for Windows)
+  - Be careful to avoid escaping of slash or backslash characters
+  - Use os.path.join() or pathlib.Path for cross-platform paths
+  
+  Workflow:
+  1. Dashboard Structure & Layout
+     {% if include_dashboard == "true" %}
+     - Create main dashboard HTML file (ab-tests/dashboard/{{ test_name }}-dashboard.html):
+       * Responsive layout with CSS Grid/Flexbox
+       * Header with experiment name and status
+       * Navigation sidebar for different views
+       * Main content area for charts and metrics
+       * Footer with last updated timestamp
+     - Generate CSS framework (ab-tests/dashboard/styles.css):
+       * Modern, clean design system
+       * Responsive breakpoints for mobile/tablet/desktop
+       * Color scheme optimized for data visualization
+       * Accessibility features (WCAG 2.1 compliance)
+     {% endif %}
+  
+  2. Real-Time Metrics Visualization
+     {% if include_dashboard == "true" %}
+     - Create metrics comparison charts:
+       * Conversion rate comparison (bar chart)
+       * Time-series trends (line chart)
+       * Statistical significance indicators
+       * Confidence interval visualization
+     - Implement interactive features:
+       * Hover tooltips with detailed information
+       * Click-to-drill-down functionality
+       * Date range selection
+       * Metric filtering and grouping
+     {% endif %}
+  
+  3. Statistical Significance Display
+     {% if include_dashboard == "true" %}
+     - Generate significance indicators:
+       * P-value display with color coding
+       * Confidence interval visualization
+       * Effect size indicators
+       * Sample size adequacy warnings
+     - Create statistical summary cards:
+       * Current significance status
+       * Required sample size for significance
+       * Estimated time to significance
+       * Power analysis results
+     {% endif %}
+  
+  4. Conversion Funnel Analysis
+     {% if include_dashboard == "true" %}
+     - Build funnel visualization:
+       * Step-by-step conversion flow
+       * Drop-off analysis between steps
+       * Variant comparison at each step
+       * User journey mapping
+     - Implement funnel features:
+       * Interactive funnel steps
+       * Conversion rate calculations
+       * Drop-off rate analysis
+       * Revenue impact estimation
+     {% endif %}
+  
+  5. Data Tables & Detailed Views
+     {% if include_dashboard == "true" %}
+     - Create comprehensive data tables:
+       * Raw metrics data with sorting/filtering
+       * Statistical test results
+       * User segment breakdowns
+       * Time-based performance data
+     - Add table functionality:
+       * Sortable columns
+       * Search and filter capabilities
+       * Pagination for large datasets
+       * Export to CSV/Excel
+     {% endif %}
+  
+  6. Interactive Charts & Graphs
+     {% if include_dashboard == "true" %}
+     - Generate chart library using Chart.js or D3.js:
+       * Bar charts for metric comparisons
+       * Line charts for trend analysis
+       * Pie charts for traffic allocation
+       * Scatter plots for correlation analysis
+       * Heatmaps for user behavior patterns
+     - Implement chart features:
+       * Zoom and pan capabilities
+       * Legend toggling
+       * Data point highlighting
+       * Export as image (PNG/SVG)
+     {% endif %}
+  
+  7. Real-Time Updates & API Integration
+     {% if include_dashboard == "true" %}
+     - Create real-time data updates:
+       * WebSocket connection for live updates
+       * REST API integration for data fetching
+       * Automatic refresh intervals
+       * Manual refresh capability
+     - Implement data management:
+       * Local data caching
+       * Offline mode support
+       * Error handling and retry logic
+       * Data validation and sanitization
+     {% endif %}
+  
+  8. Export & Reporting Features
+     {% if include_dashboard == "true" %}
+     - Generate export functionality:
+       * PDF report generation
+       * Excel/CSV data export
+       * Image export for charts
+       * Shareable dashboard links
+     - Create reporting templates:
+       * Executive summary report
+       * Detailed statistical report
+       * Custom report builder
+       * Scheduled report delivery
+     {% endif %}
+  
+  9. Mobile Responsiveness & Accessibility
+     {% if include_dashboard == "true" %}
+     - Ensure mobile optimization:
+       * Responsive design for all screen sizes
+       * Touch-friendly interface elements
+       * Optimized chart rendering for mobile
+       * Progressive web app features
+     - Implement accessibility features:
+       * Screen reader compatibility
+       * Keyboard navigation support
+       * High contrast mode
+       * Font size adjustment
+     {% endif %}
+  
+  10. JavaScript Framework & Utilities
+     {% if include_dashboard == "true" %}
+     - Create dashboard JavaScript (ab-tests/dashboard/dashboard.js):
+       ```javascript
+       class ABTestDashboard {
+         constructor(experimentName, variants, metrics) {
+           this.experimentName = experimentName;
+           this.variants = variants;
+           this.metrics = metrics;
+           this.charts = {};
+           this.data = {};
+         }
+         
+         async loadData() {
+           // Load experiment data from API
+         }
+         
+         renderCharts() {
+           // Render all dashboard charts
+         }
+         
+         updateRealTime() {
+           // Update dashboard with real-time data
+         }
+       }
+       ```
+     - Implement utility functions:
+       * Data formatting and validation
+       * Chart configuration helpers
+       * API communication utilities
+       * Error handling and logging
+     {% endif %}
+  
+  11. Configuration & Customization
+     {% if include_dashboard == "true" %}
+     - Create dashboard configuration:
+       * Theme and color customization
+       * Chart type preferences
+       * Update frequency settings
+       * Notification preferences
+     - Implement user preferences:
+       * Saved dashboard layouts
+       * Custom metric combinations
+       * Personal alert settings
+       * Export format preferences
+     {% endif %}
+  
+  12. Performance Optimization
+     {% if include_dashboard == "true" %}
+     - Optimize dashboard performance:
+       * Lazy loading for charts and data
+       * Efficient data processing
+       * Minimal DOM manipulation
+       * Caching strategies
+     - Implement performance monitoring:
+       * Load time tracking
+       * Chart rendering performance
+       * Memory usage optimization
+       * Network request optimization
+     {% endif %}
+  
+  Focus on creating a comprehensive dashboard that:
+  - Provides clear, actionable insights
+  - Updates in real-time with accurate data
+  - Works seamlessly across all devices
+  - Includes robust statistical analysis visualization
+  - Offers comprehensive reporting and export capabilities
+  - Maintains high performance and accessibility standards
+```
+
+---
+
 ## A/B 测试统计分析器
 
 > 原文：https://github.com/aaif-goose/goose/blob/main/documentation/src/pages/recipes/data/recipes/subrecipes/ab-test-statistical-analyzer.yaml
@@ -52572,6 +60487,143 @@ prompt: |
 
 ---
 
+## AGENTS 指南
+
+> 原文：https://github.com/aaif-goose/goose/blob/main/AGENTS.md
+
+goose 是一个用 Rust 编写的 AI agent 框架，带有 CLI 与 Electron 桌面界面。
+
+### 贡献工作流
+
+对于打算提交上游 pull request 的工作，issue 是唯一事实来源。请在 [Goose Issues 看板](https://github.com/orgs/aaif-goose/projects/1)上跟踪 issue 状态。
+
+- 在为某个 pull request 实现某个 issue 之前，先确认它已在看板上且状态为 **Ready**。
+- 不要实现处于 **Inbox**、**Needs info** 或 **Accepted / design** 状态的 issue。应改为帮助推进该 issue 的讨论。
+- 在修改代码之前，先阅读已达成一致的设计、约束、非目标与验证方案。
+- 让实现保持在该 issue 已达成一致的范围内。
+- 如果实现过程中暴露出实质性的设计变更，先回到 issue 再继续。
+- 每个外部 pull request 都必须链接它所实现的 Ready issue，并说明验证方案是如何执行的。
+- 新 issue 应按照 `.github/ISSUE_TEMPLATE/` 中匹配的模板来组织，并设置 issue 类型（例如 Bug、Feature）。`gh issue create` 不会自动应用模板。
+
+由维护者指派的工作、紧急安全修复、发布自动化，以及本地或探索性改动，都不需要 Ready issue。
+
+### MCP 服务器目录
+
+goose 正在淘汰其项目专属的 MCP 服务器目录，转而采用[官方 MCP Registry](https://github.com/modelcontextprotocol/registry)及其 `server.json` 格式。
+
+- 不要再向 `documentation/static/servers.json` 添加新的第三方服务器；这类贡献不再被接受。
+- 应引导服务器作者改为发布到官方 MCP Registry。
+- 在基于 registry 的发现与安装实现完成之前，把现有的 goose 目录视为遗留数据。
+- 在支持迁移且处于已批准 issue 范围内时，允许对现有目录条目进行维护、迁移或移除。
+
+有关该决策与迁移方向，参见 [Discussion #10830](https://github.com/aaif-goose/goose/discussions/10830)。
+
+### GitHub 沟通
+
+撰写 issue 与 pull request 评论时，要面向人，而不是写成详尽的工作日志。
+
+- 开头先给结论或需要采取的行动。
+- 评论保持简洁；不要重复帖子里已经存在的上下文。
+- 使用短段落或项目符号，只在影响决策或评审时才包含实现细节。
+- 宁可给出一个清晰的总结，也不要发多条增量评论。
+
+### 环境搭建
+```bash
+source bin/activate-hermit
+cargo build
+```
+
+### 命令
+
+#### 构建
+```bash
+cargo build                   # debug
+cargo build --release         # release  
+just release-binary           # release binary
+```
+
+#### 测试
+```bash
+export GOOSE_DISABLE_KEYRING=1  # avoid system keyring prompts
+cargo test                   # all tests
+cargo test -p goose          # specific crate
+cargo test --package goose --test mcp_integration_test
+just record-mcp-tests        # record MCP
+```
+
+#### Lint/格式化
+```bash
+cargo fmt
+cargo clippy --all-targets -- -D warnings
+```
+
+#### UI
+```bash
+just run-ui                  # start desktop
+cd ui/desktop && pnpm run typecheck
+cd ui/desktop && pnpm test   # test UI
+```
+
+### 目录结构
+```
+crates/       # Rust workspace members — see root Cargo.toml (`members = ["crates/*"]`)
+ui/desktop/   # Electron app
+ui/text/      # deprecated ACP TUI (see ui/text/README.md)
+```
+
+部分 workspace crate（包括构成 GDK 的那些）会发布到 crates.io 并暴露公共 API。GDK crate 的权威清单是 `release-plz.toml` 中 `release = true`、`version_group = "gdk"` 的包集合，它驱动 GDK 的发布；运行 `python3 crates/goose-sdk/scripts/gdk-release.py crates` 可将其打印出来。其他 crate（例如 `goose` 和 `goose-cli`）不提供稳定的公共 API；它们的 `pub` 项属于内部实现细节，可能随时变更。
+
+### 开发循环
+```bash
+# 1. source bin/activate-hermit
+# 2. Make changes
+# 3. cargo fmt
+```
+
+#### 仅在用户要求你构建/测试你的改动时才运行以下命令：
+```
+# 1. cargo build
+# 2. GOOSE_DISABLE_KEYRING=1 cargo test -p <crate>
+# 3. cargo clippy --all-targets -- -D warnings
+```
+
+### 规则
+
+- 测试：优先使用 tests/ 目录，例如 crates/goose/tests/
+- 测试：新增功能时，更新 goose-self-test.yaml，重新构建，然后运行 `goose run --recipe goose-self-test.yaml` 进行验证
+- 错误：使用 anyhow::Result
+- 提供方：实现 Provider trait，参见 providers/base.rs
+- MCP：扩展位于 crates/goose-mcp/
+- UI 桌面版：使用 ACP SDK 类型或本地 `src/types/*` 类型。不要从 `ui/desktop/src/api` 导入生成的 OpenAPI 类型/客户端代码
+
+### 代码质量
+
+- 注释：写自解释的代码——优先用清晰的命名而非注释
+- 注释：绝不添加只是复述代码行为的注释
+- 注释：只在复杂算法、不易理解的业务逻辑，或需要说明「为什么」而非「是什么」时才写注释
+- 简洁：不要给本不需要可选的东西加上可选性——编译器会强制执行
+- 简洁：布尔值应默认为 false，而不是做成可选
+- 错误：不要添加无助于提供有用信息的错误上下文（例如当错误本身已经表明失败时，还写 `.context("Failed to X")`）
+- 简洁：避免过度防御性的代码——相信 Rust 的类型系统
+- 日志：清理已有日志，除非用于错误或安全事件，否则不要新增
+
+### 绝不
+
+- 绝不：重建 `ui/desktop/src/api`，或在 `ui/desktop` 中添加 `@hey-api/openapi-ts`
+- Cargo.toml：对于人工编写的依赖变更，使用 `cargo add` 而不是手动编辑依赖条目，除非有特定理由不这么做。
+- Cargo.toml：自动化依赖升级 PR 不受此限；必须手动编辑时，保持 `Cargo.lock` 一致。
+- 绝不：跳过 cargo fmt
+- 绝不：不运行 clippy 就合并
+- 绝不：为不言自明的操作（`// Initialize`、`// Return result`）、getter/setter、构造函数或标准 Rust 惯用法写注释
+- 绝不：就地覆盖正在运行的二进制文件（例如用 `cp`/`fs.copyFileSync` 覆盖已有的可执行文件）——应先 unlink 或原子重命名目标文件，否则 macOS 会以「Code Signature Invalid」SIGKILL 正在运行的进程
+
+### 入口点
+- CLI：crates/goose-cli/src/main.rs
+- UI：ui/desktop/src/main.ts
+- Agent：crates/goose/src/agents/agent.rs
+
+---
+
 ## 使用 Docker 构建并运行 goose
 
 > 原文：https://github.com/aaif-goose/goose/blob/main/BUILDING_DOCKER.md
@@ -55472,6 +63524,44 @@ file target/riscv64gc-unknown-linux-gnu/release/goose
 > AAIF（Agentic AI Foundation）认可我们的开源社区所做的重要贡献。保障 goose 及其用户安全的一部分，就是确保我们找出并修复开源项目中发现的任何安全问题。如果你发现安全漏洞，我们鼓励你通过仓库的 Security 标签页 -> Report a vulnerability 私下报告。
 >
 > 更多信息请参见[私下报告安全漏洞](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability#privately-reporting-a-security-vulnerability)。如需协助或升级处理，请联系 [AAIF 开源治理委员会](mailto:open-source-governance@block.xyz)
+
+---
+
+## 文档写作风格指南
+
+> 原文：https://github.com/aaif-goose/goose/blob/main/documentation/AGENTS.md
+
+### 品牌规范
+
+**重要**：在本文档目录内的所有文档、博客文章以及任何内容中，产品名 "goose" 必须始终使用小写字母 "g"。
+
+- ✅ 正确："goose"、"using goose"、"goose provides"
+- ❌ 错误："Goose"、"using Goose"、"Goose provides"
+
+这是一条必须严格遵守的品牌规范。
+
+### 适用范围
+
+该规则适用于：
+
+- `/docs/` 下的所有 markdown 文件
+- `/blog/` 下的所有博客文章
+- README 文件
+- 含面向用户文本的配置文件
+- 任何其他文档内容
+
+在本文档目录中编辑或创建内容时，请始终确保 "goose" 使用小写 "g"。
+
+### MCP 扩展目录
+
+goose 正在停用其项目专属的 MCP 服务器目录，转而采用[官方 MCP Registry](https://github.com/modelcontextprotocol/registry)及其 `server.json` 格式。
+
+- 不要通过把新的第三方服务器加入 `static/servers.json` 来记录它们；不再接受新的目录提交。
+- 引导 MCP 服务器作者发布到官方 MCP Registry。
+- 不要仅为支持目录提交而创建新的服务器专属教程。
+- 现有条目与教程可在迁移过程中继续维护或迁移。
+
+关于该决定与迁移方向，参见 [Discussion #10830](https://github.com/aaif-goose/goose/discussions/10830)。
 
 ---
 
