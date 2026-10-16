@@ -11,7 +11,7 @@ tags:
   - 知识库
 created: 2026-10-16
 updated: 2026-10-16
-version: 1.0.0
+version: 1.1.0
 status: draft
 source: OpenAI 帮助中心（资料库 / 已连接应用 / 管理员管理同步）+ 社区实测
 confidence: 已核实
@@ -74,8 +74,7 @@ confidence: 已核实
 
 - **项目指令（Project instructions）**：世界观、人物设定、文风要求、禁用词、称谓表。项目内指令**优先于**全局自定义指令。
 - **全局自定义指令**：跨项目的通用习惯（语言、口吻、输出格式偏好）。
-- **记忆（Memory）**：跨对话的长期事实。
-- 建议把项目设为**仅项目访问自身记忆**，避免上下文污染导致规则冲突。
+- **记忆（Memory）**：跨对话的长期事实。**记忆的来源包含"资料库中的文件"和"来自已连接应用（如 Gmail）的内容"** —— 也就是说挂了 Drive 之后，记忆可以直接引用其中的内容。建议项目设为**仅项目访问自身记忆**，避免上下文污染导致规则冲突。详见 [chatgpt-memory-and-scheduled-messaging.md](chatgpt-memory-and-scheduled-messaging.md)。
 
 ### 第 3 层：资料库 / 项目文件——把 Drive 挂进来
 
