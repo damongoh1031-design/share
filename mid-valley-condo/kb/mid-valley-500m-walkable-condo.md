@@ -12,10 +12,10 @@ tags:
   - EdgeProp
 created: 2026-10-19
 updated: 2026-10-19
-version: 3.1
+version: 3.2
 status: stable
-source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com / klecocity.com Wayback / klpropertytalk / Lowyat.NET / Booking.com）
-confidence: 已核实（结构、成交、距离）；推断（步行距离、净回报、逐户型推算总价）
+source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com 含 wp-json 媒体库与官方 PDF 手册 / klecocity.com Wayback / klpropertytalk / Lowyat.NET / Booking.com）
+confidence: 已核实（结构、成交、距离、16 张户型图图面文字）；推断（步行距离、净回报、逐户型推算总价）；**存疑（ViiA 面积两版不一致，差 1–21 sf）**
 ---
 
 # 吉隆坡谷中城 500 米内天桥可步行公寓全档案
@@ -39,7 +39,7 @@ Mid Valley Megamall 500 米内达标项目 **5 个**（2 个室内直连 + 3 个
 
 ---
 
-## 六处修正（v1 → v2）
+## 七处修正（v1 → v3.2）
 
 | # | v1 说法 | v2 复核 |
 |---|---|---|
@@ -49,6 +49,7 @@ Mid Valley Megamall 500 米内达标项目 **5 个**（2 个室内直连 + 3 个
 | 4 | Gardens「价格缺口」 | **近 48 个月零成交**（EdgeProp RM0），是「不可交易」不是「查不到」 |
 | 5 | Vogue One「低价入口」 | 48m 中位 1,622 → 近 8 月 1,016 → 挂牌 807–1,271。是**跌了 37% 后的低位**，不是便宜 |
 | 6 | 500 m 内共 6 个 | 另发现 7 个项目（Setia Sky Seputeh / Sri Seputih / Seputih Permai / Sri Langit / Putra Ria / Haji Abdullah Hukum flats / Southpoint），全部**无天桥** |
+| 7 | ViiA 户型图 12 张，C1/C2/D1「从未发布」 | **错，完整是 16 种**。C1 956 / C2 957 / C4 944 / D1 1,252 sf 都在官方 PDF 手册 P19/P21 里。顺带发现**两本官方手册面积不一致**（A2 689 vs 710、D2 1,245 vs 1,259） |
 
 ---
 
@@ -122,37 +123,62 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 
 ---
 
-## 户型图获取（19 张，逐张核实）
+## 户型图获取（24 张，逐张核实）
 
 ### 覆盖率
 
 | 项目 | 图纸 | 类型 | 来源 | 状态 |
 |---|---|---|---|---|
-| ViiA Residences | 12 | 单位户型图全套 | S P Setia 官方 CDN | 完整（A1–A6 / B1–B4 / C3 / D2） |
+| ViiA Residences | **16** | 单位户型图全套（A1–A6 / B1–B4 / C1–C4 / D1–D2） | 官方 CDN 12 张 + **官方 PDF 手册 4 张** | **完整，无缺口** |
 | Vogue Suites One | 4 | 设施层平面 + 塔楼剖面 | klecocity.com（Wayback 2014/2016） | 缺单位内部格局 |
-| KL Eco City 园区 | 3 | 总平面 / 剖面 / 接驳图 | spsetia CDN + 宣传册 | 含天桥位置 |
-| Vogue Suites Two / Northpoint / The Gardens / Southpoint | 0 | — | — | 公开互联网不存在 |
+| KL Eco City 园区 | **4** | 总平面 / 剖面 / 天桥官方证据 2 张 | spsetia CDN + 官方 PDF 手册 | 含天桥原文与图例 |
+| Vogue Suites Two / Northpoint / The Gardens / Southpoint | 0 | — | — | 公开互联网不存在（4 家全渠道已试穿） |
+| **合计** | **24** | | | |
 
-### ViiA 12 张（已核实图面文字）
+### ViiA 16 张（面积取自 Master Brochure 2023 图面）
 
-| TYPE | 面积 sf | 房/卫 | 楼层 | 单位号 | 备注 | 图纸 |
+| TYPE | 面积 sf | 房/卫 | 楼层 | 阳台 | 来源 | 图纸 |
 |---|---|---|---|---|---|---|
-| A1 | 688 | 1/1 | L16–21 | — | | [A1](../assets/floorplans/viia-A1.jpg) |
-| A2 | 710 | 1/1 | L23A–33 & 33A–38 | — | | [A2](../assets/floorplans/viia-A2.jpg) |
-| A3 | 699 | 1/1 | L39 | — | | [A3](../assets/floorplans/viia-A3.jpg) |
-| A4 | 678 | 1/1 | L23A–33 | 13A & 9 | | [A4](../assets/floorplans/viia-A4.jpg) |
-| A5 | 635 | 1/1 | — | 13 & 10 | 最小 1 房 | [A5](../assets/floorplans/viia-A5.jpg) |
-| A6 | 678 | 1/1 | — | 12 & 11 | | [A6](../assets/floorplans/viia-A6.jpg) |
-| B1 | 775 | 1+1/1 | L3A–15 & 16–21 | — | 有 BALCONY | [B1](../assets/floorplans/viia-B1.jpg) |
-| B2 | 785 | 1+1/1 | — | — | 有 BALCONY | [B2](../assets/floorplans/viia-B2.jpg) |
-| B3 | 807 | 1+1/1 | — | — | 有 BALCONY | [B3](../assets/floorplans/viia-B3.jpg) |
-| B4 | 807 | 1+1/1 | — | — | 有 BALCONY，与 B3 同面积不同平面 | [B4](../assets/floorplans/viia-B4.jpg) |
-| C3 | 947 | 2/— | L33A–38 | — | | [C3](../assets/floorplans/viia-C3.jpg) |
-| D2 | 1,259 | 3/2 | L33A–38 & 39 | — | 公开最大户型 | [D2](../assets/floorplans/viia-D2.jpg) |
+| A1 | 672 | 1/1 | L16–21 | 无 | CDN | [A1](../assets/floorplans/pdf/viia-A1.jpg) |
+| A2 | 689 | 1/1 | L23A–33 · 33A–38 | 无 | CDN | [A2](../assets/floorplans/pdf/viia-A2.jpg) |
+| A3 | 688 | 1/1 | L23A–33 · 39 | 无 | CDN | [A3](../assets/floorplans/pdf/viia-A3.jpg) |
+| A4 | 683 | 1/1 | L23A–33 | 无 | CDN | [A4](../assets/floorplans/pdf/viia-A4.jpg) |
+| A5 | 636 | 1/1 | L23A–33 | 无 | CDN | [A5](../assets/floorplans/pdf/viia-A5.jpg) |
+| A6 | 676 | 1/1 | L23A–33 | 无 | CDN | [A6](../assets/floorplans/pdf/viia-A6.jpg) |
+| B1 | 782 | 1+1/1 | L3A–15 · 16–21 | **有** | CDN | [B1](../assets/floorplans/pdf/viia-B1.jpg) |
+| B2 | 779 | 1+1/1 | L23A–33 | **有** | CDN | [B2](../assets/floorplans/pdf/viia-B2.jpg) |
+| B3 | 797 | 1+1/1 | L3A–15 · 16–21 | **有** | CDN | [B3](../assets/floorplans/pdf/viia-B3.jpg) |
+| B4 | 810 | 1+1/1 | L23A–33 | **有** | CDN | [B4](../assets/floorplans/pdf/viia-B4.jpg) |
+| C1 | 956 | 2/2 | L3A–15 · 16–21 | **有** | **PDF 新获** | [C1](../assets/floorplans/pdf/viia-C1.jpg) |
+| C2 | 957 | 2/2 | L23A–33 · 33A–38 | **有** | **PDF 新获** | [C2](../assets/floorplans/pdf/viia-C2.jpg) |
+| C3 | 945 | 2/2 | L33A–38 | **有** | CDN | [C3](../assets/floorplans/pdf/viia-C3.jpg) |
+| C4 | 944 | 2/2 | L33A–38 | **有** | **PDF 新获** | [C4](../assets/floorplans/pdf/viia-C4.jpg) |
+| D1 | 1,252 | 3/2 | L33A–38 · 39 | **有** | **PDF 新获** | [D1](../assets/floorplans/pdf/viia-D1.jpg) |
+| D2 | 1,245 | 3/2 | L33A–38 · 39 | **有** | CDN | [D2](../assets/floorplans/pdf/viia-D2.jpg) |
 
-C1 / C2 / D1 在官方 CDN 两批路径（2025/04、2026/07）均 404 —— 从未发布。
+**A 系列 6 种全部无阳台，B / C / D 系列 10 种全部有阳台** —— 这条在门户的户型表里被抹平了，是选筹的硬指标。
 
-**官方字母编号 vs MyRumahBaru 的 Type A/B/C/D 对照**（面积对齐）：A5 635≈Type A 636 · A1 688≈Type A（大）689 · B1 775≈Type B 779 · B3/B4 807≈Type B（大）810 · C3 947≈Type C 944 · D2 1,259≈Type D（大）1,252。
+### 面积冲突：两本官方手册对不上（**签约必查 SPA**）
+
+| 户型 | Master 2023 | Simplified V3 | 差 | 采信 |
+|---|---|---|---|---|
+| A1 | 672 | 688 | +16 | Simplified（与 CDN 12 张 JPG 一致） |
+| A2 | 689 | 710 | **+21** | Simplified |
+| A3 | 688 | 699 | +11 | Simplified |
+| A4 | 683 | 678 | −5 | Simplified |
+| A5 | 636 | 635 | −1 | 一致 |
+| A6 | 676 | 678 | +2 | 一致 |
+| B1 | 782 | 775 | −7 | Simplified |
+| B2 | 779 | 785 | +6 | Simplified |
+| B3 | 797 | 807 | +10 | Simplified |
+| B4 | 810 | 807 | −3 | Simplified |
+| C3 | 945 | 947 | +2 | 一致 |
+| D2 | 1,245 | 1,259 | +14 | Simplified |
+| C1 / C2 / C4 / D1 | 956 / 957 / 944 / 1,252 | 未收录 | — | 只有 Master 版 |
+
+**按 A2 计算：若报价按 710 sf 谈、实际 strata area 只有 689 sf，等于每 psf 多付 3.0%。** D2 差 14 sf ≈ 1.1%。以 SPA `Schedule of Building` 写明的 strata area 为准，并确认差额落在 A.C. LEDGE（半计）还是 BALCONY（通常全计）。
+
+**官方字母编号 vs MyRumahBaru 的 Type A/B/C/D 对照**（面积对齐）：A5 636≈Type A 636 · A2 689≈Type A（大）689 · B2 779≈Type B 779 · B4 810≈Type B（大）810 · C4 944≈Type C 944 · C2 957≈Type C（大）957 · D2 1,245≈Type D 1,245。
 
 ### Vogue Suites One 四张设施层（判断溢价值不值的关键）
 
@@ -165,17 +191,19 @@ C1 / C2 / D1 在官方 CDN 两批路径（2025/04、2026/07）均 404 —— 从
 
 **大堂在 8 层不在地面** → 回家动线是「地面 → 8 层 → 换乘住户电梯」，比常规双梯多一次换乘。**SUBSTATION 在 8 层平面内**，紧邻单位要查低频噪音。
 
-### 园区总平面 2 张
+### 园区总平面 / 天桥证据 4 张
 
 | 图纸 | 说明 | 原图 |
 |---|---|---|
 | KLEC 官方总平面剖面（2025-04） | 每栋塔楼下标销售状态：Vogue One = Completed & Sold Out；ViiA = Open for Sale；其余 Leasing / Sold Out。**未单独标注 Vogue Suites Two** | [masterplan](../assets/floorplans/klec-masterplan-section.jpg) |
 | KLEC 园区总平面 | 含 **PEDESTRIAN LINK BRIDGE**（跨巴生河接 The Gardens / Mid Valley City）与 RT-1/2/3 住宅塔楼编号、INTEGRATED RAIL HUB | [overview](../assets/floorplans/vogue1-13.jpg) |
+| **官方原文证据**（PDF 提取） | 手册原话：*"There is also a **pedestrian link bridge that leads to a world of shopping at The Gardens and Mid Valley Megamall**."* 图标区四件事：INTEGRATED RAIL HUB / 2-TIER INTERNAL ROAD / PEDESTRIAN LINK BRIDGE / NEW ACCESS RAMPS | [connectivity](../assets/floorplans/pdf/viia-connectivity.jpg) |
+| **图例版证据**（PDF 提取） | 图例第 3 项 `LINK BRIDGE — CONNECTS DIRECTLY TO MID VALLEY CITY`；第 2 项 `INTEGRATED RAIL HUB — LRT AND KTM STATIONS` | [linkbridge](../assets/floorplans/pdf/klec-linkbridge-map.jpg) |
 
-### 完整图册（19 张一次看全）
+### 完整图册（24 张一次看全）
 
 - HTML 版：`mid-valley-floorplan-gallery.html`
-- 图片目录：`assets/floorplans/`
+- 图片目录：`assets/floorplans/`（CDN 原图）· `assets/floorplans/pdf/`（PDF 300 dpi 提取）
 
 ### 复用的取图方法
 
@@ -204,6 +232,46 @@ curl -s "https://web.archive.org/web/20160601014415if_/http://klecocity.com/imag
 ```bash
 curl -sL "https://www.klpropertytalk.com/?s=<project-slug>"
 # → 命中项目评测文，正文图即开发商原始宣传图集
+```
+
+**⑤ 开发商 WordPress 媒体库直接搜（本次产出最高的一条通道）**
+
+```bash
+# spsetia.com 是 WordPress，媒体库 REST 全开放，无需 key
+curl -s "https://spsetia.com/wp-json/wp/v2/media?search=viia&per_page=100&page=1" | jq -r '.[].source_url'
+curl -s "https://spsetia.com/wp-json/wp/v2/media?search=klec&per_page=100" | jq -r '.[].source_url'
+curl -s "https://spsetia.com/wp-json/wp/v2/media?search=brochure&per_page=100" | jq -r '.[].source_url'
+# → 返回 36 / 46 / 100 条，含 PDF 手册直链
+```
+
+**⑥ CDN 缺图 → 从官方 PDF 手册按坐标裁切（补齐 ViiA C1/C2/C4/D1 的方法）**
+
+```python
+import pymupdf
+d = pymupdf.open('KLEC-ViiA-Master-Brochure-English-2023.pdf')   # 25 页，1530.7×1077.2 pt 横向
+# 先用文字块坐标定位每格标题，确认 2×3 / 2×2 / 2×1 版式
+for b in d[19].get_text('blocks'):
+    print(round(b[0]), round(b[1]), ' '.join(b[4].split()))
+# 再按坐标 clip，300 dpi 渲染
+jobs = [(15,'A1',(45,35,760,395)), (15,'A2',(45,375,760,725)), (15,'A3',(45,710,760,1060)),
+        (15,'A4',(815,25,1500,400)), (15,'A5',(815,380,1500,715)), (15,'A6',(815,715,1500,1035)),
+        (17,'B1',(45,110,760,525)), (17,'B2',(45,565,760,980)),
+        (17,'B3',(815,140,1500,530)), (17,'B4',(815,600,1500,1000)),
+        (19,'C1',(45,105,760,562)), (19,'C2',(45,562,760,1077)),
+        (19,'C3',(815,145,1500,570)), (19,'C4',(815,570,1500,1005)),
+        (21,'D1',(45,125,760,1000)), (21,'D2',(815,120,1500,1015))]
+for pno, nm, box in jobs:
+    d[pno].get_pixmap(clip=pymupdf.Rect(*box), dpi=300).save(f'plan-{nm}.png')
+# 再 PIL 转 JPEG q=84, 宽 1500px → 63–157 KB/张
+```
+
+依赖：`pymupdf 1.28.2` + `Pillow 12.3.0`，装在 `C:/Users/Admin/.workbuddy-ai/binaries/python/envs/default/`。
+
+**⑦ 下载 PDF 别用 urllib，用 curl 走裸域**
+
+```bash
+# urllib / images.weserv.nl 代理会挂死（120 s SIGTERM）；www.spsetia.com 证书主机名不匹配
+curl -sL --max-time 180 "https://spsetia.com/<path>/KLEC-ViiA-Master-Brochure-English-2023.pdf" -o viia.pdf
 ```
 
 **④ 开发商官网 sitemap 反查项目页**
@@ -297,13 +365,15 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 7. **步行距离 ≠ 直线距离，且新盘的桥更长。** KL Eco City 三栋直线 370–450 m，实际天桥步程 550–750 m（跨河 + 穿两个商场）。Northpoint 直线 313 m，连廊约 300–350 m。
 8. **大户型 psf 低于小户型 25–35%。** Northpoint 2,637 sf 挂牌 RM683 psf vs 1,367 sf RM710–1,097。按 psf 找便宜要买大户型，按总价找便宜要买小户型——方向相反。
 9. **外国人门槛 RM1,000,000 会砍掉半份名单。** Vogue One 近 8 月成交中位 RM930K，中位以下单位外籍买不了。
-10. **「建成即售罄」的项目，户型图在互联网上根本不存在。** Vogue Two / Northpoint / The Gardens / Southpoint 四家一张都没有——不是没找到，是开发商从未公开。搜索时会跳出大量「看起来像」的图，逐一核对后没有一张能确认归属。**唯一可靠来源是 SPA 的附图（Schedule of Building），法律上必须附平面图。**
-11. **同一栋楼同面积可以有 3–4 种平面。** ViiA 的 B3 与 B4 都是 807 sf、都是 1+1，但平面不同；A2（710）与 A5（635）都是 1 房，面积差 12%。**「ViiA 均价 RM1,669 psf」这种项目级数字不能用来谈具体单位。**
-12. **开发商官网的销售状态图比任何门户都准。** S P Setia 2025-04 的 KLEC 总平面剖面直接标了每个塔楼 `Completed & Sold Out` / `Open for Sale` / `Open for Leasing` / `FUTURE LAUNCHES`。这张图上**没有单独标注 Vogue Suites Two**，与 EdgeProp RM0、brickz 无项目页互相印证。
-13. **A 系列图上未标阳台，B 系列明确画了 BALCONY。** 热带气候下这是硬差异，但门户的户型表里两档都写「有」或都写「未标注」。
-14. **法拍价才是这个片区的真实价。** ViiA 710 sf 法拍成交 RM690K（RM972 psf）、Vogue One 710 sf 法拍 RM770K（RM1,085 psf）、Vogue One 969 sf 法拍 RM792K（RM817 psf）。三笔都在 RM800–1,100 psf，而 EdgeProp 中位在 RM1,622–1,669。**法拍市场没被营销污染。**
-15. **「售出 60%」和「入住 20%」可以同时为真。** 投资客持有但不出租，等于整栋楼空着。这会压低管理费收缴率、拉低租金，并让你未来出租时面对大量同栋竞品。**问开发商「售出率」没有意义，要问管理处「入住率 / 门禁活跃户数」。**
-16. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
+10. **「CDN 上 404」不等于「从未发布」。** ViiA 的 C1 / C2 / C4 / D1 在官方 CDN 两条路径上都 404，一度被判定为「从未公开」。实际它们一直在同一官网的 PDF 手册 P19/P21 里。**先找 PDF，再下「不存在」的结论。**
+11. **同一开发商两本手册的面积可以差 21 sf。** ViiA Master Brochure 2023 与 Simplified Brochure V3 对 A2 给出 689 与 710、D2 给出 1,245 与 1,259。CDN 的 JPG 用的是 Simplified 版（即对外口径），但 Master 版才是建筑图。**谈单价时按 psf，面积差 3% 就是 3% 的钱。**
+12. **「建成即售罄」的项目，户型图在互联网上根本不存在。** Vogue Two / Northpoint / The Gardens / Southpoint 四家一张都没有——不是没找到，是开发商从未公开。搜索时会跳出大量「看起来像」的图，逐一核对后没有一张能确认归属。**唯一可靠来源是 SPA 的附图（Schedule of Building），法律上必须附平面图。**
+13. **同一栋楼同面积可以有 3–4 种平面。** ViiA 的 B3 与 B4 都是 807 sf、都是 1+1，但平面不同；A2（710）与 A5（635）都是 1 房，面积差 12%。**「ViiA 均价 RM1,669 psf」这种项目级数字不能用来谈具体单位。**
+14. **开发商官网的销售状态图比任何门户都准。** S P Setia 2025-04 的 KLEC 总平面剖面直接标了每个塔楼 `Completed & Sold Out` / `Open for Sale` / `Open for Leasing` / `FUTURE LAUNCHES`。这张图上**没有单独标注 Vogue Suites Two**，与 EdgeProp RM0、brickz 无项目页互相印证。
+15. **A 系列 6 种全部无阳台，B/C/D 系列 10 种全部有阳台。** 热带气候下这是硬差异，但门户的户型表里两档都写「有」或都写「未标注」。
+16. **法拍价才是这个片区的真实价。** ViiA 710 sf 法拍成交 RM690K（RM972 psf）、Vogue One 710 sf 法拍 RM770K（RM1,085 psf）、Vogue One 969 sf 法拍 RM792K（RM817 psf）。三笔都在 RM800–1,100 psf，而 EdgeProp 中位在 RM1,622–1,669。**法拍市场没被营销污染。**
+17. **「售出 60%」和「入住 20%」可以同时为真。** 投资客持有但不出租，等于整栋楼空着。这会压低管理费收缴率、拉低租金，并让你未来出租时面对大量同栋竞品。**问开发商「售出率」没有意义，要问管理处「入住率 / 门禁活跃户数」。**
+18. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
 
 ---
 
@@ -318,7 +388,8 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 | Southpoint 步行路径是否全程有盖 | 无任何来源描述，需现场走 |
 | Vogue One 电梯数量与分区 | 门户只写设施不写电梯 |
 | 各项目 JMB / MC 全名 | DBKL 名录、COB 名单、分层仲裁庭均无公开版本 |
-| ViiA C1 / C2 / D1 户型 | 官方 CDN 两批路径均 404，可能从未发布或仅内部认购 |
+| ~~ViiA C1 / C2 / C4 / D1 户型~~ | **已解决**：官方 PDF 手册 P19/P21 提取，见上表 |
+| ViiA 各户型真实 strata area | 两本官方手册差 1–21 sf，需 SPA `Schedule of Building` 定案 |
 | Vogue One 单位内部格局 | 只拿到设施层与塔楼剖面，无单位图 |
 | Vogue Two 是否已建成 | 官方总平面未标注该塔，与「739 户、2020 交付」的登记矛盾，需现场核实 |
 | ViiA A5 / A6 楼层区间 | 图面未标，只有单位号 |
@@ -333,6 +404,7 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 | A 一手 | brickz.my（NAPIC 近 8–10 个月） | 近期真实成交 |
 | A 一手 | spsetia.com | 跨河有盖天桥的存在 |
 | A 一手 | spsetia.com / spsetia CDN | ViiA 12 张官方户型图、KLEC 2025 总平面剖面（含销售状态） |
+| A 一手 | **spsetia.com 官方 PDF 手册**（Master 2023 / Simplified V3）+ `wp-json/wp/v2/media` | **ViiA 16 种全户型、两版面积、天桥官方原文** |
 | A 一手 | klecocity.com（Wayback 2014/2016） | Vogue Suites One 设施层平面 L7/L8/L52/L53 |
 | B 结构化 | MyRumahBaru / mudah | 户型全表、设施、距离、户数层数、洪涝 |
 | C 营销 | PropertyGuru / Agoda / 携程 / St Giles | 短租活跃度、房型名 |
