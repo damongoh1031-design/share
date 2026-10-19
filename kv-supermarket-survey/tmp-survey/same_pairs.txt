@@ -1,0 +1,7 @@
+    51 m | AEON            AEON Style                                                            @(3.1262,101.7284) || AEON            AEON Supermarket                                                      @(3.1263,101.7280)
+   156 m | Jaya Grocer     Jaya Grocer                      Lower Ground Floor Jalan Professor K @(3.1093,101.6374) || Jaya Grocer     Jaya Grocer                      1 J Kemajuan 46200                   @(3.1107,101.6372)
+   189 m | AEON            AEON Bukit Raja                                                       @(3.0617,101.4724) || AEON            AEON Bukit Raja Supermarket                                           @(3.0601,101.4718)
+   368 m | Village Grocer  Village Grocer                   60 Jalan Sri Hartamas 1 50480        @(3.1640,101.6565) || Village Grocer  Village Grocer Mont Kiara                                             @(3.1653,101.6535)
+   622 m | NSK             NSK Grocer                       LG19-21&30 Jalan Sultan Ismail Kuala @(3.1601,101.7006) || NSK             NSK Trade City                                                        @(3.1656,101.7014)
+   623 m | Jaya Grocer     Jaya Grocer                                                           @(3.1678,101.6468) || Jaya Grocer     Jaya Grocer                                                           @(3.1663,101.6522)
+   640 m | Jaya Grocer     Jaya Grocer                                                           @(3.0817,101.5822) || Jaya Grocer     Jaya Grocer                                                           @(3.0780,101.5865)

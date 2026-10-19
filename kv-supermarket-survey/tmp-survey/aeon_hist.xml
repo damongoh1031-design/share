@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (1300 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <way id="506468139" visible="true" version="1" changeset="50177508" timestamp="2017-07-10T14:06:08Z" user="Tembikai" uid="5259280">
+  <nd ref="4961945906"/>
+  <nd ref="4961945912"/>
+  <nd ref="4961945911"/>
+  <nd ref="4961945907"/>
+  <nd ref="4961945908"/>
+  <nd ref="4961945909"/>
+  <nd ref="4961945906"/>
+  <tag k="addr:city" v="Kuala Lumpur"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="AEON Big Wangsa Maju"/>
+  <tag k="opening_hours" v="Mo-Th 09:00-23:00; Fr,Sa 08:00-00:00; Su 08:00-24:00"/>
+  <tag k="shop" v="supermarket"/>
+ </way>
+ <way id="506468139" visible="true" version="2" changeset="91051448" timestamp="2020-09-17T13:32:50Z" user="kucai" uid="536853">
+  <nd ref="4961945906"/>
+  <nd ref="4961945912"/>
+  <nd ref="4961945911"/>
+  <nd ref="4961945907"/>
+  <nd ref="4961945908"/>
+  <nd ref="4961945909"/>
+  <nd ref="4961945906"/>
+  <tag k="addr:city" v="Kuala Lumpur"/>
+  <tag k="building" v="retail"/>
+  <tag k="name" v="AEON Big Wangsa Maju"/>
+  <tag k="opening_hours" v="Mo-Th 09:00-23:00; Fr,Sa 08:00-24:00; Su 08:00-24:00"/>
+  <tag k="shop" v="supermarket"/>
+ </way>
+ <way id="506468139" visible="true" version="3" changeset="105318541" timestamp="2021-05-25T23:17:35Z" user="angys" uid="3191182">
+  <nd ref="4961945906"/>
+  <nd ref="4961945912"/>
+  <nd ref="4961945911"/>
+  <nd ref="4961945907"/>
+  <nd ref="4961945908"/>
+  <nd ref="4961945909"/>
+  <nd ref="4961945906"/>
+  <tag k="addr:city" v="Kuala Lumpur"/>
+  <tag k="alt_name" v="ÆON BiG"/>
+  <tag k="branch" v="Wangsa Maju"/>
+  <tag k="brand" v="AEON BiG"/>
+  <tag k="brand:wikidata" v="Q8077280"/>
+  <tag k="brand:wikipedia" v="ms:ÆON BiG"/>
+  <tag k="building" v="retail"/>
+  <tag k="name" v="AEON BiG"/>
+  <tag k="opening_hours" v="Mo-Th 09:00-23:00; Fr,Sa 08:00-24:00; Su 08:00-24:00"/>
+  <tag k="shop" v="supermarket"/>
+ </way>
+ <way id="506468139" visible="true" version="4" changeset="105366508" timestamp="2021-05-26T15:09:54Z" user="angys" uid="3191182">
+  <nd ref="4961945906"/>
+  <nd ref="4961945912"/>
+  <nd ref="4961945911"/>
+  <nd ref="4961945907"/>
+  <nd ref="4961945908"/>
+  <nd ref="4961945909"/>
+  <nd ref="4961945906"/>
+  <tag k="addr:city" v="Kuala Lumpur"/>
+  <tag k="alt_name" v="ÆON BiG"/>
+  <tag k="branch" v="Wangsa Maju"/>
+  <tag k="brand" v="AEON BiG"/>
+  <tag k="brand:wikidata" v="Q8077280"/>
+  <tag k="brand:wikipedia" v="ms:ÆON BiG"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="AEON BiG"/>
+  <tag k="opening_hours" v="Mo-Th 09:00-23:00; Fr,Sa 08:00-24:00; Su 08:00-24:00"/>
+  <tag k="shop" v="supermarket"/>
+  <tag k="source" v="https://openstreetcam.org/details/2719738/304"/>
+  <tag k="website" v="https://aeonbig.com.my/store-locator/"/>
+ </way>
+ <way id="506468139" visible="true" version="5" changeset="133460010" timestamp="2023-03-09T00:41:13Z" user="pamym" uid="10780011">
+  <nd ref="4961945906"/>
+  <nd ref="10722512371"/>
+  <nd ref="10722512372"/>
+  <nd ref="10722512373"/>
+  <nd ref="10722512374"/>
+  <nd ref="10722512375"/>
+  <nd ref="10722512376"/>
+  <nd ref="10722512377"/>
+  <nd ref="10722512378"/>
+  <nd ref="10722512379"/>
+  <nd ref="10722512380"/>
+  <nd ref="10722512381"/>
+  <nd ref="10722512382"/>
+  <nd ref="10722512383"/>
+  <nd ref="10722512384"/>
+  <nd ref="10722512385"/>
+  <nd ref="10722512386"/>
+  <nd ref="10722512387"/>
+  <nd ref="10722512388"/>
+  <nd ref="4961945912"/>
+  <nd ref="4961945911"/>
+  <nd ref="4961945907"/>
+  <nd ref="10722512390"/>
+  <nd ref="10722512389"/>
+  <nd ref="4961945908"/>
+  <nd ref="4961945909"/>
+  <nd ref="4961945906"/>
+  <tag k="addr:city" v="Kuala Lumpur"/>
+  <tag k="alt_name" v="ÆON BiG"/>
+  <tag k="branch" v="Wangsa Maju"/>
+  <tag k="brand" v="AEON BiG"/>
+  <tag k="brand:wikidata" v="Q8077280"/>
+  <tag k="brand:wikipedia" v="ms:ÆON BiG"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="AEON BiG"/>
+  <tag k="opening_hours" v="Mo-Th 09:00-23:00; Fr,Sa 08:00-24:00; Su 08:00-24:00"/>
+  <tag k="shop" v="supermarket"/>
+  <tag k="source" v="https://openstreetcam.org/details/2719738/304"/>
+  <tag k="website" v="https://aeonbig.com.my/store-locator/"/>
+ </way>
+ <way id="506468139" visible="true" version="6" changeset="169101694" timestamp="2025-07-18T10:28:08Z" user="kucai" uid="536853">
+  <nd ref="4961945906"/>
+  <nd ref="10722512371"/>
+  <nd ref="10722512372"/>
+  <nd ref="10722512373"/>
+  <nd ref="10722512374"/>
+  <nd ref="10722512375"/>
+  <nd ref="10722512376"/>
+  <nd ref="10722512377"/>
+  <nd ref="10722512378"/>
+  <nd ref="10722512379"/>
+  <nd ref="10722512380"/>
+  <nd ref="10722512381"/>
+  <nd ref="10722512382"/>
+  <nd ref="10722512383"/>
+  <nd ref="10722512384"/>
+  <nd ref="10722512385"/>
+  <nd ref="10722512386"/>
+  <nd ref="10722512387"/>
+  <nd ref="10722512388"/>
+  <nd ref="4961945912"/>
+  <nd ref="4961945911"/>
+  <nd ref="4961945907"/>
+  <nd ref="10722512390"/>
+  <nd ref="10722512389"/>
+  <nd ref="4961945908"/>
+  <nd ref="13008903245"/>
+  <nd ref="13008903246"/>
+  <nd ref="4961945909"/>
+  <nd ref="4961945906"/>
+  <tag k="addr:city" v="Kuala Lumpur"/>
+  <tag k="alt_name" v="ÆON BiG"/>
+  <tag k="branch" v="Wangsa Maju"/>
+  <tag k="brand" v="AEON BiG"/>
+  <tag k="brand:wikidata" v="Q8077280"/>
+  <tag k="brand:wikipedia" v="ms:ÆON BiG"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="AEON BiG"/>
+  <tag k="opening_hours" v="Mo-Th 09:00-23:00; Fr,Sa 08:00-24:00; Su 08:00-24:00"/>
+  <tag k="shop" v="supermarket"/>
+  <tag k="source" v="https://openstreetcam.org/details/2719738/304"/>
+  <tag k="website" v="https://aeonbig.com.my/store-locator/"/>
+ </way>
+</osm>

@@ -1,0 +1,1845 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.4 2390de5a",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-19T05:07:32Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 343202973,
+  "lat": 3.1465113,
+  "lon": 101.6983657,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "branch": "Sinar Kota Emporium",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Sinar Kota Emporium",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 1534178910,
+  "lat": 3.0870171,
+  "lon": 101.6634903,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:place": "Gasing Indah",
+    "name": "Lotus Barbershop",
+    "shop": "hairdresser"
+  }
+},
+{
+  "type": "node",
+  "id": 1541848115,
+  "lat": 3.0949856,
+  "lon": 101.6513499,
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:housenumber": "13",
+    "addr:postcode": "46000",
+    "addr:street": "Jalan Gasing",
+    "amenity": "restaurant",
+    "cuisine": "indian",
+    "indoor_seating": "yes",
+    "name": "Lotus",
+    "opening_hours": "07:00-21:00",
+    "outdoor_seating": "no",
+    "phone": "+60377828795"
+  }
+},
+{
+  "type": "node",
+  "id": 1548385525,
+  "lat": 3.0949154,
+  "lon": 101.6513564,
+  "tags": {
+    "name": "Gasing Store Lotus",
+    "shop": "convenience"
+  }
+},
+{
+  "type": "node",
+  "id": 2881860974,
+  "lat": 3.2324358,
+  "lon": 101.4151068,
+  "tags": {
+    "addr:city": "Puncak Alam",
+    "addr:housenumber": "61",
+    "addr:postcode": "42300",
+    "addr:street": "Lorong Az-Zaharah 10/A",
+    "amenity": "restaurant",
+    "cuisine": "malaysian",
+    "name": "Restoran Mydin’s Corner"
+  }
+},
+{
+  "type": "node",
+  "id": 4186767146,
+  "lat": 3.1294907,
+  "lon": 101.6844187,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:housenumber": "250",
+    "addr:postcode": "50470",
+    "addr:street": "Jalan Tun Sambanthan",
+    "addr:suburb": "Brickfields",
+    "name": "Lotus Hotel",
+    "name:zh": "吉隆坡中环广场莲花酒店",
+    "tourism": "hotel",
+    "website": "http://www.lotusgroup.com.my/business_hotels.html"
+  }
+},
+{
+  "type": "node",
+  "id": 4223729489,
+  "lat": 3.0316168,
+  "lon": 101.4337683,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Lotus Restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 4487971690,
+  "lat": 3.0737104,
+  "lon": 101.6493184,
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:place": "Taman Sri Manja",
+    "alt_name": "Mydin Sri Manja",
+    "name": "My Mydin",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 4688178208,
+  "lat": 3.1587388,
+  "lon": 101.6965687,
+  "tags": {
+    "addr:housenumber": "281",
+    "addr:street": "Jalan Tuanku Abdul Rahman",
+    "name": "Lotus Family",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4734085653,
+  "lat": 3.0649199,
+  "lon": 101.6376575,
+  "tags": {
+    "addr:city": "Puchong",
+    "addr:place": "Taman Kinrara",
+    "addr:street": "Jalan TK 4/4D",
+    "name": "My Mydin",
+    "shop": "convenience"
+  }
+},
+{
+  "type": "node",
+  "id": 4734662561,
+  "lat": 3.0790212,
+  "lon": 101.6268789,
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:place": "PJCC",
+    "name": "Tesco Pernama Ekspres",
+    "shop": "convenience"
+  }
+},
+{
+  "type": "node",
+  "id": 4789055822,
+  "lat": 3.3192690,
+  "lon": 101.5787369,
+  "tags": {
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:en": "Mydin Rawang",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 4862032668,
+  "lat": 3.1049653,
+  "lon": 101.5957334,
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:postcode": "47301",
+    "addr:street": "Jalan SS 7/26A",
+    "alt_name": "Tesco Lotus;Lotus's Paradigm",
+    "branch": "Paradigm",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "name": "Lotus's",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "website": "https://corp.lotuss.com.my/store/lotuss-paradigm"
+  }
+},
+{
+  "type": "node",
+  "id": 5137408421,
+  "lat": 3.0301206,
+  "lon": 101.5353405,
+  "tags": {
+    "addr:housenumber": "4-20",
+    "addr:postcode": "40400",
+    "addr:street": "Jalan Ria 25/62",
+    "branch": "Mart Sri Muda",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Mart Sri Muda",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "phone": "+6 03-5121 7970",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2364434/2439",
+    "website": "https://www.mydin.com.my/"
+  }
+},
+{
+  "type": "node",
+  "id": 5412057021,
+  "lat": 3.1299182,
+  "lon": 101.7314309,
+  "tags": {
+    "branch": "Taman Maluri",
+    "name": "My Mart Mydin",
+    "shop": "variety_store"
+  }
+},
+{
+  "type": "node",
+  "id": 5415890726,
+  "lat": 3.0347382,
+  "lon": 101.6156728,
+  "tags": {
+    "amenity": "post_office",
+    "name": "Pos Malaysia Tesco Puchong",
+    "name:en": "Pos Malaysia Tesco Puchong",
+    "name:ms": "Pos Malaysia Tesco Puchong",
+    "operator": "Pos Malaysia",
+    "operator:wikidata": "Q6112623",
+    "operator:wikipedia": "en:Pos Malaysia"
+  }
+},
+{
+  "type": "node",
+  "id": 5423721025,
+  "lat": 3.1527890,
+  "lon": 101.6973688,
+  "tags": {
+    "branch": "Masjid India Emporium",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Masjid India Emporium",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2737270/966"
+  }
+},
+{
+  "type": "node",
+  "id": 5447924008,
+  "lat": 3.0166937,
+  "lon": 101.6755874,
+  "tags": {
+    "addr:city": "Seri Kembangan",
+    "addr:postcode": "43300",
+    "addr:street": "Jalan PUJ 3/2",
+    "branch": "Puncak Jalil",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Puncak Jalil",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 5547723767,
+  "lat": 3.0487038,
+  "lon": 101.5337994,
+  "tags": {
+    "name": "TESCO Purnama",
+    "name:it": "Tesco",
+    "opening_hours": "08:00-23:00",
+    "payment:cash": "yes",
+    "payment:coins": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "shop": "convenience"
+  }
+},
+{
+  "type": "node",
+  "id": 5611204066,
+  "lat": 3.0050452,
+  "lon": 101.7854842,
+  "tags": {
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Tesco Extra Kajang",
+    "name:en": "Tesco Extra Kajang",
+    "public_transport": "platform",
+    "shelter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5645372221,
+  "lat": 3.1857166,
+  "lon": 101.7018880,
+  "tags": {
+    "bench": "no",
+    "bin": "yes",
+    "bus": "yes",
+    "departures_board": "no",
+    "highway": "bus_stop",
+    "name": "Wisma Lotus",
+    "name:ms": "Wisma Lotus",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "ref": "KL672",
+    "shelter": "no",
+    "tactile_paving": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7743388618,
+  "lat": 3.0477136,
+  "lon": 101.4487043,
+  "tags": {
+    "branch": "Klang Emporium",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Klang Emporium",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2782274/429"
+  }
+},
+{
+  "type": "node",
+  "id": 7968399665,
+  "lat": 3.0350649,
+  "lon": 101.6165545,
+  "tags": {
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "departures_board": "no",
+    "highway": "bus_stop",
+    "name": "Lotus Extra Puchong",
+    "network": "Rapid KL Bus;Smart Selangor Bus",
+    "old_name": "Tesco Extra Puchong",
+    "operator": "Rapid Bus;Causeway Link",
+    "passenger_information_display": "no",
+    "public_transport": "platform",
+    "ref": "SJ516",
+    "shelter": "yes",
+    "tactile_paving": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8164773649,
+  "lat": 3.2358795,
+  "lon": 101.4271466,
+  "tags": {
+    "bench": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Lotus Puncak Alam",
+    "old_name": "Tesco Puncak Alam",
+    "operator": "Rapid Bus;Smart Selangor",
+    "public_transport": "platform",
+    "ref": "KS3",
+    "shelter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8763507679,
+  "lat": 3.2068362,
+  "lon": 101.7179507,
+  "tags": {
+    "branch": "Danau Saujana",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Danau Saujana",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2791198/1831"
+  }
+},
+{
+  "type": "node",
+  "id": 8763507693,
+  "lat": 3.2379911,
+  "lon": 101.6436398,
+  "tags": {
+    "branch": "Selayang Emporium",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Selayang Emporium",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2101706/2088"
+  }
+},
+{
+  "type": "node",
+  "id": 8763507694,
+  "lat": 3.1527209,
+  "lon": 101.6970927,
+  "tags": {
+    "branch": "Masjid India Emporium 2",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Masjid India Emporium 2",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2737270/965"
+  }
+},
+{
+  "type": "node",
+  "id": 8763507695,
+  "lat": 3.0400132,
+  "lon": 101.4470549,
+  "tags": {
+    "branch": "Tengku Kelana Emporium",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Tengku Kelana Emporium",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2765934/1669"
+  }
+},
+{
+  "type": "node",
+  "id": 8763507697,
+  "lat": 3.0547609,
+  "lon": 101.4911603,
+  "tags": {
+    "branch": "Mart Padang Jawa",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Mart Padang Jawa",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2822570/1022"
+  }
+},
+{
+  "type": "node",
+  "id": 9144815164,
+  "lat": 3.1992661,
+  "lon": 101.7427242,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:postcode": "53300",
+    "alt_name": "Tesco Lotus;Lotus's Wangsa Walk",
+    "branch": "Wangsa Walk",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "website": "https://corp.lotuss.com.my/store/lotuss-wangsa-walk"
+  }
+},
+{
+  "type": "node",
+  "id": 9473463229,
+  "lat": 3.3028213,
+  "lon": 101.5973345,
+  "tags": {
+    "bench": "no",
+    "bin": "no",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "no",
+    "disused:highway": "bus_stop",
+    "disused:public_transport": "platform",
+    "name": "Lotus Rawang, Jalan Reef",
+    "name:ms": "Lotus Rawang, Jalan Reef",
+    "shelter": "no",
+    "tactile_paving": "no",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9473463242,
+  "lat": 3.3024170,
+  "lon": 101.5969160,
+  "tags": {
+    "bench": "no",
+    "bin": "no",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "no",
+    "highway": "bus_stop",
+    "name": "Lotus Rawang",
+    "name:en": "Lotus Rawang",
+    "name:ms": "Lotus Rawang",
+    "network": "Smart Selangor Bus",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "route_ref": "S1190,S1290;S1190",
+    "shelter": "no",
+    "stop_id": "1006966",
+    "stop_name": "LOTUS RAWANG",
+    "tactile_paving": "no",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9473481445,
+  "lat": 3.3027455,
+  "lon": 101.5994151,
+  "tags": {
+    "bench": "no",
+    "bin": "no",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "no",
+    "highway": "bus_stop",
+    "name": "Lotus Rawang, Jalan Rawang",
+    "name:ms": "Lotus Rawang, Jalan Rawang",
+    "operator": "Smart Selangor;MARA Liner",
+    "public_transport": "platform",
+    "ref": "SL373",
+    "shelter": "no",
+    "tactile_paving": "no",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9500022922,
+  "lat": 3.3026760,
+  "lon": 101.5993413,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Rawang, Jalan Rawang",
+    "name:ms": "Lotus Rawang, Jalan Rawang",
+    "operator": "Smart Selangor;MARA Liner",
+    "public_transport": "stop_position",
+    "ref": "SL373"
+  }
+},
+{
+  "type": "node",
+  "id": 9509619715,
+  "lat": 3.1857070,
+  "lon": 101.7019588,
+  "tags": {
+    "bus": "yes",
+    "name": "Wisma Lotus",
+    "name:ms": "Wisma Lotus",
+    "operator": "Rapid Bus",
+    "public_transport": "stop_position",
+    "ref": "KL672"
+  }
+},
+{
+  "type": "node",
+  "id": 9526039182,
+  "lat": 3.3024044,
+  "lon": 101.5969517,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Rawang",
+    "name:en": "Lotus Rawang",
+    "name:ms": "Lotus Rawang",
+    "operator": "Rapid Bus",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "node",
+  "id": 9583024789,
+  "lat": 3.1603055,
+  "lon": 101.6122883,
+  "tags": {
+    "bench": "no",
+    "bin": "no",
+    "bus": "yes",
+    "departures_board": "no",
+    "disused:highway": "bus_stop",
+    "disused:public_transport": "platform",
+    "name": "Lotus Mutiara Damansara",
+    "old_name": "Tesco Mutiara Damansara",
+    "operator": "Rapid Bus",
+    "ref": "PJ381",
+    "shelter": "no",
+    "tactile_paving": "no",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9583024790,
+  "lat": 3.1599058,
+  "lon": 101.6121227,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Mutiara Damansara",
+    "old_name": "Tesco Mutiara Damansara",
+    "operator": "Rapid Bus",
+    "public_transport": "stop_position",
+    "ref": "PJ381"
+  }
+},
+{
+  "type": "node",
+  "id": 9583024791,
+  "lat": 3.1598414,
+  "lon": 101.6119431,
+  "tags": {
+    "asset_ref": "Jabatan Kerajaan Tempatan",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Lotus Mutiara Damansara (Opp)",
+    "name:en": "Lotus Mutiara Damansara (Opp)",
+    "network": "PJ City Bus",
+    "not:network:wikidata": "Q4259055",
+    "old_name": "Tesco Mutiara Damansara (Opp)",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "ref": "PJ372",
+    "shelter": "yes",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9583024792,
+  "lat": 3.1598072,
+  "lon": 101.6120143,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Mutiara Damansara (Opp)",
+    "old_name": "Tesco Mutiara Damansara (Opp)",
+    "operator": "Rapid Bus",
+    "public_transport": "stop_position",
+    "ref": "PJ372"
+  }
+},
+{
+  "type": "node",
+  "id": 9655340017,
+  "lat": 3.0350431,
+  "lon": 101.6166474,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Extra Puchong",
+    "operator": "RapidKL, Smart Selangor",
+    "public_transport": "stop_position",
+    "ref": "SJ516"
+  }
+},
+{
+  "type": "node",
+  "id": 9939836944,
+  "lat": 3.0486487,
+  "lon": 101.4479387,
+  "tags": {
+    "amenity": "cinema",
+    "brand": "Lotus Five Star",
+    "brand:short": "LFS",
+    "brand:wikidata": "Q17053165",
+    "name": "Lotus Five Star",
+    "name:en": "Lotus Five Star",
+    "short_name": "LFS"
+  }
+},
+{
+  "type": "node",
+  "id": 10068852030,
+  "lat": 3.1042854,
+  "lon": 101.5474437,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Lotus Cars Malaysia"
+  }
+},
+{
+  "type": "node",
+  "id": 10126074508,
+  "lat": 3.2211298,
+  "lon": 101.6707795,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:postcode": "51200",
+    "addr:street": "Jalan Ipoh",
+    "alt_name": "Tesco Lotus;Lotus's Selayang",
+    "branch": "Selayang",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "level": "0",
+    "name": "Lotus's",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2807814/3992",
+    "website": "https://corp.lotuss.com.my/store/lotuss-selayang"
+  }
+},
+{
+  "type": "node",
+  "id": 10137283218,
+  "lat": 3.1633046,
+  "lon": 101.6958587,
+  "tags": {
+    "name": "Golden Lotus Spices",
+    "shop": "spices"
+  }
+},
+{
+  "type": "node",
+  "id": 10559315528,
+  "lat": 3.2358837,
+  "lon": 101.4270647,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Puncak Alam",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "node",
+  "id": 10563210409,
+  "lat": 3.0710876,
+  "lon": 101.5381915,
+  "tags": {
+    "bench": "yes",
+    "bin": "no",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Lotus Extra Shah Alam",
+    "name:en": "Lotus Extra Shah Alam",
+    "not:network:wikidata": "Q4259055",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "ref": "SA49",
+    "route_ref": "750;752;T756",
+    "shelter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10563210410,
+  "lat": 3.0709662,
+  "lon": 101.5378524,
+  "tags": {
+    "bench": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Lotus Extra Shah Alam (Opp)",
+    "name:en": "Lotus Extra Shah Alam (Opp)",
+    "network": "Rapid KL Bus",
+    "not:network:wikidata": "Q4259055",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "ref": "SA1",
+    "route_ref": "708;750;752;T756",
+    "shelter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10564110002,
+  "lat": 3.0051722,
+  "lon": 101.7854233,
+  "tags": {
+    "bus": "yes",
+    "name": "Tesco Extra Kajang",
+    "name:en": "Tesco Extra Kajang",
+    "public_transport": "stop_position"
+  }
+},
+{
+  "type": "node",
+  "id": 10692433398,
+  "lat": 3.1503591,
+  "lon": 101.6962878,
+  "tags": {
+    "brand": "Lotus Hotel",
+    "name": "Lotus Hotel",
+    "name:en": "Lotus Hotel",
+    "name:ms": "Lotus Hotel",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 10702194416,
+  "lat": 3.1665865,
+  "lon": 101.6982566,
+  "tags": {
+    "amenity": "bureau_de_change",
+    "name": "Lotus Group",
+    "name:en": "Lotus Group"
+  }
+},
+{
+  "type": "node",
+  "id": 11114237632,
+  "lat": 3.2389660,
+  "lon": 101.4265814,
+  "tags": {
+    "bench": "no",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Lotus Puncak Alam (Opp)",
+    "public_transport": "platform",
+    "ref": "KS8",
+    "shelter": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 11296190538,
+  "lat": 3.1167019,
+  "lon": 101.5765841,
+  "tags": {
+    "asset_ref": "Jabatan Kerajaan Tempatan",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "lit": "no",
+    "name": "Lotus Ara Damansara",
+    "name:en": "Lotus Ara Damansara",
+    "name:ms": "Lotus Ara Damansara",
+    "network": "MRT Feeder Bus;Rapid KL Bus",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "ref": "PJ775",
+    "route": "T807",
+    "shelter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11350481921,
+  "lat": 3.2388499,
+  "lon": 101.4268293,
+  "tags": {
+    "bench": "no",
+    "bin": "no",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "lit": "no",
+    "name": "Lotus Puncak Alam",
+    "public_transport": "platform",
+    "ref": "KS18",
+    "shelter": "no",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 11701492259,
+  "lat": 3.1934436,
+  "lon": 101.6328578,
+  "tags": {
+    "alt_name": "Tesco Lotus",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "name": "Lotus's",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 11941292125,
+  "lat": 3.0481718,
+  "lon": 101.6222036,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indian;curry",
+    "name": "Lotuss Curry House"
+  }
+},
+{
+  "type": "node",
+  "id": 12117699289,
+  "lat": 3.0992770,
+  "lon": 101.6470811,
+  "tags": {
+    "addr:housenumber": "Lot 179",
+    "addr:street": "Jalan Selangor",
+    "amenity": "social_facility",
+    "name": "Lotus Care",
+    "social_facility": "nursing_home",
+    "social_facility:for": "senior"
+  }
+},
+{
+  "type": "node",
+  "id": 12169636668,
+  "lat": 3.1207933,
+  "lon": 101.5958571,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Restoran Lotus Curry House"
+  }
+},
+{
+  "type": "node",
+  "id": 12176166889,
+  "lat": 3.1454286,
+  "lon": 101.6630422,
+  "tags": {
+    "brand": "Lotus",
+    "brand:wikidata": "Q35935",
+    "level": "2",
+    "name": "Lotus",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "second_hand": "no",
+    "shop": "car",
+    "website": "https://www.lotuscars.com"
+  }
+},
+{
+  "type": "node",
+  "id": 12194088086,
+  "lat": 3.2218883,
+  "lon": 101.6705006,
+  "tags": {
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Lotus's Selayang",
+    "network": "MRT Feeder Bus",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "route_ref": "T121",
+    "shelter": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12468237445,
+  "lat": 3.1166957,
+  "lon": 101.5767240,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Ara Damansara",
+    "name:en": "Lotus Ara Damansara",
+    "name:ms": "Lotus Ara Damansara",
+    "public_transport": "stop_position",
+    "ref": "PJ775"
+  }
+},
+{
+  "type": "node",
+  "id": 12485976025,
+  "lat": 3.0936323,
+  "lon": 101.6691994,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:postcode": "59200",
+    "addr:street": "Jalan Pantai Dalam",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "name": "Mydin",
+    "shop": "supermarket",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 12566716484,
+  "lat": 3.1465287,
+  "lon": 101.6981843,
+  "tags": {
+    "name": "Mydin Mall",
+    "shop": "mobile_phone"
+  }
+},
+{
+  "type": "node",
+  "id": 12587150834,
+  "lat": 3.1598719,
+  "lon": 101.6121995,
+  "tags": {
+    "asset_ref": "Jabatan Kerajaan Tempatan",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "departures_board": "no",
+    "highway": "bus_stop",
+    "lit": "no",
+    "name": "Lotus Mutiara Damansara",
+    "name:en": "Lotus Mutiara Damansara",
+    "name:ms": "Lotus Mutiara Damansara",
+    "not:network:wikidata": "Q4259055",
+    "old_name": "Tesco Mutiara Damansara",
+    "operator": "Rapid Bus",
+    "public_transport": "platform",
+    "ref": "PJ381",
+    "shelter": "yes",
+    "tactile_paving": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12623253965,
+  "lat": 3.0973623,
+  "lon": 101.8004665,
+  "tags": {
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "name": "Mydin",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 12881470752,
+  "lat": 3.0984524,
+  "lon": 101.7349352,
+  "tags": {
+    "bench": "no",
+    "bin": "no",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Tesco Extra Cheras",
+    "public_transport": "platform",
+    "ref": "KL2413",
+    "shelter": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12913610605,
+  "lat": 3.1617058,
+  "lon": 101.7167781,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Mydina",
+    "name:en": "Mydina"
+  }
+},
+{
+  "type": "node",
+  "id": 13341597156,
+  "lat": 3.1351141,
+  "lon": 101.6913424,
+  "tags": {
+    "addr:housenumber": "32",
+    "addr:street": "Jalan Tun Sambanthan 3",
+    "name": "Lotus Luxury Altars",
+    "shop": "religion"
+  }
+},
+{
+  "type": "node",
+  "id": 13368683402,
+  "lat": 3.0883959,
+  "lon": 101.5471591,
+  "tags": {
+    "addr:city": "Shah Alam,Selangor",
+    "addr:housenumber": "UNIT 9",
+    "addr:postcode": "40100",
+    "addr:street": "Jalan Ragbi 13/30",
+    "name": "MYDIN MART SEK 13",
+    "opening_hours": "Mo-Su 09:00-23:00",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 13410862854,
+  "lat": 3.1065493,
+  "lon": 101.4475462,
+  "tags": {
+    "asset_ref": "Jabatan Kerajaan Tempatan",
+    "bench": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Setia Avenue/Lotus's",
+    "old_name": "Setia Avenue (Timur)",
+    "public_transport": "platform",
+    "ref": "SA812",
+    "shelter": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13410908561,
+  "lat": 3.1059025,
+  "lon": 101.4441499,
+  "tags": {
+    "bench": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Tesco Setia Alam",
+    "public_transport": "platform",
+    "ref": "SA824",
+    "shelter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13903398085,
+  "lat": 3.1673494,
+  "lon": 101.7366475,
+  "tags": {
+    "alt_name": "Tesco Lotus",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 14027910603,
+  "lat": 3.0710233,
+  "lon": 101.5379384,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Extra Shah Alam (Opp)",
+    "name:en": "Lotus Extra Shah Alam (Opp)",
+    "network": "Rapid KL Bus",
+    "operator": "Rapid Bus",
+    "public_transport": "stop_position",
+    "ref": "SA1"
+  }
+},
+{
+  "type": "node",
+  "id": 14027910604,
+  "lat": 3.0710609,
+  "lon": 101.5380506,
+  "tags": {
+    "bus": "yes",
+    "name": "Lotus Extra Shah Alam",
+    "name:en": "Lotus Extra Shah Alam",
+    "operator": "Rapid Bus",
+    "public_transport": "stop_position",
+    "ref": "SA49"
+  }
+},
+{
+  "type": "node",
+  "id": 14064290300,
+  "lat": 3.0107582,
+  "lon": 101.4741095,
+  "tags": {
+    "alt_name": "Tesco Lotus",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "proposed:shop": "supermarket"
+  }
+},
+{
+  "type": "node",
+  "id": 14068715567,
+  "lat": 3.0216814,
+  "lon": 101.4828268,
+  "tags": {
+    "branch": "Desa Latania",
+    "brand": "Mydin",
+    "name": "Mydin Mart",
+    "not:brand:wikidata": "Q6947269",
+    "operator": "Tri Shaas Sdn Bhd",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "way",
+  "id": 19206050,
+  "center": {
+    "lat": 3.0450880,
+    "lon": 101.5157780
+  },
+  "tags": {
+    "branch": "Mart Shah Alam",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "building": "commercial",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Mart Shah Alam",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2293030/161"
+  }
+},
+{
+  "type": "way",
+  "id": 19800584,
+  "center": {
+    "lat": 3.0719818,
+    "lon": 101.5386622
+  },
+  "tags": {
+    "addr:city": "Shah Alam",
+    "addr:postcode": "40100",
+    "alt_name": "Tesco Lotus;Lotus's Shah Alam",
+    "branch": "Shah Alam",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "3",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2279874/323",
+    "website": "https://corp.lotuss.com.my/store/lotuss-shah-alam"
+  }
+},
+{
+  "type": "way",
+  "id": 107998567,
+  "center": {
+    "lat": 3.1594480,
+    "lon": 101.6130209
+  },
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:postcode": "47800",
+    "addr:street": "Jalan PJU 7/4",
+    "alt_name": "Tesco Lotus;Lotus's Mutiara",
+    "branch": "Mutiara",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "5",
+    "check_date": "2026-07-06",
+    "height": "20",
+    "name": "Lotus's",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "website": "https://corp.lotuss.com.my/store/lotuss-mutiara"
+  }
+},
+{
+  "type": "way",
+  "id": 136415071,
+  "center": {
+    "lat": 3.0348726,
+    "lon": 101.6156683
+  },
+  "tags": {
+    "addr:city": "Puchong",
+    "addr:postcode": "47100",
+    "addr:street": "Jalan Bandar 3",
+    "alt_name": "Tesco Lotus;Lotus's Puchong",
+    "branch": "Puchong",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "2",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "source": "own visit",
+    "website": "https://corp.lotuss.com.my/store/lotuss-puchong"
+  }
+},
+{
+  "type": "way",
+  "id": 144850662,
+  "center": {
+    "lat": 3.3021807,
+    "lon": 101.5981261
+  },
+  "tags": {
+    "addr:city": "Rawang",
+    "addr:postcode": "48000",
+    "branch": "Rawang",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "2",
+    "name": "Lotus's Rawang",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "old_name": "Tesco",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "website": "https://corp.lotuss.com.my/store/lotuss-rawang"
+  }
+},
+{
+  "type": "way",
+  "id": 165480816,
+  "center": {
+    "lat": 3.1438423,
+    "lon": 101.7416155
+  },
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:postcode": "55100",
+    "alt_name": "Tesco Lotus;Lotus's Ampang",
+    "branch": "Ampang",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "2",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "toilets:wheelchair": "yes",
+    "website": "https://corp.lotuss.com.my/store/lotuss-ampang",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 169544877,
+  "center": {
+    "lat": 3.0043491,
+    "lon": 101.7861915
+  },
+  "tags": {
+    "addr:city": "Kajang",
+    "addr:postcode": "43000",
+    "alt_name": "Tesco Lotus;Lotus's Kajang",
+    "branch": "Kajang",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "3",
+    "name": "Lotus's Kajang",
+    "name:en": "Lotus's Kajang",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "source": "https://www.mapillary.com/app/?pKey=132165248870754&focus=photo",
+    "website": "https://corp.lotuss.com.my/store/lotuss-kajang"
+  }
+},
+{
+  "type": "way",
+  "id": 186515791,
+  "center": {
+    "lat": 3.1933100,
+    "lon": 101.6333082
+  },
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:housenumber": "3",
+    "addr:postcode": "52200",
+    "addr:street": "Jalan 7A/62A",
+    "building": "retail",
+    "building:levels": "4",
+    "name": "Lotus's Kepong",
+    "old_name": "Kepong Village Mall",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "phone": "03-62728507",
+    "shop": "mall",
+    "source": "https://www.mapillary.com/app/?pKey=521539659082310&focus=photo",
+    "toilets": "yes",
+    "website": "https://corp.lotuss.com.my/store/lotuss-kepong"
+  }
+},
+{
+  "type": "way",
+  "id": 211092492,
+  "center": {
+    "lat": 3.0605554,
+    "lon": 101.5965564
+  },
+  "tags": {
+    "access": "yes",
+    "amenity": "parking",
+    "fee": "yes",
+    "name": "Mydin Car Park",
+    "name:en": "Mydin Car Park",
+    "parking": "surface"
+  }
+},
+{
+  "type": "way",
+  "id": 211092518,
+  "center": {
+    "lat": 3.0590260,
+    "lon": 101.5965410
+  },
+  "tags": {
+    "addr:city": "Subang Jaya",
+    "addr:housenumber": "Lot 675;Lot 676",
+    "addr:street": "Persiaran Subang Permai",
+    "branch": "Subang Jaya Hypermarket",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "building": "yes",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Subang Jaya Hypermarket",
+    "opening_hours": "Mo-Su,PH 08:00-22:00",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "way",
+  "id": 219753817,
+  "center": {
+    "lat": 3.0329577,
+    "lon": 101.5965345
+  },
+  "tags": {
+    "building": "industrial",
+    "name": "My Mydin Warehouse"
+  }
+},
+{
+  "type": "way",
+  "id": 229252274,
+  "center": {
+    "lat": 3.1855348,
+    "lon": 101.7014759
+  },
+  "tags": {
+    "building": "yes",
+    "building:levels": "8",
+    "name": "Wisma Hrih Lotus"
+  }
+},
+{
+  "type": "way",
+  "id": 275861627,
+  "center": {
+    "lat": 3.0058548,
+    "lon": 101.4409566
+  },
+  "tags": {
+    "addr:city": "Klang",
+    "addr:postcode": "41200",
+    "alt_name": "Tesco Lotus;Lotus's Klang",
+    "branch": "Klang",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "3",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2744938/903",
+    "website": "https://corp.lotuss.com.my/store/lotuss-klang"
+  }
+},
+{
+  "type": "way",
+  "id": 394606577,
+  "center": {
+    "lat": 2.9991683,
+    "lon": 101.5992731
+  },
+  "tags": {
+    "landuse": "residential",
+    "name": "Lotus Apartment",
+    "name:en": "Lotus Apartment",
+    "residential": "apartments"
+  }
+},
+{
+  "type": "way",
+  "id": 446764411,
+  "center": {
+    "lat": 3.1148819,
+    "lon": 101.5264189
+  },
+  "tags": {
+    "addr:city": "Shah Alam",
+    "addr:housenumber": "4;6;7;8",
+    "addr:street": "Jalan Pelapik U8/C",
+    "branch": "Bukit Jelutong",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "building": "yes",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Bukit Jelutong",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2866114/692"
+  }
+},
+{
+  "type": "way",
+  "id": 447038490,
+  "center": {
+    "lat": 3.2209491,
+    "lon": 101.6709568
+  },
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:postcode": "51200",
+    "addr:street": "Jalan Ipoh",
+    "building": "retail",
+    "building:levels": "4",
+    "name": "Lotus's Selayang",
+    "source": "https://openstreetcam.org/details/2807814/3992",
+    "website": "https://corp.lotuss.com.my/store/lotuss-selayang"
+  }
+},
+{
+  "type": "way",
+  "id": 504595849,
+  "center": {
+    "lat": 3.2365848,
+    "lon": 101.4283700
+  },
+  "tags": {
+    "addr:city": "Puncak Alam",
+    "addr:housenumber": "1",
+    "addr:postcode": "42300",
+    "addr:street": "Jalan Niaga Bestari 9",
+    "alt_name": "Tesco Lotus;Lotus's Puncak Alam",
+    "branch": "Puncak Alam",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "layer": "1",
+    "name": "Lotus's Puncak Alam",
+    "old_name": "Tesco",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "website": "https://corp.lotuss.com.my/store/lotuss-puncak-alam"
+  }
+},
+{
+  "type": "way",
+  "id": 528361980,
+  "center": {
+    "lat": 3.0994619,
+    "lon": 101.7346313
+  },
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:housenumber": "2",
+    "addr:postcode": "56000",
+    "addr:street": "Jalan Midah 2",
+    "air_conditioning": "yes",
+    "alt_name": "Tesco Lotus;Lotus's Cheras",
+    "branch": "Cheras",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "2",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "shop": "supermarket",
+    "source": "local knowledge",
+    "toilets:wheelchair": "yes",
+    "website": "https://corp.lotuss.com.my/store/lotuss-cheras",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 715399628,
+  "center": {
+    "lat": 3.3312650,
+    "lon": 101.8362369
+  },
+  "tags": {
+    "name": "lotus pond",
+    "natural": "water",
+    "water": "pond"
+  }
+},
+{
+  "type": "way",
+  "id": 724552315,
+  "center": {
+    "lat": 3.3198674,
+    "lon": 101.2710010
+  },
+  "tags": {
+    "addr:city": "Kuala Selangor",
+    "addr:housenumber": "2",
+    "addr:postcode": "45000",
+    "alt_name": "Tesco Lotus;Lotus's Kuala Selangor",
+    "branch": "Kuala Selangor",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "name": "Lotus's",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "start_date": "2009-02",
+    "website": "https://corp.lotuss.com.my/store/lotuss-kuala-selangor"
+  }
+},
+{
+  "type": "way",
+  "id": 821856497,
+  "center": {
+    "lat": 3.1069495,
+    "lon": 101.4447665
+  },
+  "tags": {
+    "addr:city": "Shah Alam",
+    "addr:housenumber": "2",
+    "addr:postcode": "40170",
+    "addr:street": "Jalan Setia Prima S U13/S",
+    "alt_name": "Tesco Lotus;Lotus's Setia Alam",
+    "branch": "Setia Alam",
+    "brand": "Lotus's",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "2",
+    "name": "Lotus's",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "roof:shape": "gabled",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2238838/2106",
+    "website": "https://corp.lotuss.com.my/store/lotuss-setia-alam"
+  }
+},
+{
+  "type": "way",
+  "id": 835263679,
+  "center": {
+    "lat": 3.1042675,
+    "lon": 101.5474474
+  },
+  "tags": {
+    "addr:city": "Shah Alam",
+    "addr:housenumber": "43",
+    "addr:postcode": "40150",
+    "addr:street": "Jalan Astaka U8/84A Bukit Jelutong",
+    "building": "yes",
+    "building:levels": "3",
+    "name": "Lotus Cars Malaysia"
+  }
+},
+{
+  "type": "way",
+  "id": 895155135,
+  "center": {
+    "lat": 3.1184805,
+    "lon": 101.5761927
+  },
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:postcode": "47301",
+    "addr:street": "Jalan PJU 1A/3A",
+    "alt_name": "Tesco Lotus;Lotus's Ara Damansara",
+    "branch": "Ara Damansara",
+    "brand": "Lotus's",
+    "brand:en": "Lotus's",
+    "brand:th": "โลตัส",
+    "brand:wikidata": "Q2378901",
+    "brand:wikipedia": "en:Lotus's",
+    "building": "retail",
+    "building:levels": "3",
+    "name": "Lotus's",
+    "name:en": "Lotus's",
+    "name:th": "โลตัส",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "operator": "Lotuss Stores (Malaysia) Sdn Bhd",
+    "shop": "supermarket",
+    "source": "https://openstreetcam.org/details/2440142/37",
+    "website": "https://corp.lotuss.com.my/store/lotuss-ara-damansara"
+  }
+},
+{
+  "type": "way",
+  "id": 1079427377,
+  "center": {
+    "lat": 3.0882753,
+    "lon": 101.4913460
+  },
+  "tags": {
+    "landuse": "residential",
+    "name": "Lotus",
+    "residential": "urban"
+  }
+},
+{
+  "type": "way",
+  "id": 1112314410,
+  "center": {
+    "lat": 3.1634503,
+    "lon": 101.6978289
+  },
+  "tags": {
+    "addr:street": "Jalan Tuanku Abdul Rahman",
+    "branch": "Chow Kit Emporium",
+    "brand": "Mydin",
+    "brand:wikidata": "Q6947269",
+    "brand:wikipedia": "en:Mydin",
+    "building": "yes",
+    "name": "Mydin",
+    "name:zh": "迈汀",
+    "official_name": "Mydin Chow Kit Emporium",
+    "shop": "supermarket"
+  }
+},
+{
+  "type": "way",
+  "id": 1178518709,
+  "center": {
+    "lat": 3.1038032,
+    "lon": 101.6362594
+  },
+  "tags": {
+    "addr:city": "Petaling Jaya",
+    "addr:housenumber": "1A",
+    "addr:postcode": "46100",
+    "addr:street": "Jalan 51A/223",
+    "building": "office",
+    "name": "Wisma Lotus"
+  }
+},
+{
+  "type": "way",
+  "id": 1485767707,
+  "center": {
+    "lat": 3.2156958,
+    "lon": 101.5298575
+  },
+  "tags": {
+    "building": "construction",
+    "name": "Lotus's"
+  }
+},
+{
+  "type": "way",
+  "id": 1508639956,
+  "center": {
+    "lat": 3.0348018,
+    "lon": 101.7231319
+  },
+  "tags": {
+    "landuse": "residential",
+    "name": "The Lotus"
+  }
+},
+{
+  "type": "way",
+  "id": 1546078502,
+  "center": {
+    "lat": 3.0104690,
+    "lon": 101.4736391
+  },
+  "tags": {
+    "landuse": "construction",
+    "name": "Sejati Sqquare (Lotus's & Burger King)"
+  }
+}
+
+  ]
+}

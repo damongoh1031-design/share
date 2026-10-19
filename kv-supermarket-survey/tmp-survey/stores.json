@@ -1,0 +1,2059 @@
+[
+ {
+  "name": "AEON",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 3.0724445,
+  "lon": 101.6059178,
+  "addr": ""
+ },
+ {
+  "name": "AEON",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 3.1482219,
+  "lon": 101.6149528,
+  "addr": ""
+ },
+ {
+  "name": "AEON",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 2.969344,
+  "lon": 101.717256,
+  "addr": ""
+ },
+ {
+  "name": "AEON",
+  "brand": "AEON",
+  "shop": "supermarket",
+  "lat": 3.1181834,
+  "lon": 101.6778778,
+  "addr": ""
+ },
+ {
+  "name": "AEON",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 2.9951023,
+  "lon": 101.4439562,
+  "addr": ""
+ },
+ {
+  "name": "AEON Bukit Raja",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 3.0616588,
+  "lon": 101.4723986,
+  "addr": ""
+ },
+ {
+  "name": "AEON Bukit Raja Supermarket",
+  "brand": "AEON",
+  "shop": "supermarket",
+  "lat": 3.0600606,
+  "lon": 101.4718169,
+  "addr": ""
+ },
+ {
+  "name": "AEON MaxValu Prime",
+  "brand": "AEON",
+  "shop": "supermarket",
+  "lat": 3.110695,
+  "lon": 101.6679168,
+  "addr": ""
+ },
+ {
+  "name": "AEON Puchong",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 3.0466214,
+  "lon": 101.6192113,
+  "addr": ""
+ },
+ {
+  "name": "AEON Style",
+  "brand": "AEON",
+  "shop": "department_store",
+  "lat": 3.1261962,
+  "lon": 101.7284395,
+  "addr": ""
+ },
+ {
+  "name": "AEON Supermarket",
+  "brand": "AEON",
+  "shop": "supermarket",
+  "lat": 3.1907832,
+  "lon": 101.653392,
+  "addr": ""
+ },
+ {
+  "name": "AEON Supermarket",
+  "brand": "AEON",
+  "shop": "supermarket",
+  "lat": 3.1262525,
+  "lon": 101.7279866,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.0634427,
+  "lon": 101.6944032,
+  "addr": "1 Jalan 1/149E 57000"
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.1166472,
+  "lon": 101.6766877,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 2.941044,
+  "lon": 101.7112476,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.117032,
+  "lon": 101.6347657,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.3164344,
+  "lon": 101.5363706,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.0828319,
+  "lon": 101.5879499,
+  "addr": "3 Jalan SS 16/1 Subang Jaya 47500"
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.0488405,
+  "lon": 101.7587894,
+  "addr": "Lebuh Utama Tun Hussein Onn 43200"
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.2146294,
+  "lon": 101.6439485,
+  "addr": "2 Jalan Metro Perdana Barat Kuala Lumpur 52100"
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 2.9915481,
+  "lon": 101.6146109,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 2.999427,
+  "lon": 101.5286696,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.1962491,
+  "lon": 101.7430008,
+  "addr": "Kuala Lumpur"
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.1404884,
+  "lon": 101.7792072,
+  "addr": "Lot 613 Lorong Dagang Permai 6 Ampang 68000"
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.2046309,
+  "lon": 101.7161678,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.0433048,
+  "lon": 101.5257553,
+  "addr": ""
+ },
+ {
+  "name": "AEON BiG",
+  "brand": "AEON BIG",
+  "shop": "supermarket",
+  "lat": 3.0689936,
+  "lon": 101.4308754,
+  "addr": ""
+ },
+ {
+  "name": "Billion",
+  "brand": "Billion",
+  "shop": "department_store",
+  "lat": 2.961629,
+  "lon": 101.7568256,
+  "addr": ""
+ },
+ {
+  "name": "Billion",
+  "brand": "Billion",
+  "shop": "department_store",
+  "lat": 3.0025986,
+  "lon": 101.3977145,
+  "addr": ""
+ },
+ {
+  "name": "Billion",
+  "brand": "Billion",
+  "shop": "department_store",
+  "lat": 2.9731437,
+  "lon": 101.8306758,
+  "addr": ""
+ },
+ {
+  "name": "Checkers",
+  "brand": "Checkers",
+  "shop": "supermarket",
+  "lat": 3.0625364,
+  "lon": 101.5263483,
+  "addr": ""
+ },
+ {
+  "name": "Checkers",
+  "brand": "Checkers",
+  "shop": "supermarket",
+  "lat": 3.0714756,
+  "lon": 101.6533434,
+  "addr": "Kuala Lumpur"
+ },
+ {
+  "name": "Checkers Hypermarket",
+  "brand": "Checkers",
+  "shop": "supermarket",
+  "lat": 3.0521728,
+  "lon": 101.7469189,
+  "addr": ""
+ },
+ {
+  "name": "Cold Storage Great Eastern Mall",
+  "brand": "Cold Storage",
+  "shop": "supermarket",
+  "lat": 3.160414,
+  "lon": 101.7366912,
+  "addr": ""
+ },
+ {
+  "name": "Cold Storage KLCC",
+  "brand": "Cold Storage",
+  "shop": "supermarket",
+  "lat": 3.1567898,
+  "lon": 101.7121307,
+  "addr": "Jalan Ampang Kuala Lumpur 50088"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.2034892,
+  "lon": 101.721209,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0643755,
+  "lon": 101.4531352,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.1973428,
+  "lon": 101.5931471,
+  "addr": "Jalan PJU 10/1 Petaling Jaya 47830"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.090644,
+  "lon": 101.7625,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0950804,
+  "lon": 101.6738689,
+  "addr": "G-01-03 Jalan Kelang Lama Kuala Lumpur 58200"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.2559211,
+  "lon": 101.3073976,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0984143,
+  "lon": 101.5566033,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.2358148,
+  "lon": 101.4891743,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9574372,
+  "lon": 101.7902909,
+  "addr": "16 Jalan Hentian 1"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0117321,
+  "lon": 101.4533388,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.057847,
+  "lon": 101.4901903,
+  "addr": "b-15-g Jalan Serai Wangi K 16/K, Alam Avenue, 3 Shah Alam 41300"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0326677,
+  "lon": 101.5372591,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0289056,
+  "lon": 101.7090252,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9438003,
+  "lon": 101.615255,
+  "addr": "GM9A Jalan Putra Perdana 5D/2 Puchong 47130"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0328352,
+  "lon": 101.7623867,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.2009925,
+  "lon": 101.5570333,
+  "addr": "2;20 Jalan Liter C U19C"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.98025,
+  "lon": 101.5333438,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.3441038,
+  "lon": 101.2555781,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.2377574,
+  "lon": 101.4475968,
+  "addr": "Lot 15792 Puncak Alam 42300"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.1381507,
+  "lon": 101.5296877,
+  "addr": "Jalan 4D Shah Alam 40150"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.8773992,
+  "lon": 101.501182,
+  "addr": "Taman Ria Jenjarom 42600"
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0135527,
+  "lon": 101.4891377,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9667628,
+  "lon": 101.7881435,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9268193,
+  "lon": 101.8582958,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0822791,
+  "lon": 101.4099783,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.1346188,
+  "lon": 101.3859344,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9458642,
+  "lon": 101.8467688,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.1361818,
+  "lon": 101.3718716,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0138946,
+  "lon": 101.5592906,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9950641,
+  "lon": 101.4188099,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.2903367,
+  "lon": 101.513827,
+  "addr": ""
+ },
+ {
+  "name": "Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.132956,
+  "lon": 101.4559933,
+  "addr": ""
+ },
+ {
+  "name": "Econsave Prima Saujana Kajang",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.0091185,
+  "lon": 101.8028333,
+  "addr": ""
+ },
+ {
+  "name": "Pasar Ekonomi Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 2.9970532,
+  "lon": 101.6788564,
+  "addr": "2 Jalan Equine 1D"
+ },
+ {
+  "name": "Pasar Ekonomi Econsave",
+  "brand": "Econsave",
+  "shop": "supermarket",
+  "lat": 3.006398,
+  "lon": 101.399062,
+  "addr": ""
+ },
+ {
+  "name": "Giant",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.0657596,
+  "lon": 101.4888515,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1445214,
+  "lon": 101.7108414,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.0827594,
+  "lon": 101.7023761,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1459305,
+  "lon": 101.7650115,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1287477,
+  "lon": 101.7538176,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1579486,
+  "lon": 101.7507832,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 2.9297064,
+  "lon": 101.6718012,
+  "addr": "Lot G-25"
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 2.9891955,
+  "lon": 101.5726926,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.0588637,
+  "lon": 101.594909,
+  "addr": "1 Persiaran Subang Permai Subang Jaya"
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 2.9836166,
+  "lon": 101.6633094,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.049686,
+  "lon": 101.6463825,
+  "addr": "Lot 449 Jalan BK 5A/1 Puchong 47100"
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1921765,
+  "lon": 101.770263,
+  "addr": "Jalan Wangsa 1"
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.0094578,
+  "lon": 101.43325,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1561519,
+  "lon": 101.5966537,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.0185072,
+  "lon": 101.5373534,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.2072808,
+  "lon": 101.7516089,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1783711,
+  "lon": 101.743609,
+  "addr": ""
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1999159,
+  "lon": 101.7229053,
+  "addr": "Jalan 5/23H Kuala Lumpur 53200"
+ },
+ {
+  "name": "Giant Hypermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.0840456,
+  "lon": 101.5492386,
+  "addr": ""
+ },
+ {
+  "name": "Giant Supermarket",
+  "brand": "Giant",
+  "shop": "supermarket",
+  "lat": 3.1054516,
+  "lon": 101.6001413,
+  "addr": "Petaling Jaya"
+ },
+ {
+  "name": "Hero Market",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 2.9540939,
+  "lon": 101.7568171,
+  "addr": "Bandar Baru Bangi"
+ },
+ {
+  "name": "Hero Market",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.234561,
+  "lon": 101.4286782,
+  "addr": "3-15 Jalan Niaga Bestari 3"
+ },
+ {
+  "name": "Hero Market",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 2.9197583,
+  "lon": 101.6838143,
+  "addr": ""
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.0873466,
+  "lon": 101.5472164,
+  "addr": "1 Jalan Maraton 13/31 Shah Alam 40100"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1917372,
+  "lon": 101.5933233,
+  "addr": "Petaling Jaya 47930"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1476156,
+  "lon": 101.7565668,
+  "addr": "Jalan Dagang Besar Ampang 68000"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1953346,
+  "lon": 101.6168709,
+  "addr": "Jalan PJU 9/1 Kuala Lumpur 57000"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.197555,
+  "lon": 101.7539612,
+  "addr": "Jalan 3/27D Kuala Lumpur 53300"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1371533,
+  "lon": 101.630911,
+  "addr": "Jalan Wan Kadir 3 Kuala Lumpur 60000"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.2121406,
+  "lon": 101.7462442,
+  "addr": "Lorong Selangor Ampang 53100"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1444678,
+  "lon": 101.5387398,
+  "addr": "Jalan Taman Subang Jasa 3 Shah Alam 40150"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.2024986,
+  "lon": 101.6719636,
+  "addr": "Lot GA-01 Jalan Ipoh Kuala Lumpur 51200"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.0648345,
+  "lon": 101.7109106,
+  "addr": "Jalan Gangsa Kuala Lumpur 57000"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1027447,
+  "lon": 101.7081443,
+  "addr": "Jalan Sri Permaisuri 9 Kuala Lumpur 56000"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1022203,
+  "lon": 101.5365006,
+  "addr": "Persiaran Arked Shah Alam"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.0100508,
+  "lon": 101.5578118,
+  "addr": "Jalan Kapar 27/89 Shah Alam 40000"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 2.9795423,
+  "lon": 101.6118795,
+  "addr": "Jalan Meranti Jaya 3/1 Puchong 47100"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.0228108,
+  "lon": 101.6759204,
+  "addr": "Jalan PUJ 3/13 Seri Kembangan 43300"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.0057086,
+  "lon": 101.5375605,
+  "addr": "Jalan Anggerik Vanilla W31/W Shah Alam 40460"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 2.993997,
+  "lon": 101.6219181,
+  "addr": "Puchong 47100"
+ },
+ {
+  "name": "HeroMarket",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.0264562,
+  "lon": 101.6183131,
+  "addr": ""
+ },
+ {
+  "name": "HeroMarket Kelana Jaya",
+  "brand": "HeroMarket",
+  "shop": "supermarket",
+  "lat": 3.1055437,
+  "lon": 101.5996871,
+  "addr": "119 Jalan SS 6/12 Petaling Jaya 47301"
+ },
+ {
+  "name": "Isetan - The Japan Store",
+  "brand": "Isetan",
+  "shop": "department_store",
+  "lat": 3.1461387,
+  "lon": 101.7118557,
+  "addr": ""
+ },
+ {
+  "name": "Isetan Suria",
+  "brand": "Isetan",
+  "shop": "department_store",
+  "lat": 3.1575337,
+  "lon": 101.7129992,
+  "addr": ""
+ },
+ {
+  "name": "Isetan The Gardens",
+  "brand": "Isetan",
+  "shop": "department_store",
+  "lat": 3.1177771,
+  "lon": 101.6757408,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1092693,
+  "lon": 101.6374196,
+  "addr": "Lower Ground Floor Jalan Professor Khoo Kay Kim Petaling Jaya 46100"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1106516,
+  "lon": 101.6371547,
+  "addr": "1 J Kemajuan 46200"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1674091,
+  "lon": 101.6062505,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1157208,
+  "lon": 101.5292016,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1294256,
+  "lon": 101.5992847,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1106216,
+  "lon": 101.5868312,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1678438,
+  "lon": 101.6468064,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0848035,
+  "lon": 101.6733732,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1663085,
+  "lon": 101.6522075,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1565584,
+  "lon": 101.5718139,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0817436,
+  "lon": 101.5821845,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0087758,
+  "lon": 101.5778696,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0551789,
+  "lon": 101.786945,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0263937,
+  "lon": 101.580897,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0285555,
+  "lon": 101.7178006,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1345224,
+  "lon": 101.6229011,
+  "addr": "Lot B-001"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1403866,
+  "lon": 101.7078301,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0202469,
+  "lon": 101.623538,
+  "addr": "Lot 3 Lebuh Puteri Puchong 47100"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0779536,
+  "lon": 101.5865224,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.2115135,
+  "lon": 101.748733,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1182683,
+  "lon": 101.675712,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0534801,
+  "lon": 101.6777041,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1619154,
+  "lon": 101.7200031,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0526292,
+  "lon": 101.4629976,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1823385,
+  "lon": 101.5096916,
+  "addr": "Lot GF-29, GF"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0723903,
+  "lon": 101.6055236,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 2.9221437,
+  "lon": 101.6506471,
+  "addr": "LG-16 Lingkaran Cyber Point Timur Cyberjaya 63000"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.224207,
+  "lon": 101.7311161,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1328312,
+  "lon": 101.6298764,
+  "addr": "LG 01-02 Glo Damansara Taman Tun Dr Ismail 60000"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.3270932,
+  "lon": 101.5444463,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0651132,
+  "lon": 101.6090396,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1379851,
+  "lon": 101.6491354,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0951226,
+  "lon": 101.4809618,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.2269296,
+  "lon": 101.4568164,
+  "addr": "Lot 16 Bandar Puncak Alam 42300"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 2.8988097,
+  "lon": 101.8336858,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer Sierramas",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.2028527,
+  "lon": 101.5889638,
+  "addr": ""
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1049653,
+  "lon": 101.5957334,
+  "addr": "Jalan SS 7/26A Petaling Jaya 47301"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1992661,
+  "lon": 101.7427242,
+  "addr": "Kuala Lumpur 53300"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 2.9704905,
+  "lon": 101.7140744,
+  "addr": "Sepang Utara 62502"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.2211298,
+  "lon": 101.6707795,
+  "addr": "Jalan Ipoh Kuala Lumpur 51200"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1934436,
+  "lon": 101.6328578,
+  "addr": ""
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1673494,
+  "lon": 101.7366475,
+  "addr": ""
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.0719818,
+  "lon": 101.5386622,
+  "addr": "Shah Alam 40100"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.159448,
+  "lon": 101.6130209,
+  "addr": "Jalan PJU 7/4 Petaling Jaya 47800"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.0348726,
+  "lon": 101.6156683,
+  "addr": "Jalan Bandar 3 Puchong 47100"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1438423,
+  "lon": 101.7416155,
+  "addr": "Kuala Lumpur 55100"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.0058548,
+  "lon": 101.4409566,
+  "addr": "Klang 41200"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 2.9823431,
+  "lon": 101.6173837,
+  "addr": "Puchong 47120"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.0994619,
+  "lon": 101.7346313,
+  "addr": "2 Jalan Midah 2 Kuala Lumpur 56000"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 2.8818009,
+  "lon": 101.7904516,
+  "addr": "Kajang 43000"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 2.9306282,
+  "lon": 101.8568097,
+  "addr": "1 Jalan TPS 1/1 Semenyih 43500"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.3198674,
+  "lon": 101.271001,
+  "addr": "2 Kuala Selangor 45000"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1069495,
+  "lon": 101.4447665,
+  "addr": "2 Jalan Setia Prima S U13/S Shah Alam 40170"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.1184805,
+  "lon": 101.5761927,
+  "addr": "Jalan PJU 1A/3A Petaling Jaya 47301"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 2.8738435,
+  "lon": 101.5022642,
+  "addr": "Jenjarom 42600"
+ },
+ {
+  "name": "Lotus's",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 2.9484155,
+  "lon": 101.5498822,
+  "addr": "2 Jalan Rimbayu 1 Telok Panglima Garang 425000"
+ },
+ {
+  "name": "Lotus's Kajang",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.0043491,
+  "lon": 101.7861915,
+  "addr": "Kajang 43000"
+ },
+ {
+  "name": "Lotus's Puncak Alam",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.2365848,
+  "lon": 101.42837,
+  "addr": "1 Jalan Niaga Bestari 9 Puncak Alam 42300"
+ },
+ {
+  "name": "Lotus's Rawang",
+  "brand": "Lotus's",
+  "shop": "supermarket",
+  "lat": 3.3021807,
+  "lon": 101.5981261,
+  "addr": "Rawang 48000"
+ },
+ {
+  "name": "Lulu",
+  "brand": "LuLu",
+  "shop": "department_store",
+  "lat": 3.154507,
+  "lon": 101.6996758,
+  "addr": ""
+ },
+ {
+  "name": "Mercato",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.14997,
+  "lon": 101.7128078,
+  "addr": ""
+ },
+ {
+  "name": "Mercato",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1433937,
+  "lon": 101.7167015,
+  "addr": ""
+ },
+ {
+  "name": "Mercato Solaris",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1763315,
+  "lon": 101.6596812,
+  "addr": ""
+ },
+ {
+  "name": "Mercató",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1663124,
+  "lon": 101.6915652,
+  "addr": "LG-1A"
+ },
+ {
+  "name": "Mercató",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1601145,
+  "lon": 101.7367244,
+  "addr": ""
+ },
+ {
+  "name": "MYDIN MART SEK 13",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0883959,
+  "lon": 101.5471591,
+  "addr": "UNIT 9 Jalan Ragbi 13/30 Shah Alam,Selangor 40100"
+ },
+ {
+  "name": "My Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0737104,
+  "lon": 101.6493184,
+  "addr": "Petaling Jaya"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.1465113,
+  "lon": 101.6983657,
+  "addr": "Kuala Lumpur"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 2.9451116,
+  "lon": 101.7227558,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 2.9911022,
+  "lon": 101.7938408,
+  "addr": "Jalan Jelok 6 Kajang"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.319269,
+  "lon": 101.5787369,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0301206,
+  "lon": 101.5353405,
+  "addr": "4-20 Jalan Ria 25/62 40400"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.152789,
+  "lon": 101.6973688,
+  "addr": "",
+  "merged": 2
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0166937,
+  "lon": 101.6755874,
+  "addr": "Jalan PUJ 3/2 Seri Kembangan 43300"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 2.9461852,
+  "lon": 101.8466046,
+  "addr": "Jalan Pasar Baru 43500"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0477136,
+  "lon": 101.4487043,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.2068362,
+  "lon": 101.7179507,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.2379911,
+  "lon": 101.6436398,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0400132,
+  "lon": 101.4470549,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0547609,
+  "lon": 101.4911603,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0936323,
+  "lon": 101.6691994,
+  "addr": "Jalan Pantai Dalam Kuala Lumpur 59200"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0973623,
+  "lon": 101.8004665,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.045088,
+  "lon": 101.515778,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.059026,
+  "lon": 101.596541,
+  "addr": "Lot 675;Lot 676 Persiaran Subang Permai Subang Jaya"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.1148819,
+  "lon": 101.5264189,
+  "addr": "4;6;7;8 Jalan Pelapik U8/C Shah Alam"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 2.9693377,
+  "lon": 101.7738564,
+  "addr": "Jalan 7/7A Bandar Baru Bangi 43650"
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 2.9754285,
+  "lon": 101.8249369,
+  "addr": ""
+ },
+ {
+  "name": "Mydin",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.1634503,
+  "lon": 101.6978289,
+  "addr": "Jalan Tuanku Abdul Rahman"
+ },
+ {
+  "name": "Mydin Mart",
+  "brand": "Mydin",
+  "shop": "supermarket",
+  "lat": 3.0216814,
+  "lon": 101.4828268,
+  "addr": ""
+ },
+ {
+  "name": "NSK Grocer",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.105103,
+  "lon": 101.6471617,
+  "addr": ""
+ },
+ {
+  "name": "NSK Grocer",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1303806,
+  "lon": 101.6274014,
+  "addr": "LG 13A & LG-17"
+ },
+ {
+  "name": "NSK Grocer",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.142068,
+  "lon": 101.7104881,
+  "addr": ""
+ },
+ {
+  "name": "NSK Grocer",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1793615,
+  "lon": 101.682378,
+  "addr": ""
+ },
+ {
+  "name": "NSK Grocer",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1601087,
+  "lon": 101.7006363,
+  "addr": "LG19-21&30 Jalan Sultan Ismail Kuala Lumpur"
+ },
+ {
+  "name": "NSK Grocer Summit USJ",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.0597136,
+  "lon": 101.593388,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.3089301,
+  "lon": 101.5550921,
+  "addr": "Rawang 48000"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1384952,
+  "lon": 101.4399077,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.2444818,
+  "lon": 101.6622212,
+  "addr": "Lot 4674 & 4675 Jalan Ipoh 68100"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.0851745,
+  "lon": 101.6910545,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.2047441,
+  "lon": 101.6674318,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1553165,
+  "lon": 101.5537037,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.165647,
+  "lon": 101.7013909,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 2.9824483,
+  "lon": 101.6672687,
+  "addr": "Ground Floor, 3 Elements Persiaran Putra Permai Selesa Seri Kembangan 43300"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1203861,
+  "lon": 101.7621047,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1226237,
+  "lon": 101.7398514,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.0263075,
+  "lon": 101.5431184,
+  "addr": "1 Jalan Sepadu D 25/D Shah Alam 40400"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1993989,
+  "lon": 101.725927,
+  "addr": "Kuala Lumpur"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.0678681,
+  "lon": 101.7662238,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1073668,
+  "lon": 101.4413724,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1592064,
+  "lon": 101.5921317,
+  "addr": "Persiaran Mahogani Kota Damansara 47810"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.1305644,
+  "lon": 101.7223396,
+  "addr": ""
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.3370282,
+  "lon": 101.5807972,
+  "addr": "Jalan Bukit Rawang Rawang 48000"
+ },
+ {
+  "name": "NSK Trade City",
+  "brand": "NSK",
+  "shop": "supermarket",
+  "lat": 3.0085925,
+  "lon": 101.4796815,
+  "addr": ""
+ },
+ {
+  "name": "TF Value-Mart",
+  "brand": "TF Value-Mart",
+  "shop": "supermarket",
+  "lat": 3.0807608,
+  "lon": 101.730584,
+  "addr": "Lot 11811 Jalan Cerdas Kuala Lumpur 56000"
+ },
+ {
+  "name": "TF Value-Mart",
+  "brand": "TF Value-Mart",
+  "shop": "supermarket",
+  "lat": 3.2348489,
+  "lon": 101.6941016,
+  "addr": ""
+ },
+ {
+  "name": "TF Value-Mart",
+  "brand": "TF Value-Mart",
+  "shop": "supermarket",
+  "lat": 3.2020206,
+  "lon": 101.6185626,
+  "addr": ""
+ },
+ {
+  "name": "The Store",
+  "brand": "The Store",
+  "shop": "supermarket",
+  "lat": 2.9439829,
+  "lon": 101.8448602,
+  "addr": ""
+ },
+ {
+  "name": "The Store",
+  "brand": "The Store",
+  "shop": "supermarket",
+  "lat": 3.1323887,
+  "lon": 101.7522624,
+  "addr": ""
+ },
+ {
+  "name": "The Store",
+  "brand": "The Store",
+  "shop": "supermarket",
+  "lat": 3.2181456,
+  "lon": 101.7187992,
+  "addr": ""
+ },
+ {
+  "name": "The Store",
+  "brand": "The Store",
+  "shop": "supermarket",
+  "lat": 3.1371573,
+  "lon": 101.7133383,
+  "addr": ""
+ },
+ {
+  "name": "The Store",
+  "brand": "The Store",
+  "shop": "supermarket",
+  "lat": 3.0485086,
+  "lon": 101.4477653,
+  "addr": ""
+ },
+ {
+  "name": "The Store",
+  "brand": "The Store",
+  "shop": "supermarket",
+  "lat": 3.0693836,
+  "lon": 101.6932526,
+  "addr": "Lot 24211 Jalan Radin Tengah Kuala Lumpur 57000"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1504841,
+  "lon": 101.5919849,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1351187,
+  "lon": 101.7240043,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1639953,
+  "lon": 101.6564881,
+  "addr": "60 Jalan Sri Hartamas 1 50480"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1855921,
+  "lon": 101.634986,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1054528,
+  "lon": 101.4674911,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.11359,
+  "lon": 101.6629664,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.0621101,
+  "lon": 101.4812594,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 2.9197051,
+  "lon": 101.6364634,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1143448,
+  "lon": 101.6114472,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 2.9745784,
+  "lon": 101.6553846,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1594251,
+  "lon": 101.7141609,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.2264954,
+  "lon": 101.6503875,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1592436,
+  "lon": 101.746466,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1681696,
+  "lon": 101.6161948,
+  "addr": "8 Jalan Damansara Petaling Jaya 47820"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1763887,
+  "lon": 101.669631,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.0645601,
+  "lon": 101.6056496,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.2454399,
+  "lon": 101.4763834,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer @ Subang Parade",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.0827758,
+  "lon": 101.5859327,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer Bangsar Village",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.129276,
+  "lon": 101.6706273,
+  "addr": "Jalan Telawi"
+ },
+ {
+  "name": "Village Grocer Mont Kiara",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1653447,
+  "lon": 101.6534618,
+  "addr": ""
+ }
+]

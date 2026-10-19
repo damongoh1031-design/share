@@ -1,0 +1,122 @@
+[
+{"cluster":"Mid Valley / The Gardens（谷中城）","area":"Lingkaran Syed Putra, Mid Valley City, 59200 KL","tier":1,
+ "pairs":[
+  {"a":"AEON（Mid Valley Megamall）","b":"AEON BIG（The Gardens Mall）","d":216,"rel":"同片区两商场·室内天桥相连","st":"官网+知乎/本地点双重确认","note":"两栋商场步行 3 分钟，用户举例组合"},
+  {"a":"Jaya Grocer @ The Gardens Mall","b":"Isetan The Gardens（百货食品馆）","d":55,"rel":"同商场","st":"官网地址+OSM","note":"Isetan 为百货，其食品馆计入"},
+  {"a":"AEON BIG（The Gardens Mall）","b":"Jaya Grocer @ The Gardens Mall","d":210,"rel":"同商场","st":"OSM+商场官网","note":"The Gardens 底层两大食品卖场"}
+ ]},
+{"cluster":"Great Eastern Mall（安邦路）","area":"303, Jalan Ampang, 50450 KL","tier":1,
+ "pairs":[
+  {"a":"Cold Storage Great Eastern Mall","b":"Mercato Great Eastern Mall","d":34,"rel":"同商场","st":"OSM+商场地址","note":"同栋双超市"}
+ ]},
+{"cluster":"Semenyih 镇中心","area":"Pekan Semenyih, 43500 Semenyih","tier":1,
+ "pairs":[
+  {"a":"Econsave Semenyih","b":"Mydin Semenyih","d":40,"rel":"同街对门","st":"OSM+Econsave官网地址","note":"Jalan Pasar / Jalan Pasar Baru 交界"},
+  {"a":"Econsave Semenyih","b":"The Store Semenyih Sentral","d":298,"rel":"同镇 300m","st":"OSM+官网","note":""},
+  {"a":"Mydin Semenyih","b":"The Store Semenyih Sentral","d":312,"rel":"同镇 300m","st":"OSM","note":""}
+ ]},
+{"cluster":"Kelana Jaya SS6/SS7","area":"47301 Petaling Jaya","tier":2,
+ "pairs":[
+  {"a":"Giant Kelana Jaya（33 Jalan SS6/12）","b":"HeroMarket Kelana Jaya（119 Jalan SS6/12）","d":51,"rel":"同一条街","st":"Giant官网+OSM","note":"51m 同排商铺"},
+  {"a":"Giant Kelana Jaya","b":"Lotus's Kelana Jaya（Paradigm Mall, 1 Jalan SS 7/26A）","d":444,"rel":"跨 SS6/SS7 两商场","st":"Paradigm Mall官网确认Lotus's","note":"三超市挤在 500m 圈"}
+ ]},
+{"cluster":"Danau Kota / 翠湖园（Setapak 北）","area":"Taman Danau Kota, 53300 Kuala Lumpur","tier":1,
+ "pairs":[
+  {"a":"AEON BIG Danau Kota（Jalan Danau Saujana）","b":"Mydin Danau Kota（Jalan Langkawi）","d":315,"rel":"同住宅区 300m","st":"百度留学资料+OSM+Samsung名录","note":"本地留学生的性价比组合"},
+  {"a":"Giant Setapak（Jalan 5/23H, Danau Kota）","b":"Econsave Setapak Central（KL Festival City, 67 Jalan Taman Ibu Kota）","d":442,"rel":"同住宅区","st":"Giant官网+Econsave官网","note":"KL Festival City 即前 Setapak Central"}
+ ]},
+{"cluster":"Setia Alam / Klang Sentral / Meru","area":"40170 Shah Alam / 41050 Klang","tier":2,
+ "pairs":[
+  {"a":"Lotus's Setia Alam（2 Jalan Setia Prima）","b":"NSK Klang Sentral（Persiaran Klang 4, Taman Klang Sentral）","d":380,"rel":"跨镇 400m","st":"OSM+MR.DI.Y门店PDF","note":"Setia Alam 与 Klang Sentral 商场相邻"},
+  {"a":"NSK Klang Sentral","b":"Giant Klang Sentral（Meru, 41050）","d":124,"rel":"同商场/同商圈","st":"Samsung名录+OSM","note":"Giant 与 NSK 同进驻 Klang Sentral 商圈，120m"}
+ ]},
+{"cluster":"Summit USJ（USJ 1）","area":"Persiaran Subang Permai / Persiaran Kewajipan, USJ 1","tier":1,
+ "pairs":[
+  {"a":"Giant USJ Summit（1 Persiaran Subang Permai）","b":"Mydin Mall Subang（Lot 675-676 Persiaran Subang Permai）","d":182,"rel":"相邻商场/同排","st":"Giant官网+OSM","note":"USJ 1 老牌三巨头之一"},
+  {"a":"Giant USJ Summit","b":"NSK Grocer Summit USJ（LG, Summit USJ Mall）","d":194,"rel":"跨商场 200m","st":"Summit官网+OSM","note":""},
+  {"a":"Mydin Mall Subang","b":"NSK Grocer Summit USJ","d":358,"rel":"同商圈 360m","st":"OSM","note":""}
+ ]},
+{"cluster":"Subang Jaya SS16","area":"Jalan SS 16/1, 47500 Subang Jaya","tier":2,
+ "pairs":[
+  {"a":"AEON BIG Subang Jaya（3 Jalan SS 16/1）","b":"Village Grocer Subang Parade（Lot LG26）","d":224,"rel":"相邻两商场","st":"OSM+Village Grocer官网","note":"原 Carrefour 变 AEON BIG，隔壁 Subang Parade"}
+ ]},
+{"cluster":"Mont Kiara","area":"Jalan Kiara, 50480 KL","tier":2,
+ "pairs":[
+  {"a":"Jaya Grocer Mont Kiara（Sunway 163 Mall, 8 Jalan Kiara）","b":"Village Grocer Mont Kiara（Plaza Mont Kiara, 1 Jalan Kiara）","d":176,"rel":"同一条 Jalan Kiara","st":"OSM+第三方","note":"两大高端超市 176m"}
+ ]},
+{"cluster":"TTDI / Damansara Utama","area":"Jalan Damansara 60000 KL","tier":2,
+ "pairs":[
+  {"a":"Jaya Grocer Glo Damansara（LG 01-02, 699 Jalan Damansara）","b":"NSK Grocer 3 Damansara（LG-45A-48, 3 Jalan SS 20/27）","d":387,"rel":"相邻商圈 400m","st":"OSM+第三方","note":""}
+ ]},
+{"cluster":"Bukit Bintang / Imbi","area":"55100 KL","tier":2,
+ "pairs":[
+  {"a":"Jaya Grocer @ LaLaport BBCC（2 Jalan Hang Tuah）","b":"NSK Grocer Berjaya Times Square（LG, 1 Jalan Imbi）","d":349,"rel":"相邻两商场","st":"OSM+qunar/ctrip","note":"原 Berjaya Times Square 的 Giant 已关，现为 NSK"}
+ ]},
+{"cluster":"KLCC / Kampung Baru 段","area":"Jalan Ampang, 50088-50450 KL","tier":2,
+ "pairs":[
+  {"a":"Village Grocer @ Avenue K（156 Jalan Ampang）","b":"Cold Storage Suria KLCC","d":247,"rel":"隔 Jalan Ampang 相对","st":"Village Grocer官网+OSM","note":"过个马路就到"}
+ ]},
+{"cluster":"Setapak 中（Giant–NSK 对，NSK 址待核）","area":"Jalan 5/23H Danau Kota 53200 KL","tier":3,
+ "pairs":[
+  {"a":"Giant Setapak（Jalan 5/23H）","b":"NSK Trade City Setapak（OSM: Jalan Usahawan 7）","d":340,"rel":"同片区","st":"Giant官网+OSM（NSK址待核）","note":"NSK 该址两轮官网检索未确认"}
+ ]},
+{"cluster":"Wangsa Maju / Taman Sri Rampai（用户例子 2）","area":"53300 KL","tier":2,
+ "pairs":[
+  {"a":"AEON BIG Wangsa Maju（Jalan 34/26）","b":"Lotus's Wangsa Maju（Jalan Wangsa Delima）","d":337,"rel":"同片区两独立卖场","st":"OSM+用户本地知识","note":"前 Tesco Wangsa Maju"}
+ ]},
+{"cluster":"Taman Melawati / Ulu Kelang","area":"53100 KL","tier":2,
+ "pairs":[
+  {"a":"Jaya Grocer Melawati Mall（355 Jalan Bandar Melawati）","b":"HeroMarket Melawati（Lorong Selangor）","d":285,"rel":"商场对街","st":"Melawati Mall官网+OSM","note":""}
+ ]},
+{"cluster":"Shah Alam Seksyen 13","area":"40100 Shah Alam","tier":3,
+ "pairs":[
+  {"a":"Mydin Mart SEC 13（Unit 9 Jalan Ragbi 13/30）","b":"HeroMarket（1 Jalan Maraton 13/31, Tadisma）","d":117,"rel":"同 business park","st":"OSM","note":"两家迷你超市 117m"},
+  {"a":"Giant Shah Alam Stadium（Lot 2 Persiaran Sukan）","b":"HeroMarket Tadisma","d":430,"rel":"同区 400m","st":"Giant官网+OSM","note":"Giant 马来西亚总部同址"},
+  {"a":"Giant Shah Alam Stadium","b":"Mydin Mart SEC 13","d":536,"rel":"同区 500m","st":"OSM","note":""}
+ ]},
+{"cluster":"Taman Sri Muda / Section 16 Shah Alam","area":"40400/40450 Shah Alam","tier":3,
+ "pairs":[
+  {"a":"Econsave Taman Sri Muda（58-60 Jalan Murni 25/61）","b":"Mydin Taman Sri Muda（4-20 Jalan Ria 25/62）","d":354,"rel":"同住宅区","st":"Econsave官网+Samsung名录","note":""},
+  {"a":"Econsave Alam Avenue 2（B-15-G Jalan Serai Wangi K16/K, Sec 16）","b":"Mydin Seksyen 16（Jalan Padang Jawa）","d":360,"rel":"同住宅区","st":"Econsave官网+OSM","note":"Mydin 该店冠名待核"}
+ ]},
+{"cluster":"Shah Alam Seksyen 27 / Section 27","area":"40400 Shah Alam","tier":3,
+ "pairs":[
+  {"a":"Econsave Seksyen 27（Jalan Teluk Kapas N27/N, Sentral 27）","b":"HeroMarket Seksyen 27（Jalan Kapar 27/89）","d":458,"rel":"同住宅区","st":"Econsave官网+OSM","note":""}
+ ]},
+{"cluster":"Pandan Indah / Ampang","area":"68000 Ampang","tier":3,
+ "pairs":[
+  {"a":"Giant Pandan Kapital Mall","b":"The Store Pandan Indah","d":440,"rel":"相邻两商场","st":"Giant官网+OSM","note":""}
+ ]},
+{"cluster":"Pandamaran（巴生港）","area":"42000 Klang","tier":3,
+ "pairs":[
+  {"a":"Billion Pandamaran","b":"Econsave Pandamaran（Lot 218-219 Jalan Banting KS/05）","d":448,"rel":"同工业区","st":"Econsave官网+OSM","note":""}
+ ]},
+{"cluster":"Seri Kembangan / Bandar Putra Permai","area":"43300 Seri Kembangan","tier":3,
+ "pairs":[
+  {"a":"Giant Seri Kembangan（Lot 27 Jalan Putra Permai）","b":"NSK Trade City 3 Elements（Jalan Putra Permai Selesa）","d":458,"rel":"同镇","st":"Giant官网+MR.D.I.Y PDF","note":""}
+ ]},
+{"cluster":"Jenjarom / Kuala Langat","area":"42600 Jenjarom","tier":3,
+ "pairs":[
+  {"a":"Econsave Jenjarom（1 Jalan Utama 2, Taman Seri Jaromas）","b":"Lotus's Jenjarom","d":413,"rel":"同镇","st":"Econsave官网+OSM","note":""}
+ ]},
+{"cluster":"Bandar Rinching / Semenyih 北","area":"43500 Semenyih","tier":3,
+ "pairs":[
+  {"a":"Econsave Bandar Rinching（Jalan 5/5）","b":"Lotus's Pelangi Semenyih（1 Jalan TPS 1/1）","d":455,"rel":"相邻住宅区","st":"Econsave官网+OSM","note":""}
+ ]},
+{"cluster":"Bandar Puncak Alam","area":"42300 Kuala Selangor","tier":3,
+ "pairs":[
+  {"a":"Lotus's Puncak Alam（1 Jalan Niaga Bestari 9）","b":"HeroMarket Puncak Bestari（3-15 Jalan Niaga Bestari 3）","d":228,"rel":"同一条 Jalan Niaga Bestari","st":"OSM","note":""}
+ ]},
+{"cluster":"Sunway City（双威城）","area":"47500 Subang Jaya / PJ","tier":3,
+ "pairs":[
+  {"a":"Jaya Grocer Sunway Pyramid Oasis 翼（3 Jalan PJS 11/15）","b":"Village Grocer Sunway Square Mall（Jalan Lagoon Selatan）","d":381,"rel":"同商圈两商场","st":"Jaya Grocer官方+Village Grocer官网","note":"AEON 已 2025-01 撤出 Sunway Pyramid"}
+ ]},
+{"cluster":"Shah Alam U8 / Bukit Jelutong","area":"40150 Shah Alam","tier":3,
+ "pairs":[
+  {"a":"Jaya Grocer Plaza Jelutong（5C Persiaran Gerbang Utama）","b":"Mydin Seksyen U8（Jalan Pelapik U8/C）","d":323,"rel":"同住宅区","st":"Jaya Grocer分站+OSM","note":"Mydin U8 店冠名待核"}
+ ]},
+{"cluster":"Kota Damansara（备选 600m）","area":"47810 Petaling Jaya","tier":4,
+ "pairs":[
+  {"a":"Giant Kota Damansara（16 Jalan PJU 5/1）","b":"NSK Trade City Kota Damansara（Persiaran Mahogani）","d":606,"rel":"同镇 600m","st":"Giant官网+OSM","note":""}
+ ]}
+]

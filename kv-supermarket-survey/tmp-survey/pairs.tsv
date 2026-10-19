@@ -1,0 +1,584 @@
+dist_m	brandA	nameA	addrA	latA	lonA	brandB	nameB	addrB	latB	lonB
+6	99 Speedmart	99 Speedmart		3.13529	101.62899	99 Speedmart	99 Speedmart		3.13524	101.62900
+7	99 Speedmart	99 Speedmart	5 Jalan Pinang 18/B	3.04520	101.51770	99 Speedmart	99 Speedmart	3 Jalan Pinang 18/B	3.04526	101.51768
+8	99 Speedmart	99 Speedmart		3.15647	101.62302	99 Speedmart	99 Speedmart		3.15640	101.62302
+16	Sogo	Sogo		3.06206	101.48113	Village Grocer	Village Grocer		3.06211	101.48126
+28	99 Speedmart	99 Speedmart	Kuala Lumpur	3.09388	101.66922	Mydin	Mydin	Jalan Pantai Dalam Kuala Lumpur 59200	3.09363	101.66920
+32	Mydin	Mydin		3.15279	101.69737	Mydin	Mydin		3.15272	101.69709
+34	Cold Storage	Cold Storage Great Eastern Mall		3.16041	101.73669	Mercató	Mercató		3.16011	101.73672
+34	99 Speedmart	99 Speedmart		3.02195	101.48268	Mydin	Mydin Mart		3.02168	101.48283
+34	99 Speedmart	99 Speedmart		3.03236	101.53722	Econsave	Econsave		3.03267	101.53726
+38	99 Speedmart	99 Speedmart	Jalan Pelapik B U8/B Shah Alam	3.11457	101.52657	Mydin	Mydin	4;6;7;8 Jalan Pelapik U8/C Shah Alam	3.11488	101.52642
+39	99 Speedmart	99 Speedmart		3.10264	101.70848	HeroMarket	HeroMarket	Jalan Sri Permaisuri 9 Kuala Lumpur 56000	3.10274	101.70814
+40	Mydin	Mydin	Jalan Pasar Baru 43500	2.94619	101.84660	Econsave	Econsave		2.94586	101.84677
+44	AEON	AEON		3.07244	101.60592	Jaya Grocer	Jaya Grocer		3.07239	101.60552
+51	AEON	AEON Style		3.12620	101.72844	AEON	AEON Supermarket		3.12625	101.72799
+51	Giant	Giant Supermarket	Petaling Jaya	3.10545	101.60014	HeroMarket	HeroMarket Kelana Jaya	119 Jalan SS 6/12 Petaling Jaya 47301	3.10554	101.59969
+52	99 Speedmart	99 Speedmart		3.20746	101.65887	99 Speedmart	99 Speedmart		3.20705	101.65910
+55	Isetan	Isetan The Gardens		3.11778	101.67574	Jaya Grocer	Jaya Grocer		3.11827	101.67571
+67	99 Speedmart	99 Speedmart		3.09868	101.55606	Econsave	Econsave		3.09841	101.55660
+68	99 Speedmart	99 Speedmart		3.25647	101.30767	Econsave	Econsave		3.25592	101.30740
+73	99 Speedmart	99 Speedmart		3.00635	101.39971	Econsave	Pasar Ekonomi Econsave		3.00640	101.39906
+75	99 Speedmart	99 SPEEDMART	20&22 Jalan Ragbi 13/30 Shah Alam,Selangor 40100	3.08825	101.54650	Mydin	MYDIN MART SEK 13	UNIT 9 Jalan Ragbi 13/30 Shah Alam,Selangor 40100	3.08840	101.54716
+75	99 Speedmart	99 Speedmart		3.13351	101.45638	Econsave	Econsave		3.13296	101.45599
+77	NSK	NSK Trade City		3.16565	101.70139	99 Speedmart	99 Speedmart		3.16565	101.70070
+80	99 Speedmart	99 Speedmart		3.13122	101.72262	NSK	NSK Trade City		3.13056	101.72234
+92	99 Speedmart	99 Speedmart	2 Jalan D 25/D Shah Alam 40400	3.02582	101.54245	NSK	NSK Trade City	1 Jalan Sepadu D 25/D Shah Alam 40400	3.02631	101.54312
+92	The Store	The Store		3.21815	101.71880	99 Speedmart	99 Speedmart		3.21740	101.71843
+93	99 Speedmart	99 Speedmart	Jalan Batu Ambar Kuala Lumpur 51200	3.20251	101.67280	HeroMarket	HeroMarket	Lot GA-01 Jalan Ipoh Kuala Lumpur 51200	3.20250	101.67196
+109	99 Speedmart	99 Speedmart		3.19203	101.77123	Giant	Giant Hypermarket	Jalan Wangsa 1	3.19218	101.77026
+113	99 Speedmart	99 Speedmart	G27-29 Jalan TPS 1/6 Semenyih 43500	2.93139	101.85748	Lotus's	Lotus's	1 Jalan TPS 1/1 Semenyih 43500	2.93063	101.85681
+116	99 Speedmart	99 Speedmart		3.12020	101.76108	NSK	NSK Trade City		3.12039	101.76210
+117	HeroMarket	HeroMarket	1 Jalan Maraton 13/31 Shah Alam 40100	3.08735	101.54722	Mydin	MYDIN MART SEK 13	UNIT 9 Jalan Ragbi 13/30 Shah Alam,Selangor 40100	3.08840	101.54716
+120	99 Speedmart	99 Speedmart		2.87755	101.50225	Econsave	Econsave	Taman Ria Jenjarom 42600	2.87740	101.50118
+127	Isetan	Isetan Suria		3.15753	101.71300	Cold Storage	Cold Storage KLCC	Jalan Ampang Kuala Lumpur 50088	3.15679	101.71213
+128	HeroMarket	HeroMarket	1 Jalan Maraton 13/31 Shah Alam 40100	3.08735	101.54722	99 Speedmart	99 SPEEDMART	20&22 Jalan Ragbi 13/30 Shah Alam,Selangor 40100	3.08825	101.54650
+129	99 Speedmart	99 Speedmart		3.15160	101.75942	99 Speedmart	99 Speedmart		3.15152	101.76058
+135	Jaya Grocer	Jaya Grocer	Lower Ground Floor Jalan Professor Khoo Kay Kim Petaling Jaya 46100	3.10927	101.63742	99 Speedmart	99 Speedmart	Petaling Jaya	3.10969	101.63628
+136	99 Speedmart	99 Speedmart		3.20643	101.75073	Giant	Giant Hypermarket		3.20728	101.75161
+137	Mydin	Mydin		3.04771	101.44870	The Store	The Store		3.04851	101.44777
+138	99 Speedmart	99 Speedmart		2.95787	101.79146	Econsave	Econsave	16 Jalan Hentian 1	2.95744	101.79029
+139	99 Speedmart	99 Speedmart		3.13591	101.71321	The Store	The Store		3.13716	101.71334
+140	Checkers	Checkers		3.06254	101.52635	99 Speedmart	99 Speedmart		3.06379	101.52642
+140	99 Speedmart	99 Speedmart	71&73 Jalan Medan Niaga 2	3.32111	101.27120	Lotus's	Lotus's	2 Kuala Selangor 45000	3.31987	101.27100
+140	99 Speedmart	99 Speedmart		3.05137	101.46301	Jaya Grocer	Jaya Grocer		3.05263	101.46300
+145	99 Speedmart	99 Speedmart		3.05724	101.49134	Econsave	Econsave	b-15-g Jalan Serai Wangi K 16/K, Alam Avenue, 3 Shah Alam 41300	3.05785	101.49019
+145	Jaya Grocer	Jaya Grocer	1 J Kemajuan 46200	3.11065	101.63715	99 Speedmart	99 Speedmart	Petaling Jaya	3.10969	101.63628
+148	99 Speedmart	99 Speedmart		3.08153	101.58765	AEON BIG	AEON BiG	3 Jalan SS 16/1 Subang Jaya 47500	3.08283	101.58795
+151	99 Speedmart	99 Speedmart	37-39 Jalan Sungai Keranji Q32/Q Shah Alam 40460	2.97927	101.53241	Econsave	Econsave		2.98025	101.53334
+156	Jaya Grocer	Jaya Grocer	Lower Ground Floor Jalan Professor Khoo Kay Kim Petaling Jaya 46100	3.10927	101.63742	Jaya Grocer	Jaya Grocer	1 J Kemajuan 46200	3.11065	101.63715
+157	99 Speedmart	99 Speedmart		3.22293	101.63794	99 Speedmart	99 Speedmart		3.22368	101.63913
+158	99 Speedmart	99 Speedmart		3.00906	101.47833	NSK	NSK Trade City		3.00859	101.47968
+160	Mydin	Mydin		2.94511	101.72276	99 Speedmart	99 Speedmart		2.94516	101.72131
+160	Mydin	My Mydin	Petaling Jaya	3.07371	101.64932	99 Speedmart	99 Speedmart	Jalan PJS 3/49 Petaling Jaya	3.07308	101.64802
+161	Village Grocer	Village Grocer		3.15048	101.59198	99 Speedmart	99 Speedmart	8 & 10 Jalan PJU 5/10 Petaling Jaya 47810	3.15166	101.59282
+163	99 Speedmart	99 Speedmart	Jalan Putra Perdana 5C/1	2.94488	101.61625	Econsave	Econsave	GM9A Jalan Putra Perdana 5D/2 Puchong 47130	2.94380	101.61526
+163	99 Speedmart	99 Speedmart		3.17186	101.69707	99 Speedmart	99 Speedmart		3.17039	101.69699
+164	Isetan	Isetan The Gardens		3.11778	101.67574	AEON BIG	AEON BiG		3.11665	101.67669
+170	99 Speedmart	99 Speedmart		3.04055	101.44849	Mydin	Mydin		3.04001	101.44705
+175	99 Speedmart	99 Speedmart	Jalan Metro Perdana 3 Kuala Lumpur 52100	3.21619	101.64381	AEON BIG	AEON BiG	2 Jalan Metro Perdana Barat Kuala Lumpur 52100	3.21463	101.64395
+175	99 Speedmart	99 Speedmart		3.01230	101.48818	Econsave	Econsave		3.01355	101.48914
+176	Village Grocer	Village Grocer Mont Kiara		3.16534	101.65346	Jaya Grocer	Jaya Grocer		3.16631	101.65221
+182	Giant	Giant Hypermarket	1 Persiaran Subang Permai Subang Jaya	3.05886	101.59491	Mydin	Mydin	Lot 675;Lot 676 Persiaran Subang Permai Subang Jaya	3.05903	101.59654
+187	99 Speedmart	99 Speedmart		3.30385	101.59829	Lotus's	Lotus's Rawang	Rawang 48000	3.30218	101.59813
+189	AEON	AEON Bukit Raja		3.06166	101.47240	AEON	AEON Bukit Raja Supermarket		3.06006	101.47182
+193	99 Speedmart	99 Speedmart		3.07834	101.61061	99 Speedmart	99 Speedmart		3.07822	101.60887
+194	NSK	NSK Grocer Summit USJ		3.05971	101.59339	Giant	Giant Hypermarket	1 Persiaran Subang Permai Subang Jaya	3.05886	101.59491
+194	99 Speedmart	99 Speedmart		3.20308	101.71698	AEON BIG	AEON BiG		3.20463	101.71617
+196	The Store	The Store		3.13239	101.75226	99 Speedmart	99 Speedmart		3.13075	101.75161
+200	NSK	NSK Trade City	Lot 4674 & 4675 Jalan Ipoh 68100	3.24448	101.66222	99 Speedmart	99 Speedmart		3.24269	101.66234
+201	99 Speedmart	99 Speedmart		3.32512	101.52507	99 Speedmart	99 Speedmart		3.32430	101.52669
+203	TF Value-Mart	TF Value-Mart		3.23485	101.69410	99 Speedmart	99 Speedmart		3.23336	101.69515
+204	The Store	The Store		2.94398	101.84486	99 Speedmart	99 Speedmart		2.94534	101.84363
+204	99 Speedmart	99 Speedmart		3.06706	101.49014	Giant	Giant		3.06576	101.48885
+205	99 Speedmart	99 Speedmart		3.13591	101.71321	99 Speedmart	99 Speedmart		3.13439	101.71424
+205	99 Speedmart	99 Speedmart		2.99230	101.61630	AEON BIG	AEON BiG		2.99155	101.61461
+207	99 Speedmart	99 Speedmart		3.13284	101.62368	Jaya Grocer	Jaya Grocer	Lot B-001	3.13452	101.62290
+207	99 Speedmart	99 Speedmart		3.02782	101.58209	Jaya Grocer	Jaya Grocer		3.02639	101.58090
+210	AEON BIG	AEON BiG		3.11665	101.67669	Jaya Grocer	Jaya Grocer		3.11827	101.67571
+211	99 Speedmart	99 Speedmart		2.99621	101.44549	AEON	AEON		2.99510	101.44396
+211	99 Speedmart	99 Speedmart	Jalan PUJ 3/9 Seri Kembangan 43300	3.02160	101.67738	HeroMarket	HeroMarket	Jalan PUJ 3/13 Seri Kembangan 43300	3.02281	101.67592
+212	99 Speedmart	99 Speedmart		3.19544	101.59328	Econsave	Econsave	Jalan PJU 10/1 Petaling Jaya 47830	3.19734	101.59315
+212	Mydin	Mydin		3.04509	101.51578	99 Speedmart	99 Speedmart	3 Jalan Pinang 18/B	3.04526	101.51768
+212	Giant	Giant Hypermarket		3.14452	101.71084	Isetan	Isetan - The Japan Store		3.14614	101.71186
+213	Mydin	Mydin		3.04509	101.51578	99 Speedmart	99 Speedmart	5 Jalan Pinang 18/B	3.04520	101.51770
+215	99 Speedmart	99 Speedmart		3.21288	101.64313	AEON BIG	AEON BiG	2 Jalan Metro Perdana Barat Kuala Lumpur 52100	3.21463	101.64395
+216	AEON BIG	AEON BiG		3.11665	101.67669	AEON	AEON		3.11818	101.67788
+216	99 Speedmart	99 Speedmart		2.97358	101.82434	Mydin	Mydin		2.97543	101.82494
+217	99 Speedmart	99 Speedmart	22A&26	3.24659	101.47480	Village Grocer	Village Grocer		3.24544	101.47638
+224	99 Speedmart	99 Speedmart		3.14052	101.71177	NSK	NSK Grocer		3.14207	101.71049
+224	Village Grocer	Village Grocer @ Subang Parade		3.08278	101.58593	AEON BIG	AEON BiG	3 Jalan SS 16/1 Subang Jaya 47500	3.08283	101.58795
+225	99 Speedmart	99 Speedmart	Jalan 7/7B Bandar Baru Bangi 43650	2.97119	101.77305	Mydin	Mydin	Jalan 7/7A Bandar Baru Bangi 43650	2.96934	101.77386
+225	99 Speedmart	99 Speedmart		2.99601	101.62171	HeroMarket	HeroMarket	Puchong 47100	2.99400	101.62192
+225	99 Speedmart	99 Speedmart	Jalan PJS 11/12 Petaling Jaya 46150	3.07226	101.60350	Jaya Grocer	Jaya Grocer		3.07239	101.60552
+225	Econsave	Econsave		3.06438	101.45314	99 Speedmart	99 Speedmart		3.06273	101.45196
+225	99 Speedmart	99 Speedmart		3.17957	101.74197	Giant	Giant Hypermarket		3.17837	101.74361
+226	Econsave	Econsave		3.09064	101.76250	99 Speedmart	99 Speedmart		3.08871	101.76313
+228	HeroMarket	Hero Market	3-15 Jalan Niaga Bestari 3	3.23456	101.42868	Lotus's	Lotus's Puncak Alam	1 Jalan Niaga Bestari 9 Puncak Alam 42300	3.23658	101.42837
+228	99 Speedmart	99 Speedmart	Jalan TKS 1 Kajang	2.97733	101.79651	99 Speedmart	99 Speedmart		2.97605	101.79490
+229	99 Speedmart	99 Speedmart	Kajang	2.98494	101.78126	99 Speedmart	99 Speedmart	Kajang	2.98366	101.77964
+233	99 Speedmart	99 Speedmart		3.18871	101.65371	AEON	AEON Supermarket		3.19078	101.65339
+234	99 Speedmart	99 Speedmart		3.19429	101.72933	99 Speedmart	99 Speedmart		3.19540	101.73112
+235	99 Speedmart	99 Speedmart		3.08170	101.61921	99 Speedmart	99 Speedmart		3.08012	101.61780
+235	99 Speedmart	99 Speedmart	Jalan Metro Perdana 3 Kuala Lumpur 52100	3.21619	101.64381	99 Speedmart	99 Speedmart		3.21831	101.64379
+235	99 Speedmart	99 Speedmart		3.08153	101.58765	Village Grocer	Village Grocer @ Subang Parade		3.08278	101.58593
+236	99 Speedmart	99 Speedmart		3.07283	101.65170	Checkers	Checkers	Kuala Lumpur	3.07148	101.65334
+236	99 Speedmart	99 Speedmart		3.00557	101.53544	HeroMarket	HeroMarket	Jalan Anggerik Vanilla W31/W Shah Alam 40460	3.00571	101.53756
+240	99 Speedmart	99 Speedmart		2.99492	101.67854	Econsave	Pasar Ekonomi Econsave	2 Jalan Equine 1D	2.99705	101.67886
+241	Jaya Grocer	Jaya Grocer		3.11827	101.67571	AEON	AEON		3.11818	101.67788
+242	Isetan	Isetan The Gardens		3.11778	101.67574	AEON	AEON		3.11818	101.67788
+242	99 Speedmart	99 Speedmart		2.92523	101.85978	Econsave	Econsave		2.92682	101.85830
+243	Econsave	Econsave		3.20349	101.72121	99 Speedmart	99 Speedmart		3.20153	101.72025
+244	99 Speedmart	99 Speedmart		3.02907	101.42908	99 Speedmart	99 Speedmart		3.02693	101.42860
+245	Mydin	Mydin	Kuala Lumpur	3.14651	101.69837	99 Speedmart	99 Speedmart	12;14 Jalan Pudu	3.14621	101.70055
+245	99 Speedmart	99 Speedmart		3.03571	101.61771	Lotus's	Lotus's	Jalan Bandar 3 Puchong 47100	3.03487	101.61567
+246	99 Speedmart	99 Speedmart	No. 1 & 3	2.98162	101.66521	NSK	NSK Trade City	Ground Floor, 3 Elements Persiaran Putra Permai Selesa Seri Kembangan 43300	2.98245	101.66727
+246	99 Speedmart	99 Speedmart		3.14402	101.53657	HeroMarket	HeroMarket	Jalan Taman Subang Jasa 3 Shah Alam 40150	3.14447	101.53874
+247	Isetan	Isetan Suria		3.15753	101.71300	Village Grocer	Village Grocer		3.15943	101.71416
+249	99 Speedmart	99 Speedmart		2.94357	101.58824	99 Speedmart	99 Speedmart		2.94151	101.58737
+250	99 Speedmart	99 Speedmart		3.14461	101.76087	99 Speedmart	99 Speedmart		3.14469	101.75862
+251	99 Speedmart	99 Speedmart		3.07113	101.69468	The Store	The Store	Lot 24211 Jalan Radin Tengah Kuala Lumpur 57000	3.06938	101.69325
+252	99 Speedmart	99 Speedmart		3.05064	101.44853	The Store	The Store		3.04851	101.44777
+254	99 Speedmart	99 Speedmart	2375;2376 Sungai Buloh	3.20997	101.56496	99 Speedmart	99 Speedmart		3.21003	101.56267
+258	99 Speedmart	99 Speedmart		3.08230	101.73719	99 Speedmart	99 Speedmart		3.08117	101.73922
+261	99 Speedmart	99 Speedmart		3.12925	101.72039	NSK	NSK Trade City		3.13056	101.72234
+263	99 Speedmart	99 Speedmart		3.02135	101.60754	99 Speedmart	99 Speedmart		3.01898	101.60752
+263	99 Speedmart	99 Speedmart	Teluk Panglima Garang	2.94053	101.47118	99 Speedmart	99 Speedmart		2.93920	101.47314
+265	99 Speedmart	99 Speedmart		3.09106	101.69045	99 Speedmart	99 Speedmart		3.08914	101.68902
+268	99 Speedmart	99 Speedmart		3.14538	101.76929	99 Speedmart	99 Speedmart	24 Jalan Kosas 1/4 68000	3.14674	101.77128
+269	99 Speedmart	99 Speedmart		3.19396	101.63049	Lotus's	Lotus's		3.19344	101.63286
+269	99 Speedmart	99 Speedmart	Jalan PJS 11/12 Petaling Jaya 46150	3.07226	101.60350	AEON	AEON		3.07244	101.60592
+272	Jaya Grocer	Jaya Grocer		3.08480	101.67337	99 Speedmart	99 Speedmart		3.08248	101.67260
+272	Econsave	Econsave	Jalan PJU 10/1 Petaling Jaya 47830	3.19734	101.59315	99 Speedmart	99 Speedmart		3.19828	101.59088
+273	99 Speedmart	99 Speedmart	Jalan Lagenda Suria 3 43100	3.09883	101.80244	Mydin	Mydin		3.09736	101.80047
+276	Giant	Giant Hypermarket		3.14452	101.71084	NSK	NSK Grocer		3.14207	101.71049
+276	99 Speedmart	99 Speedmart		3.21018	101.64733	99 Speedmart	99 Speedmart		3.21229	101.64864
+276	99 Speedmart	99 Speedmart	Jalan Medan Batu Caves Batu Caves 68100	3.23436	101.67389	99 Speedmart	99 Speedmart		3.23407	101.67142
+277	Econsave	Econsave		3.06438	101.45314	99 Speedmart	99 Speedmart		3.06410	101.45561
+277	99 Speedmart	99 Speedmart		3.05724	101.49134	Mydin	Mydin		3.05476	101.49116
+278	99 Speedmart	99 Speedmart	Sungai Buloh	3.23393	101.49082	Econsave	Econsave		3.23581	101.48917
+282	99 Speedmart	99 Speedmart		3.13936	101.61453	99 Speedmart	99 Speedmart		3.13687	101.61500
+282	99 Speedmart	99 Speedmart	90;92 Lorong Maarof	3.13228	101.67312	99 Speedmart	99 Speedmart	18 Jalan Telawi 59000	3.13219	101.67058
+282	Mydin	My Mydin	Petaling Jaya	3.07371	101.64932	99 Speedmart	99 Speedmart		3.07283	101.65170
+283	99 Speedmart	99 Speedmart	Kuala Lumpur 51200	3.17510	101.68933	99 Speedmart	99 Speedmart		3.17762	101.68900
+283	99 Speedmart	99 Speedmart		3.22648	101.69791	99 Speedmart	99 Speedmart		3.22903	101.69770
+284	99 Speedmart	99 Speedmart		3.00102	101.39972	Billion	Billion		3.00260	101.39771
+284	99 Speedmart	99 Speedmart	2 Jalan Putra Perdana 2/3	2.94673	101.61802	99 Speedmart	99 Speedmart	Jalan Putra Perdana 5C/1	2.94488	101.61625
+285	TF Value-Mart	TF Value-Mart		3.23485	101.69410	99 Speedmart	99 Speedmart		3.23606	101.69184
+285	Jaya Grocer	Jaya Grocer	LG 01-02 Glo Damansara Taman Tun Dr Ismail 60000	3.13283	101.62988	99 Speedmart	99 Speedmart		3.13524	101.62900
+285	HeroMarket	HeroMarket	Lorong Selangor Ampang 53100	3.21214	101.74624	Jaya Grocer	Jaya Grocer		3.21151	101.74873
+285	99 Speedmart	99 Speedmart	Jalan Ipoh Kuala Lumpur 51200	3.20483	101.67389	99 Speedmart	99 Speedmart	Jalan Batu Ambar Kuala Lumpur 51200	3.20251	101.67280
+291	Jaya Grocer	Jaya Grocer	LG 01-02 Glo Damansara Taman Tun Dr Ismail 60000	3.13283	101.62988	99 Speedmart	99 Speedmart		3.13529	101.62899
+294	99 Speedmart	99 Speedmart		3.13439	101.71424	99 Speedmart	99 Speedmart		3.13493	101.71684
+297	99 Speedmart	99 Speedmart		3.02477	101.71668	99 Speedmart	99 Speedmart		3.02255	101.71520
+297	HeroMarket	HeroMarket	Jalan Wan Kadir 3 Kuala Lumpur 60000	3.13715	101.63091	99 Speedmart	99 Speedmart		3.13529	101.62899
+297	99 Speedmart	99 Speedmart		2.99863	101.67670	Econsave	Pasar Ekonomi Econsave	2 Jalan Equine 1D	2.99705	101.67886
+298	The Store	The Store		2.94398	101.84486	Econsave	Econsave		2.94586	101.84677
+299	Lotus's	Lotus's	Jalan SS 7/26A Petaling Jaya 47301	3.10497	101.59573	99 Speedmart	99 Speedmart		3.10366	101.59338
+301	HeroMarket	HeroMarket	Jalan Wan Kadir 3 Kuala Lumpur 60000	3.13715	101.63091	99 Speedmart	99 Speedmart		3.13524	101.62900
+301	Jaya Grocer	Jaya Grocer		3.15656	101.57181	99 Speedmart	99 Speedmart		3.15873	101.57343
+302	99 Speedmart	99 Speedmart		3.13182	101.68792	99 Speedmart	99 Speedmart		3.13299	101.69038
+302	99 Speedmart	99 Speedmart		3.12017	101.67974	AEON	AEON		3.11818	101.67788
+302	99 Speedmart	99 Speedmart		3.20913	101.71940	Mydin	Mydin		3.20684	101.71795
+303	99 Speedmart	99 Speedmart		2.92343	101.85553	99 Speedmart	99 Speedmart		2.92557	101.85385
+303	Village Grocer	Village Grocer		2.97458	101.65538	99 Speedmart	99 Speedmart		2.97324	101.65777
+305	99 Speedmart	99 Speedmart		3.02769	101.46373	99 Speedmart	99 Speedmart		3.02868	101.46629
+306	99 Speedmart	99 Speedmart	No. 1 & 3	2.98162	101.66521	Giant	Giant Hypermarket		2.98362	101.66331
+307	AEON BIG	AEON BiG		3.04330	101.52576	99 Speedmart	99 Speedmart	1 Jalan Kangkung Puteri 24/7 Shah Alam 40300	3.04292	101.52301
+308	99 Speedmart	99 Speedmart		3.03298	101.61364	Lotus's	Lotus's	Jalan Bandar 3 Puchong 47100	3.03487	101.61567
+309	99 Speedmart	99 Speedmart		3.14546	101.71455	Isetan	Isetan - The Japan Store		3.14614	101.71186
+310	99 Speedmart	99 Speedmart		3.18215	101.68222	NSK	NSK Grocer		3.17936	101.68238
+311	99 Speedmart	99 Speedmart		3.06703	101.69173	The Store	The Store	Lot 24211 Jalan Radin Tengah Kuala Lumpur 57000	3.06938	101.69325
+312	99 Speedmart	99 Speedmart	Jalan Medan Batu Caves Batu Caves 68100	3.23436	101.67389	99 Speedmart	99 Speedmart		3.23707	101.67460
+312	The Store	The Store		2.94398	101.84486	Mydin	Mydin	Jalan Pasar Baru 43500	2.94619	101.84660
+313	99 Speedmart	99 Speedmart		3.06205	101.71136	HeroMarket	HeroMarket	Jalan Gangsa Kuala Lumpur 57000	3.06483	101.71091
+315	Mydin	Mydin		3.20684	101.71795	AEON BIG	AEON BiG		3.20463	101.71617
+316	Econsave	Econsave	Jalan PJU 10/1 Petaling Jaya 47830	3.19734	101.59315	99 Speedmart	99 Speedmart		3.19810	101.59589
+317	99 Speedmart	99 Speedmart	Jalan LJ 2 68000	3.13964	101.78193	AEON BIG	AEON BiG	Lot 613 Lorong Dagang Permai 6 Ampang 68000	3.14049	101.77921
+319	Jaya Grocer	Jaya Grocer		3.11572	101.52920	99 Speedmart	99 Speedmart	Jalan Pelapik B U8/B Shah Alam	3.11457	101.52657
+319	AEON BIG	AEON BiG	1 Jalan 1/149E 57000	3.06344	101.69440	99 Speedmart	99 Speedmart		3.06382	101.69725
+320	Mydin	Mydin		3.15279	101.69737	LuLu	Lulu		3.15451	101.69968
+320	99 Speedmart	99 Speedmart	Jalan Bandar 4 Gombak 53100	3.21180	101.75160	Jaya Grocer	Jaya Grocer		3.21151	101.74873
+320	99 Speedmart	99 Speedmart		3.12139	101.74245	NSK	NSK Trade City		3.12262	101.73985
+322	99 Speedmart	99 Speedmart		3.04507	101.62284	99 Speedmart	99 Speedmart		3.04229	101.62364
+323	99 Speedmart	99 Speedmart	68	2.94604	101.61341	Econsave	Econsave	GM9A Jalan Putra Perdana 5D/2 Puchong 47130	2.94380	101.61526
+323	Jaya Grocer	Jaya Grocer		3.11572	101.52920	Mydin	Mydin	4;6;7;8 Jalan Pelapik U8/C Shah Alam	3.11488	101.52642
+324	Village Grocer	Village Grocer Bangsar Village	Jalan Telawi	3.12928	101.67063	99 Speedmart	99 Speedmart	18 Jalan Telawi 59000	3.13219	101.67058
+324	The Store	The Store		3.13716	101.71334	99 Speedmart	99 Speedmart		3.13439	101.71424
+325	Mydin	Mydin	4-20 Jalan Ria 25/62 40400	3.03012	101.53534	99 Speedmart	99 Speedmart		3.03236	101.53722
+325	NSK	NSK Trade City		3.20474	101.66743	99 Speedmart	99 Speedmart		3.20670	101.66525
+326	99 Speedmart	99 Speedmart		3.05064	101.44853	Mydin	Mydin		3.04771	101.44870
+327	99 Speedmart	99 Speedmart		3.17775	101.68484	NSK	NSK Grocer		3.17936	101.68238
+328	Jaya Grocer	Jaya Grocer		3.16741	101.60625	99 Speedmart	99 Speedmart	1;2 Jalan PJU 8/3B Petaling Jaya	3.16475	101.60752
+330	99 Speedmart	99 Speedmart		3.07905	101.58093	Jaya Grocer	Jaya Grocer		3.08174	101.58218
+331	99 Speedmart	99 Speedmart		3.12925	101.72039	99 Speedmart	99 Speedmart		3.13122	101.72262
+331	99 Speedmart	99 Speedmart		3.15542	101.75235	Giant	Giant Hypermarket		3.15795	101.75078
+331	99 Speedmart	99 Speedmart		3.14546	101.71455	Mercató	Mercato		3.14339	101.71670
+331	99 Speedmart	99 Speedmart		3.13075	101.75161	Giant	Giant Hypermarket		3.12875	101.75382
+332	99 Speedmart	99 Speedmart		2.99794	101.44302	AEON	AEON		2.99510	101.44396
+334	99 Speedmart	99 Speedmart		3.13434	101.73946	99 Speedmart	99 Speedmart		3.13508	101.74238
+334	99 Speedmart	99 Speedmart		3.06697	101.55464	99 Speedmart	99 Speedmart		3.06985	101.55548
+335	99 Speedmart	99 Speedmart		2.99621	101.44549	99 Speedmart	99 Speedmart		2.99794	101.44302
+336	99 Speedmart	99 Speedmart	Jalan Ipoh Kuala Lumpur 51200	3.20483	101.67389	HeroMarket	HeroMarket	Lot GA-01 Jalan Ipoh Kuala Lumpur 51200	3.20250	101.67196
+336	99 Speedmart	99 Speedmart		2.97184	101.82794	Billion	Billion		2.97314	101.83068
+337	Lotus's	Lotus's	Kuala Lumpur 53300	3.19927	101.74272	AEON BIG	AEON BiG	Kuala Lumpur	3.19625	101.74300
+337	Giant	Giant Hypermarket		3.14452	101.71084	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786
+339	99 Speedmart	99 Speedmart	Klang	3.00761	101.43568	Giant	Giant Hypermarket		3.00946	101.43325
+339	99 Speedmart	99 Speedmart		2.97756	101.65603	Village Grocer	Village Grocer		2.97458	101.65538
+340	NSK	NSK Trade City	Kuala Lumpur	3.19940	101.72593	Giant	Giant Hypermarket	Jalan 5/23H Kuala Lumpur 53200	3.19992	101.72291
+341	99 Speedmart	99 Speedmart	68	2.94604	101.61341	99 Speedmart	99 Speedmart	Jalan Putra Perdana 5C/1	2.94488	101.61625
+344	Mydin	Mydin	Jalan Pasar Baru 43500	2.94619	101.84660	99 Speedmart	99 Speedmart		2.94534	101.84363
+345	99 Speedmart	99 Speedmart		3.20153	101.72025	Giant	Giant Hypermarket	Jalan 5/23H Kuala Lumpur 53200	3.19992	101.72291
+347	99 Speedmart	99 Speedmart		3.22203	101.72888	Jaya Grocer	Jaya Grocer		3.22421	101.73112
+348	99 Speedmart	99 Speedmart	Jalan M/J3 Kajang	2.99030	101.77669	99 Speedmart	99 Speedmart	Kajang	2.99045	101.77982
+348	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786	99 Speedmart	99 Speedmart	26;28	3.14247	101.70509
+349	Mydin	Mydin		3.15272	101.69709	LuLu	Lulu		3.15451	101.69968
+349	Jaya Grocer	Jaya Grocer		3.14039	101.70783	NSK	NSK Grocer		3.14207	101.71049
+352	99 Speedmart	99 Speedmart		3.04274	101.70445	99 Speedmart	99 Speedmart		3.04126	101.70725
+352	HeroMarket	HeroMarket	Lorong Selangor Ampang 53100	3.21214	101.74624	99 Speedmart	99 Speedmart		3.20920	101.74507
+353	99 Speedmart	99 Speedmart	22 Jalan 5/18A Kuala Lumpur 51200	3.21083	101.67459	99 Speedmart	99 Speedmart		3.21393	101.67395
+354	99 Speedmart	99 Speedmart		2.94534	101.84363	Econsave	Econsave		2.94586	101.84677
+354	99 Speedmart	99 Speedmart		3.07217	101.43107	AEON BIG	AEON BiG		3.06899	101.43088
+354	99 Speedmart	99 Speedmart		3.09106	101.69045	99 Speedmart	99 Speedmart		3.08842	101.69224
+354	Mydin	Mydin	4-20 Jalan Ria 25/62 40400	3.03012	101.53534	Econsave	Econsave		3.03267	101.53726
+356	99 Speedmart	99 Speedmart		3.16236	101.69481	Mydin	Mydin	Jalan Tuanku Abdul Rahman	3.16345	101.69783
+356	99 Speedmart	99 Speedmart		3.06643	101.60304	Village Grocer	Village Grocer		3.06456	101.60565
+358	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786	NSK	NSK Grocer		3.14207	101.71049
+358	NSK	NSK Grocer Summit USJ		3.05971	101.59339	Mydin	Mydin	Lot 675;Lot 676 Persiaran Subang Permai Subang Jaya	3.05903	101.59654
+359	Giant	Giant Supermarket	Petaling Jaya	3.10545	101.60014	99 Speedmart	99 Speedmart	Jalan SS 6/20 Petaling Jaya	3.10222	101.60025
+359	99 Speedmart	99 Speedmart		3.19764	101.59910	99 Speedmart	99 Speedmart		3.19810	101.59589
+360	Mydin	Mydin		3.05476	101.49116	Econsave	Econsave	b-15-g Jalan Serai Wangi K 16/K, Alam Avenue, 3 Shah Alam 41300	3.05785	101.49019
+361	99 Speedmart	99 Speedmart		3.13566	101.38902	Econsave	Econsave		3.13462	101.38593
+362	The Store	The Store		3.13239	101.75226	99 Speedmart	99 Speedmart		3.13167	101.75545
+364	99 Speedmart	99 Speedmart		3.13900	101.37020	Econsave	Econsave		3.13618	101.37187
+364	99 Speedmart	99 Speedmart		3.05777	101.76584	99 Speedmart	99 Speedmart		3.05540	101.76810
+364	Billion	Billion		3.00260	101.39771	99 Speedmart	99 Speedmart		2.99950	101.39666
+366	99 Speedmart	99 Speedmart		3.02317	101.61835	HeroMarket	HeroMarket		3.02646	101.61831
+367	99 Speedmart	99 Speedmart		3.08842	101.69224	99 Speedmart	99 Speedmart		3.08914	101.68902
+368	Village Grocer	Village Grocer Mont Kiara		3.16534	101.65346	Village Grocer	Village Grocer	60 Jalan Sri Hartamas 1 50480	3.16400	101.65649
+369	99 Speedmart	99 Speedmart		3.00635	101.39971	99 Speedmart	99 Speedmart		3.00407	101.40213
+370	Cold Storage	Cold Storage KLCC	Jalan Ampang Kuala Lumpur 50088	3.15679	101.71213	Village Grocer	Village Grocer		3.15943	101.71416
+370	NSK	NSK Trade City		3.13850	101.43991	99 Speedmart	99 Speedmart		3.13578	101.44183
+372	99 Speedmart	99 Speedmart		3.13167	101.75545	Giant	Giant Hypermarket		3.12875	101.75382
+373	99 Speedmart	99 Speedmart		3.24112	101.64242	Mydin	Mydin		3.23799	101.64364
+375	HeroMarket	HeroMarket Kelana Jaya	119 Jalan SS 6/12 Petaling Jaya 47301	3.10554	101.59969	99 Speedmart	99 Speedmart	Jalan SS 6/20 Petaling Jaya	3.10222	101.60025
+376	Lotus's	Lotus's	Sepang Utara 62502	2.97049	101.71407	AEON	AEON		2.96934	101.71726
+376	99 Speedmart	99 Speedmart		3.22293	101.63794	99 Speedmart	99 Speedmart		3.21959	101.63742
+376	99 Speedmart	99 Speedmart	Jalan Metro Perdana 3 Kuala Lumpur 52100	3.21619	101.64381	99 Speedmart	99 Speedmart		3.21288	101.64313
+379	99 Speedmart	99 Speedmart	Jalan BS 5/26A Seri Kembangan 43300	3.02288	101.69652	99 Speedmart	99 Speedmart		3.02521	101.69902
+380	99 Speedmart	99 Speedmart		3.00102	101.39972	99 Speedmart	99 Speedmart		2.99950	101.39666
+380	99 Speedmart	99 Speedmart		3.15483	101.60345	99 Speedmart	99 Speedmart	Petaling Jaya	3.15809	101.60446
+380	NSK	NSK Trade City		3.10737	101.44137	Lotus's	Lotus's	2 Jalan Setia Prima S U13/S Shah Alam 40170	3.10695	101.44477
+380	Jaya Grocer	Jaya Grocer		3.11062	101.58683	99 Speedmart	99 Speedmart		3.11089	101.59025
+381	Jaya Grocer	Jaya Grocer		3.06511	101.60904	Village Grocer	Village Grocer		3.06456	101.60565
+382	Jaya Grocer	Jaya Grocer		3.14039	101.70783	99 Speedmart	99 Speedmart	26;28	3.14247	101.70509
+383	99 Speedmart	99 Speedmart		3.08237	101.68905	NSK	NSK Trade City		3.08517	101.69105
+384	99 Speedmart	99 Speedmart	Kuala Lumpur	3.17535	101.73507	99 Speedmart	99 Speedmart		3.17707	101.73806
+384	99 Speedmart	99 Speedmart		3.08842	101.69224	NSK	NSK Trade City		3.08517	101.69105
+385	99 Speedmart	99 Speedmart	Petaling Jaya	3.09015	101.61462	99 Speedmart	99 Speedmart	Petaling Jaya	3.08822	101.61749
+385	99 Speedmart	99 Speedmart		3.13274	101.44018	99 Speedmart	99 Speedmart		3.13578	101.44183
+385	99 Speedmart	99 Speedmart		3.04766	101.58326	99 Speedmart	99 Speedmart		3.04776	101.57979
+385	99 Speedmart	99 Speedmart		3.32405	101.57818	99 Speedmart	99 Speedmart		3.32710	101.57984
+385	99 Speedmart	99 Speedmart		3.10555	101.75335	99 Speedmart	99 Speedmart		3.10457	101.75002
+385	99 Speedmart	99 Speedmart		3.07381	101.66228	99 Speedmart	99 Speedmart		3.07711	101.66335
+387	99 Speedmart	99 Speedmart		3.05398	101.46621	Jaya Grocer	Jaya Grocer		3.05263	101.46300
+387	NSK	NSK Grocer	LG 13A & LG-17	3.13038	101.62740	Jaya Grocer	Jaya Grocer	LG 01-02 Glo Damansara Taman Tun Dr Ismail 60000	3.13283	101.62988
+387	99 Speedmart	99 Speedmart	Jalan PJU 1A/41	3.11434	101.59070	99 Speedmart	99 Speedmart		3.11089	101.59025
+389	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651	Mydin	Mydin	Jalan Tuanku Abdul Rahman	3.16345	101.69783
+390	99 Speedmart	99 Speedmart	No: 19-1 & 51-1 (Ground Floor Jalan SP 2/1 Seri Kembangan 43300	3.03225	101.70799	Econsave	Econsave		3.02891	101.70903
+390	Isetan	Isetan - The Japan Store		3.14614	101.71186	99 Speedmart	99 Speedmart	7;9 Jalan Angsoka	3.14843	101.70920
+393	99 Speedmart	99 Speedmart	Jalan Sentul Kuala Lumpur 51000	3.17549	101.69284	99 Speedmart	99 Speedmart	Kuala Lumpur 51200	3.17510	101.68933
+394	99 Speedmart	99 Speedmart	1 Jalan Sungai Besi 57100	3.13146	101.71225	99 Speedmart	99 Speedmart		3.13439	101.71424
+394	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786	Jaya Grocer	Jaya Grocer		3.14039	101.70783
+394	99 Speedmart	99 Speedmart		3.14846	101.54528	99 Speedmart	99 Speedmart		3.15057	101.54242
+397	99 Speedmart	99 Speedmart		3.13897	101.52621	Econsave	Econsave	Jalan 4D Shah Alam 40150	3.13815	101.52969
+397	99 Speedmart	99 Speedmart	1-G Jalan Impian	3.02399	101.75062	99 Speedmart	99 Speedmart		3.02756	101.75052
+397	HeroMarket	HeroMarket	Jalan Dagang Besar Ampang 68000	3.14762	101.75657	99 Speedmart	99 Speedmart		3.14469	101.75862
+398	99 Speedmart	99 Speedmart		3.00663	101.41818	99 Speedmart	99 Speedmart	153 & 155 Jalan Chan Ah Choo	3.01020	101.41835
+399	99 Speedmart	99 Speedmart		3.12573	101.75576	Giant	Giant Hypermarket		3.12875	101.75382
+401	99 Speedmart	99 Speedmart		3.16565	101.70070	Mydin	Mydin	Jalan Tuanku Abdul Rahman	3.16345	101.69783
+402	99 Speedmart	99 Speedmart	134 (Ground Floor) Jalan Matang 2 Kuala Lumpur 51200	3.19781	101.67130	99 Speedmart	99 Speedmart	A-1-2 Jalan Manjoi 1 Kuala Lumpur 51200	3.19617	101.67452
+402	99 Speedmart	99 Speedmart		3.20308	101.71698	99 Speedmart	99 Speedmart		3.20153	101.72025
+403	99 Speedmart	99 Speedmart		3.05746	101.59055	NSK	NSK Grocer Summit USJ		3.05971	101.59339
+404	99 Speedmart	99 Speedmart	Petaling Jaya	3.11746	101.61333	Village Grocer	Village Grocer		3.11434	101.61145
+406	99 Speedmart	99 Speedmart		3.18602	101.65123	99 Speedmart	99 Speedmart		3.18871	101.65371
+407	99 Speedmart	99 Speedmart		2.98697	101.66478	Giant	Giant Hypermarket		2.98362	101.66331
+409	99 Speedmart	99 Speedmart		3.21831	101.64379	AEON BIG	AEON BiG	2 Jalan Metro Perdana Barat Kuala Lumpur 52100	3.21463	101.64395
+409	99 Speedmart	99 Speedmart		3.13618	101.70705	99 Speedmart	99 Speedmart		3.13607	101.70337
+410	99 Speedmart	99 Speedmart	Jalan PJS 3/49 Petaling Jaya	3.07308	101.64802	99 Speedmart	99 Speedmart		3.07283	101.65170
+410	99 Speedmart	99 Speedmart		3.05751	101.78409	Jaya Grocer	Jaya Grocer		3.05518	101.78695
+410	99 Speedmart	99 Speedmart		3.08117	101.73922	99 Speedmart	99 Speedmart		3.07838	101.74165
+412	99 Speedmart	99 Speedmart		3.00925	101.44244	Lotus's	Lotus's	Klang 41200	3.00585	101.44096
+412	99 Speedmart	99 Speedmart		2.87755	101.50225	Lotus's	Lotus's	Jenjarom 42600	2.87384	101.50226
+412	HeroMarket	HeroMarket	Petaling Jaya 47930	3.19174	101.59332	99 Speedmart	99 Speedmart		3.19544	101.59328
+412	99 Speedmart	99 Speedmart		2.96333	101.75353	Billion	Billion		2.96163	101.75683
+412	99 Speedmart	99 Speedmart		3.14052	101.71177	The Store	The Store		3.13716	101.71334
+413	99 Speedmart	99 Speedmart		3.19544	101.59328	99 Speedmart	99 Speedmart		3.19828	101.59088
+413	Econsave	Econsave	Taman Ria Jenjarom 42600	2.87740	101.50118	Lotus's	Lotus's	Jenjarom 42600	2.87384	101.50226
+414	99 Speedmart	99 Speedmart		3.19544	101.59328	99 Speedmart	99 Speedmart		3.19810	101.59589
+415	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651	99 Speedmart	99 Speedmart		3.17039	101.69699
+416	99 Speedmart	99 Speedmart		3.07219	101.60965	AEON	AEON		3.07244	101.60592
+416	99 Speedmart	99 Speedmart	28 Jalan C180/1 Cheras 43200	3.03558	101.76597	99 Speedmart	99 Speedmart		3.03855	101.76824
+417	99 Speedmart	99 Speedmart		3.08153	101.58765	Jaya Grocer	Jaya Grocer		3.07795	101.58652
+418	99 Speedmart	99 Speedmart		3.13591	101.71321	99 Speedmart	99 Speedmart		3.13493	101.71684
+419	99 Speedmart	99 Speedmart	6 & 8 Jalan Teratai 2 Kuala Lumpur 53000	3.19526	101.71164	99 Speedmart	99 Speedmart		3.19859	101.71341
+423	99 Speedmart	99 Speedmart	16&12A Jalan Seri Taming 1F Cheras 43200	3.05407	101.75022	Checkers	Checkers Hypermarket		3.05217	101.74692
+425	Giant	Giant Hypermarket		3.14452	101.71084	99 Speedmart	99 Speedmart		3.14546	101.71455
+425	AEON	AEON Bukit Raja		3.06166	101.47240	99 Speedmart	99 Speedmart		3.06344	101.46901
+425	99 Speedmart	99 Speedmart	Kajang	2.98494	101.78126	99 Speedmart	99 Speedmart		2.98300	101.78457
+428	99 Speedmart	99 Speedmart		3.00407	101.40213	Econsave	Pasar Ekonomi Econsave		3.00640	101.39906
+428	99 Speedmart	99 Speedmart	Jalan Tun Abdul Aziz Kajang	2.99169	101.79003	Mydin	Mydin	Jalan Jelok 6 Kajang	2.99110	101.79384
+429	99 Speedmart	99 Speedmart		2.99659	101.66841	99 Speedmart	99 Speedmart		2.99926	101.66563
+429	99 Speedmart	99 Speedmart		3.08087	101.66252	99 Speedmart	99 Speedmart		3.07711	101.66335
+430	HeroMarket	HeroMarket	1 Jalan Maraton 13/31 Shah Alam 40100	3.08735	101.54722	Giant	Giant Hypermarket		3.08405	101.54924
+431	99 Speedmart	99 Speedmart		3.20308	101.71698	Mydin	Mydin		3.20684	101.71795
+432	Jaya Grocer	Jaya Grocer		3.08174	101.58218	Village Grocer	Village Grocer @ Subang Parade		3.08278	101.58593
+432	99 Speedmart	99 Speedmart		3.00102	101.39972	99 Speedmart	99 Speedmart		3.00407	101.40213
+433	99 Speedmart	99 Speedmart	1 5/109F Kuala Lumpur 58100	3.09962	101.68690	99 Speedmart	99 Speedmart		3.10270	101.68452
+433	Village Grocer	Village Grocer Bangsar Village	Jalan Telawi	3.12928	101.67063	99 Speedmart	99 Speedmart	90;92 Lorong Maarof	3.13228	101.67312
+433	99 Speedmart	99 Speedmart		3.06273	101.45196	99 Speedmart	99 Speedmart		3.06410	101.45561
+434	HeroMarket	HeroMarket	Jalan Wan Kadir 3 Kuala Lumpur 60000	3.13715	101.63091	99 Speedmart	99 Speedmart		3.14019	101.62845
+436	Mercató	Mercato		3.14997	101.71281	99 Speedmart	99 Speedmart	7;9 Jalan Angsoka	3.14843	101.70920
+438	99 Speedmart	99 Speedmart		3.14052	101.71177	Jaya Grocer	Jaya Grocer		3.14039	101.70783
+438	99 Speedmart	99 Speedmart		3.19859	101.71341	99 Speedmart	99 Speedmart		3.20106	101.71034
+438	99 Speedmart	99 Speedmart		3.13167	101.75545	99 Speedmart	99 Speedmart		3.13075	101.75161
+438	Jaya Grocer	Jaya Grocer		3.02856	101.71780	99 Speedmart	99 Speedmart		3.02477	101.71668
+439	AEON	AEON Puchong		3.04662	101.61921	99 Speedmart	99 Speedmart		3.04507	101.62284
+439	Mercató	Mercato		3.14997	101.71281	Isetan	Isetan - The Japan Store		3.14614	101.71186
+440	Econsave	Econsave		3.20349	101.72121	Giant	Giant Hypermarket	Jalan 5/23H Kuala Lumpur 53200	3.19992	101.72291
+440	The Store	The Store		3.13239	101.75226	Giant	Giant Hypermarket		3.12875	101.75382
+441	99 Speedmart	99 Speedmart	Jalan 1/109E Kuala Lumpur	3.09718	101.67723	Econsave	Econsave	G-01-03 Jalan Kelang Lama Kuala Lumpur 58200	3.09508	101.67387
+443	99 Speedmart	99 Speedmart		3.00192	101.44306	99 Speedmart	99 Speedmart		2.99794	101.44302
+444	HeroMarket	HeroMarket Kelana Jaya	119 Jalan SS 6/12 Petaling Jaya 47301	3.10554	101.59969	Lotus's	Lotus's	Jalan SS 7/26A Petaling Jaya 47301	3.10497	101.59573
+445	99 Speedmart	99 Speedmart		2.97358	101.82434	99 Speedmart	99 Speedmart		2.97184	101.82794
+446	99 Speedmart	99 Speedmart		2.99087	101.79883	99 Speedmart	99 Speedmart		2.99189	101.80271
+447	99 Speedmart	99 Speedmart	2 Jalan Putra Perdana 2/3	2.94673	101.61802	Econsave	Econsave	GM9A Jalan Putra Perdana 5D/2 Puchong 47130	2.94380	101.61526
+448	Billion	Billion		3.00260	101.39771	Econsave	Pasar Ekonomi Econsave		3.00640	101.39906
+448	99 Speedmart	99 Speedmart		3.21036	101.63304	99 Speedmart	99 Speedmart		3.20946	101.62910
+449	Jaya Grocer	Jaya Grocer	1 J Kemajuan 46200	3.11065	101.63715	99 Speedmart	99 Speedmart		3.11364	101.63988
+449	99 Speedmart	99 Speedmart		3.01618	101.42802	99 Speedmart	99 Speedmart		3.01232	101.42918
+452	99 Speedmart	99 Speedmart	43 Jalan SS 25/2 47301	3.11334	101.60568	99 Speedmart	99 Speedmart	Petaling Jaya	3.10969	101.60388
+452	Econsave	Econsave		3.01173	101.45334	99 Speedmart	99 Speedmart		3.01514	101.45556
+455	Lotus's	Lotus's	1 Jalan TPS 1/1 Semenyih 43500	2.93063	101.85681	Econsave	Econsave		2.92682	101.85830
+457	Giant	Giant Hypermarket		3.14452	101.71084	99 Speedmart	99 Speedmart		3.14052	101.71177
+458	99 Speedmart	99 Speedmart	Jalan BK 1/8 47180	3.05530	101.64999	99 Speedmart	99 Speedmart		3.05260	101.65309
+458	HeroMarket	HeroMarket	Jalan Kapar 27/89 Shah Alam 40000	3.01005	101.55781	Econsave	Econsave		3.01389	101.55929
+458	NSK	NSK Trade City	Ground Floor, 3 Elements Persiaran Putra Permai Selesa Seri Kembangan 43300	2.98245	101.66727	Giant	Giant Hypermarket		2.98362	101.66331
+459	99 Speedmart	99 Speedmart		3.05398	101.46621	99 Speedmart	99 Speedmart		3.05137	101.46301
+459	99 Speedmart	99 Speedmart		3.07219	101.60965	Jaya Grocer	Jaya Grocer		3.07239	101.60552
+459	99 Speedmart	99 Speedmart		3.15514	101.58294	99 Speedmart	99 Speedmart		3.15346	101.57917
+460	Village Grocer	Village Grocer		3.13512	101.72400	99 Speedmart	99 Speedmart		3.13122	101.72262
+460	99 Speedmart	99 Speedmart		3.21105	101.61542	99 Speedmart	99 Speedmart		3.21419	101.61812
+460	99 Speedmart	99 Speedmart		2.99492	101.67854	99 Speedmart	99 Speedmart		2.99863	101.67670
+461	99 Speedmart	99 Speedmart	Petaling Jaya	3.07634	101.60428	Jaya Grocer	Jaya Grocer		3.07239	101.60552
+461	The Store	The Store		3.13716	101.71334	99 Speedmart	99 Speedmart		3.13493	101.71684
+462	99 Speedmart	99 Speedmart		3.01756	101.43194	99 Speedmart	99 Speedmart		3.01618	101.42802
+462	99 Speedmart	99 Speedmart	Jalan PJS 11/12 Petaling Jaya 46150	3.07226	101.60350	99 Speedmart	99 Speedmart	Petaling Jaya	3.07634	101.60428
+462	99 Speedmart	99 Speedmart		3.05760	101.60045	Mydin	Mydin	Lot 675;Lot 676 Persiaran Subang Permai Subang Jaya	3.05903	101.59654
+463	99 Speedmart	99 Speedmart		3.17775	101.68484	99 Speedmart	99 Speedmart		3.17762	101.68900
+463	99 Speedmart	99 Speedmart		3.12664	101.47088	99 Speedmart	99 Speedmart	Shah Alam 40170	3.12429	101.46743
+464	99 Speedmart	99 Speedmart		3.11976	101.58017	Lotus's	Lotus's	Jalan PJU 1A/3A Petaling Jaya 47301	3.11848	101.57619
+464	99 Speedmart	99 Speedmart		3.11277	101.74235	99 Speedmart	99 Speedmart		3.11618	101.73995
+464	99 Speedmart	99 Speedmart		3.20518	101.70965	99 Speedmart	99 Speedmart		3.20106	101.71034
+465	NSK	NSK Trade City		3.16565	101.70139	Mydin	Mydin	Jalan Tuanku Abdul Rahman	3.16345	101.69783
+467	99 Speedmart	99 Speedmart		3.07406	101.58810	Jaya Grocer	Jaya Grocer		3.07795	101.58652
+469	99 Speedmart	99 Speedmart		3.00663	101.41818	99 Speedmart	99 Speedmart	136B Lorong Amarasegara	3.00772	101.41410
+470	99 Speedmart	99 Speedmart	Petaling Jaya	3.07634	101.60428	AEON	AEON		3.07244	101.60592
+471	Giant	Giant Hypermarket		3.14452	101.71084	99 Speedmart	99 Speedmart	7;9 Jalan Angsoka	3.14843	101.70920
+471	99 Speedmart	99 Speedmart		2.95735	101.78605	Econsave	Econsave	16 Jalan Hentian 1	2.95744	101.79029
+472	99 Speedmart	99 Speedmart		3.20308	101.71698	Econsave	Econsave		3.20349	101.72121
+472	99 Speedmart	99 Speedmart		3.00635	101.39971	Billion	Billion		3.00260	101.39771
+473	99 Speedmart	99 Speedmart		3.32405	101.57818	99 Speedmart	99 Speedmart		3.32202	101.57444
+475	99 Speedmart	99 Speedmart		3.23336	101.69515	99 Speedmart	99 Speedmart		3.23606	101.69184
+475	99 Speedmart	99 Speedmart		3.13618	101.70705	Jaya Grocer	Jaya Grocer		3.14039	101.70783
+477	Isetan	Isetan - The Japan Store		3.14614	101.71186	NSK	NSK Grocer		3.14207	101.71049
+477	99 Speedmart	99 Speedmart		3.06252	101.75009	99 Speedmart	99 Speedmart		3.05830	101.74929
+478	99 Speedmart	99 Speedmart		3.19337	101.60667	99 Speedmart	99 Speedmart		3.19302	101.61097
+479	99 Speedmart	99 Speedmart		3.08378	101.69513	NSK	NSK Trade City		3.08517	101.69105
+479	99 Speedmart	99 Speedmart		3.02628	101.62408	99 Speedmart	99 Speedmart		3.02541	101.62831
+479	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651	99 Speedmart	99 Speedmart		3.16565	101.70070
+479	99 Speedmart	99 Speedmart		3.14538	101.76929	Giant	Giant Hypermarket		3.14593	101.76501
+480	99 Speedmart	99 Speedmart	Jln PJS 5/30 Petaling Jaya	3.07884	101.62670	99 Speedmart	99 Speedmart	Petaling Jaya	3.08301	101.62784
+480	99 Speedmart	99 Speedmart		2.97951	101.60621	99 Speedmart	99 Speedmart		2.98298	101.60364
+480	99 Speedmart	99 Speedmart		3.04766	101.58326	99 Speedmart	99 Speedmart		3.04334	101.58335
+482	Jaya Grocer	Jaya Grocer		3.21151	101.74873	99 Speedmart	99 Speedmart		3.20920	101.74507
+482	99 Speedmart	99 Speedmart	16&12A Jalan Seri Taming 1F Cheras 43200	3.05407	101.75022	99 Speedmart	99 Speedmart		3.05830	101.74929
+483	99 Speedmart	99 Speedmart		3.14461	101.76087	Giant	Giant Hypermarket		3.14593	101.76501
+483	99 Speedmart	99 Speedmart		3.02404	101.53848	99 Speedmart	99 Speedmart	2 Jalan D 25/D Shah Alam 40400	3.02582	101.54245
+483	99 Speedmart	99 Speedmart	2A Jalan Eco Majestic 9/1B	2.90144	101.83715	Jaya Grocer	Jaya Grocer		2.89881	101.83369
+484	99 Speedmart	99 Speedmart	Jalan Midah 3 Cheras 56000	3.10315	101.73232	Lotus's	Lotus's	2 Jalan Midah 2 Kuala Lumpur 56000	3.09946	101.73463
+485	99 Speedmart	99 Speedmart	43 Jalan SS 25/2 47301	3.11334	101.60568	99 Speedmart	99 Speedmart	Petaling Jaya	3.11753	101.60449
+485	NSK	NSK Grocer	LG19-21&30 Jalan Sultan Ismail Kuala Lumpur	3.16011	101.70064	Mydin	Mydin	Jalan Tuanku Abdul Rahman	3.16345	101.69783
+485	TF Value-Mart	TF Value-Mart		3.23485	101.69410	99 Speedmart	99 Speedmart		3.23735	101.69768
+485	99 Speedmart	99 Speedmart		3.23707	101.67460	99 Speedmart	99 Speedmart		3.23407	101.67142
+485	99 Speedmart	99 Speedmart		3.08979	101.72591	99 Speedmart	99 Speedmart		3.09395	101.72460
+485	99 Speedmart	99 Speedmart	22-1 & 22A-1 Jalan PJU 1/3A Petaling Jaya 47301	3.12047	101.59920	99 Speedmart	99 Speedmart		3.12233	101.59525
+486	99 Speedmart	99 Speedmart		2.92343	101.85553	Econsave	Econsave		2.92682	101.85830
+487	99 Speedmart	99 Speedmart	Petaling Jaya	3.08616	101.62136	99 Speedmart	99 Speedmart	Petaling Jaya	3.08822	101.61749
+487	99 Speedmart	99 Speedmart		3.04738	101.52735	AEON BIG	AEON BiG		3.04330	101.52576
+487	99 Speedmart	99 Speedmart		3.06862	101.70538	99 Speedmart	99 Speedmart		3.06963	101.70111
+488	99 Speedmart	99 Speedmart		3.01914	101.71245	99 Speedmart	99 Speedmart		3.02255	101.71520
+488	99 Speedmart	99 Speedmart	Jalan Sentul Kuala Lumpur 51000	3.17549	101.69284	99 Speedmart	99 Speedmart		3.17762	101.68900
+488	AEON	AEON Bukit Raja Supermarket		3.06006	101.47182	99 Speedmart	99 Speedmart		3.06344	101.46901
+491	99 Speedmart	99 Speedmart	329 Jalan Permai E 68000	3.12805	101.78026	99 Speedmart	99 Speedmart	14-1 Jalan 3/2 Ampang 68000	3.12893	101.77593
+492	Giant	Giant Supermarket	Petaling Jaya	3.10545	101.60014	Lotus's	Lotus's	Jalan SS 7/26A Petaling Jaya 47301	3.10497	101.59573
+492	99 Speedmart	99 Speedmart		3.05746	101.59055	99 Speedmart	99 Speedmart		3.05309	101.59130
+493	99 Speedmart	99 Speedmart		3.21959	101.63742	99 Speedmart	99 Speedmart		3.22368	101.63913
+494	99 Speedmart	99 Speedmart		3.19603	101.70726	99 Speedmart	99 Speedmart	6 & 8 Jalan Teratai 2 Kuala Lumpur 53000	3.19526	101.71164
+494	HeroMarket	HeroMarket	Jalan Wan Kadir 3 Kuala Lumpur 60000	3.13715	101.63091	Jaya Grocer	Jaya Grocer	LG 01-02 Glo Damansara Taman Tun Dr Ismail 60000	3.13283	101.62988
+494	99 Speedmart	99 Speedmart		3.12017	101.67974	Jaya Grocer	Jaya Grocer		3.11827	101.67571
+495	99 Speedmart	99 Speedmart		3.13284	101.62368	NSK	NSK Grocer	LG 13A & LG-17	3.13038	101.62740
+495	99 Speedmart	99 Speedmart		3.20746	101.65887	99 Speedmart	99 Speedmart		3.21189	101.65928
+496	99 Speedmart	99 Speedmart		3.08914	101.68902	NSK	NSK Trade City		3.08517	101.69105
+496	99 Speedmart	99 Speedmart		3.00192	101.44306	Lotus's	Lotus's	Klang 41200	3.00585	101.44096
+497	99 Speedmart	99 Speedmart		3.22560	101.67087	Lotus's	Lotus's	Jalan Ipoh Kuala Lumpur 51200	3.22113	101.67078
+498	AEON BIG	AEON BiG	1 Jalan 1/149E 57000	3.06344	101.69440	99 Speedmart	99 Speedmart		3.06703	101.69173
+499	99 Speedmart	99 Speedmart		3.26066	101.30527	99 Speedmart	99 Speedmart		3.26114	101.30974
+500	Giant	Giant Hypermarket		3.15795	101.75078	Village Grocer	Village Grocer		3.15924	101.74647
+501	99 Speedmart	99 Speedmart		3.23473	101.68753	99 Speedmart	99 Speedmart		3.23606	101.69184
+501	99 Speedmart	99 Speedmart	28 Jalan C180/1 Cheras 43200	3.03558	101.76597	Econsave	Econsave		3.03284	101.76239
+502	99 Speedmart	99 Speedmart	Jalan Tun Abdul Aziz Kajang	2.99169	101.79003	99 Speedmart	99 Speedmart		2.98732	101.79119
+502	99 Speedmart	99 Speedmart		3.11416	101.72510	99 Speedmart	99 Speedmart		3.11303	101.72948
+503	99 Speedmart	99 Speedmart		3.11752	101.75387	99 Speedmart	99 Speedmart		3.11333	101.75557
+503	99 Speedmart	99 Speedmart	Jalan Bandar 4 Gombak 53100	3.21180	101.75160	Giant	Giant Hypermarket		3.20728	101.75161
+505	99 Speedmart	99 Speedmart	Jalan Kapar Klang	3.07054	101.41243	99 Speedmart	99 Speedmart		3.06862	101.41655
+507	99 Speedmart	99 Speedmart	1 Jalan Sungai Besi 57100	3.13146	101.71225	99 Speedmart	99 Speedmart		3.13591	101.71321
+507	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786	Isetan	Isetan - The Japan Store		3.14614	101.71186
+508	99 Speedmart	99 Speedmart	289 Jalan Mahkota 55100	3.12875	101.73223	AEON	AEON Style		3.12620	101.72844
+508	99 Speedmart	99 Speedmart		3.01358	101.45987	99 Speedmart	99 Speedmart		3.01514	101.45556
+509	99 Speedmart	99 Speedmart		3.05746	101.59055	Giant	Giant Hypermarket	1 Persiaran Subang Permai Subang Jaya	3.05886	101.59491
+509	99 Speedmart	99 Speedmart	Jalan TK 4/4D Puchong	3.06456	101.63766	99 Speedmart	99 Speedmart		3.06568	101.63321
+509	HeroMarket	HeroMarket	Jalan Dagang Besar Ampang 68000	3.14762	101.75657	99 Speedmart	99 Speedmart		3.14571	101.75240
+511	Mydin	My Mydin	Petaling Jaya	3.07371	101.64932	Checkers	Checkers	Kuala Lumpur	3.07148	101.65334
+512	99 Speedmart	99 Speedmart		2.92557	101.85385	Econsave	Econsave		2.92682	101.85830
+513	99 Speedmart	99 Speedmart		2.92523	101.85978	99 Speedmart	99 Speedmart		2.92343	101.85553
+514	99 Speedmart	99 Speedmart	Jalan Setia Murni AF U13/AF Shah Alam 40170	3.11044	101.44780	Lotus's	Lotus's	2 Jalan Setia Prima S U13/S Shah Alam 40170	3.10695	101.44477
+514	Mydin	Mydin	Jalan Jelok 6 Kajang	2.99110	101.79384	99 Speedmart	99 Speedmart		2.98732	101.79119
+514	99 Speedmart	99 Speedmart		3.06242	101.66390	99 Speedmart	99 Speedmart		3.06062	101.66817
+515	99 Speedmart	99 Speedmart		3.05039	101.44353	The Store	The Store		3.04851	101.44777
+515	99 Speedmart	99 Speedmart		3.17707	101.73806	99 Speedmart	99 Speedmart		3.17957	101.74197
+516	99 Speedmart	99 Speedmart	G27-29 Jalan TPS 1/6 Semenyih 43500	2.93139	101.85748	Econsave	Econsave		2.92682	101.85830
+516	99 Speedmart	99 Speedmart		3.04193	101.77143	99 Speedmart	99 Speedmart		3.03855	101.76824
+517	Billion	Billion		3.00260	101.39771	99 Speedmart	99 Speedmart		3.00407	101.40213
+517	99 Speedmart	99 Speedmart		2.97756	101.65603	99 Speedmart	99 Speedmart		2.97324	101.65777
+517	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651	99 Speedmart	99 Speedmart		3.16236	101.69481
+517	Isetan	Isetan The Gardens		3.11778	101.67574	99 Speedmart	99 Speedmart		3.12017	101.67974
+517	AEON BIG	AEON BiG		3.11665	101.67669	99 Speedmart	99 Speedmart		3.12017	101.67974
+518	99 Speedmart	99 Speedmart	2 Jalan Putra Perdana 2/3	2.94673	101.61802	99 Speedmart	99 Speedmart	68	2.94604	101.61341
+518	99 Speedmart	99 Speedmart	Petaling Jaya	3.13024	101.61251	99 Speedmart	99 Speedmart		3.12648	101.61527
+518	99 Speedmart	99 Speedmart		3.22051	101.69094	99 Speedmart	99 Speedmart		3.22056	101.69560
+519	99 Speedmart	99 Speedmart		3.24867	101.64798	99 Speedmart	99 Speedmart		3.24799	101.64336
+519	Econsave	Econsave		3.20349	101.72121	Mydin	Mydin		3.20684	101.71795
+520	99 Speedmart	99 Speedmart		3.06021	101.64220	99 Speedmart	99 Speedmart		3.06212	101.64648
+520	99 Speedmart	99 Speedmart		2.97184	101.82794	Mydin	Mydin		2.97543	101.82494
+521	99 Speedmart	99 Speedmart		3.00818	101.47191	99 Speedmart	99 Speedmart		3.01135	101.46845
+522	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786	99 Speedmart	99 Speedmart	7;9 Jalan Angsoka	3.14843	101.70920
+523	99 Speedmart	99 Speedmart		3.10594	101.74552	99 Speedmart	99 Speedmart		3.10457	101.75002
+524	99 Speedmart	99 Speedmart	80 Jalan Bangsar	3.12297	101.67594	Jaya Grocer	Jaya Grocer		3.11827	101.67571
+525	99 Speedmart	99 Speedmart	80 Jalan Bangsar	3.12297	101.67594	99 Speedmart	99 Speedmart		3.12017	101.67974
+525	99 Speedmart	99 Speedmart		3.07381	101.66228	99 Speedmart	99 Speedmart		3.07334	101.66698
+525	99 Speedmart	99 Speedmart		3.23336	101.69515	99 Speedmart	99 Speedmart		3.23735	101.69768
+525	99 Speedmart	99 Speedmart		3.21304	101.63694	99 Speedmart	99 Speedmart		3.21036	101.63304
+526	99 Speedmart	99 Speedmart	134 (Ground Floor) Jalan Matang 2 Kuala Lumpur 51200	3.19781	101.67130	HeroMarket	HeroMarket	Lot GA-01 Jalan Ipoh Kuala Lumpur 51200	3.20250	101.67196
+527	99 Speedmart	99 Speedmart		3.11096	101.43827	NSK	NSK Trade City		3.10737	101.44137
+528	99 Speedmart	99 Speedmart	Jalan PJS 9/1A Petaling Jaya 46150	3.06058	101.61046	Jaya Grocer	Jaya Grocer		3.06511	101.60904
+531	99 Speedmart	99 Speedmart	Petaling Jaya	3.09875	101.64555	99 Speedmart	99 Speedmart	Lorong 8/1E Petaling Jaya	3.10047	101.64109
+531	99 Speedmart	99 Speedmart		2.99360	101.57084	Giant	Giant Hypermarket		2.98920	101.57269
+532	99 Speedmart	99 Speedmart		3.01933	101.75294	99 Speedmart	99 Speedmart		3.01456	101.75257
+533	99 Speedmart	99 Speedmart	Jalan PJS 3/49 Petaling Jaya	3.07308	101.64802	99 Speedmart	99 Speedmart	Jalan PJS 3/32 Petaling Jaya	3.07537	101.64381
+533	99 Speedmart	99 Speedmart		2.92444	101.63721	Village Grocer	Village Grocer		2.91971	101.63646
+533	99 Speedmart	99 Speedmart	Kuala Lumpur	3.09388	101.66922	Econsave	Econsave	G-01-03 Jalan Kelang Lama Kuala Lumpur 58200	3.09508	101.67387
+535	99 Speedmart	99 Speedmart		3.14209	101.74732	99 Speedmart	99 Speedmart		3.13925	101.75121
+536	Mydin	Mydin		3.31927	101.57874	99 Speedmart	99 Speedmart		3.32405	101.57818
+536	Mydin	MYDIN MART SEK 13	UNIT 9 Jalan Ragbi 13/30 Shah Alam,Selangor 40100	3.08840	101.54716	Giant	Giant Hypermarket		3.08405	101.54924
+536	99 Speedmart	99 Speedmart		3.14052	101.71177	99 Speedmart	99 Speedmart		3.13591	101.71321
+537	99 Speedmart	99 Speedmart		3.26066	101.30527	99 Speedmart	99 Speedmart		3.25647	101.30767
+537	99 Speedmart	99 Speedmart		3.14628	101.73745	Lotus's	Lotus's	Kuala Lumpur 55100	3.14384	101.74162
+537	99 Speedmart	99 Speedmart	Jalan PJU 1A/41	3.11434	101.59070	99 Speedmart	99 Speedmart		3.11317	101.59539
+537	AEON BIG	AEON BiG		2.94104	101.71125	99 Speedmart	99 Speedmart	LG-1 Jalan P15 H Putrajaya 62000	2.93788	101.71491
+538	99 Speedmart	99 Speedmart		3.00553	101.48343	NSK	NSK Trade City		3.00859	101.47968
+538	Mercató	Mercato		3.14997	101.71281	99 Speedmart	99 Speedmart		3.14546	101.71455
+538	HeroMarket	HeroMarket	Jalan 3/27D Kuala Lumpur 53300	3.19755	101.75396	99 Speedmart	99 Speedmart		3.20186	101.75616
+538	99 Speedmart	99 Speedmart	2 Jalan Putra Perdana 2/3	2.94673	101.61802	99 Speedmart	99 Speedmart		2.94258	101.62051
+538	99 Speedmart	99 Speedmart		2.94258	101.62051	99 Speedmart	99 Speedmart	Jalan Putra Perdana 5C/1	2.94488	101.61625
+538	99 Speedmart	99 Speedmart	22 Jalan 5/18A Kuala Lumpur 51200	3.21083	101.67459	99 Speedmart	99 Speedmart		3.21126	101.66976
+538	99 Speedmart	99 Speedmart		3.21189	101.65928	99 Speedmart	99 Speedmart		3.20705	101.65910
+539	99 Speedmart	99 Speedmart		3.01394	101.61399	99 Speedmart	99 Speedmart		3.00925	101.61520
+539	Village Grocer	Village Grocer		3.13512	101.72400	NSK	NSK Trade City		3.13056	101.72234
+540	Jaya Grocer	Jaya Grocer		3.07795	101.58652	Village Grocer	Village Grocer @ Subang Parade		3.08278	101.58593
+540	Village Grocer	Village Grocer	60 Jalan Sri Hartamas 1 50480	3.16400	101.65649	Jaya Grocer	Jaya Grocer		3.16631	101.65221
+543	Econsave	Econsave	G-01-03 Jalan Kelang Lama Kuala Lumpur 58200	3.09508	101.67387	Mydin	Mydin	Jalan Pantai Dalam Kuala Lumpur 59200	3.09363	101.66920
+544	99 Speedmart	99 Speedmart		3.03571	101.61771	99 Speedmart	99 Speedmart		3.03298	101.61364
+544	HeroMarket	HeroMarket	Jalan Dagang Besar Ampang 68000	3.14762	101.75657	99 Speedmart	99 Speedmart		3.15160	101.75942
+546	99 Speedmart	99 Speedmart	136B Lorong Amarasegara	3.00772	101.41410	99 Speedmart	99 Speedmart	153 & 155 Jalan Chan Ah Choo	3.01020	101.41835
+547	99 Speedmart	99 Speedmart		3.15095	101.60043	99 Speedmart	99 Speedmart		3.15483	101.60345
+547	99 Speedmart	99 Speedmart	289 Jalan Mahkota 55100	3.12875	101.73223	AEON	AEON Supermarket		3.12625	101.72799
+547	99 Speedmart	99 Speedmart		3.13529	101.62899	99 Speedmart	99 Speedmart		3.14019	101.62845
+548	99 Speedmart	99 Speedmart		3.05777	101.76584	99 Speedmart	99 Speedmart		3.06215	101.76809
+548	99 Speedmart	99 Speedmart	134 (Ground Floor) Jalan Matang 2 Kuala Lumpur 51200	3.19781	101.67130	99 Speedmart	99 Speedmart	Jalan Batu Ambar Kuala Lumpur 51200	3.20251	101.67280
+548	99 Speedmart	99 Speedmart	4;6 Jalan 2/8 Selayang 68100	3.25597	101.65655	99 Speedmart	99 Speedmart		3.25190	101.65935
+549	99 Speedmart	99 Speedmart		3.13947	101.73932	Lotus's	Lotus's	Kuala Lumpur 55100	3.14384	101.74162
+550	99 Speedmart	99 Speedmart		3.04776	101.57979	99 Speedmart	99 Speedmart		3.04534	101.57547
+551	99 Speedmart	99 Speedmart	Petaling Jaya	3.08616	101.62136	99 Speedmart	99 Speedmart		3.08170	101.61921
+551	Mercató	Mercató	LG-1A	3.16631	101.69157	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651
+551	99 Speedmart	99 Speedmart	Petaling Jaya	3.07634	101.60428	99 Speedmart	99 Speedmart		3.07822	101.60887
+551	Jaya Grocer	Jaya Grocer Sierramas		3.20285	101.58896	99 Speedmart	99 Speedmart		3.19828	101.59088
+552	99 Speedmart	99 Speedmart	Kajang	2.98366	101.77964	99 Speedmart	99 Speedmart		2.98300	101.78457
+552	99 Speedmart	99 Speedmart		3.21126	101.66976	99 Speedmart	99 Speedmart		3.21393	101.67395
+553	99 Speedmart	99 Speedmart		3.01232	101.42918	Giant	Giant Hypermarket		3.00946	101.43325
+554	99 Speedmart	99 Speedmart		3.13524	101.62900	99 Speedmart	99 Speedmart		3.14019	101.62845
+554	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651	NSK	NSK Trade City		3.16565	101.70139
+554	Mydin	Mydin	Jalan Jelok 6 Kajang	2.99110	101.79384	99 Speedmart	99 Speedmart		2.99087	101.79883
+555	99 Speedmart	99 Speedmart		3.21018	101.64733	99 Speedmart	99 Speedmart		3.21288	101.64313
+556	99 Speedmart	99 Speedmart		3.05039	101.44353	99 Speedmart	99 Speedmart		3.05064	101.44853
+556	99 Speedmart	99 Speedmart		3.20995	101.61051	99 Speedmart	99 Speedmart		3.20689	101.60654
+556	99 Speedmart	99 Speedmart		3.19828	101.59088	99 Speedmart	99 Speedmart		3.19810	101.59589
+557	Jaya Grocer	Jaya Grocer	Lower Ground Floor Jalan Professor Khoo Kay Kim Petaling Jaya 46100	3.10927	101.63742	99 Speedmart	99 Speedmart		3.11364	101.63988
+557	99 Speedmart	99 SPEEDMART	20&22 Jalan Ragbi 13/30 Shah Alam,Selangor 40100	3.08825	101.54650	Giant	Giant Hypermarket		3.08405	101.54924
+559	99 Speedmart	99 Speedmart	Klang	2.97912	101.43037	99 Speedmart	99 Speedmart		2.98320	101.42741
+559	99 Speedmart	99 Speedmart		3.23336	101.69515	99 Speedmart	99 Speedmart		3.22903	101.69770
+559	99 Speedmart	99 Speedmart		3.20995	101.61051	99 Speedmart	99 Speedmart		3.21105	101.61542
+560	99 Speedmart	99 Speedmart		3.00326	101.79112	Lotus's	Lotus's Kajang	Kajang 43000	3.00435	101.78619
+561	99 Speedmart	99 Speedmart		3.06703	101.69173	99 Speedmart	99 Speedmart		3.07113	101.69468
+562	NSK	NSK Trade City		3.20474	101.66743	HeroMarket	HeroMarket	Lot GA-01 Jalan Ipoh Kuala Lumpur 51200	3.20250	101.67196
+563	99 Speedmart	99 Speedmart		3.15212	101.77486	99 Speedmart	99 Speedmart		3.15247	101.76981
+564	99 Speedmart	99 Speedmart	Jalan TKS 1 Kajang	2.97733	101.79651	99 Speedmart	99 Speedmart		2.97510	101.80108
+565	99 Speedmart	99 Speedmart		3.19945	101.66648	99 Speedmart	99 Speedmart	134 (Ground Floor) Jalan Matang 2 Kuala Lumpur 51200	3.19781	101.67130
+565	Jaya Grocer	Jaya Grocer		3.07795	101.58652	AEON BIG	AEON BiG	3 Jalan SS 16/1 Subang Jaya 47500	3.08283	101.58795
+566	99 Speedmart	99 Speedmart		3.03461	101.66514	99 Speedmart	99 Speedmart	Puchong	3.03515	101.67021
+567	Mydin	Mydin		3.31927	101.57874	99 Speedmart	99 Speedmart		3.32202	101.57444
+567	99 Speedmart	99 Speedmart	614 Jalan 17/10	3.12210	101.63531	AEON BIG	AEON BiG		3.11703	101.63477
+568	Mercató	Mercató	LG-1A	3.16631	101.69157	99 Speedmart	99 Speedmart		3.16236	101.69481
+568	99 Speedmart	99 Speedmart		3.22012	101.66576	Lotus's	Lotus's	Jalan Ipoh Kuala Lumpur 51200	3.22113	101.67078
+568	99 Speedmart	99 Speedmart		3.25647	101.30767	99 Speedmart	99 Speedmart		3.26114	101.30974
+568	NSK	NSK Grocer	LG 13A & LG-17	3.13038	101.62740	99 Speedmart	99 Speedmart		3.13524	101.62900
+568	Giant	Giant Hypermarket		3.14452	101.71084	Jaya Grocer	Jaya Grocer		3.14039	101.70783
+569	Jaya Grocer	Jaya Grocer		3.21151	101.74873	Giant	Giant Hypermarket		3.20728	101.75161
+569	99 Speedmart	99 Speedmart		3.17775	101.68484	99 Speedmart	99 Speedmart		3.18215	101.68222
+569	99 Speedmart	99 Speedmart		3.20153	101.72025	AEON BIG	AEON BiG		3.20463	101.71617
+571	99 Speedmart	99 Speedmart		3.13434	101.73946	99 Speedmart	99 Speedmart		3.13947	101.73932
+571	99 Speedmart	99 Speedmart	Petaling Jaya	3.09206	101.62616	99 Speedmart	99 Speedmart		3.09204	101.62102
+572	99 Speedmart	99 Speedmart		2.98558	101.62139	Lotus's	Lotus's	Puchong 47120	2.98234	101.61738
+573	99 Speedmart	99 Speedmart		2.98697	101.66478	NSK	NSK Trade City	Ground Floor, 3 Elements Persiaran Putra Permai Selesa Seri Kembangan 43300	2.98245	101.66727
+573	99 Speedmart	99 Speedmart		3.02404	101.53848	NSK	NSK Trade City	1 Jalan Sepadu D 25/D Shah Alam 40400	3.02631	101.54312
+574	Econsave	Econsave		3.20349	101.72121	AEON BIG	AEON BiG		3.20463	101.71617
+574	99 Speedmart	99 Speedmart	80 Jalan Bangsar	3.12297	101.67594	AEON	AEON		3.11818	101.67788
+574	NSK	NSK Grocer	LG 13A & LG-17	3.13038	101.62740	99 Speedmart	99 Speedmart		3.13529	101.62899
+576	99 Speedmart	99 Speedmart		2.98793	101.41955	99 Speedmart	99 Speedmart		2.98651	101.41456
+577	99 Speedmart	99 Speedmart	5;7 Jalan Bukit Bintang	3.14393	101.70786	99 Speedmart	99 Speedmart		3.14052	101.71177
+577	99 Speedmart	99 Speedmart		3.18828	101.64204	99 Speedmart	99 Speedmart		3.19257	101.64496
+577	99 Speedmart	99 Speedmart		3.17186	101.69707	99 Speedmart	99 Speedmart	47&48	3.16670	101.69651
+578	99 Speedmart	99 Speedmart		3.26066	101.30527	Econsave	Econsave		3.25592	101.30740
+578	99 Speedmart	99 Speedmart	80 Jalan Bangsar	3.12297	101.67594	Isetan	Isetan The Gardens		3.11778	101.67574
+579	99 Speedmart	99 Speedmart	Petaling Jaya	3.08822	101.61749	99 Speedmart	99 Speedmart		3.09204	101.62102
+579	99 Speedmart	99 Speedmart	1-G Jalan Impian	3.02399	101.75062	99 Speedmart	99 Speedmart		3.01933	101.75294
+579	99 Speedmart	99 Speedmart		2.87990	101.49661	Econsave	Econsave	Taman Ria Jenjarom 42600	2.87740	101.50118
+579	99 Speedmart	99 Speedmart		3.17775	101.68484	99 Speedmart	99 Speedmart	Kuala Lumpur 51200	3.17510	101.68933
+580	99 Speedmart	99 Speedmart	Jalan PUJ 3/9 Seri Kembangan 43300	3.02160	101.67738	Mydin	Mydin	Jalan PUJ 3/2 Seri Kembangan 43300	3.01669	101.67559
+580	99 Speedmart	99 Speedmart		2.94149	101.61057	Econsave	Econsave	GM9A Jalan Putra Perdana 5D/2 Puchong 47130	2.94380	101.61526
+581	99 Speedmart	99 Speedmart		3.07711	101.66335	99 Speedmart	99 Speedmart		3.07334	101.66698
+581	99 Speedmart	99 Speedmart		3.18602	101.65123	AEON	AEON Supermarket		3.19078	101.65339
+582	99 Speedmart	99 Speedmart		3.21229	101.64864	AEON BIG	AEON BiG	2 Jalan Metro Perdana Barat Kuala Lumpur 52100	3.21463	101.64395
+582	HeroMarket	HeroMarket	Jalan Dagang Besar Ampang 68000	3.14762	101.75657	99 Speedmart	99 Speedmart		3.14461	101.76087
+584	99 Speedmart	99 Speedmart	Jalan 1/48a 51000	3.18230	101.69767	99 Speedmart	99 Speedmart	8-10 Jalan 13/48A Kuala Lumpur 51000	3.18425	101.69278
+585	99 Speedmart	99 Speedmart	Jalan SS 6/20 Petaling Jaya	3.10222	101.60025	99 Speedmart	99 Speedmart		3.09732	101.59834
+587	99 Speedmart	99 Speedmart		3.25067	101.69219	99 Speedmart	99 Speedmart		3.25195	101.68707
+587	99 Speedmart	99 Speedmart	Jalan SS 6/20 Petaling Jaya	3.10222	101.60025	Lotus's	Lotus's	Jalan SS 7/26A Petaling Jaya 47301	3.10497	101.59573
+588	99 Speedmart	99 Speedmart		3.14546	101.71455	NSK	NSK Grocer		3.14207	101.71049
+589	Village Grocer	Village Grocer Mont Kiara		3.16534	101.65346	99 Speedmart	99 Speedmart		3.16116	101.65022
+589	99 Speedmart	99 Speedmart		3.07428	101.74500	99 Speedmart	99 Speedmart		3.07838	101.74165
+590	99 Speedmart	99 Speedmart		3.12570	101.76940	99 Speedmart	99 Speedmart		3.12061	101.77092
+591	99 Speedmart	99 Speedmart		3.03926	101.69692	99 Speedmart	99 Speedmart		3.04424	101.69878
+592	99 Speedmart	99 Speedmart		3.00635	101.39971	99 Speedmart	99 Speedmart		3.00102	101.39972
+594	99 Speedmart	99 Speedmart	Petaling Jaya	3.10969	101.63628	99 Speedmart	99 Speedmart		3.11364	101.63988
+594	99 Speedmart	99 Speedmart		3.13947	101.73932	99 Speedmart	99 Speedmart		3.13508	101.74238
+595	99 Speedmart	99 Speedmart		3.01518	101.44924	Econsave	Econsave		3.01173	101.45334
+595	HeroMarket	HeroMarket	Lorong Selangor Ampang 53100	3.21214	101.74624	99 Speedmart	99 Speedmart	Jalan Bandar 4 Gombak 53100	3.21180	101.75160
+596	99 Speedmart	99 Speedmart		2.98697	101.66478	99 Speedmart	99 Speedmart	No. 1 & 3	2.98162	101.66521
+596	99 Speedmart	99 Speedmart	68	2.94604	101.61341	99 Speedmart	99 Speedmart		2.94149	101.61057
+597	99 Speedmart	99 Speedmart	Jalan PJU 1A/41	3.11434	101.59070	Jaya Grocer	Jaya Grocer		3.11062	101.58683
+598	99 Speedmart	99 Speedmart		3.04557	101.76708	99 Speedmart	99 Speedmart		3.05033	101.76458
+599	99 Speedmart	99 Speedmart		3.19945	101.66648	NSK	NSK Trade City		3.20474	101.66743
+599	99 Speedmart	99 Speedmart		2.94258	101.62051	Econsave	Econsave	GM9A Jalan Putra Perdana 5D/2 Puchong 47130	2.94380	101.61526
+600	99 Speedmart	99 Speedmart		3.09559	101.61114	99 Speedmart	99 Speedmart		3.09572	101.60574
+600	99 Speedmart	99 Speedmart		2.95314	101.55249	Lotus's	Lotus's	2 Jalan Rimbayu 1 Telok Panglima Garang 425000	2.94842	101.54988
