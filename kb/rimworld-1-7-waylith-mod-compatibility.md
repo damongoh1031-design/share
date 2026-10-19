@@ -4,7 +4,7 @@ title: "RimWorld 1.7（Waylith 引擎）Mod 兼容性核查方法与时令结论
 tags: [rimworld, 环世界, 1.7, waylith, mod兼容性, unity迁移, 工坊数据库]
 created: 2026-10-19
 updated: 2026-10-19
-version: 2
+version: 3
 status: stable
 source: 2026-10-19 会话实测（官方公告 + GitHub API + 贴吧/B站社区实测交叉验证，覆盖科学 336 mod + 中世纪 363 mod 两份清单）
 confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实测）/ 推断（分类风险）
@@ -41,7 +41,21 @@ confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实�
 
 | mod | 状态 | 证据 |
 |---|---|---|
-| `ceteam.combatextended` | 🟡 未适配，等新版 | release `v1.6.7.4.0`（2026-10-15）tag 仍 v1.6.*，标题 "Waylith Awaits" |
+| `ceteam.combatextended` | 🟡 未适配，等新版 | release `v1.6.7.4.0`（2026-10-15）tag 仍 v1.6.*，标题 "Waylith Awaits"；**无官方时间线，但 `1.7-Test` 分支 + PR #4802 在途**（详见下节） |
+
+## CE 1.7 适配进度追踪（v3 新增，2026-10-19 核查）
+
+**结论：CE 社区没有公布任何时间线/路线图/ETA，但适配工作已在官宣当天启动。**
+
+| 证据 | 日期 | 内容 |
+|---|---|---|
+| `1.7-Test` 分支首提交 "Initial 1.7"（ViralReaction） | 2026-10-12 18:07 | **Ludeon 官宣 1.7 当天**就开工：Net10 + C#14、引用更新、Directory.Build.props、VPE 兼容代码改反射（VPE 硬编码引用） |
+| 同分支末提交 "Update Directory.Build.props" | 2026-10-16 00:30 | 此后分支无新提交 |
+| PR #4802 "Initial 1.7"（1.7-Test→Development） | 10-15 创建，仍 Open | 26 文件 +197/-323；mergeable=true 但 **mergeable_state=unstable（CI 未过）**；0 评论 0 review；无 milestone |
+| PR #4804（basalt991，社区 PR） | 2026-10-17 | AOC 1.7 包 ID 变更适配（第三方 mod 侧） |
+| 最新正式版 v1.6.7.4.0 | 2026-10-15 | tag 仍 `v1.6.*`，标题 "Waylith Awaits" = 期盼非发布 |
+
+**跟踪方法**：盯三个信号 —— ① PR #4802 被合并 ② CE 发 release 且 tag 不再叫 `v1.6.*` ③ CE 官方 Discord 公告（GitHub 侧无公告渠道）。PR 开到等 review 已 3 天无动静 + CI 红 → 正式版仍需时日；但官宣 4 天内即提交 "Initial 1.7"，说明编译迁移本身不难，CE 的真正工作量在 ~700 个第三方 patch 的行为验证。
 | `brrainz.harmony` | 🟢 已双版本更新 | 社区实证 2026-10-13；但该更新曾把 1.6 的珂莉姆带炸 —— 框架更新有回归风险 |
 | `iforgotmysocks.caravanadventures` | 🟢 已适配 | v1.9.0（2026-10-16）release 写明 compatibility with RimWorld v1.7 |
 | `nebulae.rimworld` | 🔴 未修复 | 实测装上后主菜单滚木、ESC 失效 |
