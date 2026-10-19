@@ -9,16 +9,16 @@ tags:
   - dedup
   - automation
 created: 2026-10-12
-updated: 2026-10-16
-version: 1.4.0
+updated: 2026-10-19
+version: 1.5.0
 status: stable
-source: 本工作区 2026-09-17 ~ 2026-10-16 共 20 次自动化运行实测
+source: 本工作区 2026-09-17 ~ 2026-10-19 共 22 次自动化运行实测
 confidence: 已核实
 ---
 
 ## 一句话结论
 
-**主榜（daily/weekly/monthly）头部已固化，语言维度榜 `/trending/<lang>` 是唯一稳定的新面孔来源；语言榜固定抓 18 个，且 2026-10-16 起「语言 × weekly 全 18 榜」应并入日常抓取（本期 41 榜 / 582 行 / 469 去重 / 358 未推送，10 条详细中 9 条来自语言榜：daily 6 + weekly 3）。同日第二次运行必须换「周期」而不只换「语言」——「语言 × weekly」+「语言 × monthly」+「口语语言榜 zh/en」一次可拿到 270 条未推送仓库。抓取必须用"带重试的 curl 落盘 + 本地正则解析"，不要依赖脚本自带的网络层；解析要按 `<article class="Box-row">` 分块，仓库名用 `href="/(owner)/(repo)"[^>]*class="Link"><svg` 命中，且**总 star 数在 `</svg>` 之后**（不在 `/stargazers"` 紧邻处，否则会把"N stars today"的增幅误当总数）。**⚠️ 跨榜口径污染已被两次实测：`fetch_trending.py` 的 `merge()` 会跨榜取 max 增幅，同一仓库不同周期可差一个数量级（rea daily +32,314 / weekly +239,477；VoiceStudio daily +3,024 / monthly +38,181；ECC daily +1,013 / monthly +22,953）。报告必须逐条标注来源榜与周期，绝不可把合并后的单一数字当"当日增幅"使用。**
+**主榜（daily/weekly/monthly）头部已固化，语言维度榜 `/trending/<lang>` 是唯一稳定的新面孔来源；语言榜固定抓 18 个，且 2026-10-16 起「语言 × weekly 全 18 榜」应并入日常抓取（本期 41 榜 / 582 行 / 469 去重 / 358 未推送，10 条详细中 9 条来自语言榜：daily 6 + weekly 3）。同日第二次运行必须换「周期」而不只换「语言」——「语言 × weekly」+「语言 × monthly」+「口语语言榜 zh/en」一次可拿到 270 条未推送仓库。**⚠️ 2026-10-19 推翻一条旧结论：主榜 daily 会日内刷新**——同日 09:30 与 14:00 两次抓取的 13 条**完全不同**（上午 graphify/ASPIRE/OmniRoute，下午 orca +25,115 / VoiceStudio +42,036）。**"同日第二次运行主榜必然 100% 重复"不再成立，每次都必须实测，不能沿用假设。** 抓取必须用"带重试的 curl 落盘 + 本地正则解析"，不要依赖脚本自带的网络层；解析要按 `<article class="Box-row">` 分块，仓库名用 `href="/(owner)/(repo)"[^>]*class="Link"><svg` 命中，且**总 star 数在 `</svg>` 之后**（不在 `/stargazers"` 紧邻处，否则会把"N stars today"的增幅误当总数）。**⚠️ 跨榜口径污染已被两次实测：`fetch_trending.py` 的 `merge()` 会跨榜取 max 增幅，同一仓库不同周期可差一个数量级（rea daily +32,314 / weekly +239,477；VoiceStudio daily +3,024 / monthly +38,181；ECC daily +1,013 / monthly +22,953）。报告必须逐条标注来源榜与周期，绝不可把合并后的单一数字当"当日增幅"使用。**
 
 ---
 
@@ -38,6 +38,7 @@ confidence: 已核实
 - 2026-10-12 上午（语言 × daily）主榜 daily 8 / weekly 12 / monthly 22，14 语言榜去重 181 条；**同日下午（语言 × weekly + monthly + 口语语言）主榜 42 条 100% 重复**，26 个榜去重 353 条、其中 **270 条从未推送**。
 - 2026-10-15（相隔 2 天，语言 × daily）主榜 daily 12 / weekly 12 / monthly 22 = **46 条中仅 3 条新面孔**；18 语言榜 = 259 条；**合计 305 行 → 去重 282 个仓库**；21 榜并发**0 次重试一次全过**。新面孔在 `csharp`（Llama-Windows / dotnet-skills / unity-mcp）、`go`（agentmesh / anubis / pentagi）、`c++`（ESP32-Bit-Pirate / FinceptTerminal）三榜最集中。
 - 2026-10-16（相隔 1 天，语言 × daily + **语言 × weekly 全量**）主榜 daily 13 / weekly 11 / monthly 22 = **46 条中仅 3 条新面孔**（LibreSpark/LibreTV、lightseekorg/tokenspeed、boykopovar/AnyPS5，其中 AnyPS5 在 10-13 曾以纯文本被提过一次）；18 语言榜 × daily + 18 语言榜 × weekly + 口语语言榜 zh/en = **41 榜、582 行 → 去重 469 个仓库、358 个未推送**；**41 榜并发 0 次重试一次全过**。新面孔最集中在 `go`（beads / filebrowser）、`python`（OpenViking / KittenTTS / ida-pro-mcp）、`rust`（jcode / OpenResearch / ZLUDA）、`java`（skillhub / agentscope-java / spring-ai-alibaba）四榜。**结论：语言 × weekly 收益为正，建议固定抓。**
+- **2026-10-19 两次运行对照（同日第二期的正确姿势）**：上午 09:30（主榜 + 18 语言 × daily）= 19 榜 293 行 / 269 去重 / 205 首见，周榜 10 条与月榜 20 条**零新面孔**；下午 14:00（主榜 daily + 18 语言 × weekly + 9 语言 × monthly + 口语 zh daily/weekly + en weekly）= **31 榜 487 行 / 418 去重 / 289 未推送**，31 榜并发**0 次重试一次全过**。**关键：下午的主榜 daily 13 条与上午完全不同**（下午为 orca / VoiceStudio / claude-plugins-official / ai-job-search / CLI-Anything / cursor-plugins / ruflo / opencode / android-skills / ai-memory / ComfyUI / jasna / llm-course）。**结论：主榜会在日内刷新，同日第二期不必先假设"必然全重复"。**
 
 **注意**：`github-ai-trends` 技能自带的 `fetch_trends.py` 走 **GitHub Search API 按 star 排序**，返回的是"AI 关键词 + 高星"列表（如 openclaw 391.7k / n8n 207.0k），**不是 trending 的日增幅榜**，不能当趋势数据用。仅可用于取"AI 相关仓库的高星背景板"。
 
@@ -107,14 +108,14 @@ for e in ents:
 
 ### 2.5 同日第二次运行的维度选择（本期新增，重要）
 
-同一天跑第二次时，**主榜必然 100% 重复**（trending 日内不刷新候选池），语言 × daily 也已用尽。可用维度按性价比排序：
+同一天跑第二次时，**先实测主榜 daily 是否已刷新**（2026-10-19 实测：09:30 与 14:00 的 13 条完全不同，Orca +25,115 与 VoiceStudio +42,036 都只在下午出现）。若已刷新，主榜 daily 直接可用；未刷新时按下列顺序换维度：
 
 | 顺序 | 维度 | URL 形态 | 实测产出 |
 |---|---|---|---|
-| 0 | **语言 × weekly（全 18 榜）** | `/trending/<lang>?since=weekly` | **2026-10-16 起并入日常抓取**：与语言 × daily 合起来 36 榜贡献 9/10 条详细 |
-| 1 | 语言 × weekly（14 语言） | `/trending/<lang>?since=weekly` | 14 语言 → 多数条目全新 |
-| 2 | 语言 × monthly | `/trending/<lang>?since=monthly` | 7 语言 → 高增幅新面孔（hydradb +10,029 / PI-Desktop +4,031） |
-| 3 | 口语语言榜 × daily/weekly | `?spoken_language_code=zh\|en&since=daily` | 中文项目（WeFlow / Bili23 / TikTokDownloader / tvbox / CowAgent / LangBot） |
+| 0 | **主榜 daily（先重抓一次）** | `/trending?since=daily` | **2026-10-19 实测日内会刷新，1 个请求即可确认** |
+| 1 | **语言 × weekly（全 18 榜）** | `/trending/<lang>?since=weekly` | **2026-10-16 起并入日常抓取**：与语言 × daily 合起来 36 榜贡献 9/10 条详细；10-19 下午场 18 榜贡献 7/10 |
+| 2 | 语言 × monthly（9 语言） | `/trending/<lang>?since=monthly` | 高增幅新面孔（10-19 下午场贡献 orca 之外的 2 条） |
+| 3 | 口语语言榜 × daily/weekly | `?spoken_language_code=zh\|en&since=daily` | 中文项目（LinkSwift / awesome-zhuiju-free / tubatools / DeskBox，与主榜零重叠） |
 | 4 | trending developers | `/trending/developers?since=daily` | 只看人不看仓库，价值最低 |
 
 **核心认知：`since` 是比 `lang` 更强的"换榜"开关** —— 同一语言的 daily/weekly/monthly 是**互不重叠**的三批仓库。
@@ -128,6 +129,9 @@ for e in ents:
 | `parse_1016.py` | 解析 41 个榜 → `all.tsv` / `all.json`（字段 `gain / total / lang / name / boards / desc`） | 按文件名前缀区分榜：`main_*` / `lang_daily_*` / `lang_weekly_*` / `spoken_*`；`board` 字段必须保留用于标注口径 |
 | `atoms_1016.sh <outdir>` | 并发抓 30 个仓库的 `releases.atom` | `xargs -P 10`，用于"已推送仓库是否有新版本" |
 | `readmes_1016.sh <outdir>` | 并发抓 27 个 README，`HEAD` → `main` → `master` 三支兜底 | 27 个全部一次成功 |
+| `grab_1019b.sh <outdir>` | 同日第二期：主榜 daily + **18 语言 × weekly** + **9 语言 × monthly** + 口语 zh daily/weekly + en weekly = **31 榜** | `xargs`/`&`+`wait` 并发，每 URL 8 次重试；**31 榜一次全过** |
+| `parse_1019b.py` | 解析 31 个榜 → `all.json`，自动按 `pushed_clean.txt` 过滤输出未推送项 | 榜前缀 `main_` / `lang_weekly_*` / `lang_monthly_*` / `spoken_*`；**保留 `boards` 字段** |
+| `readmes_1019b.sh <outdir>` | 并发抓 18 个 README（4 文件名 × 3 分支兜底）+ 18 个 `releases.atom` | `xargs -P 8`；18 个 README 全部 HEAD 分支一次成功 |
 
 **去重与筛选固定流程**：
 ```bash
@@ -175,6 +179,11 @@ python -c "import json;rows=json.load(open('all.json'));p=set(l.strip() for l in
 | **合并后增幅被跨榜污染** | `fetch_trending.py` 的 `merge()` 对同一仓库取**跨榜最大** gain；2026-10-15 实测 rea 显示 "+214,837"（实为 weekly，daily 仅 +41,034）；2026-10-16 再实测三例：rea daily **+32,314** / weekly **+239,477**、VoiceStudio daily +3,024 / monthly +38,181、ECC daily +1,013 / monthly +22,953 | **不要用合并后的单一数字描述"当日表现"**；需要当日数据时回到 `main_daily.html` / `lang_daily_*.html` 单独取数（`parse_*.py` 保留 `boards` 字段即为此）。报告速览表必须带"来源榜"列 |
 | **仓库改名/迁移后旧链接失效** | `sst/opencode`、`steveyegge/beads` 均已 301 到新组织；报告里写旧名会让读者找不到 | 抓取后对可疑仓库跑 `curl -o /dev/null -w "%{http_code} %{redirect_url}" https://github.com/<o>/<r>` 确认；去重时**新旧名都算已推送** |
 | **`releases.atom` 的 `<updated>` 在 `<title>` 之前** | 用 `grep -oE '<title>…|<updated>…'` 顺序读会整体错位一格 | 一律按 `<entry>` 块 `re.findall` 切分，再在块内分别取 `<title>` / `<updated>` / `<content type="html">`；正文用 `html.unescape` + `re.sub(r'<[^>]+>','')` |
+| **主榜会日内刷新**（2026-10-19 推翻旧结论） | 同日 09:30 与 14:00 的 daily 13 条**完全不同**；此前 10-12 实测为"100% 重复" | **不要预判"必然全重复"**，每次第二期都重新抓主榜 daily，成本仅 1 个请求 |
+| **star 尖峰没有 release** | VoiceStudio 今日 +42,036，但最新 release 仍是 26 天前的 v0.5.6 | 报"事件"前先查 `releases.atom` 首条时间 + `pushed_at`；无版本就写"纯 star 尖峰，无产品事件" |
+| **release 正文只有版本号** | orca v1.4.230 的 release body 只有 `v1.4.230` 一行 | 改从 README 功能面 + 上一条有内容的 release（v1.4.229）取信息，不要编造变更 |
+| **仓库无 LICENSE 文件** | BuilderIO/agent-native 的 API `license` 为 `null`，README 只说"你建的东西归你" | 商业公司的"开源框架"要单独看 npm 包授权，报告里必须标"无 LICENSE" |
+| **`license.spdx_id` 为 `NOASSERTION`** | Unity-Technologies/unity-agent-plugin | 标"许可证待确认"，不要写 MIT/Apache |
 
 ---
 
@@ -225,6 +234,18 @@ python -c "import json;rows=json.load(open('all.json'));p=set(l.strip() for l in
 - **"给 Agent 装上眼睛"从纪律变成基础设施**（2026-10-16，iOfficeAI/OfficeCLI）：把高保真 HTML 渲染引擎放进单二进制，于是 render → look → fix 闭环可在 CI / Docker / 无显示器服务器上跑（`view html` / `view screenshot` 逐页 PNG / `watch` 实时预览）。配套 `merge` 模板合并把"贵的设计（设计一次）"与"便宜的填充（填 N 次、零 token）"切开，直击"Agent 每次从头重生成 N 份报告 → N 种版式"的失败模式
 - **改名/迁移持续高频**（2026-10-16 再添两例）：`sst/opencode` → `anomalyco/opencode`（301 已核实）、`steveyegge/beads` → `gastownhall/beads`（301 已核实）、chatgpt-on-wechat → **CowAgent**（品牌重定位为 Agent Harness）。动机一致：摆脱上游宿主品牌；但分发入口仍集中在少数几家市场
 - **推理引擎的新差异化轴 = 治理结构**（2026-10-16，lightseekorg/tokenspeed）：由**非营利 LightSeek Foundation** 支撑、"因此是开源的 Switzerland"，同时有 NVIDIA/AMD 硬件与工程支持。技术差异点是**控制面（C++ 有限状态机，编译期类型保证 KV 资源复用）/ 执行面（Python）分离**。注意口径：685 tok/s 是**每用户**吞吐，不是总吞吐
+- **Agent 接口从 MCP 回摆到 CLI + Skills**（2026-10-19，厂商首次自我否定）：`microsoft/playwright-cli` README 第一节直接写取舍——**高频编码场景 CLI + Skills 更省 token**（不把庞大工具 schema 与冗长无障碍树塞进上下文）；**MCP 只在需要持久状态、丰富内省、对页面结构反复推理的循环里才值**（探索式自动化、自愈测试、长跑流程）。同日 `HKUDS/CLI-Anything` +5,051（"Making ALL Software Agent-Native"，`cli-hub matrix` 一条命令装完整个多 CLI 工作流）。**可复用判据：一次性、可脚本化 → CLI；有状态、要反复内省 → MCP**
+- **"权限面"是 Agent 隔离的第四层**（2026-10-19，github/gh-aw）：已有策略面（mxc）→ 编排面（agent-sandbox）→ 内核面（litebox），GitHub 补上**权限面**：Agent job **默认只读 + 沙箱**，写操作先缓冲进 `safe-outputs`，校验后在**单独 job 用受限权限**落地。同一抽象在应用层由 `BuilderIO/agent-native` 实现（action 层是 UI 与 Agent 的唯一入口，*"The agent does not click through the UI"*）
+- **确定性归 CI、推理归 Agent**（2026-10-19，gh-aw 的官方分工表述）：*"Use conventional GitHub Actions for deterministic builds, tests, linting, deployments… Add an agentic workflow when a task needs reasoning or interpretation."* 可直接抄进团队规范；同 repo 另有**整段版本撤回**的诚实样本（`>= 0.83.3, < 0.85.4` 因 GHSA-8h78-hpm7-29gg 全部标记不可用，当前 v0.92.0）
+- **控制面从"配置"上移到"调度"**（2026-10-19 三例）：cc-switch（10-12）管 10 个 CLI 的 endpoint 切换 → **Orca** 管 33 个 CLI 的**并行 worktree 执行 + 结果择优**（一个 prompt 扇出 5 个 Agent 各占一个 worktree）+ 手机端遥控 + 额度热切换 → **Coder Agents** 把 Agent 循环放进控制平面、**工作区里没有 API key**、每动作带用户身份。**共同判断：Agent 不该住在工作区里**
+- **"Agent 花钱"闭环补齐**（2026-10-19，devaccuracy/ledgerforge）：10-15 apify 解决"怎么付"（x402 / AGI token / Skyfire），ledgerforge 解决"**付多少、谁批、怎么查**"——每 API key 独立币种/精度上限 + 余额与账本白名单 + 每日预算 + **审批挂起由服务端强制**，派生 key 继承限制并共享祖先预算，**审批人凭据必须在 Agent 权限之外**；`ledgerforge verify` 只读重放，`audit verify --anchor` 对独立保存的根锚定。**缺"服务端强制 + 凭据分离"等于没护栏**
+- **记忆层问题定义从"Agent 查得到"变成"人查得到"**（2026-10-19，claude-mem v14.0.0）：My Work 是**工作台账**不是检索器（Cards/List/Agents 三视图 + Attention first 排序 + 状态机 In progress/Needs you/No recent update/Ready to check/Checked）。核心约束原文：*"an agent reporting 'done' is never mistaken for a person confirming it"*。**与"解析通过≠跑过"（Game Studios）、"配置被接受≠生效"（Soup）同族：系统状态不能自我认证**。商业化 = 开源部分免费 + TeamBrain **$50/席/月**
+- **厂商官方插件开始跨 harness 分发**（2026-10-19，Unity）：`unity-agent-plugin` 同一份插件同时上 **Claude Code / Codex / Grok**（`0.1.8-beta`，`/unity:` 前缀暴露 skills）；Orca 支持列表里出现 **CodeBuddy / DeepSeek Harness / Kimi / Qwen Code / MiMo Code / ZCode**。**单押 Claude Code 的时代结束**
+- **移动端自动化定型为"读结构不读像素"**（2026-10-19，mobile-next/mobile-mcp）：从原生**无障碍树**驱动，**不用视觉模型、不消耗图像 token**，必要时才退截图+坐标；一套工具打 iOS/Android 模拟器与真机；30+ 工具含 `mobile_batch_commands`（一次调用串多步）、`mobile_fold_device`、`mobile_set_location`。同期 Google 发官方 `android/skills`
+- **文件边界漏洞的通用模式 = 路径先解析再判权**（2026-10-19，mobile-mcp v1.0.11）：输出路径**逐级解析 symlink 后**再校验白名单（此前符号链接可把截图/日志/录像重定向到白名单外），symlink 成环或层数过多直接拒绝。同类：claude-mem"每次读取绑定根内已校验的确切文件"、gods-eye-view"凭据走服务端代理"。**只校验字面路径等于没校验**
+- **star 尖峰 ≠ 趋势事件**（2026-10-19，debpalash/VoiceStudio）：主榜 daily **+42,036**（总 76,013）为当日全站最大增幅，但 `releases.atom` 最新仍是 **v0.5.6（09-23）**，停更 26 天。与 claude-quickstarts 的"最后提交 10-07 仍 +370"同类：**必须先查 release/commit 时间，再决定是否当新闻**
+- **数据新鲜度被明码标价**（2026-10-19，Open-Dev-Society/OpenStock）：社区版报价**每小时**、Cloud **$5/月 15 秒**、自托管可 `NEXT_PUBLIC_OPENSTOCK_DATA_MODE=realtime` 自带 Finnhub key。比"实时行情"四个字有用，属诚实披露的细分（第七级：**把延迟写成价格表**）
+- **"技能 + 已生成语料"双层结构**（2026-10-19，xbtlin/ai-berkshire）：20 个投研 skill 给流程，**2,246 份已生成报告 / 108 家公司 / 26 个专题**给基线，让用户先看输出长什么样再决定是否用。可迁移方法：**每条论断 3 个独立 Agent 对抗验证，3 票中 2 票证伪才剔除**（实战例：106 个检索/验证 Agent、23 条论断三票制）。**注意实盘收益为自报、README 有公众号导流、建议 `--dangerously-skip-permissions` 属高风险**
 
 ---
 
@@ -253,3 +274,6 @@ python -c "import json;rows=json.load(open('all.json'));p=set(l.strip() for l in
 - **2026-10-16 需要保留怀疑态度的数据**：morluto/rea 的 weekly **+239,477**（10-07 为 10,401 → 10-15 总 249,843 → 10-16 总 276,337），极端幅度是否为真实增长、有无非自然因素（推广、刷星、榜单口径变化）**未独立验证**；`LibreSpark/LibreTV` 的 forks（28,795）**超过** stars（18,264），属罕见比例，未核查原因。
 - **2026-10-16 归属变更已核实但影响未评估**：`sst/opencode` → `anomalyco/opencode`（301 确认，README 安装入口与 brew tap 同步改名）；`steveyegge/beads` → `gastownhall/beads`（301 确认）。**功能面是否随组织变更发生调整（治理、维护者、路线）未评估。**
 - **Hex-Rays 官方 IDA MCP 的成熟度未评估**：`HexRaysSA/ida-mcp` 存在（1,194 star，"Official Hex-Rays IDA MCP Server"，最后推送 2026-10-08）为 REST API 核实；但 mrexodia 的"官方版更好"是**作者单方面建议**，两者功能覆盖度未做对比测试。
+- **2026-10-19（14:00 场）自述未复核**：Orca 的"33 家 Agent"与"一个 prompt 扇出 5 个 worktree"、rakazo 的"对标 7 家产品"、ledgerforge 的会计保证与"测试/漏洞/模糊测试门禁"、mobile-mcp 的"fast and cheap"、ai-berkshire 的实盘收益（2024 +69.29% / 2025 +66.38%）与 2,246 份报告、claude-mem 的 My Work 交互细节，**均为项目 README / release 自述，未独立复核**。
+- **2026-10-19（14:00 场）未查明**：VoiceStudio 今日 **+42,036** 的具体原因（无新版本、未找到外部推荐源，仅能确认 release 停在 09-23）；orca v1.4.230 的实际变更（release body 为空）。
+- **2026-10-19 已核实**：gh-aw 安全公告区间 `>= 0.83.3, < 0.85.4` 与最新版 v0.92.0（10-15）；mobile-mcp v1.0.11 的 symlink 逐级解析修复条目；claude-mem v14.0.0（10-17 15:50 UTC）/ v14.0.1（16:25 UTC）时间戳；各仓库 license（agent-native `null`、unity-agent-plugin `NOASSERTION`、其余 Apache-2.0 / MIT）。

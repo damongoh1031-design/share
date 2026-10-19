@@ -4,9 +4,9 @@ title: Agent 基础设施分层图：上下文 / 网关 / 技能 / UI / 专业�
 tags: [agent-infra, code-graph, llm-gateway, agent-skills, generative-ui, mcp, cost-control]
 created: 2026-10-19
 updated: 2026-10-19
-version: 1.0.0
+version: 1.1.0
 status: draft
-source: GitHub trending 2026-10-19 快照 + 各项目 README / GitHub Release / API
+source: GitHub trending 2026-10-19 快照（09:30 + 14:00 两场）+ 各项目 README / GitHub Release / API
 confidence: 已核实（版本与机制）／自报（性能与压缩比）
 ---
 
@@ -14,7 +14,7 @@ confidence: 已核实（版本与机制）／自报（性能与压缩比）
 
 ## 一句话结论
 
-2026-10 的 agent 工具链已经分五层，每层都在从"能用"走向"可运维"：**上下文层**用显式图谱替代向量检索，**网关层**把订阅与免费额度当资源调度，**技能层**长出 inventory/doctor/lockfile，**UI 层**竞争输出语言，**专业工具层**用 provenance + bounded retry 换取不可逆操作的安全。
+2026-10 的 agent 工具链已经分七层，每层都在从"能用"走向"可运维"：**上下文层**用显式图谱替代向量检索，**网关层**把订阅与免费额度当资源调度，**技能层**长出 inventory/doctor/lockfile，**UI 层**竞争输出语言，**专业工具层**用 provenance + bounded retry 换取不可逆操作的安全，**权限/执行层**把写操作移出 Agent 进程（2026-10-19 新增），**调度/控制面层**从"配 endpoint"上移到"并行调度 + 择优"（2026-10-19 新增）。
 
 ---
 
@@ -27,6 +27,8 @@ confidence: 已核实（版本与机制）／自报（性能与压缩比）
 | 技能运行 / 运维 | 技能的安装、可见性、健康、版本 | lazyskills（561★）、ASPIRE（NVIDIA，554★） | 跨 agent 可见性矩阵 + `doctor --json`；ASPIRE 把"训练"定义为技能精炼 | 早期，单人/实验室维护为主 |
 | 生成式 UI | 模型输出结构化界面而非纯文本 | OpenUI（11.9k★，Lang 1.0） | 组件库 → 生成系统提示词 → 流式 DSL → 渲染器 | lang-core 1.0，runtime 0.4.x |
 | 专业工具 MCP | 在不可逆领域（EDA/CAD/运维）安全执行 | Konnect（KiCad，217 工具）、versus-incident（AI SRE） | 证据来源标注、变更说明、重试边界、reader/action 凭证分离 | 单点成熟，缺通用规范 |
+| **权限 / 执行面**（v1.1.0 新增） | Agent 想写东西时，谁用什么身份去写 | gh-aw（5.4k★，v0.92.0）、agent-native（7.4k★）、ledgerforge（411★） | gh-aw：Agent job 只读+沙箱，写操作缓冲进 `safe-outputs`，**单独 job 用受限权限**落地；agent-native：action 层是 UI 与 Agent 的唯一入口；ledgerforge：**服务端强制**额度/白名单/日预算 + 审批凭据与 Agent 权限分离 | gh-aw 0.92（整段版本曾因漏洞撤回）；其余早期 |
+| **调度 / 控制面**（v1.1.0 新增） | 同时跑多个 Agent 并在哪看结果 | Orca（97k★，33 家 CLI）、Coder Agents | Orca：一 prompt 扇出 5 个独立 worktree 择优合并 + 手机遥控 + 额度热切换；Coder：**循环在控制平面、工作区无 API key** | Orca 日发版；Coder 2.x |
 
 ---
 
@@ -44,6 +46,11 @@ confidence: 已核实（版本与机制）／自报（性能与压缩比）
 | 8 | 不可逆领域的 MCP 必须自带 provenance 与重试边界 | Konnect v0.13.0 "Live Truth / Bounded Recovery"；拒绝通不过自身安全检查的计划 | 已核实 |
 | 9 | AI SRE 的可落地形态是"取证 + 门控"而非自动修复 | versus-incident 只读调查工具 + 审批动作绑定集群 + 凭证分离 | 已核实 |
 | 10 | 主榜固化，增量在语言榜与版本事件 | 2026-10-19：周榜 10 条 / 月榜 20 条零新面孔 | 已核实 |
+| 11 | **Agent 接口从 MCP 回摆到 CLI + Skills** | 微软 playwright-cli README 第一节直接给取舍（CLI 省 token / MCP 只在有状态反复内省时值）；HKUDS/CLI-Anything +5,051 | 已核实（README 原文） |
+| 12 | **确定性归 CI、推理归 Agent** | gh-aw 原文 "Use conventional GitHub Actions for deterministic builds… add an agentic workflow when a task needs reasoning" | 已核实 |
+| 13 | **控制面从"配置"上移到"调度"** | cc-switch 管 10 个 CLI 的 endpoint → Orca 管 33 个 CLI 的并行 worktree → Coder 把循环放进控制平面 | 已核实 |
+| 14 | **"Agent 花钱"需要服务端强制 + 凭据分离** | ledgerforge：per-key 币种/精度上限、余额与账本白名单、日预算、审批挂起全由服务端执行；审批人凭据必须在 Agent 权限外 | 已核实（机制）；效果未测 |
+| 15 | **系统状态不能自我认证** | claude-mem v14 "agent reporting done is never mistaken for a person confirming it"；同族：解析通过≠跑过、配置被接受≠生效 | 已核实 |
 
 ---
 
