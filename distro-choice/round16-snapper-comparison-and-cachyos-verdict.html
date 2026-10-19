@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 16 轮：Arch / Kubuntu / Fedora 都用 snapper 的综合比较 —— 以及 CachyOS 到底适不适合</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-soft: #131920;
+    --panel: #161d26;
+    --border: #263040;
+    --border-soft: #1e2632;
+    --text: #d6deeb;
+    --text-dim: #8b98a9;
+    --text-faint: #64707f;
+    --accent: #4aa8ff;
+    --accent-2: #7ee0b8;
+    --warn: #f0b45c;
+    --danger: #ff6b6b;
+    --code-bg: #0a0f16;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC",
+                 "PingFang SC", "Microsoft YaHei", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.78;
+    letter-spacing: .01em;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 56px 28px 120px; }
+  .hero {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 22px;
+    margin-bottom: 44px;
+  }
+  .hero .kicker {
+    font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 30px; line-height: 1.35; margin: 0 0 14px;
+    font-weight: 700; letter-spacing: -.01em; color: #f2f6fc;
+  }
+  .hero .meta { color: var(--text-faint); font-size: 13.5px; }
+  h2 {
+    font-size: 22px; margin: 60px 0 18px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
+    font-weight: 650; letter-spacing: -.005em; color: #eaf1fb;
+    scroll-margin-top: 20px;
+  }
+  h3 { font-size: 17.5px; margin: 36px 0 12px; font-weight: 650; color: #dce6f5; }
+  h4 { font-size: 15.5px; margin: 26px 0 10px; font-weight: 600; color: var(--text-dim); }
+  p { margin: 0 0 16px; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(74,168,255,.28); }
+  a:hover { border-bottom-color: var(--accent); }
+  strong { color: #fff; font-weight: 650; }
+  em { color: var(--accent-2); font-style: normal; }
+  hr { border: none; border-top: 1px solid var(--border-soft); margin: 40px 0; }
+  code {
+    background: var(--code-bg); color: #8fd6ff;
+    padding: 2px 6px; border-radius: 4px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13.2px; border: 1px solid var(--border-soft);
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 18px; overflow-x: auto;
+    margin: 0 0 20px; line-height: 1.62;
+  }
+  pre code {
+    background: none; border: none; padding: 0; color: #b9c9dc;
+    font-size: 13px; white-space: pre;
+  }
+  blockquote {
+    margin: 0 0 20px; padding: 14px 18px;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--warn);
+    border-radius: 0 6px 6px 0;
+    color: #c4cfdd;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+  blockquote h2, blockquote h3 { margin-top: 8px; border: none; font-size: 16px; }
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  li::marker { color: var(--text-faint); }
+  .table-wrap {
+    overflow-x: auto; margin: 0 0 24px;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: var(--panel);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th {
+    text-align: left; padding: 11px 14px; font-weight: 650;
+    background: #1b2431; color: #cfdcee;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px; border-bottom: 1px solid var(--border-soft);
+    vertical-align: top; color: var(--text);
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #18202b; }
+  td code, th code { font-size: 12.4px; }
+  @media (max-width: 640px) {
+    .wrap { padding: 32px 16px 80px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 19px; }
+    body { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+  <div class="kicker">Linux 游戏发行版选型 · 第 16 轮</div>
+  <h1>第 16 轮：Arch / Kubuntu / Fedora 都用 snapper 的综合比较 —— 以及 CachyOS 到底适不适合</h1>
+  <div class="meta">核查日期 2026-10-19 · 一手查询：Arch 官方仓库 API / Fedora packages / Ubuntu Launchpad / CachyOS-PKGBUILDS 源码</div>
+</div>
+<blockquote><p>前置约束：<strong>稳定优先，同时尽量发挥硬件</strong>；排除 CachyOS 作为默认答案（本轮改为回答"适合吗"）。 核查日期：2026-10-19。所有版本号均为一手查询结果（Arch 官方仓库 JSON API、Fedora packages API、Ubuntu Launchpad API、CachyOS-PKGBUILDS 源码）。</p></blockquote>
+<hr>
+<h2 id="0-一句话结论">0. 一句话结论</h2>
+<p><strong>"三家都装 snapper" 是个假命题 —— 装上 snapper 不等于拥有回滚能力。</strong> snapper 只是快照引擎，它不知道"你刚装了个包"，也不会出现在 GRUB 菜单里。真正决定你能不能在被更新搞挂之后救回系统的，是另外三样东西：<strong>事务级自动钩子、GRUB 快照启动集成、<code>/boot</code> 是否在快照范围内</strong>。这三样在三家发行版上的差距是<strong>结构性的（有没有这个包）</strong>，不是配置差距（配不配得对）。</p>
+<p>补齐之后：<strong>Arch 是唯一三件套齐备且全在官方仓库的</strong>；<strong>Kubuntu 有自动钩子但没有救生艇</strong>；<strong>Fedora 44 的自动钩子包还在、但宿主 dnf4 已经被删了，等于没有</strong>。</p>
+<p><strong>CachyOS 的答案</strong>：它在 snapper 这条线上<strong>是全场最强的，没有第二</strong>——因为它把 Arch 的三件套预先接线好了，还额外送你一张"出厂快照"。但这条优势回答不了"稳定"这个问题：它优化的是<strong>出错后能不能救</strong>，不是<strong>会不会出错</strong>。所以答案取决于你更怕哪一个。</p>
+<hr>
+<h2 id="1-先把-snapper-拆开-它提供什么-缺什么">1. 先把 snapper 拆开：它提供什么、缺什么</h2>
+<p>很多人把 "装 snapper" 当成 "拥有 openSUSE 那种原子回滚"。实际上 openSUSE 的体验由<strong>四个部件</strong>拼成，snapper 只是其中之一：</p>
+<div class="table-wrap"><table><thead><tr><th>部件</th><th>作用</th><th>openSUSE 里是谁</th></tr></thead><tbody><tr><td><strong>① 快照引擎</strong></td><td>创建 / 比较 / 清理快照，管理多套配置</td><td><code>snapper</code> 本体</td></tr><tr><td><strong>② 事务钩子</strong></td><td>每次装包前自动拍 pre、装完拍 post，并配对</td><td><code>snapper-zypp-plugin</code>（zypper 插件）</td></tr><tr><td><strong>③ 启动集成</strong></td><td>把快照变成 GRUB 菜单项，开不了机也能进</td><td>openSUSE 的 grub2 内建 btrfs+snapper 支持 / 其他发行版用 <code>grub-btrfs</code></td></tr><tr><td><strong>④ 布局前提</strong></td><td><code>/boot</code> 必须和 <code>/</code> 在同一个 Btrfs 里，否则快照不含内核</td><td>安装器默认布局</td></tr></tbody></table></div>
+<p><strong>只装 ① 的结果</strong>：你能手动 <code>snapper create</code>、能 <code>snapper list</code>、能 <code>snapper rollback</code> —— 但前提是<strong>系统还能开机</strong>。系统开不了机时，snapper 一点用都没有，你只能拿 Live USB 挂载子卷手动修。</p>
+<p>这是本轮最重要的判断：<strong>②③④ 缺任何一项，"用 snapper 管理" 就只是"多了一层手动备份"，不构成稳定性优势。</strong></p>
+<h3 id="④-的权威依据-archwiki">④ 的权威依据（ArchWiki）</h3>
+<blockquote><p>If <code>/boot</code> is on a non-Btrfs partition, "you are not able to do snapper backups with it."</p></blockquote>
+<p>也就是说：<code>/boot</code> 单独分一个 ext4 分区（这是 Fedora 安装器的<strong>默认行为</strong>），snapper 就<strong>管不到内核和 initramfs</strong>。回滚 <code>/</code> 到三天前，<code>/boot</code> 里还是今天的内核 + 今天的 initramfs —— initramfs 里引用的模块在旧 root 上可能不存在，直接开不了机。这不是理论风险，是 Btrfs 回滚最常见的翻车点。</p>
+<hr>
+<h2 id="2-一手核实矩阵-2026-10-19">2. 一手核实矩阵（2026-10-19）</h2>
+<h3 id="2-1-部件可用性">2.1 部件可用性</h3>
+<div class="table-wrap"><table><thead><tr><th>部件</th><th><strong>Arch</strong></th><th><strong>Fedora 44 KDE</strong></th><th><strong>Kubuntu 26.04</strong></th><th><strong>Kubuntu 26.10</strong></th></tr></thead><tbody><tr><td>① <code>snapper</code> 本体</td><td>✅ <code>extra/snapper 0.13.2-1</code></td><td>✅ <code>0.13.0-3.fc44</code></td><td>✅ <code>universe</code></td><td>✅ <code>universe</code></td></tr><tr><td>② 自动快照钩子</td><td>✅ <strong><code>extra/snap-pac 3.0.1-3</code></strong></td><td>⚠️ <code>python3-dnf-plugin-snapper 4.1.2-11.fc44</code> <strong>存在但宿主已死</strong></td><td>✅ <strong><code>apt-btrfs-snapshot 4.0.1build1</code>（universe）</strong></td><td>✅ 同左</td></tr><tr><td>③ GRUB 快照启动</td><td>✅ <strong><code>extra/grub-btrfs 4.14-1</code></strong></td><td>❌ <strong>全库无此包</strong></td><td>❌ <strong>archive 内无此包</strong></td><td>❌</td></tr><tr><td>GUI</td><td>✅ <code>extra/btrfs-assistant 3.0.0-1</code>、<code>snapper-fmt 0.11.10-1</code></td><td>✅ <code>btrfs-assistant</code></td><td>✅ <code>btrfs-assistant 2.2-1</code> + <code>snapper-gui</code></td><td>✅</td></tr><tr><td>④ <code>/boot</code> 默认布局</td><td>由你自己决定</td><td>❌ <strong>ext4 独立分区（Anaconda 预设）</strong></td><td>由你自己决定</td><td>同左</td></tr><tr><td>子卷默认布局</td><td>无（自建）</td><td><code>root</code> + <code>home</code>，<strong>无 <code>/.snapshots</code></strong></td><td><code>@</code> + <code>@home</code></td><td>同左</td></tr></tbody></table></div>
+<h3 id="2-2-关键证据原文">2.2 关键证据原文</h3>
+<p><strong>Arch</strong>（<code>archlinux.org/packages/search/json/</code>）：</p>
+<pre><code>extra/snapper           0.13.2-1
+extra/snap-pac          3.0.1-3
+extra/grub-btrfs        4.14-1     &quot;Include btrfs snapshots in GRUB boot options&quot;
+extra/btrfs-assistant   3.0.0-1
+extra/snapper-fmt       0.11.10-1</code></pre>
+<blockquote><p>结论：<strong>Arch 的 snapper 三件套全部在官方 <code>extra</code> 仓库</strong>，不需要 AUR、不需要编译。</p></blockquote>
+<p><strong>Fedora 44</strong>（<code>packages.fedoraproject.org</code>）：</p>
+<pre><code>snapper                              0.13.0-3.fc44     ✅
+python3-dnf-plugin-snapper           4.1.2-11.fc44     ⚠️ 仅 dnf4 插件
+dnf (dnf4 本体)                       只有 Fedora 41       ❌ F44 无
+libdnf5-plugin-*                     actions / txnupd / cow / notify  ❌ 无 snapper
+grub-btrfs                           NOT FOUND         ❌
+snap-pac                             NOT FOUND         ❌（Arch 专属）</code></pre>
+<blockquote><p><strong>这是本轮最关键的一条修正</strong>：<code>python3-dnf-plugin-snapper</code> 这个包<strong>确实还在 Fedora 44 仓库里构建</strong>（4.1.2-11.fc44），看起来"Fedora 也有自动快照"。但它是 <strong>dnf4 的 Python 插件</strong>，而 <strong>dnf4 本体从 Fedora 42 起就不再随发行版提供</strong>（<code>dnf</code> 包页只列到 Fedora 41）。dnf5 用 C++ 插件（<code>libdnf5-plugin-*</code>），<strong>没有 snapper 插件</strong>。</p>
+<p>→ <strong>在 Fedora 44 上装这个包，它不会工作。</strong> 这是一个"看着有、实际空"的陷阱。</p></blockquote>
+<p><strong>Fedora 的另一条路</strong>（值得单独说）：</p>
+<pre><code>snapm            0.7.0-5.fc44     ✅
+boom-boot        1.6.8-5.fc44     ✅</code></pre>
+<p><code>snapm</code> 官方 README 明确写着 <strong>"Bootable snapshots: Generate boot entries for snapshot boot and failsafe revert"</strong>，用法：</p>
+<pre><code class="language-bash">snapm snapset create --bootable --revert before-upgrade / /home
+# 重启 → GRUB 里出现 &quot;Snapshot before-upgrade ...&quot;
+snapm snapset revert before-upgrade</code></pre>
+<p><strong>但它的后端只支持 LVM2（CoW / Thin）和 Stratis —— 明确不支持 Btrfs。</strong></p>
+<blockquote><p>→ Fedora 想拥有"GRUB 里能选快照 + 一键 revert"，<strong>必须放弃 Btrfs 默认布局，改装 LVM + XFS</strong>。这是 Fedora 独有的第三条路，也是<strong>除 openSUSE 外唯一由发行版自己维护的、一等公民级的快照启动方案</strong>。</p></blockquote>
+<p><strong>Kubuntu 26.04 / 26.10</strong>（Launchpad API，<code>resolute</code> / <code>stonking</code>）：</p>
+<pre><code>apt-btrfs-snapshot   4.0.1build1   universe   &quot;Automatically create snapshot on apt operations&quot;
+btrfs-assistant      2.2-1         universe
+snapper-gui          0git.960a94834f-8  universe
+grub-btrfs           NOT FOUND      ❌
+snap-pac             NOT FOUND      ❌</code></pre>
+<blockquote><p>Ubuntu 有<strong>原生的 APT 事务钩子</strong>（<code>apt-btrfs-snapshot</code>，比 Fedora 那个空壳实在得多），但<strong>没有 <code>grub-btrfs</code></strong>。26.10 同样有 <code>apt-btrfs-snapshot 4.0.1build1</code>。</p></blockquote>
+<hr>
+<h2 id="3-三家的真实体验差异">3. 三家的真实体验差异</h2>
+<h3 id="3-1-arch-三件套齐备-但要你自己接线">3.1 Arch：三件套齐备，但要你自己接线</h3>
+<p>Arch 给的是<strong>零件</strong>，不是成品。你要自己做四件事：</p>
+<ol>
+<li>安装时决定 <code>/boot</code> 放哪 —— 必须放 Btrfs 里（推荐独立子卷 <code>@boot</code>），否则第 ④ 条直接失效</li>
+<li>手动 <code>snapper -c root create-config /</code> 建配置</li>
+<li>装 <code>snap-pac</code>（提供 pacman 的 pre/post 钩子）</li>
+<li>装 <code>grub-btrfs</code> + <code>systemctl enable --now grub-btrfsd</code></li>
+</ol>
+<p><strong>代价</strong>：约 30–45 分钟的配置 + 一次试错。<strong>收益</strong>：你得到了 openSUSE 级别的回滚能力，而且完全知道它怎么工作。</p>
+<p><strong>风险点</strong>：<code>grub-btrfs</code> 的 <code>grub-btrfsd</code> 在 Btrfs 上监控 <code>/.snapshots</code>，需要 <code>inotify</code> 支持；快照多了以后每次重生成 <code>grub-btrfs.cfg</code> 有开销（通常 &lt;1s，可接受）。</p>
+<h3 id="3-2-fedora-44-看起来有-实际是空壳">3.2 Fedora 44：看起来有，实际是空壳</h3>
+<p>Fedora 的 Btrfs 是默认文件系统（F33 起），但<strong>Fedora 从来没有认真做过 snapper 集成</strong>。原因不难理解：Red Hat 的战略方向是 <strong>LVM/Stratis + boom/snapm</strong>（企业级、可管理、可编排），不是 openSUSE 那套 Btrfs 子卷哲学。</p>
+<p><strong>官方 wiki 原文</strong>（<code>fedoraproject.org/wiki/Btrfs</code>）：</p>
+<blockquote><p>"The Btrfs partition scheme preset creates an <strong>ext4 /boot</strong>, and a Btrfs pool. <strong>Two subvolumes, root and home</strong>, are created from that pool and mounted at / and /home respectively."</p></blockquote>
+<p>三处硬伤：</p>
+<ol>
+<li><code>/boot</code> 是 <strong>ext4</strong> → 快照<strong>永远不含内核</strong></li>
+<li>只有 <code>root</code> + <code>home</code> 两个子卷，<strong>没有 <code>/.snapshots</code></strong> → snapper 会自己建，但那是嵌套在 <code>root</code> 子卷里的子卷，清理和配额行为都不理想</li>
+<li>没有 <code>grub-btrfs</code>，而且 Fedora 用 <strong>BLS（Boot Loader Spec）</strong> 的 <code>/boot/loader/entries/*.conf</code> 机制 —— <code>grub-btrfs</code> 的 <code>41_snapshots-btrfs</code> 脚本对这套布局支持很差</li>
+</ol>
+<p><strong>所以 Fedora 44 + snapper 的实际能力 = 手动拍快照 + 手动回滚（系统还能开机时）。</strong> 这连"比没有强一点"都算不上，因为你要多维护一套东西却拿不到关键能力。</p>
+<p><strong>变通方案（不推荐，但可行）</strong>：</p>
+<pre><code class="language-bash"># dnf5 唯一能挂外部命令的插件
+sudo dnf install libdnf5-plugin-actions
+# 然后自己写 hook 脚本调 snapper create —— 需要自己实现 pre/post 配对、去重、失败处理</code></pre>
+<p>这是 DIY，不是发行版能力。<strong>如果要走 Fedora，走 snapm + LVM/XFS 那条路，别在 Btrfs + snapper 上耗。</strong></p>
+<h3 id="3-3-kubuntu-有钩子-没有救生艇">3.3 Kubuntu：有钩子，没有救生艇</h3>
+<p>Ubuntu 这边反而比 Fedora 实在：</p>
+<ul>
+<li><code>apt-btrfs-snapshot</code> 会在<strong>每次 apt 事务前</strong>自动给 <code>@</code> 和 <code>@home</code> 拍快照</li>
+<li><code>btrfs-assistant</code> + <code>snapper-gui</code> 提供 GUI</li>
+<li>但 <strong><code>grub-btrfs</code> 不在 Ubuntu archive 里</strong>（universe 也没有）</li>
+</ul>
+<p><strong>结果</strong>：系统能开机时，你有完整的快照历史和 GUI 回滚；<strong>系统开不了机时，你只有 Live USB</strong>。</p>
+<p><strong>另一个坑</strong>：Ubuntu 默认装 <strong>ext4</strong>。想用 Btrfs 必须在安装器里手动选（Kubuntu 26.04 的安装器有 Btrfs 选项，但默认不是）。装了系统才想起来 = 重装。</p>
+<p><strong>第三个坑</strong>：<code>apt-btrfs-snapshot</code> 和 <code>snapper</code> 是<strong>两套并行体系</strong> —— 前者用 <code>@apt-snapshot-&lt;时间戳&gt;</code> 命名，后者用 <code>/.snapshots/&lt;N&gt;/snapshot</code>。同时用会有两套快照历史、两套清理策略、互相不知道对方存在。<strong>选一套，别混。</strong></p>
+<hr>
+<h2 id="4-补齐后的排序-回滚能力维度">4. 补齐后的排序：回滚能力维度</h2>
+<p>问题："装包自动拍 + 开不了机从 GRUB 菜单进快照 + 内核一起回滚" —— 三家谁能做到？</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>自动拍</th><th>GRUB 菜单</th><th>含内核</th><th>开箱程度</th><th>评级</th></tr></thead><tbody><tr><td><strong>Arch + 三件套</strong></td><td>✅ snap-pac</td><td>✅ grub-btrfs</td><td>✅（若 <code>/boot</code> 在 Btrfs）</td><td>需自己配 30–45 分钟</td><td><strong>A</strong></td></tr><tr><td><strong>Fedora 44 + Btrfs + snapper</strong></td><td>❌ 钩子失效</td><td>❌ 无包</td><td>❌ ext4 <code>/boot</code></td><td>—</td><td><strong>F</strong></td></tr><tr><td><strong>Fedora 44 + LVM/XFS + snapm</strong></td><td>⚠️ systemd timer（非事务级）</td><td>✅ boom-boot</td><td>✅（LVM 快照含 <code>/boot</code>）</td><td>需手动分区 + 配 timer</td><td><strong>B+</strong></td></tr><tr><td><strong>Kubuntu 26.04 + snapper</strong></td><td>✅ apt-btrfs-snapshot</td><td>❌ 无包</td><td>✅（若 <code>/boot</code> 在 Btrfs）</td><td>装包即用（钩子部分）</td><td><strong>B</strong></td></tr><tr><td><strong>openSUSE TW/Slowroll</strong></td><td>✅ zypp 插件</td><td>✅ 内建</td><td>✅</td><td>安装器默认</td><td><strong>A+</strong></td></tr><tr><td><strong>CachyOS</strong></td><td>✅ snap-pac（预接线）</td><td>✅ grub-btrfs-support（预接线）</td><td>✅（Btrfs 安装）</td><td><strong>安装完即有出厂快照</strong></td><td><strong>A+</strong></td></tr></tbody></table></div>
+<p><strong>这张表是本轮的核心答案。</strong> 注意两件事：</p>
+<ol>
+<li><strong>Fedora 在"都用 snapper"这个条件下是全场最差</strong>，而且差得很隐蔽 —— 因为它有一个名字对得上的包，让人以为能用。</li>
+<li><strong>CachyOS 在这条线上和 openSUSE 并列第一</strong>，比原版 Arch 还高一档（因为预接线）。</li>
+</ol>
+<hr>
+<h2 id="5-但回滚能力-稳定性-这是两个正交的维度">5. 但回滚能力 ≠ 稳定性 —— 这是两个正交的维度</h2>
+<p>这是本轮必须讲清楚的一点，否则前面的结论会被误读。</p>
+<div class="table-wrap"><table><thead><tr><th>维度</th><th>问题</th><th>snapper 能改善吗</th></tr></thead><tbody><tr><td><strong>会不会出错</strong></td><td>更新引入回归、驱动崩、内核不兼容</td><td>❌ <strong>完全不能</strong></td></tr><tr><td><strong>出错后能不能救</strong></td><td>有没有退路、退路多快</td><td>✅ 这是 snapper 的全部价值</td></tr></tbody></table></div>
+<p><strong>滚动发行版的真实风险不是"包没测试"，而是"测试窗口短"</strong>（前序轮次已校准）。snapper 把"踩到回归"从<strong>灾难</strong>降级为<strong>麻烦</strong> —— 但麻烦仍然是麻烦：你要中断工作、重启、进快照、rollback、再重启、重新登录、恢复没保存的东西。<strong>一天里发生一次，这天就废了一半。</strong></p>
+<p>所以：</p>
+<ul>
+<li><strong>Arch + snapper</strong> = 高风险 + 强退路 → 适合"能接受偶尔花 20 分钟恢复"的人</li>
+<li><strong>Kubuntu + snapper</strong> = 低风险 + 中退路 → 适合"不想花那 20 分钟"的人</li>
+<li><strong>CachyOS + snapper</strong> = 高风险 + 最强退路 + 省调优 → 适合"愿意用维护时间换性能"的人</li>
+</ul>
+<p><strong>没有一个选项能同时给你"不出错"和"最强退路"。</strong> 这就是选择本身。</p>
+<hr>
+<h2 id="6-cachyos-适合吗">6. CachyOS：适合吗？</h2>
+<h3 id="6-1-它在-snapper-这条线上确实是最强的-一手证据">6.1 它在 snapper 这条线上确实是最强的 —— 一手证据</h3>
+<p>这一条不是推测，是读了 CachyOS 的打包源码（<code>CachyOS/CachyOS-PKGBUILDS</code> master 分支）。</p>
+<p><strong>包一：<code>cachyos-snapper-support 1.0.2-1</code></strong></p>
+<pre><code class="language-bash">pkgdesc=&#x27;CachyOS package that handles snapper configs.&#x27;
+depends=(snapper snap-pac)      # ← 硬依赖 snap-pac：自动事务快照开箱即用
+conflicts=(timeshift)           # ← 明确排斥 timeshift，避免双体系
+# 安装 /etc/snapper/config-templates/cachyos-root</code></pre>
+<p><code>post_install</code> 做的事：</p>
+<pre><code class="language-bash">systemctl enable --now snapper-cleanup.timer
+#systemctl enable snapper-timeline.timer      ← 被注释掉：默认不开每小时快照
+snapper --no-dbus -c root create-config --template cachyos-root /</code></pre>
+<p>配置模板 <code>cachyos-root</code> 的关键值：</p>
+<pre><code>TIMELINE_CREATE=&quot;no&quot;            # 不做每小时快照（省磁盘、减少干扰）
+NUMBER_LIMIT=&quot;50&quot;               # 最多留 50 个事务快照
+NUMBER_LIMIT_IMPORTANT=&quot;15&quot;     # important 标记的最多留 15 个
+SPACE_LIMIT=&quot;0.5&quot;  FREE_LIMIT=&quot;0.2&quot;
+BACKGROUND_COMPARISON=&quot;yes&quot;</code></pre>
+<blockquote><p>这个取舍是对的：<strong>只保留"装包前/后"的事务快照，不做定时快照。</strong> 定时快照对游戏机是纯浪费（你打游戏时文件几乎不变）。</p></blockquote>
+<p><strong>包二：<code>grub-btrfs-support 1.0.0-1</code></strong>（维护者 Peter Jung / ptr1337，CachyOS 核心开发者）</p>
+<pre><code class="language-bash">depends=(cachyos-snapper-support grub-btrfs)
+# 装两个 systemd 单元</code></pre>
+<pre><code># grub-btrfs-snapper.path
+[Path]
+PathModified=/.snapshots</code></pre>
+<pre><code># grub-btrfs-snapper.service
+ExecStart=bash -c &#x27;... /etc/grub.d/41_snapshots-btrfs ...&#x27;</code></pre>
+<blockquote><p>作用：<strong><code>/.snapshots</code> 一变就重生成 <code>grub-btrfs.cfg</code></strong>。原版 Arch 你要自己 enable <code>grub-btrfsd</code>，CachyOS 用 systemd <code>.path</code> 单元替你做了，而且更省资源（只在变化时触发，不是常驻守护）。</p></blockquote>
+<p><strong>包三：安装器的出厂快照</strong>（<code>cachyos-calamares</code> → <code>src/scripts/btrfs-installation-snapshot</code>）</p>
+<pre><code class="language-bash">SNAP_ID=$(snapper --no-dbus -c root create --print-number \
+    --description &quot;Fresh CachyOS Installation&quot; \
+    --userdata &quot;important=yes&quot;)
+mkdir -p /etc/cachyos
+echo &quot;$SNAP_ID&quot; &gt; /etc/cachyos/installation-snapshot</code></pre>
+<blockquote><p>装完系统立刻拍一张"出厂快照"，标记 <code>important=yes</code>（不会被清理算法删），并把 ID 存下来。<strong>这意味着任何时候你都能一键回到刚装完的状态</strong> —— 这个设计比 Arch、Fedora、Ubuntu 都好，是真正的"重装替代品"。</p></blockquote>
+<p><strong>结论：CachyOS 的 snapper 栈 = Arch 三件套 + 预接线 + 出厂快照。这是它最被低估的优点，比它的编译器优化实在得多。</strong></p>
+<h3 id="6-2-代价-为什么它仍然不是-稳定优先-的答案">6.2 代价（为什么它仍然不是"稳定优先"的答案）</h3>
+<div class="table-wrap"><table><thead><tr><th>代价</th><th>具体</th></tr></thead><tbody><tr><td><strong>滚动</strong></td><td>没有 Slowroll / Leap 等价物。<code>cachyos</code> 仓库跟 Arch 同步，只是额外重编译</td></tr><tr><td><strong>小团队</strong></td><td>核心维护者个位数（ptr1337、sirlucjan 等）。bus factor 极低</td></tr><tr><td><strong>变量更多</strong></td><td>内核带 BORE/sched-ext 补丁、包用额外 CFLAGS/LTO 重编译 → <strong>出问题时排查路径比 Arch 长</strong>（是上游 bug 还是 CachyOS 补丁引入的？）</td></tr><tr><td><strong>收益量级小</strong></td><td>前序轮次结论：性能收益个位数百分比，且<strong>CPU 密集原生游戏几乎为 0</strong>（游戏二进制是厂商预编译的，编译层碰不到）</td></tr><tr><td><strong>仓库信任</strong></td><td>第三方仓库 + 自签名包，供应链面比 Arch 官方大</td></tr></tbody></table></div>
+<p><strong>关键矛盾</strong>：snapper 让你"出错了能救"，但 CachyOS 恰恰<strong>更容易让你需要救</strong>（补丁多、滚动快、测试窗口短）。<strong>它把退路做到最好，同时把风险也抬高了。</strong> 净效果是不是正的，取决于你的时间成本。</p>
+<h3 id="6-3-结论-条件表">6.3 结论：条件表</h3>
+<div class="table-wrap"><table><thead><tr><th>你的情况</th><th>适合装 CachyOS 吗</th><th>理由</th></tr></thead><tbody><tr><td><strong>纯游戏机</strong>（这台机器只打游戏，坏了不耽误正事）+ 愿意每月花点时间看更新</td><td>✅ <strong>适合</strong></td><td>snapper 三件套 + 出厂快照 + 预调 sysctl/udev，省下的调优时间 &gt; 维护时间</td></tr><tr><td><strong>主力工作机</strong>（有不能中断的活）+ 求稳</td><td>❌ <strong>不适合</strong></td><td>一次回归 = 半天报废。选 Kubuntu 26.04 或 openSUSE Slowroll</td></tr><tr><td><strong>双系统 / 有备用机</strong></td><td>✅ 适合</td><td>风险被隔离，退路充足</td></tr><tr><td><strong>只要 CPU 密集原生游戏</strong></td><td>❌ 不值得</td><td>收益 ≈ 0，纯担风险</td></tr><tr><td><strong>GPU 密集 Proton + AMD 显卡</strong></td><td>⚠️ 看情况</td><td>收益来自 Mesa/DXVK 新版本，但 Arch 官方仓库同样新，<strong>CachyOS 的额外收益很小</strong></td></tr><tr><td><strong>想省调优但要 Arch 生态</strong></td><td>✅ 适合</td><td>它本质是"Arch + 现成调优 + 现成快照栈"，比手动配 Arch 省事</td></tr></tbody></table></div>
+<p><strong>一句话</strong>：<strong>CachyOS 是"Arch 的最佳发行版形态"，但它仍然是 Arch。</strong> 如果你接受 Arch 的风险模型，那没有比它更好的选择；如果你不接受，它做得再好也不解决问题。</p>
+<hr>
+<h2 id="7-三场景裁决重算-在-都用-snapper-前提下">7. 三场景裁决重算（在"都用 snapper"前提下）</h2>
+<div class="table-wrap"><table><thead><tr><th>场景</th><th>裁决</th><th>理由（本轮新增的 snapper 视角）</th></tr></thead><tbody><tr><td><strong>CPU 密集原生游戏</strong>&lt;br&gt;（如 RimWorld、Factorio、Paradox 系）</td><td><strong>Kubuntu 26.04 LTS</strong></td><td>发行版对原生游戏贡献 ≈ 0 → 优化目标纯化为"稳定"。snapper 只当保险，<code>apt-btrfs-snapshot</code> 够用；不需要 GRUB 集成，因为<strong>这类场景几乎不会把系统搞到开不了机</strong></td></tr><tr><td><strong>CPU 密集 Proton</strong>&lt;br&gt;（CPU 瓶颈的 Windows 游戏）</td><td><strong>Arch + 三件套</strong></td><td>Proton 吃 Wine/DXVK/Mesa 的<strong>新版本</strong>，这是唯一有效杠杆。而 Arch 是<strong>唯一"自动快照 + GRUB 救生艇 + 含内核"全齐</strong>的选择 → 新版本带来的回归风险被 snapper 对冲掉了</td></tr><tr><td><strong>GPU 密集 Proton · AMD</strong></td><td><strong>Arch + 三件套</strong></td><td>同理，Mesa RADV 新版本是关键。CachyOS 可选（收益增量小）</td></tr><tr><td><strong>GPU 密集 Proton · NVIDIA</strong></td><td><strong>Kubuntu 26.04 LTS</strong></td><td>闭源驱动跟内核强耦合，滚动风险不对称。Ubuntu 的 HWE 内核 + 驱动包组合经过 Canonical 测试；出问题时 <code>apt-btrfs-snapshot</code> 能退，且 NVIDIA 驱动问题通常表现为"能开机但黑屏/花屏"，可进 TTY 处理，<strong>不需要 GRUB 级救生艇</strong></td></tr><tr><td><strong>要绝对稳 + 要 Btrfs 回滚</strong></td><td><strong>openSUSE Slowroll</strong></td><td>仍是唯一"开箱即用原子回滚"的选项，snapper 是它的原生能力而非外挂</td></tr></tbody></table></div>
+<p><strong>如果一定要选一个"最稳的 Arch 体验"</strong> → <strong>Arch + snapper 三件套</strong>，而不是 CachyOS。因为你要的是 Arch 的软件新度，不是它的编译器优化。</p>
+<hr>
+<h2 id="8-落地步骤">8. 落地步骤</h2>
+<h3 id="8-1-arch-三件套-推荐路径">8.1 Arch 三件套（推荐路径）</h3>
+<p><strong>安装时</strong>：<code>/boot</code> 不要单独分区，或用 Btrfs 子卷 <code>@boot</code>。</p>
+<pre><code># 子卷布局（UEFI）
+@        → /
+@home    → /home
+@log     → /var/log
+@cache   → /var/cache
+@snapshots → /.snapshots     # ← 必须是独立子卷
+@boot    → /boot             # ← 必须是 Btrfs 子卷，不能是 ext4 分区</code></pre>
+<p>ESP 挂 <code>/boot/efi</code>（FAT32，512M–1G）。</p>
+<p><strong>装完</strong>：</p>
+<pre><code class="language-bash"># 1. 装三件套（全在 extra，无需 AUR）
+sudo pacman -S snapper snap-pac grub-btrfs btrfs-assistant
+
+# 2. 建 root 配置
+sudo snapper -c root create-config /
+
+# 3. 让 snapper 用已有的 /.snapshots 子卷（create-config 会新建一个，需替换）
+sudo btrfs subvolume delete /.snapshots
+sudo mkdir /.snapshots
+sudo btrfs subvolume create /.snapshots
+sudo chmod 750 /.snapshots
+
+# 4. 启用清理 + grub-btrfs 守护
+sudo systemctl enable --now snapper-cleanup.timer
+sudo systemctl enable --now grub-btrfsd
+
+# 5. 验证：随便装个包，看是否自动生成 pre/post 快照
+sudo pacman -S htop
+sudo snapper -c root list</code></pre>
+<p><strong>验收标准</strong>：<code>snapper list</code> 里出现一对 <code>pre</code>/<code>post</code>，<code>description</code> 是 <code>pacman -S htop</code>。然后 <code>sudo grub-mkconfig -o /boot/grub/grub.cfg</code>，重启看 GRUB 里有没有 "Arch Linux snapshots" 子菜单。</p>
+<h3 id="8-2-kubuntu-26-04">8.2 Kubuntu 26.04</h3>
+<p><strong>安装时</strong>：手动分区，<code>/</code> 选 <strong>Btrfs</strong>（默认是 ext4，不改就白搭）。Ubuntu 安装器会自动建 <code>@</code> + <code>@home</code>。</p>
+<p><strong>装完</strong>：</p>
+<pre><code class="language-bash"># 自动 APT 快照（这是 Ubuntu 的原生钩子）
+sudo apt install apt-btrfs-snapshot
+
+# 可选：GUI + snapper 体系（二选一，别和上面混用）
+# sudo apt install btrfs-assistant snapper</code></pre>
+<p><strong>救生艇（必做）</strong>：准备一个 Ubuntu Live USB。开不了机时：</p>
+<pre><code class="language-bash"># Live 环境
+sudo mount -o subvol=@ /dev/nvme0n1p2 /mnt
+sudo mount -o subvol=@home /dev/nvme0n1p2 /mnt/home
+sudo mount /dev/nvme0n1p1 /mnt/boot/efi
+for i in dev proc sys run; do sudo mount --bind /$i /mnt/$i; done
+sudo chroot /mnt
+# 里面用 apt-btrfs-snapshot list / rollback，或 snapper rollback</code></pre>
+<blockquote><p>这一步请<strong>提前演练一次</strong>。没演练过的救生艇等于没有。</p></blockquote>
+<h3 id="8-3-fedora-44-两条路-选一条">8.3 Fedora 44 —— 两条路，选一条</h3>
+<p><strong>路线 A（不推荐）：Btrfs + snapper</strong> 放弃。自动钩子失效、<code>/boot</code> 是 ext4、没有 GRUB 集成，三条全废。</p>
+<p><strong>路线 B（推荐）：LVM + XFS + snapm</strong> 安装时手动分区：</p>
+<pre><code>/boot      ext4  1G        （或 xfs）
+/          xfs   LVM 逻辑卷（thin pool）
+swap       LVM 逻辑卷</code></pre>
+<pre><code class="language-bash">sudo dnf install snapm boom-boot
+# 手动拍可启动快照
+sudo snapm snapset create --bootable --revert pre-update / /home
+sudo snapm snapset list
+# 更新
+sudo dnf upgrade --refresh
+# 坏了：GRUB 里选 &quot;Snapshot pre-update ...&quot; 或
+sudo snapm snapset revert pre-update &amp;&amp; sudo reboot
+# 好了：清掉
+sudo snapm snapset delete pre-update</code></pre>
+<pre><code class="language-bash"># 自动化的唯一办法：systemd timer（不是事务级，但可用）
+sudo systemctl enable --now snapm-daily.timer   # 需确认单元名，见 snapm 文档</code></pre>
+<blockquote><p>这条路的好处：<strong>LVM 快照包含 <code>/boot</code></strong>，所以内核一起回滚；<code>boom-boot</code> 写 BLS 条目，和 Fedora 的启动机制原生兼容。坏处：<strong>手动分区 + 不是事务级触发</strong>（你要靠定时或记得手动拍）。</p></blockquote>
+<hr>
+<h2 id="9-坑-本轮新增-10-条">9. 坑（本轮新增 10 条）</h2>
+<ol>
+<li><strong><code>python3-dnf-plugin-snapper</code> 在 Fedora 44 是死包</strong> —— 包还在构建（4.1.2-11.fc44），但 dnf4 从 F42 起不再提供。装了不工作，且不会有任何报错提示。</li>
+<li><strong>Fedora 的 <code>/boot</code> 是 ext4</strong> —— Anaconda 的 Btrfs 预设明确写 "creates an ext4 /boot"。快照永远不含内核。</li>
+<li><strong><code>grub-btrfs</code> 只在 Arch 官方仓库</strong> —— Fedora 全库无、Ubuntu archive 无。这是"能不能从菜单进快照"的唯一开关。</li>
+<li><strong><code>snapm</code> 不支持 Btrfs</strong> —— 只支持 LVM2（CoW/Thin）和 Stratis。Fedora 想用它必须改分区方案。</li>
+<li><strong><code>apt-btrfs-snapshot</code> 和 <code>snapper</code> 是两套体系</strong> —— 前者用 <code>@apt-snapshot-&lt;时间戳&gt;</code>，后者用 <code>/.snapshots/&lt;N&gt;/</code>。同时用会有两套历史、两套清理，互不感知。<strong>选一套。</strong></li>
+<li><strong><code>/.snapshots</code> 必须是独立子卷</strong> —— <code>snapper create-config</code> 会自己建一个，但如果你已经有布局，要先删掉再建，否则变成嵌套子卷，清理和配额行为异常。</li>
+<li><strong>CachyOS 模板默认 <code>TIMELINE_CREATE="no"</code></strong> —— 只有 pacman 事务快照，没有每小时快照。想要定时快照得自己改 <code>/etc/snapper/configs/root</code> 并 <code>systemctl enable snapper-timeline.timer</code>（安装脚本里这行是注释掉的）。</li>
+<li><strong><code>grub-btrfs</code> 读只读快照需要 overlayfs</strong> —— 需 <code>grub-btrfs-overlayfs</code> hook，且<strong>不兼容 systemd initramfs</strong>（必须用 Busybox initramfs）。Arch 上如果用了 systemd hook，从快照启动会失败。</li>
+<li><strong><code>snapper rollback</code> 之后 GRUB 默认项可能仍指向旧快照</strong> —— rollback 会把当前状态存成新快照并切回旧快照，但 <code>grub.cfg</code> 的 <code>default</code> 条目未必更新。回滚后<strong>必须</strong> <code>grub-mkconfig</code> 或手动选一次。</li>
+<li><strong><code>snap-pac</code> 的 pre/post 对在断电时会留孤儿</strong> —— pacman 事务中途断电，pre 快照存在但没有对应 post，<code>snapper list</code> 里显示为 <code>pre</code>。用 <code>snapper -c root list --columns number,type,description</code> 定期检查清理。</li>
+</ol>
+<hr>
+<h2 id="10-存疑-未核实">10. 存疑 / 未核实</h2>
+<div class="table-wrap"><table><thead><tr><th>项</th><th>状态</th></tr></thead><tbody><tr><td>CachyOS 安装器的 <code>/boot</code> 布局（是否在 Btrfs 子卷内）</td><td><strong>推断（中置信）</strong>。安装器脚本注释写 "present on all btrfs installs"，且官方维护 <code>grub-btrfs-support</code>（快照启动包）→ 强烈暗示 <code>/boot</code> 在 Btrfs 内。未取到 Calamares 分区配置一手文件（<code>cachyos-calamares</code> 仓库内只有上游 Calamares 默认配置，CachyOS 的 <code>etc/calamares/</code> 在二进制包里）。</td></tr><tr><td>Fedora 44 是否 100% 无 dnf5 snapper 插件</td><td><strong>推断（高置信）</strong>。基于 <code>libdnf5-plugin-*</code> 全量搜索结果只有 actions/txnupd/cow/notify，以及 dnf4 包已停供。未做安装实测。</td></tr><tr><td><code>apt-btrfs-snapshot</code> 与 <code>snapper</code> 并存的冲突程度</td><td><strong>推断（中置信）</strong>。基于两者命名/布局设计差异，未实测共存行为。</td></tr><tr><td>Kubuntu 26.10 的 <code>btrfs-assistant</code> / <code>snapper-gui</code></td><td><strong>未核实</strong>（只确认 <code>snapper</code> 与 <code>apt-btrfs-snapshot</code> 在 <code>stonking/universe</code>）。</td></tr><tr><td><code>snapm</code> 的自动定时单元确切名称</td><td><strong>未核实</strong>（README 只说 "Integration with systemd timers"，未列单元名）。</td></tr><tr><td>CachyOS 的 <code>grub-btrfs-support</code> 是否安装器默认安装</td><td><strong>推断（中置信）</strong>。<code>btrfs-installation-snapshot</code> 脚本检查 <code>cachyos-snapper-support</code>，未检查 <code>grub-btrfs-support</code> → 可能需手动装。</td></tr></tbody></table></div>
+<hr>
+<h2 id="11-参考-一手来源">11. 参考（一手来源）</h2>
+<div class="table-wrap"><table><thead><tr><th>来源</th><th>用途</th></tr></thead><tbody><tr><td><code>https://archlinux.org/packages/search/json/?name=&lt;pkg&gt;</code></td><td>Arch 官方仓库版本（snapper / snap-pac / grub-btrfs / btrfs-assistant）</td></tr><tr><td><code>https://packages.fedoraproject.org/pkgs/&lt;src&gt;/&lt;pkg&gt;/</code></td><td>Fedora 各版本可用性（snapper / python3-dnf-plugin-snapper / dnf / snapm / boom-boot）</td></tr><tr><td><code>https://api.launchpad.net/1.0/ubuntu/+archive/primary?ws.op=getPublishedSources&amp;source_name=&lt;pkg&gt;&amp;distro_series=...resolute</code></td><td>Ubuntu 26.04 包（apt-btrfs-snapshot / grub-btrfs / btrfs-assistant / snapper-gui）</td></tr><tr><td><code>https://fedoraproject.org/wiki/Btrfs</code></td><td>Anaconda Btrfs 预设："creates an ext4 /boot … two subvolumes, root and home"</td></tr><tr><td><code>https://github.com/snapshotmanager/snapm</code></td><td>snapm 特性 + 后端限制（仅 LVM2/Stratis，无 Btrfs）</td></tr><tr><td><code>https://raw.githubusercontent.com/CachyOS/CachyOS-PKGBUILDS/master/cachyos-snapper-support/{PKGBUILD,cachyos-snapper-support.install,snapper-template-root-cachyos}</code></td><td>CachyOS snapper 栈一手定义</td></tr><tr><td><code>https://raw.githubusercontent.com/CachyOS/CachyOS-PKGBUILDS/master/grub-btrfs-support/{PKGBUILD,grub-btrfs-snapper.path,grub-btrfs-snapper.service}</code></td><td>CachyOS grub-btrfs 预接线</td></tr><tr><td><code>https://raw.githubusercontent.com/CachyOS/cachyos-calamares/cachyos/src/scripts/btrfs-installation-snapshot</code></td><td>出厂快照脚本</td></tr><tr><td><code>https://github.com/Antynea/grub-btrfs</code></td><td>grub-btrfs 支持 snapper/timeshift/yabsnap 快照</td></tr><tr><td>ArchWiki <code>Btrfs#Snapper</code></td><td><code>/boot</code> 在非 Btrfs 分区时无法做 snapper 备份</td></tr></tbody></table></div>
+</div>
+</body>
+</html>
