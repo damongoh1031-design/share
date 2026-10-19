@@ -4,9 +4,9 @@ title: "RimWorld 1.7（Waylith 引擎）Mod 兼容性核查方法与时令结论
 tags: [rimworld, 环世界, 1.7, waylith, mod兼容性, unity迁移, 工坊数据库]
 created: 2026-10-19
 updated: 2026-10-19
-version: 1
+version: 2
 status: stable
-source: 2026-10-19 会话实测（官方公告 + GitHub API + 贴吧/B站社区实测交叉验证）
+source: 2026-10-19 会话实测（官方公告 + GitHub API + 贴吧/B站社区实测交叉验证，覆盖科学 336 mod + 中世纪 363 mod 两份清单）
 confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实测）/ 推断（分类风险）
 ---
 
@@ -49,6 +49,20 @@ confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实�
 | `smashphil.vehicleframework` | 🟢 较稳 | 社区讨论中 SOS2 才需等（VF 本身无事故） |
 | Replace Stuff / Mod Manager Continued | ✅ | 实测问题在「原版」和 MM，换 Continued 或未装则无关 |
 
+## 中世纪清单（363 mod）专项结论（2026-10-19 v2 新增）
+
+比科幻清单更难迁：三大阻力 —— **CE 生态 8 个**（CE 未适配则全层留守）、**Medieval Overhaul 大修系 ~50 个**（MO 无公开仓库、原作者 SirLalaPyon 缺位由 EvilEyes/ViralReaction 代管、FAQ 连 CE 兼容都不保证）、**鼠族生态 12 个**（本体 NewRatkinPlus = solaris0115/NewRatkin，GitHub release 停在 1.6；Steam 10-14 更新曾引发 1.6 存档头身分离 bug，已修）。
+
+| 已核实个例 | 状态 | 证据 |
+|---|---|---|
+| `mustard1557.mugb.goblin` | 🟢 1.7 构建中 | commit「split builds into 1.6 and 1.7 assembly folders」（10-13） |
+| `solaris.ratkinracemod`（鼠族本体） | 🟡 活跃无 1.7 版 | GitHub release 最新 1.6（04-23）；Steam 10-14 更新 + 回归已修 |
+| `rkk.ratknights.core` | 🟢 随本体恢复 | 吧友实测根因是本体 bug（10-15） |
+| `dankpyon.medieval.overhaul` / `athelas.medievaltotalrim.*` | 🟡 无 1.7 证据 | 无仓库 / 镜像停更 2026-01 |
+| 通用实证 | 🟢 | 吧友 10-13：400+ mod 上 1.7「无缝衔接，就一个出问题」 |
+
+中世纪清单迁移判据（三信号任一）：CE 发 Waylith 版 → MO 代管者发 1.7 → 1.7 上主分支稳定版。
+
 ## 可复用操作
 
 **1. 摸清 336 个 mod 的 1.7 态势（流程）**
@@ -75,7 +89,7 @@ python ~/.workbuddy-ai/skills/rimworld-modlist-audit/scripts/resolve_modlist.py 
 
 ## 未核实 / 存疑
 
-- 336 个 mod 中约 200 个 C# mod 无公开 1.7 证据（理论上「绝大多数免改」，未实测）。
+- 336 个 mod 中约 200 个 C# mod 无公开 1.7 证据（理论上「绝大多数免改」，未实测）；中世纪清单另有 ~150 个中世纪/鼠族/CE 系 mod 无 1.7 证据。
 - 1.7 稳定版上线时间、Steam Workshop 在 1.7 的行为、HugsLib 官方仓库未找到（404，未核其实时适配状态）。
 - RimTalk（`cj.rimtalk` 系）在 1.7 的表现未检索到任何信息。
 - 本报告未做本机启动实测；结论以上线源为凭，游玩前仍需自测。
