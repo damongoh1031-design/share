@@ -4,7 +4,7 @@ title: "RimWorld 1.7（Waylith 引擎）Mod 兼容性核查方法与时令结论
 tags: [rimworld, 环世界, 1.7, waylith, mod兼容性, unity迁移, 工坊数据库]
 created: 2026-10-19
 updated: 2026-10-19
-version: 3
+version: 4
 status: stable
 source: 2026-10-19 会话实测（官方公告 + GitHub API + 贴吧/B站社区实测交叉验证，覆盖科学 336 mod + 中世纪 363 mod 两份清单）
 confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实测）/ 推断（分类风险）
@@ -42,6 +42,16 @@ confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实�
 | mod | 状态 | 证据 |
 |---|---|---|
 | `ceteam.combatextended` | 🟡 未适配，等新版 | release `v1.6.7.4.0`（2026-10-15）tag 仍 v1.6.*，标题 "Waylith Awaits"；**无官方时间线，但 `1.7-Test` 分支 + PR #4802 在途**（详见下节） |
+
+## 战争包 war2.xml（227 mod）结论（v4 新增，2026-10-19）
+
+CE 浓度最高的战争包。结构：非 CE 部分（VE 55 + 汉化 82 + 框架 22）随时可上；CE 部分 4 个等 PR #4802。
+
+**v4 新增两条可复用发现：**
+1. **NebulaeFlood's Lib 有下游连带效应**：RimSort 库证实 `nebulae.simplymoreroofs`（Simply More Roofs）硬依赖 `nebulae.rimworld` → 主库炸（1.7 实测主菜单滚木/ESC 失效），dependent mods 全连带。审计 Nebulae 系 mod 不能只看本体。
+2. **CE 官方 addon 仓库停更**：`CombatExtended-Continued/CombatExtendedArmors` 最后 push 2026-08-14、`CombatExtendedAttachments` 最后 push 2025-09-10（主仓 10-16 还在动）→ 即使 CE 本体合并 PR #4802，官方 addon 也不会同步上 1.7。战争包迁 1.7 的瓶颈是 CE 全家桶。
+
+war2 清单 🔴 项：nebulae.rimworld + nebulae.simplymoreroofs（主菜单崩溃链）、performanceoptimizer(+zh)；🟠 项：8 个优化/性能类（blue.adaptivetps、arkymn.slowerpawntickrate、midsaversaver、graphicssettings、smartspeed、smartfarming、rimsaves——**凡是改 tick/缓存/渲染的都算**）+ ods.isekairetexture。
 
 ## CE 1.7 适配进度追踪（v3 新增，2026-10-19 核查）
 
