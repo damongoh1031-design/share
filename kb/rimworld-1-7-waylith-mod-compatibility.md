@@ -4,7 +4,7 @@ title: "RimWorld 1.7（Waylith 引擎）Mod 兼容性核查方法与时令结论
 tags: [rimworld, 环世界, 1.7, waylith, mod兼容性, unity迁移, 工坊数据库]
 created: 2026-10-19
 updated: 2026-10-19
-version: 4
+version: 5
 status: stable
 source: 2026-10-19 会话实测（官方公告 + GitHub API + 贴吧/B站社区实测交叉验证，覆盖科学 336 mod + 中世纪 363 mod 两份清单）
 confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实测）/ 推断（分类风险）
@@ -42,6 +42,15 @@ confidence: 已核实（官方公告/GitHub 版本）/ 社区实证（贴吧实�
 | mod | 状态 | 证据 |
 |---|---|---|
 | `ceteam.combatextended` | 🟡 未适配，等新版 | release `v1.6.7.4.0`（2026-10-15）tag 仍 v1.6.*，标题 "Waylith Awaits"；**无官方时间线，但 `1.7-Test` 分支 + PR #4802 在途**（详见下节） |
+
+## 仙路包 xianlu.xml（343 mod）结论 + 两条新审计模式（v5 新增，2026-10-19）
+
+结构：VE 65 + 汉化 101 + 框架 36（含 v1024.ebframework、oark.oberoniaaurea.framework、lat.rimstro、tsa.worlddominationexperimental、cyberware.2077 五个**无公开仓库**的新框架，GitHub 搜索零结果 → ⚪）可上；卡点：CE 8 个、鼠族 15 个（本体 release 停 1.6）、Nebulae 1 个（本清单内无连带者）。
+
+**v5 新增两条可复用审计模式：**
+1. **反向空转**：`optimizer.zh`（Performance Optimizer 汉化）装了但本体没装 → 汉化报"缺前置"或静默无效。**审计汉化包要双向查**：既有「汉化在、本体无」，也有「本体在、汉化无」（后者无害）。RimSort 库的 dependencies 字段可自动跑出这类。
+2. **双汉化并存**：`chinesepack.X` 与 `X.zhmiz` 同时翻译同一个 mod（本例 veterano.mythicages.megafaunabestiary）→ 互相覆盖、行为不确定，留一个。中文社区同一 mod 常有多个汉化组并行。
+3. 顺序逆序新增类型：**汉化/补丁排在本体前**（nagisa.orion.hospitality、seekiworksmod.no16=Allow Tool 补丁、shavius.vpsye.zh、zh.mrhydralisk.voeadditionaloutposts 等 7 处）——补丁类必须排在被补 mod 之后。
 
 ## 战争包 war2.xml（227 mod）结论（v4 新增，2026-10-19）
 
