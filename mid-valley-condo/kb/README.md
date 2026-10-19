@@ -4,4 +4,4 @@
 
 | 文件 | 主题 | 版本 | 更新 |
 |---|---|---|---|
-| [mid-valley-500m-walkable-condo.md](./mid-valley-500m-walkable-condo.md) | 吉隆坡谷中城 500 米内天桥可步行公寓全清单（6 项目 / 成交价 / 三档步行分级 / 8 条坑） | 1.0 | 2026-10-19 |
+| [mid-valley-500m-walkable-condo.md](./mid-valley-500m-walkable-condo.md) | 吉隆坡谷中城 500 米内天桥可步行公寓全档案（6 项目 / 31 种户型 / 48 个月成交序列 / 6 处修正 / 9 条坑） | 2.0 | 2026-10-19 |
