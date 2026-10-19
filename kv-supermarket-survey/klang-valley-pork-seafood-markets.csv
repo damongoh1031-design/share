@@ -1,0 +1,28 @@
+category,tier,name,area,highlight,nearest_supermarket,confidence
+pork,S 级,Wisma Henry Butcher,"25 Jalan Yap Ah Shak, Chow Kit",全马最出名的大型猪肉专卖商之一：猪肉批发+零售+烧肉，早市开，周末最旺,NSK Grocer 244m,OSM 节点+百度图库 521 张
+pork,A 级,Butcher Shop（Jalan Sultan Azlan Shah）,"Jalan Sultan Azlan Shah, Sentul/Chow Kit 交界",OSM 命名的肉店（butcher），Sentul 老华人区,Mercató 537m,OSM 节点
+pork,S 级,PJ Old Town Wet Market 猪肉档,"Pasar Besar Jalan Othman, PJ Old Town",OSM 全雪隆唯一单独标注的猪肉档节点，新鲜宰杀+猪杂+烧腊一条街,1km内无,OSM 节点已核实
+pork,A 级,Pasar Sentul 猪肉档,"Jalan Sentul, Sentul",Sentul 老华人湿巴刹，猪肉档密集,1km内无,社区实证（OSM 有巴刹节点）
+pork,A 级,Pasar Kepong 猪肉档,"Jalan Kepong, Kepong",甲洞老华人湿巴刹，猪肉档密集,1km内无,社区实证（OSM 有巴刹节点）
+pork,A 级,Pasar Batu 4½ Jalan Klang Lama 猪肉档,"Jalan Klang Lama, Kuchai Lama",古仔华人走廊，猪肉档口密集（v1 复核确认）,Econsave 338m,OSM 巴刹节点+社区实证
+pork,A 级,Pasar Taman Sri Sentosa 猪肉档,"Seri Sentosa, Taman OUG",OUG 老华人区，猪肉专卖店+档口,Checkers 252m,OSM 巴刹节点+社区实证
+pork,A 级,Pasar Besar TTDI 猪肉档,"Jalan Wan Kadir 2, TTDI",TTDI 老湿巴刹，猪肉档齐全,HeroMarket 280m,OSM 巴刹节点+社区实证
+pork,B 级,Pasar Kajang 非清真档,"Jalan Jelok 6, Kajang",Kajang 老巴刹，含非清真肉档,Mydin 150m,OSM 巴刹节点+社区实证
+pork,B 级,Pasar Klang 猪肉档,"Jalan Meru, Klang Town",巴生老巴刹猪肉档,Econsave 471m,社区实证
+pork,B 级,Pasar Pandamaran 猪肉档,"Pandamaran, Klang",巴生华人区核心湿巴刹，猪肉档口,1km内无,OSM 巴刹节点+社区实证
+pork,B 级,Pasar Rawang 猪肉档,"Jalan Bandar Rawang 4, Rawang",Rawang 老巴刹，非清真档口,Mydin 426m,OSM 巴刹节点+社区实证
+pork,B 级,Pasar Sungai Besi 猪肉档,"Jalan Gangsa, Sungai Besi",双溪毛糯华人湿巴刹猪肉档,HeroMarket 103m,OSM 巴刹节点+社区实证
+pork,A 级,Pasar Raya Wah Fong（华福）猪肉专卖,Puchong Jaya,Puchong 华人老巴刹，猪肉档+猪肉专卖店,Checkers 667m,社区实证（OSM 有巴刹节点）
+seafood,S 级,Pasar Ikan Kerinchi（Pasar Ikan Pantai Dalam）,"Kerinchi / Pantai Dalam, KL",雪隆最出名的小鱼干/江鱼仔（ikan bilis）与咸鱼批发集散地，清晨开市，餐馆都来这里拿货,Village Grocer 176m,社区实证（坐标待实地核）
+seafood,S 级,Selayang Morning Market（Pasar Pagi Selayang）,"Jalan Ipoh, Selayang, Batu Caves",雪隆最大型清晨批发早市：淡水鱼、咸鱼、蔬菜、鸡蛋批发，中午前收市,NSK Trade City 393m,OSM 节点+社区实证
+seafood,S 级,Pasar Besar Jalan Othman（PJ Old Town 猪肉档+海鲜干货）,"Jalan Othman, PJ Old Town",八打灵旧区老巴刹：猪肉档（OSM 唯一 Pork section 标注）+ 咸鱼/虾米/马拉盏干货一条街,1km内无,OSM 节点已核实
+seafood,S 级,Bagan Hailam 海鲜渔村（Telok Gong）,"Bagan Hailam, Pelabuhan Klang",巴生港渔村海鲜市场：渔船直靠、现捞现卖、可代煮；Jalan Ikan Jenahak 是咸鱼街,1km内无,OSM 节点+社区实证
+seafood,A 级,Pasar Awam Pelabuhan Klang,"Jalan Kem, Pelabuhan Klang",巴生港湿巴刹，海产+咸鱼档密集,Billion 300m,OSM 节点
+seafood,A 级,Fish Market（Taman Cheras）,"Jalan 9, Taman Cheras, Kampung Cheras Baru",OSM 直接命名的鱼市场，Cheras 华人区,1km内无,OSM 节点
+seafood,A 级,Pasar Klang 老巴刹,"Jalan Meru, Klang Town",巴生老巴刹：海鲜+猪肉档齐全，Jalan Meru 段,Econsave 471m,OSM 节点
+seafood,A 级,Pasar Bangsar,"Jalan Telawi 4, Bangsar",孟沙老巴刹：鱼档+猪肉档是品类担当,Village Grocer Bangsar Village 261m,OSM 节点（Pencawang Pasar Jalan Telawi 4 一带）
+seafood,A 级,Pasar Borong Kuala Lumpur（甲洞吉隆坡批发市场）,"Jalan 4/3A, Kepong",政府级批发市场，肉类/海鲜/干货批发，凌晨开,1km内无,OSM 节点
+seafood,B 级,Kompleks Pasar Borong Selangor,"Putra Permai, Seri Kembangan",雪州综合批发市场，含海鲜干货档,NSK Trade City 547m,OSM 节点
+seafood,B 级,Pasar Awam Taman Ikan Emas（Maluri）,"Jalan Jelawat, Maluri, Cheras",Maluri 住宅区湿巴刹，有鱼档,1km内无,OSM 节点
+seafood,B 级,Pasar Pagi Bukit Rahman Putra,"Jalan BRP 6/1, Sungai Buloh",双溪毛拢新村早市，鱼鲜+烧肉,1km内无,OSM 节点
+seafood,B 级,Pasar Besar Cheras,"Pudu Ulu, Cheras",Cheras 心脏湿巴刹（v1 已收录，鱼档+猪肉档）,1km内无,OSM 节点

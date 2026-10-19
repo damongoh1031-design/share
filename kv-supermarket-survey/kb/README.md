@@ -10,3 +10,4 @@
 - `../klang-valley-nearby-supermarkets.html/.csv` — 全品牌版主报告（39 对）
 - `../klang-valley-nearby-premium-supermarkets.html/.csv` — 高端版（剔除平价大卖场后 12 对）
 - `../klang-valley-supermarket-nonhalal.html/.csv` — 非清真邻近度版（18 组 ≤500m + 8 个超市真空巴刹）
+- `../klang-valley-pork-seafood-markets.html/.csv` — 大型猪肉店 × 海鲜/鱼类市场（27 点位，S/A/B 分级 + 需求决策表）

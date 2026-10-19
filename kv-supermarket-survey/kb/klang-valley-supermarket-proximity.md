@@ -4,7 +4,7 @@ title: 雪隆区近距离超级市场盘点（OSM 全量+官网复核法）
 tags: [马来西亚, 雪隆, 超市, AEON, Lotus's, Econsave, Mydin, OpenStreetMap, Overpass, 地理分析]
 created: 2026-10-19
 updated: 2026-10-19
-version: 1.2.1
+version: 1.3.0
 status: stable
 source: 本次会话实测（Overpass API + Nominatim + 各品牌官网/商场官网交叉核实）
 confidence: 已核实（门店存在性与地址）/ 待核（个别冠名，见「未核实项」）
@@ -138,3 +138,47 @@ curl -A "survey/1.0" "https://nominatim.openstreetmap.org/reverse?lat=3.2046&lon
 | Mydin「Jalan Tun Tan Siew Sin」「Jalan TAR」两个 OSM 点 | → **判幽灵点** | 官网门店列表无此二址，反向编码仅给出街名 |
 
 **连带修正**：v1 全品牌表中「NSK Trade City Setapak ↔ Giant Setapak Jalan 5/23H」应更名为「NSK Trade City Wangsa Maju ↔ Giant Setapak」（OSM area 字段写 Setapak 是邮区，branch 名 Wangsa Maju 才是店名）；Subang Jaya 出现「JG SS15 Courtyard + JG Empire Gallery 685m 同品牌对 + VG Subang Parade 夹中间」的三明治结构。
+
+## 大型猪肉店与海鲜市场（v1.3.0 增补，2026-10-19）
+
+**命题：雪隆有哪些大型猪肉店和海鲜市场。** 结论先行：**雪隆没有「大型猪肉超市」**——猪肉零售只有两种形态：① 专卖商（Chow Kit 的 Wisma Henry Butcher 是批发级地标）；② 华人湿巴刹猪肉档（PJ Old Town 是 OSM 全区域唯一单独标注 Pork section 的点）。海鲜批发三巨头：**Kerinchi 咸鱼/江鱼仔街、Selayang 早市、巴生港 Bagan Hailam 渔村**。
+
+### 名单（S=大型专卖/批发，A=老巴刹主力，B=区域级）
+
+| 类 | 级 | 点位 | 位置 | 备注 |
+|---|---|---|---|---|
+| 猪肉 | S | Wisma Henry Butcher | 25 Jalan Yap Ah Shak, Chow Kit | 批发+零售+烧肉；OSM 节点 + 百度图库 521 张 |
+| 猪肉 | S | PJ Old Town 猪肉档 | Pasar Besar Jalan Othman | OSM 全雪隆唯一 Pork section 标注 |
+| 猪肉 | A | Butcher Shop | Jalan Sultan Azlan Shah, Sentul/Chow Kit | OSM 命名的肉店 |
+| 猪肉 | A | 巴刹猪肉档 | Sentul / Kepong / Kuchai Batu 4½ / OUG Taman Sri Sentosa / TTDI / Puchong 华福 | 档口密集区 |
+| 猪肉 | B | 巴刹非清真档 | Kajang / Klang / Pandamaran / Rawang / Sungai Besi | 华人区老湿巴刹常态 |
+| 海鲜 | S | Pasar Ikan Kerinchi（Pantai Dalam 侧） | Kerinchi, KL | 江鱼仔/咸鱼批发集散地；**坐标待实地核**（本报告估算 3.1140,101.6645，最近品牌店 Village Grocer 176m 为估算值） |
+| 海鲜 | S | Selayang 早市 | Jalan Ipoh, Selayang | 雪隆最大清晨批发早市：淡水鱼/咸鱼/菜/蛋 |
+| 海鲜 | S | Bagan Hailam 渔村 | Pelabuhan Klang | 渔船直靠、现捞现卖、可代煮；Jalan Ikan Jenahak 咸鱼街 |
+| 海鲜 | A | Fish Market / Pasar Klang / Pasar Bangsar / Pasar Borong KL（Kepong） | 各址 | OSM 节点/批发市场 |
+| 海鲜 | B | Pasar Borong Selangor / Taman Ikan Emas / Bkt Rahman Putra / Besar Cheras | 各址 | 区域级 |
+| 一站式 | — | 品牌猪肉柜台 | NSK Wangsa Maju、Giant Setapak、AEON BiG Danau Kota、Lotus's Taman Midah、Jaya Grocer SS15 | 猪肉+日化同趟，全天营业 |
+
+交付 `klang-valley-pork-seafood-markets.html/.csv`（27 点位 + 最近品牌店 + 需求决策表）。
+
+### 可复用操作
+
+1. **butcher 直接可查**：Overpass `shop=butcher` / Nominatim `q="butcher shop"` 能抓到 OSM 有节点的肉店（本次 3 个命中，2 个有效）；OSM 对「巴刹内猪肉档」几乎无标签，只能靠巴刹节点 + 社区常识。
+2. **海鲜找「Ikan」线索**：OSM 里 `Pasar Ikan` 系列查询基本无效（马来鱼市少有独立命名节点），但街道名会泄密——如 Jalan Ikan Jenahak（Telok Gong 咸鱼街）、Pasar Awam Taman Ikan Emas。
+3. **批发市场用 `pasar borong` 查询**：命中 Kompleks Pasar Borong Selangor、Pasar Borong Kuala Lumpur 两个政府级批发市场。
+4. 早市/批发点用 `pasar pagi` 查询命中率高于 `pasar ikan`。
+
+### 坑与反直觉（本节新增）
+
+1. **OSM/Nominatim 对马来西亚「pasar 内部档口」零覆盖**：猪肉档/鱼档是市场里的摊位，OSM 只在极少数情况标注（PJ Old Town pork section 是例外）→ 只能用「巴刹节点 + 区域族群结构」推断，社区常识是主要依据。
+2. **「pork」 搜出来 14/15 是面馆**：零售档只有市场节点；面馆只能当街区信号（v1.2.0 已记，本次复用）。
+3. **Old Butcher Shop 疑似 OSM 串址**：节点地址域写 Seputeh KL，但路名 Jalan Teluk Pulai 在巴生 → 用节点需谨慎。
+4. **Kerinchi 市场名混乱**：民间叫 Pasar Ikan Kerinchi / Pasar Ikan Pantai Dalam / Pasar Pagi Pantai Dalam 都有，无官方统一名；引用时带括号说明。
+5. **Mercato 幽灵点仍在**：Jalan Sultan Azlan Shah 肉店 537m 的「Mercato」即 v1 已标的待核店（Jalan Raja Chulan）。
+
+### 未核实 / 存疑（本节新增）
+
+- Pasar Ikan Kerinchi 精确坐标与门牌（社区实证强、OSM 无节点）。
+- Butcher Shop（Jalan Sultan Azlan Shah）与 Old Butcher Shop 的营业状态。
+- 各巴刹猪肉档/鱼档的营业时段与摊数（未逐档核）。
+- Sekinchan（适耕庄）是雪隆外更大的海鲜/鱼米市场，未纳入本次口径。
