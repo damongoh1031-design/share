@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>谷中城 500 米 · 天桥可步行公寓购买全清单</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --ink2:#4a4a4a; --ink3:#767676;
+    --paper:#f6f4ef; --card:#ffffff; --line:#e2ded5;
+    --accent:#9a5b13; --accent-soft:#f3e7d4;
+    --green:#1f6b4a; --green-soft:#e3f0e9;
+    --red:#a32a2a; --red-soft:#f7e4e2;
+    --blue:#1f4e79; --blue-soft:#e4ecf4;
+    --amber:#8a6a00; --amber-soft:#f7eed0;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Georgia","Songti SC","Source Han Serif SC",serif;
+    line-height:1.75; font-size:15.5px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px 90px}
+  header.hero{
+    background:linear-gradient(160deg,#211d17 0%,#3a3125 60%,#4a3b26 100%);
+    color:#f3ede1; padding:54px 28px 46px; margin-bottom:0;
+  }
+  .hero-in{max-width:1080px;margin:0 auto}
+  .kicker{
+    font-family:"Helvetica Neue",Arial,sans-serif; font-size:11.5px; letter-spacing:.22em;
+    text-transform:uppercase; color:#c9a86a; margin-bottom:18px;
+  }
+  h1{
+    font-size:40px; line-height:1.22; margin:0 0 14px; font-weight:600; letter-spacing:-.5px;
+  }
+  .sub{font-size:16px; color:#cfc6b4; max-width:760px; margin:0}
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:26px; margin-top:26px; padding-top:22px;
+    border-top:1px solid rgba(243,237,225,.18);
+    font-family:"Helvetica Neue",Arial,sans-serif; font-size:12.5px; color:#b8ae9b;
+  }
+  .hero-meta b{color:#f3ede1;font-weight:600}
+
+  .tldr{
+    background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent);
+    padding:26px 30px; margin:-26px 0 46px; position:relative; z-index:2;
+    box-shadow:0 10px 30px rgba(40,32,20,.07);
+  }
+  .tldr h3{
+    margin:0 0 12px; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    font-family:"Helvetica Neue",Arial,sans-serif; color:var(--accent); font-weight:700;
+  }
+  .tldr p{margin:0 0 10px}
+  .tldr p:last-child{margin-bottom:0}
+
+  h2{
+    font-size:25px; margin:56px 0 6px; font-weight:600; letter-spacing:-.2px;
+    padding-bottom:10px; border-bottom:1px solid var(--line);
+  }
+  h2 .num{
+    font-family:"Helvetica Neue",Arial,sans-serif; font-size:12px; color:var(--accent);
+    letter-spacing:.12em; display:block; margin-bottom:8px; font-weight:700;
+  }
+  h3{font-size:19px;margin:34px 0 8px;font-weight:600}
+  h4{font-size:15px;margin:22px 0 6px;font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;letter-spacing:.02em}
+  p{margin:0 0 12px}
+  small,.small{font-size:12.8px;color:var(--ink3)}
+  .lead{font-size:16.5px;color:var(--ink2)}
+
+  table{
+    width:100%; border-collapse:collapse; margin:16px 0 10px; font-size:13.4px;
+    font-family:"Helvetica Neue",Arial,sans-serif; background:var(--card);
+  }
+  th{
+    text-align:left; padding:10px 11px; background:#efece4; border-bottom:1.5px solid #d8d2c5;
+    font-weight:700; font-size:12.2px; letter-spacing:.03em; color:#3a3428; vertical-align:bottom;
+  }
+  td{padding:10px 11px; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#fbf9f4}
+  .num-cell{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  .pill{
+    display:inline-block; padding:2px 8px; border-radius:11px; font-size:11.2px;
+    font-family:"Helvetica Neue",Arial,sans-serif; font-weight:700; letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  .p-green{background:var(--green-soft);color:var(--green)}
+  .p-amber{background:var(--amber-soft);color:var(--amber)}
+  .p-red{background:var(--red-soft);color:var(--red)}
+  .p-blue{background:var(--blue-soft);color:var(--blue)}
+  .p-grey{background:#ececec;color:#555}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:18px 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0}
+  .box{background:var(--card);border:1px solid var(--line);padding:18px 20px}
+  .box h4{margin-top:0}
+  .box ul{margin:6px 0 0;padding-left:18px}
+  .box li{margin-bottom:5px;font-size:14px}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); margin:26px 0; overflow:hidden;
+  }
+  .card-head{
+    padding:20px 26px; border-bottom:1px solid var(--line); background:#fbf9f4;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;
+  }
+  .card-head h3{margin:0;font-size:22px}
+  .card-head .meta{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12.5px;color:var(--ink3);margin-top:4px}
+  .card-body{padding:22px 26px 26px}
+
+  .kv{display:grid;grid-template-columns:132px 1fr;gap:2px 14px;font-size:13.6px;margin:6px 0 16px;
+      font-family:"Helvetica Neue",Arial,sans-serif}
+  .kv dt{color:var(--ink3);padding:5px 0;border-bottom:1px dotted #e6e1d6}
+  .kv dd{margin:0;padding:5px 0;border-bottom:1px dotted #e6e1d6}
+
+  .note{
+    background:#fbf7ee;border-left:3px solid var(--amber);padding:14px 18px;margin:16px 0;
+    font-size:14px;
+  }
+  .warn{background:var(--red-soft);border-left:3px solid var(--red);padding:14px 18px;margin:16px 0;font-size:14px}
+  .ok{background:var(--green-soft);border-left:3px solid var(--green);padding:14px 18px;margin:16px 0;font-size:14px}
+
+  .toc{
+    background:var(--card);border:1px solid var(--line);padding:20px 26px;margin:26px 0;
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:13.6px;column-count:2;column-gap:34px;
+  }
+  .toc a{color:var(--ink2);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted #e8e3d8}
+  .toc a:hover{color:var(--accent)}
+  .toc .t{column-span:all;font-weight:700;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:block}
+
+  .src{font-size:11.8px;color:var(--ink3);font-family:"Helvetica Neue",Arial,sans-serif;margin-top:-4px}
+  .tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--ink3);border:1px solid var(--line);padding:1px 6px;border-radius:3px;white-space:nowrap}
+  ul.tight{margin:8px 0;padding-left:20px}
+  ul.tight li{margin-bottom:6px}
+  .divider{height:1px;background:var(--line);margin:40px 0}
+  footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:12.6px;color:var(--ink3);
+         font-family:"Helvetica Neue",Arial,sans-serif}
+  @media (max-width:760px){
+    .grid2,.grid3{grid-template-columns:1fr}
+    h1{font-size:29px}
+    .toc{column-count:1}
+    .kv{grid-template-columns:110px 1fr}
+    table{font-size:12.4px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="kicker">Property Acquisition Dossier · Kuala Lumpur</div>
+    <h1>谷中城 500 米内、有天桥可步行的公寓<br>购买选项全清单</h1>
+    <p class="sub">以 Mid Valley Megamall（谷中城美佳广场）为圆心，半径 500 米内所有可自由买卖的分层住宅，逐个核查步行连通方式、产权、密度、成交价与风险。共 6 个候选，4 个确认符合，2 个边界待核。</p>
+    <div class="hero-meta">
+      <span>坐标 <b>3.1175628, 101.6774073</b></span>
+      <span>核查日期 <b>2026-10-19</b></span>
+      <span>数据口径 <b>直线距离 + 天桥路径</b></span>
+      <span>项目数 <b>6</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="tldr">
+  <h3>一句话结论</h3>
+  <p><b>500 米内只有两个住宅项目是真的「下楼即商场」：The Gardens Residences（永久地契、2007 年、151 户）与 Northpoint Residences（租赁地契、2006 年、228 户 + 204 办公）。</b>KL Eco City 的三栋（Vogue Suites One / Two、ViiA Residences）直线距离 370–450 米，靠一条有盖天桥跨过巴生河接驳，但实际步行 550–750 米——<b>严格按 500 米步行口径，它们不算达标</b>。</p>
+  <p>可买的产品结构极度单一：<b>全部是 2006–2021 年的旧盘，没有任何在售新盘</b>；除 The Gardens 是永久地契外，其余五个全是租赁地契，其中 ViiA 是商业地契。</p>
+</div>
+
+<div class="toc">
+  <span class="t">目录</span>
+  <a href="#method">01 · 口径与方法：500 米怎么算、天桥怎么判</a>
+  <a href="#list">02 · 全清单总表（6 个候选）</a>
+  <a href="#map">03 · 连通关系示意图</a>
+  <a href="#tier">04 · 三档步行分级（这是全篇最容易被中介污染的一节）</a>
+  <a href="#p1">05 · The Gardens Residences</a>
+  <a href="#p2">06 · Northpoint Residences</a>
+  <a href="#p3">07 · Vogue Suites One</a>
+  <a href="#p4">08 · Vogue Suites Two</a>
+  <a href="#p5">09 · ViiA Residences</a>
+  <a href="#p6">10 · Boulevard（边界项）</a>
+  <a href="#price">11 · 价格对比与单价倒挂</a>
+  <a href="#risk">12 · 七层风险筛查</a>
+  <a href="#matrix">13 · 按需求选：决策矩阵</a>
+  <a href="#onsite">14 · 现场必查清单</a>
+  <a href="#gap">15 · 数据冲突与缺口清单</a>
+  <a href="#source">16 · 来源与可信度分级</a>
+</div>
+
+<h2 id="method"><span class="num">01</span>口径与方法</h2>
+
+<p class="lead">「500 米内」这个条件，在马来西亚房产中介嘴里基本等于「直线距离 2 公里以内」。所以这一节先把三个口径钉死，后面所有数字都按这套标准出。</p>
+
+<div class="grid3">
+  <div class="box">
+    <h4>① 距离口径</h4>
+    <p class="small" style="margin:0">一律用<b>直线距离</b>做初筛（可复算、无争议），再单独标注<b>天桥实际步行距离</b>。两者差距在本片区是 1.4–1.7 倍。</p>
+  </div>
+  <div class="box">
+    <h4>② 步行口径</h4>
+    <p class="small" style="margin:0">只有<b>全程有盖、不需过马路</b>才算「天桥可步行覆盖」。露天斑马线、临时人行道一律不计。</p>
+  </div>
+  <div class="box">
+    <h4>③ 可买口径</h4>
+    <p class="small" style="margin:0">只算<b>能自由买卖的分层住宅/服务式住宅</b>。纯酒店、写字楼、商场、DBKL 组屋全部剔除。</p>
+  </div>
+</div>
+
+<h4>核查路径</h4>
+<table>
+  <thead><tr><th style="width:26%">步骤</th><th>做法</th><th style="width:30%">结果</th></tr></thead>
+  <tbody>
+    <tr><td>解析短链</td><td>maps.app.goo.gl 跳转 → 谷中城美佳广场（Mid Valley Megamall），坐标 3.1175628 / 101.6774073</td><td>圆心确认</td></tr>
+    <tr><td>建候选池</td><td>MyRumahBaru 项目页的「Mid Valley Megamall 距离」字段 + mudah 地区在售列表 + S P Setia 官方连通说明 + brickz 分区成交表（NAPIC 底层数据）</td><td>6 个候选</td></tr>
+    <tr><td>验天桥</td><td>S P Setia 官网原文、MyRumahBaru 项目页、PropertyGuru 项目描述三源交叉</td><td>4 个有桥，2 个无桥</td></tr>
+    <tr><td>验价格</td><td>brickz 逐项目成交（2025-10 至 2026-05）+ mudah 在挂要价 + MyRumahBaru SPA 区间</td><td>3 个项目有成交样本</td></tr>
+    <tr><td>验风险</td><td>洪涝等级、产权类型、密度自算、OTA 短租痕迹、外国人门槛</td><td>见第 12 节</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+<b>为什么必须自己算步行距离：</b>本片区中介文案统一写「5 分钟步行到 Mid Valley」。实测 KL Eco City 三栋的直线距离是 370–450 米，但天桥从楼栋大堂起算、穿商场中庭到 Megamall 主入口，实际步程 550–750 米，正常速度 8–11 分钟。<b>「5 分钟」是开车或电动车口径。</b>
+</div>
+
+<h2 id="list"><span class="num">02</span>全清单总表</h2>
+
+<p>按「到 Megamall 直线距离」升序。密度指标为自算：户/层 = 总户数 ÷ 住宅楼层数。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>项目</th><th>位置</th><th class="num-cell">直线<br>距离</th><th>天桥</th>
+      <th class="num-cell">竣工</th><th>产权 / 地契</th><th class="num-cell">户数</th>
+      <th class="num-cell">层数</th><th class="num-cell">户/层</th><th>结论</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td><td><b>The Gardens Residences</b></td><td>Mid Valley City 内部</td><td class="num-cell">≈0 m</td>
+      <td><span class="pill p-green">室内直连</span></td><td class="num-cell">2007</td><td>永久地契 · 住宅</td>
+      <td class="num-cell">151</td><td class="num-cell">30</td><td class="num-cell">5.0</td>
+      <td><span class="pill p-green">符合</span></td>
+    </tr>
+    <tr>
+      <td>2</td><td><b>Northpoint Residences</b></td><td>Mid Valley City 北侧</td><td class="num-cell">≈100 m</td>
+      <td><span class="pill p-green">室内直连</span></td><td class="num-cell">2006</td><td>租赁地契 · 住宅+办公</td>
+      <td class="num-cell">228</td><td class="num-cell">22</td><td class="num-cell">10.4</td>
+      <td><span class="pill p-green">符合</span></td>
+    </tr>
+    <tr>
+      <td>3</td><td><b>Vogue Suites One</b></td><td>KL Eco City</td><td class="num-cell">370 m</td>
+      <td><span class="pill p-amber">有盖天桥</span></td><td class="num-cell">2013–17<span class="tag">冲突</span></td><td>租赁地契 · 住宅</td>
+      <td class="num-cell">711</td><td class="num-cell">60</td><td class="num-cell">11.9</td>
+      <td><span class="pill p-amber">步行超 500m</span></td>
+    </tr>
+    <tr>
+      <td>4</td><td><b>Vogue Suites Two</b></td><td>KL Eco City</td><td class="num-cell">≈400 m</td>
+      <td><span class="pill p-amber">有盖天桥</span></td><td class="num-cell">2020</td><td>租赁地契 · 住宅</td>
+      <td class="num-cell">344<span class="tag">存疑</span></td><td class="num-cell">—</td><td class="num-cell">—</td>
+      <td><span class="pill p-amber">步行超 500m</span></td>
+    </tr>
+    <tr>
+      <td>5</td><td><b>ViiA Residences</b></td><td>KL Eco City</td><td class="num-cell">450 m</td>
+      <td><span class="pill p-amber">有盖天桥</span></td><td class="num-cell">2021</td><td>租赁地契 · <b>商业地契</b></td>
+      <td class="num-cell">326</td><td class="num-cell">40</td><td class="num-cell">8.2</td>
+      <td><span class="pill p-amber">步行超 500m</span></td>
+    </tr>
+    <tr>
+      <td>6</td><td><b>Boulevard</b></td><td>Mid Valley City 南侧</td><td class="num-cell">&lt;200 m</td>
+      <td><span class="pill p-grey">待核</span></td><td class="num-cell">未公开</td><td>租赁地契 · 服务式</td>
+      <td class="num-cell">未公开</td><td class="num-cell">未公开</td><td class="num-cell">—</td>
+      <td><span class="pill p-grey">身份待核</span></td>
+    </tr>
+  </tbody>
+</table>
+<p class="src">距离来源：MyRumahBaru 项目页（Vogue One 370m / ViiA 450m，页面内嵌坐标为直线距离，已用球面公式复算一致）；Gardens / Northpoint / Boulevard 为同园区内部位置，按园区总平面推断。户数层数：mudah 项目页 + MyRumahBaru + PropertyGuru。</p>
+
+<div class="warn">
+<b>买前必须知道的一件事：</b>这个半径内<b>没有新盘</b>。KL Eco City 最后一栋住宅 ViiA Residences 2021 年已完工，Mid Valley City 的住宅是 2006–2007 年的产品。所谓「谷中城新公寓」的中介广告，标的几乎都在 Seputeh、Bangsar South 或 Old Klang Road，直线 1–3 公里、无天桥。
+</div>
+
+<h2 id="map"><span class="num">03</span>连通关系示意图</h2>
+
+<p>示意图，非比例尺。重点是<b>天桥怎么走、跨不跨河、要不要进商场</b>——这三件事决定「步行」到底是 5 分钟还是 11 分钟。</p>
+
+<div style="background:var(--card);border:1px solid var(--line);padding:18px;margin:18px 0">
+<svg viewBox="0 0 680 420" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#9a5b13"/>
+    </marker>
+  </defs>
+
+  <!-- 500m ring -->
+  <circle cx="400" cy="230" r="150" fill="#f6f4ef" stroke="#c9bda6" stroke-width="1.4" stroke-dasharray="7 6"/>
+  <text x="400" y="72" text-anchor="middle" font-family="Helvetica,Arial" font-size="11" fill="#8a7a5e">半径 500 m</text>
+
+  <!-- river -->
+  <path d="M258,60 C268,130 250,200 272,260 C290,310 320,350 300,410"
+        fill="none" stroke="#8fb8cf" stroke-width="9" opacity="0.55"/>
+  <text x="243" y="345" font-family="Helvetica,Arial" font-size="10" fill="#5c8299" transform="rotate(-72 243 345)">Sungai Klang</text>
+
+  <!-- Megamall -->
+  <rect x="372" y="202" width="96" height="58" rx="4" fill="#3a3125"/>
+  <text x="420" y="228" text-anchor="middle" font-family="Helvetica,Arial" font-size="11.5" fill="#f3ede1" font-weight="bold">Mid Valley</text>
+  <text x="420" y="243" text-anchor="middle" font-family="Helvetica,Arial" font-size="10" fill="#cfc6b4">Megamall</text>
+
+  <!-- Gardens Mall + Residences -->
+  <rect x="292" y="196" width="66" height="46" rx="3" fill="#e8e2d3" stroke="#b9ad92"/>
+  <text x="325" y="215" text-anchor="middle" font-family="Helvetica,Arial" font-size="9.5" fill="#4a3b26">The Gardens</text>
+  <text x="325" y="228" text-anchor="middle" font-family="Helvetica,Arial" font-size="9" fill="#6b5c42">Mall</text>
+
+  <circle cx="308" cy="166" r="17" fill="#1f6b4a"/>
+  <text x="308" y="170" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#fff" font-weight="bold">G</text>
+  <text x="308" y="140" text-anchor="middle" font-family="Helvetica,Arial" font-size="10" fill="#1f6b4a" font-weight="bold">Gardens Res.</text>
+
+  <!-- Northpoint -->
+  <circle cx="424" cy="150" r="17" fill="#1f6b4a"/>
+  <text x="424" y="154" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#fff" font-weight="bold">N</text>
+  <text x="424" y="124" text-anchor="middle" font-family="Helvetica,Arial" font-size="10" fill="#1f6b4a" font-weight="bold">Northpoint</text>
+
+  <!-- Boulevard -->
+  <circle cx="452" cy="292" r="14" fill="#9a9385"/>
+  <text x="452" y="296" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#fff" font-weight="bold">B</text>
+  <text x="452" y="320" text-anchor="middle" font-family="Helvetica,Arial" font-size="9.5" fill="#6b6559">Boulevard</text>
+
+  <!-- KL Eco City cluster -->
+  <circle cx="250" cy="168" r="17" fill="#b45309"/>
+  <text x="250" y="172" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#fff" font-weight="bold">2</text>
+  <text x="215" y="150" text-anchor="end" font-family="Helvetica,Arial" font-size="9.5" fill="#8a4a0c">Vogue Suites Two</text>
+
+  <circle cx="238" cy="222" r="17" fill="#b45309"/>
+  <text x="238" y="226" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#fff" font-weight="bold">1</text>
+  <text x="205" y="226" text-anchor="end" font-family="Helvetica,Arial" font-size="9.5" fill="#8a4a0c">Vogue Suites One</text>
+
+  <circle cx="262" cy="272" r="17" fill="#b45309"/>
+  <text x="262" y="276" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#fff" font-weight="bold">V</text>
+  <text x="232" y="300" text-anchor="end" font-family="Helvetica,Arial" font-size="9.5" fill="#8a4a0c">ViiA Residences</text>
+
+  <!-- Abdullah Hukum -->
+  <rect x="196" y="98" width="20" height="20" rx="10" fill="#1f4e79"/>
+  <text x="206" y="112" text-anchor="middle" font-family="Helvetica,Arial" font-size="8" fill="#fff" font-weight="bold">L</text>
+  <text x="206" y="88" text-anchor="middle" font-family="Helvetica,Arial" font-size="9.5" fill="#1f4e79">Abdullah Hukum</text>
+  <text x="206" y="132" text-anchor="middle" font-family="Helvetica,Arial" font-size="8.5" fill="#1f4e79">LRT / KTM</text>
+
+  <!-- bridges -->
+  <path d="M255,215 L292,215" stroke="#9a5b13" stroke-width="2.6" marker-end="url(#arw)"/>
+  <path d="M310,183 L382,212" stroke="#9a5b13" stroke-width="2.6" marker-end="url(#arw)"/>
+  <path d="M420,167 L420,200" stroke="#9a5b13" stroke-width="2.2" marker-end="url(#arw)"/>
+  <path d="M262,255 L300,238" stroke="#9a5b13" stroke-width="2.2" marker-end="url(#arw)"/>
+  <path d="M232,190 L214,120" stroke="#1f4e79" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arw)"/>
+
+  <text x="300" y="205" font-family="Helvetica,Arial" font-size="8.5" fill="#9a5b13" font-weight="bold">有盖天桥</text>
+  <text x="530" y="368" font-family="Helvetica,Arial" font-size="10" fill="#767676">G = The Gardens Residences · N = Northpoint · B = Boulevard</text>
+  <text x="530" y="384" font-family="Helvetica,Arial" font-size="10" fill="#767676">1 / 2 / V = KL Eco City 三栋</text>
+</svg>
+</div>
+
+<table>
+  <thead><tr><th style="width:24%">路径</th><th>怎么走</th><th class="num-cell" style="width:14%">步行距离</th><th style="width:12%">有盖</th></tr></thead>
+  <tbody>
+    <tr><td>The Gardens Residences → Megamall</td><td>住宅电梯下 The Gardens Mall → 商场内走廊直通 Megamall</td><td class="num-cell">≈250 m</td><td><span class="pill p-green">是</span></td></tr>
+    <tr><td>Northpoint → Megamall</td><td>Northpoint 裙楼连廊直入 Megamall 北翼</td><td class="num-cell">≈150 m</td><td><span class="pill p-green">是</span></td></tr>
+    <tr><td>KL Eco City → Megamall</td><td>楼栋大堂 → KL Eco City 商场 → 跨河有盖天桥 → The Gardens Mall → 中庭 → Megamall</td><td class="num-cell">550–750 m</td><td><span class="pill p-green">是</span></td></tr>
+    <tr><td>KL Eco City → Abdullah Hukum 站</td><td>园区内高架步道直连 LRT / KTM 站厅</td><td class="num-cell">150–300 m</td><td><span class="pill p-green">是</span></td></tr>
+  </tbody>
+</table>
+<p class="src">KL Eco City 的跨河天桥为 S P Setia 官方口径：「A covered pedestrian link bridge that joins the development to the bustling Mid Valley City」（spsetia.com 新闻稿）；ViiA 的桥在 PropertyGuru 项目描述中写为「dedicated pedestrian bridge… seamless, covered walkway」。步行距离为按路径长度估算，误差 ±10%。</p>
+
+<h2 id="tier"><span class="num">04</span>三档步行分级</h2>
+
+<p class="lead">这一节是全篇最该信的一节。中介的「步行 5 分钟」在本片区通常指「开车 5 分钟」，必须自己分级。</p>
+
+<div class="grid3">
+  <div class="box" style="border-left:4px solid var(--green)">
+    <h4 style="color:var(--green)">🟢 真·室内直连</h4>
+    <p class="small" style="margin:0 0 6px">不出楼、不淋雨、不穿马路，电梯下来就是商场。</p>
+    <p style="margin:0"><b>The Gardens Residences<br>Northpoint Residences</b></p>
+  </div>
+  <div class="box" style="border-left:4px solid var(--amber)">
+    <h4 style="color:var(--amber)">🟡 有盖但超 500m</h4>
+    <p class="small" style="margin:0 0 6px">全程有盖，但要跨河、穿两个商场，550–750 米，8–11 分钟。</p>
+    <p style="margin:0"><b>Vogue Suites One<br>Vogue Suites Two<br>ViiA Residences</b></p>
+  </div>
+  <div class="box" style="border-left:4px solid var(--red)">
+    <h4 style="color:var(--red)">🔴 看着近、实际不能走</h4>
+    <p class="small" style="margin:0 0 6px">直线 1 公里内但无桥，被 Federal Highway / 铁路 / 河切断，只能开车。</p>
+    <p style="margin:0">Bangsar South（The Sphere 1.0km）<br>The Establishment 1.5km<br>Aetas Seputeh 1.3km</p>
+  </div>
+</div>
+
+<div class="note">
+<b>🟡 档要不要接受？</b>取决于你怎么定义「500 米」。如果你的真实需求是「下雨天不用打伞就能到商场吃饭看电影」，🟡 完全够用——全程有盖是真的。如果你要的是「推婴儿车 5 分钟到」，🟡 不达标。<b>本报告按「直线 ≤500m」把 🟡 算入清单，按「步行 ≤500m」只算 🟢。</b>
+</div>
+
+<h2 id="p1"><span class="num">05</span>The Gardens Residences</h2>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h3>The Gardens Residences</h3>
+      <div class="meta">Lingkaran Syed Putra, Mid Valley City · 开发商 IGB Corporation</div>
+    </div>
+    <div style="text-align:right">
+      <span class="pill p-green">唯一永久地契</span>
+      <span class="pill p-green">0 米</span>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <dl class="kv">
+      <dt>竣工</dt><dd>2007 年（楼龄 19 年）</dd>
+      <dt>产权</dt><dd><b>Freehold 永久地契</b>，住宅地契（Residential title）</dd>
+      <dt>规模</dt><dd>151 户 · 30 层 · <b>5.0 户/层</b>（本清单最低密度）</dd>
+      <dt>运营状态</dt><dd><b>由 St Giles Hotels 以酒店品牌运营</b>（对外名称 The Gardens Residences – St. Giles），可在 OTA 直接按晚预订</dd>
+      <dt>连通</dt><dd>住宅电梯下 The Gardens Mall，商场内走廊直通 Megamall，≈250 m 全程室内</dd>
+      <dt>设施</dt><dd>泳池、健身房、网球场、壁球场、桑拿、慢跑道、烧烤区、多功能厅、迷你超市、24h 保安</dd>
+      <dt>成交样本</dt><dd><span class="pill p-red">无项目级成交记录</span> brickz 未以该名称登记</dd>
+      <dt>洪涝</dt><dd><span class="pill p-amber">未取得项目级评级</span> 位于巴生河与 Kerayong 河汇流片区</dd>
+    </dl>
+
+    <h4>价格：数据缺口最大的一项</h4>
+    <p>公开渠道只有一个在挂房源：<b>RM 527,988 / 730 sq ft = RM 723 psf</b>。这个数字与项目实际产品严重不符——The Gardens Residences 是 St Giles 运营的大户型服务式住宅，730 sq ft 不是其主力产品。判定为<b>标签错误的挂牌</b>，不能作为定价依据。</p>
+    <p>可用的代理参考：brickz 的「Mid Valley City」分区（含 Boulevard + Northpoint 两个项目）近 10 个月 <b>28 笔成交，中位 RM1,374 psf，中位总价 RM1,704,768</b>，四分位区间 RM1,275,000–RM2,408,510。</p>
+
+    <div class="grid2">
+      <div class="box">
+        <h4>✅ 适合谁</h4>
+        <ul>
+          <li>要<b>永久地契</b>、不接受租赁地契到期风险的人</li>
+          <li>要<b>最低密度</b>（5 户/层，本片区唯一）</li>
+          <li>要「下雨天完全不出门就能到商场」的确定性</li>
+          <li>长期持有、不在意短期流动性</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>❌ 不适合谁</h4>
+        <ul>
+          <li>要<b>自住安静</b>：整栋由酒店品牌运营，邻居是流动住客</li>
+          <li>要短租收益：本身就是酒店产品，你买的是「酒店里的一套」</li>
+          <li>要低总价入场：这个盘的入场券在 RM1.5M 以上</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4>三个硬风险</h4>
+    <ul class="tight">
+      <li><b>酒店化运营</b>：St Giles 在 OTA 上直接售卖该楼栋房源。买入后你的「社区」不是业主社区，是酒店客群。JMB/MC 里住宅分层产权与酒店部分如何分摊表决权与费用，必须查分层地契与 MC 附例。</li>
+      <li><b>楼龄 19 年</b>：2007 年落成，电梯、水泵、外墙、防水进入第一个大修周期。查最近三年 AGM 纪要里的特别维修基金（sinking fund）余额与已决议的大修项目。</li>
+      <li><b>流动性极低</b>：151 户、永久地契、业主多为长期持有。brickz 上查不到独立成交序列，意味着一年可能只有个位数转手。</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="p2"><span class="num">06</span>Northpoint Residences</h2>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h3>Northpoint Residences</h3>
+      <div class="meta">Mid Valley City 北翼 · 住宅 + 办公混合塔楼</div>
+    </div>
+    <div style="text-align:right">
+      <span class="pill p-green">0 米</span>
+      <span class="pill p-amber">混合业态</span>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <dl class="kv">
+      <dt>竣工</dt><dd>2006 年（楼龄 20 年）</dd>
+      <dt>产权</dt><dd>Leasehold 租赁地契 · 住宅地契</dd>
+      <dt>规模</dt><dd><b>228 户住宅 + 204 个办公单位</b> · 22 层 · 10.4 户/层</dd>
+      <dt>连通</dt><dd>裙楼连廊直入 Megamall 北翼，≈150 m 全程室内</dd>
+      <dt>在售库存</dt><dd><span class="pill p-red">mudah 无在售挂牌</span> 仅 1 条出租挂牌 RM 6,000/月</dd>
+      <dt>洪涝</dt><dd>未取得项目级评级</dd>
+    </dl>
+
+    <h4>这个盘的真实定位</h4>
+    <p>Northpoint 是 Mid Valley City 最早期的住宅+办公混合体：低层办公、高层住宅，共用同一栋楼的核心筒。它最大的优点是<b>位置无可替代</b>——比 KL Eco City 近 3 倍，比 The Gardens 便宜一档。最大的问题是<b>几乎没有二手在售</b>：mudah 上 0 条出售挂牌，说明业主极少放盘，或放盘走的是熟人/中介私下渠道。</p>
+
+    <div class="warn">
+      <b>混合业态必须问清的四个问题：</b>① 住宅与办公是否共用电梯、水泵、消防与电力主干？② 住宅业主是否为商业部分的运营成本买单？③ 办公租户带来的是稳定租客池，还是人流与噪音？④ 分层门禁从哪一层开始？
+    </div>
+
+    <div class="grid2">
+      <div class="box">
+        <h4>✅ 适合谁</h4>
+        <ul><li>要「真 500 米内」且预算比 The Gardens 低一档</li><li>能接受 2006 年楼龄与混合业态</li><li>有耐心等放盘（可能要等半年以上）</li></ul>
+      </div>
+      <div class="box">
+        <h4>❌ 不适合谁</h4>
+        <ul><li>要求纯住宅社区、无办公人流</li><li>要求近期就能成交（无库存）</li><li>要求永久地契</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 id="p3"><span class="num">07</span>Vogue Suites One</h2>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h3>Vogue Suites One</h3>
+      <div class="meta">KL Eco City, Jalan Bangsar · 开发商 S P Setia Berhad</div>
+    </div>
+    <div style="text-align:right">
+      <span class="pill p-amber">370 m 直线</span>
+      <span class="pill p-red">高洪涝风险</span>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <dl class="kv">
+      <dt>竣工</dt><dd><b>2013（mudah）/ 2017（MyRumahBaru）— 两源冲突</b>，按 KL Eco City 分期推断 2016–2017 更可能</dd>
+      <dt>产权</dt><dd>Leasehold 租赁地契 · 住宅地契 · 分层地契（Strata）</dd>
+      <dt>规模</dt><dd><b>711 户 · 60 层 · 11.9 户/层</b>（本片区最高密度）</dd>
+      <dt>面积</dt><dd>650 – 3,993 sq ft · 1–3 房 · 8 种户型</dd>
+      <dt>户型</dt><dd>A 650/710 · B 732/800 · C 900/1,119 · D/E 复式 1,600/3,993</dd>
+      <dt>连通</dt><dd>跨河有盖天桥 → The Gardens Mall → Megamall，实际步行 550–650 m；另有一条桥直连 Abdullah Hukum LRT/KTM</dd>
+      <dt>成交（近 8 个月）</dt><dd><b>7 笔 · 中位 RM1,016 psf · 中位总价 RM930,000</b> · 四分位 RM668,000–RM1,229,868</dd>
+      <dt>在挂</dt><dd>5 条出售（RM591K–1.0M）· 76 条出租</dd>
+      <dt>租金参考</dt><dd>RM3,250 – 3,650 / 月（小户型）</dd>
+      <dt>洪涝</dt><dd><span class="pill p-red">High risk</span>（MyRumahBaru 项目级评级）</dd>
+    </dl>
+
+    <h4>价格：本清单里唯一「低于外国人门槛」的选项</h4>
+    <p>成交中位总价 <b>RM 930,000</b>，低于吉隆坡对外国人的 <b>RM 1,000,000</b> 购房门槛。<b>如果你或你的买家是外籍，这个盘有一半以上单位在门槛之下、法律上买不了</b>——这既是限制，也意味着它的买家池被锁死在本国人，价格弹性小。</p>
+
+    <div class="note">
+      <b>单价倒挂提示：</b>复式大户型（1,600 / 3,993 sq ft）历来比小户型单价低。本片区小户型溢价来自「总价低、好出租」，同一栋楼里 650 sq ft 的 psf 通常比 3,993 sq ft 高 25–35%。若按 psf 排序选筹，大户型是被低估的一端。
+    </div>
+
+    <div class="grid2">
+      <div class="box">
+        <h4>✅ 适合谁</h4>
+        <ul>
+          <li>要<b>最低总价</b>入场谷中城步行圈（成交中位 RM930K）</li>
+          <li>要<b>最高租金流动性</b>（76 条在租，说明租赁市场活跃）</li>
+          <li>本国买家（外国人受 RM1M 门槛限制）</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>❌ 不适合谁</h4>
+        <ul>
+          <li>要低密度：711 户 / 60 层 / 11.9 户/层，电梯等待是日常</li>
+          <li>怕水：项目级评级为 High flood risk</li>
+          <li>要安静自住：OTA 上以「Vogue Suites 1」名义售卖，短租密集</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4>三个硬风险</h4>
+    <ul class="tight">
+      <li><b>洪涝（最硬的一条）</b>：MyRumahBaru 对本案给出 High risk，且明确「同时评估河流型与暴雨型内涝」。马来西亚标准火险<b>不含洪水</b>，须加保 Special Perils。买前必须看地下层与低层大堂的淹水痕迹、配电房位置、以及过去两次大水的物业记录。</li>
+      <li><b>短租密集</b>：Agoda / 携程 / TripAdvisor 均以酒店形态收录「Vogue Suites 1」。意味着你的邻居是流动住客，且未来若 JMB 收紧短租，这批房源的租金模型会立刻失效。</li>
+      <li><b>密度</b>：711 户共享 60 层的电梯组与设施。查电梯数量与分区（低/中/高区各几部），这直接决定早高峰体验。</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="p4"><span class="num">08</span>Vogue Suites Two</h2>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h3>Vogue Suites Two</h3>
+      <div class="meta">KL Eco City, Jalan Bangsar · 开发商 S P Setia Berhad</div>
+    </div>
+    <div style="text-align:right">
+      <span class="pill p-amber">≈400 m 直线</span>
+      <span class="pill p-blue">住宅地契</span>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <dl class="kv">
+      <dt>竣工</dt><dd>2020 年（楼龄 6 年，本清单最新之一）</dd>
+      <dt>产权</dt><dd>Leasehold 租赁地契 · <b>Residential title 住宅地契</b>（非商业，优于 ViiA）</dd>
+      <dt>规模</dt><dd>344 户 <span class="tag">另有 739 户的说法，疑为 Vogue 1+2 合计</span></dd>
+      <dt>面积</dt><dd>657 – 3,993 sq ft · 1–4 房 · 6 种户型</dd>
+      <dt>户型</dt><dd>A 657（Studio）· B 710 · C 786 · C Prime 969 · D 1,647（3 房）· E 复式顶楼 3,993（4 房）</dd>
+      <dt>连通</dt><dd>有盖天桥直连 Abdullah Hukum LRT/KTM；跨河桥接 The Gardens / Megamall，步行 600–700 m</dd>
+      <dt>成交样本</dt><dd><span class="pill p-red">未取得</span> brickz 未以该名称登记项目页</dd>
+      <dt>洪涝</dt><dd>未取得项目级评级（同园区 ViiA 为 Moderate、Vogue One 为 High）</dd>
+    </dl>
+
+    <h4>它相对 Vogue One 与 ViiA 的位置</h4>
+    <p>三栋里它是最「中庸」的一栋：比 Vogue One 新 3–7 年、密度低得多；比 ViiA 大一档（ViiA 最大只到 1,252 sq ft，它有 1,647 与 3,993 的大家伙）；产权是<b>住宅地契而非商业地契</b>，水电按住宅费率、可申请 LPPSA、转售买家池更大。</p>
+    <p>代价是：<b>成交数据查不到</b>。brickz 以「Vogue Suites Two」检索无对应项目页，说明它的登记名可能是「Residensi Vogue 2」或归入 KL Eco City 母项目。这直接导致你无法用成交价锚定，只能靠挂牌要价谈。</p>
+
+    <div class="grid2">
+      <div class="box">
+        <h4>✅ 适合谁</h4>
+        <ul><li>要<b>住宅地契 + 较大户型</b>（1,647 / 3,993 sq ft）</li><li>要 2020 年后产品、又不想碰商业地契</li><li>要直连 LRT/KTM 通勤</li></ul>
+      </div>
+      <div class="box">
+        <h4>❌ 不适合谁</h4>
+        <ul><li>要求价格有成交数据支撑（本项目缺样本）</li><li>要求严格 500 m 步行</li><li>要求永久地契</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 id="p5"><span class="num">09</span>ViiA Residences</h2>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h3>ViiA Residences</h3>
+      <div class="meta">KL Eco City, Jalan Bangsar · 开发商 KL Eco City Sdn Bhd（S P Setia 子公司）</div>
+    </div>
+    <div style="text-align:right">
+      <span class="pill p-amber">450 m 直线</span>
+      <span class="pill p-red">商业地契</span>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <dl class="kv">
+      <dt>竣工</dt><dd>2021 年（本片区最新住宅）</dd>
+      <dt>产权</dt><dd>99 年 Leasehold · <b>Commercial title 商业地契</b> · 服务式住宅（Service Residence）</dd>
+      <dt>规模</dt><dd><b>326 户 · 40 层 · 8.2 户/层</b>（三栋里密度最低）</dd>
+      <dt>面积</dt><dd>636 – 1,252 sq ft · 1–3 房（<b>无大户型</b>）</dd>
+      <dt>户型</dt><dd>A 636/689 · B 779/810（Studio+1）· C 944/957（2 房）· D 1,245/1,252</dd>
+      <dt>管理费</dt><dd><b>RM 0.35 / sq ft / 月</b>（约 RM0.38 含储备金口径需向管理处确认）<br><span class="small">实例：1,252 sq ft ≈ RM438/月；636 sq ft ≈ RM223/月</span></dd>
+      <dt>连通</dt><dd>专用有盖天桥接 The Gardens / Megamall，步行 700–750 m；园区内步道直连 Abdullah Hukum LRT/KTM</dd>
+      <dt>价格</dt><dd>SPA 区间 <b>RM 699,000 – RM 1,650,000</b> · 挂牌 psf <b>RM1,099 – 1,318</b></dd>
+      <dt>在挂</dt><dd>1 条出售 · 8 条出租（供应极少）</dd>
+      <dt>租金参考</dt><dd>2 房 807 sq ft 挂牌 RM 4,900/月</dd>
+      <dt>洪涝</dt><dd><span class="pill p-amber">Moderate risk</span>，页面注明「位于相对较高、排水较好的地块」</dd>
+    </dl>
+
+    <h4>商业地契的三个后果（必须写进决策）</h4>
+    <div class="warn">
+      <ol style="margin:6px 0 0;padding-left:20px">
+        <li><b>水电默认商业费率</b>。可经 myTNB 申请转住宅费率，但要业主主动办，且不是所有单位都批。</li>
+        <li><b>公务员不能用 LPPSA 贷款</b>。买家池直接砍掉一块。</li>
+        <li><b>转售与再融资的买家池更小</b>。商业地契 + 服务式住宅，银行估值更保守，贷款成数可能低于住宅地契。</li>
+      </ol>
+    </div>
+
+    <h4>收益率测算（粗算，非承诺）</h4>
+    <p>2 房 807 sq ft，挂牌 RM1,390,000 / 租金 RM4,900/月 → 毛回报 <b>4.2%</b>。扣管理费（807×0.35≈RM282）、门牌税、地租、空置与维修，净回报约 <b>2.8–3.2%</b>。<b>低于吉隆坡服务式公寓的平均毛回报（约 4.5–5%）</b>，主要被 2021 年的高入场价吃掉。</p>
+
+    <div class="grid2">
+      <div class="box">
+        <h4>✅ 适合谁</h4>
+        <ul><li>要<b>最新楼龄 + 最低密度</b>（8.2 户/层）</li><li>要小户型、好出租、易管理</li><li>要 LRT/KTM 双线通勤</li><li>能接受商业地契</li></ul>
+      </div>
+      <div class="box">
+        <h4>❌ 不适合谁</h4>
+        <ul><li>要大家庭户型（最大只 1,252 sq ft）</li><li>公务员 / 需 LPPSA</li><li>要低管理费以外的低持有成本（商业费率）</li><li>要严格 500 m 步行（700–750 m）</li></ul>
+      </div>
+    </div>
+
+    <h4>三个硬风险</h4>
+    <ul class="tight">
+      <li><b>2021 年高位入场价</b>：SPA 区间上限 RM1.65M、挂牌 psf 到 RM1,318，而 Vogue One 的成交中位只有 RM1,016 psf。同园区、同开发商、楼龄差 4 年，单价差 30%——这个溢价要靠租金或未来升值消化，目前租金回报只有 4.2% 毛。</li>
+      <li><b>商业地契 + 服务式住宅双重折价</b>：这两项在转售时都压价，且买家池与住宅地契不重叠。</li>
+      <li><b>与酒店同栋</b>：项目「adjoining a business-class hotel」，住宅与酒店共用部分设施。查设施是住宅专用还是共用、酒店客群是否进入住宅电梯厅。</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="p6"><span class="num">10</span>Boulevard（边界项）</h2>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h3>Boulevard</h3>
+      <div class="meta">Mid Valley City 南侧 · 服务式住宅（brickz 分类）</div>
+    </div>
+    <div style="text-align:right"><span class="pill p-grey">身份待核</span></div>
+  </div>
+  <div class="card-body">
+    <p>brickz 的「Mid Valley City」分区下有两个项目：<b>Boulevard</b> 与 <b>Northpoint</b>。Boulevard 被归类为 Service Residence、租赁地契，近 10 个月 <b>20 笔成交，中位 RM1,447 psf，中位总价 RM2,221,706</b>，四分位 RM1,688,990–RM2,758,936。</p>
+    <div class="note">
+      <b>为什么标「待核」：</b>公开网络对「Boulevard, Mid Valley City」的可售住宅单位几乎没有独立资料——mudah 无项目页、MyRumahBaru 无项目页、开发商未单列。它可能是 Mid Valley City 内的服务式住宅分层单位，也可能是 Boulevard Hotel 的分层客房产权。<b>买前必须让律师调取分层地契（Strata Title）与用途批文，确认是否可作为住宅持有与出租。</b>
+    </div>
+    <p>但它值得列进来：<b>RM1,447 psf 的中位成交价、RM2.22M 的中位总价</b>，说明 Mid Valley City 园区内确实存在一个高端服务式住宅层，价格带高于 KL Eco City 三栋，与 The Gardens Residences 同级。</p>
+  </div>
+</div>
+
+<h2 id="price"><span class="num">11</span>价格对比与单价倒挂</h2>
+
+<p>按 psf 升序。要价 ≠ 成交价，本片区挂牌通常可议 3–7%。</p>
+
+<table>
+  <thead>
+    <tr><th>项目</th><th class="num-cell">成交中位 psf</th><th class="num-cell">成交中位总价</th><th class="num-cell">四分位区间</th><th class="num-cell">样本数 / 期间</th><th>数据性质</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><b>Vogue Suites One</b></td><td class="num-cell">RM 1,016</td><td class="num-cell">RM 930,000</td><td class="num-cell">668K – 1,230K</td><td class="num-cell">7 笔 / 8 个月</td><td><span class="pill p-green">成交</span></td></tr>
+    <tr><td><b>Mid Valley City 分区</b><br><span class="small">（Boulevard + Northpoint）</span></td><td class="num-cell">RM 1,374</td><td class="num-cell">RM 1,704,768</td><td class="num-cell">1,275K – 2,409K</td><td class="num-cell">28 笔 / 10 个月</td><td><span class="pill p-green">成交</span></td></tr>
+    <tr><td><b>Boulevard</b></td><td class="num-cell">RM 1,447</td><td class="num-cell">RM 2,221,706</td><td class="num-cell">1,689K – 2,759K</td><td class="num-cell">20 笔 / 10 个月</td><td><span class="pill p-green">成交</span></td></tr>
+    <tr><td><b>ViiA Residences</b></td><td class="num-cell">1,099 – 1,318<br><span class="small">（挂牌要价）</span></td><td class="num-cell">699K – 1,650K<br><span class="small">（SPA 区间）</span></td><td class="num-cell">—</td><td class="num-cell">1 笔在挂</td><td><span class="pill p-amber">要价</span></td></tr>
+    <tr><td><b>Vogue Suites Two</b></td><td class="num-cell">未取得</td><td class="num-cell">未取得</td><td class="num-cell">—</td><td class="num-cell">0</td><td><span class="pill p-red">缺口</span></td></tr>
+    <tr><td><b>The Gardens Residences</b></td><td class="num-cell">未取得</td><td class="num-cell">未取得</td><td class="num-cell">—</td><td class="num-cell">0</td><td><span class="pill p-red">缺口</span></td></tr>
+  </tbody>
+</table>
+<p class="src">成交数据来自 brickz.my（NAPIC 逐笔申报数据，期间 2025-10 至 2026-05 / 2025-06 至 2026-04）。挂牌来自 mudah.my 项目页（2026-10-19 抓取）。</p>
+
+<div class="ok">
+<b>本清单最大的一条定价结论：</b>同园区、同开发商（S P Setia）的三栋，<b>Vogue Suites One 的成交中位 psf 是 RM1,016，而 ViiA 的挂牌要价到 RM1,318</b>——楼龄只差 4 年、同一个天桥、同一个商场，单价差 30%。<b>如果你不执着于「最新」，Vogue One 是这个圈里唯一有真实成交样本支撑、且价格最低的入场点。</b>
+</div>
+
+<div class="note">
+<b>单价倒挂在哪：</b>Vogue One 与 Vogue Two 的复式/大户型（1,600–3,993 sq ft）历史上单价低于小户型 25–35%。原因是小户型「总价低、好出租」，被投资者推高。若你按 psf 排序找便宜，<b>大户型才是被低估的一端</b>——但代价是总价高、买家池小、出租慢。
+</div>
+
+<h2 id="risk"><span class="num">12</span>七层风险筛查</h2>
+
+<table>
+  <thead>
+    <tr><th style="width:20%">风险层</th><th>本片区实测</th><th style="width:26%">对本清单的影响</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>① 洪涝</b></td>
+      <td>Mid Valley / Bangsar 是巴生河与 Kerayong 河汇流区，MyRumahBaru 明写「documented recurring flooding」。Vogue One = <b>High</b>，ViiA = <b>Moderate</b>（页面注明地块相对较高），其余未取得项目级评级。</td>
+      <td>Vogue One 是唯一被官方数据点名高风险的。<b>标准火险不含洪水，须加保 Special Perils</b>（Bangsar 一带约 0.086%/年，RM1.5M 保额约 RM1,290/年）。</td>
+    </tr>
+    <tr>
+      <td><b>② 土崩 / 边坡</b></td>
+      <td>Seputeh / Bukit Bandaraya / Pantai Hill Park 是丘陵地形，2025-11 Taman United（Seputeh）曾发生约 60 m 边坡崩塌、104 户疏散。<b>但本清单 6 个项目全部在河边平地或商场平台上，不在山坡。</b></td>
+      <td>本清单项目风险低。但若你被中介带去 Seputeh 山上「近谷中城」的盘，必须单独查边坡与 JMB 的斜坡维护责任。</td>
+    </tr>
+    <tr>
+      <td><b>③ 产权 / 地契</b></td>
+      <td>仅 The Gardens Residences 为永久地契；其余全部租赁地契。ViiA 为<b>商业地契</b>。</td>
+      <td>租赁地契剩余年限：KL Eco City 地块约 2011 年起算 99 年 → <b>剩余约 85 年</b>。30 年后的买家贷款年限会受影响。</td>
+    </tr>
+    <tr>
+      <td><b>④ 外国人门槛</b></td>
+      <td>吉隆坡 <b>RM 1,000,000</b>。</td>
+      <td>Vogue One 成交中位 <b>RM 930,000 低于门槛</b>——外籍买家在 Vogue One 只能买 RM1M 以上单位，可选面大幅收窄。其余项目主力价带在门槛之上，不受影响。</td>
+    </tr>
+    <tr>
+      <td><b>⑤ 短租 / 住户结构</b></td>
+      <td>Vogue Suites One、ViiA、The Gardens Residences <b>三个项目都在 OTA 上以酒店形态售卖</b>（Agoda / 携程 / TripAdvisor 均收录）。</td>
+      <td>意味着「社区」是流动的。买前必须查 JMB/MC 的附加附例对短租的限制——一旦收紧，租金模型立刻变。</td>
+    </tr>
+    <tr>
+      <td><b>⑥ 密度 / 电梯</b></td>
+      <td>Vogue One 11.9 户/层（711 户 / 60 层）为最高；Northpoint 10.4；ViiA 8.2；The Gardens 5.0。</td>
+      <td>Vogue One 必须查电梯分区与数量。The Gardens 是唯一「低密度」选项。</td>
+    </tr>
+    <tr>
+      <td><b>⑦ 供给 / 流动性</b></td>
+      <td>本半径内 2021 年后无新盘。但 1–2 公里外的 Bangsar South、Seputeh、Old Klang Road 有大量新供应（Aetas Seputeh 126 户等）。</td>
+      <td>你的转售对手不是隔壁楼，是 1 公里外的新盘。<b>老盘要靠「步行连通」这个不可复制的稀缺性定价</b>，不能靠楼龄。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="matrix"><span class="num">13</span>按需求选：决策矩阵</h2>
+
+<table>
+  <thead><tr><th style="width:30%">你的首要需求</th><th>答案</th><th style="width:34%">理由 / 代价</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><b>步行必须真 ≤500 m</b></td>
+      <td>The Gardens Residences<br>或 Northpoint Residences</td>
+      <td>唯一两个室内直连。代价：2006–07 年老盘、库存极少、The Gardens 总价 RM1.5M 起。</td>
+    </tr>
+    <tr>
+      <td><b>永久地契</b></td>
+      <td>The Gardens Residences</td>
+      <td>本清单唯一。代价：酒店化运营、楼龄 19 年、流动性低。</td>
+    </tr>
+    <tr>
+      <td><b>最低总价入场</b></td>
+      <td>Vogue Suites One</td>
+      <td>成交中位 RM930K，本清单唯一有成交样本支撑的低价带。代价：高洪涝风险、711 户高密度、外国人受 RM1M 门槛限制。</td>
+    </tr>
+    <tr>
+      <td><b>住宅地契 + 大户型</b></td>
+      <td>Vogue Suites Two</td>
+      <td>2020 年、住宅地契、有 1,647 / 3,993 sq ft。代价：无成交数据可锚定价格。</td>
+    </tr>
+    <tr>
+      <td><b>最新楼龄 + 低密度</b></td>
+      <td>ViiA Residences</td>
+      <td>2021 年、8.2 户/层。代价：商业地契、单价高 30%、无大户型、步行 700m+。</td>
+    </tr>
+    <tr>
+      <td><b>租金回报优先</b></td>
+      <td>Vogue Suites One（小户型）</td>
+      <td>RM930K 总价 + RM3,250–3,650 月租 ≈ 4.2–4.7% 毛回报，本清单最高。ViiA 只有 4.2% 毛 / 2.8–3.2% 净。</td>
+    </tr>
+    <tr>
+      <td><b>自住安静</b></td>
+      <td><span class="pill p-red">本清单没有理想答案</span></td>
+      <td>六个项目全部有酒店/短租/办公成分。若安静是第一位，应把半径放宽到 1.5 km，看 Bangsar 的纯住宅盘（但那些没有天桥）。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="onsite"><span class="num">14</span>现场必查清单</h2>
+
+<div class="grid2">
+  <div class="box">
+    <h4>产权与地契</h4>
+    <ul>
+      <li>调取分层地契（Strata Title）正本，核对用途栏：Residential 还是 Commercial</li>
+      <li>查剩余租期起算日（KL Eco City 从哪一年开始算 99 年）</li>
+      <li>查土地处分限制（Restriction of Interest）：能否自由转让/出租/抵押</li>
+      <li>Boulevard 必须确认是否可作为住宅持有</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>管理与费用</h4>
+    <ul>
+      <li>索取最近 12 个月管理费账单（确认是否含 10% 储备金）</li>
+      <li>看最近一次 AGM 纪要：储备金余额、已决议的大修项目</li>
+      <li>问短租政策：附加附例是否限制？如何执行？</li>
+      <li>问电梯数量与分区（Vogue One 711 户必问）</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>洪涝</h4>
+    <ul>
+      <li>看地下停车场墙面水痕高度、配电房与水泵房位置</li>
+      <li>问管理处过去 5 年是否进水、哪一年、淹到哪一层</li>
+      <li>查保险单是否含 Special Perils（洪水）</li>
+      <li>Vogue One 重点查，ViiA 次之</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>房屋本体</h4>
+    <ul>
+      <li>实测层高（本片区 2006–07 年产品约 9 ft，2020 后约 10 ft）</li>
+      <li>阳台：是否有水龙头、是否连 yard（晾衣）</li>
+      <li>交付标准：厨柜/空调/热水器是开发商给的还是前业主装的</li>
+      <li>每房是否有独立电表（sub-meter），决定能否按实际用电与租客结算</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>短租与住户结构</h4>
+    <ul>
+      <li>工作日晚上 8 点与周末下午各看一次，观察大堂人流</li>
+      <li>看信箱与门牌是否有大量短租标识/钥匙盒</li>
+      <li>问保安：本层有多少户是日租</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>价格与流动性</h4>
+    <ul>
+      <li>要求中介出示同栋近 12 个月成交记录（不是挂牌价）</li>
+      <li>Vogue Two / The Gardens 无成交样本，必须靠估价师（valuer）报告定价</li>
+      <li>查银行估价：商业地契（ViiA）估值通常低于成交价 5–10%</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="gap"><span class="num">15</span>数据冲突与缺口</h2>
+
+<h4>冲突清单</h4>
+<table>
+  <thead><tr><th style="width:22%">字段</th><th>冲突内容</th><th style="width:28%">本报告采信</th></tr></thead>
+  <tbody>
+    <tr><td>Vogue Suites One 竣工年</td><td>mudah 写 2013，MyRumahBaru 写 2017</td><td>按 KL Eco City 分期推断 2016–2017，两源并列标注</td></tr>
+    <tr><td>Vogue Suites Two 户数</td><td>mudah / MyRumahBaru / PropertyGuru 英文页均为 344；PropertyGuru 马来文页另标 739（疑为 Vogue 1+2 合计）</td><td>采 344，标注 739 为异常值</td></tr>
+    <tr><td>中位 psf（MyRumahBaru）</td><td>Vogue One / Vogue Two / ViiA <b>三栋全部显示 RM1,282.43、中位总价 RM1M、样本 4 笔</b></td><td><b>判定为分区回退值，全部弃用</b>，改用 brickz 逐项目成交</td></tr>
+    <tr><td>The Gardens 在挂价</td><td>唯一挂牌 RM527,988 / 730 sq ft = RM723 psf，与产品定位不符</td><td>判定为标签错误，不作定价依据</td></tr>
+  </tbody>
+</table>
+
+<h4>缺口清单（查不到 ≠ 没有）</h4>
+<table>
+  <thead><tr><th style="width:30%">缺失字段</th><th>已试来源</th><th style="width:24%">建议补法</th></tr></thead>
+  <tbody>
+    <tr><td>The Gardens Residences 成交价</td><td>brickz（未登记）、EdgeProp（无该项目页）、mudah（仅 1 条异常挂牌）</td><td>找持牌估价师出 valuation report</td></tr>
+    <tr><td>Vogue Suites Two 成交价</td><td>brickz 检索无对应项目页</td><td>同上；或向中介索取同栋 SPA 副本</td></tr>
+    <tr><td>Gardens / Northpoint / Vogue Two / Boulevard 洪涝评级</td><td>MyRumahBaru 无项目页或页面无该模块</td><td>向管理处索取历史淹水记录</td></tr>
+    <tr><td>各项目 JMB / MC 公司全名</td><td>DBKL 名录、COB 名单、分层仲裁庭记录均无公开可查版本</td><td>向管理处索取 AGM 通知（上面有 MC 全名与注册号）</td></tr>
+    <tr><td>层高</td><td>开发商手册规格表只写材料不写高度；WebSearch 对该字段无效</td><td>现场带激光测距仪实测</td></tr>
+    <tr><td>Northpoint 在售库存</td><td>mudah 0 条出售挂牌</td><td>直接联系园区内中介，或挂需求等放盘</td></tr>
+    <tr><td>Boulevard 可售单位性质</td><td>mudah / MyRumahBaru 均无项目页</td><td>律师调取分层地契与用途批文</td></tr>
+  </tbody>
+</table>
+
+<h2 id="source"><span class="num">16</span>来源与可信度分级</h2>
+
+<table>
+  <thead><tr><th style="width:14%">级别</th><th style="width:30%">来源</th><th>用于</th></tr></thead>
+  <tbody>
+    <tr><td><span class="pill p-green">A · 一手</span></td><td>spsetia.com 官方新闻稿与项目页</td><td>KL Eco City 跨河有盖天桥的存在与性质</td></tr>
+    <tr><td><span class="pill p-green">A · 一手</span></td><td>brickz.my（NAPIC 逐笔申报成交）</td><td>Vogue One / Boulevard / Mid Valley City 分区的中位 psf、总价、四分位区间</td></tr>
+    <tr><td><span class="pill p-blue">B · 结构化门户</span></td><td>mudah.my 项目页、MyRumahBaru 项目页、PropertyGuru 项目描述</td><td>户数、层数、竣工年、面积、户型、管理费、距离</td></tr>
+    <tr><td><span class="pill p-amber">C · 营销/二手</span></td><td>PropertyGuru / iProperty 挂牌描述、Agoda / 携程 / TripAdvisor 收录</td><td>短租活跃度判断、步行时间表述（仅作旁证）</td></tr>
+    <tr><td><span class="pill p-grey">D · 推断</span></td><td>本报告自算</td><td>户/层密度、天桥步行距离、租金回报、税费影响</td></tr>
+  </tbody>
+</table>
+
+<div class="divider"></div>
+
+<h4>一句话收尾</h4>
+<p>这个半径的稀缺性不在房子，在<b>那条桥</b>。六个项目里没有一个是「新产品」，全部靠「下楼就是谷中城」这件事定价。所以判断顺序应该是：<b>先确认你能接受哪种产权与楼龄，再确认你愿不愿意为 250 米 vs 650 米多付 30–50% 的单价</b>。反过来做（先看房子新不新）一定会买错。</p>
+
+<footer>
+  <p><b>报告口径</b>：所有距离为直线距离（MyRumahBaru 内嵌坐标复算），步行距离为路径估算（±10%）。所有价格为 2025-10 至 2026-05 期间申报成交或 2026-10-19 抓取的挂牌要价，未含税费与律师费。</p>
+  <p><b>免责</b>：本报告为公开信息汇编与分析，不构成投资建议。产权、地契用途、土地处分限制、管理费与短租附例须由马来西亚执业律师与持牌估价师核实。</p>
+  <p>核查日期 2026-10-19 · 项目数 6 · 确认符合 2 · 边界 4</p>
+</footer>
+
+</div>
+</body>
+</html>
