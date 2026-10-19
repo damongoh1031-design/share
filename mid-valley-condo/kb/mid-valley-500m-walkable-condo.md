@@ -12,9 +12,9 @@ tags:
   - EdgeProp
 created: 2026-10-19
 updated: 2026-10-19
-version: 2.0
+version: 3.0
 status: stable
-source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com）
+source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com / klecocity.com Wayback / klpropertytalk）
 confidence: 已核实（结构、成交、距离）；推断（步行距离、净回报、逐户型推算总价）
 ---
 
@@ -122,6 +122,85 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 
 ---
 
+## 户型图获取（19 张，逐张核实）
+
+### 覆盖率
+
+| 项目 | 图纸 | 类型 | 来源 | 状态 |
+|---|---|---|---|---|
+| ViiA Residences | 12 | 单位户型图全套 | S P Setia 官方 CDN | 完整（A1–A6 / B1–B4 / C3 / D2） |
+| Vogue Suites One | 4 | 设施层平面 + 塔楼剖面 | klecocity.com（Wayback 2014/2016） | 缺单位内部格局 |
+| KL Eco City 园区 | 3 | 总平面 / 剖面 / 接驳图 | spsetia CDN + 宣传册 | 含天桥位置 |
+| Vogue Suites Two / Northpoint / The Gardens / Southpoint | 0 | — | — | 公开互联网不存在 |
+
+### ViiA 12 张（已核实图面文字）
+
+| TYPE | 面积 sf | 房/卫 | 楼层 | 单位号 | 备注 |
+|---|---|---|---|---|---|
+| A1 | 688 | 1/1 | L16–21 | — | |
+| A2 | 710 | 1/1 | L23A–33 & 33A–38 | — | |
+| A3 | 699 | 1/1 | L39 | — | |
+| A4 | 678 | 1/1 | L23A–33 | 13A & 9 | |
+| A5 | 635 | 1/1 | — | 13 & 10 | 最小 1 房 |
+| A6 | 678 | 1/1 | — | 12 & 11 | |
+| B1 | 775 | 1+1/1 | L3A–15 & 16–21 | — | 有 BALCONY |
+| B2 | 785 | 1+1/1 | — | — | 有 BALCONY |
+| B3 | 807 | 1+1/1 | — | — | 有 BALCONY |
+| B4 | 807 | 1+1/1 | — | — | 有 BALCONY，与 B3 同面积不同平面 |
+| C3 | 947 | 2/— | L33A–38 | — | |
+| D2 | 1,259 | 3/2 | L33A–38 & 39 | — | 公开最大户型 |
+
+C1 / C2 / D1 在官方 CDN 两批路径（2025/04、2026/07）均 404 —— 从未发布。
+
+### Vogue Suites One 四张设施层（判断溢价值不值的关键）
+
+| 图纸 | 层 | 内容 |
+|---|---|---|
+| Club@7 | L7 | 27 项：50 m 泳池 / 水中凉亭 / 锦鲤池 / 瑜伽台 / 冥想亭 / 烧烤廊 / 托儿所 / 美食厨房 / 健身房 / **FUTURE LINK 预留接驳口** |
+| Lobby@8 | L8 | 9 项：接待区 / 大堂休息区 / 管理处 / 会议室 / 便利店 Deli / 游戏室 / 露天平台；另含 LIFT LOBBY、NORTHBOUND PASSAGE、**SUBSTATION** |
+| 360 Degrees | L52 | 14 项：空中酒吧 / 迷你影院 / 恒温按摩池 / 蒸汽浴 / 多功能厅 / 空中花园 |
+| Above 360 | L53 | 3 项：空中健身房 / 瑜伽普拉提区 / 屋顶花园 + 大量 M&E 设备平台 |
+
+**大堂在 8 层不在地面** → 回家动线是「地面 → 8 层 → 换乘住户电梯」，比常规双梯多一次换乘。**SUBSTATION 在 8 层平面内**，紧邻单位要查低频噪音。
+
+### 复用的取图方法
+
+**① S P Setia CDN 直连返回空 body（000 / 0 字节）→ 走 images.weserv.nl 代理**
+
+```python
+import urllib.parse
+enc = urllib.parse.quote(src_url, safe='')
+proxy = f"https://images.weserv.nl/?url={enc}&w=1600&output=jpg"
+```
+
+**② 开发商旧站图片 → Wayback 必须带真实时间戳，不能只写年份**
+
+```bash
+# 错：https://web.archive.org/web/2016id_/http://...   → 返回 HTML 包装页
+# 对：先查 CDX 拿 timestamp
+curl -s "http://web.archive.org/cdx/search/cdx?url=klecocity.com/images/rt1/&matchType=prefix&output=text&fl=timestamp,original&collapse=urlkey&limit=100"
+# → 20160601014415 http://klecocity.com/images/rt1/floorplan_club7.png
+curl -s "https://web.archive.org/web/20160601014415if_/http://klecocity.com/images/rt1/floorplan_club7.png" -o club7.png
+```
+
+`if_` = 返回原始二进制。**连续请求会 429，间隔 10–15 秒重试即可。**
+
+**③ 找项目评测文里的原始图片集**
+
+```bash
+curl -sL "https://www.klpropertytalk.com/?s=<project-slug>"
+# → 命中项目评测文，正文图即开发商原始宣传图集
+```
+
+**④ 开发商官网 sitemap 反查项目页**
+
+```bash
+curl -sL "https://spsetia.com/sitemap.xml"   # 注意：www.spsetia.com 证书主机名不匹配，必须去掉 www
+# 逐个子 sitemap 拉 <loc>，grep 'vogue|viia|eco.?city'
+```
+
+---
+
 ## 坑与反直觉
 
 1. **EdgeProp「48 个月中位」会把新盘高估 40–60%。** 对 2021 年后交付的项目，这个数字包含 2022–23 投机高点。Vogue One：48m 中位 1,622 vs 近 8 月成交 1,016。**中介报「中位 psf」时，用的是两年前的价格。**
@@ -133,6 +212,10 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 7. **步行距离 ≠ 直线距离，且新盘的桥更长。** KL Eco City 三栋直线 370–450 m，实际天桥步程 550–750 m（跨河 + 穿两个商场）。Northpoint 直线 313 m，连廊约 300–350 m。
 8. **大户型 psf 低于小户型 25–35%。** Northpoint 2,637 sf 挂牌 RM683 psf vs 1,367 sf RM710–1,097。按 psf 找便宜要买大户型，按总价找便宜要买小户型——方向相反。
 9. **外国人门槛 RM1,000,000 会砍掉半份名单。** Vogue One 近 8 月成交中位 RM930K，中位以下单位外籍买不了。
+10. **「建成即售罄」的项目，户型图在互联网上根本不存在。** Vogue Two / Northpoint / The Gardens / Southpoint 四家一张都没有——不是没找到，是开发商从未公开。搜索时会跳出大量「看起来像」的图，逐一核对后没有一张能确认归属。**唯一可靠来源是 SPA 的附图（Schedule of Building），法律上必须附平面图。**
+11. **同一栋楼同面积可以有 3–4 种平面。** ViiA 的 B3 与 B4 都是 807 sf、都是 1+1，但平面不同；A2（710）与 A5（635）都是 1 房，面积差 12%。**「ViiA 均价 RM1,669 psf」这种项目级数字不能用来谈具体单位。**
+12. **开发商官网的销售状态图比任何门户都准。** S P Setia 2025-04 的 KLEC 总平面剖面直接标了每个塔楼 `Completed & Sold Out` / `Open for Sale` / `Open for Leasing` / `FUTURE LAUNCHES`。这张图上**没有单独标注 Vogue Suites Two**，与 EdgeProp RM0、brickz 无项目页互相印证。
+13. **A 系列图上未标阳台，B 系列明确画了 BALCONY。** 热带气候下这是硬差异，但门户的户型表里两档都写「有」或都写「未标注」。
 
 ---
 
@@ -147,6 +230,10 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 | Southpoint 步行路径是否全程有盖 | 无任何来源描述，需现场走 |
 | Vogue One 电梯数量与分区 | 门户只写设施不写电梯 |
 | 各项目 JMB / MC 全名 | DBKL 名录、COB 名单、分层仲裁庭均无公开版本 |
+| ViiA C1 / C2 / D1 户型 | 官方 CDN 两批路径均 404，可能从未发布或仅内部认购 |
+| Vogue One 单位内部格局 | 只拿到设施层与塔楼剖面，无单位图 |
+| Vogue Two 是否已建成 | 官方总平面未标注该塔，与「739 户、2020 交付」的登记矛盾，需现场核实 |
+| ViiA A5 / A6 楼层区间 | 图面未标，只有单位号 |
 
 ---
 
@@ -157,6 +244,8 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 | A 一手 | EdgeProp.my 逐项目页（NAPIC 48 个月） | psf 中位/IQR、历史高低、隐含回报、邻近表 |
 | A 一手 | brickz.my（NAPIC 近 8–10 个月） | 近期真实成交 |
 | A 一手 | spsetia.com | 跨河有盖天桥的存在 |
+| A 一手 | spsetia.com / spsetia CDN | ViiA 12 张官方户型图、KLEC 2025 总平面剖面（含销售状态） |
+| A 一手 | klecocity.com（Wayback 2014/2016） | Vogue Suites One 设施层平面 L7/L8/L52/L53 |
 | B 结构化 | MyRumahBaru / mudah | 户型全表、设施、距离、户数层数、洪涝 |
 | C 营销 | PropertyGuru / Agoda / 携程 / St Giles | 短租活跃度、房型名 |
 | D 推断 | 本报告自算 | 户/层、步行距离、净回报、逐户型推算价 |
