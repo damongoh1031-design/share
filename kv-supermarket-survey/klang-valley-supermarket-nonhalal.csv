@@ -1,5 +1,5 @@
 distance_m,nonhalal_poi,poi_type,nearest_supermarket,area,confidence
-55,Omega Pork Noodle 猪肉面店,pork,Jaya Grocer SS15,Subang Jaya SS15,中
+55,Omega Pork Noodle 猪肉面店,pork,Jaya Grocer SS15 Courtyard,Subang Jaya SS15,高
 103,Pasar Sungai Besi 湿巴刹,market,HeroMarket Sungai Besi,Sungai Besi,高
 150,Pasar Kajang 老巴刹,market,Mydin Kajang,Kajang,高
 154,Pasar Mini Melur Sejahtera,market,NSK Trade City Chow Kit,Chow Kit / Kampung Baru,弱
@@ -11,7 +11,7 @@ distance_m,nonhalal_poi,poi_type,nearest_supermarket,area,confidence
 324,Pasar Batu 4½ Jalan Klang Lama 湿巴刹,market,Econsave Kuchai,Kuchai Lama,高
 351,Pasar Raya Shuang-Lim 双林批发杂货,market,Econsave Setapak Danau Kota,Danau Kota / Setapak,高
 373,Pork Organs Pepper Soup 猪杂汤,pork,Lotus's Taman Midah,"Taman Midah, Cheras",高
-379,Leng Leng Pork Noodles 玲玲猪肉面,pork,NSK Trade City Sri Rampai,Sri Rampai / Wangsa Maju,高
+379,Leng Leng Pork Noodles 玲玲猪肉面,pork,NSK Trade City Wangsa Maju,Sri Rampai / Wangsa Maju,高
 390,Omega Pork Noodles,pork,Village Grocer Kota Damansara,Kota Damansara,高
 393,Pasar Harian Selayang,market,NSK Trade City Selayang,Selayang / Batu Caves,高
 426,Pasar Rawang 老巴刹,market,Mydin Rawang,Rawang,高
