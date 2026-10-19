@@ -12,11 +12,14 @@ tags:
   - mesa
   - proton
   - stability
+  - snapper
+  - btrfs
+  - cachyos
 created: 2026-10-16
-updated: 2026-10-16
-version: 2.1
+updated: 2026-10-19
+version: 2.2
 status: stable
-source: 本机直接 HTTP 抓取各发行版官方仓库/镜像/GitHub API/nixpkgs 源文件（openSUSE TW+Slowroll、Arch、Fedora 44、Ubuntu 26.04+26.10、NixOS 26.05、Bazzite）+ 前 14 轮报告（Phoronix 基准、proton-cachyos GitHub Releases、flatpak issue #6199、ublue Containerfile）+ 结构性推断
+source: 本机直接 HTTP 抓取各发行版官方仓库/镜像/GitHub API/nixpkgs 源文件（openSUSE TW+Slowroll、Arch、Fedora 44、Ubuntu 26.04+26.10、NixOS 26.05、Bazzite、CachyOS-PKGBUILDS 源码）+ 前 15 轮报告（Phoronix 基准、proton-cachyos GitHub Releases、flatpak issue #6199、ublue Containerfile）+ 结构性推断
 confidence: 已核实
 ---
 
@@ -35,6 +38,10 @@ confidence: 已核实
 1. **openSUSE 默认不装 32 位 Vulkan** → Steam 里的 Proton 游戏**黑屏 / 崩溃**。修：`sudo zypper in libvulkan_radeon-32bit`
 2. **openSUSE 的 NVIDIA 走 KMP 内核模块包 → 内核升级即驱动损坏**（6.18 事件）→ **改写场景 ③ 裁决：NVIDIA 用户不推荐 openSUSE**
 3. **NixOS `hardware.graphics.enable32Bit` 默认 `false`** → 漏设则 Proton 崩溃
+
+**v2.2 关键修正 —— "都装 snapper" 是个假命题**：snapper 只是快照引擎，**它不知道你刚装了个包，也不会出现在 GRUB 菜单里**。真回滚能力取决于 ① 事务钩子 ② GRUB 集成 ③ `/boot` 在 Btrfs 内。补齐后：**Arch 三件套全在官方 `extra`（唯一）**；**Kubuntu 有 `apt-btrfs-snapshot` 钩子但无 `grub-btrfs`**；**Fedora 44 的 snapper 钩子是 dnf4 插件、而 F42 起已无 dnf4 → 死包，且 `/boot` 是 ext4**。详见 §5。
+
+**CachyOS 裁决（v2.2 补）**：它在 snapper 这条线上**全场最强**（`cachyos-snapper-support` 硬依赖 `snap-pac` + `grub-btrfs-support` 预接线 + 安装器送"出厂快照"），**但这条优势优化的是"出错后能救"，不是"会不会出错"**。→ 纯游戏机/双系统/愿维护 = 适合；主力工作机/求稳 = 不适合。
 
 ---
 
@@ -105,14 +112,131 @@ confidence: 已核实
 | 维度 | 含义 | 谁给得了 |
 |---|---|---|
 | ① 更新频率可控 | 不会某天被迫接受 500 个包 | 固定周期（Fedora/Kubuntu/NixOS）或慢速滚动（**Slowroll**）> 日滚动（TW/Arch/**Bazzite 默认**） |
-| ② 出问题能回滚 | 升级炸了能一键退回 | **Bazzite（原子镜像 + greenboot 自动健康检查）≥ openSUSE（Btrfs+snapper）> NixOS（声明式）> Arch（需手动）> Fedora/Kubuntu（无）** |
+| ② 出问题能回滚 | 升级炸了能一键退回 | **Bazzite（原子镜像 + greenboot 自动健康检查）≈ openSUSE（Btrfs+snapper 原生）> CachyOS（snapper 三件套预接线）> Arch（三件套齐备但需自配）> Kubuntu（有 APT 钩子、无 GRUB 救生艇）> Fedora 44（Btrfs 下等于无，见 §5）** |
 | ③ 软件质量（不追新） | 测试窗口更长 | Kubuntu LTS / NixOS stable / Slowroll > Fedora / TW > Arch |
 
 **关键校准**：③ 被高估。滚动的包不是"未测试的"，只是"测试窗口短"；真风险是你的硬件组合踩到回归 —— 此时 **② 比 ③ 重要得多**。这是 openSUSE 系与 Bazzite 共同胜出的根本原因。
 
 ---
 
-## 5. Bazzite 解剖（v2.0 新增，本轮最大变量）
+## 5. snapper 真实回滚能力矩阵（v2.2 新增，第 16 轮）
+
+### 5.1 核心判断：装 snapper ≠ 有回滚能力
+
+**snapper 只是快照引擎，它不知道"你刚装了个包"，也不会出现在 GRUB 菜单里。** openSUSE 的"原子回滚"体验由四个部件拼成，snapper 只是其中之一：
+
+| 部件 | 作用 | 缺了会怎样 |
+|---|---|---|
+| ① 快照引擎 `snapper` | 创建/比较/清理，多套配置 | — |
+| ② **事务钩子** | 装包前自动拍 pre、装完拍 post 并配对 | 只有手动快照 → 出事时那张"昨天的"快照可能已过期 |
+| ③ **GRUB 启动集成** | 快照变成 GRUB 菜单项 | **开不了机时 snapper 完全无用**，只能 Live USB |
+| ④ **`/boot` 在 Btrfs 内** | 内核/initramfs 一起进快照 | 回滚 `/` 后内核不匹配 → 开不了机 |
+
+ArchWiki 原文（④）：`/boot` 在非 Btrfs 分区时 **"you are not able to do snapper backups with it"**。
+
+### 5.2 一手核实矩阵（2026-10-19）
+
+| 部件 | Arch | Fedora 44 KDE | Kubuntu 26.04 | Kubuntu 26.10 | CachyOS |
+|---|---|---|---|---|---|
+| ① `snapper` | ✅ `extra 0.13.2-1` | ✅ `0.13.0-3.fc44` | ✅ universe | ✅ universe | ✅（Arch 源） |
+| ② 自动钩子 | ✅ **`extra/snap-pac 3.0.1-3`** | ❌ **`python3-dnf-plugin-snapper 4.1.2-11.fc44` 是 dnf4 插件，F42 起已无 dnf4 → 死包** | ✅ **`apt-btrfs-snapshot 4.0.1build1`**（universe，原生 APT 钩子） | ✅ 同左 | ✅ **预接线**（`cachyos-snapper-support` 硬依赖 `snap-pac`） |
+| ③ GRUB 集成 | ✅ **`extra/grub-btrfs 4.14-1`** | ❌ 全库无 | ❌ archive 无 | ❌ | ✅ **预接线**（`grub-btrfs-support` + systemd `.path` 监听 `/.snapshots`） |
+| ④ `/boot` 默认布局 | 自选（须放 Btrfs） | ❌ **ext4 独立分区**（Anaconda 预设原文） | 自选（须放 Btrfs） | 同左 | Btrfs（推断，中置信） |
+| 子卷默认 | 自建 | `root` + `home`，**无 `/.snapshots`** | `@` + `@home` | 同左 | 含 `@snapshots`（推断） |
+| GUI | `btrfs-assistant 3.0.0` | `btrfs-assistant` | `btrfs-assistant 2.2` + `snapper-gui` | ✅ | `btrfs-assistant` |
+
+**Fedora 的隐藏陷阱**：`python3-dnf-plugin-snapper` 在 F44 仓库里**仍在构建**（4.1.2-11.fc44），名字对得上，但 dnf4 本体从 F42 起不再随发行版提供（`dnf` 包页只列到 Fedora 41）。dnf5 用 C++ 插件（`libdnf5-plugin-actions/txnupd/cow/notify`），**无 snapper 插件**。→ **装了不工作，且不报错。**
+
+### 5.3 Fedora 的第三条路：snapm + boom-boot（LVM/Stratis only）
+
+| 包 | F44 版本 | 能力 |
+|---|---|---|
+| `snapm` | `0.7.0-5.fc44` | **Bootable snapshots**：生成 GRUB 快照启动项 + failsafe revert |
+| `boom-boot` | `1.6.8-5.fc44` | BLS 启动条目管理器 |
+
+```bash
+sudo dnf install snapm boom-boot
+sudo snapm snapset create --bootable --revert pre-update / /home
+sudo snapm snapset revert pre-update && sudo reboot
+```
+**但 snapm 后端只支持 LVM2（CoW/Thin）和 Stratis —— 明确不支持 Btrfs。** 想用必须放弃 Fedora 的 Btrfs 默认布局，改 LVM + XFS。好处：**LVM 快照含 `/boot`，内核一起回滚**，且与 Fedora 的 BLS 机制原生兼容；坏处：非事务级触发（靠 systemd timer 或手动）。
+
+### 5.4 补齐后评级
+
+| 方案 | 自动拍 | GRUB 菜单 | 含内核 | 开箱程度 | 评级 |
+|---|---|---|---|---|---|
+| openSUSE TW/Slowroll | ✅ zypp | ✅ 内建 | ✅ | 安装器默认 | **A+** |
+| **CachyOS** | ✅ snap-pac | ✅ grub-btrfs-support | ✅ | **装完即有出厂快照** | **A+** |
+| Arch + 三件套 | ✅ snap-pac | ✅ grub-btrfs | ✅ | 需自配 30–45 min | **A** |
+| Fedora 44 + LVM/XFS + snapm | ⚠️ timer | ✅ boom-boot | ✅ | 手动分区 | **B+** |
+| Kubuntu 26.04 + snapper | ✅ apt-btrfs-snapshot | ❌ | ✅ | 钩子即装即用 | **B** |
+| Fedora 44 + Btrfs + snapper | ❌ | ❌ | ❌ | — | **F** |
+
+### 5.5 回滚能力 ≠ 稳定性（两个正交维度）
+
+| 维度 | 问题 | snapper 能改善 |
+|---|---|---|
+| 会不会出错 | 更新引入回归、驱动崩、内核不兼容 | ❌ 完全不能 |
+| 出错后能不能救 | 有没有退路、多快 | ✅ 这是它的全部价值 |
+
+snapper 把"踩到回归"从**灾难**降为**麻烦**，但麻烦仍是麻烦：中断工作 → 重启 → 进快照 → rollback → 再重启 → 重新登录 → 恢复现场。**一天一次，这天就废了一半。**
+
+### 5.6 CachyOS 条件性裁决（回答"适合吗"）
+
+**它在 snapper 这条线上是全场最强，没有第二。** 一手证据（`CachyOS/CachyOS-PKGBUILDS` master）：
+
+- `cachyos-snapper-support 1.0.2-1`：`depends=(snapper snap-pac)`、`conflicts=(timeshift)`，装 `cachyos-root` 模板，`post_install` 执行 `systemctl enable --now snapper-cleanup.timer` + `snapper -c root create-config --template cachyos-root /`；**`snapper-timeline.timer` 被注释掉**（不做每小时快照）
+- 模板关键值：`TIMELINE_CREATE="no"`、`NUMBER_LIMIT="50"`、`NUMBER_LIMIT_IMPORTANT="15"`、`SPACE_LIMIT="0.5"`、`FREE_LIMIT="0.2"`
+- `grub-btrfs-support 1.0.0-1`（维护者 ptr1337）：`depends=(cachyos-snapper-support grub-btrfs)`，装 `grub-btrfs-snapper.path`（`PathModified=/.snapshots`）+ `.service`（调 `/etc/grub.d/41_snapshots-btrfs`）
+- 安装器 `btrfs-installation-snapshot`：装完立即 `snapper create --description "Fresh CachyOS Installation" --userdata "important=yes"`，ID 存入 `/etc/cachyos/installation-snapshot` → **一键回到出厂**
+
+**代价**：滚动（无 Slowroll 等价物）、核心维护者个位数、内核带 BORE/sched-ext 补丁 + 额外 CFLAGS → 出问题时排查路径比 Arch 长、性能收益个位数百分比且 CPU 密集原生游戏 ≈ 0。
+
+| 你的情况 | 适合 CachyOS？ |
+|---|---|
+| 纯游戏机 + 愿意每月花点时间看更新 | ✅ 适合（省下的调优时间 > 维护时间） |
+| 主力工作机 + 求稳 | ❌ 不适合（一次回归 = 半天报废） |
+| 双系统 / 有备用机 | ✅ 适合（风险隔离） |
+| 只要 CPU 密集原生游戏 | ❌ 不值得（收益 ≈ 0） |
+| GPU 密集 Proton + AMD | ⚠️ Arch 官方同样新，CachyOS 增量小 |
+| 想省调优但要 Arch 生态 | ✅ 适合（本质是"Arch + 现成调优 + 现成快照栈"） |
+
+**一句话**：CachyOS 是"Arch 的最佳发行版形态"，但它仍然是 Arch。**它把退路做到最好，同时把风险也抬高了。**
+
+### 5.7 可复用操作
+
+**Arch 三件套**（全在 `extra`，无需 AUR）：
+```bash
+sudo pacman -S snapper snap-pac grub-btrfs btrfs-assistant
+sudo snapper -c root create-config /
+# 若已有 /.snapshots 子卷，替换 snapper 新建的那个
+sudo btrfs subvolume delete /.snapshots && sudo mkdir /.snapshots
+sudo btrfs subvolume create /.snapshots && sudo chmod 750 /.snapshots
+sudo systemctl enable --now snapper-cleanup.timer grub-btrfsd
+# 验收：装个包看是否生成 pre/post 对
+sudo pacman -S htop && sudo snapper -c root list
+```
+子卷布局（UEFI）：`@`→/、`@home`、`@log`、`@cache`、`@snapshots`→/.snapshots、**`@boot`→/boot（必须是 Btrfs 子卷，不能是 ext4 分区）**，ESP 挂 `/boot/efi`。
+
+**Kubuntu 26.04**：安装时手动把 `/` 选 **Btrfs**（默认 ext4，不改就白搭），然后 `sudo apt install apt-btrfs-snapshot`。**`apt-btrfs-snapshot` 与 `snapper` 是两套体系（前者 `@apt-snapshot-*`，后者 `/.snapshots/<N>/`），选一套别混。** 救生艇必须提前演练：Live USB + `mount -o subvol=@` + bind mount + chroot。
+
+**Fedora 44**：Btrfs + snapper 这条路放弃；要回滚就走 LVM/XFS + `snapm`/`boom-boot`。
+
+### 5.8 新增坑（第 16 轮）
+
+1. **`python3-dnf-plugin-snapper` 在 Fedora 44 是死包** —— 包在构建、宿主 dnf4 已停供，装了不工作且无提示。
+2. **Fedora 的 `/boot` 是 ext4** —— Anaconda Btrfs 预设原文 "creates an ext4 /boot"，快照永远不含内核。
+3. **`grub-btrfs` 只在 Arch 官方仓库** —— Fedora 全库无、Ubuntu archive 无。这是"能不能从菜单进快照"的唯一开关。
+4. **`snapm` 不支持 Btrfs** —— 只支持 LVM2/Stratis。
+5. **`/.snapshots` 必须是独立子卷** —— 否则是嵌套子卷，清理/配额行为异常。
+6. **CachyOS 模板默认 `TIMELINE_CREATE="no"`** —— 只有 pacman 事务快照，无每小时快照（安装脚本里 timeline 那行是注释掉的）。
+7. **`grub-btrfs` 读只读快照需 overlayfs hook** —— 且**不兼容 systemd initramfs**（须 Busybox initramfs）。
+8. **`snapper rollback` 后 GRUB 默认项未必更新** —— 回滚后须 `grub-mkconfig` 或手动选一次。
+9. **`snap-pac` 断电会留 pre 孤儿** —— 用 `snapper list --columns number,type,description` 定期清。
+
+---
+
+## 6. Bazzite 解剖（v2.0 新增，本轮最大变量）
 
 **定位**：`Fedora 44 Atomic Desktop`（Kinoite 系，`rpm-ostree` 镜像化）+ ublue 的游戏特化层。
 
@@ -136,9 +260,9 @@ confidence: 已核实
 
 ---
 
-## 6. 可复用操作
+## 7. 可复用操作
 
-### 6.1 场景 ①：openSUSE Slowroll
+### 7.1 场景 ①：openSUSE Slowroll
 
 ```bash
 uname -r                                        # 应 >= 7.2
@@ -161,7 +285,7 @@ echo 'defer+madvise' | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
 sudo snapper list && sudo snapper rollback <编号>   # 出事回滚
 ```
 
-### 6.2 场景 ②：openSUSE Tumbleweed —— 把 CachyOS 冠军项"打包带走"
+### 7.2 场景 ②：openSUSE Tumbleweed —— 把 CachyOS 冠军项"打包带走"
 
 ```bash
 sudo zypper install gamemode mangohud scx steam
@@ -177,7 +301,7 @@ ls -l /dev/ntsync
 MANGOHUD=1 MANGOHUD_CONFIG=fps,frametime,gpu_util %command%   # GPU < 90% 才是 CPU 受限
 ```
 
-### 6.3 场景 ③：AMD → TW；NVIDIA → Kubuntu 26.04 LTS
+### 7.3 场景 ③：AMD → TW；NVIDIA → Kubuntu 26.04 LTS
 
 ```bash
 # AMD
@@ -197,7 +321,7 @@ flatpak install flathub com.valvesoftware.Steam
 flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud
 ```
 
-### 6.4 【替代路线】Bazzite（三场景通用）
+### 7.4 【替代路线】Bazzite（三场景通用）
 
 ```bash
 # 安装：https://bazzite.gg/ 按硬件/桌面选镜像（AMD / NVIDIA / 掌机 / Deck 版）
@@ -223,7 +347,7 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 
 ---
 
-## 7. 坑与反直觉
+## 8. 坑与反直觉
 
 | 坑 | 说明 |
 |---|---|
@@ -249,7 +373,7 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 
 ---
 
-## 8. 未核实 / 存疑
+## 9. 未核实 / 存疑
 
 | 项 | 说明 |
 |---|---|
@@ -265,7 +389,7 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 
 ---
 
-## 9. 参考来源
+## 10. 参考来源
 
 **本轮直接 HTTP 探测（2026-10-16）**
 - **Bazzite**：`https://api.github.com/repos/ublue-os/bazzite/releases`（stable `44.20261012.1`：Mesa 26.2.4-1 / 内核 7.2.9-ogc3.1 / gamescope 3.16.31 / MangoHud 0.8.4-2 / KDE 6.7.5 / NVIDIA Open 615.78.08 / NVIDIA LTS 580.178.04；unstable `45.20261016`：scx-scheds 1.1.3-3 → 1.1.4-1）；`raw.githubusercontent.com/ublue-os/bazzite/main/Containerfile`（`KERNEL_FLAVOR=ogc`；**`dnf5 -y copr enable bieszczaders/kernel-cachyos-addons` + `dnf5 -y install scx-scheds scx-tools`**；`greenboot`、`ScopeBuddy`、`bpftune-gaming`）；`https://docs.bazzite.gg/General/FAQ/` 与 `/Installing_and_Managing_Software/Updates_Rollbacks_and_Rebasing/`；`https://copr.fedorainfracloud.org/api_3/build/list/?ownername=bieszczaders&projectname=kernel-cachyos-addons`（`source_package.name = scx-scheds`，submitter `sirlucjan`）
@@ -275,17 +399,24 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 - **NixOS 26.05**：`raw.githubusercontent.com/NixOS/nixpkgs/nixos-26.05/pkgs/development/libraries/mesa/common.nix`（`version = "26.1.8"`）；`pkgs/top-level/linux-kernels.nix`（`linux_default = packages.linux_6_18`、`linux_latest = packages.linux_7_2`）；`pkgs/os-specific/linux/kernel/kernels-org.json`（6.18.56 / 7.2.10）；`pkgs/os-specific/linux/scx/default.nix` → 200；`rl-2605.section.md`（"Yarara", 2026-05-30）
 - **openSUSE**：`https://download.opensuse.org/{tumbleweed,slowroll}/repo/oss/x86_64/`（Mesa 26.2.4 / 26.2.3；kernel-default 7.2.10 / 7.2.8；gamemode 1.8.2；mangohud 0.8.4；scx 1.1.3）
 - **Arch**：`https://geo.mirror.pkgbuild.com/{core,extra}/os/x86_64/`（mesa 1:26.2.4-1、linux 7.2.9.arch1）
+- **snapper 生态（v2.2）**：`archlinux.org/packages/search/json/?name={snapper,snap-pac,grub-btrfs,btrfs-assistant,snapper-fmt}` → extra 0.13.2-1 / 3.0.1-3 / 4.14-1 / 3.0.0-1 / 0.11.10-1；`packages.fedoraproject.org/pkgs/{snapper/snapper,dnf-plugins-extras/python3-dnf-plugin-snapper,dnf/dnf,snapm/snapm,boom-boot/boom-boot}` → 0.13.0-3.fc44 / 4.1.2-11.fc44 / **仅 F41** / 0.7.0-5.fc44 / 1.6.8-5.fc44；`api.launchpad.net/...getPublishedSources&source_name={apt-btrfs-snapshot,grub-btrfs,btrfs-assistant,snapper-gui}&distro_series=...{resolute,stonking}` → 4.0.1build1 / **404** / 2.2-1 / 0git
+- **CachyOS 打包源码**：`raw.githubusercontent.com/CachyOS/CachyOS-PKGBUILDS/master/{cachyos-snapper-support,grub-btrfs-support}/{PKGBUILD,*.install,snapper-template-root-cachyos,grub-btrfs-snapper.path,grub-btrfs-snapper.service}`；`raw.githubusercontent.com/CachyOS/cachyos-calamares/cachyos/src/scripts/btrfs-installation-snapshot`
 
 **外部**
 - [openSUSE News — Tumbleweed Monthly Update（Slowroll 滞后 5–10 天官方口径）](https://news.opensuse.org/2025/01/29/tw-monthly-update-january/)
 - [Bazzite 官网](https://bazzite.gg/) ｜ [Bazzite 文档](https://docs.bazzite.gg/)
 - [Phoronix — Operating Systems 评测列表](https://www.phoronix.com/reviews/Operating+Systems)
 - [Mesa 官方发布节奏](https://www.mesa3d.org/news/)
+- [Fedora Wiki — Btrfs（Anaconda 预设："creates an ext4 /boot … two subvolumes, root and home"）](https://fedoraproject.org/wiki/Btrfs)
+- [snapshotmanager/snapm — Bootable snapshots，后端仅 LVM2/Stratis](https://github.com/snapshotmanager/snapm)
+- [Antynea/grub-btrfs — 支持 snapper/timeshift/yabsnap 快照](https://github.com/Antynea/grub-btrfs)
+- ArchWiki `Btrfs#Snapper`（`/boot` 在非 Btrfs 分区时无法做 snapper 备份）
 
 ---
 
-## 10. 关联文档
+## 11. 关联文档
 
+- `distro-choice/round16-snapper-comparison-and-cachyos-verdict.md` / `.html`（**第 16 轮完整报告 v1.0**：snapper 真实回滚能力矩阵 + CachyOS 条件性裁决，本文件 §5 的展开版）
 - `distro-choice/round15-stability-first-8-candidates.md` / `.html`（**第 15 轮完整报告 v2.1**，本文件的展开版）
 - `distro-choice/README.md` / `.html`（第 14 轮：候选池含 Debian 13 / Solus 4.9）
 - `../linux-distro-research/reports/linux-gaming-perf-2026-10.md`（**同仓库另一会话 2026-10-12**：六层优化模型 / **32 位 Vulkan 门槛** / **NVIDIA KMP 痛点** / `scx_lavd` 游戏定位 / RimWorld 特化）—— **本文件 v2.1 的"隐藏门槛"来源**
@@ -295,10 +426,11 @@ distrobox create --image archlinux:latest --name arch   # 更推荐
 
 ---
 
-## 11. 版本历史
+## 12. 版本历史
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
 | 1.0 | 2026-10-16 | 初版。三场景 × 8 候选（openSUSE TW/Slowroll、Arch、Fedora 44、Ubuntu 26.04、Debian 13、NixOS 26.05、Solus 4.9）裁决矩阵 + 一手版本对照 + 三套落地方案 |
 | **2.0** | 2026-10-16 | **候选池替换**：+**Bazzite**（全新，第 15 轮）、+**Kubuntu 26.10**（Mesa 26.2.4 / 内核 7.3.0），Fedora/Ubuntu 明确到 KDE 版，移除 Debian/Solus；**新增 §5 Bazzite 解剖**（Containerfile / CachyOS COPR / greenboot / 游戏栈清单）；**修正 NixOS 26.05 实测值**（Mesa 26.1.8 / 内核 6.18 / 有 scx 包，v1.0 的"未核实"闭环）；§4 "稳定三维度"加入 Bazzite 的原子回滚档位；新增 Bazzite 落地方案 |
 | **2.1** | 2026-10-16 | **新增 §2.2 三条"隐藏门槛"**（与同仓库 `linux-distro-research/reports/linux-gaming-perf-2026-10.md` 交叉校验后补入）：① **openSUSE 默认不装 32 位 Vulkan** → Proton 黑屏；② **openSUSE 的 NVIDIA 走 KMP 内核模块包，内核升级即损坏** → **改写 §1 矩阵，NVIDIA 列从"备选"改为"不推荐"**；③ **NixOS `hardware.graphics.enable32Bit` 默认 false**；补入 `scx_lavd` 的游戏向定位与 NixOS 一行声明式启用、**Fedora 44 首个用 `wine-ntsync` 默认启用 NTSync**、RimWorld 特化（`taskset` + Performance Fish）、TW 的 `power-profiles-daemon` / `scx_loader` 缺位；§7 坑表 +7 条 |
+| **2.2** | 2026-10-19 | **新增 §5「snapper 真实回滚能力矩阵」**（第 16 轮）：确立**"装 snapper ≠ 有回滚能力"**四部件模型（引擎 / 事务钩子 / GRUB 集成 / `/boot` 在 Btrfs 内）；一手核实 Arch 三件套全在 `extra`、**Fedora 44 的 `python3-dnf-plugin-snapper` 是 dnf4 死包（F42 起无 dnf4）且 `/boot` 为 ext4**、Kubuntu 有 `apt-btrfs-snapshot` 但无 `grub-btrfs`、Fedora 另有 `snapm`+`boom-boot` 但**仅 LVM/Stratis 不支持 Btrfs**；**改写 §4 维度②评级**（Kubuntu/Fedora 重新分档）；**CachyOS 条件性裁决**：snapper 线上全场最强（预接线 + 出厂快照）但仍是 Arch，纯游戏机适合 / 主力工作机不适合；新增 §5.8 坑 9 条 |
