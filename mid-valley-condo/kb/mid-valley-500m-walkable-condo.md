@@ -135,33 +135,47 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 
 ### ViiA 12 张（已核实图面文字）
 
-| TYPE | 面积 sf | 房/卫 | 楼层 | 单位号 | 备注 |
-|---|---|---|---|---|---|
-| A1 | 688 | 1/1 | L16–21 | — | |
-| A2 | 710 | 1/1 | L23A–33 & 33A–38 | — | |
-| A3 | 699 | 1/1 | L39 | — | |
-| A4 | 678 | 1/1 | L23A–33 | 13A & 9 | |
-| A5 | 635 | 1/1 | — | 13 & 10 | 最小 1 房 |
-| A6 | 678 | 1/1 | — | 12 & 11 | |
-| B1 | 775 | 1+1/1 | L3A–15 & 16–21 | — | 有 BALCONY |
-| B2 | 785 | 1+1/1 | — | — | 有 BALCONY |
-| B3 | 807 | 1+1/1 | — | — | 有 BALCONY |
-| B4 | 807 | 1+1/1 | — | — | 有 BALCONY，与 B3 同面积不同平面 |
-| C3 | 947 | 2/— | L33A–38 | — | |
-| D2 | 1,259 | 3/2 | L33A–38 & 39 | — | 公开最大户型 |
+| TYPE | 面积 sf | 房/卫 | 楼层 | 单位号 | 备注 | 图纸 |
+|---|---|---|---|---|---|---|
+| A1 | 688 | 1/1 | L16–21 | — | | [A1](../assets/floorplans/viia-A1.jpg) |
+| A2 | 710 | 1/1 | L23A–33 & 33A–38 | — | | [A2](../assets/floorplans/viia-A2.jpg) |
+| A3 | 699 | 1/1 | L39 | — | | [A3](../assets/floorplans/viia-A3.jpg) |
+| A4 | 678 | 1/1 | L23A–33 | 13A & 9 | | [A4](../assets/floorplans/viia-A4.jpg) |
+| A5 | 635 | 1/1 | — | 13 & 10 | 最小 1 房 | [A5](../assets/floorplans/viia-A5.jpg) |
+| A6 | 678 | 1/1 | — | 12 & 11 | | [A6](../assets/floorplans/viia-A6.jpg) |
+| B1 | 775 | 1+1/1 | L3A–15 & 16–21 | — | 有 BALCONY | [B1](../assets/floorplans/viia-B1.jpg) |
+| B2 | 785 | 1+1/1 | — | — | 有 BALCONY | [B2](../assets/floorplans/viia-B2.jpg) |
+| B3 | 807 | 1+1/1 | — | — | 有 BALCONY | [B3](../assets/floorplans/viia-B3.jpg) |
+| B4 | 807 | 1+1/1 | — | — | 有 BALCONY，与 B3 同面积不同平面 | [B4](../assets/floorplans/viia-B4.jpg) |
+| C3 | 947 | 2/— | L33A–38 | — | | [C3](../assets/floorplans/viia-C3.jpg) |
+| D2 | 1,259 | 3/2 | L33A–38 & 39 | — | 公开最大户型 | [D2](../assets/floorplans/viia-D2.jpg) |
 
 C1 / C2 / D1 在官方 CDN 两批路径（2025/04、2026/07）均 404 —— 从未发布。
 
+**官方字母编号 vs MyRumahBaru 的 Type A/B/C/D 对照**（面积对齐）：A5 635≈Type A 636 · A1 688≈Type A（大）689 · B1 775≈Type B 779 · B3/B4 807≈Type B（大）810 · C3 947≈Type C 944 · D2 1,259≈Type D（大）1,252。
+
 ### Vogue Suites One 四张设施层（判断溢价值不值的关键）
 
-| 图纸 | 层 | 内容 |
-|---|---|---|
-| Club@7 | L7 | 27 项：50 m 泳池 / 水中凉亭 / 锦鲤池 / 瑜伽台 / 冥想亭 / 烧烤廊 / 托儿所 / 美食厨房 / 健身房 / **FUTURE LINK 预留接驳口** |
-| Lobby@8 | L8 | 9 项：接待区 / 大堂休息区 / 管理处 / 会议室 / 便利店 Deli / 游戏室 / 露天平台；另含 LIFT LOBBY、NORTHBOUND PASSAGE、**SUBSTATION** |
-| 360 Degrees | L52 | 14 项：空中酒吧 / 迷你影院 / 恒温按摩池 / 蒸汽浴 / 多功能厅 / 空中花园 |
-| Above 360 | L53 | 3 项：空中健身房 / 瑜伽普拉提区 / 屋顶花园 + 大量 M&E 设备平台 |
+| 图纸 | 层 | 内容 | 原图 |
+|---|---|---|---|
+| Club@7 | L7 | 27 项：50 m 泳池 / 水中凉亭 / 锦鲤池 / 瑜伽台 / 冥想亭 / 烧烤廊 / 托儿所 / 美食厨房 / 健身房 / **FUTURE LINK 预留接驳口** | [club7](../assets/floorplans/vs1-club7.png) |
+| Lobby@8 | L8 | 9 项：接待区 / 大堂休息区 / 管理处 / 会议室 / 便利店 Deli / 游戏室 / 露天平台；另含 LIFT LOBBY、NORTHBOUND PASSAGE、**SUBSTATION** | [lobby8](../assets/floorplans/vs1-lobby8.png) |
+| 360 Degrees | L52 | 14 项：空中酒吧 / 迷你影院 / 恒温按摩池 / 蒸汽浴 / 多功能厅 / 空中花园 | [360](../assets/floorplans/vs1-360.png) |
+| Above 360 | L53 | 3 项：空中健身房 / 瑜伽普拉提区 / 屋顶花园 + 大量 M&E 设备平台 | [above360](../assets/floorplans/vs1-above360.png) |
 
 **大堂在 8 层不在地面** → 回家动线是「地面 → 8 层 → 换乘住户电梯」，比常规双梯多一次换乘。**SUBSTATION 在 8 层平面内**，紧邻单位要查低频噪音。
+
+### 园区总平面 2 张
+
+| 图纸 | 说明 | 原图 |
+|---|---|---|
+| KLEC 官方总平面剖面（2025-04） | 每栋塔楼下标销售状态：Vogue One = Completed & Sold Out；ViiA = Open for Sale；其余 Leasing / Sold Out。**未单独标注 Vogue Suites Two** | [masterplan](../assets/floorplans/klec-masterplan-section.jpg) |
+| KLEC 园区总平面 | 含 **PEDESTRIAN LINK BRIDGE**（跨巴生河接 The Gardens / Mid Valley City）与 RT-1/2/3 住宅塔楼编号、INTEGRATED RAIL HUB | [overview](../assets/floorplans/vogue1-13.jpg) |
+
+### 完整图册（19 张一次看全）
+
+- HTML 版：`mid-valley-floorplan-gallery.html`
+- 图片目录：`assets/floorplans/`
 
 ### 复用的取图方法
 
