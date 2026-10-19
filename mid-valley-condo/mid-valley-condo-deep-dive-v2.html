@@ -98,6 +98,8 @@
   .kv dd{margin:0;padding:6px 0;border-bottom:1px dotted #e7e2d7}
 
   .note{background:#fbf7ee;border-left:3px solid var(--amber);padding:14px 18px;margin:16px 0;font-size:14px}
+  .quote{border-left:3px solid var(--line2);padding:10px 16px;margin:12px 0;background:#fbf9f4;
+    font-size:13.6px;color:var(--ink2);font-style:italic;line-height:1.66}
   .warn{background:var(--red-soft);border-left:3px solid var(--red);padding:14px 18px;margin:16px 0;font-size:14px}
   .ok{background:var(--green-soft);border-left:3px solid var(--green);padding:14px 18px;margin:16px 0;font-size:14px}
   .info{background:var(--blue-soft);border-left:3px solid var(--blue);padding:14px 18px;margin:16px 0;font-size:14px}
@@ -136,7 +138,8 @@
     font-family:"Helvetica Neue",Arial,sans-serif;font-size:11.6px;line-height:1.6}
   .plan dt{color:var(--ink3)}
   .plan dd{margin:0;color:var(--ink2)}
-  .plan-wide{background:var(--card);border:1px solid var(--line);margin:18px 0}
+  .tagpdf{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9.5px;background:#f3e6c8;color:#8a6212;padding:1px 5px;border-radius:2px;letter-spacing:.02em;white-space:nowrap}
+    .plan-wide{background:var(--card);border:1px solid var(--line);margin:18px 0}
   .plan-wide .pw-hd{padding:12px 18px;border-bottom:1px solid var(--line);background:#fbf9f4;
     display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;
     font-family:"Helvetica Neue",Arial,sans-serif}
@@ -180,7 +183,7 @@
 </div>
 
 <div class="note" style="margin:0 0 28px;font-size:14.5px">
-  <b>户型图已内嵌在正文中：</b>§03 有 KLEC 总平面 2 张（含天桥位置与销售状态），§06 有 Vogue Suites One 设施层 4 张，§08 有 ViiA 官方户型图 12 张。另有 <a href="mid-valley-floorplan-gallery.html" style="color:var(--accent)">户型图总汇页</a> 可一次看全 19 张。
+  <b>户型图已内嵌在正文中，共 24 张：</b>§03 有 4 张（KLEC 总平面剖面、园区总平面、官方「天桥直连 Mid Valley」两版证据图），§06 有 Vogue Suites One 设施层 4 张，§08 有 ViiA 官方户型图 <b>16 张</b>（其中 C1/C2/C4/D1 四张是从官方 PDF 手册里挖出来的，CDN 上不存在）。另有 <a href="mid-valley-floorplan-gallery.html" style="color:var(--accent)">户型图总汇页</a> 可一次看全。
 </div>
 
 <div class="toc">
@@ -247,6 +250,12 @@
       <td>「500 米内共 6 个可买项目」</td>
       <td>EdgeProp 1 公里邻近表另列出 <b>7 个项目</b>此前完全没进名单：Setia Sky Seputeh、Sri Seputih、Seputih Permai、Sri Langit、Putra Ria、Apartment Haji Abdullah Hukum、Southpoint</td>
       <td>见第 10 节。全部<b>无天桥</b>，被 KTM 铁路与 Jalan Klang Lama 切断，因此不达标——但「没遗漏」这件事现在有据可查。</td>
+    </tr>
+    <tr>
+      <td><span class="fix">改</span>7</td>
+      <td>「ViiA 官方户型图共 12 张，C1 / C2 / D1 从未发布」</td>
+      <td><b>错。完整是 16 种</b>：从 <code>KLEC-ViiA-Master-Brochure-English-2023.pdf</code> 的 P15/P17/P19/P21 提出 <b>C1（956 sf）、C2（957 sf）、C4（944 sf）、D1（1,252 sf）</b>四张，CDN 上确实没有，但手册里一直都在</td>
+      <td>顺带挖出一个更值钱的问题：<b>两本官方手册的面积对不上</b>（A2 689 vs 710、D2 1,245 vs 1,259）。见第 8 节冲突表——签约必须按 SPA 的 strata area，不能按宣传册。</td>
     </tr>
   </tbody>
 </table>
@@ -356,6 +365,26 @@
   <div class="pw-cap">
     图上明确画出连接 KL Eco City 与 The Gardens / Mid Valley City 的 <b>PEDESTRIAN LINK BRIDGE</b>，以及园区内的 INTEGRATED RAIL HUB（LRT / KTM 换乘）。住宅塔楼编号 <b>RT-1 / RT-2 / RT-3</b>（RT-1 = Vogue Suites One），办公塔楼 <b>SA / COT-1 / COT-2 / COT-3</b>，精品办公 <b>BO-1 / BO-2 / BO-3</b>。<br>
     <b>天桥落点在园区北侧，跨巴生河接 The Gardens Mall 一侧</b> —— 这就是为什么「离 Megamall 直线 300 米」的项目里，只有 KLEC 系和 The Gardens 自己能真正步行到达。
+  </div>
+</div>
+
+
+<div class="plan-wide">
+  <div class="pw-hd"><b>官方原文：「A PEDESTRIAN LINK BRIDGE TO THE GARDENS / MID VALLEY CITY」</b><span>ViiA 销售手册 · ABSOLUTE CONNECTIVITY 跨页</span></div>
+  <div class="pw-im"><a href="assets/floorplans/pdf/viia-connectivity.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-connectivity.jpg" alt="KL Eco City absolute connectivity with pedestrian link bridge" style="max-height:600px"></a></div>
+  <div class="pw-cap">
+    这是<b>整个命题最硬的一条证据</b>，因为它是开发商自己的销售手册原话，不是第三方转述。手册正文写：
+    <div class="quote">"The new Integrated Rail Hub (LRT and KTM) brings you to virtually every destination. There is also a <b>pedestrian link bridge that leads to a world of shopping at The Gardens and Mid Valley Megamall</b>."</div>
+    左上角四个图标对应四件事：<b>INTEGRATED RAIL HUB</b>（Abdullah Hukum 站）· <b>2-TIER INTERNAL ROAD SYSTEM</b> · <b>PEDESTRIAN LINK BRIDGE TO THE GARDENS / MID VALLEY CITY</b> · <b>NEW ACCESS RAMPS &amp; BRIDGE</b>。右下地图把天桥画成跨越 Federal Highway 的虚线连接，两端分别落在 KLEC 与 MID VALLEY CITY。
+  </div>
+</div>
+
+<div class="plan-wide">
+  <div class="pw-hd"><b>同一句官方表述的图示版：LINK BRIDGE — CONNECTS DIRECTLY TO MID VALLEY CITY</b><span>KL Eco City「THE GLOBAL DISTRICT」宣传图</span></div>
+  <div class="pw-im"><a href="assets/floorplans/pdf/klec-linkbridge-map.jpg" target="_blank"><img src="assets/floorplans/pdf/klec-linkbridge-map.jpg" alt="KL Eco City link bridge connects directly to Mid Valley City" style="max-height:520px"></a></div>
+  <div class="pw-cap">
+    底部图例六项里第 3 项就是答案：<b>LINK BRIDGE — CONNECTS DIRECTLY TO MID VALLEY CITY</b>。同时图例第 2 项 <b>INTEGRATED RAIL HUB — LRT AND KTM STATIONS</b> 说明「先过桥、再坐车」是两条独立动线，不必出地面。<br>
+    塔楼标注顺序（从左到右）也值得记住：<b>FUTURE DEVELOPMENT · VOGUE SUITES ONE · CORPORATE OFFICE TOWER 3 · aspire tower · CORPORATE OFFICE TOWER 2 · BOUTIQUE OFFICES · STRATA OFFICES · MOSQUE &amp; MULTI-STOREY CAR PARKS</b>，前景横穿的轨道上写着 <b>ABDULLAH HUKUM LRT &amp; KTM</b>，右侧绿色屋顶是 <b>THE GARDENS, MID VALLEY CITY</b>。
   </div>
 </div>
 
@@ -764,75 +793,137 @@
     </table>
     <p class="src">户型与面积：MyRumahBaru 项目页。SPA 区间 RM699,000–1,650,000。管理费按 RM0.35/sf 计算，是否含 10% 储备金需向管理处确认。</p>
 
-    <h4>官方户型图 · 12 张（S P Setia CDN）</h4>
-    <p>官方图用的是 <b>A / B / C / D 字母编号</b>，与上表的「Type A / A（大）」是两套命名，面积可以对齐：<b>A5 635≈Type A 636 · A1 688≈Type A（大）689 · B1 775≈Type B 779 · B3/B4 807≈Type B（大）810 · C3 947≈Type C 944 · D2 1,259≈Type D（大）1,252</b>。图上还标了楼层区间与单位号，能直接对上具体房源。</p>
+    <h4>官方户型图 · 16 张（从官方 PDF 手册提取）</h4>
+    <p><b>结论：ViiA 的完整户型是 16 种，不是 12 种。</b>官方 CDN 只放出 12 张 JPG（A1–A6 / B1–B4 / C3 / D2），<b>C1、C2、C4、D1 四张在 CDN 两条路径上都 404</b>。这四张从 S P Setia 官网的 <b>KLEC-ViiA Master Brochure（2023 英文版，25 页）</b>里提出来了 —— 手册 P15/P17/P19/P21 是完整的 6+4+4+2 户型页，每页按 300 dpi 单独裁切，所以图和 CDN 版同源同清晰度。</p>
+    <p>官方图用的是 <b>A / B / C / D 字母编号</b>，与上表的「Type A / A（大）」是两套命名，面积可以对齐：<b>A5 636≈Type A 636 · A2 689≈Type A（大）689 · B2 779≈Type B 779 · B4 810≈Type B（大）810 · C4 944≈Type C 944 · C2 957≈Type C（大）957 · D2 1,245≈Type D 1,245</b>。图上还标了楼层区间、朝向（FACING BANGSAR / FACING THE GARDENS）与单位号，能直接对上具体房源。</p>
 
     <div class="plans">
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-A1.jpg" target="_blank"><img src="assets/floorplans/viia-A1.jpg" alt="ViiA Type A1"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE A1</b><span class="parea">688 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1 / 1</dd><dt>楼层</dt><dd>L16–21</dd><dt>单位</dt><dd>—</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-A1.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-A1.jpg" alt="ViiA Type A1 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE A1</b><span class="parea">672 sf</span></div>
+          <dl><dt>房</dt><dd>1</dd><dt>楼层</dt><dd>L16–21</dd><dt>阳台</dt><dd>无</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-A2.jpg" target="_blank"><img src="assets/floorplans/viia-A2.jpg" alt="ViiA Type A2"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE A2</b><span class="parea">710 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1 / 1</dd><dt>楼层</dt><dd>L23A–33 &amp; 33A–38</dd><dt>单位</dt><dd>—</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-A2.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-A2.jpg" alt="ViiA Type A2 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE A2</b><span class="parea">689 sf</span></div>
+          <dl><dt>房</dt><dd>1</dd><dt>楼层</dt><dd>L23A–33 · 33A–38</dd><dt>阳台</dt><dd>无</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-A3.jpg" target="_blank"><img src="assets/floorplans/viia-A3.jpg" alt="ViiA Type A3"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE A3</b><span class="parea">699 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1 / 1</dd><dt>楼层</dt><dd>L39</dd><dt>单位</dt><dd>—</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-A3.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-A3.jpg" alt="ViiA Type A3 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE A3</b><span class="parea">688 sf</span></div>
+          <dl><dt>房</dt><dd>1</dd><dt>楼层</dt><dd>L23A–33 · 39</dd><dt>阳台</dt><dd>无</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-A4.jpg" target="_blank"><img src="assets/floorplans/viia-A4.jpg" alt="ViiA Type A4"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE A4</b><span class="parea">678 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1 / 1</dd><dt>楼层</dt><dd>L23A–33</dd><dt>单位</dt><dd>13A &amp; 9</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-A4.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-A4.jpg" alt="ViiA Type A4 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE A4</b><span class="parea">683 sf</span></div>
+          <dl><dt>房</dt><dd>1</dd><dt>楼层</dt><dd>L23A–33</dd><dt>阳台</dt><dd>无</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-A5.jpg" target="_blank"><img src="assets/floorplans/viia-A5.jpg" alt="ViiA Type A5"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE A5</b><span class="parea">635 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1 / 1</dd><dt>楼层</dt><dd>—</dd><dt>单位</dt><dd>13 &amp; 10</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-A5.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-A5.jpg" alt="ViiA Type A5 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE A5</b><span class="parea">636 sf</span></div>
+          <dl><dt>房</dt><dd>1</dd><dt>楼层</dt><dd>L23A–33</dd><dt>阳台</dt><dd>无</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-A6.jpg" target="_blank"><img src="assets/floorplans/viia-A6.jpg" alt="ViiA Type A6"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE A6</b><span class="parea">678 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1 / 1</dd><dt>楼层</dt><dd>—</dd><dt>单位</dt><dd>12 &amp; 11</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-A6.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-A6.jpg" alt="ViiA Type A6 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE A6</b><span class="parea">676 sf</span></div>
+          <dl><dt>房</dt><dd>1</dd><dt>楼层</dt><dd>L23A–33</dd><dt>阳台</dt><dd>无</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-B1.jpg" target="_blank"><img src="assets/floorplans/viia-B1.jpg" alt="ViiA Type B1"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE B1</b><span class="parea">775 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1+1 / 1</dd><dt>楼层</dt><dd>L3A–15 &amp; 16–21</dd><dt>阳台</dt><dd>有</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-B1.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-B1.jpg" alt="ViiA Type B1 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE B1</b><span class="parea">782 sf</span></div>
+          <dl><dt>房</dt><dd>1+1</dd><dt>楼层</dt><dd>L3A–15 · 16–21</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-B2.jpg" target="_blank"><img src="assets/floorplans/viia-B2.jpg" alt="ViiA Type B2"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE B2</b><span class="parea">785 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1+1 / 1</dd><dt>楼层</dt><dd>—</dd><dt>阳台</dt><dd>有</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-B2.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-B2.jpg" alt="ViiA Type B2 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE B2</b><span class="parea">779 sf</span></div>
+          <dl><dt>房</dt><dd>1+1</dd><dt>楼层</dt><dd>L23A–33</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-B3.jpg" target="_blank"><img src="assets/floorplans/viia-B3.jpg" alt="ViiA Type B3"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE B3</b><span class="parea">807 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1+1 / 1</dd><dt>楼层</dt><dd>—</dd><dt>阳台</dt><dd>有</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-B3.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-B3.jpg" alt="ViiA Type B3 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE B3</b><span class="parea">797 sf</span></div>
+          <dl><dt>房</dt><dd>1+1</dd><dt>楼层</dt><dd>L3A–15 · 16–21</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-B4.jpg" target="_blank"><img src="assets/floorplans/viia-B4.jpg" alt="ViiA Type B4"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE B4</b><span class="parea">807 sf</span></div>
-          <dl><dt>房/卫</dt><dd>1+1 / 1</dd><dt>楼层</dt><dd>—</dd><dt>阳台</dt><dd>有</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-B4.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-B4.jpg" alt="ViiA Type B4 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE B4</b><span class="parea">810 sf</span></div>
+          <dl><dt>房</dt><dd>1+1</dd><dt>楼层</dt><dd>L23A–33</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-C3.jpg" target="_blank"><img src="assets/floorplans/viia-C3.jpg" alt="ViiA Type C3"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE C3</b><span class="parea">947 sf</span></div>
-          <dl><dt>房/卫</dt><dd>2 / —</dd><dt>楼层</dt><dd>L33A–38</dd><dt>阳台</dt><dd>—</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-C1.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-C1.jpg" alt="ViiA Type C1 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE C1</b><span class="tagpdf">PDF 新获</span><span class="parea">956 sf</span></div>
+          <dl><dt>房</dt><dd>2</dd><dt>楼层</dt><dd>L3A–15 · 16–21</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
       </div>
       <div class="plan">
-        <a class="shot" href="assets/floorplans/viia-D2.jpg" target="_blank"><img src="assets/floorplans/viia-D2.jpg" alt="ViiA Type D2"></a>
-        <div class="pbody"><div class="ptt"><b>TYPE D2</b><span class="parea">1,259 sf</span></div>
-          <dl><dt>房/卫</dt><dd>3 / 2</dd><dt>楼层</dt><dd>L33A–38 &amp; 39</dd><dt>阳台</dt><dd>—</dd></dl></div>
+        <a class="shot" href="assets/floorplans/pdf/viia-C2.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-C2.jpg" alt="ViiA Type C2 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE C2</b><span class="tagpdf">PDF 新获</span><span class="parea">957 sf</span></div>
+          <dl><dt>房</dt><dd>2</dd><dt>楼层</dt><dd>L23A–33 · 33A–38</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
+      </div>
+      <div class="plan">
+        <a class="shot" href="assets/floorplans/pdf/viia-C3.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-C3.jpg" alt="ViiA Type C3 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE C3</b><span class="parea">945 sf</span></div>
+          <dl><dt>房</dt><dd>2</dd><dt>楼层</dt><dd>L33A–38</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
+      </div>
+      <div class="plan">
+        <a class="shot" href="assets/floorplans/pdf/viia-C4.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-C4.jpg" alt="ViiA Type C4 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE C4</b><span class="tagpdf">PDF 新获</span><span class="parea">944 sf</span></div>
+          <dl><dt>房</dt><dd>2</dd><dt>楼层</dt><dd>L33A–38</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
+      </div>
+      <div class="plan">
+        <a class="shot" href="assets/floorplans/pdf/viia-D1.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-D1.jpg" alt="ViiA Type D1 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE D1</b><span class="tagpdf">PDF 新获</span><span class="parea">1,252 sf</span></div>
+          <dl><dt>房</dt><dd>3</dd><dt>楼层</dt><dd>L33A–38 · 39</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
+      </div>
+      <div class="plan">
+        <a class="shot" href="assets/floorplans/pdf/viia-D2.jpg" target="_blank"><img src="assets/floorplans/pdf/viia-D2.jpg" alt="ViiA Type D2 户型图" loading="lazy"></a>
+        <div class="pbody"><div class="ptt"><b>TYPE D2</b><span class="parea">1,245 sf</span></div>
+          <dl><dt>房</dt><dd>3</dd><dt>楼层</dt><dd>L33A–38 · 39</dd><dt>阳台</dt><dd>有</dd></dl>
+        </div>
       </div>
     </div>
-    <p class="src">12 张均来自 S P Setia 官方 CDN（2025/04 与 2026/07 两批路径已核对），经 images.weserv.nl 代理取图（原 CDN 直连返回空 body）。面积、房数、楼层、单位号均从图面原文读取。<b>C1 / C2 / D1 在官方 CDN 两批路径均 404，从未发布。</b>点图看原图。</p>
+    <p class="src">16 张全部为 S P Setia 官方图。<b>A1–A6 / B1–B4 / C3 / D2 共 12 张</b>来自官方 CDN（2025/04 与 2026/07 两批路径已核对，经 images.weserv.nl 代理取图，原 CDN 直连返回空 body）；<b>C1 / C2 / C4 / D1 共 4 张</b>来自 <code>KLEC-ViiA-Master-Brochure-English-2023.pdf</code>（P15/P17/P19/P21），按文字块坐标定位后 300 dpi 裁切，与 CDN 版同源。面积、房数、楼层、朝向均从图面原文读取。点图看原图。</p>
+
+    
+    <h4>面积数据冲突：官方手册两版不一致（必查 SPA）</h4>
+    <p>S P Setia 官网同时挂着两本手册，同一户型的 <b>BUILT-UP AREA 数字对不上</b>。Master Brochure（2023）与 Simplified Brochure（Digital View V3）逐项比对如下：</p>
+    <table class="compact">
+      <thead><tr><th>户型</th><th class="num-cell">Master 2023<br>(sf)</th><th class="num-cell">Simplified V3<br>(sf)</th><th class="num-cell">差</th><th>谁对</th></tr></thead>
+      <tbody>
+        <tr><td>TYPE A1</td><td class="num-cell">672</td><td class="num-cell">688</td><td class="num-cell" style="color:var(--red)">+16</td><td rowspan="6" style="vertical-align:middle">Simplified 版与官方 CDN 的 12 张 JPG 完全一致 → <b>对外的销售口径是 Simplified 版</b>。Master 版可能是更早的建筑图面积。</td></tr>
+        <tr><td>TYPE A2</td><td class="num-cell">689</td><td class="num-cell">710</td><td class="num-cell" style="color:var(--red)">+21</td></tr>
+        <tr><td>TYPE A3</td><td class="num-cell">688</td><td class="num-cell">699</td><td class="num-cell" style="color:var(--red)">+11</td></tr>
+        <tr><td>TYPE A4</td><td class="num-cell">683</td><td class="num-cell">678</td><td class="num-cell" style="color:var(--green)">−5</td></tr>
+        <tr><td>TYPE A5</td><td class="num-cell">636</td><td class="num-cell">635</td><td class="num-cell">−1</td></tr>
+        <tr><td>TYPE A6</td><td class="num-cell">676</td><td class="num-cell">678</td><td class="num-cell">+2</td></tr>
+        <tr><td>TYPE B1</td><td class="num-cell">782</td><td class="num-cell">775</td><td class="num-cell" style="color:var(--green)">−7</td><td rowspan="4" style="vertical-align:middle">差 2–13 sf，属正常图纸修订。</td></tr>
+        <tr><td>TYPE B2</td><td class="num-cell">779</td><td class="num-cell">785</td><td class="num-cell">+6</td></tr>
+        <tr><td>TYPE B3</td><td class="num-cell">797</td><td class="num-cell">807</td><td class="num-cell" style="color:var(--red)">+10</td></tr>
+        <tr><td>TYPE B4</td><td class="num-cell">810</td><td class="num-cell">807</td><td class="num-cell">−3</td></tr>
+        <tr><td>TYPE C3</td><td class="num-cell">945</td><td class="num-cell">947</td><td class="num-cell">+2</td><td rowspan="2" style="vertical-align:middle">基本一致。</td></tr>
+        <tr><td>TYPE D2</td><td class="num-cell">1,245</td><td class="num-cell">1,259</td><td class="num-cell" style="color:var(--red)">+14</td></tr>
+        <tr><td colspan="5" style="background:#faf7ef"><b>C1 / C2 / C4 / D1 只在 Master 版出现</b>，Simplified 版未收录，无法交叉验证。</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>为什么这件事值钱：</b>单价是按 psf 谈的。A2 若按 710 sf 成交、实际产权面积只有 689 sf，<b>等于每 psf 多付 3.0%</b>；D2 差 14 sf 相当于多付 1.1%。签 SPA 时必须以 <b>Schedule of Building 里写明的 strata area</b> 为准，口头报价单和宣传手册都不算。同时确认这 8–21 sf 的差额是落在 <b>空调机位（A.C. LEDGE）</b> 还是 <b>阳台（BALCONY）</b> 上 —— 图上 A.C. LEDGE 是半计面积的，阳台在马来西亚通常全计。
+    </div>
 
     <div class="note">
-      <b>户型图里最值得注意的一点：A5 只有 635 sf，A2 有 710 sf，两者都是 1 房 1 卫。</b>面积差 75 sf（12%），房数完全相同 —— A5 是「压缩版 1 房」，客厅进深或厨房长度被砍。同一栋楼里这两个会被当成两个价位段，但<b>租金差距远小于售价差距</b>，这是 ViiA 内部最典型的套利点。另外 <b>B 系列图上明确画了 BALCONY，A 系列没有</b>，热带气候下这个差异值钱。
+      <b>户型图里最值得注意的一点：A5 636 sf 与 A2 689 sf 都是 1 房 1 卫。</b>面积差 53 sf（8%），房数完全相同 —— A5 是「压缩版 1 房」，客厅进深或厨房长度被砍。同一栋楼里这两个会被当成两个价位段，但<b>租金差距远小于售价差距</b>，这是 ViiA 内部最典型的套利点。另外 <b>B / C / D 系列图上明确画了 BALCONY，A 系列全部没有</b>，热带气候下这个差异值钱 —— 也说明 A 系列是纯投资客产品，B 以上才是自住产品。
     </div>
 
     <h4>设施全表</h4>
@@ -1306,6 +1397,8 @@
     <tr><td>EdgeProp 与 brickz 的 Vogue One psf</td><td>48 个月中位 1,622 vs 近 8 个月 1,016，差 60%</td><td>两者都对，只是<b>窗口不同</b>。定价用 brickz，历史区间用 EdgeProp</td></tr>
     <tr><td>Boulevard 身份</td><td>brickz 称「Boulevard, Mid Valley City」，EdgeProp 无此项目</td><td>确认为 <b>Southpoint Residences</b>（中位 psf 与总价完全一致）</td></tr>
     <tr><td>The Gardens 在挂价</td><td>唯一挂牌 RM527,988 / 730 sf（RM723 psf），与产品定位不符</td><td>判为标签错误，不作定价依据</td></tr>
+    <tr><td><b>ViiA 各户型面积</b></td><td>同一开发商两本手册对不上：A1 672 vs 688、A2 689 vs 710、A3 688 vs 699、B1 782 vs 775、B3 797 vs 807、D2 1,245 vs 1,259</td><td><b>并列</b>。Simplified 版与官方 CDN 的 12 张 JPG 一致，对外口径以它为准；签约按 SPA 的 Schedule of Building</td></tr>
+    <tr><td>ViiA 户型总数</td><td>官方 CDN 只有 12 张（C1/C2/D1 404）vs 官方 PDF 手册有 16 种</td><td><b>16 种</b>。CDN 缺图 ≠ 户型不存在</td></tr>
   </tbody>
 </table>
 
@@ -1319,6 +1412,7 @@
     <tr><td>Gardens / Northpoint / Vogue Two / Southpoint 洪涝评级</td><td>MyRumahBaru 无项目页或无该模块</td><td>管理处历史记录 + 现场水痕</td></tr>
     <tr><td>各项目 JMB / MC 全名</td><td>DBKL 名录、COB 名单、分层仲裁庭记录均无公开版本</td><td>索取 AGM 通知（含 MC 全名与注册号）</td></tr>
     <tr><td>层高</td><td>开发商手册规格表只写材料不写高度</td><td>现场激光测距仪实测</td></tr>
+    <tr><td><b>已解决：ViiA C1 / C2 / C4 / D1 户型图</b></td><td>CDN 两批路径均 404 —— 改从 <code>KLEC-ViiA-Master-Brochure-English-2023.pdf</code> P15/P17/P19/P21 提取</td><td><span class="pill p-green">已补齐</span> 见第 8 节 16 张全图</td></tr>
     <tr><td>Southpoint 步行路径是否有盖</td><td>EdgeProp / mudah / 开发商资料均无描述</td><td>现场走一遍</td></tr>
     <tr><td>Vogue One 电梯数量与分区</td><td>门户只写设施，不写电梯</td><td>现场数 + 问管理处</td></tr>
   </tbody>
@@ -1332,6 +1426,7 @@
     <tr><td><span class="pill p-green">A · 一手</span></td><td>spsetia.com 官方新闻稿 / 项目页</td><td>KL Eco City 跨河有盖天桥的存在与性质</td></tr>
     <tr><td><span class="pill p-green">A · 一手</span></td><td>EdgeProp.my 逐项目页（NAPIC 48 个月申报成交）</td><td>psf 中位与 IQR、中位总价、历史高低点、隐含租金回报、要价趋势、邻近项目 1 km 表</td></tr>
     <tr><td><span class="pill p-green">A · 一手</span></td><td>brickz.my（NAPIC 逐笔申报，近 8–10 个月）</td><td>近期真实成交中位与 IQR</td></tr>
+    <tr><td><span class="pill p-green">A · 一手</span></td><td><b>S P Setia 官方 PDF 手册</b>（KLEC-ViiA Master Brochure 2023 / Simplified Brochure Digital View V3）· <code>spsetia.com/wp-json/wp/v2/media</code></td><td>16 种户型的完整图纸、面积、楼层、朝向、天桥官方原文</td></tr>
     <tr><td><span class="pill p-blue">B · 结构化门户</span></td><td>MyRumahBaru（户型全表、设施、管理费、距离、洪涝）、mudah（户数/层数/竣工/在挂）</td><td>户型与面积、设施清单、直线距离、在售在租库存</td></tr>
     <tr><td><span class="pill p-amber">C · 营销/二手</span></td><td>PropertyGuru 项目描述、Agoda / 携程 / TripAdvisor / St Giles 渠道</td><td>短租活跃度、酒店化运营判断、房型名称</td></tr>
     <tr><td><span class="pill p-grey">D · 推断</span></td><td>本报告自算</td><td>户/层密度、步行路径距离、净回报、逐户型推算总价</td></tr>
@@ -1346,7 +1441,7 @@
 <footer>
   <p><b>口径</b>：距离为直线距离（MyRumahBaru 项目页明示值），步行距离为路径估算（±10%）。价格为 2022-10 至 2026-10 的申报成交或 2026-10-19 抓取的挂牌要价，未含税费、律师费与装修。推算总价为「面积 × 参考 psf 区间」，非报价。</p>
   <p><b>免责</b>：本报告为公开信息汇编与分析，不构成投资建议。产权、地契用途、土地处分限制、管理费、短租附例与洪涝历史须由马来西亚执业律师、持牌估价师与管理处核实。</p>
-  <p>复核日期 2026-10-19 · 核心项目 5 · 边界 1 · 附录 7 · 已列户型 31 种 · 修正 6 处</p>
+  <p>复核日期 2026-10-19 · 核心项目 5 · 边界 1 · 附录 7 · 已列户型 35 种 · 修正 7 处 · 内嵌图纸 24 张</p>
 </footer>
 
 </div>
