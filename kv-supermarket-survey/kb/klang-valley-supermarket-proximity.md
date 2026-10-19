@@ -4,7 +4,7 @@ title: 雪隆区近距离超级市场盘点（OSM 全量+官网复核法）
 tags: [马来西亚, 雪隆, 超市, AEON, Lotus's, Econsave, Mydin, OpenStreetMap, Overpass, 地理分析]
 created: 2026-10-19
 updated: 2026-10-19
-version: 1.1.0
+version: 1.2.0
 status: stable
 source: 本次会话实测（Overpass API + Nominatim + 各品牌官网/商场官网交叉核实）
 confidence: 已核实（门店存在性与地址）/ 待核（个别冠名，见「未核实项」）
@@ -89,3 +89,39 @@ curl -A "survey/1.0" "https://nominatim.openstreetmap.org/reverse?lat=3.2046&lon
 | Jaya Grocer SS15 Courtyard + Village Grocer Subang Parade | 540m | 同商圈（JG 店待核） |
 
 **对比结论**：高端「近距离对」12 组 vs 平价带 39 组——平价讲扎堆抢客、高端讲分区覆盖；Mont Kiara 是唯一高端密集区（3 家 400m 内）；Danau Kota/USJ Summit/Setia Alam 三个平价扎堆区均无高端店；Sunway City 因 Jaya Grocer（2024-11）+ DDD（2024-12）双双进驻成为新高端点。
+
+## 非清真邻近度（v1.2.0 增补，2026-10-19）
+
+**命题：超市有没有靠近非清真区 / 猪肉店的。** 用 109 个巴刹 + pork POI（Nominatim 56 条分区查询 + 15 条 pork 查询）与 257 个已识别超市做 haversine 匹配，得 **18 组 ≤500m**。交付 `klang-valley-supermarket-nonhalal.html/.csv`。
+
+### 三个分层结论
+
+| 层 | 结论 | 代表 |
+|---|---|---|
+| A 店内 | 品牌超市内部猪肉区：Jaya Grocer / Village Grocer / Mercato / Cold Storage / AEON/BiG / Giant / Lotus's / NSK / The Store **均有**；Econsave 推断多数有；HeroMarket / Checkers / TF Value-Mart / Billion **未核实**；**Mydin 全清真无猪肉**（NST 2020-12 官方声明官网可查） | 全表 |
+| B 周边 | 18 组 ≤500m，近的是「品牌超市 ↔ 老巴刹/猪肉面」点对点，**没有**「平价大卖场 + 猪肉档扎堆带」 | Jaya Grocer SS15 ↔ Omega Pork Noodle 55m（同街 Jalan SS 15/4G，OSM 双向反查确认）；HeroMarket Sungai Besi ↔ Pasar Sungai Besi 103m；Mydin Kajang ↔ Pasar Kajang 150m；Danau Kota 双林批发超市 351m 贴五巨头商圈（Econsave/AEON BiG/Giant/Mydin） |
+| C 反向 | 8 个老华人巴刹 1.5km 内**零品牌超市**：PJ Old Town 猪肉档（OSM 唯一 Pork section 节点，最近 My Mydin 1.6km）、Pasar Besar Cheras（1.6km AEON）、Sentul（1.4km NSK Grocer）、Kepong（1.5km AEON）、Pandamaran（1.4km Econsave）、Sungai Buloh（1.45km Econsave）、MPAJ Pandan Jaya（1.1km Lotus's）、Wah Fong Puchong（668m Checkers OUG） | 见 HTML 第五节 |
+
+### 可复用操作
+
+1. 巴刹普查：Nominatim search `q="Pasar X"` viewbox `101.25,3.35,101.95,2.85` bounded=0，countrycodes=my，限流 1.1s；滤掉 `Pasar Ekonomi Econsave`（清真大卖场附属市场，无信号）、`Pasar Malam`（夜市）、`Jalan/Lorong Pasar`（街名）。
+2. 猪肉普查：`q="pork"` 同 viewbox → 15 个 POI 多为猪肉面餐厅；**真正的猪肉零售档只有市场节点**（如 `Pork section PJ Old Town Wet Market`），餐厅只作「非清真街区」信号。
+3. 判定巴刹有无猪肉档：华人区老湿巴刹（Sentul/Kepong/Pandamaran/OUG/TTDI/Kuchai/Kajang/Rawang/Klang/Selayang/Sungai Besi/Sri Petaling/Wangsa Maju）按社区常识标「有」；马来区巴刹（Raja Bot/Chow Kit、Kampung Baru）标「弱」。
+4. 距离代码与 v1 相同（haversine R=6371000），改匹配源即可。
+
+### 坑与反直觉（本节新增）
+
+1. **Nominatim "pork" 搜到的是面馆不是猪肉铺**：15 个命中里 14 个是 restaurant/fast_food；唯一零售档是 `Pork section PJ Old Town Wet Market` 节点 → 别把面馆当猪肉店算距离，只能当街区信号。
+2. **Pasar Ekonomi Econsave 会伪装成巴刹**：它是 Econsave 店内经济市场，属清真大卖场，剔掉。
+3. **OSM 幽灵点又抓两个 Mydin**：`Mydin, Jalan Tun Tan Siew Sin（Medan Pasar 旁 289m）` 与 `Mydin, Jalan Tuanku Abdul Rahman（Chow Kit 208m）` 官网无此店 → 剔除匹配（v1 报告的幽灵点方法复用有效）。
+4. **Giant @ Dataran Sunway 幽灵点再次现形**：Kota Damansara Omega 猪肉面 445m 的 Giant 即该幽灵点，实际只有 Village Grocer 390m。
+5. **老华人巴刹=品牌超市真空区**：直觉上「超市靠近非清真」应多在 Sentul/Kepong/PJ Old Town/Pandamaran 找，但这些区恰恰没有品牌超市；反之 Danau Kota/OUG/Sungai Besi 这种「巴刹+品牌店同圈」的极少。
+6. **Jaya Grocer SS15 的存在性靠邻居反证**：OSM 无地址点，靠 55m 外 Omega Pork Noodle 同在 Jalan SS 15/4G + 反查 display_name 双向确认 → 「待核」升「中把握」。
+
+### 未核实 / 存疑（本节新增）
+
+- Jaya Grocer SS15 门店（OSM 点 3.077954,101.586522 无地址，需官网 store list 确认）。
+- Billion Port Klang（OSM area 字段错写 Pandamaran，点位近巴生港巴刹 300m）。
+- Checkers OUG（OSM 无地址便民小超市）。
+- HeroMarket / Checkers / TF Value-Mart 店内猪肉柜分布（挂牌清真生鲜的 HeroMarket 可能无）。
+- 巴刹/猪肉档「有非清真」是社区常识级标注，未逐档核实；穆斯林读者请以店内 JAKIM 认证为准。
