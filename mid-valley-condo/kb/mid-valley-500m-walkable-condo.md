@@ -12,10 +12,10 @@ tags:
   - EdgeProp
 created: 2026-10-19
 updated: 2026-10-19
-version: 3.2
+version: 3.3
 status: stable
 source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com 含 wp-json 媒体库与官方 PDF 手册 / klecocity.com Wayback / klpropertytalk / Lowyat.NET / Booking.com）
-confidence: 已核实（结构、成交、距离、16 张户型图图面文字）；推断（步行距离、净回报、逐户型推算总价）；**存疑（ViiA 面积两版不一致，差 1–21 sf）**
+confidence: 已核实（结构、成交、距离、16 张户型图图面文字、Southpoint 有盖连廊）；推断（步行距离、净回报、逐户型推算总价）；**存疑（ViiA 面积两版不一致；Southpoint 3 张平面归属未确认）**
 ---
 
 # 吉隆坡谷中城 500 米内天桥可步行公寓全档案
@@ -39,7 +39,7 @@ Mid Valley Megamall 500 米内达标项目 **5 个**（2 个室内直连 + 3 个
 
 ---
 
-## 七处修正（v1 → v3.2）
+## 八处修正（v1 → v3.3）
 
 | # | v1 说法 | v2 复核 |
 |---|---|---|
@@ -50,6 +50,7 @@ Mid Valley Megamall 500 米内达标项目 **5 个**（2 个室内直连 + 3 个
 | 5 | Vogue One「低价入口」 | 48m 中位 1,622 → 近 8 月 1,016 → 挂牌 807–1,271。是**跌了 37% 后的低位**，不是便宜 |
 | 6 | 500 m 内共 6 个 | 另发现 7 个项目（Setia Sky Seputeh / Sri Seputih / Seputih Permai / Sri Langit / Putra Ria / Haji Abdullah Hukum flats / Southpoint），全部**无天桥** |
 | 7 | ViiA 户型图 12 张，C1/C2/D1「从未发布」 | **错，完整是 16 种**。C1 956 / C2 957 / C4 944 / D1 1,252 sf 都在官方 PDF 手册 P19/P21 里。顺带发现**两本官方手册面积不一致**（A2 689 vs 710、D2 1,245 vs 1,259） |
+| 8 | Southpoint「与 Megamall 之间无有盖天桥记录，需穿越道路」 | **错，是「没查到」不是「不存在」**。官方手册 P5/P6「BRIDGING THE WAY」：*"strategic covered walkways and bridges that connect Southpoint Residences to Mid Valley Megamall and The Gardens Mall"*，另有连廊接 LRT / KTM，配两张实景照片 |
 
 ---
 
@@ -123,7 +124,7 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 
 ---
 
-## 户型图获取（25 张，逐张核实）
+## 户型图获取（30 张，逐张核实）
 
 ### 覆盖率
 
@@ -132,8 +133,9 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 | ViiA Residences | **16** | 单位户型图全套（A1–A6 / B1–B4 / C1–C4 / D1–D2） | 官方 CDN 12 张 + **官方 PDF 手册 4 张** | **完整，无缺口** |
 | Vogue Suites One | 4 | 设施层平面 + 塔楼剖面 | klecocity.com（Wayback 2014/2016） | 缺单位内部格局 |
 | KL Eco City 园区 | **5** | 总平面 / 剖面 / 天桥官方证据 2 张 / 实景航拍 | spsetia CDN + 官方 PDF 手册 + 媒体库 | 含天桥原文、图例与建成照片 |
-| Vogue Suites Two / Northpoint / The Gardens / Southpoint | 0 | — | — | 公开互联网不存在（4 家全渠道已试穿） |
-| **合计** | **25** | | | |
+| **Southpoint Residences** | **3 + 2** | 疑似单位平面 3 张 + 连廊实景 2 张 | southpointresidences.com 媒体库 + 官方手册 PDF | **待确认**（无 caption、未挂页面） |
+| Vogue Suites Two / Northpoint / The Gardens | 0 | — | — | 公开互联网不存在（全渠道已试穿） |
+| **合计** | **30** | | | |
 
 ### ViiA 16 张（面积取自 Master Brochure 2023 图面）
 
@@ -201,7 +203,19 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 | **图例版证据**（PDF 提取） | 图例第 3 项 `LINK BRIDGE — CONNECTS DIRECTLY TO MID VALLEY CITY`；第 2 项 `INTEGRATED RAIL HUB — LRT AND KTM STATIONS` | [linkbridge](../assets/floorplans/pdf/klec-linkbridge-map.jpg) |
 | **实景航拍（照片，非效果图）** | 横跨 Federal Highway 的连续有盖廊道已建成。**下方多股车道是车行匝道，上方灰色顶棚才是步行道**，两条独立构筑物 | [aerial](../assets/floorplans/klec-linkbridge-aerial.jpg) |
 
-### 完整图册（25 张一次看全）
+### Southpoint Residences：连廊证据 2 张 + 待确认平面 3 张
+
+| 图纸 | 说明 | 原图 |
+|---|---|---|
+| BRIDGING THE WAY（手册 P5） | 横跨多车道的有盖高架廊道**实景照片**，非效果图 | [P5](../assets/floorplans/sp-bridging-the-way.jpg) |
+| 连廊内部（手册 P6） | 全封闭玻璃廊道，顶棚完整 + 侧面玻璃百叶，**下雨不淋** | [P6](../assets/floorplans/sp-covered-walkway.jpg) |
+| floor-2 | 2 房 + 大阳台 + 独立餐区 · **未署名** | [f2](../assets/floorplans/_unverified/southpoint-floor-2.jpg) |
+| floor-3 | 3 房 2 卫 + 书房 + 浴缸 · **未署名** | [f3](../assets/floorplans/_unverified/southpoint-floor-3.jpg) |
+| floor-4 | 左右两单元并列，右侧带 Sauna · **未署名** | [f4](../assets/floorplans/_unverified/southpoint-floor-4.jpg) |
+
+三张 `floor-2/3/4.jpg` 在官网媒体库里（上传 2023-11），但 `post: null`、`caption` / `alt` 全空、三张渲染风格不一致（灰框 / 深蓝框 / 带英文标注）→ **疑似建站模板样例图**，只能参考不能依据。
+
+### 完整图册（30 张一次看全）
 
 - HTML 版：`mid-valley-floorplan-gallery.html`
 - 图片目录：`assets/floorplans/`（CDN 原图）· `assets/floorplans/pdf/`（PDF 300 dpi 提取）
@@ -267,6 +281,31 @@ for pno, nm, box in jobs:
 ```
 
 依赖：`pymupdf 1.28.2` + `Pillow 12.3.0`，装在 `C:/Users/Admin/.workbuddy-ai/binaries/python/envs/default/`。
+
+**⑨ 老盘的资料在「项目自己的域名」上，不在门户上**
+
+门户（PropertyGuru / iProperty / EdgeProp）对 2006–2018 年交付的老盘常常只有外立面图。一手手册往往挂在项目独立微站，而**这些微站大多还是 WordPress，媒体库 REST 全开放**：
+
+```bash
+# 1) 先猜域名（开发商会用项目名做域名）
+for d in southpointresidences.com thegardensresidences.com northpointresidences.com \
+         voguesuites.com viiaresidences.com; do
+  printf "%-30s " "$d"; curl -s -o /dev/null -w "%{http_code}\n" -A "$UA" -k "https://$d/"
+done
+# → southpointresidences.com 200 ✅ ；northpointresidences.com 200 但是个 "Launching Soon" 空壳（非 IGB）
+# → thegardensresidences.com / voguesuites.com 000（域名不存在）
+
+# 2) 确认是 WordPress，直接列媒体库（含未挂到页面的孤儿文件）
+curl -s "https://southpointresidences.com/wp-json/wp/v2/media?per_page=100&page=1&_fields=id,source_url" \
+  | jq -r '.[] | "\(.id) \(.source_url)"'
+# → 48 条，其中含 Southpoint-Residences-Brochure-NEW.pdf 与 floor-2/3/4.jpg
+
+# 3) 下载 PDF（curl，别用 urllib）后按页找跨页
+curl -sL --max-time 120 -o brochure.pdf \
+  "https://southpointresidences.com/wp-content/uploads/2024/05/Southpoint-Residences-Brochure-NEW.pdf"
+```
+
+**判断「孤儿图能不能用」的三个检查**：`post` 是否为 null、`caption` / `alt_text` 是否为空、同组图渲染风格是否一致。三项都不合格 → 标 `_unverified`，不要当证据。
 
 **⑧ 按「township」枚举媒体库（比关键词搜索高一个量级）**
 
@@ -394,7 +433,9 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 16. **法拍价才是这个片区的真实价。** ViiA 710 sf 法拍成交 RM690K（RM972 psf）、Vogue One 710 sf 法拍 RM770K（RM1,085 psf）、Vogue One 969 sf 法拍 RM792K（RM817 psf）。三笔都在 RM800–1,100 psf，而 EdgeProp 中位在 RM1,622–1,669。**法拍市场没被营销污染。**
 17. **「售出 60%」和「入住 20%」可以同时为真。** 投资客持有但不出租，等于整栋楼空着。这会压低管理费收缴率、拉低租金，并让你未来出租时面对大量同栋竞品。**问开发商「售出率」没有意义，要问管理处「入住率 / 门禁活跃户数」。**
 18. **文件名里的缩写会骗人。** 在 spsetia 媒体库里 `OL_Setia-SV2_Floor-Plan_Type-A1…C4` 看着极像「Vogue Suites 2」，实际 `SV2` = **Setia Sky Ville 2**（槟城），属于 township 35044，与 KLEC 无关。**判据：查媒体项的 `wp:attached-to` 拿到 parent township id，再解析 slug**，别靠文件名猜。
-19. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
+19. **「门户上没有」≠「不存在」，先找项目自己的域名。** Southpoint 在 EdgeProp / mudah / brickz 上全都查不到连廊描述，一度被写成「需穿越道路」。真相是它有独立官网 `southpointresidences.com`，手册 P5/P6 整页在讲连廊。**顺序应该是：门户 → 开发商主站 → 项目独立域名 → Wayback → 论坛。**
+20. **老盘的「原始开盘价」比任何中位数都有用。** Northpoint 2005-08 开盘：住宅 RM496,000 起、1,400–1,900 sf → RM261–354 psf；办公 RM549,000 起；Leasehold；代理是 Tan & Tan Property Showcase。对今天 RM732 psf 中位 → 21 年 2.1–2.8 倍、年化 3.7–5.0%，**跟通胀同步，没有投机溢价**。这个数据只在 `midvalleycity.com` 的 2005 年存档页里。
+21. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
 
 ---
 
@@ -406,7 +447,8 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 | Vogue Two 成交价 / 层数 / 户型图 | EdgeProp RM0、brickz 无项目页、`wp-json?search=vogue` 仅 1 条（BCA Green Mark 认证图）、`propertys?search=vogue` 返回 0 条。**四条通道全部为负** |
 | 除 ViiA 外各项目管理费 | 无公开数据 |
 | Gardens / Northpoint / Vogue Two / Southpoint 洪涝评级 | 无项目级数据（无数据 ≠ 无风险） |
-| Southpoint 步行路径是否全程有盖 | 无任何来源描述，需现场走 |
+| ~~Southpoint 步行路径是否全程有盖~~ | **已解决**：官方手册 P5/P6 原文 + 实景照片，全程有盖 |
+| Southpoint 3 张平面（floor-2/3/4）的编号与面积 | 媒体库孤儿文件，无 caption、风格不一致，疑似模板样例图 |
 | Vogue One 电梯数量与分区 | 门户只写设施不写电梯 |
 | 各项目 JMB / MC 全名 | DBKL 名录、COB 名单、分层仲裁庭均无公开版本 |
 | ~~ViiA C1 / C2 / C4 / D1 户型~~ | **已解决**：官方 PDF 手册 P19/P21 提取，见上表 |
@@ -427,6 +469,8 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 | A 一手 | spsetia.com / spsetia CDN | ViiA 12 张官方户型图、KLEC 2025 总平面剖面（含销售状态） |
 | A 一手 | **spsetia.com 官方 PDF 手册**（Master 2023 / Simplified V3）+ `wp-json/wp/v2/media` | **ViiA 16 种全户型、两版面积、天桥官方原文** |
 | A 一手 | **spsetia.com `wp-json/wp/v2/media?parent=<township>`** | KLEC 42 条媒体，含天桥实景航拍 |
+| A 一手 | **southpointresidences.com**（项目独立官网，WordPress 媒体库） | Southpoint 官方手册 PDF（连廊原文 + 实景） |
+| A 一手 | **midvalleycity.com 2005 存档页**（Wayback 20050803022404） | Northpoint 原始开盘价、面积、地契、销售代理 |
 | A 一手 | klecocity.com（Wayback 2014/2016） | Vogue Suites One 设施层平面 L7/L8/L52/L53 |
 | B 结构化 | MyRumahBaru / mudah | 户型全表、设施、距离、户数层数、洪涝 |
 | C 营销 | PropertyGuru / Agoda / 携程 / St Giles | 短租活跃度、房型名 |
