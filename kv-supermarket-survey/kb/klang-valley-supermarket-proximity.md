@@ -4,7 +4,7 @@ title: 雪隆区近距离超级市场盘点（OSM 全量+官网复核法）
 tags: [马来西亚, 雪隆, 超市, AEON, Lotus's, Econsave, Mydin, OpenStreetMap, Overpass, 地理分析]
 created: 2026-10-19
 updated: 2026-10-19
-version: 1.0.0
+version: 1.1.0
 status: stable
 source: 本次会话实测（Overpass API + Nominatim + 各品牌官网/商场官网交叉核实）
 confidence: 已核实（门店存在性与地址）/ 待核（个别冠名，见「未核实项」）
@@ -66,3 +66,26 @@ curl -A "survey/1.0" "https://nominatim.openstreetmap.org/reverse?lat=3.2046&lon
 - OSM 漏店风险：AEON AU2、AEON MALL Taman Maluri、AEON Bandaraya、AEON Metro Prima 未进近距离对，若其邻街有第二超市可能漏统计。
 - 数据时点：OSM 快照 2026-10-19；门店状态以当日为准。
 
+
+## 高端版（v1.1.0 增补，2026-10-19）
+
+**剔除 Mydin/NSK/Giant/Econsave/AEON BIG 等平价线后的高端近距离对共 12 组（≤550m）**，交付 `klang-valley-nearby-premium-supermarkets.html/.csv`。
+
+高端品牌全名单：Jaya Grocer（OSM 36 点，旗舰 Sunway Pyramid Oasis 翼 2024-11 重开、The Gardens LG-229）、Village Grocer（20 点）、Mercato（Gourmet 精品，5 点：Great Eastern Mall/TRX/Solaris Mont Kiara 等）、Cold Storage（OSM 覆盖不全，仅 2 点）、Isetan 食品馆（3 点）、Don Don Donki（OSM 无点，手工补：Fahrenheit88 在营、Sunway Pyramid 2024-12 新开、Nu Sentral 2025-05 已关、Tropicana Gardens/MyTown 待核）、AEON MaxValu Prime（AEON 精品线，Kerinchi）。
+
+| 高端对 | 距离 | 关系 |
+|---|---|---|
+| Cold Storage + Mercato（Great Eastern Mall） | 34m | 同商场 |
+| Jaya Grocer + Isetan 食品馆（The Gardens） | 55m | 同商场 |
+| Cold Storage + Isetan（Suria KLCC） | 127m | 同商场 |
+| Don Don Donki Sunway Pyramid + Jaya Grocer（ pyram 场址点） | ~140m | 同商场 |
+| Jaya Grocer Sunway 163 + Village Grocer Plaza Mont Kiara | 176m | 同一条 Jalan Kiara |
+| DDD Fahrenheit88 + Isetan The Japan Store | ~170m | 同商圈（Isetan 址待核） |
+| Village Grocer Avenue K + Isetan Suria KLCC | 247m | 隔 Jalan Ampang |
+| Village Grocer Avenue K + Cold Storage Suria KLCC | 370m | 步行 5 分钟 |
+| Village Grocer Sunway Square + Jaya Grocer Oasis 翼 | 381m | 同商圈 |
+| Jaya Grocer SS16（OSM）+ Village Grocer Subang Parade | 432m | 相邻商场（JG 店待核） |
+| Mercato TRX + Isetan Japan Store | 439m | 同金融区 |
+| Jaya Grocer SS15 Courtyard + Village Grocer Subang Parade | 540m | 同商圈（JG 店待核） |
+
+**对比结论**：高端「近距离对」12 组 vs 平价带 39 组——平价讲扎堆抢客、高端讲分区覆盖；Mont Kiara 是唯一高端密集区（3 家 400m 内）；Danau Kota/USJ Summit/Setia Alam 三个平价扎堆区均无高端店；Sunway City 因 Jaya Grocer（2024-11）+ DDD（2024-12）双双进驻成为新高端点。

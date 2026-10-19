@@ -1,0 +1,37 @@
+[
+{"cluster":"Mont Kiara / Sri Hartamas","area":"50480 KL","pairs":[
+ {"a":"Jaya Grocer @ Sunway 163 Mall（8 Jalan Kiara）","b":"Village Grocer @ Plaza Mont Kiara（1 Jalan Kiara）","d":176,"rel":"同一条 Jalan Kiara 两相邻商场","st":"官网+OSM","note":"全雪隆最高端超市对"},
+ {"a":"Village Grocer @ Plaza Mont Kiara","b":"Village Grocer Sri Hartamas（60 Jalan Sri Hartamas 1）","d":368,"rel":"同品牌相距 368m","st":"OSM+Nominatim","note":"同一邮区两家店"},
+ {"a":"Jaya Grocer @ Sunway 163 Mall","b":"Village Grocer Sri Hartamas","d":540,"rel":"同商圈 540m","st":"OSM","note":""}
+]},
+{"cluster":"Great Eastern Mall（安邦路）","area":"303 Jalan Ampang, 50450 KL","pairs":[
+ {"a":"Cold Storage Great Eastern Mall","b":"Mercato Great Eastern Mall","d":34,"rel":"同商场双超市","st":"OSM+商场地址","note":"全雪隆最近高端组合"}
+]},
+{"cluster":"The Gardens Mall（谷中城）","area":"Lingkaran Syed Putra, 50614 KL","pairs":[
+ {"a":"Jaya Grocer @ The Gardens Mall（LG-229）","b":"Isetan The Gardens（食品馆）","d":55,"rel":"同商场","st":"Jaya Grocer 官网+OSM","note":"Isetan 为百货，食品馆计入"}
+]},
+{"cluster":"Suria KLCC / Avenue K","area":"50088 KL","pairs":[
+ {"a":"Cold Storage Suria KLCC","b":"Isetan Suria KLCC（食品馆）","d":127,"rel":"同商场","st":"OSM+商场官网","note":""},
+ {"a":"Village Grocer @ Avenue K（156 Jalan Ampang）","b":"Isetan Suria KLCC","d":247,"rel":"隔 Jalan Ampang 相对","st":"Village Grocer官网+OSM","note":""},
+ {"a":"Cold Storage Suria KLCC","b":"Village Grocer @ Avenue K","d":370,"rel":"步行 5 分钟","st":"OSM","note":"过个马路即到"}
+]},
+{"cluster":"Sunway City（双威城）","area":"47500 Subang Jaya","pairs":[
+ {"a":"Jaya Grocer @ Sunway Pyramid Oasis 翼旗舰（Jalan Lagoon Selatan）","b":"Village Grocer @ Sunway Square Mall（Jalan Lagoon Selatan）","d":381,"rel":"同商圈两商场","st":"Jaya Grocer官方+Village Grocer官网","note":"两店同在 Jalan Lagoon Selatan"},
+ {"a":"Don Don Donki Sunway Pyramid（2024-12 开，商场最高楼）","b":"Jaya Grocer（Sunway Pyramid 场址 OSM 点）","d":140,"rel":"同商场","st":"中文新店报道+OSM","note":"DDD 取原 AEON 区邻铺；场内步行约 3 分钟"}
+]},
+{"cluster":"Bukit Bintang / Fahrenheit88","area":"55100 KL","pairs":[
+ {"a":"Don Don Donki Fahrenheit 88（Lot 10 Jalan Bukit Bintang，2021-03 首店）","b":"Isetan - The Japan Store（Jalan Sultan Ismail，址待核）","d":170,"rel":"同商圈 170m","st":"携程/OSM","note":"Isetan 该店地址未获官网确认"},
+ {"a":"Don Don Donki Fahrenheit 88","b":"Mercato @ Jalan Raja Chulan（Bukit Bintang，址待核）","d":540,"rel":"同商圈 540m","st":"OSM","note":"Mercato 该点所属商场待核"}
+]},
+{"cluster":"Tun Razak Exchange（TRX）","area":"55188 KL","pairs":[
+ {"a":"Mercato @ Raintree Plaza TRX","b":"Isetan - The Japan Store","d":439,"rel":"同金融区 440m","st":"OSM+Nominatim","note":""},
+ {"a":"Mercato @ Raintree Plaza TRX","b":"Jaya Grocer @ LaLaport BBCC（2 Jalan Hang Tuah）","d":800,"rel":"备选：同 Bukit Bintang 北部 800m","st":"OSM","note":""}
+]},
+{"cluster":"Subang Jaya SS15 / SS16","area":"47500 Subang Jaya","pairs":[
+ {"a":"Jaya Grocer（SS16 OSM 点，Drop Off & Pick Up 旁）","b":"Village Grocer @ Subang Parade（Lot LG26）","d":432,"rel":"相邻两商场","st":"OSM+Nomination+Village Grocer官网","note":"Jaya Grocer 该店官网未列，待核"},
+ {"a":"Jaya Grocer @ SS15 Courtyard（Jalan SS 15/4G）","b":"Village Grocer @ Subang Parade","d":540,"rel":"同商圈 540m","st":"OSM+Nominatim","note":"Jaya Grocer 该店官网未列，待核"}
+]},
+{"cluster":"Kerinchi / Pantai Dalam","area":"59200 KL","pairs":[
+ {"a":"Village Grocer @ Kerinchi（2 Jalan Kerinchi）","b":"AEON MaxValu Prime（AEON 高端线）","d":637,"rel":"同片区 640m","st":"OSM+Nominatim","note":"高端 vs AEON 精品线；略超 600m 列为备选"}
+]}
+]

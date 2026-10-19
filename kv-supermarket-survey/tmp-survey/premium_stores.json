@@ -1,0 +1,559 @@
+[
+ {
+  "name": "Cold Storage Great Eastern Mall",
+  "brand": "Cold Storage",
+  "shop": "supermarket",
+  "lat": 3.160414,
+  "lon": 101.7366912,
+  "addr": "",
+  "area": "Kampung Datuk Keramat | Jalan Ampang | 50450 | Kuala Lumpur"
+ },
+ {
+  "name": "Cold Storage KLCC",
+  "brand": "Cold Storage",
+  "shop": "supermarket",
+  "lat": 3.1567898,
+  "lon": 101.7121307,
+  "addr": "Jalan Ampang Kuala Lumpur 50088",
+  "area": "Kampung Sungai Baru | Jalan Ampang | 50088 | Kuala Lumpur"
+ },
+ {
+  "name": "Isetan - The Japan Store",
+  "brand": "Isetan",
+  "shop": "department_store",
+  "lat": 3.1461387,
+  "lon": 101.7118557,
+  "addr": "",
+  "area": "Dollah Village | Jalan Sultan Ismail | 55100 | Kuala Lumpur"
+ },
+ {
+  "name": "Isetan Suria",
+  "brand": "Isetan",
+  "shop": "department_store",
+  "lat": 3.1575337,
+  "lon": 101.7129992,
+  "addr": "",
+  "area": "Kuala Lumpur City Centre (KLCC) | Lorong Kuda | 50088 | Kuala Lumpur"
+ },
+ {
+  "name": "Isetan The Gardens",
+  "brand": "Isetan",
+  "shop": "department_store",
+  "lat": 3.1177771,
+  "lon": 101.6757408,
+  "addr": "",
+  "area": "Seputeh | Lingkaran Syed Putra | 50614 | Kuala Lumpur"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1092693,
+  "lon": 101.6374196,
+  "addr": "Lower Ground Floor Jalan Professor Khoo Kay Kim Petaling Jaya 46100"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1106516,
+  "lon": 101.6371547,
+  "addr": "1 J Kemajuan 46200"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1674091,
+  "lon": 101.6062505,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1157208,
+  "lon": 101.5292016,
+  "addr": "",
+  "area": "Jelutong Hill | Persiaran Gerbang Utama | 40150 | Shah Alam"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1294256,
+  "lon": 101.5992847,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1106216,
+  "lon": 101.5868312,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1678438,
+  "lon": 101.6468064,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0848035,
+  "lon": 101.6733732,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1663085,
+  "lon": 101.6522075,
+  "addr": "",
+  "area": "Mont Kiara | Jalan Kiara | 50480 | Kuala Lumpur"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1565584,
+  "lon": 101.5718139,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0817436,
+  "lon": 101.5821845,
+  "addr": "",
+  "area": "Pusat Bandar Subang Jaya | Drop Off & Pick Up | 47200 | Subang Jaya City Council"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0087758,
+  "lon": 101.5778696,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0551789,
+  "lon": 101.786945,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0263937,
+  "lon": 101.580897,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0285555,
+  "lon": 101.7178006,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1345224,
+  "lon": 101.6229011,
+  "addr": "Lot B-001"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1403866,
+  "lon": 101.7078301,
+  "addr": "",
+  "area": "Bukit Bintang | Main Atrium | 55100 | Kuala Lumpur"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0202469,
+  "lon": 101.623538,
+  "addr": "Lot 3 Lebuh Puteri Puchong 47100"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0779536,
+  "lon": 101.5865224,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.2115135,
+  "lon": 101.748733,
+  "addr": "",
+  "area": "Taman Melawati | Jalan Bandar Melawati | 53100 | Kuala Lumpur"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1182683,
+  "lon": 101.675712,
+  "addr": "",
+  "area": "Seputeh | Lingkaran Syed Putra | 50614 | Kuala Lumpur"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0534801,
+  "lon": 101.6777041,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1619154,
+  "lon": 101.7200031,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0526292,
+  "lon": 101.4629976,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1823385,
+  "lon": 101.5096916,
+  "addr": "Lot GF-29, GF"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0723903,
+  "lon": 101.6055236,
+  "addr": "",
+  "area": "Sunway City | Jalan PJS 11/15 | 47500 | Petaling Jaya"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 2.9221437,
+  "lon": 101.6506471,
+  "addr": "LG-16 Lingkaran Cyber Point Timur Cyberjaya 63000"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.224207,
+  "lon": 101.7311161,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1328312,
+  "lon": 101.6298764,
+  "addr": "LG 01-02 Glo Damansara Taman Tun Dr Ismail 60000",
+  "area": "Jalan Damansara | 60000 | Kuala Lumpur"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.3270932,
+  "lon": 101.5444463,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0651132,
+  "lon": 101.6090396,
+  "addr": "",
+  "area": "Sunway City | Jalan Lagoon Selatan | 47500 | Subang Jaya City Council"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.1379851,
+  "lon": 101.6491354,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.0951226,
+  "lon": 101.4809618,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.2269296,
+  "lon": 101.4568164,
+  "addr": "Lot 16 Bandar Puncak Alam 42300"
+ },
+ {
+  "name": "Jaya Grocer",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 2.8988097,
+  "lon": 101.8336858,
+  "addr": ""
+ },
+ {
+  "name": "Jaya Grocer Sierramas",
+  "brand": "Jaya Grocer",
+  "shop": "supermarket",
+  "lat": 3.2028527,
+  "lon": 101.5889638,
+  "addr": ""
+ },
+ {
+  "name": "Lulu",
+  "brand": "LuLu",
+  "shop": "department_store",
+  "lat": 3.154507,
+  "lon": 101.6996758,
+  "addr": "",
+  "area": "Persiaran Capsquare | 50100 | Kuala Lumpur"
+ },
+ {
+  "name": "Mercato",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.14997,
+  "lon": 101.7128078,
+  "addr": "",
+  "area": "Bukit Bintang | Jalan Raja Chulan | 55100 | Kuala Lumpur"
+ },
+ {
+  "name": "Mercato",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1433937,
+  "lon": 101.7167015,
+  "addr": ""
+ },
+ {
+  "name": "Mercato Solaris",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1763315,
+  "lon": 101.6596812,
+  "addr": ""
+ },
+ {
+  "name": "Mercató",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1663124,
+  "lon": 101.6915652,
+  "addr": "LG-1A"
+ },
+ {
+  "name": "Mercató",
+  "brand": "Mercato",
+  "shop": "supermarket",
+  "lat": 3.1601145,
+  "lon": 101.7367244,
+  "addr": "",
+  "area": "Kampung Datuk Keramat | Jalan Ampang | 50450 | Kuala Lumpur"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1504841,
+  "lon": 101.5919849,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1351187,
+  "lon": 101.7240043,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1639953,
+  "lon": 101.6564881,
+  "addr": "60 Jalan Sri Hartamas 1 50480"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1855921,
+  "lon": 101.634986,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1054528,
+  "lon": 101.4674911,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.11359,
+  "lon": 101.6629664,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.0621101,
+  "lon": 101.4812594,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 2.9197051,
+  "lon": 101.6364634,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1143448,
+  "lon": 101.6114472,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 2.9745784,
+  "lon": 101.6553846,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1594251,
+  "lon": 101.7141609,
+  "addr": "",
+  "area": "Kampung Sungai Baru | Jalan Ampang | 50088 | Kuala Lumpur"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.2264954,
+  "lon": 101.6503875,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1592436,
+  "lon": 101.746466,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1681696,
+  "lon": 101.6161948,
+  "addr": "8 Jalan Damansara Petaling Jaya 47820"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1763887,
+  "lon": 101.669631,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.0645601,
+  "lon": 101.6056496,
+  "addr": "",
+  "area": "Sunway City | Jalan Lagoon Selatan | 46150 | Subang Jaya City Council"
+ },
+ {
+  "name": "Village Grocer",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.2454399,
+  "lon": 101.4763834,
+  "addr": ""
+ },
+ {
+  "name": "Village Grocer @ Subang Parade",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.0827758,
+  "lon": 101.5859327,
+  "addr": "",
+  "area": "Pusat Bandar Subang Jaya | Jalan SS 16/1 | 47500 | Subang Jaya City Council"
+ },
+ {
+  "name": "Village Grocer Bangsar Village",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.129276,
+  "lon": 101.6706273,
+  "addr": "Jalan Telawi"
+ },
+ {
+  "name": "Village Grocer Mont Kiara",
+  "brand": "Village Grocer",
+  "shop": "supermarket",
+  "lat": 3.1653447,
+  "lon": 101.6534618,
+  "addr": "",
+  "area": "Mont Kiara | Jalan Kiara | 50480 | Kuala Lumpur"
+ }
+]
