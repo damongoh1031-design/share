@@ -123,7 +123,7 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 
 ---
 
-## 户型图获取（24 张，逐张核实）
+## 户型图获取（25 张，逐张核实）
 
 ### 覆盖率
 
@@ -131,9 +131,9 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 |---|---|---|---|---|
 | ViiA Residences | **16** | 单位户型图全套（A1–A6 / B1–B4 / C1–C4 / D1–D2） | 官方 CDN 12 张 + **官方 PDF 手册 4 张** | **完整，无缺口** |
 | Vogue Suites One | 4 | 设施层平面 + 塔楼剖面 | klecocity.com（Wayback 2014/2016） | 缺单位内部格局 |
-| KL Eco City 园区 | **4** | 总平面 / 剖面 / 天桥官方证据 2 张 | spsetia CDN + 官方 PDF 手册 | 含天桥原文与图例 |
+| KL Eco City 园区 | **5** | 总平面 / 剖面 / 天桥官方证据 2 张 / 实景航拍 | spsetia CDN + 官方 PDF 手册 + 媒体库 | 含天桥原文、图例与建成照片 |
 | Vogue Suites Two / Northpoint / The Gardens / Southpoint | 0 | — | — | 公开互联网不存在（4 家全渠道已试穿） |
-| **合计** | **24** | | | |
+| **合计** | **25** | | | |
 
 ### ViiA 16 张（面积取自 Master Brochure 2023 图面）
 
@@ -191,7 +191,7 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 
 **大堂在 8 层不在地面** → 回家动线是「地面 → 8 层 → 换乘住户电梯」，比常规双梯多一次换乘。**SUBSTATION 在 8 层平面内**，紧邻单位要查低频噪音。
 
-### 园区总平面 / 天桥证据 4 张
+### 园区总平面 / 天桥证据 5 张
 
 | 图纸 | 说明 | 原图 |
 |---|---|---|
@@ -199,8 +199,9 @@ EdgeProp 项目页的 `Price Comparison with Nearby Properties` 表列出 1 km �
 | KLEC 园区总平面 | 含 **PEDESTRIAN LINK BRIDGE**（跨巴生河接 The Gardens / Mid Valley City）与 RT-1/2/3 住宅塔楼编号、INTEGRATED RAIL HUB | [overview](../assets/floorplans/vogue1-13.jpg) |
 | **官方原文证据**（PDF 提取） | 手册原话：*"There is also a **pedestrian link bridge that leads to a world of shopping at The Gardens and Mid Valley Megamall**."* 图标区四件事：INTEGRATED RAIL HUB / 2-TIER INTERNAL ROAD / PEDESTRIAN LINK BRIDGE / NEW ACCESS RAMPS | [connectivity](../assets/floorplans/pdf/viia-connectivity.jpg) |
 | **图例版证据**（PDF 提取） | 图例第 3 项 `LINK BRIDGE — CONNECTS DIRECTLY TO MID VALLEY CITY`；第 2 项 `INTEGRATED RAIL HUB — LRT AND KTM STATIONS` | [linkbridge](../assets/floorplans/pdf/klec-linkbridge-map.jpg) |
+| **实景航拍（照片，非效果图）** | 横跨 Federal Highway 的连续有盖廊道已建成。**下方多股车道是车行匝道，上方灰色顶棚才是步行道**，两条独立构筑物 | [aerial](../assets/floorplans/klec-linkbridge-aerial.jpg) |
 
-### 完整图册（24 张一次看全）
+### 完整图册（25 张一次看全）
 
 - HTML 版：`mid-valley-floorplan-gallery.html`
 - 图片目录：`assets/floorplans/`（CDN 原图）· `assets/floorplans/pdf/`（PDF 300 dpi 提取）
@@ -266,6 +267,25 @@ for pno, nm, box in jobs:
 ```
 
 依赖：`pymupdf 1.28.2` + `Pillow 12.3.0`，装在 `C:/Users/Admin/.workbuddy-ai/binaries/python/envs/default/`。
+
+**⑧ 按「township」枚举媒体库（比关键词搜索高一个量级）**
+
+```bash
+# 1) 先找到项目所属 township 的 id
+curl -s "https://spsetia.com/wp-json/wp/v2/township?search=eco&_fields=id,slug,title"
+# → {"id":4255,"slug":"kl-eco-city","title":"KL Eco City"}
+
+# 2) 直接按 parent 枚举该 township 名下所有媒体（42 条，一次拿全）
+curl -s "https://spsetia.com/wp-json/wp/v2/media?parent=4255&per_page=100&page=1&_fields=id,source_url,title"
+
+# 3) 反查某张图属于哪个项目（媒体项的 _links 里有 wp:attached-to）
+curl -s "https://spsetia.com/wp-json/wp/v2/media/35554" | jq '._links["wp:attached-to"]'
+# → {"post_type":"township","id":35044,"href":".../township/35044"}
+curl -s "https://spsetia.com/wp-json/wp/v2/township/35044?_fields=slug,title"
+# → setiasv2 / "Setia SV2"
+```
+
+自定义 post type 名单可用 `curl -s https://spsetia.com/wp-json/wp/v2/types` 拿到：`township` / `propertys` / `facilities` / `news` 等 20+ 个。
 
 **⑦ 下载 PDF 别用 urllib，用 curl 走裸域**
 
@@ -373,7 +393,8 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 15. **A 系列 6 种全部无阳台，B/C/D 系列 10 种全部有阳台。** 热带气候下这是硬差异，但门户的户型表里两档都写「有」或都写「未标注」。
 16. **法拍价才是这个片区的真实价。** ViiA 710 sf 法拍成交 RM690K（RM972 psf）、Vogue One 710 sf 法拍 RM770K（RM1,085 psf）、Vogue One 969 sf 法拍 RM792K（RM817 psf）。三笔都在 RM800–1,100 psf，而 EdgeProp 中位在 RM1,622–1,669。**法拍市场没被营销污染。**
 17. **「售出 60%」和「入住 20%」可以同时为真。** 投资客持有但不出租，等于整栋楼空着。这会压低管理费收缴率、拉低租金，并让你未来出租时面对大量同栋竞品。**问开发商「售出率」没有意义，要问管理处「入住率 / 门禁活跃户数」。**
-18. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
+18. **文件名里的缩写会骗人。** 在 spsetia 媒体库里 `OL_Setia-SV2_Floor-Plan_Type-A1…C4` 看着极像「Vogue Suites 2」，实际 `SV2` = **Setia Sky Ville 2**（槟城），属于 township 35044，与 KLEC 无关。**判据：查媒体项的 `wp:attached-to` 拿到 parent township id，再解析 slug**，别靠文件名猜。
+19. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
 
 ---
 
@@ -382,7 +403,7 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 | 项 | 状态 |
 |---|---|
 | The Gardens 户型面积与售价 | IGB 未发布住宅分层销售手册；St Giles 渠道只有房型名 |
-| Vogue Two 成交价 / 层数 | EdgeProp RM0、brickz 无项目页；层数无公开数据 |
+| Vogue Two 成交价 / 层数 / 户型图 | EdgeProp RM0、brickz 无项目页、`wp-json?search=vogue` 仅 1 条（BCA Green Mark 认证图）、`propertys?search=vogue` 返回 0 条。**四条通道全部为负** |
 | 除 ViiA 外各项目管理费 | 无公开数据 |
 | Gardens / Northpoint / Vogue Two / Southpoint 洪涝评级 | 无项目级数据（无数据 ≠ 无风险） |
 | Southpoint 步行路径是否全程有盖 | 无任何来源描述，需现场走 |
@@ -405,6 +426,7 @@ f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / Propert
 | A 一手 | spsetia.com | 跨河有盖天桥的存在 |
 | A 一手 | spsetia.com / spsetia CDN | ViiA 12 张官方户型图、KLEC 2025 总平面剖面（含销售状态） |
 | A 一手 | **spsetia.com 官方 PDF 手册**（Master 2023 / Simplified V3）+ `wp-json/wp/v2/media` | **ViiA 16 种全户型、两版面积、天桥官方原文** |
+| A 一手 | **spsetia.com `wp-json/wp/v2/media?parent=<township>`** | KLEC 42 条媒体，含天桥实景航拍 |
 | A 一手 | klecocity.com（Wayback 2014/2016） | Vogue Suites One 设施层平面 L7/L8/L52/L53 |
 | B 结构化 | MyRumahBaru / mudah | 户型全表、设施、距离、户数层数、洪涝 |
 | C 营销 | PropertyGuru / Agoda / 携程 / St Giles | 短租活跃度、房型名 |
