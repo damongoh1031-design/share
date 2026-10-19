@@ -12,9 +12,9 @@ tags:
   - EdgeProp
 created: 2026-10-19
 updated: 2026-10-19
-version: 3.0
+version: 3.1
 status: stable
-source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com / klecocity.com Wayback / klpropertytalk）
+source: 本次会话实测（EdgeProp 逐项目页 / brickz / MyRumahBaru / mudah / spsetia.com / klecocity.com Wayback / klpropertytalk / Lowyat.NET / Booking.com）
 confidence: 已核实（结构、成交、距离）；推断（步行距离、净回报、逐户型推算总价）
 ---
 
@@ -215,6 +215,77 @@ curl -sL "https://spsetia.com/sitemap.xml"   # 注意：www.spsetia.com 证书�
 
 ---
 
+## 社区意见（业主 / 法拍 / 住客，2026-10-19 采集）
+
+> 来源：Lowyat.NET `topic/1574792`（约 4 万帖，抽样 27 页）+ `topic/5454118`；Booking.com ViiA 861 条评价；residensivogue1.com（管理处/运营商）。论坛内容属**社区实证**，非官方。
+
+### ViiA
+
+| 议题 | 证据 | 含义 |
+|---|---|---|
+| 入住率 | 「Visited my friend's unit in ViiA again. **Occupancy is still below 20%**」；另称售出约 60% | 售 60% / 住 <20% → 四成空置，未来同栋放租竞争激烈 |
+| 法拍 | 710 sf（=Type A2）底价 RM607,500，**11 人竞投，成交 RM690,000 = RM972 psf** | 最硬真实成交价；比 EdgeProp 中位 RM1,669 低 42% |
+| 装修对比 | 浴室五金 Vogue 胜（Toto）、厨房柜 Vogue 胜、衣柜 ViiA 胜；**1+1 两边都不讨喜**；1 房 Vogue 更好，2 房 ViiA 更顺 | 拆穿「新房全面更好」；ViiA 主力 B 系列被点名不讨喜 |
+| 住客评分 | Booking 8.3/10（861 条）：位置 **9.1**、清洁/舒适/设施/员工 8.7、性价比 8.5 | 位置分最高，连通性获住客侧验证 |
+| 连通性 | 「**不用走到户外**就能到 Mid Valley 和车站，下雨天特别方便」 | 与 Lowyat 对 Vogue One 的说法形成对照 |
+
+### Vogue Suites One
+
+| 议题 | 证据 | 含义 |
+|---|---|---|
+| 天桥 | 「Don't really see a proper walking path from **VS1** to MV or LRT. **When will they build the link bridge from VS1**?」 | **Vogue One 无直连天桥**，要先穿园区到 RT-1 侧接驳点 |
+| 步行路线 | 「cross the road to **Mercu 3**… **one uncovered road to cross**, the rest is covered」；「everyone uses the mercu 3 path」；坐标 3.1182508, 101.6733292 | 全程有盖但**有一处露天过街** |
+| 回家动线 | 交房实拍：「Main lobby → Reception → private waiting lobby → **Transfer lift lobby to Level 8**」 | 独立验证：大堂在 8 层，需换乘一次电梯 |
+| 列车噪音 | 「level 10 会不会太靠近 KTM/LRT 噪音？」→「**Definitely could hear the train passby when night is too quiet**」 | 低楼层朝轨道侧有噪音，可作压价点 |
+| 短租 | 「management don't allow airbnb」→「I am already doing mine. Pass to **lazyhost.co**」 | 理论上不允许，实际灰色地带 |
+| 法拍 ① | A-47-7，710 sf，2019-09 底价 RM688,500 → **6 人竞投成交 RM770,000（RM1,085 psf）** | — |
+| 法拍 ② | A-10-1，969 sf（Type Ca2 端头），2020-09 **第 3 次**法拍，底价由 RM1.1M 降至 **RM792,000** → **仅 1 人，按底价成交（RM817 psf）** | 法拍早已给出「真实价」 |
+| 租金 | 2018 全装修 700 sf 平均 **RM2,500**；2021 朋友单位长期 **RM2,100**；2026 运营商挂牌 1 房 **RM3,000–3,500**、1+1 **RM3,500–4,000**、2 房 **RM4,700–5,200** | 2018→2021 跌，2021→2026 回升；当前 1 房 ≈ RM4.3 psf/月 |
+| 涨幅 | 2011 开盘 **RM1,000–1,200 psf** → 今天近 8 月中位 **RM1,016 psf** | **15 年名义零涨幅** |
+
+### 园区结构性问题（影响全部项目）
+
+| 议题 | 证据 | 含义 |
+|---|---|---|
+| 商场 | 2019：「EcoCity mall **is dead**… **50 people in the whole mall**，Jaya Grocer 约 5 个顾客」；2025：「very hard to maneuver, parking messy」「had to pusing pusing」 | 商场从 2019 到 2025 没起来 |
+| 办公空置 | 转引 IGB REIT：**Menara IGB <70%、Southpoint 50+%**（<span>二手引用，未核实原始财报</span>） | 租客池小 → 住宅租金上不去 |
+| 竞争分流 | 「KL Eco City 的目标买家全被 **Bangsar South** 吸走」；「Bangsar South 供应过剩、大户型租金略低，把这个项目打得很惨」 | **真正的对手是 Bangsar South，不是 Mid Valley** |
+
+### Northpoint / The Gardens / Southpoint
+
+- **Northpoint**：社区讨论几乎为零（2006 年建成，早于论坛活跃期）。仅一句租金参照「RM5–6 psf（1,200 sf 以上）」（2015），口径可疑，**不采用**。
+- **The Gardens Residences**：无业主级讨论，评价散在 OTA。与「近 48 个月零成交」互为印证 —— 不是交易标的，是持有物。
+- **Southpoint**：仅作为「办公空置 50+%」被提及。
+
+### 对结论的影响
+
+| 社区证据 | 影响 | 修正 |
+|---|---|---|
+| ViiA 法拍 RM972 psf | 强化 | 合理价锚由 RM1,100–1,320 下修至 **RM950–1,100** |
+| ViiA 入住 <20% / 售出 60% | 新增风险 | 投资评级下调；自住不受影响 |
+| Vogue One 无直连桥、过 1 处露天马路 | 修正 | 「370 m 有盖天桥」→「370 m，有盖但需过 1 处马路」 |
+| Vogue One 15 年零涨幅 | 强化 | 应作为核心警示，而非只讲「从高点回撤 67%」 |
+| 办公空置 <70% / 50+% | 补充 | 独立风险层：园区办公空置 + 商场冷清 + Bangsar South 分流 |
+| Northpoint 零讨论 | 中性 | 零讨论 ≠ 有问题，也 ≠ 没问题 |
+
+### 复用操作：怎么抓这些社区内容
+
+```bash
+# Lowyat 主题（可直接 curl，无需登录）
+curl -s -A "<UA>" "https://forum.lowyat.net/topic/1574792/+2000" -o p.html
+# 帖子正文在 <div class="postcolor post_text" ...>；引用块在 quotetop/quotemain 内，需先剥离
+```
+
+```python
+# Reddit 已全面 403（含 old.reddit / .json / pullpush）。可用 reader 代理绕过 OTA 站：
+f"https://r.jina.ai/{target_url}"   # Booking.com 有效；Tripadvisor / PropertyGuru 有 CAPTCHA
+```
+
+- **Lowyat 站内搜索需登录 session**，`/search?q=` 返回 25 字节空页。改用 DuckDuckGo HTML（`html.duckduckgo.com/html/?q=`）找主题 ID。
+- **Bing 已不可用**：`site:` 查询返回无关结果（区域重定向污染）。
+
+---
+
 ## 坑与反直觉
 
 1. **EdgeProp「48 个月中位」会把新盘高估 40–60%。** 对 2021 年后交付的项目，这个数字包含 2022–23 投机高点。Vogue One：48m 中位 1,622 vs 近 8 月成交 1,016。**中介报「中位 psf」时，用的是两年前的价格。**
@@ -230,6 +301,9 @@ curl -sL "https://spsetia.com/sitemap.xml"   # 注意：www.spsetia.com 证书�
 11. **同一栋楼同面积可以有 3–4 种平面。** ViiA 的 B3 与 B4 都是 807 sf、都是 1+1，但平面不同；A2（710）与 A5（635）都是 1 房，面积差 12%。**「ViiA 均价 RM1,669 psf」这种项目级数字不能用来谈具体单位。**
 12. **开发商官网的销售状态图比任何门户都准。** S P Setia 2025-04 的 KLEC 总平面剖面直接标了每个塔楼 `Completed & Sold Out` / `Open for Sale` / `Open for Leasing` / `FUTURE LAUNCHES`。这张图上**没有单独标注 Vogue Suites Two**，与 EdgeProp RM0、brickz 无项目页互相印证。
 13. **A 系列图上未标阳台，B 系列明确画了 BALCONY。** 热带气候下这是硬差异，但门户的户型表里两档都写「有」或都写「未标注」。
+14. **法拍价才是这个片区的真实价。** ViiA 710 sf 法拍成交 RM690K（RM972 psf）、Vogue One 710 sf 法拍 RM770K（RM1,085 psf）、Vogue One 969 sf 法拍 RM792K（RM817 psf）。三笔都在 RM800–1,100 psf，而 EdgeProp 中位在 RM1,622–1,669。**法拍市场没被营销污染。**
+15. **「售出 60%」和「入住 20%」可以同时为真。** 投资客持有但不出租，等于整栋楼空着。这会压低管理费收缴率、拉低租金，并让你未来出租时面对大量同栋竞品。**问开发商「售出率」没有意义，要问管理处「入住率 / 门禁活跃户数」。**
+16. **同一栋楼，不同人的「有没有天桥」说法会相反。** Vogue One 业主坚持「没有像样的步行道」，ViiA 住客说「不用走到户外」。差别在于 Vogue One 要先穿园区到 RT-1 侧接驳点，且去 LRT 要过一处露天马路。**「有盖天桥」必须问清：从哪个门出、走几步、过不过马路。**
 
 ---
 
