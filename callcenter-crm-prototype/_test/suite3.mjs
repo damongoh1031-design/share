@@ -126,7 +126,7 @@ export default async function (api) {
 
   // ---------- 10. 设置项可调并持久 ----------
   await evalJS(`DB.settings.protectDays = 21; saveDB()`);
-  const persisted = await evalJS(`JSON.parse(localStorage.getItem('crm_proto_v3')).settings.protectDays`);
+  const persisted = await evalJS(`JSON.parse(localStorage.getItem('crm_proto_v4')).settings.protectDays`);
   A(persisted === 21, '设置写入 localStorage', String(persisted));
 
   // 报告

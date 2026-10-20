@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>外呼 CRM · 交互原型 v2.0</title>
+<title>CC CRM · 客户与外呼管理</title>
 <style>
 *{box-sizing:border-box}
 :root{
   --bg:#0c0f15; --bg2:#11151d; --panel:#151a23; --panel2:#1a212c; --panel3:#202836;
   --line:#232b39; --line2:#2d3748;
-  --tx:#e8ecf4; --tx2:#98a3b8; --tx3:#69748a;
+  --tx:var(--tx); --tx2:var(--tx2); --tx3:var(--tx3);
   --blue:#4c8dff; --green:#2ecc8f; --amber:#f5a524; --red:#f0556b; --purple:#a78bfa; --slate:#66718a;
   --th:#131923; --hover:#161d27; --hover2:#1a212c; --cellline:#1c2431; --dimcell:#10141c;
   --avbg:#243044; --avtx:#9db6dd; --chipbg:#1e2635; --chipbd:#2b3546;
+  --brand:#f0824a; --brand-soft:rgba(240,130,74,.14); --brand2:#f5c518;
+  --topbar:#11151d; --topbar-tx:var(--tx); --topbar-line:#232b39;
   --r:10px; --fs:1;
 }
 html[data-theme="light"]{
-  --bg:#f4f6fa; --bg2:#ffffff; --panel:#ffffff; --panel2:#f4f6fa; --panel3:#e8edf5;
-  --line:#e3e8f0; --line2:#cfd7e4;
-  --tx:#17202e; --tx2:#536076; --tx3:#8792a6;
-  --blue:#2563eb; --green:#0f9d68; --amber:#b8760a; --red:#d1344c; --purple:#7c5cd6; --slate:#6b7789;
-  --th:#f7f9fc; --hover:#f4f7fb; --hover2:#eef3f9; --cellline:#e9eef5; --dimcell:#eef1f6;
-  --avbg:#dde7f6; --avtx:#2f4f7d; --chipbg:#eef2f8; --chipbd:#d7dfea;
+  --bg:#f2f4f7; --bg2:#ffffff; --panel:#ffffff; --panel2:#f7f9fc; --panel3:#eef2f7;
+  --line:#e8ecf2; --line2:#d9e0ea;
+  --tx:#1f2d3d; --tx2:#5f6f85; --tx3:#93a0b3;
+  --blue:#3b6ef0; --green:#12a06a; --amber:#c47f00; --red:#d93a4b; --purple:#7c5cd6; --slate:#6b7789;
+  --th:#f7f9fc; --hover:#f8fafc; --hover2:#f1f5f9; --cellline:#eef2f7; --dimcell:#f7f9fc;
+  --avbg:#e8eef7; --avtx:#3b5478; --chipbg:#f2f5f9; --chipbd:#e2e8f0;
+  --brand:#e8622a; --brand-soft:#fff3ec; --brand2:#f5c518;
+  --topbar:#46566e; --topbar-tx:#ffffff; --topbar-line:#3b4a5f;
 }
 html[data-theme="contrast"]{
   --bg:#000000; --bg2:#000000; --panel:#080808; --panel2:#111111; --panel3:#1c1c1c;
   --line:#6a6a6a; --line2:#9a9a9a;
   --tx:#ffffff; --tx2:#f0f0f0; --tx3:#c8c8c8;
-  --blue:#79b8ff; --green:#4ae3a0; --amber:#ffc247; --red:#ff7d8f; --purple:#c4b1ff; --slate:#b8c0cf;
+  --blue:#79b8ff; --green:#4ae3a0; --amber:#ffc247; --red:#ff7d8f; --purple:var(--purple); --slate:#b8c0cf;
   --th:#141414; --hover:#1a1a1a; --hover2:#222222; --cellline:#3a3a3a; --dimcell:#0a0a0a;
   --avbg:#1f1f1f; --avtx:#ffffff; --chipbg:#1c1c1c; --chipbd:#7a7a7a;
+  --brand:#ffb070; --brand-soft:rgba(255,176,112,.16); --brand2:#ffd447;
+  --topbar:#000000; --topbar-tx:#ffffff; --topbar-line:#6a6a6a;
 }
 html[data-theme="eye"]{
   --bg:#dde8d3; --bg2:#e7f0dd; --panel:#f1f7ea; --panel2:#e8f1de; --panel3:#dbe8cf;
@@ -38,6 +44,8 @@ html[data-theme="eye"]{
   --blue:#2f6b46; --green:#2f7a4a; --amber:#8a6316; --red:#a83328; --purple:#5b4a8a; --slate:#5f6f58;
   --th:#e2eed7; --hover:#e6f0da; --hover2:#dcead0; --cellline:#cfdec2; --dimcell:#d6e3c9;
   --avbg:#d3e3c4; --avtx:#33502b; --chipbg:#e4efd9; --chipbd:#bccfad;
+  --brand:#b4551f; --brand-soft:#f6e7d9; --brand2:#8a6316;
+  --topbar:#3f4a37; --topbar-tx:#f2f7ec; --topbar-line:#33402c;
 }
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--tx);
@@ -102,11 +110,11 @@ label.fl{display:block;font-size:calc(12px * var(--fs));color:var(--tx2);margin:
 .mono{font-variant-numeric:tabular-nums;font-family:"JetBrains Mono",Consolas,monospace}
 .badge{display:inline-flex;align-items:center;height:21px;padding:0 8px;border-radius:5px;font-size:calc(11.5px * var(--fs));white-space:nowrap;border:1px solid transparent}
 .b-slate{background:rgba(102,113,138,.16);color:#a8b3c8;border-color:rgba(102,113,138,.3)}
-.b-blue{background:rgba(76,141,255,.14);color:#8fb8ff;border-color:rgba(76,141,255,.3)}
-.b-amber{background:rgba(245,165,36,.13);color:#f7c46a;border-color:rgba(245,165,36,.28)}
-.b-green{background:rgba(46,204,143,.13);color:#5fe0ae;border-color:rgba(46,204,143,.28)}
-.b-red{background:rgba(240,85,107,.13);color:#ff96a5;border-color:rgba(240,85,107,.3)}
-.b-purple{background:rgba(167,139,250,.14);color:#c4b1ff;border-color:rgba(167,139,250,.3)}
+.b-blue{background:rgba(76,141,255,.14);color:var(--blue);border-color:rgba(76,141,255,.3)}
+.b-amber{background:rgba(245,165,36,.13);color:var(--amber);border-color:rgba(245,165,36,.28)}
+.b-green{background:rgba(46,204,143,.13);color:var(--green);border-color:rgba(46,204,143,.28)}
+.b-red{background:rgba(240,85,107,.13);color:var(--red);border-color:rgba(240,85,107,.3)}
+.b-purple{background:rgba(167,139,250,.14);color:var(--purple);border-color:rgba(167,139,250,.3)}
 .b-gray{background:rgba(120,130,150,.1);color:#7e8899;border-color:rgba(120,130,150,.22)}
 .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
 .kpi .k{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden}
@@ -114,7 +122,7 @@ label.fl{display:block;font-size:calc(12px * var(--fs));color:var(--tx2);margin:
 .kpi .k .vl{font-size:calc(27px * var(--fs));font-weight:600;margin-top:6px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
 .kpi .k .sub{font-size:calc(11.5px * var(--fs));color:var(--tx3);margin-top:2px}
 .kpi .k.alert .vl{color:#ff8b9b}
-.kpi .k.ok .vl{color:#5fe0ae}
+.kpi .k.ok .vl{color:var(--green)}
 table{width:100%;border-collapse:collapse;font-size:calc(13px * var(--fs))}
 th{text-align:left;font-weight:500;color:var(--tx2);font-size:calc(12px * var(--fs));padding:9px 12px;background:var(--th);
   border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;z-index:2}
@@ -152,17 +160,17 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
 .cal .cell:hover{background:var(--hover2)}
 .cal .cell.dim{background:var(--dimcell);color:var(--tx3)}
 .cal .cell .d{font-size:calc(12px * var(--fs));color:var(--tx2);font-variant-numeric:tabular-nums}
-.cal .cell.dim .d{color:#4d5668}
+.cal .cell.dim .d{color:var(--tx3)}
 .cal .cell.today .d{color:#fff;background:var(--blue);width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:calc(11.5px * var(--fs))}
 .cal .cell .n{position:absolute;right:8px;top:7px;font-size:calc(11px * var(--fs));color:var(--tx2)}
 .cal .cell .ev{margin-top:5px;display:flex;flex-direction:column;gap:3px}
 .cal .cell .ev span{font-size:calc(10.5px * var(--fs));padding:1px 5px;border-radius:4px;background:var(--chipbg);color:#9fb0c8;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cal .cell .ev span.od{background:rgba(240,85,107,.16);color:#ff96a5}
-.cal .cell .ev span.dn{background:rgba(46,204,143,.13);color:#5fe0ae}
+.cal .cell .ev span.od{background:rgba(240,85,107,.16);color:var(--red)}
+.cal .cell .ev span.dn{background:rgba(46,204,143,.13);color:var(--green)}
 .cal .cell .ev span.cn{background:#1a1f29;color:#5d6779;text-decoration:line-through}
 
-.mask{position:fixed;inset:0;background:rgba(6,9,14,.62);backdrop-filter:blur(2px);z-index:60;
+.mask{position:fixed;inset:0;background:rgba(17,24,39,.55);z-index:60;
   display:flex;align-items:flex-start;justify-content:center;padding:56px 20px 20px;overflow:auto}
 .modal{width:100%;max-width:540px;background:var(--panel);border:1px solid var(--line2);border-radius:12px;
   box-shadow:0 24px 60px rgba(0,0,0,.55);animation:pop .16s ease-out}
@@ -174,7 +182,7 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
 .modal-hd .x:hover{color:#fff}
 .modal-bd{padding:16px 18px;max-height:66vh;overflow:auto}
 .modal-ft{display:flex;justify-content:flex-end;gap:9px;padding:13px 18px;border-top:1px solid var(--line)}
-.drawer-mask{position:fixed;inset:0;background:rgba(6,9,14,.5);z-index:55}
+.drawer-mask{position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:55}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:430px;max-width:94vw;background:var(--bg2);
   border-left:1px solid var(--line2);z-index:56;display:flex;flex-direction:column;
   box-shadow:-20px 0 50px rgba(0,0,0,.45);animation:slide .18s ease-out}
@@ -200,11 +208,11 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
 .tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line2)}
 .tl .n{position:relative;padding:0 0 18px}
 .tl .n::before{content:"";position:absolute;left:-19px;top:5px;width:9px;height:9px;border-radius:50%;
-  background:var(--panel);border:2px solid #3a465c}
+  background:var(--panel);border:2px solid var(--line2)}
 .tl .n.ok::before{border-color:var(--green)}
 .tl .n.miss::before{border-color:var(--amber)}
 .tl .n .h{display:flex;align-items:center;gap:8px;font-size:calc(12px * var(--fs));color:var(--tx2)}
-.tl .n .c{margin-top:5px;font-size:calc(13px * var(--fs));line-height:1.65;color:#cfd7e6}
+.tl .n .c{margin-top:5px;font-size:calc(13px * var(--fs));line-height:1.65;color:var(--tx)}
 .tl .n .f{margin-top:5px;font-size:calc(11.5px * var(--fs));color:var(--tx3);display:flex;gap:10px}
 
 .bars{display:flex;align-items:flex-end;gap:14px;height:132px;padding:6px 4px 0}
@@ -231,7 +239,7 @@ html[data-fs="xl"]{--fs:1.26}
 .seg button{flex:1;min-width:56px;height:28px;border-radius:7px;border:1px solid var(--line2);background:var(--panel2);
   color:var(--tx2);font-size:calc(12px * var(--fs));cursor:pointer;transition:.14s}
 .seg button:hover{background:var(--panel3);color:var(--tx)}
-.seg button.on{background:rgba(76,141,255,.16);border-color:var(--blue);color:#8fb8ff}
+.seg button.on{background:rgba(76,141,255,.16);border-color:var(--blue);color:var(--blue)}
 .sw{display:flex;gap:7px;flex-wrap:wrap}
 .sw i{width:38px;height:26px;border-radius:6px;border:2px solid transparent;cursor:pointer;display:block;position:relative}
 .sw i.on{border-color:var(--blue)}
@@ -249,9 +257,9 @@ html[data-fs="xl"]{--fs:1.26}
 .resbtn{height:52px;border-radius:9px;border:1px solid var(--line2);background:var(--panel2);color:var(--tx);
   font-size:calc(13px * var(--fs));cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:.14s}
 .resbtn:hover{background:var(--panel3)}
-.resbtn.on{border-color:var(--blue);background:rgba(76,141,255,.14);color:#8fb8ff;box-shadow:0 0 0 3px rgba(76,141,255,.1)}
+.resbtn.on{border-color:var(--blue);background:rgba(76,141,255,.14);color:var(--blue);box-shadow:0 0 0 3px rgba(76,141,255,.1)}
 .resbtn small{font-size:calc(10px * var(--fs));color:var(--tx3)}
-.resbtn.on small{color:#8fb8ff}
+.resbtn.on small{color:var(--blue)}
 .callhist{max-height:280px;overflow:auto}
 .callhist .n{padding:9px 0;border-bottom:1px solid var(--cellline)}
 .callhist .n:last-child{border-bottom:none}
@@ -275,11 +283,15 @@ html[data-fs="xl"]{--fs:1.26}
 .login .box{width:100%;max-width:880px;display:grid;grid-template-columns:1.05fr .95fr;
   background:var(--panel);border:1px solid var(--line2);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .login .lft{padding:40px 36px;border-right:1px solid var(--line);display:flex;flex-direction:column}
-.login .lft h2{margin:0 0 6px;font-size:calc(21px * var(--fs));letter-spacing:.5px}
+.login .lft h2{margin:0 0 2px;font-size:calc(21px * var(--fs));letter-spacing:.3px}
+.lghead{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.lghead .logo{width:46px;height:46px;border-radius:11px;background:#fff;object-fit:contain;padding:3px;
+  box-shadow:0 1px 3px rgba(16,32,56,.14),0 0 0 1px rgba(16,32,56,.06)}
+.lghead .lgsub{margin:0;font-size:calc(11.5px * var(--fs));color:var(--tx3);letter-spacing:.2px}
 .login .lft .sub{margin:0 0 22px;font-size:calc(12.5px * var(--fs));color:var(--tx3);line-height:1.8}
 .login .lft ul{margin:0;padding:0;list-style:none}
 .login .lft li{font-size:calc(12.5px * var(--fs));color:var(--tx2);padding:5px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
-.login .lft li b{color:#8fb8ff;font-weight:500;flex:0 0 14px}
+.login .lft li b{color:var(--blue);font-weight:500;flex:0 0 14px}
 .login .lft .ft{margin-top:auto;font-size:calc(11px * var(--fs));color:#4f5a6e;line-height:1.7;padding-top:20px}
 .login .rgt{padding:36px 34px;background:#12171f}
 .login .rgt h3{margin:0 0 3px;font-size:calc(15px * var(--fs));font-weight:500}
@@ -315,8 +327,8 @@ html[data-fs="xl"]{--fs:1.26}
 .matrix .cap small{display:block;color:#5d6879;font-size:calc(11px * var(--fs));margin-top:1px}
 input[type=checkbox]{appearance:none;-webkit-appearance:none;width:15px;height:15px;border:1px solid var(--line2);
   border-radius:4px;background:var(--panel2);cursor:pointer;vertical-align:-2px;position:relative;transition:.12s;flex:0 0 15px}
-input[type=checkbox]:hover{border-color:var(--blue)}
-input[type=checkbox]:checked{background:var(--blue);border-color:var(--blue)}
+input[type=checkbox]:hover{border-color:var(--brand)}
+input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
 input[type=checkbox]:checked:after{content:'';position:absolute;left:4.5px;top:1px;width:4px;height:8px;
   border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
 html[data-theme="contrast"] input[type=checkbox]{border-color:#fff}
@@ -328,14 +340,14 @@ input[type=checkbox]:disabled{cursor:not-allowed;opacity:.4}
 .bico:after{content:'!';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:calc(10px * var(--fs));font-weight:700;line-height:1}
 .bulkbar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:45;display:flex;align-items:center;gap:12px;
-  background:var(--panel3);border:1px solid #33415a;border-radius:11px;padding:9px 14px;box-shadow:0 16px 40px rgba(0,0,0,.55)}
+  background:var(--panel3);border:1px solid var(--line2);border-radius:11px;padding:9px 14px;box-shadow:0 16px 40px rgba(0,0,0,.55)}
 .bulkbar .n{font-size:calc(13px * var(--fs))}
-.bulkbar .n b{color:#8fb8ff}
+.bulkbar .n b{color:var(--blue)}
 .groupbox{border:1px solid var(--line);border-radius:9px;margin-bottom:10px;overflow:hidden}
 .groupbox .gh{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--th);font-size:calc(12.5px * var(--fs))}
 .groupbox .gh .sp{flex:1}
 .toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;
-  background:#1d2735;border:1px solid #33415a;color:#dfe7f5;padding:10px 16px;border-radius:9px;font-size:calc(13px * var(--fs));
+  background:#1d2735;border:1px solid var(--line2);color:#dfe7f5;padding:10px 16px;border-radius:9px;font-size:calc(13px * var(--fs));
   box-shadow:0 14px 34px rgba(0,0,0,.5);animation:tin .18s ease-out;display:flex;align-items:center;gap:8px;max-width:80vw}
 .toast.ok{border-color:#2b6b52;background:#152a22;color:#a9ebcd}
 .toast.warn{border-color:#6b5324;background:#2a2317;color:#f6d79a}
@@ -343,11 +355,11 @@ input[type=checkbox]:disabled{cursor:not-allowed;opacity:.4}
 @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 .help{font-size:calc(11.5px * var(--fs));color:var(--tx3);margin-top:5px;line-height:1.7}
 .warnbox{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.28);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:#f0cd94;line-height:1.65}
-.infobox{background:rgba(76,141,255,.08);border:1px solid rgba(76,141,255,.24);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:#a9c6f5;line-height:1.65}
+.infobox{background:rgba(76,141,255,.08);border:1px solid rgba(76,141,255,.24);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:var(--blue);line-height:1.65}
 .redbox{background:rgba(240,85,107,.08);border:1px solid rgba(240,85,107,.26);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:#ffb3bf;line-height:1.65}
 .masknum{font-family:"JetBrains Mono",Consolas,monospace;letter-spacing:.5px}
 .eye{background:none;border:none;color:#6f7d95;cursor:pointer;font-size:calc(12px * var(--fs));padding:0 3px}
-.eye:hover{color:#8fb8ff}
+.eye:hover{color:var(--blue)}
 
 /* 浅色 / 护眼主题：把深色底写死的颜色改写一遍 */
 html[data-theme="light"] .nav a:hover,html[data-theme="eye"] .nav a:hover{background:var(--hover2);color:var(--tx)}
@@ -411,6 +423,57 @@ html[data-theme="contrast"] .nav a.on{background:#000;color:#79b8ff;box-shadow:i
 html[data-theme="contrast"] .nav a:hover{background:#1a1a1a;color:#fff}
 html[data-theme="contrast"] .toast{background:#000;border-color:#fff;color:#fff}
 html[data-theme="contrast"] .infobox,html[data-theme="contrast"] .warnbox,html[data-theme="contrast"] .redbox{background:#000}
+
+/* ===== v4 品牌化：logo 橙 + 参考稿的浅色简洁版 ===== */
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand);filter:brightness(.93)}
+.btn.brand{color:var(--brand);border-color:rgba(232,98,42,.4);background:#fff}
+.btn.brand:hover{background:var(--brand-soft);border-color:var(--brand)}
+.nav a.on{background:var(--brand-soft);color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
+.tabs a.on{color:var(--brand);border-bottom-color:var(--brand)}
+.seg button.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.resbtn.on{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+.resbtn.on small{color:var(--brand)}
+.eye:hover{color:var(--brand)}
+.bulkbar .n b{color:var(--brand)}
+.side-ft a{color:var(--tx3)}
+.side-ft a:hover{color:var(--brand)}
+/* 顶栏：深板岩，白字，中间搜索 */
+.top{background:var(--topbar);border-bottom:1px solid var(--topbar-line);color:var(--topbar-tx);gap:10px}
+.top .crumb{color:rgba(255,255,255,.72)}
+.top .crumb b{color:#fff}
+.top .crumb a{color:rgba(255,255,255,.72)!important}
+.top .tiny.dim{color:rgba(255,255,255,.55)}
+.top .btn{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.16);color:#fff}
+.top .btn:hover{background:rgba(255,255,255,.20);border-color:rgba(255,255,255,.28)}
+.top select{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.18);color:#fff}
+.top select option{color:var(--tx);background:var(--panel)}
+.gsearch{position:relative;width:min(320px,30vw)}
+.gsearch input{height:32px;border-radius:16px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.14);color:#fff;padding:0 34px 0 14px;font-size:calc(12.5px * var(--fs))}
+.gsearch input::placeholder{color:rgba(255,255,255,.5)}
+.gsearch input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.34);box-shadow:none}
+.gsearch .gi{position:absolute;left:12px;top:8px;color:rgba(255,255,255,.55);display:flex}
+.gsearch input{padding-left:34px}
+.gsearch kbd{position:absolute;right:9px;top:7px;font:11px/1 var(--mono);color:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.22);border-radius:4px;padding:2px 5px}
+/* 侧栏品牌 */
+.brand{display:flex;align-items:center;gap:10px;padding:14px 14px 13px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:#fff;object-fit:contain;padding:2px;
+  box-shadow:0 1px 2px rgba(16,32,56,.10),0 0 0 1px rgba(16,32,56,.06)}
+.brand h1{font-size:calc(15px * var(--fs));margin:0;letter-spacing:.2px}
+.brand p{margin:2px 0 0;font-size:calc(10.5px * var(--fs));color:var(--tx3);letter-spacing:0}
+.nav a{border-radius:8px}
+.nav a .ic{width:18px;display:inline-flex;align-items:center;justify-content:center;opacity:.9}
+tbody tr.click:hover{background:var(--hover)}
+.card{box-shadow:0 1px 2px rgba(16,32,56,.04)}
+/* 浅色下的低噪音提示条 */
+html[data-theme="light"] .banner{background:#fff;border-color:var(--line);border-left:3px solid var(--brand);color:var(--tx2)}
+html[data-theme="light"] .warnbox{background:#fff8ec;border-color:#f3dfb8;color:#8a5b06}
+html[data-theme="light"] .infobox{background:#f4f7ff;border-color:#dbe4f0;color:#2f4a7a}
+html[data-theme="light"] .redbox{background:#fdf1f2;border-color:#f3cdd2;color:#a3243a}
+html[data-theme="light"] .nav a.on{background:var(--brand-soft);color:var(--brand)}
+html[data-theme="light"] .tabs a.on{color:var(--brand)}
 </style>
 </head>
 <body>
@@ -422,8 +485,9 @@ html[data-theme="contrast"] .infobox,html[data-theme="contrast"] .warnbox,html[d
    四套主题 × 四档字号 × 中英全界面；纯前端 + localStorage
    ========================================================= */
 const $app = document.getElementById('app');
-const KEY = 'crm_proto_v3';
-const SESS = 'crm_proto_sess_v3';
+const LOGO = 'data:image/png;base64,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';
+const KEY = 'crm_proto_v4';
+const SESS = 'crm_proto_sess_v4';
 
 const pad = n => String(n).padStart(2, '0');
 const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
@@ -591,7 +655,7 @@ const TASK_SEED = [
 
 const SETTING_DEFAULTS = {
   cycleDays: 2, cycleMax: 3, maskPhone: true, exportLimit: 200, revealDailyLimit: 20,
-  theme: 'dark', fs: 'md', lang: 'zh',
+  theme: 'light', fs: 'md', lang: 'zh',
   // 联系频次闸门（可调）
   gateOn: true, gateDays: 7, gateMax: 2, gateStart: 9, gateEnd: 20,
   // 客户池 / 公海（可调）
@@ -952,7 +1016,7 @@ function noPerm(text) {
 
 /* ---------- 外观：主题 / 字号 / 语言 ---------- */
 const THEMES = [
-  { id: 'dark', zh: '深色', en: 'Dark', bg: '#0c0f15', panel: '#151a23', tx: '#e8ecf4' },
+  { id: 'dark', zh: '深色', en: 'Dark', bg: '#0c0f15', panel: '#151a23', tx: 'var(--tx)' },
   { id: 'light', zh: '浅色', en: 'Light', bg: '#f4f6fa', panel: '#ffffff', tx: '#17202e' },
   { id: 'contrast', zh: '高对比', en: 'Contrast', bg: '#000000', panel: '#111111', tx: '#ffffff' },
   { id: 'eye', zh: '护眼', en: 'Eye-care', bg: '#dde8d3', panel: '#f1f7ea', tx: '#1d2a1a' }
@@ -1085,7 +1149,10 @@ const EN = {
   '当前身份可导出 明文。': 'Your export level: full numbers.', '当前身份可导出 脱敏数据。': 'Your export level: masked data.', '当前身份无导出权限。': 'You have no export permission.', '周一': 'Mon',
   '周二': 'Tue', '周三': 'Wed', '周四': 'Thu', '周五': 'Fri',
   '周六': 'Sat', '周日': 'Sun', '今天 · 全部': 'Today · all', '本月': 'This month',
-  '搜索姓名 / 手机号 / 公司': 'Search name / phone / company', '请输入账号': 'Enter account', '请输入密码': 'Enter password', '至少 6 位': 'At least 6 characters',
+  '搜索姓名 / 手机号 / 公司': 'Search name / phone / company',
+  '搜索客户 / 手机号 / 公司': 'Search customer / phone / company',
+  '员工只能看到自己负责的客户，导出与批量分配不可用。': 'Agents see only their own customers; export and bulk assign are unavailable.',
+  '管理员可见全部客户。': 'Admin sees all customers.', '请输入账号': 'Enter account', '请输入密码': 'Enter password', '至少 6 位': 'At least 6 characters',
   '例如：华东一组': 'e.g. East China Team 1', '客户说了什么、达成什么、下一步…': 'What the customer said, what was agreed, next step…', '后续跟进': 'Follow-up', '写跟进并完成': 'Log call & complete',
   '这天没有回访安排': 'No callbacks this day', '暂无登录记录': 'No sign-in records', '暂无操作记录': 'No activity yet', '还没有历史记事，这是第一次联系': 'No notes yet — this is the first contact',
   '已保存，队列已清空': 'Saved. Queue is clear.', '请先选择联系结果': 'Pick a call result first', '管理员为你设置了初始密码，修改后才能继续使用系统。': 'An administrator set your initial password. Change it before you continue.', '首次登录必须修改初始密码': 'Change the initial password on first sign-in',
@@ -1157,6 +1224,11 @@ const EN_RULES = [
   [/^(.+) · 执行人 (.+)$/, '$1 · assignee $2'],
   [/^欢迎回来，(.+)$/, 'Welcome back, $1'],
   [/^超期 (\d+) 天$/, '$1 d overdue'],
+  [/^数据权限：当前身份可见 (\d+) \/ (\d+) 位客户。$/, 'Data scope: $1 / $2 customers visible.'],
+  [/^主管可见本人与 (\d+) 名直属下属的客户。$/, 'Supervisors see their own plus $1 direct reports\' customers.'],
+  [/^公海：全公司共享的未分配客户。领取后进入你的名下并开始计算保护期（(\d+) 天），期内至少要有一次有效跟进，否则自动退回。每人最多持有 (\d+) 位。$/, 'Public pool: unassigned customers shared company-wide. Claiming puts one under your name and starts a $1-day protection period; without at least one real follow-up it returns automatically. Max $2 per agent.'],
+  [/^待回收：已超保护期且没有待办回访的客户。系统每天自动回收；也可以手动退回公海。$/, 'To recycle: past the protection period with no open callback. The system recycles daily; you can also release them manually.'],
+
   [/^近 (\d+) 天已联系 (\d+)\/(\d+) 次$/, 'Last $1 d: $2/$3 calls'],
   [/^客户（(\d+)）$/, 'Customers ($1)'],
   [/^公海（(\d+)）$/, 'Pool ($1)'],
@@ -1207,7 +1279,8 @@ function loginView() {
   ];
   return '<div class="login"><div class="box">' +
     '<div class="lft">' +
-    '<h2>外呼 CRM</h2>' +
+    '<div class="lghead"><img class="logo" src="' + LOGO + '" alt="CC">' +
+    '<div><h2>CC CRM</h2><p class="lgsub">客户与外呼管理 · Malaysia</p></div></div>' +
     '<p class="sub">局域网部署的客户资产与外呼跟进系统。<br>客户名单是公司资产，系统按角色、按人、按次保护。</p>' +
     '<ul>' +
     '<li><b>①</b><span>坐席只看到自己名下的客户，手机号默认脱敏，且不能导出</span></li>' +
@@ -1247,22 +1320,46 @@ function loginView() {
 }
 
 /* ---------- 外壳 ---------- */
+const ICON = (function () {
+  const W = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
+  const P = {
+    dashboard: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/>',
+    phone: '<path d="M21 16.9v2.6a2 2 0 0 1-2.2 2 19.6 19.6 0 0 1-8.5-3 19.3 19.3 0 0 1-6-6 19.6 19.6 0 0 1-3-8.6A2 2 0 0 1 3.3 2H6a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L7 9.6a15.8 15.8 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7a2 2 0 0 1 1.7 2z"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/>',
+    check: '<circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',
+    activity: '<path d="M22 12h-4l-3 8-4-16-3 8H2"/>',
+    note: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    chart: '<path d="M18 20V10M12 20V4M6 20v-6M3 20h18"/>',
+    shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+    list: '<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.1V4a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1z"/>',
+    bell: '<path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>'
+  };
+  return function (k, size) {
+    const p = P[k];
+    if (!p) return k;
+    return size ? W.replace('width="16" height="16"', 'width="' + size + '" height="' + size + '"') + p + '</svg>' : W + p + '</svg>';
+  };
+})();
+
 function homeView() { return state.user && state.user.role === 'agent' ? 'calendar' : 'dashboard'; }
 function navItems() {
   const items = [];
   const agent = state.user.role === 'agent';
-  if (!agent) items.push({ id: 'dashboard', label: 'KPI 看板', ic: '◉' });
-  items.push({ id: 'calendar', label: agent ? '我的日程' : '回访日历', ic: '▦' });
-  items.push({ id: 'call', label: '呼叫台', ic: '☎' });
-  items.push({ id: 'customers', label: '客户', ic: '▤' });
-  if (can('customer.approve')) items.push({ id: 'approvals', label: '审批', ic: '✓' });
-  if (can('customer.merge') || can('customer.invalid')) items.push({ id: 'datahealth', label: '客户体检', ic: '⌗' });
-  items.push({ id: 'notes', label: '呼叫记事', ic: '✎' });
-  if (can('report.team')) items.push({ id: 'board', label: '主管看板', ic: '▩' });
-  if (can('user.manage')) items.push({ id: 'users', label: '用户管理', ic: '☰' });
-  if (can('perm.manage')) items.push({ id: 'perms', label: '权限管理', ic: '⊞' });
-  if (can('user.manage')) items.push({ id: 'logs', label: '日志', ic: '≡' });
-  if (can('setting.manage')) items.push({ id: 'settings', label: '系统设置', ic: '⚙' });
+  if (!agent) items.push({ id: 'dashboard', label: 'KPI 看板', ic: 'dashboard' });
+  items.push({ id: 'calendar', label: agent ? '我的日程' : '回访日历', ic: 'calendar' });
+  items.push({ id: 'call', label: '呼叫台', ic: 'phone' });
+  items.push({ id: 'customers', label: '客户', ic: 'users' });
+  if (can('customer.approve')) items.push({ id: 'approvals', label: '审批', ic: 'check' });
+  if (can('customer.merge') || can('customer.invalid')) items.push({ id: 'datahealth', label: '客户体检', ic: 'activity' });
+  items.push({ id: 'notes', label: '呼叫记事', ic: 'note' });
+  if (can('report.team')) items.push({ id: 'board', label: '主管看板', ic: 'chart' });
+  if (can('user.manage')) items.push({ id: 'users', label: '用户管理', ic: 'users' });
+  if (can('perm.manage')) items.push({ id: 'perms', label: '权限管理', ic: 'shield' });
+  if (can('user.manage')) items.push({ id: 'logs', label: '日志', ic: 'list' });
+  if (can('setting.manage')) items.push({ id: 'settings', label: '系统设置', ic: 'settings' });
   return items;
 }
 function shell(content) {
@@ -1271,13 +1368,13 @@ function shell(content) {
   const unread = DB.notifications.filter(n => n.userId === u.id && n.status === 'unread').length;
   const nav = navItems().map(n =>
     '<a data-act="nav" data-id="' + n.id + '" class="' + (state.view === n.id ? 'on' : '') + '">' +
-    '<span class="ic">' + n.ic + '</span>' + n.label + '</a>').join('');
+    '<span class="ic">' + ICON(n.ic) + '</span>' + n.label + '</a>').join('');
   const switchOpts = activeUsers().map(x =>
     '<option value="' + x.id + '"' + (x.id === u.id ? ' selected' : '') + '>' + x.name + '</option>').join('');
 
   return '<div class="app">' +
     '<aside class="side">' +
-    '<div class="brand"><h1><span class="dot"></span>外呼 CRM</h1><p>客户资产 · 原型 v2.0</p></div>' +
+    '<div class="brand"><img class="logo" src="' + LOGO + '" alt="CC"><div><h1>CC CRM</h1><p>客户与外呼管理</p></div></div>' +
     '<nav class="nav">' + nav + '</nav>' +
     '<div class="side-ft"><b>' + esc(u.name) + '</b> · ' + roleName +
     '<br>小组：' + esc(teamName(u)) +
@@ -1288,6 +1385,7 @@ function shell(content) {
     '<main class="main">' +
     '<header class="top">' +
     '<div class="crumb">' + crumb() + '</div><div class="sp"></div>' +
+    '<div class="gsearch"><span class="gi">' + ICON('search', 14) + '</span><input id="gq" data-input="gq" placeholder="搜索客户 / 手机号 / 公司"><kbd>/</kbd></div>' +
     '<span class="tiny dim">演示切换</span>' +
     '<select style="width:110px;height:28px;padding:2px 6px;font-size:calc(12px * var(--fs))" data-change="switch-user">' + switchOpts + '</select>' +
     '<div style="position:relative">' +
@@ -1295,7 +1393,7 @@ function shell(content) {
     (state.prefs ? prefsPanel() : '') +
     '</div>' +
     '<div style="position:relative">' +
-    '<button class="btn ghost" data-act="toggle-notif" style="height:30px">🔔 <span class="mono">' + unread + '</span></button>' +
+    '<button class="btn ghost" data-act="toggle-notif" style="height:30px">' + ICON('bell') + ' <span class="mono">' + unread + '</span></button>' +
     (state.notif ? notifPanel() : '') +
     '</div>' +
     '</header>' +
@@ -1327,9 +1425,9 @@ function notifPanel() {
     '<div class="b">' + esc(n.body) + ' · ' + ago(n.createdAt) + '</div></div>').join('')
     : '<div class="empty" style="padding:26px">没有新提醒</div>';
   return '<div class="notif">' +
-    '<div class="notif-hd">提醒 <span class="sp"></span><a data-act="read-all" style="cursor:pointer;color:#8fb8ff">全部已读</a></div>' +
+    '<div class="notif-hd">提醒 <span class="sp"></span><a data-act="read-all" style="cursor:pointer;color:var(--blue)">全部已读</a></div>' +
     '<div class="notif-bd">' + body + '</div>' +
-    '<div style="padding:8px 13px;border-top:1px solid var(--line);font-size:calc(11px * var(--fs));color:#69748a">已读不代表回访完成；关闭网页后不再弹提醒</div></div>';
+    '<div style="padding:8px 13px;border-top:1px solid var(--line);font-size:calc(11px * var(--fs));color:var(--tx3)">已读不代表回访完成；关闭网页后不再弹提醒</div></div>';
 }
 
 /* ---------- 工作台 ---------- */
@@ -1365,7 +1463,7 @@ function dashboardView() {
 
   const overdueList = overdue.length ? overdue.slice(0, 6).map(t => {
     const c = getCustomer(t.custId);
-    return '<div class="item"><div class="tm" style="color:#ff96a5">' + fmtMD(t.scheduledAt) + '</div>' +
+    return '<div class="item"><div class="tm" style="color:var(--red)">' + fmtMD(t.scheduledAt) + '</div>' +
       '<div class="bd"><div class="t1">' + (c ? esc(c.name) : '?') + ' <span class="badge b-red">逾期 ' + Math.round((Date.now() - ts(t.scheduledAt)) / 36e5 / 24) + ' 天</span></div>' +
       '<div class="t2">' + esc(t.title) + ' · 执行人 ' + (getUser(t.assigneeId) || {}).name + (t.rescheduleCount ? ' · 已改期 ' + t.rescheduleCount + ' 次' : '') + '</div></div>' +
       '<div class="ops"><button class="btn sm" data-act="open-task" data-id="' + t.id + '">处理</button></div></div>';
@@ -1388,9 +1486,9 @@ function dashboardView() {
     return '<div class="card"><div class="card-hd"><h3>客户池</h3><span class="sp"></span>' +
       '<span class="tiny dim">保护期 ' + DB.settings.protectDays + ' 天 · 上限 ' + DB.settings.claimLimit + ' 位/人</span></div>' +
       '<div class="card-bd" style="display:flex;gap:10px;text-align:center">' +
-      cell(pl, '公海可领取', 'pool', '#8fb8ff') +
-      cell(rc, '超期待回收', 'recycle', rc ? '#ff96a5' : '#5fe0ae') +
-      cell(rq, '待审批流转', 'approvals', rq ? '#f7c46a' : '#5fe0ae') +
+      cell(pl, '公海可领取', 'pool', 'var(--blue)') +
+      cell(rc, '超期待回收', 'recycle', rc ? 'var(--red)' : 'var(--green)') +
+      cell(rq, '待审批流转', 'approvals', rq ? 'var(--amber)' : 'var(--green)') +
       '</div></div>';
   })() : '';
 
@@ -1398,9 +1496,9 @@ function dashboardView() {
     '<div class="card"><div class="card-hd"><h3>客户资产待处理</h3><span class="sp"></span>' +
     '<button class="btn sm" data-act="nav" data-id="datahealth">打开客户体检</button></div>' +
     '<div class="card-bd" style="display:flex;gap:10px;text-align:center">' +
-    '<div style="flex:1"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:#f7c46a">' + dg.length + '</div><div class="tiny dim">重复客户组</div></div>' +
-    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:#ff96a5">' + inv.length + '</div><div class="tiny dim">无效 / 异常号码</div></div>' +
-    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:#8fb8ff">' + (cy.waiting.length + cy.recycle.length) + '</div><div class="tiny dim">待重呼 / 待回收</div></div>' +
+    '<div style="flex:1"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:var(--amber)">' + dg.length + '</div><div class="tiny dim">重复客户组</div></div>' +
+    '<div style="flex:1;border-left:1px solid var(--line)"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:var(--red)">' + inv.length + '</div><div class="tiny dim">无效 / 异常号码</div></div>' +
+    '<div style="flex:1;border-left:1px solid var(--line)"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:var(--blue)">' + (cy.waiting.length + cy.recycle.length) + '</div><div class="tiny dim">待重呼 / 待回收</div></div>' +
     '</div></div>' : '';
 
   return kpi +
@@ -1489,7 +1587,7 @@ function customersView() {
       '<td class="tiny">' + (tab === 'mine'
         ? (nc ? '<span class="' + (ts(nc) < Date.now() ? 'badge b-red' : '') + '">' + fmtDT(nc) + '</span>' : '<span class="dim">—</span>')
         : (tab === 'pool'
-          ? (can('customer.claim') ? '<button class="btn sm primary" data-act="pool-claim" data-id="' + c.id + '">领取</button>' : '<span class="dim">—</span>')
+          ? (can('customer.claim') ? '<button class="btn sm brand" data-act="pool-claim" data-id="' + c.id + '">领取</button>' : '<span class="dim">—</span>')
           : '<span class="badge b-red">超期 ' + Math.abs(protectLeft(c) || 0) + ' 天</span> ' +
             (can('customer.recycle') ? '<button class="btn sm" data-act="pool-release" data-id="' + c.id + '">退回公海</button>' : ''))) + '</td>' +
       '</tr>';
@@ -1534,8 +1632,8 @@ function customersView() {
       ? '公海：全公司共享的未分配客户。领取后进入你的名下并开始计算保护期（' + DB.settings.protectDays + ' 天），期内至少要有一次有效跟进，否则自动退回。每人最多持有 ' + DB.settings.claimLimit + ' 位。'
       : tab === 'recycle'
         ? '待回收：已超保护期且没有待办回访的客户。系统每天自动回收；也可以手动退回公海。'
-        : '数据权限：当前身份可见 ' + visibleCustomers().filter(c => c.pool !== 'public').length + ' / ' + DB.customers.length + ' 位客户。' +
-          (state.user.role === 'agent' ? '员工只能看到自己负责的客户，导出与批量分配不可用。' : state.user.role === 'supervisor' ? '主管可见本人与 ' + teamIds(state.user.id).length + ' 名直属下属的客户。' : '管理员可见全部客户。')) +
+        : '数据权限：当前身份可见 ' + visibleCustomers().filter(c => c.pool !== 'public').length + ' / ' + DB.customers.length + ' 位客户。<span>' +
+          (state.user.role === 'agent' ? '员工只能看到自己负责的客户，导出与批量分配不可用。' : state.user.role === 'supervisor' ? '主管可见本人与 ' + teamIds(state.user.id).length + ' 名直属下属的客户。' : '管理员可见全部客户。') + '</span>') +
     '</div>';
 }
 function bulkBar() {
@@ -1682,7 +1780,7 @@ function datahealthView() {
       return '<tr class="click" data-act="open-customer" data-id="' + c.id + '">' +
         '<td>' + esc(c.name) + '<div class="tiny dim">' + esc(c.company) + '</div></td>' +
         '<td class="mono tiny">' + esc(c.phone) + '</td>' +
-        '<td class="tiny" style="color:#ff96a5">' + esc(reason) + '</td>' +
+        '<td class="tiny" style="color:var(--red)">' + esc(reason) + '</td>' +
         '<td>' + (c.invalid ? '<span class="badge b-red">已停呼</span>' : '<span class="badge b-amber">待处理</span>') + '</td>' +
         '<td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td>' +
         '<td>' + (can('customer.invalid') ? (c.invalid
@@ -1773,7 +1871,7 @@ function calendarView() {
   const rowOf = (t, overdue) => {
     const c = getCustomer(t.custId), st = taskState(t);
     const gate = c ? gateInfo(c) : null;
-    return '<div class="item"><div class="tm mono" style="' + (overdue ? 'color:#ff96a5' : '') + '">' +
+    return '<div class="item"><div class="tm mono" style="' + (overdue ? 'color:var(--red)' : '') + '">' +
       (overdue ? fmtMD(t.scheduledAt) : fmtHm(t.scheduledAt)) + '</div>' +
       '<div class="bd"><div class="t1">' + (c ? esc(c.name) : '?') +
       ' <span class="dim tiny">' + (c ? esc(c.company) : '') + '</span>' +
@@ -1978,7 +2076,7 @@ function permsView() {
       rows += '<tr><td class="cap">' + p.n + '<small>' + p.d + '</small></td>' +
         ['admin', 'supervisor', 'agent'].map(r => {
           const on = (DB.roles[r] || []).includes(p.id);
-          if (r === 'admin') return '<td style="text-align:center"><span style="color:#5fe0ae;font-size:calc(13px * var(--fs))">✓</span></td>';
+          if (r === 'admin') return '<td style="text-align:center"><span style="color:var(--green);font-size:calc(13px * var(--fs))">✓</span></td>';
           return '<td style="text-align:center"><input type="checkbox" ' + (on ? 'checked' : '') +
             ' data-role-perm="' + r + '|' + p.id + '"></td>';
         }).join('') + '</tr>';
@@ -1990,7 +2088,7 @@ function permsView() {
   const pu = getUser(pick);
   const extra = pu ? (pu.extra || []) : [];
   const extraChips = PERMS.filter(p => !(DB.roles[pu.role] || []).includes(p.id)).map(p =>
-    '<label style="display:inline-flex;align-items:center;gap:6px;font-size:calc(12px * var(--fs));padding:5px 9px;border:1px solid #2d3748;border-radius:7px;margin:0 6px 6px 0;cursor:pointer;' + (extra.includes(p.id) ? 'background:rgba(76,141,255,.12);border-color:#3a5a8a' : '') + '">' +
+    '<label style="display:inline-flex;align-items:center;gap:6px;font-size:calc(12px * var(--fs));padding:5px 9px;border:1px solid var(--line2);border-radius:7px;margin:0 6px 6px 0;cursor:pointer;' + (extra.includes(p.id) ? 'background:rgba(76,141,255,.12);border-color:#3a5a8a' : '') + '">' +
     '<input type="checkbox" data-user-perm="' + p.id + '" ' + (extra.includes(p.id) ? 'checked' : '') + '> ' + p.n + '</label>').join('');
 
   const isAdmin = state.user.role === 'admin';
@@ -2063,7 +2161,7 @@ function settingsView() {
   }).join('');
   const gateCard = '<div class="card"><div class="card-hd"><h3>联系频次闸门</h3><span class="sp"></span>' +
     '<span class="badge ' + (st.gateOn ? 'b-green' : 'b-gray') + '">' + (st.gateOn ? '已开启' : '已关闭') + '</span></div><div class="card-bd">' +
-    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-bottom:10px">' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2);margin-bottom:10px">' +
     '<input type="checkbox" ' + (st.gateOn ? 'checked' : '') + ' data-set="gateOn"> 开启联系频次与时段限制</label>' +
     '<div class="row"><div class="field"><label class="fl">统计周期（天）</label><input type="number" min="1" max="90" value="' + st.gateDays + '" data-set="gateDays"></div>' +
     '<div class="field"><label class="fl">周期内最多联系（次）</label><input type="number" min="1" max="20" value="' + st.gateMax + '" data-set="gateMax"></div></div>' +
@@ -2074,13 +2172,13 @@ function settingsView() {
 
   const poolCard = '<div class="card"><div class="card-hd"><h3>客户池与回收</h3><span class="sp"></span>' +
     '<span class="badge ' + (st.poolOn ? 'b-green' : 'b-gray') + '">' + (st.poolOn ? '已开启' : '已关闭') + '</span></div><div class="card-bd">' +
-    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-bottom:10px">' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2);margin-bottom:10px">' +
     '<input type="checkbox" ' + (st.poolOn ? 'checked' : '') + ' data-set="poolOn"> 启用公海池（未分配客户放公海，坐席自行领取）</label>' +
     '<div class="row"><div class="field"><label class="fl">每人持有上限（位）</label><input type="number" min="10" max="5000" value="' + st.claimLimit + '" data-set="claimLimit"></div>' +
     '<div class="field"><label class="fl">保护期（天）</label><input type="number" min="1" max="180" value="' + st.protectDays + '" data-set="protectDays"></div></div>' +
-    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8">' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2)">' +
     '<input type="checkbox" ' + (st.autoRecycle ? 'checked' : '') + ' data-set="autoRecycle"> 超过保护期且无有效跟进，自动退回公海</label>' +
-    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-top:6px">' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2);margin-top:6px">' +
     '<input type="checkbox" ' + (st.crossApprove ? 'checked' : '') + ' data-set="crossApprove"> 客户跨组流转需要组长审批</label>' +
     '<div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm" data-act="run-recycle">立即执行回收</button>' +
     '<button class="btn sm" data-act="nav" data-id="customers">查看公海</button></div>' +
@@ -2095,7 +2193,7 @@ function settingsView() {
     '<div class="field"><label class="fl">最大重呼次数</label><input type="number" min="1" max="10" value="' + st.cycleMax + '" data-set="cycleMax"></div></div>' +
     '<div class="row"><div class="field"><label class="fl">单次导出上限（条）</label><input type="number" min="10" max="5000" value="' + st.exportLimit + '" data-set="exportLimit"></div>' +
     '<div class="field"><label class="fl">每日查看完整号码上限</label><input type="number" min="1" max="200" value="' + st.revealDailyLimit + '" data-set="revealDailyLimit"></div></div>' +
-    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-top:4px">' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2);margin-top:4px">' +
     '<input type="checkbox" ' + (st.maskPhone ? 'checked' : '') + ' data-set="maskPhone"> 列表中默认脱敏显示手机号</label>' +
     '<div class="help">修改后立即生效。真实系统这些值应存在 app_settings 表并留变更审计。</div>' +
     '</div></div>' +
@@ -2136,7 +2234,7 @@ function callView() {
   if (!q.length) {
     return '<div class="card"><div class="empty" style="padding:60px 20px">' +
       '<div style="font-size:calc(30px * var(--fs));margin-bottom:10px">✓</div>' +
-      '<div style="font-size:calc(15px * var(--fs));color:#e8ecf4">队列已清空</div>' +
+      '<div style="font-size:calc(15px * var(--fs));color:var(--tx)">队列已清空</div>' +
       '<div class="help">今天的回访和待联系客户都处理完了。可以回工作台看看逾期，或让主管分配新名单。</div>' +
       '<div style="margin-top:14px"><button class="btn" data-act="call-reset">重新加载队列</button> ' +
       '<button class="btn primary" data-act="nav" data-id="dashboard">回工作台</button></div></div></div>';
@@ -2357,13 +2455,13 @@ function drawerHtml() {
     title = u.name + ' · 工作预览';
     body = '<div class="kpi" style="grid-template-columns:1fr 1fr;margin-bottom:12px">' +
       kpiCard('负责客户', uc.length, '', '') + kpiCard('当前逾期', od.length, '', od.length ? 'alert' : 'ok') + '</div>' +
-      '<div style="font-size:calc(12.5px * var(--fs));color:#98a3b8;margin:10px 0 6px">今日待办</div>' +
+      '<div style="font-size:calc(12.5px * var(--fs));color:var(--tx2);margin:10px 0 6px">今日待办</div>' +
       (pend.filter(t => sameDay(new Date(t.scheduledAt), now())).map(t => {
         const c = getCustomer(t.custId);
         return '<div class="item" style="padding:9px 0;border-color:var(--cellline)"><div class="tm">' + fmtHm(t.scheduledAt) + '</div>' +
           '<div class="bd"><div class="t1">' + (c ? esc(c.name) : '') + ' ' + taskBadge(t) + '</div><div class="t2">' + esc(t.title) + '</div></div></div>';
       }).join('') || '<div class="tiny dim" style="padding:6px 0">今天没有安排</div>') +
-      '<div class="hr"></div><div style="font-size:calc(12.5px * var(--fs));color:#98a3b8;margin:6px 0">最近记事</div>' +
+      '<div class="hr"></div><div style="font-size:calc(12.5px * var(--fs));color:var(--tx2);margin:6px 0">最近记事</div>' +
       (un.slice(0, 5).map(n => {
         const c = getCustomer(n.custId);
         return '<div style="padding:8px 0;border-bottom:1px solid var(--cellline)"><div class="tiny">' +
@@ -2402,9 +2500,9 @@ function modalHtml() {
       '<option value="">保持不变</option>' +
       ['待联系', '跟进中', '有意向', '已成交', '无意向'].map(s => '<option value="' + s + '"' + (s === c.status ? ' selected' : '') + '>' + s + '</option>').join('') +
       '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin:14px 0 0">' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2);margin:14px 0 0">' +
       '<input type="checkbox" name="next" data-change="toggle-next"> 同时安排下一次回访</label>' +
-      '<div id="nextBox" class="hidden" style="margin-top:12px;padding:12px;background:#12171f;border:1px solid #232b39;border-radius:8px">' +
+      '<div id="nextBox" class="hidden" style="margin-top:12px;padding:12px;background:#12171f;border:1px solid var(--line);border-radius:8px">' +
       '<div class="field"><label class="fl">回访事项</label><input name="nextTitle" placeholder="例如：确认报价反馈"></div>' +
       '<div class="row"><div class="field"><label class="fl">计划时间</label><input type="datetime-local" name="nextAt" value="' + iso(dAt(2, 10, 0)) + '"></div>' +
       '<div class="field"><label class="fl">提前提醒</label><select name="nextRemind">' +
@@ -2474,7 +2572,7 @@ function modalHtml() {
       '<div class="modal-bd"><div class="tiny dim" style="margin-bottom:12px">' + esc(c.name) + ' · 当前负责人 ' + esc((getUser(c.ownerId) || {}).name) + '</div>' +
       '<div class="field"><label class="fl">新负责人</label><select name="owner">' +
       assignTargets().filter(u => u.id !== c.ownerId).map(u => '<option value="' + u.id + '">' + esc(u.name) + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</option>').join('') + '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8"><input type="checkbox" name="moveTasks" checked> 同时转移未完成回访</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2)"><input type="checkbox" name="moveTasks" checked> 同时转移未完成回访</label>' +
       '<div class="help">已完成回访与历史记事保留原执行人/记录人，统计可追溯。</div></div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认转移</button></div></form>';
   } else if (m.type === 'bulk-assign') {
@@ -2485,8 +2583,8 @@ function modalHtml() {
       '<div class="modal-bd">' +
       '<div class="infobox" style="margin-bottom:12px">已选 <b>' + n + '</b> 位客户' + (names ? '（' + esc(names) + (n > 4 ? ' 等' : '') + '）' : '') + '，将整批转给同一位负责人。分配会写入审计，原负责人立即失去访问权。</div>' +
       '<div class="field"><label class="fl">分配给</label><select name="owner">' + assignOptions() + '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-bottom:8px"><input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8"><input type="checkbox" name="notify" checked> 给对方发一条站内提醒</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2);margin-bottom:8px"><input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2)"><input type="checkbox" name="notify" checked> 给对方发一条站内提醒</label>' +
       '<div class="help">呼叫中心的常见做法：主管每天把新导入的名单平均分给下属，避免抢客户。</div>' +
       '</div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认分配</button></div></form>';
@@ -2527,7 +2625,7 @@ function modalHtml() {
       '</select></div>' +
       '<div class="field"><label class="fl">指定负责人（选「统一分配」时生效）</label><select name="owner">' +
       assignOptions() + '</select></div>' +
-      '<div style="max-height:200px;overflow:auto;border:1px solid #232b39;border-radius:8px"><table style="font-size:calc(12px * var(--fs))"><thead><tr>' +
+      '<div style="max-height:200px;overflow:auto;border:1px solid var(--line);border-radius:8px"><table style="font-size:calc(12px * var(--fs))"><thead><tr>' +
       '<th>姓名</th><th>电话</th><th>公司</th><th>结果</th></tr></thead><tbody>' +
       rows.map(r => '<tr><td>' + (r[0] || '<span class="badge b-red">空</span>') + '</td><td class="mono tiny">' + r[1] + '</td><td class="tiny">' + r[2] + '</td>' +
         '<td>' + (r[3] === 'ok' ? '<span class="badge b-green">新增</span>' : r[3] === 'dup' ? '<span class="badge b-amber">' + r[4] + '</span>' : '<span class="badge b-red">' + r[4] + '</span>') + '</td></tr>').join('') +
@@ -2635,9 +2733,9 @@ function modalHtml() {
         esc(u.name) + ' <span class="dim tiny">· 当前 ' + DB.customers.filter(c => c.ownerId === u.id && !c.mergedInto).length + ' 位</span></label>').join('')
         : '<div class="tiny dim" style="padding:8px">没有可分配的组员</div>') +
       '</div></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8">' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2)">' +
       '<input type="checkbox" name="includeOwned" checked> 包含已在该组员名下的客户（重新分摊）</label>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8">' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:var(--tx2)">' +
       '<input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
       '<div class="help">数量超过池内客户数时按实际数量分配；每次分配写入审计并给对方发提醒。</div>' +
       '</div>' +
@@ -3595,11 +3693,41 @@ document.addEventListener('submit', e => {
 });
 
 document.addEventListener('keydown', e => {
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  const typing = /INPUT|TEXTAREA|SELECT/.test(tag);
   if (e.key === 'Escape') {
     if (state.modal) closeModal();
     else if (state.drawer) { state.drawer = null; render(); }
+    return;
+  }
+  if (!typing && e.key === '/' && state.user) {
+    const g = document.getElementById('gq');
+    if (g) { e.preventDefault(); g.focus(); }
+    return;
+  }
+  const gq = document.getElementById('gq');
+  if (gq && document.activeElement === gq && e.key === 'Enter') {
+    e.preventDefault();
+    state.q = gq.value.trim(); state.view = 'customers'; state.poolTab = 'mine'; state.page = 1;
+    gq.blur(); render();
+    return;
+  }
+  if (state.view === 'call' && !typing && !state.modal) {
+    const R = ['已接通', '无人接听', '占线', '号码无效', '拒绝联系'];
+    if (/^[1-5]$/.test(e.key)) { e.preventDefault(); A['call-result'](R[+e.key - 1]); return; }
+    if (e.key === 'Enter') { e.preventDefault(); A['call-save'](); return; }
+    if (e.key === 'ArrowRight' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); A['call-skip'](); return; }
   }
 });
+
+// favicon 用同一张 logo，避免重复内联
+(function () {
+  try {
+    const lk = document.createElement('link');
+    lk.rel = 'icon'; lk.type = 'image/png'; lk.href = LOGO;
+    document.head.appendChild(lk);
+  } catch (e) { }
+})();
 
 /* ---------- 会话恢复 ---------- */
 (function boot() {

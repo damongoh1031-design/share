@@ -21,7 +21,7 @@ export default async function (api) {
     await sleep(200);
   };
   const reset = async () => {
-    await evalJS(`DB.settings.theme='dark';DB.settings.fs='md';DB.settings.lang='zh';
+    await evalJS(`DB.settings.theme='light';DB.settings.fs='md';DB.settings.lang='zh';
       DB.settings.gateOn=true;DB.settings.gateMax=2;DB.settings.gateStart=9;DB.settings.gateEnd=20;
       DB.settings.claimLimit=200;DB.settings.protectDays=15;DB.settings.autoRecycle=true;DB.settings.crossApprove=true;
       applyPrefs()`);
@@ -88,12 +88,12 @@ export default async function (api) {
   await evalJS(`state.view='perms';render()`);
   await shot(api, '10-权限管理-小组.png');
 
-  // 浅色 + 大字号
-  await evalJS(`DB.settings.theme='light';DB.settings.fs='lg';applyPrefs();state.view='dashboard';state.prefs=true;render()`);
-  await shot(api, '11-浅色主题-大字.png');
+  // 深色主题
+  await evalJS(`DB.settings.theme='dark';applyPrefs();state.view='dashboard';state.prefs=false;render()`);
+  await shot(api, '11-深色主题.png');
 
-  // 英文 + 护眼
-  await evalJS(`DB.settings.lang='en';DB.settings.theme='eye';DB.settings.fs='md';applyPrefs();state.view='customers';state.poolTab='pool';state.prefs=false;render()`);
+  // 英文（浅色）
+  await evalJS(`DB.settings.lang='en';DB.settings.theme='light';DB.settings.fs='md';applyPrefs();state.view='customers';state.poolTab='pool';state.prefs=false;render()`);
   await sleep(200);
   await shot(api, '12-英文-公海.png');
 
