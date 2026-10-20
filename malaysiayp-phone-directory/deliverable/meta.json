@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-20 09:44:52",
-  "generated_epoch": 1792460692,
+  "generated_at": "2026-10-20 11:47:12",
+  "generated_epoch": 1792468032,
   "source_db": "C:\\Users\\Admin\\WorkBuddy AI\\2026-10-07-16-32-42\\phone-directory\\data\\malaysiayp_full.csv.sqlite3",
-  "source_db_mtime": "2026-10-19 18:24:13",
+  "source_db_mtime": "2026-10-20 11:45:13",
   "script_version": "3.0.0",
   "columns": [
     "no",
@@ -34,34 +34,34 @@
   "files": [
     {
       "name": "malaysiayp_all.csv",
-      "rows": 122143,
-      "bytes": 32355457,
-      "sha256": "07fad8cfdf30da7cecca97a67ea352840de731345279651e55f52308bc0b35ea"
+      "rows": 124368,
+      "bytes": 32949202,
+      "sha256": "b2cf53c446f97278caec1b365f6739098c7cf3d58cadc0c70240eb70df8b24ee"
     },
     {
       "name": "malaysiayp_mobile.csv",
-      "rows": 16491,
-      "bytes": 4194837,
-      "sha256": "1f81240489a17155f14cbdd452ad56ee0a4aba3082c9266a8b6791aa57d917cb"
+      "rows": 16831,
+      "bytes": 4282720,
+      "sha256": "2fbc0687a0ce060a2da513d303e82f93bff20569463f486abecdb3ea4219163a"
     },
     {
       "name": "malaysiayp_all_extended.csv",
-      "rows": 122143,
-      "bytes": 35122665,
-      "sha256": "8f09008c1bacc52e52a381b839a3d3e8898bff0c7241932a303269141b68c29d"
+      "rows": 124368,
+      "bytes": 35768791,
+      "sha256": "1cc82e5416561773f5832529cc606a37dc1620c498fef8256b672e78a79744c6"
     },
     {
       "name": "malaysiayp_quarantine.csv",
-      "rows": 3407,
-      "bytes": 894865,
-      "sha256": "966a225c2c5a7fa9e99718a13b6883ff1943100cf435c66a89609a09fbc32c7a"
+      "rows": 3433,
+      "bytes": 902442,
+      "sha256": "93fc2df93b29bd4f9c5ef2e827c09cbca7c8fbbb0a30884b986a9c582658408d"
     }
   ],
   "coverage": {
-    "pages_done": 7427,
-    "pages_pending": 26920,
+    "pages_done": 7547,
+    "pages_pending": 26800,
     "pages_queued_known": 34347,
-    "pct_of_queued": 21.62,
+    "pct_of_queued": 21.97,
     "categories_total": 1243,
     "categories_indexed": 1181,
     "categories_not_indexed": 62,
@@ -70,14 +70,14 @@
     "estimated_total_pages_mid": 35681,
     "estimated_total_pages_high": 37079,
     "estimated_total_pages": 35681,
-    "estimated_true_pct": 20.82,
+    "estimated_true_pct": 21.15,
     "estimated_true_pct_range": [
-      20.03,
-      21.62
+      20.35,
+      21.97
     ],
-    "errored_pages": 6484,
-    "zero_byte_pages": 6310,
-    "entities_stored": 122143,
+    "errored_pages": 6851,
+    "zero_byte_pages": 6663,
+    "entities_stored": 124368,
     "note": "pages_queued_known 只含已索引分类；未索引分类（62 个）尚未展开，真实总页数落在 34345–37078 之间（中值 35680），故 pages_queued_known 会显著低估总量。"
   },
   "compliance": "公开商业目录；含个人数据（公司名+手机号），受马来西亚 PDPA 2010 约束；仅限目录检索/研究，禁止群发、推销、骚扰、转售。"
