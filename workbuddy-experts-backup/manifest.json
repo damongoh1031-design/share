@@ -1,0 +1,603 @@
+[
+  {
+    "marketplace": "my-experts",
+    "dir": "rimworld-mod-guardian",
+    "zip": "rimworld-mod-guardian.zip",
+    "size_kb": 1700.9,
+    "agents": [
+      "rimworld-mod-guardian.md"
+    ],
+    "agent_count": 1,
+    "skills": [],
+    "name": "rimworld-mod-guardian",
+    "displayName": "林筑远",
+    "profession": "环世界模组顾问",
+    "expertType": "agent",
+    "displayDescription": "专注《环世界》模组筛选、版本核验与冲突排障，结合作者说明和社区实测，规划稳定整合与存档保护方案。",
+    "categoryId": "03-GameSpatial",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "customer-reply",
+    "zip": "experts__customer-reply.zip",
+    "size_kb": 150.5,
+    "agents": [
+      "customer-reply.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "customer-reply-cn"
+    ],
+    "name": "customer-reply",
+    "displayName": "Horizon",
+    "profession": "客服话术专家",
+    "expertType": "agent",
+    "displayDescription": "客户发火别乱回：售前售后投诉退换四大场景话术直接出，按情绪配安抚策略，禁忌用语自动换，复制就能发。",
+    "categoryId": "05-MarketingGrowth",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "deep-research",
+    "zip": "experts__deep-research.zip",
+    "size_kb": 24.4,
+    "agents": [
+      "deep-research-expert.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "wechat-article-search"
+    ],
+    "name": "deep-research",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "devops-security-experts",
+    "zip": "experts__devops-security-experts.zip",
+    "size_kb": 445.3,
+    "agents": [
+      "dev-ops-automation-engineer.md",
+      "embedded-firmware-engineer.md",
+      "incident-response-commander.md",
+      "security-engineer.md",
+      "site-reliability-engineer.md",
+      "solidity-smart-contract-engineer.md",
+      "threat-detection-engineer.md"
+    ],
+    "agent_count": 7,
+    "skills": [
+      "agent-browser-core",
+      "ima-skills",
+      "minimax-docx"
+    ],
+    "name": "devops-security-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "education-training-experts",
+    "zip": "experts__education-training-experts.zip",
+    "size_kb": 448.2,
+    "agents": [
+      "corporate-training-designer.md",
+      "document-generation-expert.md",
+      "study-abroad-consultant.md",
+      "technical-documentation-engineer.md"
+    ],
+    "agent_count": 4,
+    "skills": [
+      "anti-distill",
+      "deep-research",
+      "market-researcher",
+      "minimax-docx",
+      "multi-search-engine"
+    ],
+    "name": "education-training-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "engineering-tools-experts",
+    "zip": "experts__engineering-tools-experts.zip",
+    "size_kb": 3152.9,
+    "agents": [
+      "code-review-expert.md",
+      "git-workflow-expert.md",
+      "lsp-index-engineer.md",
+      "mcp-build-expert.md"
+    ],
+    "agent_count": 4,
+    "skills": [
+      "capability-evolver",
+      "darwin-skill",
+      "frontend-dev",
+      "fullstack-dev",
+      "github",
+      "impeccable"
+    ],
+    "name": "engineering-tools-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "frontend-backend-experts",
+    "zip": "experts__frontend-backend-experts.zip",
+    "size_kb": 4012.1,
+    "agents": [
+      "backend-architect.md",
+      "frontend-developer.md",
+      "mobile-application-developer.md",
+      "rapid-prototyping-engineer.md",
+      "senior-developer.md",
+      "software-architect.md",
+      "we-chat-mini-program-developer.md"
+    ],
+    "agent_count": 7,
+    "skills": [
+      "android-native-dev",
+      "brand-guidelines",
+      "browser-use",
+      "capability-evolver",
+      "deep-research",
+      "frontend-dev",
+      "fullstack-dev",
+      "github",
+      "impeccable",
+      "minimax-docx",
+      "notebooklm-studio",
+      "skyline",
+      "tdesign-miniprogram",
+      "wechat-miniprogram"
+    ],
+    "name": "frontend-backend-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "gpt-researcher-team",
+    "zip": "experts__gpt-researcher-team.zip",
+    "size_kb": 63.8,
+    "agents": [
+      "draft-reviewer.md",
+      "draft-reviser.md",
+      "report-publisher.md",
+      "report-writer.md",
+      "research-chief-editor.md",
+      "research-planner.md",
+      "topic-researcher.md"
+    ],
+    "agent_count": 7,
+    "skills": [],
+    "name": "gpt-researcher-team",
+    "displayName": "深度研究团队",
+    "profession": "多源深度研究报告工坊",
+    "expertType": "team",
+    "displayDescription": "7 位专业角色分 5 阶段协作完成深度研究：初始调研 → 规划大纲 → 逐章深度研究（审稿修订循环）→ 撰写报告框架 → 发布输出。支持完整 / 快速 / 单章三种模式。适用于行业研究、竞品分析、技术综述、学术文献综述等场景，产出带多源超链接引用的专业研究报告。",
+    "categoryId": "04-DataAI",
+    "version": "2.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "kdocs-knowledge-collector",
+    "zip": "experts__kdocs-knowledge-collector.zip",
+    "size_kb": 430.4,
+    "agents": [
+      "kdocs-knowledge-collector.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "doc-writer",
+      "fragment-organize",
+      "web-clipper"
+    ],
+    "name": "kdocs-knowledge-collector",
+    "displayName": "藏知远",
+    "profession": "知识收藏专家",
+    "expertType": "agent",
+    "displayDescription": "把网页、消息、笔记等碎片内容沉淀为结构化知识资产：一键剪藏公众号与网页为云文档，AI 按主题聚合零散笔记生成整理稿，多份文档自动提炼摘要与要点。",
+    "categoryId": "06-ContentCreative",
+    "version": "1.0.1",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "llm-wiki",
+    "zip": "experts__llm-wiki.zip",
+    "size_kb": 7.6,
+    "agents": [
+      "llm-wiki.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "llm-wiki"
+    ],
+    "name": "llm-wiki",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "malaysia-hr-admin",
+    "zip": "experts__malaysia-hr-admin.zip",
+    "size_kb": 40816.2,
+    "agents": [
+      "malaysia-hr-admin.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "malaysia-hr-admin"
+    ],
+    "name": "malaysia-hr-admin",
+    "displayName": "马来西亚人力行政",
+    "profession": "马来西亚人力行政专家",
+    "expertType": "agent",
+    "displayDescription": "精通马来西亚招聘、劳动合同、薪酬福利、签证工签与社保，服务企业跨境人力行政咨询。",
+    "categoryId": "09-OperationsHR",
+    "version": "1.4.2",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "malaysia-legal",
+    "zip": "experts__malaysia-legal.zip",
+    "size_kb": 18425.6,
+    "agents": [
+      "malaysia-legal.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "malaysia-legal"
+    ],
+    "name": "malaysia-legal",
+    "displayName": "大马法务通",
+    "profession": "马来西亚法务合规专家",
+    "expertType": "agent",
+    "displayDescription": "精通马来西亚公司注册、合同、知识产权、行业准入与数据合规，服务跨境法务合规咨询。",
+    "categoryId": "11-SecurityCompliance",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "operations-customer-experts",
+    "zip": "experts__operations-customer-experts.zip",
+    "size_kb": 254.8,
+    "agents": [
+      "customer-support-expert.md",
+      "douyin-strategist.md",
+      "infrastructure-operations-expert.md",
+      "wechat-official-account-expert.md",
+      "xiaohongshu-operations-expert.md"
+    ],
+    "agent_count": 5,
+    "skills": [
+      "anti-distill",
+      "humanizer",
+      "market-researcher",
+      "marketing-skills",
+      "mp-draft-push",
+      "remotion-video-toolkit",
+      "wechat-article-search",
+      "xiaohongshu"
+    ],
+    "name": "operations-customer-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "quality-testing-experts",
+    "zip": "experts__quality-testing-experts.zip",
+    "size_kb": 445.6,
+    "agents": [
+      "accessibility-auditor.md",
+      "api-testing-expert.md",
+      "evidence-collector.md",
+      "performance-testing-expert.md",
+      "reality-checker.md",
+      "test-results-analyst.md",
+      "tool-evaluation-expert.md",
+      "workflow-optimization-expert.md"
+    ],
+    "agent_count": 8,
+    "skills": [
+      "agent-team-orchestration",
+      "deep-research",
+      "github",
+      "minimax-docx"
+    ],
+    "name": "quality-testing-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "sales-experts",
+    "zip": "experts__sales-experts.zip",
+    "size_kb": 654.4,
+    "agents": [
+      "deal-strategist.md",
+      "discovery-coach.md",
+      "enterprise-account-strategist.md",
+      "outbound-strategist.md",
+      "presales-technical-consultant.md",
+      "proposal-strategist.md",
+      "sales-coach.md",
+      "sales-pipeline-analyst.md"
+    ],
+    "agent_count": 8,
+    "skills": [
+      "anti-distill",
+      "browser-use",
+      "jiaozhen-factcheck",
+      "market-researcher",
+      "marketing-skills",
+      "minimax-docx",
+      "neodata-financial-search",
+      "stock-analysis",
+      "wechat-article-search"
+    ],
+    "name": "sales-experts",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "a-share-analysis",
+    "zip": "cb_teams_marketplace__a-share-analysis.zip",
+    "size_kb": 61.1,
+    "agents": [
+      "a-share-advisor.md",
+      "morning-briefing.md",
+      "portfolio-diagnosis.md",
+      "sector-screening.md",
+      "smart-money-tracker.md",
+      "stock-research.md",
+      "thematic-hunter.md"
+    ],
+    "agent_count": 7,
+    "skills": [
+      "bubble-detection",
+      "company-quality",
+      "dividend-returns",
+      "financial-report",
+      "fund-crowding",
+      "going-global",
+      "industry-chain",
+      "institutional-holdings",
+      "macro-research",
+      "macro-to-stock",
+      "market-mainline",
+      "market-overview",
+      "northbound-flow",
+      "position-management",
+      "risk-checkup",
+      "sector-comparison",
+      "stock-deep-dive",
+      "stock-logic-research",
+      "style-rotation",
+      "valuation-framework"
+    ],
+    "name": "a-share-analysis",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "agent-sdk-dev",
+    "zip": "cb_teams_marketplace__agent-sdk-dev.zip",
+    "size_kb": 12.6,
+    "agents": [
+      "agent-sdk-verifier-py.md",
+      "agent-sdk-verifier-ts.md"
+    ],
+    "agent_count": 2,
+    "skills": [],
+    "name": "agent-sdk-dev",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "ai-hedge-fund",
+    "zip": "cb_teams_marketplace__ai-hedge-fund.zip",
+    "size_kb": 38.6,
+    "agents": [
+      "aswath-damodaran.md",
+      "ben-graham.md",
+      "bill-ackman.md",
+      "cathie-wood.md",
+      "charlie-munger.md",
+      "fundamentals-analyst.md",
+      "growth-analyst.md",
+      "michael-burry.md",
+      "mohnish-pabrai.md",
+      "nassim-taleb.md",
+      "news-sentiment-analyst.md",
+      "peter-lynch.md",
+      "phil-fisher.md",
+      "portfolio-manager.md",
+      "rakesh-jhunjhunwala.md",
+      "risk-manager.md",
+      "sentiment-analyst.md",
+      "stanley-druckenmiller.md",
+      "technicals-analyst.md",
+      "valuation-analyst.md",
+      "warren-buffett.md"
+    ],
+    "agent_count": 21,
+    "skills": [],
+    "name": "ai-hedge-fund",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "deep-research",
+    "zip": "cb_teams_marketplace__deep-research.zip",
+    "size_kb": 24.4,
+    "agents": [
+      "research-subagent.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "wechat-article-search"
+    ],
+    "name": "deep-research",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "gaokao-advisor",
+    "zip": "cb_teams_marketplace__gaokao-advisor.zip",
+    "size_kb": 461.7,
+    "agents": [
+      "gaokao-advisor.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "gaokao-search",
+      "gaokao-zhiyuan-assistant",
+      "tencent-yuanbao-gaokao-regional-passing-scores",
+      "tencent-yuanbao-gaokao-score-to-rank-lookup"
+    ],
+    "name": "gaokao-advisor",
+    "displayName": "专业高考顾问",
+    "profession": "高考我帮你",
+    "expertType": "agent",
+    "displayDescription": "辅助检索高考知识库并调用分数线、一分一段能力，整理带来源的真题、高校专业和志愿参考；同时提供全流程志愿填报引导，产出可转发的腾讯文档志愿报告",
+    "categoryId": "12-IndustryConsultant",
+    "version": "2.0.0",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "sheetagent",
+    "zip": "cb_teams_marketplace__sheetagent.zip",
+    "size_kb": 498.2,
+    "agents": [
+      "sheet-agent.md"
+    ],
+    "agent_count": 1,
+    "skills": [
+      "excel-generation",
+      "excel-handler"
+    ],
+    "name": "sheetagent",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "0.1.1784260829",
+    "author": "marketplace"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "trading-agent",
+    "zip": "cb_teams_marketplace__trading-agent.zip",
+    "size_kb": 27.6,
+    "agents": [
+      "aggressive-risk-analyst.md",
+      "bear-researcher.md",
+      "bull-researcher.md",
+      "conservative-risk-analyst.md",
+      "fundamentals-analyst.md",
+      "market-analyst.md",
+      "neutral-risk-analyst.md",
+      "news-analyst.md",
+      "research-manager.md",
+      "risk-manager.md",
+      "sentiment-analyst.md",
+      "trader.md"
+    ],
+    "agent_count": 12,
+    "skills": [
+      "trading-analysis"
+    ],
+    "name": "trading-agent",
+    "displayName": "",
+    "profession": "",
+    "expertType": "agent",
+    "displayDescription": "",
+    "categoryId": "",
+    "version": "1.0.0",
+    "author": "marketplace"
+  }
+]
