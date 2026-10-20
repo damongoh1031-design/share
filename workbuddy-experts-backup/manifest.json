@@ -2,1652 +2,1341 @@
   {
     "marketplace": "my-experts",
     "dir": "a-share-analysis",
+    "type": "expert",
     "zip": "my-experts__a-share-analysis.zip",
     "size_kb": 61.1,
-    "agents": [
-      "a-share-advisor.md",
-      "morning-briefing.md",
-      "portfolio-diagnosis.md",
-      "sector-screening.md",
-      "smart-money-tracker.md",
-      "stock-research.md",
-      "thematic-hunter.md"
-    ],
-    "agent_count": 7,
-    "skills": [
-      "bubble-detection",
-      "company-quality",
-      "dividend-returns",
-      "financial-report",
-      "fund-crowding",
-      "going-global",
-      "industry-chain",
-      "institutional-holdings",
-      "macro-research",
-      "macro-to-stock",
-      "market-mainline",
-      "market-overview",
-      "northbound-flow",
-      "position-management",
-      "risk-checkup",
-      "sector-comparison",
-      "stock-deep-dive",
-      "stock-logic-research",
-      "style-rotation",
-      "valuation-framework"
-    ],
-    "name": "a-share-analysis",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 20,
+    "description": "A股投资分析技能集，覆盖宏观研究、市场结构、个股深度、行业比较、资金行为、风险管理等 21 个专业分析 skill 和 6 个编排 agent。"
   },
   {
     "marketplace": "my-experts",
     "dir": "agent-sdk-dev",
+    "type": "expert",
     "zip": "my-experts__agent-sdk-dev.zip",
     "size_kb": 12.6,
-    "agents": [
-      "agent-sdk-verifier-py.md",
-      "agent-sdk-verifier-ts.md"
-    ],
-    "agent_count": 2,
-    "skills": [],
-    "name": "agent-sdk-dev",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 2,
+    "skills": 0,
+    "description": "CodeBuddy Agent SDK Development Plugin - Create and verify CodeBuddy Agent SDK applications"
   },
   {
     "marketplace": "my-experts",
     "dir": "ai-hedge-fund",
+    "type": "expert",
     "zip": "my-experts__ai-hedge-fund.zip",
     "size_kb": 38.6,
-    "agents": [
-      "aswath-damodaran.md",
-      "ben-graham.md",
-      "bill-ackman.md",
-      "cathie-wood.md",
-      "charlie-munger.md",
-      "fundamentals-analyst.md",
-      "growth-analyst.md",
-      "michael-burry.md",
-      "mohnish-pabrai.md",
-      "nassim-taleb.md",
-      "news-sentiment-analyst.md",
-      "peter-lynch.md",
-      "phil-fisher.md",
-      "portfolio-manager.md",
-      "rakesh-jhunjhunwala.md",
-      "risk-manager.md",
-      "sentiment-analyst.md",
-      "stanley-druckenmiller.md",
-      "technicals-analyst.md",
-      "valuation-analyst.md",
-      "warren-buffett.md"
-    ],
-    "agent_count": 21,
-    "skills": [],
-    "name": "ai-hedge-fund",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 21,
+    "skills": 0,
+    "description": "AI 对冲基金投资分析系统：19位投资大师并行分析 + 风险管理 + 投资组合决策的全流程投资分析。涵盖巴菲特、芒格、林奇、伯里、塔勒布、伍德、格雷厄姆等13位传奇投资哲学家 + 6位专业分析师，通过信号聚合投票输出 BUY/SELL/HO"
   },
   {
     "marketplace": "my-experts",
     "dir": "customer-reply",
+    "type": "expert",
     "zip": "my-experts__customer-reply.zip",
     "size_kb": 150.5,
-    "agents": [
-      "customer-reply.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "customer-reply-cn"
-    ],
-    "name": "customer-reply",
-    "displayName": "Horizon",
-    "profession": "客服话术专家",
-    "expertType": "agent",
-    "displayDescription": "客户发火别乱回：售前售后投诉退换四大场景话术直接出，按情绪配安抚策略，禁忌用语自动换，复制就能发。",
-    "categoryId": "05-MarketingGrowth",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Customer service scriptwriter built on one insight: most complaints escalate not because of the problem itself, but beca"
   },
   {
     "marketplace": "my-experts",
     "dir": "data-ai-experts",
+    "type": "expert",
     "zip": "my-experts__data-ai-experts.zip",
     "size_kb": 457.7,
-    "agents": [
-      "ai-engineer.md",
-      "autonomous-optimization-architect.md",
-      "data-analytics-reporter.md",
-      "data-engineer.md",
-      "data-integration-agent.md",
-      "database-optimization-expert.md",
-      "model-quality-assurance-expert.md",
-      "sales-data-extraction-agent.md"
-    ],
-    "agent_count": 8,
-    "skills": [
-      "agent-browser-core",
-      "agent-team-orchestration",
-      "capability-evolver",
-      "deep-research",
-      "fullstack-dev",
-      "multi-search-engine",
-      "tavily",
-      "wechat-article-search",
-      "xiaohongshu"
-    ],
-    "name": "data-ai-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 8,
+    "skills": 9,
+    "description": "AI/ML, data engineering, database optimization, data analytics experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "deep-research",
+    "type": "expert",
     "zip": "my-experts__deep-research.zip",
     "size_kb": 24.4,
-    "agents": [
-      "deep-research-expert.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "wechat-article-search"
-    ],
-    "name": "deep-research",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Deep research plugin that enables comprehensive web research, information synthesis, and knowledge discovery. Supports m"
   },
   {
     "marketplace": "my-experts",
     "dir": "design-experts",
+    "type": "expert",
     "zip": "my-experts__design-experts.zip",
     "size_kb": 3828.1,
-    "agents": [
-      "ai-image-prompt-engineer.md",
-      "brand-guardian.md",
-      "delightful-experience-designer.md",
-      "design-md-architect.md",
-      "diversity-visual-expert.md",
-      "ui-designer.md",
-      "user-experience-architect.md",
-      "user-experience-researcher.md",
-      "visual-storytelling-expert.md"
-    ],
-    "agent_count": 9,
-    "skills": [
-      "anti-distill",
-      "brand-guidelines",
-      "browser-use",
-      "canvas-design",
-      "content-factory",
-      "design-reference",
-      "frontend-dev",
-      "humanizer",
-      "impeccable",
-      "market-researcher",
-      "marketing-skills",
-      "minimax-docx"
-    ],
-    "name": "design-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 9,
+    "skills": 12,
+    "description": "Design system architecture, UI design, and brand-referenced design delivery experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "devops-security-experts",
+    "type": "expert",
     "zip": "my-experts__devops-security-experts.zip",
     "size_kb": 445.3,
-    "agents": [
-      "dev-ops-automation-engineer.md",
-      "embedded-firmware-engineer.md",
-      "incident-response-commander.md",
-      "security-engineer.md",
-      "site-reliability-engineer.md",
-      "solidity-smart-contract-engineer.md",
-      "threat-detection-engineer.md"
-    ],
-    "agent_count": 7,
-    "skills": [
-      "agent-browser-core",
-      "ima-skills",
-      "minimax-docx"
-    ],
-    "name": "devops-security-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 3,
+    "description": "DevOps, security, SRE, incident response, embedded engineering experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "education-training-experts",
+    "type": "expert",
     "zip": "my-experts__education-training-experts.zip",
     "size_kb": 448.2,
-    "agents": [
-      "corporate-training-designer.md",
-      "document-generation-expert.md",
-      "study-abroad-consultant.md",
-      "technical-documentation-engineer.md"
-    ],
-    "agent_count": 4,
-    "skills": [
-      "anti-distill",
-      "deep-research",
-      "market-researcher",
-      "minimax-docx",
-      "multi-search-engine"
-    ],
-    "name": "education-training-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 5,
+    "description": "Corporate training, study abroad, technical documentation experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "engineering-tools-experts",
+    "type": "expert",
     "zip": "my-experts__engineering-tools-experts.zip",
     "size_kb": 3152.9,
-    "agents": [
-      "code-review-expert.md",
-      "git-workflow-expert.md",
-      "lsp-index-engineer.md",
-      "mcp-build-expert.md"
-    ],
-    "agent_count": 4,
-    "skills": [
-      "capability-evolver",
-      "darwin-skill",
-      "frontend-dev",
-      "fullstack-dev",
-      "github",
-      "impeccable"
-    ],
-    "name": "engineering-tools-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 6,
+    "description": "Code review, Git workflow, MCP, LSP engineering tools experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "engineering-workflow-skills",
+    "type": "expert",
     "zip": "my-experts__engineering-workflow-skills.zip",
     "size_kb": 419.8,
-    "agents": [
-      "engineering-workflow-coach.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "engineering-workflow"
-    ],
-    "name": "engineering-workflow-skills",
-    "displayName": "工序达",
-    "profession": "工程实践专家",
-    "expertType": "agent",
-    "displayDescription": "基于Google 工程师的《Agent Skills》打造的资深工程全流程教练：规约驱动、测试驱动、代码评审、CI/CD发布",
-    "categoryId": "02-Engineering",
-    "version": "2.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Production-grade engineering workflow coach (spec, plan, build, verify, review, ship) ported from addyosmani/agent-skill"
   },
   {
     "marketplace": "my-experts",
     "dir": "frontend-backend-experts",
+    "type": "expert",
     "zip": "my-experts__frontend-backend-experts.zip",
     "size_kb": 4012.1,
-    "agents": [
-      "backend-architect.md",
-      "frontend-developer.md",
-      "mobile-application-developer.md",
-      "rapid-prototyping-engineer.md",
-      "senior-developer.md",
-      "software-architect.md",
-      "we-chat-mini-program-developer.md"
-    ],
-    "agent_count": 7,
-    "skills": [
-      "android-native-dev",
-      "brand-guidelines",
-      "browser-use",
-      "capability-evolver",
-      "deep-research",
-      "frontend-dev",
-      "fullstack-dev",
-      "github",
-      "impeccable",
-      "minimax-docx",
-      "notebooklm-studio",
-      "skyline",
-      "tdesign-miniprogram",
-      "wechat-miniprogram"
-    ],
-    "name": "frontend-backend-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 14,
+    "description": "Frontend, backend, full-stack, mobile development experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "gaokao-advisor",
+    "type": "expert",
     "zip": "my-experts__gaokao-advisor.zip",
     "size_kb": 461.7,
-    "agents": [
-      "gaokao-advisor.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "gaokao-search",
-      "gaokao-zhiyuan-assistant",
-      "tencent-yuanbao-gaokao-regional-passing-scores",
-      "tencent-yuanbao-gaokao-score-to-rank-lookup"
-    ],
-    "name": "gaokao-advisor",
-    "displayName": "专业高考顾问",
-    "profession": "高考我帮你",
-    "expertType": "agent",
-    "displayDescription": "辅助检索高考知识库并调用分数线、一分一段能力，整理带来源的真题、高校专业和志愿参考；同时提供全流程志愿填报引导，产出可转发的腾讯文档志愿报告",
-    "categoryId": "12-IndustryConsultant",
-    "version": "2.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 4,
+    "description": "Evidence-grounded Gaokao assistant for knowledge retrieval, score lines, score-to-rank lookup, and admission planning re"
   },
   {
     "marketplace": "my-experts",
     "dir": "gpt-researcher-team",
+    "type": "expert",
     "zip": "my-experts__gpt-researcher-team.zip",
     "size_kb": 63.8,
-    "agents": [
-      "draft-reviewer.md",
-      "draft-reviser.md",
-      "report-publisher.md",
-      "report-writer.md",
-      "research-chief-editor.md",
-      "research-planner.md",
-      "topic-researcher.md"
-    ],
-    "agent_count": 7,
-    "skills": [],
-    "name": "gpt-researcher-team",
-    "displayName": "深度研究团队",
-    "profession": "多源深度研究报告工坊",
-    "expertType": "team",
-    "displayDescription": "7 位专业角色分 5 阶段协作完成深度研究：初始调研 → 规划大纲 → 逐章深度研究（审稿修订循环）→ 撰写报告框架 → 发布输出。支持完整 / 快速 / 单章三种模式。适用于行业研究、竞品分析、技术综述、学术文献综述等场景，产出带多源超链接引用的专业研究报告。",
-    "categoryId": "04-DataAI",
-    "version": "2.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 0,
+    "description": "Deep Research Team: 7 specialist roles orchestrate a 5-phase workflow (initial scouting → outline planning → per-chapter"
   },
   {
     "marketplace": "my-experts",
     "dir": "industry-service-experts",
+    "type": "expert",
     "zip": "my-experts__industry-service-experts.zip",
     "size_kb": 79.6,
-    "agents": [
-      "executive-summary-generator.md",
-      "healthcare-marketing-compliance-expert.md",
-      "report-distribution-agent.md",
-      "supply-chain-strategist.md",
-      "zero-knowledge-proof-admin.md"
-    ],
-    "agent_count": 5,
-    "skills": [
-      "browser-use",
-      "market-researcher",
-      "multi-search-engine",
-      "tencentmap-lbs-skill",
-      "wechat-article-search"
-    ],
-    "name": "industry-service-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 5,
+    "skills": 5,
+    "description": "Healthcare, supply chain, report distribution, zero-knowledge proof experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "kdocs-knowledge-collector",
+    "type": "expert",
     "zip": "my-experts__kdocs-knowledge-collector.zip",
     "size_kb": 430.4,
-    "agents": [
-      "kdocs-knowledge-collector.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "doc-writer",
-      "fragment-organize",
-      "web-clipper"
-    ],
-    "name": "kdocs-knowledge-collector",
-    "displayName": "藏知远",
-    "profession": "知识收藏专家",
-    "expertType": "agent",
-    "displayDescription": "把网页、消息、笔记等碎片内容沉淀为结构化知识资产：一键剪藏公众号与网页为云文档，AI 按主题聚合零散笔记生成整理稿，多份文档自动提炼摘要与要点。",
-    "categoryId": "06-ContentCreative",
-    "version": "1.0.1",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 3,
+    "description": "知识收藏专家：网页剪藏、碎片笔记整理、文档总结与内容生成。"
   },
   {
     "marketplace": "my-experts",
     "dir": "llm-wiki",
+    "type": "expert",
     "zip": "my-experts__llm-wiki.zip",
     "size_kb": 7.6,
-    "agents": [
-      "llm-wiki.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "llm-wiki"
-    ],
-    "name": "llm-wiki",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "LLM Wiki Knowledge Management Expert"
   },
   {
     "marketplace": "my-experts",
     "dir": "malaysia-hr-admin",
+    "type": "expert",
     "zip": "my-experts__malaysia-hr-admin.zip",
     "size_kb": 40816.2,
-    "agents": [
-      "malaysia-hr-admin.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "malaysia-hr-admin"
-    ],
-    "name": "malaysia-hr-admin",
-    "displayName": "马来西亚人力行政",
-    "profession": "马来西亚人力行政专家",
-    "expertType": "agent",
-    "displayDescription": "精通马来西亚招聘、劳动合同、薪酬福利、签证工签与社保，服务企业跨境人力行政咨询。",
-    "categoryId": "09-OperationsHR",
-    "version": "1.4.2",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Amelia — Malaysia HR & Admin compliance expert. Corpus-first engine (52 Reference_Texts: Employment Act/PDPA/Companies A"
   },
   {
     "marketplace": "my-experts",
     "dir": "malaysia-legal",
+    "type": "expert",
     "zip": "my-experts__malaysia-legal.zip",
     "size_kb": 18425.6,
-    "agents": [
-      "malaysia-legal.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "malaysia-legal"
-    ],
-    "name": "malaysia-legal",
-    "displayName": "大马法务通",
-    "profession": "马来西亚法务合规专家",
-    "expertType": "agent",
-    "displayDescription": "精通马来西亚公司注册、合同、知识产权、行业准入与数据合规，服务跨境法务合规咨询。",
-    "categoryId": "11-SecurityCompliance",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Malaysia Legal Compliance Expert — Corpus-first engine (Companies Act 2016/PDPA 2010/SSM + e-Kehakiman/MyIPO search) cov"
   },
   {
     "marketplace": "my-experts",
     "dir": "openspec-doc-team",
+    "type": "expert",
     "zip": "my-experts__openspec-doc-team.zip",
     "size_kb": 1330.6,
-    "agents": [
-      "doc-auditor.md",
-      "doc-generator.md",
-      "doc-researcher.md",
-      "doc-team-lead.md"
-    ],
-    "agent_count": 4,
-    "skills": [],
-    "name": "openspec-doc-team",
-    "displayName": "专业文档生成团队",
-    "profession": "企业级长文档生成工坊",
-    "expertType": "team",
-    "displayDescription": "4 位专业角色分 6 阶段协作完成企业级长文档生成：需求分析 → 知识检索 → 内容生成 → 质量审核（循环）→ 整合汇编 → 交付输出。适用于施工图设计说明、技术方案、招投标文件、维修手册、API/系统文档等场景。",
-    "categoryId": "10-ProjectQuality",
-    "version": "1.1.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 0,
+    "description": "Professional document generation team: 4 roles (lead editor + researcher + generator + auditor) orchestrate a 6-phase wo"
   },
   {
     "marketplace": "my-experts",
     "dir": "operations-customer-experts",
+    "type": "expert",
     "zip": "my-experts__operations-customer-experts.zip",
     "size_kb": 254.8,
-    "agents": [
-      "customer-support-expert.md",
-      "douyin-strategist.md",
-      "infrastructure-operations-expert.md",
-      "wechat-official-account-expert.md",
-      "xiaohongshu-operations-expert.md"
-    ],
-    "agent_count": 5,
-    "skills": [
-      "anti-distill",
-      "humanizer",
-      "market-researcher",
-      "marketing-skills",
-      "mp-draft-push",
-      "remotion-video-toolkit",
-      "wechat-article-search",
-      "xiaohongshu"
-    ],
-    "name": "operations-customer-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 5,
+    "skills": 8,
+    "description": "Customer support, platform operations, infrastructure operations experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "product-experts",
+    "type": "expert",
     "zip": "my-experts__product-experts.zip",
     "size_kb": 4260.0,
-    "agents": [
-      "behavioral-nudge-engine.md",
-      "feedback-synthesis-analyst.md",
-      "sprint-priority-manager.md",
-      "trend-researcher.md"
-    ],
-    "agent_count": 4,
-    "skills": [
-      "anti-distill",
-      "browser-use",
-      "fbs-bookwriter",
-      "frontend-dev",
-      "ima-skills",
-      "market-researcher",
-      "marketing-skills"
-    ],
-    "name": "product-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 7,
+    "description": "Product strategy, prioritization, user feedback, behavioral design experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "product-strategy-team",
+    "type": "expert",
     "zip": "my-experts__product-strategy-team.zip",
     "size_kb": 2031.0,
-    "agents": [
-      "competitive-analyst.md",
-      "data-analyst.md",
-      "product-director.md",
-      "requirement-analyst.md",
-      "roadmap-planner.md",
-      "user-researcher.md"
-    ],
-    "agent_count": 6,
-    "skills": [
-      "product-playbook"
-    ],
-    "name": "product-strategy-team",
-    "displayName": "产品战略团队",
-    "profession": "产品战略与管理",
-    "expertType": "team",
-    "displayDescription": "由产品总监领导的 5 人产品专家团队：需求分析师（PRD/功能规格书）、用户研究员（调研综合分析）、竞品分析师（竞争情报）、数据分析师（指标追踪）和路线图规划师（路线图管理/迭代规划）。覆盖从构思到上线的完整产品生命周期。",
-    "categoryId": "01-ProductDesign",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 6,
+    "skills": 1,
+    "description": "Product strategy team with requirement analyst, user researcher, competitive analyst, data analyst, and roadmap planner "
   },
   {
     "marketplace": "my-experts",
     "dir": "quality-testing-experts",
+    "type": "expert",
     "zip": "my-experts__quality-testing-experts.zip",
     "size_kb": 445.6,
-    "agents": [
-      "accessibility-auditor.md",
-      "api-testing-expert.md",
-      "evidence-collector.md",
-      "performance-testing-expert.md",
-      "reality-checker.md",
-      "test-results-analyst.md",
-      "tool-evaluation-expert.md",
-      "workflow-optimization-expert.md"
-    ],
-    "agent_count": 8,
-    "skills": [
-      "agent-team-orchestration",
-      "deep-research",
-      "github",
-      "minimax-docx"
-    ],
-    "name": "quality-testing-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 8,
+    "skills": 4,
+    "description": "QA, performance testing, API testing, accessibility audit experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "rimworld-mod-guardian",
+    "type": "expert",
     "zip": "my-experts__rimworld-mod-guardian.zip",
     "size_kb": 1700.9,
-    "agents": [
-      "rimworld-mod-guardian.md"
-    ],
-    "agent_count": 1,
-    "skills": [],
-    "name": "rimworld-mod-guardian",
-    "displayName": "林筑远",
-    "profession": "环世界模组顾问",
-    "expertType": "agent",
-    "displayDescription": "专注《环世界》模组筛选、版本核验与冲突排障，结合作者说明和社区实测，规划稳定整合与存档保护方案。",
-    "categoryId": "03-GameSpatial",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 0,
+    "description": "RimWorld mod selection, version-aware compatibility review, and troubleshooting advisor."
   },
   {
     "marketplace": "my-experts",
     "dir": "sales-experts",
+    "type": "expert",
     "zip": "my-experts__sales-experts.zip",
     "size_kb": 654.4,
-    "agents": [
-      "deal-strategist.md",
-      "discovery-coach.md",
-      "enterprise-account-strategist.md",
-      "outbound-strategist.md",
-      "presales-technical-consultant.md",
-      "proposal-strategist.md",
-      "sales-coach.md",
-      "sales-pipeline-analyst.md"
-    ],
-    "agent_count": 8,
-    "skills": [
-      "anti-distill",
-      "browser-use",
-      "jiaozhen-factcheck",
-      "market-researcher",
-      "marketing-skills",
-      "minimax-docx",
-      "neodata-financial-search",
-      "stock-analysis",
-      "wechat-article-search"
-    ],
-    "name": "sales-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 8,
+    "skills": 9,
+    "description": "Sales coaching, deal strategy, enterprise accounts, presales experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "sheetagent",
+    "type": "expert",
     "zip": "my-experts__sheetagent.zip",
     "size_kb": 498.2,
-    "agents": [
-      "sheet-agent.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "excel-generation",
-      "excel-handler"
-    ],
-    "name": "sheetagent",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "0.1.1784260829",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 2,
+    "description": "由腾讯文档团队出品的电子表格智能助手，支持通过自然语言创建、查询与编辑 xlsx 表格"
   },
   {
     "marketplace": "my-experts",
     "dir": "spatial-computing-experts",
+    "type": "expert",
     "zip": "my-experts__spatial-computing-experts.zip",
     "size_kb": 11.8,
-    "agents": [
-      "mac-os-spatial-metal-engineer.md",
-      "terminal-integration-expert.md",
-      "vision-os-spatial-engineer.md",
-      "xr-cockpit-interaction-expert.md",
-      "xr-immersive-developer.md",
-      "xr-interface-architect.md"
-    ],
-    "agent_count": 6,
-    "skills": [],
-    "name": "spatial-computing-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 6,
+    "skills": 0,
+    "description": "visionOS, XR, Metal, spatial computing experts"
   },
   {
     "marketplace": "my-experts",
     "dir": "trading-agent",
+    "type": "expert",
     "zip": "my-experts__trading-agent.zip",
     "size_kb": 27.6,
-    "agents": [
-      "aggressive-risk-analyst.md",
-      "bear-researcher.md",
-      "bull-researcher.md",
-      "conservative-risk-analyst.md",
-      "fundamentals-analyst.md",
-      "market-analyst.md",
-      "neutral-risk-analyst.md",
-      "news-analyst.md",
-      "research-manager.md",
-      "risk-manager.md",
-      "sentiment-analyst.md",
-      "trader.md"
-    ],
-    "agent_count": 12,
-    "skills": [
-      "trading-analysis"
-    ],
-    "name": "trading-agent",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 12,
+    "skills": 1,
+    "description": "交易智能体插件：基于多角色辩论方法论的系统性投资分析，涵盖市场技术分析、基本面分析、新闻与情绪分析、多空辩论、交易决策与三方风险评估全流程，输出 BUY/SELL/HOLD 建议。数据源使用 NeoData 金融数据服务。"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "content-creation-experts",
+    "type": "expert",
+    "zip": "experts__content-creation-experts.zip",
+    "size_kb": 1888.2,
+    "agents": 4,
+    "skills": 7,
+    "description": "Content creation, short video editing, podcast, book writing experts"
   },
   {
     "marketplace": "experts",
     "dir": "customer-reply",
+    "type": "expert",
     "zip": "experts__customer-reply.zip",
     "size_kb": 150.5,
-    "agents": [
-      "customer-reply.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "customer-reply-cn"
-    ],
-    "name": "customer-reply",
-    "displayName": "Horizon",
-    "profession": "客服话术专家",
-    "expertType": "agent",
-    "displayDescription": "客户发火别乱回：售前售后投诉退换四大场景话术直接出，按情绪配安抚策略，禁忌用语自动换，复制就能发。",
-    "categoryId": "05-MarketingGrowth",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Customer service scriptwriter built on one insight: most complaints escalate not because of the problem itself, but beca"
   },
   {
     "marketplace": "experts",
     "dir": "data-ai-experts",
+    "type": "expert",
     "zip": "experts__data-ai-experts.zip",
     "size_kb": 457.7,
-    "agents": [
-      "ai-engineer.md",
-      "autonomous-optimization-architect.md",
-      "data-analytics-reporter.md",
-      "data-engineer.md",
-      "data-integration-agent.md",
-      "database-optimization-expert.md",
-      "model-quality-assurance-expert.md",
-      "sales-data-extraction-agent.md"
-    ],
-    "agent_count": 8,
-    "skills": [
-      "agent-browser-core",
-      "agent-team-orchestration",
-      "capability-evolver",
-      "deep-research",
-      "fullstack-dev",
-      "multi-search-engine",
-      "tavily",
-      "wechat-article-search",
-      "xiaohongshu"
-    ],
-    "name": "data-ai-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 8,
+    "skills": 9,
+    "description": "AI/ML, data engineering, database optimization, data analytics experts"
   },
   {
     "marketplace": "experts",
     "dir": "deep-research",
+    "type": "expert",
     "zip": "experts__deep-research.zip",
     "size_kb": 24.4,
-    "agents": [
-      "deep-research-expert.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "wechat-article-search"
-    ],
-    "name": "deep-research",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Deep research plugin that enables comprehensive web research, information synthesis, and knowledge discovery. Supports m"
   },
   {
     "marketplace": "experts",
     "dir": "design-experts",
+    "type": "expert",
     "zip": "experts__design-experts.zip",
     "size_kb": 3828.1,
-    "agents": [
-      "ai-image-prompt-engineer.md",
-      "brand-guardian.md",
-      "delightful-experience-designer.md",
-      "design-md-architect.md",
-      "diversity-visual-expert.md",
-      "ui-designer.md",
-      "user-experience-architect.md",
-      "user-experience-researcher.md",
-      "visual-storytelling-expert.md"
-    ],
-    "agent_count": 9,
-    "skills": [
-      "anti-distill",
-      "brand-guidelines",
-      "browser-use",
-      "canvas-design",
-      "content-factory",
-      "design-reference",
-      "frontend-dev",
-      "humanizer",
-      "impeccable",
-      "market-researcher",
-      "marketing-skills",
-      "minimax-docx"
-    ],
-    "name": "design-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 9,
+    "skills": 12,
+    "description": "Design system architecture, UI design, and brand-referenced design delivery experts"
   },
   {
     "marketplace": "experts",
     "dir": "devops-security-experts",
+    "type": "expert",
     "zip": "experts__devops-security-experts.zip",
     "size_kb": 445.3,
-    "agents": [
-      "dev-ops-automation-engineer.md",
-      "embedded-firmware-engineer.md",
-      "incident-response-commander.md",
-      "security-engineer.md",
-      "site-reliability-engineer.md",
-      "solidity-smart-contract-engineer.md",
-      "threat-detection-engineer.md"
-    ],
-    "agent_count": 7,
-    "skills": [
-      "agent-browser-core",
-      "ima-skills",
-      "minimax-docx"
-    ],
-    "name": "devops-security-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 3,
+    "description": "DevOps, security, SRE, incident response, embedded engineering experts"
   },
   {
     "marketplace": "experts",
     "dir": "education-training-experts",
+    "type": "expert",
     "zip": "experts__education-training-experts.zip",
     "size_kb": 448.2,
-    "agents": [
-      "corporate-training-designer.md",
-      "document-generation-expert.md",
-      "study-abroad-consultant.md",
-      "technical-documentation-engineer.md"
-    ],
-    "agent_count": 4,
-    "skills": [
-      "anti-distill",
-      "deep-research",
-      "market-researcher",
-      "minimax-docx",
-      "multi-search-engine"
-    ],
-    "name": "education-training-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 5,
+    "description": "Corporate training, study abroad, technical documentation experts"
   },
   {
     "marketplace": "experts",
     "dir": "engineering-tools-experts",
+    "type": "expert",
     "zip": "experts__engineering-tools-experts.zip",
     "size_kb": 3152.9,
-    "agents": [
-      "code-review-expert.md",
-      "git-workflow-expert.md",
-      "lsp-index-engineer.md",
-      "mcp-build-expert.md"
-    ],
-    "agent_count": 4,
-    "skills": [
-      "capability-evolver",
-      "darwin-skill",
-      "frontend-dev",
-      "fullstack-dev",
-      "github",
-      "impeccable"
-    ],
-    "name": "engineering-tools-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 6,
+    "description": "Code review, Git workflow, MCP, LSP engineering tools experts"
   },
   {
     "marketplace": "experts",
     "dir": "engineering-workflow-skills",
+    "type": "expert",
     "zip": "experts__engineering-workflow-skills.zip",
     "size_kb": 419.8,
-    "agents": [
-      "engineering-workflow-coach.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "engineering-workflow"
-    ],
-    "name": "engineering-workflow-skills",
-    "displayName": "工序达",
-    "profession": "工程实践专家",
-    "expertType": "agent",
-    "displayDescription": "基于Google 工程师的《Agent Skills》打造的资深工程全流程教练：规约驱动、测试驱动、代码评审、CI/CD发布",
-    "categoryId": "02-Engineering",
-    "version": "2.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Production-grade engineering workflow coach (spec, plan, build, verify, review, ship) ported from addyosmani/agent-skill"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "english-learning-buddy",
+    "type": "expert",
+    "zip": "experts__english-learning-buddy.zip",
+    "size_kb": 281.3,
+    "agents": 1,
+    "skills": 1,
+    "description": "A personalized English learning companion that distills proven methodologies from world-leading language learning apps i"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "finance-legal-experts",
+    "type": "expert",
+    "zip": "experts__finance-legal-experts.zip",
+    "size_kb": 560.6,
+    "agents": 5,
+    "skills": 8,
+    "description": "Financial tracking, legal compliance, audit, accounts payable experts"
   },
   {
     "marketplace": "experts",
     "dir": "frontend-backend-experts",
+    "type": "expert",
     "zip": "experts__frontend-backend-experts.zip",
     "size_kb": 4012.1,
-    "agents": [
-      "backend-architect.md",
-      "frontend-developer.md",
-      "mobile-application-developer.md",
-      "rapid-prototyping-engineer.md",
-      "senior-developer.md",
-      "software-architect.md",
-      "we-chat-mini-program-developer.md"
-    ],
-    "agent_count": 7,
-    "skills": [
-      "android-native-dev",
-      "brand-guidelines",
-      "browser-use",
-      "capability-evolver",
-      "deep-research",
-      "frontend-dev",
-      "fullstack-dev",
-      "github",
-      "impeccable",
-      "minimax-docx",
-      "notebooklm-studio",
-      "skyline",
-      "tdesign-miniprogram",
-      "wechat-miniprogram"
-    ],
-    "name": "frontend-backend-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 14,
+    "description": "Frontend, backend, full-stack, mobile development experts"
   },
   {
     "marketplace": "experts",
     "dir": "gpt-researcher-team",
+    "type": "expert",
     "zip": "experts__gpt-researcher-team.zip",
     "size_kb": 63.8,
-    "agents": [
-      "draft-reviewer.md",
-      "draft-reviser.md",
-      "report-publisher.md",
-      "report-writer.md",
-      "research-chief-editor.md",
-      "research-planner.md",
-      "topic-researcher.md"
-    ],
-    "agent_count": 7,
-    "skills": [],
-    "name": "gpt-researcher-team",
-    "displayName": "深度研究团队",
-    "profession": "多源深度研究报告工坊",
-    "expertType": "team",
-    "displayDescription": "7 位专业角色分 5 阶段协作完成深度研究：初始调研 → 规划大纲 → 逐章深度研究（审稿修订循环）→ 撰写报告框架 → 发布输出。支持完整 / 快速 / 单章三种模式。适用于行业研究、竞品分析、技术综述、学术文献综述等场景，产出带多源超链接引用的专业研究报告。",
-    "categoryId": "04-DataAI",
-    "version": "2.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 0,
+    "description": "Deep Research Team: 7 specialist roles orchestrate a 5-phase workflow (initial scouting → outline planning → per-chapter"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "huashu-doc-reviewer",
+    "type": "expert",
+    "zip": "experts__huashu-doc-reviewer.zip",
+    "size_kb": 133.2,
+    "agents": 1,
+    "skills": 0,
+    "description": "AI document reviewer that injects comments and tracked changes directly into the original Word file. Built for One Perso"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "ielts-writing-grading-expert",
+    "type": "expert",
+    "zip": "experts__ielts-writing-grading-expert.zip",
+    "size_kb": 426.7,
+    "agents": 1,
+    "skills": 1,
+    "description": "Grades IELTS Academic/General Training Writing Task 1 & Task 2 against the four official criteria with itemized scores, "
   },
   {
     "marketplace": "experts",
     "dir": "industry-service-experts",
+    "type": "expert",
     "zip": "experts__industry-service-experts.zip",
     "size_kb": 79.6,
-    "agents": [
-      "executive-summary-generator.md",
-      "healthcare-marketing-compliance-expert.md",
-      "report-distribution-agent.md",
-      "supply-chain-strategist.md",
-      "zero-knowledge-proof-admin.md"
-    ],
-    "agent_count": 5,
-    "skills": [
-      "browser-use",
-      "market-researcher",
-      "multi-search-engine",
-      "tencentmap-lbs-skill",
-      "wechat-article-search"
-    ],
-    "name": "industry-service-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 5,
+    "skills": 5,
+    "description": "Healthcare, supply chain, report distribution, zero-knowledge proof experts"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "job-hunt",
+    "type": "expert",
+    "zip": "experts__job-hunt.zip",
+    "size_kb": 457.3,
+    "agents": 1,
+    "skills": 4,
+    "description": "Career coach that searches matching positions, customizes resumes, and generates structured application checklists"
   },
   {
     "marketplace": "experts",
     "dir": "kdocs-knowledge-collector",
+    "type": "expert",
     "zip": "experts__kdocs-knowledge-collector.zip",
     "size_kb": 430.4,
-    "agents": [
-      "kdocs-knowledge-collector.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "doc-writer",
-      "fragment-organize",
-      "web-clipper"
-    ],
-    "name": "kdocs-knowledge-collector",
-    "displayName": "藏知远",
-    "profession": "知识收藏专家",
-    "expertType": "agent",
-    "displayDescription": "把网页、消息、笔记等碎片内容沉淀为结构化知识资产：一键剪藏公众号与网页为云文档，AI 按主题聚合零散笔记生成整理稿，多份文档自动提炼摘要与要点。",
-    "categoryId": "06-ContentCreative",
-    "version": "1.0.1",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 3,
+    "description": "知识收藏专家：网页剪藏、碎片笔记整理、文档总结与内容生成。"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "kdocs-pdf-toolbox",
+    "type": "expert",
+    "zip": "experts__kdocs-pdf-toolbox.zip",
+    "size_kb": 428.4,
+    "agents": 1,
+    "skills": 1,
+    "description": "PDF 处理专家：PDF 拆分/提取指定页、云文档导出为 PDF、查询 PDF 页数。"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "kdocs-ppt-creator",
+    "type": "expert",
+    "zip": "experts__kdocs-ppt-creator.zip",
+    "size_kb": 409.4,
+    "agents": 1,
+    "skills": 1,
+    "description": "PPT 创作专家：一句话生成完整 PPT，AI 自动设计大纲和内容，支持工作汇报/培训/方案展示。"
   },
   {
     "marketplace": "experts",
     "dir": "llm-wiki",
+    "type": "expert",
     "zip": "experts__llm-wiki.zip",
     "size_kb": 7.6,
-    "agents": [
-      "llm-wiki.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "llm-wiki"
-    ],
-    "name": "llm-wiki",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "LLM Wiki Knowledge Management Expert"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "malaysia-finance-tax",
+    "type": "expert",
+    "zip": "experts__malaysia-finance-tax.zip",
+    "size_kb": 15793.9,
+    "agents": 1,
+    "skills": 1,
+    "description": "Malaysia Finance & Tax Expert — covering taxation, accounting, banking, financing, foreign exchange, payments, auditing,"
   },
   {
     "marketplace": "experts",
     "dir": "malaysia-hr-admin",
+    "type": "expert",
     "zip": "experts__malaysia-hr-admin.zip",
     "size_kb": 40816.2,
-    "agents": [
-      "malaysia-hr-admin.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "malaysia-hr-admin"
-    ],
-    "name": "malaysia-hr-admin",
-    "displayName": "马来西亚人力行政",
-    "profession": "马来西亚人力行政专家",
-    "expertType": "agent",
-    "displayDescription": "精通马来西亚招聘、劳动合同、薪酬福利、签证工签与社保，服务企业跨境人力行政咨询。",
-    "categoryId": "09-OperationsHR",
-    "version": "1.4.2",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Amelia — Malaysia HR & Admin compliance expert. Corpus-first engine (52 Reference_Texts: Employment Act/PDPA/Companies A"
   },
   {
     "marketplace": "experts",
     "dir": "malaysia-legal",
+    "type": "expert",
     "zip": "experts__malaysia-legal.zip",
     "size_kb": 18425.6,
-    "agents": [
-      "malaysia-legal.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "malaysia-legal"
-    ],
-    "name": "malaysia-legal",
-    "displayName": "大马法务通",
-    "profession": "马来西亚法务合规专家",
-    "expertType": "agent",
-    "displayDescription": "精通马来西亚公司注册、合同、知识产权、行业准入与数据合规，服务跨境法务合规咨询。",
-    "categoryId": "11-SecurityCompliance",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Malaysia Legal Compliance Expert — Corpus-first engine (Companies Act 2016/PDPA 2010/SSM + e-Kehakiman/MyIPO search) cov"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "malaysia-marketing",
+    "type": "expert",
+    "zip": "experts__malaysia-marketing.zip",
+    "size_kb": 284.9,
+    "agents": 1,
+    "skills": 0,
+    "description": "Malaysian marketing analysis consultant for consumer insights, brand positioning, social media and advertising strategy."
   },
   {
     "marketplace": "experts",
     "dir": "openspec-doc-team",
+    "type": "expert",
     "zip": "experts__openspec-doc-team.zip",
     "size_kb": 1330.6,
-    "agents": [
-      "doc-auditor.md",
-      "doc-generator.md",
-      "doc-researcher.md",
-      "doc-team-lead.md"
-    ],
-    "agent_count": 4,
-    "skills": [],
-    "name": "openspec-doc-team",
-    "displayName": "专业文档生成团队",
-    "profession": "企业级长文档生成工坊",
-    "expertType": "team",
-    "displayDescription": "4 位专业角色分 6 阶段协作完成企业级长文档生成：需求分析 → 知识检索 → 内容生成 → 质量审核（循环）→ 整合汇编 → 交付输出。适用于施工图设计说明、技术方案、招投标文件、维修手册、API/系统文档等场景。",
-    "categoryId": "10-ProjectQuality",
-    "version": "1.1.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 0,
+    "description": "Professional document generation team: 4 roles (lead editor + researcher + generator + auditor) orchestrate a 6-phase wo"
   },
   {
     "marketplace": "experts",
     "dir": "operations-customer-experts",
+    "type": "expert",
     "zip": "experts__operations-customer-experts.zip",
     "size_kb": 254.8,
-    "agents": [
-      "customer-support-expert.md",
-      "douyin-strategist.md",
-      "infrastructure-operations-expert.md",
-      "wechat-official-account-expert.md",
-      "xiaohongshu-operations-expert.md"
-    ],
-    "agent_count": 5,
-    "skills": [
-      "anti-distill",
-      "humanizer",
-      "market-researcher",
-      "marketing-skills",
-      "mp-draft-push",
-      "remotion-video-toolkit",
-      "wechat-article-search",
-      "xiaohongshu"
-    ],
-    "name": "operations-customer-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 5,
+    "skills": 8,
+    "description": "Customer support, platform operations, infrastructure operations experts"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "portfolio-interpreter",
+    "type": "expert",
+    "zip": "experts__portfolio-interpreter.zip",
+    "size_kb": 398.7,
+    "agents": 1,
+    "skills": 2,
+    "description": "Interprets a user-pasted stock and ETF portfolio for concentration, overlap and common risks. Cannot read brokerage acco"
   },
   {
     "marketplace": "experts",
     "dir": "product-experts",
+    "type": "expert",
     "zip": "experts__product-experts.zip",
     "size_kb": 4260.0,
-    "agents": [
-      "behavioral-nudge-engine.md",
-      "feedback-synthesis-analyst.md",
-      "sprint-priority-manager.md",
-      "trend-researcher.md"
-    ],
-    "agent_count": 4,
-    "skills": [
-      "anti-distill",
-      "browser-use",
-      "fbs-bookwriter",
-      "frontend-dev",
-      "ima-skills",
-      "market-researcher",
-      "marketing-skills"
-    ],
-    "name": "product-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 4,
+    "skills": 7,
+    "description": "Product strategy, prioritization, user feedback, behavioral design experts"
   },
   {
     "marketplace": "experts",
     "dir": "product-strategy-team",
+    "type": "expert",
     "zip": "experts__product-strategy-team.zip",
     "size_kb": 2031.0,
-    "agents": [
-      "competitive-analyst.md",
-      "data-analyst.md",
-      "product-director.md",
-      "requirement-analyst.md",
-      "roadmap-planner.md",
-      "user-researcher.md"
-    ],
-    "agent_count": 6,
-    "skills": [
-      "product-playbook"
-    ],
-    "name": "product-strategy-team",
-    "displayName": "产品战略团队",
-    "profession": "产品战略与管理",
-    "expertType": "team",
-    "displayDescription": "由产品总监领导的 5 人产品专家团队：需求分析师（PRD/功能规格书）、用户研究员（调研综合分析）、竞品分析师（竞争情报）、数据分析师（指标追踪）和路线图规划师（路线图管理/迭代规划）。覆盖从构思到上线的完整产品生命周期。",
-    "categoryId": "01-ProductDesign",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 6,
+    "skills": 1,
+    "description": "Product strategy team with requirement analyst, user researcher, competitive analyst, data analyst, and roadmap planner "
+  },
+  {
+    "marketplace": "experts",
+    "dir": "project-management-experts",
+    "type": "expert",
+    "zip": "experts__project-management-experts.zip",
+    "size_kb": 543.2,
+    "agents": 8,
+    "skills": 6,
+    "description": "Project management, agile, studio operations, experiment tracking experts"
   },
   {
     "marketplace": "experts",
     "dir": "quality-testing-experts",
+    "type": "expert",
     "zip": "experts__quality-testing-experts.zip",
     "size_kb": 445.6,
-    "agents": [
-      "accessibility-auditor.md",
-      "api-testing-expert.md",
-      "evidence-collector.md",
-      "performance-testing-expert.md",
-      "reality-checker.md",
-      "test-results-analyst.md",
-      "tool-evaluation-expert.md",
-      "workflow-optimization-expert.md"
-    ],
-    "agent_count": 8,
-    "skills": [
-      "agent-team-orchestration",
-      "deep-research",
-      "github",
-      "minimax-docx"
-    ],
-    "name": "quality-testing-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 8,
+    "skills": 4,
+    "description": "QA, performance testing, API testing, accessibility audit experts"
   },
   {
     "marketplace": "experts",
     "dir": "sales-experts",
+    "type": "expert",
     "zip": "experts__sales-experts.zip",
     "size_kb": 654.4,
-    "agents": [
-      "deal-strategist.md",
-      "discovery-coach.md",
-      "enterprise-account-strategist.md",
-      "outbound-strategist.md",
-      "presales-technical-consultant.md",
-      "proposal-strategist.md",
-      "sales-coach.md",
-      "sales-pipeline-analyst.md"
-    ],
-    "agent_count": 8,
-    "skills": [
-      "anti-distill",
-      "browser-use",
-      "jiaozhen-factcheck",
-      "market-researcher",
-      "marketing-skills",
-      "minimax-docx",
-      "neodata-financial-search",
-      "stock-analysis",
-      "wechat-article-search"
-    ],
-    "name": "sales-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 8,
+    "skills": 9,
+    "description": "Sales coaching, deal strategy, enterprise accounts, presales experts"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "seo-growth-experts",
+    "type": "expert",
+    "zip": "experts__seo-growth-experts.zip",
+    "size_kb": 1655.7,
+    "agents": 7,
+    "skills": 6,
+    "description": "SEO, ASO, growth hacking, social media strategy experts"
+  },
+  {
+    "marketplace": "experts",
+    "dir": "side-checkup",
+    "type": "expert",
+    "zip": "experts__side-checkup.zip",
+    "size_kb": 301.4,
+    "agents": 1,
+    "skills": 0,
+    "description": "A skeptical side-hustle due-diligence coach: stress-test any side project with four checks (real demand, verifiability, "
+  },
+  {
+    "marketplace": "experts",
+    "dir": "software-company",
+    "type": "expert",
+    "zip": "experts__software-company.zip",
+    "size_kb": 17.8,
+    "agents": 5,
+    "skills": 0,
+    "description": "Software Development Team - Optimized multi-agent SOP workflow for fast software delivery"
   },
   {
     "marketplace": "experts",
     "dir": "spatial-computing-experts",
+    "type": "expert",
     "zip": "experts__spatial-computing-experts.zip",
     "size_kb": 11.8,
-    "agents": [
-      "mac-os-spatial-metal-engineer.md",
-      "terminal-integration-expert.md",
-      "vision-os-spatial-engineer.md",
-      "xr-cockpit-interaction-expert.md",
-      "xr-immersive-developer.md",
-      "xr-interface-architect.md"
-    ],
-    "agent_count": 6,
-    "skills": [],
-    "name": "spatial-computing-experts",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 6,
+    "skills": 0,
+    "description": "visionOS, XR, Metal, spatial computing experts"
   },
   {
     "marketplace": "experts",
     "dir": "trading-agent",
+    "type": "expert",
     "zip": "experts__trading-agent.zip",
     "size_kb": 33.5,
-    "agents": [
-      "aggressive-risk-analyst.md",
-      "bear-researcher.md",
-      "bull-researcher.md",
-      "conservative-risk-analyst.md",
-      "fundamentals-analyst.md",
-      "market-analyst.md",
-      "neutral-risk-analyst.md",
-      "news-analyst.md",
-      "research-manager.md",
-      "risk-manager.md",
-      "sentiment-analyst.md",
-      "trader.md",
-      "trading-team-lead.md"
-    ],
-    "agent_count": 13,
-    "skills": [
-      "trading-analysis"
-    ],
-    "name": "trading-agent",
-    "displayName": "交易分析团队",
-    "profession": "交易分析团队",
-    "expertType": "team",
-    "displayDescription": "13位专业角色分5阶段协作完成投资分析：技术面、基本面、新闻面、情绪面数据采集 → 多空辩论 → 交易决策 → 三方风险评估 → 最终报告，输出 BUY/SELL/HOLD 建议及完整操作方案",
-    "categoryId": "08-FinanceInvestment",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 13,
+    "skills": 1,
+    "description": "Trading analysis team — 13 specialized roles collaborate across 5 phases to deliver BUY/SELL/HOLD recommendations for A-"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "a-share-analysis",
+    "type": "expert",
     "zip": "cb_teams_marketplace__a-share-analysis.zip",
     "size_kb": 61.1,
-    "agents": [
-      "a-share-advisor.md",
-      "morning-briefing.md",
-      "portfolio-diagnosis.md",
-      "sector-screening.md",
-      "smart-money-tracker.md",
-      "stock-research.md",
-      "thematic-hunter.md"
-    ],
-    "agent_count": 7,
-    "skills": [
-      "bubble-detection",
-      "company-quality",
-      "dividend-returns",
-      "financial-report",
-      "fund-crowding",
-      "going-global",
-      "industry-chain",
-      "institutional-holdings",
-      "macro-research",
-      "macro-to-stock",
-      "market-mainline",
-      "market-overview",
-      "northbound-flow",
-      "position-management",
-      "risk-checkup",
-      "sector-comparison",
-      "stock-deep-dive",
-      "stock-logic-research",
-      "style-rotation",
-      "valuation-framework"
-    ],
-    "name": "a-share-analysis",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 7,
+    "skills": 20,
+    "description": "A股投资分析技能集，覆盖宏观研究、市场结构、个股深度、行业比较、资金行为、风险管理等 21 个专业分析 skill 和 6 个编排 agent。"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "agent-sdk-dev",
+    "type": "expert",
     "zip": "cb_teams_marketplace__agent-sdk-dev.zip",
     "size_kb": 12.6,
-    "agents": [
-      "agent-sdk-verifier-py.md",
-      "agent-sdk-verifier-ts.md"
-    ],
-    "agent_count": 2,
-    "skills": [],
-    "name": "agent-sdk-dev",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 2,
+    "skills": 0,
+    "description": "CodeBuddy Agent SDK Development Plugin - Create and verify CodeBuddy Agent SDK applications"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "ai-hedge-fund",
+    "type": "expert",
     "zip": "cb_teams_marketplace__ai-hedge-fund.zip",
     "size_kb": 38.6,
-    "agents": [
-      "aswath-damodaran.md",
-      "ben-graham.md",
-      "bill-ackman.md",
-      "cathie-wood.md",
-      "charlie-munger.md",
-      "fundamentals-analyst.md",
-      "growth-analyst.md",
-      "michael-burry.md",
-      "mohnish-pabrai.md",
-      "nassim-taleb.md",
-      "news-sentiment-analyst.md",
-      "peter-lynch.md",
-      "phil-fisher.md",
-      "portfolio-manager.md",
-      "rakesh-jhunjhunwala.md",
-      "risk-manager.md",
-      "sentiment-analyst.md",
-      "stanley-druckenmiller.md",
-      "technicals-analyst.md",
-      "valuation-analyst.md",
-      "warren-buffett.md"
-    ],
-    "agent_count": 21,
-    "skills": [],
-    "name": "ai-hedge-fund",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 21,
+    "skills": 0,
+    "description": "AI 对冲基金投资分析系统：19位投资大师并行分析 + 风险管理 + 投资组合决策的全流程投资分析。涵盖巴菲特、芒格、林奇、伯里、塔勒布、伍德、格雷厄姆等13位传奇投资哲学家 + 6位专业分析师，通过信号聚合投票输出 BUY/SELL/HO"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "ardot-design-generator",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__ardot-design-generator.zip",
+    "size_kb": 111.7,
+    "agents": 0,
+    "skills": 3,
+    "description": "Ardot设计工具：在Ardot中生成高质量设计稿，移动端UI，网站页面，web应用，幻灯片等设计稿"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "codebuddy-chat-web",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__codebuddy-chat-web.zip",
+    "size_kb": 85.0,
+    "agents": 0,
+    "skills": 1,
+    "description": "Initialize a web-based chat application powered by CodeBuddy Agent SDK with React + TDesign frontend and Express backend"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "data",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__data.zip",
+    "size_kb": 51.8,
+    "agents": 0,
+    "skills": 8,
+    "description": "数据分析插件，支持 SQL 查询、数据探索、可视化、仪表板构建和洞察生成。包含完整的数据分析工作流程和最佳实践。"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "deep-research",
+    "type": "expert",
     "zip": "cb_teams_marketplace__deep-research.zip",
     "size_kb": 24.4,
-    "agents": [
-      "research-subagent.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "wechat-article-search"
-    ],
-    "name": "deep-research",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 1,
+    "description": "Deep research plugin that enables comprehensive web research, information synthesis, and knowledge discovery. Supports m"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "design-to-code",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__design-to-code.zip",
+    "size_kb": 28.5,
+    "agents": 0,
+    "skills": 8,
+    "description": "设计工具套件：Figma 设计转代码、无障碍审查、设计评审、设计交付、设计系统管理、用户研究、UX 文案。"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "dockerfile-gen",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__dockerfile-gen.zip",
+    "size_kb": 3.1,
+    "agents": 0,
+    "skills": 0,
+    "description": "Dockerfile Generator - Automated Dockerfile generation with best practices for containerization"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "document-skills",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__document-skills.zip",
+    "size_kb": 190.3,
+    "agents": 0,
+    "skills": 2,
+    "description": "PDF document processing skill: reading, text/table extraction, form filling, merging and splitting"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "equity-research",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__equity-research.zip",
+    "size_kb": 108.1,
+    "agents": 0,
+    "skills": 9,
+    "description": "Equity research tools: earnings analysis, initiating coverage reports, and research workflows"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "executing-marketing-campaigns",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__executing-marketing-campaigns.zip",
+    "size_kb": 54.4,
+    "agents": 0,
+    "skills": 1,
+    "description": "Plans, creates, and optimizes marketing campaigns including content strategy, social media, email, and analytics"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "finance",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__finance.zip",
+    "size_kb": 48.7,
+    "agents": 0,
+    "skills": 9,
+    "description": "财务与会计插件，支持月末结账、日记账分录、账户核对、财务报表生成、差异分析和 SOX 审计支持。"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "financial-analysis",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__financial-analysis.zip",
+    "size_kb": 92.5,
+    "agents": 0,
+    "skills": 9,
+    "description": "Core financial modeling and analysis tools: DCF, comps, LBO, 3-statement models, competitive analysis, and deck QC"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "gaokao-advisor",
+    "type": "expert",
     "zip": "cb_teams_marketplace__gaokao-advisor.zip",
     "size_kb": 461.7,
-    "agents": [
-      "gaokao-advisor.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "gaokao-search",
-      "gaokao-zhiyuan-assistant",
-      "tencent-yuanbao-gaokao-regional-passing-scores",
-      "tencent-yuanbao-gaokao-score-to-rank-lookup"
-    ],
-    "name": "gaokao-advisor",
-    "displayName": "专业高考顾问",
-    "profession": "高考我帮你",
-    "expertType": "agent",
-    "displayDescription": "辅助检索高考知识库并调用分数线、一分一段能力，整理带来源的真题、高校专业和志愿参考；同时提供全流程志愿填报引导，产出可转发的腾讯文档志愿报告",
-    "categoryId": "12-IndustryConsultant",
-    "version": "2.0.0",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 4,
+    "description": "Evidence-grounded Gaokao assistant for knowledge retrieval, score lines, score-to-rank lookup, and admission planning re"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "general-skills",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__general-skills.zip",
+    "size_kb": 197.5,
+    "agents": 0,
+    "skills": 4,
+    "description": "A collection of general-purpose skills including document conversion, skill discovery, UI/UX design, and frontend develo"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "internal-comms",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__internal-comms.zip",
+    "size_kb": 10.3,
+    "agents": 0,
+    "skills": 1,
+    "description": "A set of resources to help write internal communications using company-preferred formats (status reports, 3P updates, ne"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "investment-banking",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__investment-banking.zip",
+    "size_kb": 51.2,
+    "agents": 0,
+    "skills": 9,
+    "description": "Investment banking productivity tools: client and market insights, deck creation, financial analysis, and transaction ma"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "lseg",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__lseg.zip",
+    "size_kb": 17.0,
+    "agents": 0,
+    "skills": 8,
+    "description": "Price bonds, analyze yield curves, evaluate FX carry trades, value options, and build macro dashboards using LSEG financ"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "modern-webapp",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__modern-webapp.zip",
+    "size_kb": 326.7,
+    "agents": 0,
+    "skills": 4,
+    "description": "Modern web application development plugin with React, TypeScript, Vite, Tailwind CSS, shadcn/ui, and comprehensive UI/UX"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "ppt-implement",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__ppt-implement.zip",
+    "size_kb": 907.0,
+    "agents": 0,
+    "skills": 1,
+    "description": "智能 PPT 生成助手，一键将您的想法转化为精美演示文稿"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "private-equity",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__private-equity.zip",
+    "size_kb": 19.1,
+    "agents": 0,
+    "skills": 9,
+    "description": "Private equity deal sourcing and workflow tools: company discovery, CRM integration, and founder outreach"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "product-management",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__product-management.zip",
+    "size_kb": 57.4,
+    "agents": 0,
+    "skills": 9,
+    "description": "产品管理插件，支持功能规格编写、路线图规划、利益相关者沟通、用户研究综合、竞品分析、指标审查、产品头脑风暴和冲刺规划。"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "remotion-video-generator",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__remotion-video-generator.zip",
+    "size_kb": 197.1,
+    "agents": 0,
+    "skills": 6,
+    "description": "Automatically generates beautiful videos using Remotion. Detects video creation requests, creates storyboards, handles e"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "sheetagent",
+    "type": "expert",
     "zip": "cb_teams_marketplace__sheetagent.zip",
     "size_kb": 498.2,
-    "agents": [
-      "sheet-agent.md"
-    ],
-    "agent_count": 1,
-    "skills": [
-      "excel-generation",
-      "excel-handler"
-    ],
-    "name": "sheetagent",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "0.1.1784260829",
-    "author": "marketplace"
+    "agents": 1,
+    "skills": 2,
+    "description": "由腾讯文档团队出品的电子表格智能助手，支持通过自然语言创建、查询与编辑 xlsx 表格"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "skill-creator",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__skill-creator.zip",
+    "size_kb": 14.9,
+    "agents": 0,
+    "skills": 1,
+    "description": "提供创建高效 Claude 技能的指南,通过专业知识、工作流程和工具集成来扩展 AI 助手的能力"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "spglobal",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__spglobal.zip",
+    "size_kb": 82.2,
+    "agents": 0,
+    "skills": 3,
+    "description": "S&P Global - Financial data and analytics skills including company tearsheets, earnings previews, and transaction summar"
   },
   {
     "marketplace": "cb_teams_marketplace",
     "dir": "trading-agent",
+    "type": "expert",
     "zip": "cb_teams_marketplace__trading-agent.zip",
     "size_kb": 27.6,
-    "agents": [
-      "aggressive-risk-analyst.md",
-      "bear-researcher.md",
-      "bull-researcher.md",
-      "conservative-risk-analyst.md",
-      "fundamentals-analyst.md",
-      "market-analyst.md",
-      "neutral-risk-analyst.md",
-      "news-analyst.md",
-      "research-manager.md",
-      "risk-manager.md",
-      "sentiment-analyst.md",
-      "trader.md"
-    ],
-    "agent_count": 12,
-    "skills": [
-      "trading-analysis"
-    ],
-    "name": "trading-agent",
-    "displayName": "",
-    "profession": "",
-    "expertType": "agent",
-    "displayDescription": "",
-    "categoryId": "",
-    "version": "1.0.0",
-    "author": "marketplace"
+    "agents": 12,
+    "skills": 1,
+    "description": "交易智能体插件：基于多角色辩论方法论的系统性投资分析，涵盖市场技术分析、基本面分析、新闻与情绪分析、多空辩论、交易决策与三方风险评估全流程，输出 BUY/SELL/HOLD 建议。数据源使用 NeoData 金融数据服务。"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "wealth-management",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__wealth-management.zip",
+    "size_kb": 13.0,
+    "agents": 0,
+    "skills": 6,
+    "description": "Wealth management and financial advisory tools: client reviews, financial planning, portfolio analysis, and client repor"
+  },
+  {
+    "marketplace": "cb_teams_marketplace",
+    "dir": "webapp-testing",
+    "type": "skill",
+    "zip": "cb_teams_marketplace__webapp-testing.zip",
+    "size_kb": 5.4,
+    "agents": 0,
+    "skills": 0,
+    "description": "Web 应用测试助手，引导用户启动、配置和测试 Web 应用"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "agent-browser",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__agent-browser.zip",
+    "size_kb": 8.6,
+    "agents": 0,
+    "skills": 1,
+    "description": "基于 Vercel agent-browser CLI 的浏览器自动化插件。首次使用时自动安装，让 CodeBuddy 能够进行网页交互、截图、表单填写等浏览器操作。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "agent-sdk-dev",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__agent-sdk-dev.zip",
+    "size_kb": 13.7,
+    "agents": 2,
+    "skills": 0,
+    "description": "CodeBuddy Agent SDK Development Plugin - Create and verify CodeBuddy Agent SDK applications"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "agent-team-agile-workflow",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__agent-team-agile-workflow.zip",
+    "size_kb": 33.8,
+    "agents": 7,
+    "skills": 0,
+    "description": "完整的 BMAD 敏捷工作流插件，包含角色化代理（PO、架构师、SM、开发、QA）和交互式审批流程"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "algorithmic-art",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__algorithmic-art.zip",
+    "size_kb": 19.3,
+    "agents": 0,
+    "skills": 1,
+    "description": "使用 p5.js 创建算法艺术，支持种子随机性和交互式参数探索。适用于生成艺术、流场、粒子系统等代码艺术创作。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "cloudbase",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__cloudbase.zip",
+    "size_kb": 133.8,
+    "agents": 0,
+    "skills": 1,
+    "description": "CloudBase AI 开发插件，提供 Web、小程序、云函数、CloudRun、数据库（NoSQL/MySQL）、云存储、AI 模型、UI 设计等全栈开发能力。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "code-simplifier",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__code-simplifier.zip",
+    "size_kb": 2.1,
+    "agents": 1,
+    "skills": 0,
+    "description": "专注于简化代码以提升清晰度、一致性和可维护性的智能代理,在保留完整功能的前提下优化代码结构。主要关注最近修改的代码。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "codebuddy-md-management",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__codebuddy-md-management.zip",
+    "size_kb": 1023.3,
+    "agents": 0,
+    "skills": 1,
+    "description": "用于维护和改进 CODEBUDDY.md 文件的工具 - 审核质量、捕获会话学习内容，并保持项目记忆最新。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "development-essentials",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__development-essentials.zip",
+    "size_kb": 24.0,
+    "agents": 5,
+    "skills": 0,
+    "description": "核心开发命令集，包含编码、调试、测试、优化和文档生成等常用开发工作流"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "doc-coauthoring",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__doc-coauthoring.zip",
+    "size_kb": 6.4,
+    "agents": 0,
+    "skills": 1,
+    "description": "引导用户通过结构化工作流协作撰写文档。适用于编写文档、提案、技术规格、决策文档等结构化内容，帮助高效传递上下文、迭代优化内容并验证文档的可读性。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "docx",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__docx.zip",
+    "size_kb": 155.0,
+    "agents": 0,
+    "skills": 1,
+    "description": "全面的 Word 文档创建、编辑和分析工具，支持修订跟踪、评论、格式保留和文本提取。用于处理专业 Word 文档(.docx)"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "edgeone-makers-tools",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__edgeone-makers-tools.zip",
+    "size_kb": 159.9,
+    "agents": 0,
+    "skills": 1,
+    "description": "EdgeOne Makers platform development skills — AI Agents, Cloud Functions, Edge Functions, Storage, Middleware, and Deploy"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "feature-dev",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__feature-dev.zip",
+    "size_kb": 16.0,
+    "agents": 3,
+    "skills": 0,
+    "description": "全面的功能开发工作流，配备专门的智能体用于代码库探索、架构设计和质量审查"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "find-skills",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__find-skills.zip",
+    "size_kb": 4.1,
+    "agents": 0,
+    "skills": 1,
+    "description": "帮助用户发现和安装 AI Agent 技能，支持从 Vercel Skills 和 ClawHub 两个技能仓库搜索和安装"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "frontend-design",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__frontend-design.zip",
+    "size_kb": 6.2,
+    "agents": 0,
+    "skills": 1,
+    "description": "创建独特的生产级前端界面,具有高设计质量。生成富有创意、精致的代码,避免千篇一律的AI审美。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "godot-mcp",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__godot-mcp.zip",
+    "size_kb": 933.4,
+    "agents": 0,
+    "skills": 4,
+    "description": "Godot 4 MCP 集成插件，通过 AI 对话直接操作 Godot Editor。支持场景管理、节点操作、脚本编辑、项目运行等功能。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "hookify",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__hookify.zip",
+    "size_kb": 32.8,
+    "agents": 1,
+    "skills": 1,
+    "description": "通过分析对话模式或显式指令轻松创建自定义钩子，防止不希望的行为。使用简单的 Markdown 文件定义规则。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "hot-skills",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__hot-skills.zip",
+    "size_kb": 89.8,
+    "agents": 0,
+    "skills": 34,
+    "description": "精选热门 AI Agent 技能合集，汇集社区高下载量技能于一处。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "lexiang-knowledge-plugins",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__lexiang-knowledge-plugins.zip",
+    "size_kb": 57.2,
+    "agents": 0,
+    "skills": 1,
+    "description": "乐享知识库, 企业协同知识库，提供获取文档内容与元数据、搜索文档内容、查询知识库与目录结构、创建/编辑/移动文档、管理标签与评论、上传文件及维护附件等知识库操作能力。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "lucide-icons",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__lucide-icons.zip",
+    "size_kb": 18.4,
+    "agents": 0,
+    "skills": 1,
+    "description": "搜索、下载和自定义 Lucide 图标（1000+ 精美 SVG 图标），支持生成 React 组件"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "magicai-hub",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__magicai-hub.zip",
+    "size_kb": 53.0,
+    "agents": 0,
+    "skills": 8,
+    "description": "Godot 4.x 游戏开发 AI 技能工具包。提供 GDScript 代码生成、数据驱动配置、场景/资源文件格式解析、资产路径修复、无头验证、工具函数库等专业能力，帮助 AI 更高效地协助 Godot 项目开发。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "oh-my-codebuddy",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__oh-my-codebuddy.zip",
+    "size_kb": 132.9,
+    "agents": 7,
+    "skills": 10,
+    "description": "完整的 OMC (Oh My CodeBuddy) 插件，包含 agents、commands、skills、hooks、tools 和 MCP servers。提供多代理编排、深度研究、代码分析等功能。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "pdf",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__pdf.zip",
+    "size_kb": 21.7,
+    "agents": 0,
+    "skills": 1,
+    "description": "全面的 PDF 处理工具包，支持提取文本和表格、创建新 PDF、合并/拆分文档、表单填写、加密解密、OCR 扫描等功能"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "playwright-cli",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__playwright-cli.zip",
+    "size_kb": 25.9,
+    "agents": 0,
+    "skills": 1,
+    "description": "Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when the user needs "
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "plugin-dev",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__plugin-dev.zip",
+    "size_kb": 205.2,
+    "agents": 3,
+    "skills": 7,
+    "description": "用于开发 CodeBuddy Code 插件的综合工具包。包含 7 个专家技能,涵盖钩子、MCP 集成、命令、代理和最佳实践。支持 AI 辅助的插件创建和验证。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "plugin-finder",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__plugin-finder.zip",
+    "size_kb": 66.0,
+    "agents": 1,
+    "skills": 1,
+    "description": "智能插件发现和管理助手 - 支持智能搜索、多插件并行对比、多插件协同工作流（sequence-run）、插件信息详解、许愿新插件等功能"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "ppt-writer",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__ppt-writer.zip",
+    "size_kb": 21.0,
+    "agents": 1,
+    "skills": 2,
+    "description": "AI驱动的PPT创作助手，支持智能内容生成、多格式导出和专业模板"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "pptx",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__pptx.zip",
+    "size_kb": 159.6,
+    "agents": 0,
+    "skills": 1,
+    "description": "PowerPoint 演示文稿创建、编辑和分析技能。支持创建新演示文稿、修改内容、处理布局、添加注释或演讲者备注等操作"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "pr-review-toolkit",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__pr-review-toolkit.zip",
+    "size_kb": 22.8,
+    "agents": 6,
+    "skills": 0,
+    "description": "全面的 PR 审查代理工具集,专注于代码注释、测试覆盖、错误处理、类型设计、代码质量和代码简化"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "requirements-driven-workflow",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__requirements-driven-workflow.zip",
+    "size_kb": 17.2,
+    "agents": 4,
+    "skills": 0,
+    "description": "需求驱动开发工作流，包含 90% 质量门控的实用功能实现流程"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "security-rules",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__security-rules.zip",
+    "size_kb": 3.7,
+    "agents": 0,
+    "skills": 0,
+    "description": "腾讯云鼎实验室出品，将安全专家经验融入代码生成过程，实时对常见漏洞的防护规则和安全函数约束，让 AI 直接生成安全代码，从源头保障代码安全质量。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "security-scan",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__security-scan.zip",
+    "size_kb": 549.3,
+    "agents": 7,
+    "skills": 0,
+    "description": "腾讯云鼎实验室出品，专业的代码安全审计插件。支持 Fast（极速扫描）、Light（快速扫描）和 Deep（深度扫描）三种模式。基于 SQLite 语义索引 + 5 Agent 专业化架构，5维深度验证保障结果可信。全链路 --auto 无"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "skills-security-check",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__skills-security-check.zip",
+    "size_kb": 9.0,
+    "agents": 0,
+    "skills": 1,
+    "description": "腾讯云鼎实验室出品，Skill安全审查工具。本skill用于对用户指定的skill.md文件、及其配套的文档、程序、脚本等做安全审查，确保引用安全"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "testbuddy",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__testbuddy.zip",
+    "size_kb": 141.5,
+    "agents": 0,
+    "skills": 3,
+    "description": "文本测试用例生成插件。主要用于文本测试用例生成、文本测试用例框架生成、脑图用例生成、召回、需求分析等文本测试用例生成"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "tmap-lbs-plugin",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__tmap-lbs-plugin.zip",
+    "size_kb": 396.9,
+    "agents": 0,
+    "skills": 2,
+    "description": "腾讯地图位置服务开发插件，提供 JavaScript GL 地图开发指南和 Web 服务 API（POI搜索、路径规划、旅游规划、轨迹可视化等）能力。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "web-artifacts-builder",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__web-artifacts-builder.zip",
+    "size_kb": 30.1,
+    "agents": 0,
+    "skills": 1,
+    "description": "使用现代前端技术（React、Tailwind CSS、shadcn/ui）创建复杂多组件 HTML 工件的工具套件。适用于需要状态管理、路由或 shadcn/ui 组件的复杂工件。"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "weixin-minigame-helper",
+    "type": "expert",
+    "zip": "codebuddy-plugins-official__weixin-minigame-helper.zip",
+    "size_kb": 13.2,
+    "agents": 1,
+    "skills": 1,
+    "description": "微信小游戏AI调试、预览、运行、真机测试上传发布微信小游戏"
+  },
+  {
+    "marketplace": "codebuddy-plugins-official",
+    "dir": "xlsx",
+    "type": "skill",
+    "zip": "codebuddy-plugins-official__xlsx.zip",
+    "size_kb": 147.4,
+    "agents": 0,
+    "skills": 1,
+    "description": "全面的电子表格创建、编辑和分析工具，支持公式、格式化、数据分析和可视化。适用于 .xlsx、.xlsm、.csv、.tsv 等表格文件的处理"
   }
 ]
