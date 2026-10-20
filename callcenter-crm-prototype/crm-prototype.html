@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>外呼 CRM · 交互原型</title>
+<title>外呼 CRM · 交互原型 v1.0</title>
 <style>
 *{box-sizing:border-box}
 :root{
@@ -23,31 +23,29 @@ a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar-thumb{background:#2a3342;border-radius:6px;border:2px solid var(--bg)}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ---------- 布局 ---------- */
 .app{display:flex;height:100vh;overflow:hidden}
 .side{width:212px;flex:0 0 212px;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column}
-.brand{padding:18px 16px 14px;border-bottom:1px solid var(--line)}
+.brand{padding:16px 16px 13px;border-bottom:1px solid var(--line)}
 .brand h1{margin:0;font-size:15px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
 .brand .dot{width:8px;height:8px;border-radius:2px;background:var(--blue);box-shadow:0 0 10px var(--blue)}
 .brand p{margin:4px 0 0;font-size:11px;color:var(--tx3);letter-spacing:.3px}
-.nav{flex:1;padding:10px 8px;overflow:auto}
-.nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:2px 0;border-radius:8px;
+.nav{flex:1;padding:9px 8px;overflow:auto}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:2px 0;border-radius:8px;
   color:var(--tx2);cursor:pointer;font-size:13.5px;transition:.14s}
 .nav a:hover{background:#18202b;color:var(--tx)}
 .nav a.on{background:rgba(76,141,255,.15);color:#cfe0ff;box-shadow:inset 2px 0 0 var(--blue)}
 .nav a .ic{width:16px;text-align:center;font-size:13px;opacity:.9}
-.nav a .cnt{margin-left:auto;font-size:11px;color:var(--tx3)}
-.side-ft{padding:12px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--tx3);line-height:1.7}
+.nav .grp{font-size:10.5px;color:#4f5a6e;padding:12px 12px 4px;letter-spacing:1px}
+.side-ft{padding:11px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--tx3);line-height:1.7}
 .side-ft b{color:var(--tx2);font-weight:500}
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 .top{height:54px;flex:0 0 54px;border-bottom:1px solid var(--line);background:var(--bg2);
-  display:flex;align-items:center;gap:14px;padding:0 18px}
+  display:flex;align-items:center;gap:12px;padding:0 18px}
 .top .crumb{font-size:13px;color:var(--tx2)}
 .top .crumb b{color:var(--tx);font-weight:500}
 .top .sp{flex:1}
-.content{flex:1;overflow:auto;padding:18px 20px 40px}
+.content{flex:1;overflow:auto;padding:18px 20px 90px}
 
-/* ---------- 通用 ---------- */
 .btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:8px;
   border:1px solid var(--line2);background:var(--panel2);color:var(--tx);font-size:13px;cursor:pointer;transition:.14s;white-space:nowrap}
 .btn:hover{background:var(--panel3);border-color:#3a465c}
@@ -57,7 +55,7 @@ a{color:inherit;text-decoration:none}
 .btn.sm{height:26px;padding:0 9px;font-size:12px;border-radius:6px}
 .btn.danger{color:#ffb4be;border-color:#5a2a35;background:#2a1820}
 .btn.danger:hover{background:#3a1d27}
-.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:disabled{opacity:.4;cursor:not-allowed}
 select,input,textarea{font-family:inherit;font-size:13px;background:var(--panel2);color:var(--tx);
   border:1px solid var(--line2);border-radius:8px;padding:7px 9px;outline:none;width:100%}
 select:focus,input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(76,141,255,.13)}
@@ -86,12 +84,11 @@ label.fl{display:block;font-size:12px;color:var(--tx2);margin:0 0 5px}
 .b-gray{background:rgba(120,130,150,.1);color:#7e8899;border-color:rgba(120,130,150,.22)}
 .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
 .kpi .k{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden}
-.kpi .k .lb{font-size:12px;color:var(--tx2);display:flex;align-items:center;gap:6px}
+.kpi .k .lb{font-size:12px;color:var(--tx2)}
 .kpi .k .vl{font-size:27px;font-weight:600;margin-top:6px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
 .kpi .k .sub{font-size:11.5px;color:var(--tx3);margin-top:2px}
 .kpi .k.alert .vl{color:#ff8b9b}
 .kpi .k.ok .vl{color:#5fe0ae}
-.kpi .k::after{content:"";position:absolute;right:-16px;top:-16px;width:62px;height:62px;border-radius:50%;background:rgba(76,141,255,.06)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;font-weight:500;color:var(--tx2);font-size:12px;padding:9px 12px;background:#131923;
   border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;z-index:2}
@@ -99,19 +96,17 @@ td{padding:10px 12px;border-bottom:1px solid #1c2431;vertical-align:middle}
 tbody tr:hover{background:#161d27}
 tbody tr.click{cursor:pointer}
 tbody tr:last-child td{border-bottom:none}
+tbody tr.sel{background:rgba(76,141,255,.07)}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 .tbl-wrap{overflow:auto}
 .empty{padding:40px 20px;text-align:center;color:var(--tx3);font-size:13px}
 .pager{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--tx2)}
 .pager .sp{flex:1}
 .grid-2{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:14px;align-items:start}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .stack>*+*{margin-top:14px}
 .hr{height:1px;background:var(--line);margin:12px 0}
 .hidden{display:none!important}
 .tag{display:inline-block;padding:1px 7px;border-radius:4px;background:#1e2635;color:#9fb0c8;font-size:11px;margin-right:4px}
-
-/* ---------- 列表项 ---------- */
 .item{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid #1c2431}
 .item:last-child{border-bottom:none}
 .item:hover{background:#161d27}
@@ -124,7 +119,6 @@ tbody tr:last-child td{border-bottom:none}
 .avatar{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;
   font-size:11.5px;background:#243044;color:#9db6dd;flex:0 0 26px;font-weight:500}
 
-/* ---------- 日历 ---------- */
 .calbar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .cal .wd{background:#131923;padding:8px;text-align:center;color:var(--tx2);font-size:12px}
@@ -142,17 +136,17 @@ tbody tr:last-child td{border-bottom:none}
 .cal .cell .ev span.dn{background:rgba(46,204,143,.13);color:#5fe0ae}
 .cal .cell .ev span.cn{background:#1a1f29;color:#5d6779;text-decoration:line-through}
 
-/* ---------- 抽屉 / 弹窗 ---------- */
 .mask{position:fixed;inset:0;background:rgba(6,9,14,.62);backdrop-filter:blur(2px);z-index:60;
-  display:flex;align-items:flex-start;justify-content:center;padding:60px 20px 20px;overflow:auto}
-.modal{width:100%;max-width:520px;background:var(--panel);border:1px solid var(--line2);border-radius:12px;
+  display:flex;align-items:flex-start;justify-content:center;padding:56px 20px 20px;overflow:auto}
+.modal{width:100%;max-width:540px;background:var(--panel);border:1px solid var(--line2);border-radius:12px;
   box-shadow:0 24px 60px rgba(0,0,0,.55);animation:pop .16s ease-out}
+.modal.wide{max-width:720px}
 @keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.99)}to{opacity:1;transform:none}}
 .modal-hd{display:flex;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line)}
 .modal-hd h3{margin:0;font-size:14px;font-weight:500}
 .modal-hd .x{margin-left:auto;background:none;border:none;color:var(--tx2);font-size:20px;cursor:pointer;line-height:1;padding:0 2px}
 .modal-hd .x:hover{color:#fff}
-.modal-bd{padding:16px 18px;max-height:64vh;overflow:auto}
+.modal-bd{padding:16px 18px;max-height:66vh;overflow:auto}
 .modal-ft{display:flex;justify-content:flex-end;gap:9px;padding:13px 18px;border-top:1px solid var(--line)}
 .drawer-mask{position:fixed;inset:0;background:rgba(6,9,14,.5);z-index:55}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:430px;max-width:94vw;background:var(--bg2);
@@ -164,11 +158,11 @@ tbody tr:last-child td{border-bottom:none}
 .drawer-hd .x{margin-left:auto;background:none;border:none;color:var(--tx2);font-size:20px;cursor:pointer}
 .drawer-bd{flex:1;overflow:auto;padding:16px}
 .drawer-ft{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px}
-.notif{position:absolute;right:12px;top:48px;width:340px;background:var(--panel);border:1px solid var(--line2);
+.notif{position:absolute;right:12px;top:46px;width:344px;background:var(--panel);border:1px solid var(--line2);
   border-radius:10px;box-shadow:0 18px 44px rgba(0,0,0,.5);z-index:50;overflow:hidden}
 .notif-hd{display:flex;align-items:center;padding:10px 13px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--tx2)}
 .notif-hd .sp{flex:1}
-.notif-bd{max-height:340px;overflow:auto}
+.notif-bd{max-height:330px;overflow:auto}
 .nitem{padding:11px 13px;border-bottom:1px solid #1c2431;cursor:pointer}
 .nitem:hover{background:#1a212c}
 .nitem.unread{background:rgba(76,141,255,.055)}
@@ -176,7 +170,6 @@ tbody tr:last-child td{border-bottom:none}
 .nitem .t .p{width:5px;height:5px;border-radius:50%;background:var(--blue);flex:0 0 5px}
 .nitem .b{font-size:11.5px;color:var(--tx3);margin-top:2px}
 
-/* ---------- 时间线 ---------- */
 .tl{position:relative;padding-left:20px}
 .tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line2)}
 .tl .n{position:relative;padding:0 0 18px}
@@ -188,64 +181,90 @@ tbody tr:last-child td{border-bottom:none}
 .tl .n .c{margin-top:5px;font-size:13px;line-height:1.65;color:#cfd7e6}
 .tl .n .f{margin-top:5px;font-size:11.5px;color:var(--tx3);display:flex;gap:10px}
 
-/* ---------- 图表 ---------- */
 .bars{display:flex;align-items:flex-end;gap:14px;height:132px;padding:6px 4px 0}
 .bars .b{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
-.bars .b .bar{width:100%;max-width:38px;background:linear-gradient(180deg,#4c8dff,#2b5fc4);border-radius:5px 5px 2px 2px;
-  min-height:3px;transition:.2s;position:relative}
+.bars .b .bar{width:100%;max-width:38px;background:linear-gradient(180deg,#4c8dff,#2b5fc4);border-radius:5px 5px 2px 2px;min-height:3px;transition:.2s}
 .bars .b .bar:hover{filter:brightness(1.18)}
 .bars .b .v{font-size:11px;color:var(--tx2);font-variant-numeric:tabular-nums}
 .bars .b .l{font-size:11px;color:var(--tx3)}
 .pbar{height:5px;border-radius:3px;background:#1e2635;overflow:hidden;width:78px;display:inline-block;vertical-align:middle}
 .pbar i{display:block;height:100%;background:var(--blue);border-radius:3px}
 
-/* ---------- 登录 ---------- */
+/* 登录 */
 .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
-  background:radial-gradient(900px 500px at 20% 0%,#16233a 0%,transparent 60%),var(--bg)}
-.login .box{width:100%;max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:0;
+  background:radial-gradient(900px 500px at 18% 0%,#16233a 0%,transparent 62%),var(--bg)}
+.login .box{width:100%;max-width:880px;display:grid;grid-template-columns:1.05fr .95fr;
   background:var(--panel);border:1px solid var(--line2);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.login .lft{padding:38px 34px;border-right:1px solid var(--line)}
-.login .lft h2{margin:0 0 6px;font-size:20px;letter-spacing:.5px}
-.login .lft p{margin:0 0 22px;font-size:12.5px;color:var(--tx3);line-height:1.7}
-.login .rgt{padding:34px;background:#12171f}
-.login .rgt h4{margin:0 0 4px;font-size:13px;font-weight:500;color:var(--tx2)}
-.login .rgt .hint{font-size:11.5px;color:var(--tx3);margin:0 0 14px}
-.pick{display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid var(--line2);border-radius:9px;
-  background:var(--panel2);cursor:pointer;margin-bottom:9px;transition:.14s;width:100%;text-align:left;color:var(--tx)}
-.pick:hover{border-color:#3d4b63;background:var(--panel3);transform:translateX(2px)}
-.pick .av{width:32px;height:32px;border-radius:8px;background:#243044;display:flex;align-items:center;justify-content:center;
-  font-size:12px;color:#9db6dd;flex:0 0 32px}
-.pick .nm{display:block;font-size:13px;line-height:1.4}
-.pick .rl{display:block;font-size:11.5px;color:var(--tx3);margin-top:1px;line-height:1.4}
-.pick .go{margin-left:auto;color:var(--tx3);font-size:16px}
+.login .lft{padding:40px 36px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.login .lft h2{margin:0 0 6px;font-size:21px;letter-spacing:.5px}
+.login .lft .sub{margin:0 0 22px;font-size:12.5px;color:var(--tx3);line-height:1.8}
+.login .lft ul{margin:0;padding:0;list-style:none}
+.login .lft li{font-size:12.5px;color:var(--tx2);padding:5px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
+.login .lft li b{color:#8fb8ff;font-weight:500;flex:0 0 14px}
+.login .lft .ft{margin-top:auto;font-size:11px;color:#4f5a6e;line-height:1.7;padding-top:20px}
+.login .rgt{padding:36px 34px;background:#12171f}
+.login .rgt h3{margin:0 0 3px;font-size:15px;font-weight:500}
+.login .rgt .hint{margin:0 0 20px;font-size:12px;color:var(--tx3)}
+.login .rgt .field{margin-bottom:14px}
+.login .rgt input{height:38px;font-size:13.5px}
+.login .rgt .btn{width:100%;height:38px;justify-content:center;font-size:13.5px;margin-top:4px}
+.login .err{background:rgba(240,85,107,.1);border:1px solid rgba(240,85,107,.32);color:#ffa9b6;
+  font-size:12px;padding:8px 11px;border-radius:7px;margin-bottom:12px;display:flex;gap:7px;align-items:center}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.chip{font-size:11.5px;padding:4px 9px;border-radius:6px;background:#1b2330;border:1px solid #2b3546;
+  color:#9fb0c8;cursor:pointer;transition:.14s}
+.chip:hover{background:#243044;color:#cfe0ff;border-color:#3a4a63}
+.login .rgt .demo{margin-top:14px;font-size:11px;color:#5a6679;line-height:1.7}
 
-/* ---------- Toast ---------- */
+/* 权限矩阵 / 数据体检 */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs a{padding:9px 14px;font-size:13px;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a:hover{color:var(--tx)}
+.tabs a.on{color:#cfe0ff;border-bottom-color:var(--blue)}
+.matrix td,.matrix th{padding:8px 12px}
+.matrix .grp{background:#131923;color:#7d8ba3;font-size:11px;letter-spacing:.6px;padding:5px 12px}
+.matrix .cap{font-size:12.5px;color:var(--tx)}
+.matrix .cap small{display:block;color:#5d6879;font-size:11px;margin-top:1px}
+input[type=checkbox]{width:15px;height:15px;accent-color:#4c8dff;cursor:pointer;vertical-align:-2px}
+input[type=checkbox]:disabled{cursor:not-allowed;opacity:.4}
+.banner{display:flex;align-items:center;gap:11px;background:rgba(245,165,36,.07);border:1px solid rgba(245,165,36,.22);
+  border-radius:9px;padding:10px 13px;font-size:12px;color:#e8c894;margin-bottom:12px;line-height:1.6}
+.banner .sp{flex:1}
+.bulkbar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:45;display:flex;align-items:center;gap:12px;
+  background:#1b2433;border:1px solid #33415a;border-radius:11px;padding:9px 14px;box-shadow:0 16px 40px rgba(0,0,0,.55)}
+.bulkbar .n{font-size:13px}
+.bulkbar .n b{color:#8fb8ff}
+.groupbox{border:1px solid var(--line);border-radius:9px;margin-bottom:10px;overflow:hidden}
+.groupbox .gh{display:flex;align-items:center;gap:9px;padding:9px 12px;background:#131923;font-size:12.5px}
+.groupbox .gh .sp{flex:1}
 .toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;
   background:#1d2735;border:1px solid #33415a;color:#dfe7f5;padding:10px 16px;border-radius:9px;font-size:13px;
-  box-shadow:0 14px 34px rgba(0,0,0,.5);animation:tin .18s ease-out;display:flex;align-items:center;gap:8px}
+  box-shadow:0 14px 34px rgba(0,0,0,.5);animation:tin .18s ease-out;display:flex;align-items:center;gap:8px;max-width:80vw}
 .toast.ok{border-color:#2b6b52;background:#152a22;color:#a9ebcd}
 .toast.warn{border-color:#6b5324;background:#2a2317;color:#f6d79a}
 .toast.err{border-color:#6b2b36;background:#2a161c;color:#ffb3bf}
 @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
-.kbd{font-family:Consolas,monospace;font-size:11.5px;background:#1e2635;border:1px solid var(--line2);
-  border-radius:4px;padding:0 5px;color:#9fb0c8}
-.help{font-size:11.5px;color:var(--tx3);margin-top:5px;line-height:1.6}
-.warnbox{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.28);border-radius:8px;
-  padding:9px 12px;font-size:12px;color:#f0cd94;line-height:1.65}
-.infobox{background:rgba(76,141,255,.08);border:1px solid rgba(76,141,255,.24);border-radius:8px;
-  padding:9px 12px;font-size:12px;color:#a9c6f5;line-height:1.65}
+.help{font-size:11.5px;color:var(--tx3);margin-top:5px;line-height:1.7}
+.warnbox{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.28);border-radius:8px;padding:9px 12px;font-size:12px;color:#f0cd94;line-height:1.65}
+.infobox{background:rgba(76,141,255,.08);border:1px solid rgba(76,141,255,.24);border-radius:8px;padding:9px 12px;font-size:12px;color:#a9c6f5;line-height:1.65}
+.redbox{background:rgba(240,85,107,.08);border:1px solid rgba(240,85,107,.26);border-radius:8px;padding:9px 12px;font-size:12px;color:#ffb3bf;line-height:1.65}
+.masknum{font-family:"JetBrains Mono",Consolas,monospace;letter-spacing:.5px}
+.eye{background:none;border:none;color:#6f7d95;cursor:pointer;font-size:12px;padding:0 3px}
+.eye:hover{color:#8fb8ff}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
 /* =========================================================
-   外呼 CRM 交互原型 · 纯前端 + localStorage
+   外呼 CRM 交互原型 v1.0
+   登录 / 角色权限矩阵 / 客户资产保护 / 批量分配 / 数据体检
+   纯前端 + localStorage
    ========================================================= */
 const $app = document.getElementById('app');
 const KEY = 'crm_proto_v1';
+const SESS = 'crm_proto_sess_v1';
 
-/* ---------- 时间工具 ---------- */
 const pad = n => String(n).padStart(2, '0');
 const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
 const ymd = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
@@ -260,25 +279,45 @@ function fmtDate(s) { const d = new Date(s); return (d.getMonth() + 1) + '月' +
 function fmtDT(s) { const d = new Date(s); return (d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
 function fmtHm(s) { const d = new Date(s); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
 function fmtMD(s) { const d = new Date(s); return pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
-function dayLabel(s) {
-  const d = new Date(s);
-  if (sameDay(d, now())) return '今天';
-  if (sameDay(d, addDays(now(), -1))) return '昨天';
-  if (sameDay(d, addDays(now(), 1))) return '明天';
-  return fmtDate(s);
-}
 function ago(s) {
   const diff = Date.now() - ts(s), h = diff / 36e5;
   if (h < 1) return Math.max(1, Math.round(diff / 6e4)) + ' 分钟前';
   if (h < 24) return Math.round(h) + ' 小时前';
   return Math.round(h / 24) + ' 天前';
 }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function shortName(name) { const s = String(name || ''); return s.length > 3 ? s.slice(0, 2) : s.slice(-2); }
+function avatar(name) { return '<span class="avatar">' + esc(shortName(name)) + '</span>'; }
+function normPhone(p) { return String(p || '').replace(/\D/g, '').replace(/^86/, ''); }
+function isMobile(p) { return /^1[3-9]\d{9}$/.test(normPhone(p)); }
+function maskPhone(p) { const n = normPhone(p); return n.length >= 7 ? n.slice(0, 3) + '****' + n.slice(-4) : '***'; }
 
-/* ---------- 种子数据 ---------- */
+/* ---------- 权限点定义 ---------- */
+const PERMS = [
+  { g: '客户', id: 'customer.view', n: '查看客户', d: '列表、详情、搜索' },
+  { g: '客户', id: 'customer.create', n: '新增客户', d: '手工建档' },
+  { g: '客户', id: 'customer.edit', n: '编辑客户', d: '改资料、改状态' },
+  { g: '客户', id: 'customer.assign', n: '分配 / 转移客户', d: '含批量分配' },
+  { g: '客户', id: 'customer.import', n: '上传 XLSX', d: '导入客户名单' },
+  { g: '客户', id: 'customer.export', n: '导出客户（脱敏）', d: '号码中间四位隐藏' },
+  { g: '客户', id: 'customer.export.full', n: '导出明文号码', d: '高风险，逐次留痕' },
+  { g: '客户', id: 'customer.merge', n: '合并重复客户', d: '数据体检' },
+  { g: '客户', id: 'customer.invalid', n: '标记无效号码', d: '停呼并留痕' },
+  { g: '客户', id: 'phone.reveal', n: '查看完整号码', d: '每次查看写审计' },
+  { g: '业务', id: 'note.create', n: '登记呼叫记事', d: '记录外呼结果' },
+  { g: '业务', id: 'note.void', n: '作废记事', d: '需填原因' },
+  { g: '业务', id: 'task.create', n: '安排回访', d: '含周期重呼' },
+  { g: '业务', id: 'task.cancel', n: '取消回访', d: '需填原因' },
+  { g: '管理', id: 'report.team', n: '团队统计看板', d: '本人与下属' },
+  { g: '管理', id: 'user.manage', n: '账号管理', d: '新增 / 禁用 / 重置密码' },
+  { g: '管理', id: 'perm.manage', n: '权限配置', d: '角色与个人授权' },
+  { g: '管理', id: 'setting.manage', n: '系统设置', d: '周期规则、备份' }
+];
+
 const CUST_SEED = [
   ['张伟', '13801234567', '杭州云启科技', '官网表单', 'A类', '有意向', 3, '已发送报价，等待内部讨论', 0, 12],
   ['李娜', '13912345678', '上海恒信贸易', '展会', 'A类', '跟进中', 4, '对价格敏感，需申请折扣', 0, 9],
-  ['王强', '13698765432', '北京智联信息', '转介绍', 'B类', '待联系', 5, '尚未首次联系，来源为老客户推荐', 0, 3],
+  ['王强', '13698765432', '北京智联信息', '转介绍', 'B类', '待联系', 5, '首次拨打提示空号，待核对来源', 0, 3],
   ['刘洋', '13787654321', '深圳锐拓电子', '电话名单', 'B类', '跟进中', 3, '已加微信，约定下周联系', 0, 20],
   ['陈静', '13509876543', '广州明诚物流', '官网表单', 'A类', '有意向', 4, '需要提供完整实施方案', 0, 15],
   ['杨帆', '13456789012', '成都天工机械', '展会', 'C类', '无意向', 5, '预算不足，明年初再看', 0, 30],
@@ -301,10 +340,17 @@ const CUST_SEED = [
   ['韩磊', '17723456789', '太原晋能设备', '展会', 'C类', '无意向', 6, '仅了解，无预算', 0, 40],
   ['曹颖', '17634567890', '沈阳北方重工', '转介绍', 'A类', '已成交', 3, '合同已签，已交付', 0, 55],
   ['邓强', '17545678901', '无锡太湖精密', '电话名单', 'B类', '跟进中', 8, '需要二次技术交流', 0, 28],
-  ['冯敏', '17456789012', '佛山南海家电', '官网表单', 'B类', '有意向', 4, '正在对比竞品方案', 0, 16]
+  ['冯敏', '17456789012', '佛山南海家电', '官网表单', 'B类', '有意向', 4, '正在对比竞品方案', 0, 16],
+  // 27-33：为演示「去重 / 无效号码 / 周期重呼」准备的数据
+  ['张伟', '138-0123-4567', '杭州云启科技', '电话名单', 'B类', '待联系', 4, '号码与已有客户相同，疑似重复导入', 0, 5],
+  ['李娜', '13912345678', '上海恒信贸易有限公司', '展会', 'A类', '待联系', 5, '同号码重复登记，公司名略有差异', 0, 4],
+  ['刘伟', '010-88886666', '北京中关村科技', '电话名单', 'C类', '待联系', 3, '座机号码，非手机号', 0, 7],
+  ['赵鑫', '1380013800', '天津海河物流', '电话名单', 'C类', '待联系', 4, '号码位数不足', 0, 8],
+  ['郑凯', '13611112222', '厦门海丝贸易', '电话名单', 'C类', '待联系', 4, '三次未接通，待决定是否回收', 0, 12],
+  ['秦芳', '13622223333', '泉州晋江鞋业', '电话名单', 'C类', '待联系', 5, '两次未接通，按周期继续呼叫', 0, 10],
+  ['韩雪', '13633334444', '东莞长安电子', '电话名单', 'C类', '待联系', 7, '一次未接通', 0, 9]
 ];
 
-// [客户id, 天数偏移, 时, 分, 结果, 内容, 记录人]
 const NOTE_SEED = [
   [1, -1, 10, 30, '已接通', '已发送报价单，客户需要内部讨论，约定 3 天后确认。', 3],
   [1, -9, 14, 40, '无人接听', '上午未接，改约下午。', 3],
@@ -334,10 +380,16 @@ const NOTE_SEED = [
   [26, -2, 11, 30, '已接通', '客户在对比竞品，强调服务响应差异。', 4],
   [1, 0, 9, 20, '已接通', '上午电话沟通，客户内部已通过预算，等待最终报价确认。', 3],
   [11, 0, 9, 50, '无人接听', '上午两次未接，下午再试。', 3],
-  [2, 0, 9, 35, '已接通', '8 折审批已通过，客户同意下周签约。', 4]
+  [2, 0, 9, 35, '已接通', '8 折审批已通过，客户同意下周签约。', 4],
+  // 周期重呼演示：多次未接通
+  [31, -4, 10, 0, '无人接听', '第 1 次呼叫未接。', 4],
+  [31, -3, 15, 30, '无人接听', '第 2 次呼叫未接。', 4],
+  [31, -1, 11, 0, '占线', '第 3 次呼叫占线。', 4],
+  [32, -5, 9, 30, '无人接听', '第 1 次呼叫未接。', 5],
+  [32, -3, 14, 0, '无人接听', '第 2 次呼叫未接。', 5],
+  [33, -2, 10, 30, '无人接听', '第 1 次呼叫未接。', 7]
 ];
 
-// [客户id, 标题, 执行人, 天数偏移, 时, 分, 状态, 提前提醒分钟, 改期次数]
 const TASK_SEED = [
   [1, '确认报价反馈', 3, 0, 14, 0, 'pending', 30, 0],
   [2, '价格审批后回访', 4, 0, 11, 0, 'pending', 10, 1],
@@ -371,22 +423,40 @@ const TASK_SEED = [
 
 function buildSeed() {
   const users = [
-    { id: 1, username: 'admin', name: '系统管理员', role: 'admin', managerId: null, active: true, canExport: true, canImport: true },
-    { id: 2, username: 'zhaomin', name: '赵敏', role: 'supervisor', managerId: 1, active: true, canExport: true, canImport: true },
-    { id: 3, username: 'wangxm', name: '王小明', role: 'agent', managerId: 2, active: true, canExport: false, canImport: true },
-    { id: 4, username: 'lijing', name: '李静', role: 'agent', managerId: 2, active: true, canExport: true, canImport: true },
-    { id: 5, username: 'chentao', name: '陈涛', role: 'agent', managerId: 2, active: true, canExport: false, canImport: true },
-    { id: 6, username: 'sunyue', name: '孙悦', role: 'supervisor', managerId: 1, active: true, canExport: true, canImport: true },
-    { id: 7, username: 'zhouhao', name: '周浩', role: 'agent', managerId: 6, active: true, canExport: false, canImport: true },
-    { id: 8, username: 'wuqian', name: '吴倩', role: 'agent', managerId: 6, active: true, canExport: false, canImport: true }
+    { id: 1, username: 'admin', name: '系统管理员', role: 'admin', managerId: null, active: true, pwd: 'admin123', extra: [] },
+    { id: 2, username: 'zhaomin', name: '赵敏', role: 'supervisor', managerId: 1, active: true, pwd: '123456', extra: [] },
+    { id: 3, username: 'wangxm', name: '王小明', role: 'agent', managerId: 2, active: true, pwd: '123456', extra: [] },
+    { id: 4, username: 'lijing', name: '李静', role: 'agent', managerId: 2, active: true, pwd: '123456', extra: [] },
+    { id: 5, username: 'chentao', name: '陈涛', role: 'agent', managerId: 2, active: true, pwd: '123456', extra: [] },
+    { id: 6, username: 'sunyue', name: '孙悦', role: 'supervisor', managerId: 1, active: true, pwd: '123456', extra: [] },
+    { id: 7, username: 'zhouhao', name: '周浩', role: 'agent', managerId: 6, active: true, pwd: '123456', extra: [] },
+    { id: 8, username: 'wuqian', name: '吴倩', role: 'agent', managerId: 6, active: true, pwd: '123456', extra: [] }
   ];
+
+  const roles = {
+    admin: PERMS.map(p => p.id),
+    supervisor: ['customer.view', 'customer.create', 'customer.edit', 'customer.assign', 'customer.import',
+      'customer.export', 'customer.merge', 'customer.invalid', 'phone.reveal',
+      'note.create', 'note.void', 'task.create', 'task.cancel', 'report.team', 'user.manage'],
+    agent: ['customer.view', 'customer.create', 'customer.edit', 'phone.reveal', 'note.create', 'task.create', 'task.cancel']
+  };
+
+  const settings = { cycleDays: 2, cycleMax: 3, maskPhone: true, exportLimit: 200, revealDailyLimit: 20 };
 
   const customers = CUST_SEED.map((r, i) => ({
     id: i + 1, name: r[0], phone: r[1], company: r[2], source: r[3], category: r[4],
     status: r[5], ownerId: r[6], remark: r[7], dnc: r[8] === 1,
+    invalid: false, invalidReason: null, mergedInto: null,
     lastContactAt: null, archived: false, version: 1,
     createdAt: iso(dAt(-r[9], 9, 0))
   }));
+
+  // 人工标记的无效号码
+  const inv = { 3: '空号，需重新核对来源', 29: '座机号码，非手机号', 30: '号码位数不足' };
+  Object.keys(inv).forEach(id => {
+    const c = customers.find(x => x.id === +id);
+    if (c) { c.invalid = true; c.invalidReason = inv[id]; }
+  });
 
   const notes = NOTE_SEED.map((r, i) => ({
     id: i + 1, custId: r[0], at: iso(dAt(r[1], r[2], r[3])), result: r[4],
@@ -421,19 +491,18 @@ function buildSeed() {
   ];
 
   const audit = [
-    { id: 1, at: iso(dAt(0, 9, 12)), userId: 2, action: '导出客户', detail: '筛选：团队范围 · 共 26 条' },
+    { id: 1, at: iso(dAt(0, 9, 12)), userId: 2, action: '导出客户', detail: '脱敏导出 · 团队范围 · 26 条' },
     { id: 2, at: iso(dAt(-1, 16, 40)), userId: 1, action: '导入客户', detail: '批次 #20261019-01 · 成功 42 / 跳过 6 / 失败 2' },
-    { id: 3, at: iso(dAt(-1, 14, 20)), userId: 2, action: '转移客户', detail: '陈静 由 陈涛 转给 李静 · 同步转移 1 条未完成回访' },
+    { id: 3, at: iso(dAt(-1, 14, 20)), userId: 2, action: '批量分配', detail: '3 位客户 → 李静 · 同步转移 2 条回访' },
     { id: 4, at: iso(dAt(-2, 10, 5)), userId: 1, action: '禁用账号', detail: '账号 test01 已禁用' }
   ];
 
   return {
-    users, customers, notes, tasks, notifications, audit,
-    meta: { seedDay: ymd(now()), seq: { customer: 100, note: 200, task: 300, notif: 400, audit: 500 } }
+    users, roles, settings, customers, notes, tasks, notifications, audit, reveals: [],
+    meta: { seedDay: ymd(now()), seq: { customer: 100, note: 200, task: 300, notif: 400, audit: 500, user: 10 } }
   };
 }
 
-/* ---------- 状态与持久化 ---------- */
 let DB;
 function loadDB() {
   let raw = null;
@@ -441,7 +510,7 @@ function loadDB() {
   if (raw) {
     try {
       const d = JSON.parse(raw);
-      if (d && d.meta && d.meta.seedDay === ymd(now()) && d.customers && d.customers.length) return d;
+      if (d && d.meta && d.meta.seedDay === ymd(now()) && d.customers && d.customers.length && d.roles) return d;
     } catch (e) { }
   }
   const d = buildSeed();
@@ -452,19 +521,28 @@ function saveDB() { try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch
 DB = loadDB();
 
 const state = {
-  user: null, view: 'dashboard', q: '', fStatus: '', fOwner: '',
+  user: null, view: 'dashboard', q: '', fStatus: '', fOwner: '', fQuality: '',
   page: 1, pageSize: 10, calY: now().getFullYear(), calM: now().getMonth(),
   calMode: 'month', drawer: null, modal: null, notif: false,
-  fResult: '', fEmp: '', custId: null
+  fResult: '', fEmp: '', custId: null, dhTab: 'dup',
+  selected: new Set(), revealed: new Set(), loginErr: '', loginUser: ''
 };
 
-/* ---------- 查询与权限 ---------- */
+/* ---------- 查询 ---------- */
 const getCustomer = id => DB.customers.find(c => c.id === +id);
 const getUser = id => DB.users.find(u => u.id === +id);
 const getTask = id => DB.tasks.find(t => t.id === +id);
 const teamIds = mid => DB.users.filter(u => u.managerId === mid).map(u => u.id);
+const activeUsers = () => DB.users.filter(u => u.active);
 
-function visibleUserIds() {
+/* ---------- 权限 ---------- */
+function can(p) {
+  if (!state.user) return false;
+  if (state.user.role === 'admin') return true;
+  if ((state.user.extra || []).includes(p)) return true;
+  return (DB.roles[state.user.role] || []).includes(p);
+}
+function scopeIds() {
   const u = state.user;
   if (!u) return [];
   if (u.role === 'admin') return DB.users.map(x => x.id);
@@ -473,26 +551,39 @@ function visibleUserIds() {
 }
 function canSeeCustomer(c) {
   if (!c || !state.user) return false;
-  if (state.user.role === 'admin') return true;
-  return visibleUserIds().includes(c.ownerId);
+  if (c.mergedInto) return false;
+  if (!can('customer.view')) return false;
+  return scopeIds().includes(c.ownerId);
 }
 function visibleCustomers() { return DB.customers.filter(c => canSeeCustomer(c)); }
-function visibleTasks() {
-  const ids = visibleUserIds();
-  return DB.tasks.filter(t => ids.includes(t.assigneeId));
+function visibleTasks() { const ids = scopeIds(); return DB.tasks.filter(t => ids.includes(t.assigneeId)); }
+function visibleNotes() { const ids = scopeIds(); return DB.notes.filter(n => ids.includes(n.userId)); }
+function assignTargets() {
+  const u = state.user;
+  if (!u) return [];
+  if (u.role === 'admin') return activeUsers();
+  if (u.role === 'supervisor') return activeUsers().filter(x => x.id === u.id || x.managerId === u.id);
+  return [];
 }
-function visibleNotes() {
-  const ids = visibleUserIds();
-  return DB.notes.filter(n => ids.includes(n.userId));
+// 分配下拉：员工排在前面，默认第一项就是下属，避免「默认分给自己」
+function assignOptions(selectedId) {
+  const list = assignTargets();
+  const ordered = [...list.filter(x => x.role === 'agent'), ...list.filter(x => x.role !== 'agent')];
+  const def = ordered.length ? ordered[0].id : 0;
+  return ordered.map(u => '<option value="' + u.id + '"' +
+    ((selectedId != null ? selectedId : def) === u.id ? ' selected' : '') + '>' +
+    esc(u.name) + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</option>').join('');
 }
-function isManager() { return state.user && (state.user.role === 'admin' || state.user.role === 'supervisor'); }
+function revealQuota() {
+  const used = DB.reveals.filter(r => r.userId === state.user.id && sameDay(new Date(r.at), now())).length;
+  return { used, limit: DB.settings.revealDailyLimit, left: Math.max(0, DB.settings.revealDailyLimit - used) };
+}
 
-/* ---------- 状态渲染 ---------- */
+/* ---------- 徽章 ---------- */
 const CUST_BADGE = { '待联系': 'slate', '跟进中': 'blue', '有意向': 'amber', '已成交': 'green', '无意向': 'gray' };
 const RESULT_BADGE = { '已接通': 'green', '无人接听': 'amber', '占线': 'amber', '号码无效': 'gray', '拒绝联系': 'red' };
 function custBadge(s) { return '<span class="badge b-' + (CUST_BADGE[s] || 'slate') + '">' + s + '</span>'; }
 function resultBadge(s) { return '<span class="badge b-' + (RESULT_BADGE[s] || 'slate') + '">' + s + '</span>'; }
-
 function taskState(t) {
   if (t.status === 'completed') return { k: 'done', label: '已完成', cls: 'green' };
   if (t.status === 'cancelled') return { k: 'cancel', label: '已取消', cls: 'gray' };
@@ -506,6 +597,51 @@ function nextCallback(custId) {
   const list = DB.tasks.filter(t => t.custId === +custId && t.status === 'pending').sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
   return list.length ? list[0].scheduledAt : null;
 }
+function custNotes(id) { return DB.notes.filter(n => n.custId === +id && !n.voided).sort((a, b) => ts(b.at) - ts(a.at)); }
+function attemptsOf(id) {
+  const ns = custNotes(id);
+  return { total: ns.length, miss: ns.filter(n => n.result === '无人接听' || n.result === '占线').length, last: ns[0] ? ns[0].result : null };
+}
+function hasPending(id) { return DB.tasks.some(t => t.custId === +id && t.status === 'pending'); }
+
+/* ---------- 客户资产体检 ---------- */
+function dupGroups() {
+  const list = visibleCustomers();
+  const byPhone = {};
+  list.forEach(c => { const k = normPhone(c.phone); if (k) (byPhone[k] = byPhone[k] || []).push(c); });
+  const groups = [];
+  Object.keys(byPhone).forEach(k => {
+    if (byPhone[k].length > 1) groups.push({ key: k, reason: '号码相同', items: byPhone[k] });
+  });
+  // 同名同公司（号码不同）也提示
+  const byName = {};
+  list.forEach(c => { const k = c.name + '|' + c.company; (byName[k] = byName[k] || []).push(c); });
+  Object.keys(byName).forEach(k => {
+    const g = byName[k];
+    if (g.length > 1 && !groups.some(x => x.items.length === g.length && x.items[0].id === g[0].id)) {
+      groups.push({ key: k, reason: '同名同公司', items: g });
+    }
+  });
+  return groups;
+}
+function invalidList() {
+  return visibleCustomers().filter(c => c.invalid || !isMobile(c.phone));
+}
+function cycleLists() {
+  const max = DB.settings.cycleMax;
+  const base = visibleCustomers().filter(c => !c.dnc && !c.invalid && isMobile(c.phone));
+  const waiting = [], recycle = [];
+  base.forEach(c => {
+    const a = attemptsOf(c.id);
+    if (!a.miss) return;
+    const lastMiss = a.last === '无人接听' || a.last === '占线';
+    if (!lastMiss) return;
+    if (hasPending(c.id)) return;
+    if (a.miss >= max) recycle.push({ c, a });
+    else waiting.push({ c, a });
+  });
+  return { waiting, recycle, max };
+}
 
 /* ---------- 通用 UI ---------- */
 function toast(msg, type) {
@@ -513,99 +649,112 @@ function toast(msg, type) {
   el.className = 'toast ' + (type || 'ok');
   el.textContent = msg;
   document.body.appendChild(el);
-  setTimeout(() => { el.style.transition = '.2s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 220); }, 2400);
+  setTimeout(() => { el.style.transition = '.2s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 220); }, 2600);
 }
 function audit(action, detail) {
-  DB.audit.unshift({ id: ++DB.meta.seq.audit, at: iso(now()), userId: state.user.id, action, detail });
-  if (DB.audit.length > 200) DB.audit.pop();
-}
-function avatar(name) { return '<span class="avatar">' + esc(shortName(name)) + '</span>'; }
-function shortName(name) {
-  const s = String(name || '');
-  return s.length > 3 ? s.slice(0, 2) : s.slice(-2);
-}
-function esc(s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  DB.audit.unshift({ id: ++DB.meta.seq.audit, at: iso(now()), userId: state.user ? state.user.id : 0, action, detail });
+  if (DB.audit.length > 300) DB.audit.pop();
 }
 function emptyRow(cols, text) { return '<tr><td colspan="' + cols + '"><div class="empty">' + (text || '暂无数据') + '</div></td></tr>'; }
+function kpiCard(label, val, sub, cls) {
+  return '<div class="k ' + (cls || '') + '"><div class="lb">' + label + '</div><div class="vl">' + val + '</div><div class="sub">' + sub + '</div></div>';
+}
+function noPerm(text) {
+  return '<div class="card"><div class="empty">' + (text || '你没有该功能的权限') + '<div class="help" style="margin-top:8px">如需开通，请联系管理员在「权限管理」中授权。</div></div></div>';
+}
 
 /* ---------- 登录 ---------- */
 function loginView() {
-  const picks = [1, 2, 3].map(id => {
-    const u = getUser(id);
-    const role = u.role === 'admin' ? '管理员 · 全部数据' : u.role === 'supervisor' ? '主管 · 本人及直属下属' : '员工 · 仅本人客户';
-    return '<button class="pick" data-act="login" data-id="' + u.id + '">' +
-      '<span class="av">' + shortName(u.name) + '</span>' +
-      '<span><span class="nm">' + u.name + '</span><span class="rl">' + role + '</span></span>' +
-      '<span class="go">→</span></button>';
-  }).join('');
+  const demo = [
+    { u: 'admin', p: 'admin123', n: '系统管理员', r: '管理员 · 全部权限' },
+    { u: 'zhaomin', p: '123456', n: '赵敏', r: '主管 · 团队 + 分配客户' },
+    { u: 'wangxm', p: '123456', n: '王小明', r: '员工 · 仅本人客户' }
+  ];
   return '<div class="login"><div class="box">' +
     '<div class="lft">' +
-    '<h2>外呼 CRM · 交互原型</h2>' +
-    '<p>局域网单机部署的客户跟进系统。<br>员工记客户与回访，主管看团队进度。<br>不接电话线路，只登记外呼结果。</p>' +
-    '<div class="infobox">这是可点击原型：所有数据保存在浏览器本地，刷新不丢失，不会上传到任何服务器。</div>' +
-    '<div class="hr"></div>' +
-    '<div class="tiny dim">建议按顺序体验：<br>1. 以「王小明」登录 → 工作台处理今日回访<br>2. 客户详情 → 新增呼叫记事 + 安排回访<br>3. 退出后以「赵敏」登录 → 主管看板与下属预览<br>4. 用户管理验证数据权限边界</div>' +
+    '<h2>外呼 CRM</h2>' +
+    '<p class="sub">局域网部署的客户资产与外呼跟进系统。<br>客户名单是公司资产，系统按角色、按人、按次保护。</p>' +
+    '<ul>' +
+    '<li><b>①</b><span>坐席只看到自己名下的客户，手机号默认脱敏</span></li>' +
+    '<li><b>②</b><span>主管通过 XLSX 上传名单，批量分配给下属</span></li>' +
+    '<li><b>③</b><span>每次查看完整号码、每次导出都写入审计</span></li>' +
+    '<li><b>④</b><span>重复客户合并、无效号码停呼、未接通按周期重呼</span></li>' +
+    '</ul>' +
+    '<div class="ft">原型数据存于本浏览器 localStorage，不联网、不上传。<br>账号密码仅用于演示流程，真实系统使用 bcrypt + 服务端会话。</div>' +
     '</div>' +
     '<div class="rgt">' +
-    '<h4>选择身份进入</h4><p class="hint">原型免密码，点击即登录</p>' + picks +
-    '<div class="help">也可以从右上角随时切换身份，观察同一份数据在不同角色下的可见范围。</div>' +
+    '<h3>登录</h3><p class="hint">使用账号密码进入系统</p>' +
+    (state.loginErr ? '<div class="err">⚠ ' + esc(state.loginErr) + '</div>' : '') +
+    '<form data-form="login">' +
+    '<div class="field"><label class="fl">账号</label><input name="username" value="' + esc(state.loginUser) + '" placeholder="请输入账号" autocomplete="username"></div>' +
+    '<div class="field"><label class="fl">密码</label><input name="password" type="password" placeholder="请输入密码" autocomplete="current-password"></div>' +
+    '<button class="btn primary">登 录</button>' +
+    '</form>' +
+    '<div class="demo">演示账号（点击自动填入）：</div>' +
+    '<div class="chips">' + demo.map(d =>
+      '<span class="chip" data-act="fill-login" data-id="' + d.u + '">' + d.n + ' / ' + d.p + '</span>').join('') + '</div>' +
+    '<div class="demo">' + demo.map(d => d.n + '：' + d.r).join('　·　') + '</div>' +
     '</div></div></div>';
 }
 
 /* ---------- 外壳 ---------- */
-const NAV = [
-  { id: 'dashboard', label: '工作台', ic: '◉', roles: ['admin', 'supervisor', 'agent'] },
-  { id: 'customers', label: '客户', ic: '▤', roles: ['admin', 'supervisor', 'agent'] },
-  { id: 'calendar', label: '回访日历', ic: '▦', roles: ['admin', 'supervisor', 'agent'] },
-  { id: 'notes', label: '呼叫记事', ic: '✎', roles: ['admin', 'supervisor', 'agent'] },
-  { id: 'board', label: '主管看板', ic: '▩', roles: ['admin', 'supervisor'] },
-  { id: 'users', label: '用户管理', ic: '☰', roles: ['admin'] },
-  { id: 'settings', label: '系统设置', ic: '⚙', roles: ['admin'] }
-];
-
+function navItems() {
+  const items = [];
+  items.push({ id: 'dashboard', label: '工作台', ic: '◉' });
+  items.push({ id: 'customers', label: '客户', ic: '▤' });
+  if (can('customer.merge') || can('customer.invalid')) items.push({ id: 'datahealth', label: '客户体检', ic: '⌗' });
+  items.push({ id: 'calendar', label: '回访日历', ic: '▦' });
+  items.push({ id: 'notes', label: '呼叫记事', ic: '✎' });
+  if (can('report.team')) items.push({ id: 'board', label: '主管看板', ic: '▩' });
+  if (can('user.manage')) items.push({ id: 'users', label: '用户管理', ic: '☰' });
+  if (can('perm.manage')) items.push({ id: 'perms', label: '权限管理', ic: '⊞' });
+  if (can('setting.manage')) items.push({ id: 'settings', label: '系统设置', ic: '⚙' });
+  return items;
+}
 function shell(content) {
   const u = state.user;
   const roleName = { admin: '管理员', supervisor: '主管', agent: '员工' }[u.role];
   const unread = DB.notifications.filter(n => n.userId === u.id && n.status === 'unread').length;
-  const nav = NAV.filter(n => n.roles.includes(u.role)).map(n =>
+  const nav = navItems().map(n =>
     '<a data-act="nav" data-id="' + n.id + '" class="' + (state.view === n.id ? 'on' : '') + '">' +
     '<span class="ic">' + n.ic + '</span>' + n.label + '</a>').join('');
-
-  const switchOpts = DB.users.filter(x => x.active).map(x =>
-    '<option value="' + x.id + '"' + (x.id === u.id ? ' selected' : '') + '>' + x.name + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[x.role]) + '</option>').join('');
+  const switchOpts = activeUsers().map(x =>
+    '<option value="' + x.id + '"' + (x.id === u.id ? ' selected' : '') + '>' + x.name + '</option>').join('');
 
   return '<div class="app">' +
     '<aside class="side">' +
-    '<div class="brand"><h1><span class="dot"></span>外呼 CRM</h1><p>局域网客户跟进系统 · 原型 v0.9</p></div>' +
+    '<div class="brand"><h1><span class="dot"></span>外呼 CRM</h1><p>客户资产 · 原型 v1.0</p></div>' +
     '<nav class="nav">' + nav + '</nav>' +
-    '<div class="side-ft"><b>' + u.name + '</b> · ' + roleName + '<br>数据范围：' +
-    (u.role === 'admin' ? '全部客户' : u.role === 'supervisor' ? '本人 + ' + teamIds(u.id).length + ' 名下属' : '仅本人客户') +
-    '<br><a data-act="reset" style="color:#5b6678;cursor:pointer">重置演示数据</a></div>' +
+    '<div class="side-ft"><b>' + esc(u.name) + '</b> · ' + roleName +
+    '<br>数据范围：' + (u.role === 'admin' ? '全部客户' : u.role === 'supervisor' ? '本人 + ' + teamIds(u.id).length + ' 名下属' : '仅本人客户') +
+    '<br>完整号码：' + (can('phone.reveal') ? '今日剩余 ' + revealQuota().left + ' 次' : '无权限') +
+    '<br><a data-act="logout" style="color:#5b6678;cursor:pointer">退出登录</a> · <a data-act="reset" style="color:#5b6678;cursor:pointer">重置数据</a></div>' +
     '</aside>' +
     '<main class="main">' +
     '<header class="top">' +
     '<div class="crumb">' + crumb() + '</div><div class="sp"></div>' +
-    '<select style="width:190px;height:30px;padding:3px 8px;font-size:12px" data-change="switch-user">' + switchOpts + '</select>' +
+    '<span class="tiny dim">演示切换</span>' +
+    '<select style="width:110px;height:28px;padding:2px 6px;font-size:12px" data-change="switch-user">' + switchOpts + '</select>' +
     '<div style="position:relative">' +
     '<button class="btn ghost" data-act="toggle-notif" style="height:30px">🔔 <span class="mono">' + unread + '</span></button>' +
     (state.notif ? notifPanel() : '') +
     '</div>' +
-    '<button class="btn ghost" data-act="logout" style="height:30px">退出</button>' +
     '</header>' +
     '<div class="content" id="content">' + content + '</div>' +
     '</main></div>' +
+    '<div id="bulkMount">' + (state.selected.size && state.view === 'customers' ? bulkBar() : '') + '</div>' +
     (state.drawer ? drawerHtml() : '') +
     (state.modal ? modalHtml() : '');
 }
 function crumb() {
   const map = {
-    dashboard: '工作台', customers: '客户管理', customer: '客户详情', calendar: '回访日历',
-    notes: '呼叫记事', board: '主管看板', users: '用户管理', settings: '系统设置'
+    dashboard: '工作台', customers: '客户管理', customer: '客户详情', datahealth: '客户体检',
+    calendar: '回访日历', notes: '呼叫记事', board: '主管看板', users: '用户管理',
+    perms: '权限管理', settings: '系统设置'
   };
   if (state.view === 'customer') {
     const c = getCustomer(state.custId);
-    return '<a data-act="nav" data-id="customers" style="cursor:pointer" class="dim">客户</a> / <b>' + (c ? c.name : '') + '</b>';
+    return '<a data-act="nav" data-id="customers" style="cursor:pointer" class="dim">客户</a> / <b>' + (c ? esc(c.name) : '') + '</b>';
   }
   return '<b>' + (map[state.view] || '') + '</b>';
 }
@@ -614,14 +763,13 @@ function notifPanel() {
     .sort((a, b) => ts(b.createdAt) - ts(a.createdAt));
   const body = list.length ? list.map(n =>
     '<div class="nitem ' + (n.status === 'unread' ? 'unread' : '') + '" data-act="open-notif" data-id="' + n.id + '">' +
-    '<div class="t">' + (n.status === 'unread' ? '<span class="p"></span>' : '') + n.title + '</div>' +
-    '<div class="b">' + n.body + ' · ' + ago(n.createdAt) + '</div></div>').join('')
+    '<div class="t">' + (n.status === 'unread' ? '<span class="p"></span>' : '') + esc(n.title) + '</div>' +
+    '<div class="b">' + esc(n.body) + ' · ' + ago(n.createdAt) + '</div></div>').join('')
     : '<div class="empty" style="padding:26px">没有新提醒</div>';
   return '<div class="notif">' +
     '<div class="notif-hd">提醒 <span class="sp"></span><a data-act="read-all" style="cursor:pointer;color:#8fb8ff">全部已读</a></div>' +
     '<div class="notif-bd">' + body + '</div>' +
-    '<div style="padding:8px 13px;border-top:1px solid #232b39;font-size:11px;color:#69748a">已读不代表回访完成；关闭网页后不再弹提醒</div>' +
-    '</div>';
+    '<div style="padding:8px 13px;border-top:1px solid #232b39;font-size:11px;color:#69748a">已读不代表回访完成；关闭网页后不再弹提醒</div></div>';
 }
 
 /* ---------- 工作台 ---------- */
@@ -630,30 +778,25 @@ function dashboardView() {
   const tasks = visibleTasks();
   const today0 = startOfDay(now()).getTime();
   const tomorrow0 = addDays(startOfDay(now()), 1).getTime();
-
-  const todayPending = tasks.filter(t => t.status === 'pending' && ts(t.scheduledAt) >= today0 && ts(t.scheduledAt) < tomorrow0)
-    .sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
-  const overdue = tasks.filter(t => t.status === 'pending' && ts(t.scheduledAt) < today0)
-    .sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
+  const todayPending = tasks.filter(t => t.status === 'pending' && ts(t.scheduledAt) >= today0 && ts(t.scheduledAt) < tomorrow0).sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
+  const overdue = tasks.filter(t => t.status === 'pending' && ts(t.scheduledAt) < today0).sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
   const notesToday = visibleNotes().filter(n => !n.voided && sameDay(new Date(n.at), now()));
-  const doneToday = tasks.filter(t => t.status === 'completed' && t.completedAt && sameDay(new Date(t.completedAt), now()));
-  const myCust = visibleCustomers().filter(c => !c.archived);
+  const myCust = visibleCustomers();
 
   const kpi = '<div class="kpi">' +
-    kpiCard('今日待回访', todayPending.length, '含今日已过时 ' + todayPending.filter(t => ts(t.scheduledAt) < Date.now()).length + ' 条', '') +
+    kpiCard('今日待回访', todayPending.length, '其中已过时 ' + todayPending.filter(t => ts(t.scheduledAt) < Date.now()).length + ' 条', '') +
     kpiCard('逾期未回访', overdue.length, overdue.length ? '最早逾期 ' + ago(overdue[0].scheduledAt) : '暂无逾期', overdue.length ? 'alert' : 'ok') +
-    kpiCard('今日已登记外呼', notesToday.length, '其中已接通 ' + notesToday.filter(n => n.result === '已接通').length + ' 条', '') +
-    kpiCard(u.role === 'agent' ? '我的客户' : '可见客户', myCust.length, u.role === 'agent' ? '仅本人负责' : '含下属客户', '') +
+    kpiCard('今日已登记外呼', notesToday.length, '已接通 ' + notesToday.filter(n => n.result === '已接通').length + ' 条', '') +
+    kpiCard(u.role === 'agent' ? '我的客户' : '可见客户', myCust.length, '含号码异常 ' + myCust.filter(c => c.invalid || !isMobile(c.phone)).length + ' 位', '') +
     '</div>';
 
   const todayList = todayPending.length ? todayPending.map(t => {
-    const c = getCustomer(t.custId);
-    const st = taskState(t);
-    return '<div class="item">' +
-      '<div class="tm mono">' + fmtHm(t.scheduledAt) + '</div>' +
+    const c = getCustomer(t.custId), st = taskState(t);
+    return '<div class="item"><div class="tm mono">' + fmtHm(t.scheduledAt) + '</div>' +
       '<div class="bd"><div class="t1">' + (c ? esc(c.name) : '?') + ' <span class="dim tiny">' + (c ? esc(c.company) : '') + '</span>' +
-      (st.k === 'overdue' ? ' <span class="badge b-red">已超时</span>' : st.k === 'soon' ? ' <span class="badge b-amber">即将到期</span>' : '') + '</div>' +
-      '<div class="t2">' + esc(t.title) + (c && c.dnc ? ' · <span style="color:#ff96a5">禁止联系</span>' : '') + '</div></div>' +
+      (st.k === 'overdue' ? ' <span class="badge b-red">已超时</span>' : st.k === 'soon' ? ' <span class="badge b-amber">即将到期</span>' : '') +
+      (c && c.invalid ? ' <span class="badge b-gray">号码无效</span>' : '') + '</div>' +
+      '<div class="t2">' + esc(t.title) + ' · <span class="mono">' + maskPhone(c ? c.phone : '') + '</span></div></div>' +
       '<div class="ops">' +
       '<button class="btn sm" data-act="open-customer" data-id="' + t.custId + '">详情</button>' +
       '<button class="btn sm primary" data-act="new-note" data-id="' + t.custId + '" data-task="' + t.id + '">写跟进</button>' +
@@ -662,8 +805,7 @@ function dashboardView() {
 
   const overdueList = overdue.length ? overdue.slice(0, 6).map(t => {
     const c = getCustomer(t.custId);
-    return '<div class="item">' +
-      '<div class="tm" style="color:#ff96a5">' + fmtMD(t.scheduledAt) + '</div>' +
+    return '<div class="item"><div class="tm" style="color:#ff96a5">' + fmtMD(t.scheduledAt) + '</div>' +
       '<div class="bd"><div class="t1">' + (c ? esc(c.name) : '?') + ' <span class="badge b-red">逾期 ' + Math.round((Date.now() - ts(t.scheduledAt)) / 36e5 / 24) + ' 天</span></div>' +
       '<div class="t2">' + esc(t.title) + ' · 执行人 ' + (getUser(t.assigneeId) || {}).name + (t.rescheduleCount ? ' · 已改期 ' + t.rescheduleCount + ' 次' : '') + '</div></div>' +
       '<div class="ops"><button class="btn sm" data-act="open-task" data-id="' + t.id + '">处理</button></div></div>';
@@ -678,6 +820,17 @@ function dashboardView() {
       '<div class="tiny dim" style="text-align:right">' + (uu ? esc(uu.name) : '') + '<br>' + fmtHm(n.at) + '</div></div>';
   }).join('') : '<div class="empty">还没有记事</div>';
 
+  const dg = dupGroups(), inv = invalidList(), cy = cycleLists();
+
+  const todoCard = (isManagerOrSupervisor()) ?
+    '<div class="card"><div class="card-hd"><h3>客户资产待处理</h3><span class="sp"></span>' +
+    '<button class="btn sm" data-act="nav" data-id="datahealth">打开客户体检</button></div>' +
+    '<div class="card-bd" style="display:flex;gap:10px;text-align:center">' +
+    '<div style="flex:1"><div style="font-size:20px;font-weight:600;color:#f7c46a">' + dg.length + '</div><div class="tiny dim">重复客户组</div></div>' +
+    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:20px;font-weight:600;color:#ff96a5">' + inv.length + '</div><div class="tiny dim">无效 / 异常号码</div></div>' +
+    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:20px;font-weight:600;color:#8fb8ff">' + (cy.waiting.length + cy.recycle.length) + '</div><div class="tiny dim">待重呼 / 待回收</div></div>' +
+    '</div></div>' : '';
+
   return kpi +
     '<div class="grid-2">' +
     '<div class="stack">' +
@@ -688,20 +841,20 @@ function dashboardView() {
     '<span class="tiny dim">按计划时间升序</span></div><div class="card-bd tight">' + overdueList + '</div></div>' +
     '</div>' +
     '<div class="stack">' +
+    todoCard +
     '<div class="card"><div class="card-hd"><h3>最近呼叫记事</h3><span class="sp"></span>' +
     '<button class="btn sm" data-act="nav" data-id="notes">全部</button></div>' +
     '<div class="card-bd tight">' + recentList + '</div></div>' +
     '<div class="card"><div class="card-hd"><h3>快捷操作</h3></div><div class="card-bd" style="display:flex;flex-direction:column;gap:8px">' +
-    '<button class="btn" data-act="nav" data-id="customers">▤ 客户列表 / 导入导出</button>' +
-    '<button class="btn" data-act="new-customer">＋ 新增客户</button>' +
+    (can('customer.import') ? '<button class="btn" data-act="import">↥ 上传客户 XLSX</button>' : '') +
+    (can('customer.assign') ? '<button class="btn" data-act="nav" data-id="customers">⇄ 分配客户给下属</button>' : '') +
+    (can('customer.create') ? '<button class="btn" data-act="new-customer">＋ 新增客户</button>' : '') +
     '<button class="btn" data-act="nav" data-id="calendar">▦ 安排回访</button>' +
-    (isManager() ? '<button class="btn" data-act="nav" data-id="board">▩ 团队情况</button>' : '') +
+    (can('report.team') ? '<button class="btn" data-act="nav" data-id="board">▩ 团队情况</button>' : '') +
     '</div></div>' +
     '</div></div>';
 }
-function kpiCard(label, val, sub, cls) {
-  return '<div class="k ' + (cls || '') + '"><div class="lb">' + label + '</div><div class="vl">' + val + '</div><div class="sub">' + sub + '</div></div>';
-}
+function isManagerOrSupervisor() { return state.user && state.user.role !== 'agent'; }
 
 /* ---------- 客户列表 ---------- */
 function filteredCustomers() {
@@ -710,9 +863,22 @@ function filteredCustomers() {
   if (q) list = list.filter(c => (c.name + c.phone + c.company).toLowerCase().includes(q));
   if (state.fStatus) list = list.filter(c => c.status === state.fStatus);
   if (state.fOwner) list = list.filter(c => c.ownerId === +state.fOwner);
-  return list.sort((a, b) => b.id - a.id);
+  if (state.fQuality === 'invalid') list = list.filter(c => c.invalid || !isMobile(c.phone));
+  if (state.fQuality === 'cycle') {
+    const ids = cycleLists();
+    const set = new Set([...ids.waiting, ...ids.recycle].map(x => x.c.id));
+    list = list.filter(c => set.has(c.id));
+  }
+  if (state.fQuality === 'dup') {
+    const set = new Set();
+    dupGroups().forEach(g => g.items.forEach(c => set.add(c.id)));
+    list = list.filter(c => set.has(c.id));
+  }
+  // 最近联系过的排前面，未联系的新名单排后面
+  return list.sort((a, b) => (ts(b.lastContactAt || 0) - ts(a.lastContactAt || 0)) || (b.id - a.id));
 }
 function customersView() {
+  if (!can('customer.view')) return noPerm('你没有查看客户的权限');
   const all = filteredCustomers();
   const total = all.length, pages = Math.max(1, Math.ceil(total / state.pageSize));
   if (state.page > pages) state.page = pages;
@@ -720,55 +886,81 @@ function customersView() {
 
   const statusOpts = ['', '待联系', '跟进中', '有意向', '已成交', '无意向'].map(s =>
     '<option value="' + s + '"' + (state.fStatus === s ? ' selected' : '') + '>' + (s || '全部状态') + '</option>').join('');
-  const ownerOpts = '<option value="">全部负责人</option>' + DB.users.filter(u => visibleUserIds().includes(u.id)).map(u =>
-    '<option value="' + u.id + '"' + (+state.fOwner === u.id ? ' selected' : '') + '>' + u.name + '</option>').join('');
+  const ownerOpts = '<option value="">全部负责人</option>' + DB.users.filter(u => scopeIds().includes(u.id)).map(u =>
+    '<option value="' + u.id + '"' + (+state.fOwner === u.id ? ' selected' : '') + '>' + esc(u.name) + '</option>').join('');
+  const qOpts = [['', '全部客户'], ['dup', '重复客户'], ['invalid', '号码异常'], ['cycle', '待重呼']].map(o =>
+    '<option value="' + o[0] + '"' + (state.fQuality === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('');
 
   const trs = rows.length ? rows.map(c => {
     const nc = nextCallback(c.id);
-    return '<tr class="click" data-act="open-customer" data-id="' + c.id + '">' +
+    const a = attemptsOf(c.id);
+    const bad = c.invalid || !isMobile(c.phone);
+    const shown = state.revealed.has(c.id) ? normPhone(c.phone) : maskPhone(c.phone);
+    const sel = state.selected.has(c.id);
+    return '<tr class="click ' + (sel ? 'sel' : '') + '" data-act="open-customer" data-id="' + c.id + '">' +
+      '<td style="width:34px"><input type="checkbox" data-sel="' + c.id + '" ' + (sel ? 'checked' : '') + '></td>' +
       '<td><div style="display:flex;align-items:center;gap:8px">' + avatar(c.name) +
       '<div><div>' + esc(c.name) + (c.dnc ? ' <span class="badge b-red">禁呼</span>' : '') + '</div>' +
       '<div class="tiny dim">' + esc(c.company) + '</div></div></div></td>' +
-      '<td class="mono">' + esc(c.phone) + '</td>' +
+      '<td class="mono tiny">' + shown +
+      (can('phone.reveal') && !state.revealed.has(c.id) ? ' <button class="eye" data-act="reveal" data-id="' + c.id + '" title="查看完整号码（记审计）">👁</button>' : '') + '</td>' +
       '<td>' + custBadge(c.status) + '</td>' +
-      '<td class="tiny">' + esc(c.source) + '<br><span class="dim">' + esc(c.category) + '</span></td>' +
-      '<td>' + (getUser(c.ownerId) || {}).name + '</td>' +
-      '<td class="tiny dim">' + (c.lastContactAt ? fmtMD(c.lastContactAt) : '未联系') + '</td>' +
+      '<td>' + (bad ? '<span class="badge b-red">' + (c.invalid ? '已标无效' : '格式异常') + '</span>' : '<span class="badge b-green">有效</span>') + '</td>' +
+      '<td class="num tiny ' + (a.miss >= 2 ? '' : 'dim') + '">' + a.miss + ' / ' + a.total + '</td>' +
+      '<td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td>' +
       '<td class="tiny">' + (nc ? '<span class="' + (ts(nc) < Date.now() ? 'badge b-red' : '') + '">' + fmtDT(nc) + '</span>' : '<span class="dim">—</span>') + '</td>' +
       '</tr>';
-  }).join('') : emptyRow(7, '没有符合条件的客户');
+  }).join('') : emptyRow(8, '没有符合条件的客户');
 
-  return '<div class="card">' +
+  const allSel = rows.length && rows.every(c => state.selected.has(c.id));
+
+  return '<div class="banner">🛡 <span><b>客户名单属于公司资产</b>：手机号默认脱敏；查看完整号码与导出都会写入审计，' +
+    '明文导出仅管理员可用。当前身份可导出 ' + (can('customer.export.full') ? '明文' : can('customer.export') ? '脱敏数据' : '（无导出权限）') + '。</span>' +
+    '<span class="sp"></span><span class="tiny">今日已查看完整号码 ' + revealQuota().used + ' 次</span></div>' +
+    '<div class="card">' +
     '<div class="card-hd" style="flex-wrap:wrap;gap:8px">' +
-    '<input placeholder="搜索姓名 / 手机号 / 公司" value="' + esc(state.q) + '" data-input="q" style="width:230px">' +
-    '<select data-change="f-status" style="width:120px">' + statusOpts + '</select>' +
-    (isManager() ? '<select data-change="f-owner" style="width:130px">' + ownerOpts + '</select>' : '') +
+    '<input placeholder="搜索姓名 / 手机号 / 公司" value="' + esc(state.q) + '" data-input="q" style="width:210px">' +
+    '<select data-change="f-status" style="width:112px">' + statusOpts + '</select>' +
+    '<select data-change="f-quality" style="width:112px">' + qOpts + '</select>' +
+    (state.user.role !== 'agent' ? '<select data-change="f-owner" style="width:120px">' + ownerOpts + '</select>' : '') +
     '<span class="sp"></span>' +
-    '<button class="btn" data-act="import">↥ 导入 XLSX</button>' +
-    '<button class="btn" data-act="export">↧ 导出</button>' +
-    '<button class="btn primary" data-act="new-customer">＋ 新增客户</button>' +
+    (can('customer.import') ? '<button class="btn" data-act="import">↥ 上传 XLSX</button>' : '') +
+    (can('customer.export') ? '<button class="btn" data-act="export">↧ 导出</button>' : '<button class="btn" disabled title="当前角色无导出权限，需管理员在权限管理中授权">🔒 导出</button>') +
+    (can('customer.create') ? '<button class="btn primary" data-act="new-customer">＋ 新增客户</button>' : '') +
     '</div>' +
     '<div class="tbl-wrap"><table><thead><tr>' +
-    '<th>客户 / 公司</th><th>联系电话</th><th>状态</th><th>来源</th><th>负责人</th><th>最近联系</th><th>下次回访</th>' +
+    '<th><input type="checkbox" data-act="sel-all" ' + (allSel ? 'checked' : '') + ' title="选择本页"></th>' +
+    '<th>客户 / 公司</th><th>联系电话</th><th>状态</th><th>号码质量</th><th class="num">未接/呼叫</th><th>负责人</th><th>下次回访</th>' +
     '</tr></thead><tbody>' + trs + '</tbody></table></div>' +
-    '<div class="pager"><span>共 ' + total + ' 条' + (state.q || state.fStatus || state.fOwner ? '（已筛选）' : '') + '</span><span class="sp"></span>' +
+    '<div class="pager"><span>共 ' + total + ' 条' + (state.q || state.fStatus || state.fOwner || state.fQuality ? '（已筛选）' : '') + '</span><span class="sp"></span>' +
     '<button class="btn sm" data-act="page" data-id="' + (state.page - 1) + '" ' + (state.page <= 1 ? 'disabled' : '') + '>上一页</button>' +
     '<span class="mono">' + state.page + ' / ' + pages + '</span>' +
     '<button class="btn sm" data-act="page" data-id="' + (state.page + 1) + '" ' + (state.page >= pages ? 'disabled' : '') + '>下一页</button>' +
     '</div></div>' +
     '<div class="help" style="margin-top:10px">数据权限：当前身份可见 ' + visibleCustomers().length + ' / ' + DB.customers.length + ' 位客户。' +
-    (state.user.role === 'agent' ? '员工只能看到自己负责的客户，导出的数据也按同一范围过滤。' : state.user.role === 'supervisor' ? '主管可见本人与 ' + teamIds(state.user.id).length + ' 名直属下属的客户。' : '管理员可见全部客户。') + '</div>';
+    (state.user.role === 'agent' ? '员工只能看到自己负责的客户，导出与批量分配不可用。' : state.user.role === 'supervisor' ? '主管可见本人与 ' + teamIds(state.user.id).length + ' 名直属下属的客户。' : '管理员可见全部客户。') + '</div>';
+}
+function bulkBar() {
+  if (!can('customer.assign') && !can('customer.invalid')) return '';
+  const n = state.selected.size;
+  return '<div class="bulkbar"><span class="n">已选 <b>' + n + '</b> 位客户</span>' +
+    (can('customer.assign') ? '<button class="btn primary sm" data-act="bulk-assign">分配给…</button>' : '') +
+    (can('customer.invalid') ? '<button class="btn sm" data-act="bulk-invalid">标记无效</button>' : '') +
+    '<button class="btn sm" data-act="clear-sel">取消选择</button></div>';
 }
 
 /* ---------- 客户详情 ---------- */
 function customerView() {
   const c = getCustomer(state.custId);
-  if (!c || !canSeeCustomer(c)) return '<div class="card"><div class="empty">客户不存在，或你没有访问权限</div></div>';
+  if (!c || !canSeeCustomer(c)) return '<div class="card"><div class="empty">客户不存在，或你没有访问权限<div class="help">越权访问会被记录，请联系主管确认客户归属。</div></div></div>';
   const owner = getUser(c.ownerId);
-  const notes = DB.notes.filter(n => n.custId === c.id && !n.voided).sort((a, b) => ts(b.at) - ts(a.at));
+  const notes = custNotes(c.id);
   const tasks = DB.tasks.filter(t => t.custId === c.id).sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
   const pending = tasks.filter(t => t.status === 'pending');
   const nc = nextCallback(c.id);
+  const a = attemptsOf(c.id);
+  const shown = state.revealed.has(c.id) ? normPhone(c.phone) : maskPhone(c.phone);
+  const bad = c.invalid || !isMobile(c.phone);
 
   const head = '<div class="card"><div class="card-bd">' +
     '<div style="display:flex;align-items:flex-start;gap:14px">' +
@@ -776,36 +968,39 @@ function customerView() {
     '<div style="flex:1;min-width:0">' +
     '<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><span style="font-size:17px;font-weight:600">' + esc(c.name) + '</span>' +
     custBadge(c.status) + (c.dnc ? '<span class="badge b-red">禁止联系</span>' : '') +
+    (bad ? '<span class="badge b-red">号码异常</span>' : '') +
     '<span class="tag">' + esc(c.category) + '</span><span class="tag">' + esc(c.source) + '</span></div>' +
-    '<div class="muted tiny" style="margin-top:5px">' + esc(c.company) + ' · <span class="mono">' + esc(c.phone) + '</span> · 负责人 ' + (owner ? esc(owner.name) : '—') + '</div>' +
+    '<div class="muted tiny" style="margin-top:5px">' + esc(c.company) + ' · <span class="mono masknum">' + shown + '</span>' +
+    (can('phone.reveal') && !state.revealed.has(c.id) ? ' <button class="eye" data-act="reveal" data-id="' + c.id + '">查看完整号码</button>' : '') +
+    ' · 负责人 ' + (owner ? esc(owner.name) : '—') + '</div>' +
     '<div class="tiny dim" style="margin-top:3px">最近联系 ' + (c.lastContactAt ? fmtDT(c.lastContactAt) : '未联系') +
-    ' · 下次回访 ' + (nc ? fmtDT(nc) : '未安排') + ' · 创建于 ' + fmtDate(c.createdAt) + '</div>' +
+    ' · 下次回访 ' + (nc ? fmtDT(nc) : '未安排') + ' · 累计呼叫 ' + a.total + ' 次（未接 ' + a.miss + ' 次） · 创建于 ' + fmtDate(c.createdAt) + '</div>' +
     '</div>' +
     '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">' +
-    '<button class="btn" data-act="new-task" data-id="' + c.id + '"' + (c.dnc ? ' disabled' : '') + '>安排回访</button>' +
-    '<button class="btn primary" data-act="new-note" data-id="' + c.id + '">新增呼叫记事</button>' +
-    '<button class="btn" data-act="transfer" data-id="' + c.id + '">转移</button>' +
-    '<button class="btn" data-act="edit-customer" data-id="' + c.id + '">编辑</button>' +
+    (can('task.create') ? '<button class="btn" data-act="new-task" data-id="' + c.id + '"' + (c.dnc || c.invalid ? ' disabled' : '') + '>安排回访</button>' : '') +
+    (can('note.create') ? '<button class="btn primary" data-act="new-note" data-id="' + c.id + '">新增呼叫记事</button>' : '') +
+    (can('customer.assign') ? '<button class="btn" data-act="transfer" data-id="' + c.id + '">转移</button>' : '') +
+    (can('customer.edit') ? '<button class="btn" data-act="edit-customer" data-id="' + c.id + '">编辑</button>' : '') +
     '</div></div>' +
     (c.dnc ? '<div class="warnbox" style="margin-top:12px">该客户已标记「禁止联系」，不能新建回访任务。解除标记需填写原因并记入审计。</div>' : '') +
+    (c.invalid ? '<div class="redbox" style="margin-top:12px">号码已标记无效：' + esc(c.invalidReason || '未填写原因') + '。该客户不参与周期重呼，如需恢复请先解除标记。</div>' : '') +
     '</div></div>';
 
   const tl = notes.length ? notes.map(n => {
     const uu = getUser(n.userId);
     const cls = n.result === '已接通' ? 'ok' : (n.result === '无人接听' || n.result === '占线') ? 'miss' : '';
     return '<div class="n ' + cls + '">' +
-      '<div class="h">' + fmtDate(n.at) + ' ' + fmtHm(n.at) + ' · ' + (uu ? uu.name : '') + ' ' + resultBadge(n.result) + '</div>' +
+      '<div class="h">' + fmtDate(n.at) + ' ' + fmtHm(n.at) + ' · ' + (uu ? esc(uu.name) : '') + ' ' + resultBadge(n.result) + '</div>' +
       '<div class="c">' + esc(n.content) + '</div>' +
       '<div class="f"><span>记录于 ' + fmtDT(n.at) + '</span></div></div>';
   }).join('') : '<div class="empty">还没有呼叫记事</div>';
 
   const taskList = tasks.length ? tasks.map(t => {
-    const st = taskState(t);
     return '<div class="item"><div class="tm" style="width:auto;flex:0 0 62px">' + fmtMD(t.scheduledAt) + '</div>' +
       '<div class="bd"><div class="t1">' + esc(t.title) + ' ' + taskBadge(t) + '</div>' +
       '<div class="t2">' + fmtDT(t.scheduledAt) + ' · ' + (getUser(t.assigneeId) || {}).name +
       (t.rescheduleCount ? ' · 改期 ' + t.rescheduleCount + ' 次' : '') +
-      (t.status === 'cancelled' ? ' · ' + t.cancelReason : '') + '</div></div>' +
+      (t.status === 'cancelled' ? ' · ' + esc(t.cancelReason) : '') + '</div></div>' +
       (t.status === 'pending' ? '<div class="ops"><button class="btn sm" data-act="open-task" data-id="' + t.id + '">处理</button></div>' : '') +
       '</div>';
   }).join('') : '<div class="empty">还没有回访安排</div>';
@@ -826,17 +1021,99 @@ function customerView() {
     '<tr><td class="dim" style="border:none;padding:5px 0">备注</td><td style="border:none;padding:5px 0">' + esc(c.remark) + '</td></tr>' +
     '</tbody></table>' +
     '<div class="hr"></div>' +
-    '<button class="btn sm ' + (c.dnc ? '' : 'danger') + '" data-act="toggle-dnc" data-id="' + c.id + '" style="width:100%">' +
-    (c.dnc ? '解除禁止联系' : '标记禁止联系') + '</button>' +
+    (can('customer.invalid') ? '<button class="btn sm ' + (c.invalid ? '' : 'danger') + '" data-act="toggle-invalid" data-id="' + c.id + '" style="width:100%;margin-bottom:7px">' + (c.invalid ? '解除无效标记' : '标记无效号码') + '</button>' : '') +
+    (can('customer.edit') ? '<button class="btn sm ' + (c.dnc ? '' : 'danger') + '" data-act="toggle-dnc" data-id="' + c.id + '" style="width:100%">' + (c.dnc ? '解除禁止联系' : '标记禁止联系') + '</button>' : '') +
     '</div></div>' +
     '</div></div>';
 }
 
-/* ---------- 回访日历 ---------- */
+/* ---------- 客户体检 ---------- */
+function datahealthView() {
+  if (!can('customer.merge') && !can('customer.invalid')) return noPerm('你没有数据体检权限');
+  const tabs = [
+    { id: 'dup', label: '重复客户' },
+    { id: 'invalid', label: '无效 / 异常号码' },
+    { id: 'cycle', label: '周期重呼' }
+  ];
+  const dg = dupGroups(), inv = invalidList(), cy = cycleLists();
+  const counts = { dup: dg.length, invalid: inv.length, cycle: cy.waiting.length + cy.recycle.length };
+  const tabBar = '<div class="tabs">' + tabs.map(t =>
+    '<a data-act="dh-tab" data-id="' + t.id + '" class="' + (state.dhTab === t.id ? 'on' : '') + '">' + t.label +
+    ' <span class="badge b-slate">' + counts[t.id] + '</span></a>').join('') + '</div>';
+
+  let body = '';
+  if (state.dhTab === 'dup') {
+    body = dg.length ? dg.map((g, gi) => {
+      const items = g.items.slice().sort((a, b) => (b.lastContactAt ? 1 : 0) - (a.lastContactAt ? 1 : 0) || b.id - a.id);
+      return '<div class="groupbox"><div class="gh"><span class="badge b-amber">' + g.reason + '</span>' +
+        '<span class="mono tiny dim">' + esc(normPhone(items[0].phone)) + '</span><span class="sp"></span>' +
+        '<button class="btn sm" data-act="merge" data-id="' + gi + '">合并…</button></div>' +
+        '<table><thead><tr><th>客户</th><th>电话</th><th>公司</th><th>负责人</th><th>最近联系</th><th>记事</th><th>待办</th></tr></thead><tbody>' +
+        items.map(c => '<tr class="click" data-act="open-customer" data-id="' + c.id + '">' +
+          '<td>' + esc(c.name) + (c.id === items[0].id ? ' <span class="badge b-blue">建议主记录</span>' : '') + '</td>' +
+          '<td class="mono tiny">' + esc(normPhone(c.phone)) + '</td>' +
+          '<td class="tiny">' + esc(c.company) + '</td>' +
+          '<td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td>' +
+          '<td class="tiny dim">' + (c.lastContactAt ? fmtMD(c.lastContactAt) : '未联系') + '</td>' +
+          '<td class="tiny">' + custNotes(c.id).length + '</td>' +
+          '<td class="tiny">' + DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').length + '</td></tr>').join('') +
+        '</tbody></table></div>';
+    }).join('') : '<div class="card"><div class="empty">没有发现重复客户</div></div>';
+    body += '<div class="help">判定规则：标准化手机号相同，或姓名 + 公司完全相同。合并后记事与未完成回访会转移到主记录，重复记录隐藏但保留可追溯。</div>';
+  }
+
+  if (state.dhTab === 'invalid') {
+    const rows = inv.length ? inv.map(c => {
+      const reason = c.invalidReason || (isMobile(c.phone) ? '' : '号码格式不符合手机号规则');
+      return '<tr class="click" data-act="open-customer" data-id="' + c.id + '">' +
+        '<td>' + esc(c.name) + '<div class="tiny dim">' + esc(c.company) + '</div></td>' +
+        '<td class="mono tiny">' + esc(c.phone) + '</td>' +
+        '<td class="tiny" style="color:#ff96a5">' + esc(reason) + '</td>' +
+        '<td>' + (c.invalid ? '<span class="badge b-red">已停呼</span>' : '<span class="badge b-amber">待处理</span>') + '</td>' +
+        '<td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td>' +
+        '<td>' + (can('customer.invalid') ? (c.invalid
+          ? '<button class="btn sm" data-act="toggle-invalid" data-id="' + c.id + '">解除</button>'
+          : '<button class="btn sm danger" data-act="toggle-invalid" data-id="' + c.id + '">标记无效</button>') : '<span class="dim tiny">—</span>') + '</td></tr>';
+    }).join('') : emptyRow(6, '没有异常号码');
+    body = '<div class="card"><div class="tbl-wrap"><table><thead><tr><th>客户</th><th>号码</th><th>判定原因</th><th>状态</th><th>负责人</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+      '<div class="help">标记无效后：该客户不进入周期重呼、不能新建回访，已有待办自动取消并留痕。解除需填写原因。</div>';
+  }
+
+  if (state.dhTab === 'cycle') {
+    const st = DB.settings;
+    const rowOf = (x, kind) => {
+      const c = x.c, a = x.a;
+      return '<tr class="click" data-act="open-customer" data-id="' + c.id + '">' +
+        '<td>' + esc(c.name) + '<div class="tiny dim">' + esc(c.company) + '</div></td>' +
+        '<td class="mono tiny">' + maskPhone(c.phone) + '</td>' +
+        '<td class="num tiny">' + a.miss + ' 次</td>' +
+        '<td class="tiny">' + resultBadge(a.last) + '</td>' +
+        '<td class="tiny dim">' + (c.lastContactAt ? ago(c.lastContactAt) : '—') + '</td>' +
+        '<td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td>' +
+        '<td>' + (kind === 'wait'
+          ? (can('task.create') ? '<button class="btn sm" data-act="cycle-create" data-id="' + c.id + '">按周期排下次</button>' : '<span class="dim tiny">—</span>')
+          : (can('customer.invalid') ? '<button class="btn sm danger" data-act="toggle-invalid" data-id="' + c.id + '">标记无效</button>' : '<span class="dim tiny">—</span>')) +
+        '</td></tr>';
+    };
+    body = '<div class="infobox" style="margin-bottom:12px">周期规则：未接通的客户每 <b>' + st.cycleDays + '</b> 天自动排下一次呼叫，最多 <b>' + st.cycleMax + '</b> 次；达到上限仍未接通进入「待回收」，由主管决定继续或标记无效。</div>' +
+      '<div class="card" style="margin-bottom:12px"><div class="card-hd"><h3>待重呼</h3><span class="badge b-blue">' + cy.waiting.length + '</span><span class="sp"></span>' +
+      (can('task.create') && cy.waiting.length ? '<button class="btn sm primary" data-act="cycle-create-all">全部按周期排期</button>' : '') + '</div>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>客户</th><th>号码</th><th class="num">未接次数</th><th>最近结果</th><th>最近联系</th><th>负责人</th><th>操作</th></tr></thead><tbody>' +
+      (cy.waiting.length ? cy.waiting.map(x => rowOf(x, 'wait')).join('') : emptyRow(7, '没有待重呼客户')) + '</tbody></table></div></div>' +
+      '<div class="card"><div class="card-hd"><h3>待回收（已达 ' + cy.max + ' 次上限）</h3><span class="badge b-red">' + cy.recycle.length + '</span><span class="sp"></span>' +
+      '<span class="tiny dim">建议核实号码或退回主管重新分配</span></div>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>客户</th><th>号码</th><th class="num">未接次数</th><th>最近结果</th><th>最近联系</th><th>负责人</th><th>操作</th></tr></thead><tbody>' +
+      (cy.recycle.length ? cy.recycle.map(x => rowOf(x, 'recycle')).join('') : emptyRow(7, '没有待回收客户')) + '</tbody></table></div></div>';
+  }
+
+  return '<div class="banner">⌗ <span>客户体检把「重复、打不通、反复打不通」三类问题集中处理，避免坐席把时间花在无效号码上。</span></div>' +
+    tabBar + body;
+}
+
+/* ---------- 日历 ---------- */
 function calendarView() {
   const y = state.calY, m = state.calM;
   const first = new Date(y, m, 1);
-  const daysInMonth = new Date(y, m + 1, 0).getDate();
   let lead = first.getDay() - 1; if (lead < 0) lead = 6;
   const start = addDays(first, -lead);
   const cells = [];
@@ -844,44 +1121,38 @@ function calendarView() {
     const d = addDays(start, i);
     const key = ymd(d);
     const dayTasks = visibleTasks().filter(t => ymd(new Date(t.scheduledAt)) === key);
-    const inMonth = d.getMonth() === m;
-    const isToday = sameDay(d, now());
     const evs = dayTasks.slice(0, 3).map(t => {
-      const c = getCustomer(t.custId);
-      const st = taskState(t);
+      const c = getCustomer(t.custId), st = taskState(t);
       const cls = st.k === 'overdue' ? 'od' : st.k === 'done' ? 'dn' : st.k === 'cancel' ? 'cn' : '';
-      return '<span class="' + cls + '">' + fmtHm(t.scheduledAt) + ' ' + (c ? c.name : '') + '</span>';
+      return '<span class="' + cls + '">' + fmtHm(t.scheduledAt) + ' ' + (c ? esc(c.name) : '') + '</span>';
     }).join('');
-    cells.push('<div class="cell ' + (inMonth ? '' : 'dim') + (isToday ? ' today' : '') + '" data-act="open-day" data-id="' + key + '">' +
+    cells.push('<div class="cell ' + (d.getMonth() === m ? '' : 'dim') + (sameDay(d, now()) ? ' today' : '') + '" data-act="open-day" data-id="' + key + '">' +
       '<span class="d">' + d.getDate() + '</span>' +
       (dayTasks.length ? '<span class="n">' + dayTasks.length + '</span>' : '') +
       '<div class="ev">' + evs + '</div></div>');
   }
   const wd = WD.map(w => '<div class="wd">周' + w + '</div>').join('');
-  const monthName = y + ' 年 ' + (m + 1) + ' 月';
-  const pendingAll = visibleTasks().filter(t => t.status === 'pending');
-
-  const listRows = pendingAll.sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt)).map(t => {
+  const pendingAll = visibleTasks().filter(t => t.status === 'pending').sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
+  const listRows = pendingAll.map(t => {
     const c = getCustomer(t.custId);
     return '<tr class="click" data-act="open-task" data-id="' + t.id + '">' +
       '<td class="mono tiny">' + fmtDT(t.scheduledAt) + '</td>' +
       '<td>' + (c ? esc(c.name) : '') + '<div class="tiny dim">' + esc(t.title) + '</div></td>' +
-      '<td class="tiny">' + (getUser(t.assigneeId) || {}).name + '</td>' +
+      '<td class="tiny">' + esc((getUser(t.assigneeId) || {}).name) + '</td>' +
       '<td>' + taskBadge(t) + '</td></tr>';
   }).join('') || emptyRow(4, '没有待处理回访');
 
   return '<div class="calbar">' +
     '<button class="btn sm" data-act="cal-prev">‹</button>' +
-    '<b style="font-size:14px;min-width:110px;display:inline-block;text-align:center">' + monthName + '</b>' +
+    '<b style="font-size:14px;min-width:110px;display:inline-block;text-align:center">' + y + ' 年 ' + (m + 1) + ' 月</b>' +
     '<button class="btn sm" data-act="cal-next">›</button>' +
     '<button class="btn sm" data-act="cal-today">今天</button>' +
-    '<span class="sp" style="flex:1"></span>' +
+    '<span style="flex:1"></span>' +
     '<button class="btn sm ' + (state.calMode === 'month' ? 'primary' : '') + '" data-act="cal-mode" data-id="month">月视图</button>' +
     '<button class="btn sm ' + (state.calMode === 'list' ? 'primary' : '') + '" data-act="cal-mode" data-id="list">列表</button>' +
     '</div>' +
-    (state.calMode === 'month' ?
-      '<div class="cal">' + wd + cells.join('') + '</div>' +
-      '<div class="help" style="margin-top:10px">日历直接读取回访任务，不维护第二套日期。红=逾期 · 绿=已完成 · 灰划线=已取消。点击任意日期查看当天安排。</div>'
+    (state.calMode === 'month'
+      ? '<div class="cal">' + wd + cells.join('') + '</div><div class="help" style="margin-top:10px">日历直接读取回访任务，不维护第二套日期。红=逾期 · 绿=已完成 · 灰划线=已取消。点击任意日期查看当天安排。</div>'
       : '<div class="card"><div class="tbl-wrap"><table><thead><tr><th>计划时间</th><th>客户 / 事项</th><th>执行人</th><th>状态</th></tr></thead><tbody>' + listRows + '</tbody></table></div></div>');
 }
 
@@ -891,37 +1162,32 @@ function notesView() {
   if (state.fResult) list = list.filter(n => n.result === state.fResult);
   if (state.fEmp) list = list.filter(n => n.userId === +state.fEmp);
   list = list.sort((a, b) => ts(b.at) - ts(a.at)).slice(0, 80);
-
   const resultOpts = ['', '已接通', '无人接听', '占线', '号码无效', '拒绝联系'].map(r =>
     '<option value="' + r + '"' + (state.fResult === r ? ' selected' : '') + '>' + (r || '全部结果') + '</option>').join('');
-  const empOpts = '<option value="">全部员工</option>' + DB.users.filter(u => visibleUserIds().includes(u.id)).map(u =>
-    '<option value="' + u.id + '"' + (+state.fEmp === u.id ? ' selected' : '') + '>' + u.name + '</option>').join('');
-
+  const empOpts = '<option value="">全部员工</option>' + DB.users.filter(u => scopeIds().includes(u.id)).map(u =>
+    '<option value="' + u.id + '"' + (+state.fEmp === u.id ? ' selected' : '') + '>' + esc(u.name) + '</option>').join('');
   const rows = list.map(n => {
     const c = getCustomer(n.custId), uu = getUser(n.userId);
     return '<tr class="click" data-act="open-customer" data-id="' + n.custId + '">' +
       '<td class="mono tiny">' + fmtDT(n.at) + '</td>' +
-      '<td>' + (c ? c.name : '') + '<div class="tiny dim">' + (c ? c.company : '') + '</div></td>' +
+      '<td>' + (c ? esc(c.name) : '') + '<div class="tiny dim">' + (c ? esc(c.company) : '') + '</div></td>' +
       '<td>' + resultBadge(n.result) + '</td>' +
       '<td class="tiny" style="max-width:380px">' + esc(n.content) + '</td>' +
-      '<td class="tiny dim">' + (uu ? uu.name : '') + '</td></tr>';
+      '<td class="tiny dim">' + (uu ? esc(uu.name) : '') + '</td></tr>';
   }).join('') || emptyRow(5, '没有记事');
-
-  return '<div class="card">' +
-    '<div class="card-hd">' +
+  return '<div class="card"><div class="card-hd">' +
     '<select data-change="f-result" style="width:130px">' + resultOpts + '</select>' +
-    (isManager() ? '<select data-change="f-emp" style="width:130px">' + empOpts + '</select>' : '') +
-    '<span class="sp"></span>' +
-    '<span class="tiny dim">共 ' + list.length + ' 条 · 人工登记，非电话系统核验数据</span>' +
-    '</div>' +
+    (state.user.role !== 'agent' ? '<select data-change="f-emp" style="width:130px">' + empOpts + '</select>' : '') +
+    '<span class="sp"></span><span class="tiny dim">共 ' + list.length + ' 条 · 人工登记，非电话系统核验数据</span></div>' +
     '<div class="tbl-wrap"><table><thead><tr><th>联系时间</th><th>客户</th><th>结果</th><th>记事内容</th><th>记录人</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
 }
 
 /* ---------- 主管看板 ---------- */
 function boardView() {
-  const ids = visibleUserIds();
+  if (!can('report.team')) return noPerm('你没有团队统计权限');
+  const ids = scopeIds();
   const team = DB.users.filter(u => ids.includes(u.id));
-  const custs = visibleCustomers().filter(c => !c.archived);
+  const custs = visibleCustomers();
   const today0 = startOfDay(now()).getTime();
   const notes = visibleNotes().filter(n => !n.voided);
   const notesToday = notes.filter(n => sameDay(new Date(n.at), now()));
@@ -931,7 +1197,7 @@ function boardView() {
 
   const kpi = '<div class="kpi">' +
     kpiCard('团队客户', custs.length, '今日新增 ' + custs.filter(c => sameDay(new Date(c.createdAt), now())).length, '') +
-    kpiCard('今日登记外呼', notesToday.length, '较昨日 ' + deltaText(notesToday.length, notes.filter(n => sameDay(new Date(n.at), addDays(now(), -1))).length), '') +
+    kpiCard('今日登记外呼', notesToday.length, '较昨日 ' + ((notesToday.length - notes.filter(n => sameDay(new Date(n.at), addDays(now(), -1))).length) > 0 ? '+' : '') + (notesToday.length - notes.filter(n => sameDay(new Date(n.at), addDays(now(), -1))).length) + ' 条', '') +
     kpiCard('当前逾期回访', overdue.length, '涉及 ' + new Set(overdue.map(t => t.assigneeId)).size + ' 名员工', overdue.length ? 'alert' : 'ok') +
     kpiCard('今日完成回访', tasks.filter(t => t.status === 'completed' && t.completedAt && sameDay(new Date(t.completedAt), now())).length, '按完成时间统计', '') +
     '</div>';
@@ -944,7 +1210,7 @@ function boardView() {
     const udone = tasks.filter(t => t.assigneeId === u.id && t.status === 'completed' && t.completedAt && sameDay(new Date(t.completedAt), now()));
     const rate = ut.length ? Math.round((ut.length - uo.length) / ut.length * 100) : null;
     return '<tr class="click" data-act="open-agent" data-id="' + u.id + '">' +
-      '<td><div style="display:flex;align-items:center;gap:8px">' + avatar(u.name) + '<div>' + u.name +
+      '<td><div style="display:flex;align-items:center;gap:8px">' + avatar(u.name) + '<div>' + esc(u.name) +
       '<div class="tiny dim">' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</div></div></div></td>' +
       '<td class="num">' + uc.length + '</td>' +
       '<td class="num">' + un.length + '</td>' +
@@ -956,7 +1222,6 @@ function boardView() {
       '</tr>';
   }).join('');
 
-  // 近 7 日登记外呼
   const days = [];
   for (let i = 6; i >= 0; i--) {
     const d = addDays(now(), -i);
@@ -988,41 +1253,106 @@ function boardView() {
     '<div class="help" style="margin-top:10px">统计口径：登记外呼 = 未作废记事数；联系客户 = 有记事的客户去重数；已接通 = 人工标记为已接通；' +
     '当前逾期 = 待处理且计划时间早于今日 0 点。系统不采集通话时长与真实接通率。</div>';
 }
-function deltaText(a, b) { const d = a - b; return (d > 0 ? '+' : '') + d + ' 条'; }
 
 /* ---------- 用户管理 ---------- */
 function usersView() {
-  const rows = DB.users.map(u => {
+  if (!can('user.manage')) return noPerm('你没有账号管理权限');
+  const isAdmin = state.user.role === 'admin';
+  const list = isAdmin ? DB.users : DB.users.filter(u => u.id === state.user.id || u.managerId === state.user.id);
+  const rows = list.map(u => {
     const mgr = u.managerId ? getUser(u.managerId) : null;
-    const cnt = DB.customers.filter(c => c.ownerId === u.id).length;
-    return '<tr><td><div style="display:flex;align-items:center;gap:8px">' + avatar(u.name) + '<div>' + u.name +
-      '<div class="tiny dim mono">' + u.username + '</div></div></div></td>' +
+    const cnt = DB.customers.filter(c => c.ownerId === u.id && !c.mergedInto).length;
+    const self = u.id === state.user.id;
+    return '<tr><td><div style="display:flex;align-items:center;gap:8px">' + avatar(u.name) + '<div>' + esc(u.name) +
+      '<div class="tiny dim mono">' + esc(u.username) + '</div></div></div></td>' +
       '<td><span class="badge b-' + ({ admin: 'purple', supervisor: 'blue', agent: 'slate' }[u.role]) + '">' +
       ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</span></td>' +
-      '<td class="tiny">' + (mgr ? mgr.name : '<span class="dim">—</span>') + '</td>' +
+      '<td class="tiny">' + (mgr ? esc(mgr.name) : '<span class="dim">—</span>') + '</td>' +
       '<td class="num">' + cnt + '</td>' +
       '<td>' + (u.active ? '<span class="badge b-green">启用</span>' : '<span class="badge b-gray">已禁用</span>') + '</td>' +
       '<td><div style="display:flex;gap:6px">' +
       '<button class="btn sm" data-act="reset-pwd" data-id="' + u.id + '">重置密码</button>' +
-      '<button class="btn sm" data-act="toggle-user" data-id="' + u.id + '">' + (u.active ? '禁用' : '启用') + '</button>' +
+      (isAdmin && !self ? '<button class="btn sm" data-act="edit-user" data-id="' + u.id + '">编辑</button>' : '') +
+      (self ? '<span class="dim tiny" style="padding:4px 0">当前账号</span>'
+        : '<button class="btn sm" data-act="toggle-user" data-id="' + u.id + '">' + (u.active ? '禁用' : '启用') + '</button>') +
       '</div></td></tr>';
   }).join('');
 
   return '<div class="card"><div class="card-hd"><h3>账号与直属关系</h3><span class="sp"></span>' +
-    '<span class="tiny dim">一级直属管理 · 不支持多级与循环</span>' +
+    '<span class="tiny dim">' + (isAdmin ? '管理员可管理全部账号' : '主管仅可管理自己的直属下属') + '</span>' +
     '<button class="btn primary" data-act="new-user">＋ 新增账号</button></div>' +
     '<div class="tbl-wrap"><table><thead><tr><th>姓名 / 账号</th><th>角色</th><th>直属主管</th><th class="num">负责客户</th><th>状态</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
-    '<div class="infobox" style="margin-top:12px">权限在服务端按「角色 + 数据范围」双重校验：员工访问他人客户详情、日历、记事、导出、搜索建议都会被拒绝，不只是隐藏按钮。</div>';
+    '<div class="infobox" style="margin-top:12px">权限在服务端按「角色 + 数据范围」双重校验：员工访问他人客户详情、日历、记事、导出、搜索建议都会被拒绝，不只是隐藏按钮。' +
+    (isAdmin ? '' : '主管新增账号时角色固定为员工、直属主管固定为自己。') + '</div>';
+}
+
+/* ---------- 权限管理 ---------- */
+function permsView() {
+  if (!can('perm.manage')) return noPerm('你没有权限配置权限');
+  const groups = [...new Set(PERMS.map(p => p.g))];
+  let rows = '';
+  groups.forEach(g => {
+    rows += '<tr><td class="grp" colspan="4">' + g + '</td></tr>';
+    PERMS.filter(p => p.g === g).forEach(p => {
+      rows += '<tr><td class="cap">' + p.n + '<small>' + p.d + '</small></td>' +
+        ['admin', 'supervisor', 'agent'].map(r => {
+          const on = (DB.roles[r] || []).includes(p.id);
+          if (r === 'admin') return '<td style="text-align:center"><span style="color:#5fe0ae;font-size:13px">✓</span></td>';
+          return '<td style="text-align:center"><input type="checkbox" ' + (on ? 'checked' : '') +
+            ' data-role-perm="' + r + '|' + p.id + '"></td>';
+        }).join('') + '</tr>';
+    });
+  });
+
+  const userOpts = DB.users.map(u => '<option value="' + u.id + '">' + esc(u.name) + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</option>').join('');
+  const pick = state.permUser ? +state.permUser : DB.users[0].id;
+  const pu = getUser(pick);
+  const extra = pu ? (pu.extra || []) : [];
+  const extraChips = PERMS.filter(p => !(DB.roles[pu.role] || []).includes(p.id)).map(p =>
+    '<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 9px;border:1px solid #2d3748;border-radius:7px;margin:0 6px 6px 0;cursor:pointer;' + (extra.includes(p.id) ? 'background:rgba(76,141,255,.12);border-color:#3a5a8a' : '') + '">' +
+    '<input type="checkbox" data-user-perm="' + p.id + '" ' + (extra.includes(p.id) ? 'checked' : '') + '> ' + p.n + '</label>').join('');
+
+  return '<div class="card"><div class="card-hd"><h3>角色权限</h3><span class="sp"></span>' +
+    '<span class="tiny dim">修改立即生效 · 管理员固定全部权限</span></div>' +
+    '<div class="tbl-wrap"><table class="matrix"><thead><tr><th style="width:46%">功能</th>' +
+    '<th style="text-align:center;width:18%">管理员</th><th style="text-align:center;width:18%">主管</th><th style="text-align:center;width:18%">员工</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+    '<div class="grid-2" style="margin-top:14px">' +
+    '<div class="card"><div class="card-hd"><h3>数据范围（按角色固定）</h3></div><div class="card-bd">' +
+    '<table style="font-size:12.5px"><tbody>' +
+    '<tr><td class="dim" style="border:none;padding:6px 0;width:80px">管理员</td><td style="border:none;padding:6px 0">全部客户、全部账号、可导出明文号码</td></tr>' +
+    '<tr><td class="dim" style="border:none;padding:6px 0">主管</td><td style="border:none;padding:6px 0">本人 + 直属下属的客户；可分配客户、上传名单</td></tr>' +
+    '<tr><td class="dim" style="border:none;padding:6px 0">员工</td><td style="border:none;padding:6px 0">仅本人负责的客户；不可导出、不可分配</td></tr>' +
+    '</tbody></table>' +
+    '<div class="help">数据范围不随权限点变化，避免「有查看权限但看到别人客户」的越权。</div>' +
+    '</div></div>' +
+    '<div class="card"><div class="card-hd"><h3>个人额外授权</h3></div><div class="card-bd">' +
+    '<div class="field"><select data-change="perm-user">' + userOpts + '</select></div>' +
+    (pu ? '<div class="tiny dim" style="margin-bottom:8px">' + esc(pu.name) + ' 当前角色：' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[pu.role]) + '。以下为角色未包含、可单独授予的权限：</div>' +
+      (extraChips || '<div class="tiny dim">该角色已拥有全部权限</div>') : '') +
+    '<div class="help">用于临时场景，例如让某个员工临时导出一次数据。授权与撤销都会写审计。</div>' +
+    '</div></div></div>';
 }
 
 /* ---------- 系统设置 ---------- */
 function settingsView() {
-  const rows = DB.audit.slice(0, 20).map(a => {
+  if (!can('setting.manage')) return noPerm('你没有系统设置权限');
+  const st = DB.settings;
+  const rows = DB.audit.slice(0, 24).map(a => {
     const u = getUser(a.userId);
-    return '<tr><td class="mono tiny">' + fmtDT(a.at) + '</td><td class="tiny">' + (u ? u.name : '—') + '</td>' +
-      '<td class="tiny">' + a.action + '</td><td class="tiny dim">' + a.detail + '</td></tr>';
+    return '<tr><td class="mono tiny">' + fmtDT(a.at) + '</td><td class="tiny">' + (u ? esc(u.name) : '—') + '</td>' +
+      '<td class="tiny">' + esc(a.action) + '</td><td class="tiny dim">' + esc(a.detail) + '</td></tr>';
   }).join('');
   return '<div class="grid-2">' +
+    '<div class="card"><div class="card-hd"><h3>客户资产规则</h3></div><div class="card-bd">' +
+    '<div class="row"><div class="field"><label class="fl">周期重呼间隔（天）</label><input type="number" min="1" max="30" value="' + st.cycleDays + '" data-set="cycleDays"></div>' +
+    '<div class="field"><label class="fl">最大重呼次数</label><input type="number" min="1" max="10" value="' + st.cycleMax + '" data-set="cycleMax"></div></div>' +
+    '<div class="row"><div class="field"><label class="fl">单次导出上限（条）</label><input type="number" min="10" max="5000" value="' + st.exportLimit + '" data-set="exportLimit"></div>' +
+    '<div class="field"><label class="fl">每日查看完整号码上限</label><input type="number" min="1" max="200" value="' + st.revealDailyLimit + '" data-set="revealDailyLimit"></div></div>' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8;margin-top:4px">' +
+    '<input type="checkbox" ' + (st.maskPhone ? 'checked' : '') + ' data-set="maskPhone"> 列表中默认脱敏显示手机号</label>' +
+    '<div class="help">修改后立即生效。真实系统这些值应存在 app_settings 表并留变更审计。</div>' +
+    '</div></div>' +
     '<div class="card"><div class="card-hd"><h3>数据备份</h3><span class="sp"></span><span class="badge b-green">每日自动</span></div>' +
     '<div class="card-bd">' +
     '<div class="tiny dim" style="line-height:1.9">最近备份：' + fmtDT(iso(dAt(0, 3, 0))) + ' · 保留最近 14 份<br>' +
@@ -1031,17 +1361,8 @@ function settingsView() {
     '<div style="display:flex;gap:8px"><button class="btn primary" data-act="backup">立即备份</button>' +
     '<button class="btn" data-act="reset">重置演示数据</button></div>' +
     '<div class="help">本机备份防误操作，不防硬盘损坏；应再把备份复制到另一台设备。</div>' +
-    '</div></div>' +
-    '<div class="card"><div class="card-hd"><h3>数据概况</h3></div><div class="card-bd">' +
-    '<table style="font-size:12.5px"><tbody>' +
-    '<tr><td class="dim" style="border:none;padding:5px 0">客户</td><td style="border:none;padding:5px 0" class="num">' + DB.customers.length + '</td></tr>' +
-    '<tr><td class="dim" style="border:none;padding:5px 0">呼叫记事</td><td style="border:none;padding:5px 0" class="num">' + DB.notes.length + '</td></tr>' +
-    '<tr><td class="dim" style="border:none;padding:5px 0">回访任务</td><td style="border:none;padding:5px 0" class="num">' + DB.tasks.length + '</td></tr>' +
-    '<tr><td class="dim" style="border:none;padding:5px 0">账号</td><td style="border:none;padding:5px 0" class="num">' + DB.users.length + '</td></tr>' +
-    '</tbody></table>' +
-    '<div class="hr"></div><div class="tiny dim">原型数据存于浏览器 localStorage，可随时重置。</div>' +
     '</div></div></div>' +
-    '<div class="card" style="margin-top:14px"><div class="card-hd"><h3>操作审计</h3><span class="sp"></span><span class="tiny dim">最近 20 条</span></div>' +
+    '<div class="card" style="margin-top:14px"><div class="card-hd"><h3>操作审计</h3><span class="sp"></span><span class="tiny dim">最近 24 条 · 含号码查看与导出</span></div>' +
     '<div class="tbl-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>操作</th><th>详情</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
 }
 
@@ -1078,10 +1399,10 @@ function drawerHtml() {
       '<table style="font-size:12.5px"><tbody>' +
       '<tr><td class="dim" style="border:none;padding:5px 0;width:80px">计划时间</td><td style="border:none;padding:5px 0">' + fmtDT(t.scheduledAt) + ' ' + taskBadge(t) + '</td></tr>' +
       '<tr><td class="dim" style="border:none;padding:5px 0">原计划</td><td style="border:none;padding:5px 0">' + fmtDT(t.originalScheduledAt) + (t.rescheduleCount ? ' <span class="badge b-amber">改期 ' + t.rescheduleCount + ' 次</span>' : '') + '</td></tr>' +
-      '<tr><td class="dim" style="border:none;padding:5px 0">执行人</td><td style="border:none;padding:5px 0">' + (getUser(t.assigneeId) || {}).name + '</td></tr>' +
+      '<tr><td class="dim" style="border:none;padding:5px 0">执行人</td><td style="border:none;padding:5px 0">' + esc((getUser(t.assigneeId) || {}).name) + '</td></tr>' +
       '<tr><td class="dim" style="border:none;padding:5px 0">提前提醒</td><td style="border:none;padding:5px 0">' + t.remindBefore + ' 分钟</td></tr>' +
       (t.completedAt ? '<tr><td class="dim" style="border:none;padding:5px 0">完成时间</td><td style="border:none;padding:5px 0">' + fmtDT(t.completedAt) + '</td></tr>' : '') +
-      (t.cancelReason ? '<tr><td class="dim" style="border:none;padding:5px 0">取消原因</td><td style="border:none;padding:5px 0">' + t.cancelReason + '</td></tr>' : '') +
+      (t.cancelReason ? '<tr><td class="dim" style="border:none;padding:5px 0">取消原因</td><td style="border:none;padding:5px 0">' + esc(t.cancelReason) + '</td></tr>' : '') +
       '</tbody></table>' +
       (t.status === 'pending' ? '<div class="warnbox" style="margin-top:12px">完成回访必须同时填写本次记事；新增记事不会自动完成其他任务。</div>' : '');
     foot = t.status === 'pending'
@@ -1115,16 +1436,9 @@ function drawerHtml() {
           '<div class="tiny dim" style="margin-top:2px">' + esc(n.content) + '</div></div>';
       }).join('') || '<div class="tiny dim">暂无</div>');
     foot = '<button class="btn" data-act="close-drawer" style="flex:1">关闭</button>';
-  } else if (d.type === 'stat') {
-    title = d.title || '明细';
-    const list = d.list || [];
-    body = list.length ? '<table style="font-size:12.5px"><thead><tr><th>时间</th><th>客户</th><th>说明</th></tr></thead><tbody>' +
-      list.map(x => '<tr><td class="mono tiny">' + fmtDT(x.at) + '</td><td class="tiny">' + x.name + '</td><td class="tiny dim">' + x.text + '</td></tr>').join('') +
-      '</tbody></table>' : '<div class="empty">没有明细</div>';
-    foot = '<button class="btn" data-act="close-drawer" style="flex:1">关闭</button>';
   }
   return '<div class="drawer-mask" data-act="close-drawer"></div>' +
-    '<div class="drawer"><div class="drawer-hd"><h3>' + title + '</h3><button class="x" data-act="close-drawer">×</button></div>' +
+    '<div class="drawer"><div class="drawer-hd"><h3>' + esc(title) + '</h3><button class="x" data-act="close-drawer">×</button></div>' +
     '<div class="drawer-bd">' + body + '</div>' +
     (foot ? '<div class="drawer-ft">' + foot + '</div>' : '') + '</div>';
 }
@@ -1142,9 +1456,9 @@ function modalHtml() {
       '<div class="modal-bd">' +
       '<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:#1a212c;border-radius:8px;margin-bottom:14px">' +
       avatar(c.name) + '<div><div style="font-size:13px">' + esc(c.name) + ' <span class="dim tiny">' + esc(c.company) + '</span></div>' +
-      '<div class="tiny dim mono">' + esc(c.phone) + '</div></div>' +
+      '<div class="tiny dim mono">' + maskPhone(c.phone) + '</div></div>' +
       '<span style="margin-left:auto">' + custBadge(c.status) + '</span></div>' +
-      (t ? '<div class="infobox" style="margin-bottom:12px">本次回访：' + t.title + ' · 计划 ' + fmtDT(t.scheduledAt) + '</div>' : '') +
+      (t ? '<div class="infobox" style="margin-bottom:12px">本次回访：' + esc(t.title) + ' · 计划 ' + fmtDT(t.scheduledAt) + '</div>' : '') +
       '<div class="row"><div class="field"><label class="fl">联系时间</label><input type="datetime-local" name="at" value="' + iso(now()) + '" required></div>' +
       '<div class="field"><label class="fl">联系结果</label><select name="result">' +
       ['已接通', '无人接听', '占线', '号码无效', '拒绝联系'].map(r => '<option>' + r + '</option>').join('') + '</select></div></div>' +
@@ -1154,7 +1468,7 @@ function modalHtml() {
       ['待联系', '跟进中', '有意向', '已成交', '无意向'].map(s => '<option value="' + s + '"' + (s === c.status ? ' selected' : '') + '>' + s + '</option>').join('') +
       '</select></div>' +
       '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8;margin:14px 0 0">' +
-      '<input type="checkbox" name="next" style="width:auto" data-change="toggle-next"> 同时安排下一次回访</label>' +
+      '<input type="checkbox" name="next" data-change="toggle-next"> 同时安排下一次回访</label>' +
       '<div id="nextBox" class="hidden" style="margin-top:12px;padding:12px;background:#12171f;border:1px solid #232b39;border-radius:8px">' +
       '<div class="field"><label class="fl">回访事项</label><input name="nextTitle" placeholder="例如：确认报价反馈"></div>' +
       '<div class="row"><div class="field"><label class="fl">计划时间</label><input type="datetime-local" name="nextAt" value="' + iso(dAt(2, 10, 0)) + '"></div>' +
@@ -1170,13 +1484,13 @@ function modalHtml() {
     inner = '<div class="modal-hd"><h3>安排回访</h3><button class="x" data-act="close-modal">×</button></div>' +
       '<form data-form="task" data-cust="' + m.custId + '">' +
       '<div class="modal-bd">' +
-      '<div class="tiny dim" style="margin-bottom:12px">客户：' + esc(c.name) + ' · ' + esc(c.company) + '（执行人默认 ' + (getUser(c.ownerId) || {}).name + '）</div>' +
+      '<div class="tiny dim" style="margin-bottom:12px">客户：' + esc(c.name) + ' · ' + esc(c.company) + '（执行人默认 ' + esc((getUser(c.ownerId) || {}).name) + '）</div>' +
       '<div class="field"><label class="fl">回访事项</label><input name="title" placeholder="例如：确认报价反馈" required></div>' +
       '<div class="row"><div class="field"><label class="fl">计划时间</label><input type="datetime-local" name="at" value="' + iso(dAt(1, 10, 0)) + '" required></div>' +
       '<div class="field"><label class="fl">提前提醒</label><select name="remind">' +
       '<option value="10">提前 10 分钟</option><option value="30" selected>提前 30 分钟</option><option value="60">提前 1 小时</option><option value="1440">提前 1 天</option></select></div></div>' +
-      (isManager() ? '<div class="field"><label class="fl">执行人</label><select name="assignee">' +
-        DB.users.filter(u => visibleUserIds().includes(u.id)).map(u => '<option value="' + u.id + '"' + (u.id === c.ownerId ? ' selected' : '') + '>' + u.name + '</option>').join('') + '</select></div>' : '') +
+      (can('customer.assign') ? '<div class="field"><label class="fl">执行人</label><select name="assignee">' +
+        DB.users.filter(u => scopeIds().includes(u.id)).map(u => '<option value="' + u.id + '"' + (u.id === c.ownerId ? ' selected' : '') + '>' + esc(u.name) + '</option>').join('') + '</select></div>' : '') +
       '</div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">创建回访</button></div></form>';
   } else if (m.type === 'customer') {
@@ -1193,8 +1507,8 @@ function modalHtml() {
       ['A类', 'B类', 'C类'].map(s => '<option' + (c && c.category === s ? ' selected' : '') + '>' + s + '</option>').join('') + '</select></div></div>' +
       '<div class="row"><div class="field"><label class="fl">状态</label><select name="status">' +
       ['待联系', '跟进中', '有意向', '已成交', '无意向'].map(s => '<option' + (c && c.status === s ? ' selected' : '') + '>' + s + '</option>').join('') + '</select></div>' +
-      '<div class="field"><label class="fl">负责人</label><select name="owner">' +
-      DB.users.filter(u => visibleUserIds().includes(u.id)).map(u => '<option value="' + u.id + '"' + ((c ? c.ownerId : state.user.id) === u.id ? ' selected' : '') + '>' + u.name + '</option>').join('') + '</select></div></div>' +
+      (can('customer.assign') ? '<div class="field"><label class="fl">负责人</label><select name="owner">' +
+        DB.users.filter(u => scopeIds().includes(u.id)).map(u => '<option value="' + u.id + '"' + ((c ? c.ownerId : state.user.id) === u.id ? ' selected' : '') + '>' + esc(u.name) + '</option>').join('') + '</select></div>' : '') + '</div>' +
       '<div class="field"><label class="fl">备注</label><textarea name="remark" rows="3">' + (c ? esc(c.remark) : '') + '</textarea></div>' +
       '<div class="help">电话号码在全系统内唯一；重复号码不会覆盖已有客户资料与负责人。</div>' +
       '</div>' +
@@ -1222,50 +1536,120 @@ function modalHtml() {
     const c = getCustomer(m.id);
     inner = '<div class="modal-hd"><h3>转移客户</h3><button class="x" data-act="close-modal">×</button></div>' +
       '<form data-form="transfer" data-id="' + c.id + '">' +
-      '<div class="modal-bd"><div class="tiny dim" style="margin-bottom:12px">' + esc(c.name) + ' · 当前负责人 ' + (getUser(c.ownerId) || {}).name + '</div>' +
+      '<div class="modal-bd"><div class="tiny dim" style="margin-bottom:12px">' + esc(c.name) + ' · 当前负责人 ' + esc((getUser(c.ownerId) || {}).name) + '</div>' +
       '<div class="field"><label class="fl">新负责人</label><select name="owner">' +
-      DB.users.filter(u => visibleUserIds().includes(u.id) && u.id !== c.ownerId).map(u => '<option value="' + u.id + '">' + u.name + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</option>').join('') + '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8"><input type="checkbox" name="moveTasks" checked style="width:auto"> 同时转移未完成回访</label>' +
+      assignTargets().filter(u => u.id !== c.ownerId).map(u => '<option value="' + u.id + '">' + esc(u.name) + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</option>').join('') + '</select></div>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8"><input type="checkbox" name="moveTasks" checked> 同时转移未完成回访</label>' +
       '<div class="help">已完成回访与历史记事保留原执行人/记录人，统计可追溯。</div></div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认转移</button></div></form>';
+  } else if (m.type === 'bulk-assign') {
+    const n = state.selected.size;
+    const names = [...state.selected].slice(0, 4).map(cid => (getCustomer(cid) || {}).name).filter(Boolean).join('、');
+    inner = '<div class="modal-hd"><h3>批量分配客户</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="bulk-assign">' +
+      '<div class="modal-bd">' +
+      '<div class="infobox" style="margin-bottom:12px">已选 <b>' + n + '</b> 位客户' + (names ? '（' + esc(names) + (n > 4 ? ' 等' : '') + '）' : '') + '，将整批转给同一位负责人。分配会写入审计，原负责人立即失去访问权。</div>' +
+      '<div class="field"><label class="fl">分配给</label><select name="owner">' + assignOptions() + '</select></div>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8;margin-bottom:8px"><input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8"><input type="checkbox" name="notify" checked> 给对方发一条站内提醒</label>' +
+      '<div class="help">呼叫中心的常见做法：主管每天把新导入的名单平均分给下属，避免抢客户。</div>' +
+      '</div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认分配</button></div></form>';
+  } else if (m.type === 'merge') {
+    const g = dupGroups()[m.gi];
+    if (!g) return '';
+    const opts = g.items.map((c, i) => '<option value="' + c.id + '">' + esc(c.name) + ' · ' + esc(c.company) + ' · ' + esc(normPhone(c.phone)) + '</option>').join('');
+    inner = '<div class="modal-hd"><h3>合并重复客户</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="merge" data-gi="' + m.gi + '">' +
+      '<div class="modal-bd">' +
+      '<div class="warnbox" style="margin-bottom:12px">合并不可撤销。被合并的记录会隐藏，记事与未完成回访转移到主记录。</div>' +
+      '<div class="field"><label class="fl">保留哪一条作为主记录</label><select name="master">' + opts + '</select></div>' +
+      '<table style="font-size:12px"><thead><tr><th>客户</th><th>记事</th><th>待办</th><th>负责人</th></tr></thead><tbody>' +
+      g.items.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + custNotes(c.id).length + '</td><td>' +
+        DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').length + '</td><td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td></tr>').join('') +
+      '</tbody></table></div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认合并</button></div></form>';
   } else if (m.type === 'import') {
     const rows = [
-      ['张伟', '13801234567', '杭州云启科技', '官网表单', 'A类', 'ok', '已存在，跳过'],
-      ['林小雨', '13600001111', '宁波恒达五金', '展会', 'B类', 'ok', '新增'],
-      ['陈可', '13600002222', '温州嘉禾食品', '电话名单', 'C类', 'ok', '新增'],
-      ['黄伟', '13600003333', '绍兴越光纺织', '转介绍', 'A类', 'ok', '新增'],
-      ['刘婷', '13600004444', '嘉兴南湖电子', '官网表单', 'B类', 'ok', '新增'],
-      ['', '13600005555', '湖州吴兴机械', '展会', 'C类', 'err', '姓名为空'],
-      ['周杰', '13801234567', '金华双龙物流', '电话名单', 'B类', 'dup', '号码重复'],
-      ['吴迪', '13600006666', '台州海翔模具', '转介绍', 'A类', 'ok', '新增']
+      ['张伟', '13801234567', '杭州云启科技', 'dup', '号码已存在，跳过'],
+      ['林小雨', '13600001111', '宁波恒达五金', 'ok', '新增'],
+      ['陈可', '13600002222', '温州嘉禾食品', 'ok', '新增'],
+      ['黄伟', '13600003333', '绍兴越光纺织', 'ok', '新增'],
+      ['刘婷', '13600004444', '嘉兴南湖电子', 'ok', '新增'],
+      ['', '13600005555', '湖州吴兴机械', 'err', '姓名为空'],
+      ['周杰', '13801234567', '金华双龙物流', 'dup', '文件内号码重复'],
+      ['吴迪', '13600006666', '台州海翔模具', 'ok', '新增']
     ];
-    inner = '<div class="modal-hd"><h3>导入客户（预览）</h3><button class="x" data-act="close-modal">×</button></div>' +
+    const targets = assignTargets();
+    inner = '<div class="modal-hd"><h3>上传客户 XLSX（预览）</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="import">' +
       '<div class="modal-bd">' +
-      '<div class="infobox" style="margin-bottom:12px">已解析 <b>8</b> 行：可导入 <b>5</b> · 重复跳过 <b>2</b> · 校验失败 <b>1</b>。手机号按文本读取。</div>' +
-      '<div class="field"><label class="fl">统一指定负责人</label><select id="impOwner">' +
-      DB.users.filter(u => visibleUserIds().includes(u.id)).map(u => '<option value="' + u.id + '"' + (u.id === state.user.id ? ' selected' : '') + '>' + u.name + '</option>').join('') + '</select></div>' +
-      '<div style="max-height:220px;overflow:auto;border:1px solid #232b39;border-radius:8px"><table style="font-size:12px"><thead><tr>' +
+      '<div class="infobox" style="margin-bottom:12px">已解析 <b>8</b> 行：可导入 <b>5</b> · 重复跳过 <b>2</b> · 校验失败 <b>1</b>。手机号按文本读取，不执行公式。</div>' +
+      '<div class="field"><label class="fl">分配方式</label><select name="mode">' +
+      '<option value="single">统一分配给指定人</option>' +
+      '<option value="even">平均分配给下属（推荐）</option>' +
+      '<option value="self">暂不分配，先留在我名下</option>' +
+      '</select></div>' +
+      '<div class="field"><label class="fl">指定负责人（选「统一分配」时生效）</label><select name="owner">' +
+      assignOptions() + '</select></div>' +
+      '<div style="max-height:200px;overflow:auto;border:1px solid #232b39;border-radius:8px"><table style="font-size:12px"><thead><tr>' +
       '<th>姓名</th><th>电话</th><th>公司</th><th>结果</th></tr></thead><tbody>' +
       rows.map(r => '<tr><td>' + (r[0] || '<span class="badge b-red">空</span>') + '</td><td class="mono tiny">' + r[1] + '</td><td class="tiny">' + r[2] + '</td>' +
-        '<td>' + (r[5] === 'ok' && r[6] === '新增' ? '<span class="badge b-green">新增</span>' : r[5] === 'dup' ? '<span class="badge b-amber">号码重复</span>' : r[5] === 'err' ? '<span class="badge b-red">' + r[6] + '</span>' : '<span class="badge b-gray">' + r[6] + '</span>') + '</td></tr>').join('') +
+        '<td>' + (r[3] === 'ok' ? '<span class="badge b-green">新增</span>' : r[3] === 'dup' ? '<span class="badge b-amber">' + r[4] + '</span>' : '<span class="badge b-red">' + r[4] + '</span>') + '</td></tr>').join('') +
       '</tbody></table></div>' +
-      '<div class="help">确认导入时会重新校验权限与重复；采用每批 200 行短事务，允许部分成功。</div>' +
+      '<div class="help">确认时会重新校验权限与重复；采用每批 200 行短事务，允许部分成功。</div>' +
       '</div>' +
-      '<div class="modal-ft"><button class="btn" data-act="close-modal">取消</button><button class="btn primary" data-act="import-confirm">确认导入 5 条</button></div>';
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认导入 5 条</button></div></form>';
+  } else if (m.type === 'export') {
+    const total = filteredCustomers().length;
+    inner = '<div class="modal-hd"><h3>导出客户</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="export">' +
+      '<div class="modal-bd">' +
+      '<div class="banner" style="margin-bottom:12px">🛡 <span>导出会把客户名单带离系统。本次导出将记录操作人、时间、范围与条数。</span></div>' +
+      '<div class="row"><div class="field"><label class="fl">导出范围</label><select name="scope">' +
+      '<option value="filtered">当前筛选结果（' + total + ' 条）</option>' +
+      '<option value="mine">仅我负责的客户</option>' +
+      '</select></div>' +
+      '<div class="field"><label class="fl">号码处理</label><select name="mask">' +
+      '<option value="mask">脱敏（中间四位隐藏）</option>' +
+      (can('customer.export.full') ? '<option value="full">明文号码（高风险，逐次留痕）</option>' : '<option value="full" disabled>明文号码（需管理员授权）</option>') +
+      '</select></div></div>' +
+      '<div class="help">单次上限 ' + DB.settings.exportLimit + ' 条，超出请缩小筛选范围分批导出。</div>' +
+      '</div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认导出</button></div></form>';
   } else if (m.type === 'user') {
+    const isAdmin = state.user.role === 'admin';
+    const mgrOpts = (isAdmin ? DB.users.filter(u => u.role !== 'agent') : [state.user]).map(u =>
+      '<option value="' + u.id + '"' + (!isAdmin && u.id === state.user.id ? ' selected' : '') + '>' + esc(u.name) + '</option>').join('');
     inner = '<div class="modal-hd"><h3>新增账号</h3><button class="x" data-act="close-modal">×</button></div>' +
       '<form data-form="user">' +
       '<div class="modal-bd">' +
       '<div class="row"><div class="field"><label class="fl">姓名</label><input name="name" required></div>' +
       '<div class="field"><label class="fl">登录账号</label><input name="username" placeholder="英文或数字" required></div></div>' +
-      '<div class="row"><div class="field"><label class="fl">角色</label><select name="role"><option value="agent">员工</option><option value="supervisor">主管</option><option value="admin">管理员</option></select></div>' +
-      '<div class="field"><label class="fl">直属主管</label><select name="manager"><option value="">无</option>' +
-      DB.users.filter(u => u.role !== 'agent').map(u => '<option value="' + u.id + '">' + u.name + '</option>').join('') + '</select></div></div>' +
-      '<div class="warnbox">初始密码由系统生成，首次登录必须修改；不支持设置固定默认密码。</div>' +
+      '<div class="row"><div class="field"><label class="fl">角色</label><select name="role">' +
+      (isAdmin ? '<option value="agent">员工</option><option value="supervisor">主管</option><option value="admin">管理员</option>' : '<option value="agent">员工</option>') +
+      '</select></div>' +
+      '<div class="field"><label class="fl">直属主管</label><select name="manager">' + mgrOpts + '</select></div></div>' +
+      '<div class="warnbox">初始密码由系统生成，首次登录必须修改；不支持设置固定默认密码。' + (isAdmin ? '' : '主管只能创建员工账号。') + '</div>' +
       '</div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">创建账号</button></div></form>';
+  } else if (m.type === 'edit-user') {
+    const u = getUser(m.id);
+    inner = '<div class="modal-hd"><h3>编辑账号</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="edit-user" data-id="' + u.id + '">' +
+      '<div class="modal-bd">' +
+      '<div class="row"><div class="field"><label class="fl">姓名</label><input name="name" value="' + esc(u.name) + '" required></div>' +
+      '<div class="field"><label class="fl">角色</label><select name="role">' +
+      ['admin', 'supervisor', 'agent'].map(r => '<option value="' + r + '"' + (u.role === r ? ' selected' : '') + '>' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[r]) + '</option>').join('') +
+      '</select></div></div>' +
+      '<div class="field"><label class="fl">直属主管</label><select name="manager"><option value="">无</option>' +
+      DB.users.filter(x => x.role !== 'agent' && x.id !== u.id).map(x => '<option value="' + x.id + '"' + (u.managerId === x.id ? ' selected' : '') + '>' + esc(x.name) + '</option>').join('') +
+      '</select></div>' +
+      '<div class="warnbox">调整直属关系会改变该账号可见的客户范围；历史记事与已完成回访不随之转移。</div>' +
+      '</div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">保存</button></div></form>';
   }
-  return '<div class="mask"><div class="modal">' + inner + '</div></div>';
+  return '<div class="mask"><div class="modal' + (m.type === 'perms' ? ' wide' : '') + '">' + inner + '</div></div>';
 }
 
 /* ---------- 渲染 ---------- */
@@ -1274,10 +1658,12 @@ function viewHtml() {
     case 'dashboard': return dashboardView();
     case 'customers': return customersView();
     case 'customer': return customerView();
+    case 'datahealth': return datahealthView();
     case 'calendar': return calendarView();
     case 'notes': return notesView();
     case 'board': return boardView();
     case 'users': return usersView();
+    case 'perms': return permsView();
     case 'settings': return settingsView();
     default: return '';
   }
@@ -1291,134 +1677,275 @@ function render() {
   if (nc) nc.scrollTop = st;
 }
 
-/* ---------- 交互 ---------- */
-function nextId(kind) {
-  const map = { customer: 'customer', note: 'note', task: 'task', notif: 'notif' };
-  return ++DB.meta.seq[map[kind]];
-}
+/* ---------- 动作 ---------- */
+function nextId(kind) { return ++DB.meta.seq[kind]; }
 function expireNotifs(taskId) {
   DB.notifications.forEach(n => { if (n.taskId === taskId && n.status !== 'expired') n.status = 'expired'; });
 }
+function closeModal() { state.modal = null; render(); }
+function doLogin(username, pwd) {
+  const u = DB.users.find(x => x.username === String(username).trim());
+  state.loginUser = String(username).trim();
+  if (!u || u.pwd !== pwd) { state.loginErr = '账号或密码不正确'; return false; }
+  if (!u.active) { state.loginErr = '该账号已被禁用，请联系管理员'; return false; }
+  state.user = u; state.loginErr = ''; state.loginUser = ''; state.view = 'dashboard'; state.page = 1;
+  state.selected.clear(); state.revealed.clear();
+  try { localStorage.setItem(SESS, String(u.id)); } catch (e) { }
+  audit('登录', u.name + ' 登录系统');
+  saveDB();
+  return true;
+}
+
+const A = {
+  login(id, task) { },
+  'fill-login'(id, task) {
+    const map = { admin: 'admin123', zhaomin: '123456', wangxm: '123456' };
+    state.loginUser = id; state.loginErr = ''; render();
+    const f = document.querySelector('form[data-form="login"]');
+    if (f) { f.querySelector('[name=username]').value = id; f.querySelector('[name=password]').value = map[id] || '123456'; }
+  },
+  logout(id, task) {
+    audit('退出登录', (state.user ? state.user.name : '') + ' 退出');
+    saveDB();
+    try { localStorage.removeItem(SESS); } catch (e) { }
+    state.user = null; state.view = 'dashboard'; state.notif = false; state.drawer = null; state.modal = null;
+    state.selected.clear(); state.revealed.clear();
+    render();
+  },
+  nav(id, task) { state.view = id; state.page = 1; state.notif = false; state.drawer = null; render(); },
+  reset(id, task) {
+    if (!confirm('重置会清空当前浏览器里的演示数据，恢复初始状态。继续？')) return;
+    const uid = state.user.id;
+    DB = buildSeed(); saveDB();
+    state.user = getUser(uid); state.selected.clear(); state.revealed.clear(); render();
+    toast('演示数据已重置');
+  },
+  'open-customer'(id, task) { state.custId = +id; state.view = 'customer'; state.drawer = null; render(); },
+  'open-task'(id, task) { state.drawer = { type: 'task', id: +id }; render(); },
+  'open-day'(id, task) { state.drawer = { type: 'day', id: id }; render(); },
+  'open-agent'(id, task) { state.drawer = { type: 'agent', id: +id }; render(); },
+  'close-drawer'(id, task) { state.drawer = null; render(); },
+  'close-modal'(id, task) { closeModal(); },
+  reveal(id, task) {
+    if (!can('phone.reveal')) { toast('你没有查看完整号码的权限', 'err'); return; }
+    const q = revealQuota();
+    if (q.left <= 0) { toast('今日查看完整号码已达上限（' + q.limit + ' 次），请明天再试或联系管理员', 'err'); return; }
+    const c = getCustomer(id);
+    state.revealed.add(+id);
+    DB.reveals.push({ userId: state.user.id, custId: +id, at: iso(now()) });
+    audit('查看完整号码', c.name + ' · ' + maskPhone(c.phone) + ' → ' + normPhone(c.phone));
+    saveDB(); render();
+    toast('已记录：查看 ' + c.name + ' 的完整号码（今日第 ' + (q.used + 1) + ' 次）', 'warn');
+  },
+  'new-note'(id, task) { state.modal = { type: 'note', custId: +id, taskId: task ? +task : null }; state.drawer = null; render(); },
+  'new-task'(id, task) { state.modal = { type: 'task', custId: +id }; state.drawer = null; render(); },
+  'new-customer'(id, task) { if (!can('customer.create')) return toast('无新增客户权限', 'err'); state.modal = { type: 'customer', id: null }; render(); },
+  'edit-customer'(id, task) { if (!can('customer.edit')) return toast('无编辑客户权限', 'err'); state.modal = { type: 'customer', id: +id }; render(); },
+  transfer(id, task) { if (!can('customer.assign')) return toast('无分配权限', 'err'); state.modal = { type: 'transfer', id: +id }; render(); },
+  reschedule(id, task) { state.modal = { type: 'reschedule', id: +id }; state.drawer = null; render(); },
+  'cancel-task'(id, task) { if (!can('task.cancel')) return toast('无取消回访权限', 'err'); state.modal = { type: 'cancel-task', id: +id }; state.drawer = null; render(); },
+  import(id, task) { if (!can('customer.import')) return toast('无导入权限', 'err'); state.modal = { type: 'import' }; render(); },
+  export(id, task) { if (!can('customer.export')) return toast('无导出权限', 'err'); state.modal = { type: 'export' }; render(); },
+  'sel-all'(id, task) {
+    const all = filteredCustomers().slice((state.page - 1) * state.pageSize, state.page * state.pageSize);
+    const allSel = all.every(c => state.selected.has(c.id));
+    all.forEach(c => allSel ? state.selected.delete(c.id) : state.selected.add(c.id));
+    render();
+  },
+  'clear-sel'(id, task) {
+    state.selected.clear();
+    document.querySelectorAll('[data-sel]').forEach(b => {
+      b.checked = false;
+      const tr = b.closest('tr'); if (tr) tr.classList.remove('sel');
+    });
+    const mount = document.getElementById('bulkMount');
+    if (mount) mount.innerHTML = '';
+  },
+  'bulk-assign'(id, task) {
+    if (!can('customer.assign')) return toast('无分配权限', 'err');
+    state.modal = { type: 'bulk-assign' }; render();
+  },
+  'bulk-invalid'(id, task) {
+    if (!can('customer.invalid')) return toast('无标记权限', 'err');
+    const ids = [...state.selected];
+    if (!ids.length) return;
+    const reason = prompt('将 ' + ids.length + ' 位客户标记为无效号码，请填写原因：');
+    if (!reason) return;
+    ids.forEach(cid => {
+      const c = getCustomer(cid);
+      c.invalid = true; c.invalidReason = reason;
+      DB.tasks.filter(t => t.custId === cid && t.status === 'pending').forEach(t => {
+        t.status = 'cancelled'; t.cancelReason = '号码标记无效，停止呼叫'; expireNotifs(t.id);
+      });
+    });
+    audit('批量标记无效', ids.length + ' 位客户 · 原因：' + reason);
+    state.selected.clear(); saveDB(); render(); toast('已标记 ' + ids.length + ' 位客户为无效号码');
+  },
+  'toggle-invalid'(id, task) {
+    if (!can('customer.invalid')) return toast('无标记权限', 'err');
+    const c = getCustomer(id);
+    if (c.invalid) {
+      const r = prompt('解除无效标记需要填写原因：');
+      if (!r) return;
+      c.invalid = false; c.invalidReason = null;
+      audit('解除无效标记', c.name + ' · 原因：' + r);
+      saveDB(); render(); toast('已解除无效标记，可重新安排回访');
+    } else {
+      const r = prompt('标记无效号码需要填写原因（如空号、停机、非目标号码）：');
+      if (!r) return;
+      c.invalid = true; c.invalidReason = r;
+      DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
+        t.status = 'cancelled'; t.cancelReason = '号码标记无效，停止呼叫'; expireNotifs(t.id);
+      });
+      audit('标记无效号码', c.name + ' · 原因：' + r);
+      saveDB(); render(); toast('已标记无效，相关待办已取消');
+    }
+  },
+  'toggle-dnc'(id, task) {
+    const c = getCustomer(id);
+    if (c.dnc) {
+      const r = prompt('解除禁止联系需要填写原因：');
+      if (!r) return;
+      c.dnc = false; audit('解除禁呼', c.name + ' · 原因：' + r);
+      DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
+        t.status = 'cancelled'; t.cancelReason = '客户已解除禁呼，需重新确认意向'; expireNotifs(t.id);
+      });
+      saveDB(); render(); toast('已解除禁止联系，原待办已取消，请重新安排');
+    } else {
+      const r = prompt('标记禁止联系需要填写原因：');
+      if (!r) return;
+      c.dnc = true; c.status = '无意向'; audit('标记禁呼', c.name + ' · 原因：' + r);
+      DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
+        t.status = 'cancelled'; t.cancelReason = '客户标记禁止联系'; expireNotifs(t.id);
+      });
+      saveDB(); render(); toast('已标记禁止联系，相关待办已取消');
+    }
+  },
+  'toggle-notif'(id, task) { state.notif = !state.notif; render(); },
+  'open-notif'(id, task) {
+    const n = DB.notifications.find(x => x.id === +id);
+    if (!n) return;
+    n.status = 'read'; saveDB();
+    state.notif = false;
+    if (n.taskId) state.drawer = { type: 'task', id: n.taskId };
+    render();
+  },
+  'read-all'(id, task) {
+    DB.notifications.filter(n => n.userId === state.user.id).forEach(n => { if (n.status === 'unread') n.status = 'read'; });
+    saveDB(); render(); toast('提醒已全部标记为已读');
+  },
+  page(id, task) { state.page = +id; render(); },
+  'cal-prev'(id, task) { state.calM--; if (state.calM < 0) { state.calM = 11; state.calY--; } render(); },
+  'cal-next'(id, task) { state.calM++; if (state.calM > 11) { state.calM = 0; state.calY++; } render(); },
+  'cal-today'(id, task) { state.calY = now().getFullYear(); state.calM = now().getMonth(); render(); },
+  'cal-mode'(id, task) { state.calMode = id; render(); },
+  'dh-tab'(id, task) { state.dhTab = id; render(); },
+  merge(id, task) { state.modal = { type: 'merge', gi: +id }; render(); },
+  backup(id, task) { audit('手动备份', '生成一致性备份 crm-' + ymd(now()) + '.db'); saveDB(); toast('备份完成（原型模拟）'); },
+  'cycle-create'(id, task) {
+    const c = getCustomer(id);
+    const d = addDays(now(), DB.settings.cycleDays);
+    d.setHours(10, 0, 0, 0);
+    DB.tasks.push({
+      id: nextId('task'), custId: c.id, title: '周期重呼（第 ' + (attemptsOf(c.id).miss + 1) + ' 次）',
+      assigneeId: c.ownerId, scheduledAt: iso(d), originalScheduledAt: iso(d),
+      status: 'pending', remindBefore: 30, rescheduleCount: 0,
+      completedAt: null, completedBy: null, cancelReason: null, createdAt: iso(now()), version: 1
+    });
+    audit('周期重呼', c.name + ' · ' + DB.settings.cycleDays + ' 天后重新呼叫');
+    saveDB(); render(); toast('已按周期排期：' + fmtDT(iso(d)));
+  },
+  'cycle-create-all'(id, task) {
+    const cy = cycleLists();
+    let n = 0;
+    cy.waiting.forEach(x => {
+      const d = addDays(now(), DB.settings.cycleDays); d.setHours(10, 0, 0, 0);
+      DB.tasks.push({
+        id: nextId('task'), custId: x.c.id, title: '周期重呼（第 ' + (x.a.miss + 1) + ' 次）',
+        assigneeId: x.c.ownerId, scheduledAt: iso(d), originalScheduledAt: iso(d),
+        status: 'pending', remindBefore: 30, rescheduleCount: 0,
+        completedAt: null, completedBy: null, cancelReason: null, createdAt: iso(now()), version: 1
+      });
+      n++;
+    });
+    audit('批量周期重呼', n + ' 位客户 · 间隔 ' + DB.settings.cycleDays + ' 天');
+    saveDB(); render(); toast('已为 ' + n + ' 位客户排下次呼叫');
+  },
+  'toggle-user'(id, task) {
+    const u = getUser(id);
+    if (u.id === state.user.id) { toast('不能禁用当前登录账号', 'warn'); return; }
+    if (state.user.role === 'supervisor' && u.managerId !== state.user.id) { toast('只能管理自己的直属下属', 'err'); return; }
+    u.active = !u.active;
+    audit(u.active ? '启用账号' : '禁用账号', u.name + '（' + u.username + '）');
+    saveDB(); render(); toast(u.active ? '账号已启用' : '账号已禁用，会话立即失效');
+  },
+  'reset-pwd'(id, task) {
+    const u = getUser(id);
+    audit('重置密码', u.name + ' · 生成一次性初始密码，要求首次登录修改');
+    saveDB(); toast('已为 ' + u.name + ' 生成初始密码（原型模拟）');
+  },
+  'new-user'(id, task) { if (!can('user.manage')) return; state.modal = { type: 'user' }; render(); },
+  'edit-user'(id, task) { if (state.user.role !== 'admin') return; state.modal = { type: 'edit-user', id: +id }; render(); }
+};
 
 document.addEventListener('click', e => {
+  if (e.target.type === 'checkbox' && !e.target.dataset.act) return;
   if (e.target.classList && e.target.classList.contains('mask')) { closeModal(); return; }
   const el = e.target.closest('[data-act]');
   if (!el) return;
   const act = el.dataset.act, id = el.dataset.id, task = el.dataset.task;
-  const A = {
-    login() { state.user = getUser(id); state.view = 'dashboard'; state.page = 1; render(); },
-    logout() { state.user = null; state.view = 'dashboard'; state.notif = false; render(); },
-    nav() { state.view = id; state.page = 1; state.notif = false; state.drawer = null; render(); },
-    reset() {
-      if (!confirm('重置会清空当前浏览器里的演示数据，恢复初始状态。继续？')) return;
-      DB = buildSeed(); saveDB(); state.user = state.user ? getUser(state.user.id) : null; render(); toast('演示数据已重置');
-    },
-    'open-customer'() { state.custId = +id; state.view = 'customer'; state.drawer = null; render(); },
-    'open-task'() { state.drawer = { type: 'task', id: +id }; render(); },
-    'open-day'() { state.drawer = { type: 'day', id: id }; render(); },
-    'open-agent'() { state.drawer = { type: 'agent', id: +id }; render(); },
-    'close-drawer'() { state.drawer = null; render(); },
-    'close-modal'() { closeModal(); },
-    'new-note'() { state.modal = { type: 'note', custId: +id, taskId: task ? +task : null }; state.drawer = null; render(); },
-    'new-task'() { state.modal = { type: 'task', custId: +id }; state.drawer = null; render(); },
-    'new-customer'() { state.modal = { type: 'customer', id: null }; render(); },
-    'edit-customer'() { state.modal = { type: 'customer', id: +id }; render(); },
-    transfer() { state.modal = { type: 'transfer', id: +id }; render(); },
-    reschedule() { state.modal = { type: 'reschedule', id: +id }; state.drawer = null; render(); },
-    'cancel-task'() { state.modal = { type: 'cancel-task', id: +id }; state.drawer = null; render(); },
-    import() { state.modal = { type: 'import' }; render(); },
-    export() {
-      const n = filteredCustomers().length;
-      audit('导出客户', '范围：' + ({ admin: '全部', supervisor: '团队', agent: '本人' }[state.user.role]) + ' · 共 ' + n + ' 条');
-      saveDB(); toast('已导出 ' + n + ' 条客户（原型仅演示流程）');
-    },
-    'import-confirm'() {
-      const owner = +document.getElementById('impOwner').value;
-      const add = [
-        ['林小雨', '13600001111', '宁波恒达五金', '展会', 'B类'],
-        ['陈可', '13600002222', '温州嘉禾食品', '电话名单', 'C类'],
-        ['黄伟', '13600003333', '绍兴越光纺织', '转介绍', 'A类'],
-        ['刘婷', '13600004444', '嘉兴南湖电子', '官网表单', 'B类'],
-        ['吴迪', '13600006666', '台州海翔模具', '转介绍', 'A类']
-      ];
-      add.forEach(r => DB.customers.push({
-        id: nextId('customer'), name: r[0], phone: r[1], company: r[2], source: r[3], category: r[4],
-        status: '待联系', ownerId: owner, remark: 'XLSX 导入', dnc: false, lastContactAt: null,
-        archived: false, version: 1, createdAt: iso(now())
-      }));
-      audit('导入客户', '批次 #' + ymd(now()).replace(/-/g, '') + '-01 · 成功 5 / 跳过 2 / 失败 1');
-      saveDB(); closeModal(); render();
-      toast('导入完成：成功 5 条，跳过重复 2 条，失败 1 条');
-    },
-    'toggle-dnc'() {
-      const c = getCustomer(id);
-      if (c.dnc) {
-        const r = prompt('解除禁止联系需要填写原因：');
-        if (!r) return;
-        c.dnc = false; audit('解除禁呼', c.name + ' · 原因：' + r);
-        DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
-          t.status = 'cancelled'; t.cancelReason = '客户已解除禁呼，需重新确认意向'; expireNotifs(t.id);
-        });
-        saveDB(); render(); toast('已解除禁止联系，原待办已取消，请重新安排');
-      } else {
-        const r = prompt('标记禁止联系需要填写原因：');
-        if (!r) return;
-        c.dnc = true; c.status = '无意向'; audit('标记禁呼', c.name + ' · 原因：' + r);
-        DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
-          t.status = 'cancelled'; t.cancelReason = '客户标记禁止联系'; expireNotifs(t.id);
-        });
-        saveDB(); render(); toast('已标记禁止联系，相关待办已取消');
-      }
-    },
-    'toggle-notif'() { state.notif = !state.notif; render(); },
-    'open-notif'() {
-      const n = DB.notifications.find(x => x.id === +id);
-      if (!n) return;
-      n.status = 'read'; saveDB();
-      state.notif = false;
-      if (n.taskId) { state.drawer = { type: 'task', id: n.taskId }; }
-      render();
-    },
-    'read-all'() {
-      DB.notifications.filter(n => n.userId === state.user.id).forEach(n => { if (n.status === 'unread') n.status = 'read'; });
-      saveDB(); render(); toast('提醒已全部标记为已读');
-    },
-    page() { state.page = +id; render(); },
-    'cal-prev'() { state.calM--; if (state.calM < 0) { state.calM = 11; state.calY--; } render(); },
-    'cal-next'() { state.calM++; if (state.calM > 11) { state.calM = 0; state.calY++; } render(); },
-    'cal-today'() { state.calY = now().getFullYear(); state.calM = now().getMonth(); render(); },
-    'cal-mode'() { state.calMode = id; render(); },
-    backup() { audit('手动备份', '生成一致性备份 crm-' + ymd(now()) + '.db'); saveDB(); toast('备份完成（原型模拟）'); },
-    'toggle-user'() {
-      const u = getUser(id);
-      if (u.id === state.user.id) { toast('不能禁用当前登录账号', 'warn'); return; }
-      u.active = !u.active;
-      audit(u.active ? '启用账号' : '禁用账号', u.name + '（' + u.username + '）');
-      saveDB(); render(); toast(u.active ? '账号已启用' : '账号已禁用，会话立即失效');
-    },
-    'reset-pwd'() {
-      const u = getUser(id);
-      audit('重置密码', u.name + ' · 生成一次性初始密码，要求首次登录修改');
-      saveDB(); toast('已为 ' + u.name + ' 生成初始密码（原型模拟）');
-    },
-    'new-user'() { state.modal = { type: 'user' }; render(); }
-  };
-  if (A[act]) { e.preventDefault(); A[act](); }
+  if (A[act]) { e.preventDefault(); A[act](id, task, el); }
 });
-
-function closeModal() { state.modal = null; render(); }
 
 document.addEventListener('change', e => {
   const el = e.target;
+  if (el.dataset.sel) {
+    const sid = +el.dataset.sel;
+    if (el.checked) state.selected.add(sid); else state.selected.delete(sid);
+    const tr = el.closest('tr');
+    if (tr) tr.classList.toggle('sel', el.checked);
+    const mount = document.getElementById('bulkMount');
+    if (mount) mount.innerHTML = (state.selected.size && state.view === 'customers') ? bulkBar() : '';
+    return;
+  }
+  if (el.dataset.rolePerm) {
+    const [role, perm] = el.dataset.rolePerm.split('|');
+    if (role === 'admin') return;
+    const arr = DB.roles[role] || [];
+    if (el.checked) { if (!arr.includes(perm)) arr.push(perm); }
+    else { DB.roles[role] = arr.filter(x => x !== perm); }
+    audit('修改角色权限', role + ' · ' + perm + (el.checked ? ' 开启' : ' 关闭'));
+    saveDB(); render(); toast('权限已更新');
+    return;
+  }
+  if (el.dataset.userPerm) {
+    const pu = getUser(state.permUser || DB.users[0].id);
+    if (!pu) return;
+    pu.extra = pu.extra || [];
+    if (el.checked) { if (!pu.extra.includes(el.dataset.userPerm)) pu.extra.push(el.dataset.userPerm); }
+    else pu.extra = pu.extra.filter(x => x !== el.dataset.userPerm);
+    audit('个人授权', pu.name + ' · ' + el.dataset.userPerm + (el.checked ? ' 授予' : ' 撤销'));
+    saveDB(); render(); toast('个人权限已更新');
+    return;
+  }
+  if (el.dataset.set) {
+    const k = el.dataset.set;
+    DB.settings[k] = el.type === 'checkbox' ? el.checked : Math.max(1, +el.value || 1);
+    audit('修改系统设置', k + ' = ' + DB.settings[k]);
+    saveDB(); render(); toast('设置已保存');
+    return;
+  }
   const ch = el.dataset.change;
   if (ch === 'switch-user') {
     state.user = getUser(el.value); state.view = 'dashboard'; state.page = 1;
-    state.drawer = null; state.notif = false; render();
-    toast('已切换为 ' + state.user.name + '（' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[state.user.role]) + '）');
+    state.drawer = null; state.notif = false; state.selected.clear(); state.revealed.clear();
+    render(); toast('已切换为 ' + state.user.name);
   } else if (ch === 'f-status') { state.fStatus = el.value; state.page = 1; render(); }
   else if (ch === 'f-owner') { state.fOwner = el.value; state.page = 1; render(); }
+  else if (ch === 'f-quality') { state.fQuality = el.value; state.page = 1; render(); }
   else if (ch === 'f-result') { state.fResult = el.value; render(); }
   else if (ch === 'f-emp') { state.fEmp = el.value; render(); }
+  else if (ch === 'perm-user') { state.permUser = el.value; render(); }
   else if (ch === 'toggle-next') {
     const box = document.getElementById('nextBox');
     if (box) box.classList.toggle('hidden', !el.checked);
@@ -1433,13 +1960,9 @@ document.addEventListener('input', e => {
     clearTimeout(qTimer);
     qTimer = setTimeout(() => {
       state.page = 1;
-      const content = document.getElementById('content');
-      const focus = document.activeElement === el;
       render();
-      if (focus) {
-        const box = document.querySelector('[data-input="q"]');
-        if (box) { box.focus(); box.setSelectionRange(box.value.length, box.value.length); }
-      }
+      const box = document.querySelector('[data-input="q"]');
+      if (box && document.activeElement !== box) { box.focus(); box.setSelectionRange(box.value.length, box.value.length); }
     }, 260);
   }
 });
@@ -1450,6 +1973,13 @@ document.addEventListener('submit', e => {
   e.preventDefault();
   const kind = f.dataset.form;
   const fd = new FormData(f);
+
+  if (kind === 'login') {
+    const ok = doLogin(fd.get('username') || '', fd.get('password') || '');
+    if (ok) { render(); toast('欢迎回来，' + state.user.name); }
+    else { render(); }
+    return;
+  }
 
   if (kind === 'note') {
     const custId = +f.dataset.cust, taskId = f.dataset.task ? +f.dataset.task : 0;
@@ -1480,14 +2010,16 @@ document.addEventListener('submit', e => {
       });
       msg += '，已安排下次回访';
     }
-    if (note.result === '拒绝联系') msg += '；建议标记禁止联系';
+    if (note.result === '号码无效') msg += '；建议标记无效号码';
     audit('新增记事', c.name + ' · ' + note.result + (taskId ? ' · 完成回访' : ''));
     saveDB(); state.modal = null; state.drawer = null; render(); toast(msg);
+    return;
   }
 
   if (kind === 'task') {
     const custId = +f.dataset.cust, c = getCustomer(custId);
     if (c.dnc) { toast('该客户已禁止联系，无法安排回访', 'err'); return; }
+    if (c.invalid) { toast('该客户号码已标记无效，无法安排回访', 'err'); return; }
     const assignee = fd.get('assignee') ? +fd.get('assignee') : c.ownerId;
     DB.tasks.push({
       id: nextId('task'), custId, title: fd.get('title').trim(),
@@ -1497,13 +2029,14 @@ document.addEventListener('submit', e => {
     });
     audit('安排回访', c.name + ' · ' + fd.get('title') + ' · ' + fmtDT(fd.get('at')));
     saveDB(); state.modal = null; render(); toast('回访已安排：' + fmtDT(fd.get('at')));
+    return;
   }
 
   if (kind === 'customer') {
     const id = f.dataset.id ? +f.dataset.id : 0;
     const phone = (fd.get('phone') || '').trim();
-    const dup = DB.customers.find(x => x.phone === phone && x.id !== id);
-    if (dup) { toast('该号码已存在客户：' + dup.name, 'err'); return; }
+    const dup = DB.customers.find(x => normPhone(x.phone) === normPhone(phone) && x.id !== id && !x.mergedInto);
+    if (dup) { toast('该号码已存在客户：' + dup.name + '（负责人 ' + (getUser(dup.ownerId) || {}).name + '）', 'err'); return; }
     if (id) {
       const c = getCustomer(id);
       Object.assign(c, {
@@ -1511,26 +2044,26 @@ document.addEventListener('submit', e => {
         source: fd.get('source'), category: fd.get('category'),
         status: fd.get('status'), remark: fd.get('remark').trim(), version: c.version + 1
       });
-      const newOwner = +fd.get('owner');
+      const newOwner = fd.get('owner') ? +fd.get('owner') : c.ownerId;
       if (newOwner !== c.ownerId) {
         const old = c.ownerId; c.ownerId = newOwner;
         audit('转移客户', c.name + ' · ' + (getUser(old) || {}).name + ' → ' + (getUser(newOwner) || {}).name);
-      } else {
-        audit('编辑客户', c.name);
-      }
+      } else audit('编辑客户', c.name);
       saveDB(); state.modal = null; render(); toast('客户资料已更新');
     } else {
       const c = {
         id: nextId('customer'), name: fd.get('name').trim(), phone,
         company: fd.get('company').trim(), source: fd.get('source'), category: fd.get('category'),
-        status: fd.get('status'), ownerId: +fd.get('owner'), remark: fd.get('remark').trim(),
-        dnc: false, lastContactAt: null, archived: false, version: 1, createdAt: iso(now())
+        status: fd.get('status'), ownerId: fd.get('owner') ? +fd.get('owner') : state.user.id,
+        remark: fd.get('remark').trim(), dnc: false, invalid: false, invalidReason: null, mergedInto: null,
+        lastContactAt: null, archived: false, version: 1, createdAt: iso(now())
       };
       DB.customers.push(c);
       audit('新增客户', c.name + ' · ' + c.company);
       saveDB(); state.modal = null; state.view = 'customer'; state.custId = c.id; render();
       toast('客户已创建');
     }
+    return;
   }
 
   if (kind === 'reschedule') {
@@ -1541,6 +2074,7 @@ document.addEventListener('submit', e => {
     audit('回访改期', (getCustomer(t.custId) || {}).name + ' · ' + fmtDT(t.originalScheduledAt) + ' → ' + fmtDT(at) + ' · 原因：' + fd.get('reason'));
     saveDB(); state.modal = null; state.drawer = null; render();
     toast('已改期至 ' + fmtDT(at) + '，原提醒已失效');
+    return;
   }
 
   if (kind === 'cancel-task') {
@@ -1549,6 +2083,7 @@ document.addEventListener('submit', e => {
     expireNotifs(t.id);
     audit('取消回访', (getCustomer(t.custId) || {}).name + ' · 原因：' + fd.get('reason'));
     saveDB(); state.modal = null; state.drawer = null; render(); toast('回访已取消');
+    return;
   }
 
   if (kind === 'transfer') {
@@ -1565,32 +2100,148 @@ document.addEventListener('submit', e => {
     audit('转移客户', c.name + ' · ' + (getUser(old) || {}).name + ' → ' + (getUser(newOwner) || {}).name + ' · 同步转移 ' + moved + ' 条回访');
     saveDB(); state.modal = null; render();
     toast('已转给 ' + (getUser(newOwner) || {}).name + '，同步转移 ' + moved + ' 条未完成回访');
+    return;
+  }
+
+  if (kind === 'bulk-assign') {
+    const newOwner = +fd.get('owner');
+    const ids = [...state.selected];
+    let moved = 0;
+    ids.forEach(cid => {
+      const c = getCustomer(cid);
+      if (!c) return;
+      c.ownerId = newOwner;
+      if (fd.get('moveTasks')) {
+        DB.tasks.filter(t => t.custId === cid && t.status === 'pending').forEach(t => {
+          t.assigneeId = newOwner; moved++;
+          DB.notifications.filter(n => n.taskId === t.id).forEach(n => { n.status = 'expired'; });
+        });
+      }
+    });
+    if (fd.get('notify')) {
+      DB.notifications.unshift({
+        id: nextId('notif'), userId: newOwner, taskId: 0,
+        title: '收到 ' + ids.length + ' 位新客户', body: '由 ' + state.user.name + ' 分配，请尽快首次联系',
+        createdAt: iso(now()), status: 'unread'
+      });
+    }
+    audit('批量分配', ids.length + ' 位客户 → ' + (getUser(newOwner) || {}).name + ' · 同步转移 ' + moved + ' 条回访');
+    state.selected.clear(); saveDB(); state.modal = null; render();
+    toast('已把 ' + ids.length + ' 位客户分配给 ' + (getUser(newOwner) || {}).name);
+    return;
+  }
+
+  if (kind === 'merge') {
+    const g = dupGroups()[+f.dataset.gi];
+    if (!g) return;
+    const master = getCustomer(+fd.get('master'));
+    let movedNotes = 0, movedTasks = 0;
+    g.items.filter(c => c.id !== master.id).forEach(c => {
+      DB.notes.forEach(n => { if (n.custId === c.id) { n.custId = master.id; movedNotes++; } });
+      DB.tasks.forEach(t => {
+        if (t.custId === c.id) {
+          if (t.status === 'pending') { t.custId = master.id; movedTasks++; }
+          else t.custId = master.id;
+        }
+      });
+      if (!master.lastContactAt && c.lastContactAt) master.lastContactAt = c.lastContactAt;
+      c.mergedInto = master.id;
+    });
+    audit('合并重复客户', '主记录 ' + master.name + ' · 合并 ' + (g.items.length - 1) + ' 条 · 转移记事 ' + movedNotes + ' / 回访 ' + movedTasks);
+    saveDB(); state.modal = null; render();
+    toast('已合并到「' + master.name + '」，转移 ' + movedNotes + ' 条记事、' + movedTasks + ' 条待办');
+    return;
+  }
+
+  if (kind === 'import') {
+    const mode = fd.get('mode');
+    const targets = assignTargets().filter(u => u.role === 'agent');
+    const pool = targets.length ? targets : assignTargets();
+    const add = [
+      ['林小雨', '13600001111', '宁波恒达五金', '展会', 'B类'],
+      ['陈可', '13600002222', '温州嘉禾食品', '电话名单', 'C类'],
+      ['黄伟', '13600003333', '绍兴越光纺织', '转介绍', 'A类'],
+      ['刘婷', '13600004444', '嘉兴南湖电子', '官网表单', 'B类'],
+      ['吴迪', '13600006666', '台州海翔模具', '转介绍', 'A类']
+    ];
+    const counts = {};
+    add.forEach((r, i) => {
+      let owner;
+      if (mode === 'single') owner = +fd.get('owner');
+      else if (mode === 'even' && pool.length) owner = pool[i % pool.length].id;
+      else owner = state.user.id;
+      counts[owner] = (counts[owner] || 0) + 1;
+      DB.customers.push({
+        id: nextId('customer'), name: r[0], phone: r[1], company: r[2], source: r[3], category: r[4],
+        status: '待联系', ownerId: owner, remark: 'XLSX 导入 · 批次 ' + ymd(now()),
+        dnc: false, invalid: false, invalidReason: null, mergedInto: null,
+        lastContactAt: null, archived: false, version: 1, createdAt: iso(now())
+      });
+    });
+    const dist = Object.keys(counts).map(uid => (getUser(uid) || {}).name + ' ' + counts[uid]).join('、');
+    audit('导入客户', '成功 5 / 跳过 2 / 失败 1 · 分配：' + dist);
+    saveDB(); state.modal = null; state.view = 'customers'; state.page = 1; render();
+    toast('导入完成：5 条已入库，分配给 ' + dist);
+    return;
+  }
+
+  if (kind === 'export') {
+    const scope = fd.get('scope'), mask = fd.get('mask');
+    let list = scope === 'mine' ? visibleCustomers().filter(c => c.ownerId === state.user.id) : filteredCustomers();
+    const limit = DB.settings.exportLimit;
+    const over = list.length > limit;
+    if (over) list = list.slice(0, limit);
+    if (mask === 'full' && !can('customer.export.full')) { toast('你没有导出明文号码的权限', 'err'); return; }
+    audit('导出客户', (mask === 'full' ? '明文' : '脱敏') + ' · ' + (scope === 'mine' ? '仅本人' : '当前筛选') + ' · ' + ({ admin: '全部', supervisor: '团队', agent: '本人' }[state.user.role]) + ' · ' + list.length + ' 条' + (over ? '（已达上限截断）' : ''));
+    saveDB(); state.modal = null; render();
+    toast('已导出 ' + list.length + ' 条（' + (mask === 'full' ? '明文' : '脱敏') + '）' + (over ? '，超出上限已截断' : '') + '，本次操作已记审计');
+    return;
   }
 
   if (kind === 'user') {
     const name = fd.get('name').trim(), username = fd.get('username').trim();
     if (DB.users.some(u => u.username === username)) { toast('账号已存在', 'err'); return; }
-    const role = fd.get('role');
-    const managerId = fd.get('manager') ? +fd.get('manager') : null;
+    const role = state.user.role === 'admin' ? fd.get('role') : 'agent';
+    const managerId = fd.get('manager') ? +fd.get('manager') : (state.user.role === 'admin' ? null : state.user.id);
     if (role === 'agent' && !managerId) { toast('员工必须指定直属主管', 'warn'); return; }
     DB.users.push({
       id: Math.max(...DB.users.map(u => u.id)) + 1, username, name, role,
-      managerId: role === 'agent' ? managerId : managerId, active: true,
-      canExport: role !== 'agent', canImport: true
+      managerId, active: true, pwd: '123456', extra: []
     });
-    audit('新增账号', name + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[role]));
+    audit('新增账号', name + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[role]) + ' · 初始密码需首次登录修改');
     saveDB(); state.modal = null; render(); toast('账号已创建，初始密码需首次登录修改');
+    return;
+  }
+
+  if (kind === 'edit-user') {
+    const u = getUser(f.dataset.id);
+    const role = fd.get('role');
+    u.name = fd.get('name').trim();
+    u.role = role;
+    u.managerId = fd.get('manager') ? +fd.get('manager') : null;
+    audit('编辑账号', u.name + ' · 角色 ' + role + ' · 直属 ' + (u.managerId ? (getUser(u.managerId) || {}).name : '无'));
+    saveDB(); state.modal = null; render(); toast('账号已更新，数据范围随之变化');
+    return;
   }
 });
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    if (state.modal) { closeModal(); }
+    if (state.modal) closeModal();
     else if (state.drawer) { state.drawer = null; render(); }
   }
 });
 
-render();
+/* ---------- 会话恢复 ---------- */
+(function boot() {
+  let sid = null;
+  try { sid = localStorage.getItem(SESS); } catch (e) { }
+  if (sid) {
+    const u = getUser(+sid);
+    if (u && u.active) state.user = u;
+  }
+  render();
+})();
 </script>
 </body>
 </html>
