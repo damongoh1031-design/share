@@ -38,7 +38,7 @@ for mp in MARKETPLACES:
         if not expert_dir.is_dir() or not (expert_dir / "agents").is_dir():
             continue
         name = expert_dir.name
-        zip_name = f"{mp}__{name}.zip" if mp != "my-experts" else f"{name}.zip"
+        zip_name = f"{mp}__{name}.zip"
         zip_path = DIST / zip_name
         # raw zip of the whole directory
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -68,4 +68,11 @@ for mp in MARKETPLACES:
         print(f"OK {zip_name}  agents={len(agent_files)}  {zip_path.stat().st_size//1024}KB")
 
 (OUT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+
+# snapshot of my-experts registration manifest (what makes an expert appear in 我的专家)
+my_manifest = BASE / "my-experts" / ".codebuddy-plugin" / "marketplace.json"
+if my_manifest.exists():
+    (OUT / "my-experts-marketplace.json").write_text(my_manifest.read_text(encoding="utf-8"), encoding="utf-8")
+    print("snapshot: my-experts-marketplace.json")
+
 print(f"\nTotal: {len(manifest)} experts backed up to {DIST}")

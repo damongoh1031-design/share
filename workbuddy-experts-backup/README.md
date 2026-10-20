@@ -1,42 +1,70 @@
 # WorkBuddy 专家备份
 
-- 备份时间：2026-10-20
-- 专家总数：22 个（含 Agent 单体专家与专家团）
-- 总体积：70.5 MB
-- 来源：$WORKBUDDY_CONFIG_DIR/plugins/marketplaces/（my-experts / experts / cb_teams_marketplace 三个市场）
+- 更新时间：2026-10-20（第三次刷新）
+- 备份 zip 总数：59 个，总体积 163.5 MB
+- 覆盖三个市场：my-experts（我的专家，29 个）/ experts（内置市场，23 个）/ cb_teams_marketplace（专家团市场，7 个专家）
 
-## 安装状态（2026-10-20）
+## 我的专家（my-experts，已安装 29 个）
 
-内置市场（experts）全部 **14 个专家已下载安装**到 `my-experts/plugins/` 并注册入 `my-experts/marketplace.json`，「我的专家」现共 **15 个**（14 内置 + 1 自建 rimworld-mod-guardian）。安装脚本：`install_builtin_experts.py`（可重复执行，幂等）。专家团市场（cb_teams_marketplace）的 6 个专家未安装，仍在原市场目录可直接使用。
+由内置市场 22 个 + 专家团市场 6 个 + 自建 1 个组成；内置市场 trading-agent（13 角色）因目录名被专家团版占用，未单独装入。
 
-| # | 来源市场 | 目录名 | 类型 | 角色数 | 体积(KB) | 简介 |
-|---|---|---|---|---|---|---|
-| 1 | my-experts | rimworld-mod-guardian | agent | 1 | 1700.9 | 专注《环世界》模组筛选、版本核验与冲突排障，结合作者说明和社区实测，规划稳定整合与存档保护方案。 |
-| 2 | experts | customer-reply | agent | 1 | 150.5 | 客户发火别乱回：售前售后投诉退换四大场景话术直接出，按情绪配安抚策略，禁忌用语自动换，复制就能发。 |
-| 3 | experts | deep-research | agent | 1 | 24.4 | - |
-| 4 | experts | devops-security-experts | agent | 7 | 445.3 | - |
-| 5 | experts | education-training-experts | agent | 4 | 448.2 | - |
-| 6 | experts | engineering-tools-experts | agent | 4 | 3152.9 | - |
-| 7 | experts | frontend-backend-experts | agent | 7 | 4012.1 | - |
-| 8 | experts | gpt-researcher-team | team | 7 | 63.8 | 7 位专业角色分 5 阶段协作完成深度研究：初始调研 → 规划大纲 → 逐章深度研究（审稿修订循环） |
-| 9 | experts | kdocs-knowledge-collector | agent | 1 | 430.4 | 把网页、消息、笔记等碎片内容沉淀为结构化知识资产：一键剪藏公众号与网页为云文档，AI 按主题聚合零散 |
-| 10 | experts | llm-wiki | agent | 1 | 7.6 | - |
-| 11 | experts | malaysia-hr-admin | agent | 1 | 40816.2 | 精通马来西亚招聘、劳动合同、薪酬福利、签证工签与社保，服务企业跨境人力行政咨询。 |
-| 12 | experts | malaysia-legal | agent | 1 | 18425.6 | 精通马来西亚公司注册、合同、知识产权、行业准入与数据合规，服务跨境法务合规咨询。 |
-| 13 | experts | operations-customer-experts | agent | 5 | 254.8 | - |
-| 14 | experts | quality-testing-experts | agent | 8 | 445.6 | - |
-| 15 | experts | sales-experts | agent | 8 | 654.4 | - |
-| 16 | cb_teams_marketplace | a-share-analysis | agent | 7 | 61.1 | - |
-| 17 | cb_teams_marketplace | agent-sdk-dev | agent | 2 | 12.6 | - |
-| 18 | cb_teams_marketplace | ai-hedge-fund | agent | 21 | 38.6 | - |
-| 19 | cb_teams_marketplace | deep-research | agent | 1 | 24.4 | - |
-| 20 | cb_teams_marketplace | gaokao-advisor | agent | 1 | 461.7 | 辅助检索高考知识库并调用分数线、一分一段能力，整理带来源的真题、高校专业和志愿参考；同时提供全流程志 |
-| 21 | cb_teams_marketplace | sheetagent | agent | 1 | 498.2 | - |
-| 22 | cb_teams_marketplace | trading-agent | agent | 12 | 27.6 | - |
+| # | 专家 | 角色数 | 来源市场 |
+|---|---|---|---|
+| 1 | a-share-analysis | 7 | 专家团市场 |
+| 2 | agent-sdk-dev | 2 | 专家团市场 |
+| 3 | ai-hedge-fund | 21 | 专家团市场 |
+| 4 | customer-reply | 1 | 内置市场 |
+| 5 | data-ai-experts | 8 | 内置市场 |
+| 6 | deep-research | 1 | 内置市场 |
+| 7 | design-experts | 9 | 内置市场 |
+| 8 | devops-security-experts | 7 | 内置市场 |
+| 9 | education-training-experts | 4 | 内置市场 |
+| 10 | engineering-tools-experts | 4 | 内置市场 |
+| 11 | engineering-workflow-skills | 1 | 内置市场 |
+| 12 | frontend-backend-experts | 7 | 内置市场 |
+| 13 | gaokao-advisor | 1 | 专家团市场 |
+| 14 | gpt-researcher-team | 7 | 内置市场 |
+| 15 | industry-service-experts | 5 | 内置市场 |
+| 16 | kdocs-knowledge-collector | 1 | 内置市场 |
+| 17 | llm-wiki | 1 | 内置市场 |
+| 18 | malaysia-hr-admin | 1 | 内置市场 |
+| 19 | malaysia-legal | 1 | 内置市场 |
+| 20 | openspec-doc-team | 4 | 内置市场 |
+| 21 | operations-customer-experts | 5 | 内置市场 |
+| 22 | product-experts | 4 | 内置市场 |
+| 23 | product-strategy-team | 6 | 内置市场 |
+| 24 | quality-testing-experts | 8 | 内置市场 |
+| 25 | rimworld-mod-guardian | 1 | 自建 |
+| 26 | sales-experts | 8 | 内置市场 |
+| 27 | sheetagent | 1 | 专家团市场 |
+| 28 | spatial-computing-experts | 6 | 内置市场 |
+| 29 | trading-agent | 12 | 专家团市场（内置版重名跳过） |
 
-## 说明
+## 本次新增（2026-10-20 内置市场刷新）
 
-- 每个 zip 为该专家目录的完整原样打包（含 .codebuddy-plugin、agents/、skills/、avatars 等）。
-- `my-experts` 为自己创建的专家；`experts` / `cb_teams_marketplace` 为内置市场专家（可重新下载，备份用于离线保留）。
-- ⚠️ `experts__malaysia-hr-admin.zip`（40MB）与 `experts__malaysia-legal.zip`（18MB）含商业电话号数据集（CSV/duckdb），源自 OSINT 项目数据，属敏感数据。
-- 逐字段元数据见 manifest.json。
+内置市场今日新增 9 个专家，已全部装入我的专家并备份：
+
+| 专家 | 角色数 | 体积(KB) |
+|---|---|---|
+| data-ai-experts | 8 | 457.7 |
+| design-experts | 9 | 3828.1 |
+| engineering-workflow-skills | 1 | 419.8 |
+| industry-service-experts | 5 | 79.6 |
+| openspec-doc-team | 4 | 1330.6 |
+| product-experts | 4 | 4260.0 |
+| product-strategy-team | 6 | 2031.0 |
+| spatial-computing-experts | 6 | 11.8 |
+| trading-agent | 13 | 33.5 |
+
+## 文件清单
+
+- dist/：59 个 zip，命名为 `<市场>__<专家名>.zip`，内容为该专家目录完整原样打包
+- manifest.json：逐专家元数据（来源、体积、角色、安装状态）
+- my-experts-marketplace.json：我的专家注册清单快照（恢复时需放回 my-experts/.codebuddy-plugin/）
+- install_experts.py：从指定市场安装专家到 my-experts（幂等）
+- install_builtin_experts.py：首轮内置市场安装脚本（历史留存）
+- backup_experts.py：重新生成本备份
+
+## 敏感数据提示
+
+- my-experts 与 experts 下的 malaysia-hr-admin / malaysia-legal 各含一份商业电话号数据集（CSV/duckdb，源自 OSINT 项目），推送 public 仓库已获用户确认。
