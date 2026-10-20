@@ -16,7 +16,8 @@
     "displayDescription": "专注《环世界》模组筛选、版本核验与冲突排障，结合作者说明和社区实测，规划稳定整合与存档保护方案。",
     "categoryId": "03-GameSpatial",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -37,7 +38,8 @@
     "displayDescription": "客户发火别乱回：售前售后投诉退换四大场景话术直接出，按情绪配安抚策略，禁忌用语自动换，复制就能发。",
     "categoryId": "05-MarketingGrowth",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -58,7 +60,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -87,7 +90,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -115,7 +119,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -144,7 +149,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -184,7 +190,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -209,7 +216,8 @@
     "displayDescription": "7 位专业角色分 5 阶段协作完成深度研究：初始调研 → 规划大纲 → 逐章深度研究（审稿修订循环）→ 撰写报告框架 → 发布输出。支持完整 / 快速 / 单章三种模式。适用于行业研究、竞品分析、技术综述、学术文献综述等场景，产出带多源超链接引用的专业研究报告。",
     "categoryId": "04-DataAI",
     "version": "2.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -232,7 +240,8 @@
     "displayDescription": "把网页、消息、笔记等碎片内容沉淀为结构化知识资产：一键剪藏公众号与网页为云文档，AI 按主题聚合零散笔记生成整理稿，多份文档自动提炼摘要与要点。",
     "categoryId": "06-ContentCreative",
     "version": "1.0.1",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -253,7 +262,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -274,7 +284,8 @@
     "displayDescription": "精通马来西亚招聘、劳动合同、薪酬福利、签证工签与社保，服务企业跨境人力行政咨询。",
     "categoryId": "09-OperationsHR",
     "version": "1.4.2",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -295,7 +306,8 @@
     "displayDescription": "精通马来西亚公司注册、合同、知识产权、行业准入与数据合规，服务跨境法务合规咨询。",
     "categoryId": "11-SecurityCompliance",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -327,7 +339,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -358,7 +371,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "experts",
@@ -394,7 +408,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -440,7 +455,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": false
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -460,7 +476,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": false
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -499,7 +516,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": false
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -520,7 +538,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": true
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -544,7 +563,8 @@
     "displayDescription": "辅助检索高考知识库并调用分数线、一分一段能力，整理带来源的真题、高校专业和志愿参考；同时提供全流程志愿填报引导，产出可转发的腾讯文档志愿报告",
     "categoryId": "12-IndustryConsultant",
     "version": "2.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": false
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -566,7 +586,8 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "0.1.1784260829",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": false
   },
   {
     "marketplace": "cb_teams_marketplace",
@@ -598,6 +619,7 @@
     "displayDescription": "",
     "categoryId": "",
     "version": "1.0.0",
-    "author": "marketplace"
+    "author": "marketplace",
+    "installed_to_my_experts": false
   }
 ]

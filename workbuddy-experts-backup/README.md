@@ -5,6 +5,10 @@
 - 总体积：70.5 MB
 - 来源：$WORKBUDDY_CONFIG_DIR/plugins/marketplaces/（my-experts / experts / cb_teams_marketplace 三个市场）
 
+## 安装状态（2026-10-20）
+
+内置市场（experts）全部 **14 个专家已下载安装**到 `my-experts/plugins/` 并注册入 `my-experts/marketplace.json`，「我的专家」现共 **15 个**（14 内置 + 1 自建 rimworld-mod-guardian）。安装脚本：`install_builtin_experts.py`（可重复执行，幂等）。专家团市场（cb_teams_marketplace）的 6 个专家未安装，仍在原市场目录可直接使用。
+
 | # | 来源市场 | 目录名 | 类型 | 角色数 | 体积(KB) | 简介 |
 |---|---|---|---|---|---|---|
 | 1 | my-experts | rimworld-mod-guardian | agent | 1 | 1700.9 | 专注《环世界》模组筛选、版本核验与冲突排障，结合作者说明和社区实测，规划稳定整合与存档保护方案。 |
