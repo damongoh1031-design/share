@@ -11,11 +11,37 @@
   --line:#232b39; --line2:#2d3748;
   --tx:#e8ecf4; --tx2:#98a3b8; --tx3:#69748a;
   --blue:#4c8dff; --green:#2ecc8f; --amber:#f5a524; --red:#f0556b; --purple:#a78bfa; --slate:#66718a;
-  --r:10px;
+  --th:#131923; --hover:#161d27; --hover2:#1a212c; --cellline:#1c2431; --dimcell:#10141c;
+  --avbg:#243044; --avtx:#9db6dd; --chipbg:#1e2635; --chipbd:#2b3546;
+  --r:10px; --fs:1;
+}
+html[data-theme="light"]{
+  --bg:#f4f6fa; --bg2:#ffffff; --panel:#ffffff; --panel2:#f4f6fa; --panel3:#e8edf5;
+  --line:#e3e8f0; --line2:#cfd7e4;
+  --tx:#17202e; --tx2:#536076; --tx3:#8792a6;
+  --blue:#2563eb; --green:#0f9d68; --amber:#b8760a; --red:#d1344c; --purple:#7c5cd6; --slate:#6b7789;
+  --th:#f7f9fc; --hover:#f4f7fb; --hover2:#eef3f9; --cellline:#e9eef5; --dimcell:#eef1f6;
+  --avbg:#dde7f6; --avtx:#2f4f7d; --chipbg:#eef2f8; --chipbd:#d7dfea;
+}
+html[data-theme="contrast"]{
+  --bg:#000000; --bg2:#000000; --panel:#080808; --panel2:#111111; --panel3:#1c1c1c;
+  --line:#6a6a6a; --line2:#9a9a9a;
+  --tx:#ffffff; --tx2:#f0f0f0; --tx3:#c8c8c8;
+  --blue:#79b8ff; --green:#4ae3a0; --amber:#ffc247; --red:#ff7d8f; --purple:#c4b1ff; --slate:#b8c0cf;
+  --th:#141414; --hover:#1a1a1a; --hover2:#222222; --cellline:#3a3a3a; --dimcell:#0a0a0a;
+  --avbg:#1f1f1f; --avtx:#ffffff; --chipbg:#1c1c1c; --chipbd:#7a7a7a;
+}
+html[data-theme="eye"]{
+  --bg:#dde8d3; --bg2:#e7f0dd; --panel:#f1f7ea; --panel2:#e8f1de; --panel3:#dbe8cf;
+  --line:#c2d3b4; --line2:#a9bf99;
+  --tx:#1d2a1a; --tx2:#42533c; --tx3:#6b7d63;
+  --blue:#2f6b46; --green:#2f7a4a; --amber:#8a6316; --red:#a83328; --purple:#5b4a8a; --slate:#5f6f58;
+  --th:#e2eed7; --hover:#e6f0da; --hover2:#dcead0; --cellline:#cfdec2; --dimcell:#d6e3c9;
+  --avbg:#d3e3c4; --avtx:#33502b; --chipbg:#e4efd9; --chipbd:#bccfad;
 }
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--tx);
-  font:14px/1.55 "Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+  font:calc(14px * var(--fs))/1.55 "Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 a{color:inherit;text-decoration:none}
@@ -26,55 +52,55 @@ a{color:inherit;text-decoration:none}
 .app{display:flex;height:100vh;overflow:hidden}
 .side{width:212px;flex:0 0 212px;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column}
 .brand{padding:16px 16px 13px;border-bottom:1px solid var(--line)}
-.brand h1{margin:0;font-size:15px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.brand h1{margin:0;font-size:calc(15px * var(--fs));letter-spacing:.5px;display:flex;align-items:center;gap:8px}
 .brand .dot{width:8px;height:8px;border-radius:2px;background:var(--blue);box-shadow:0 0 10px var(--blue)}
-.brand p{margin:4px 0 0;font-size:11px;color:var(--tx3);letter-spacing:.3px}
+.brand p{margin:4px 0 0;font-size:calc(11px * var(--fs));color:var(--tx3);letter-spacing:.3px}
 .nav{flex:1;padding:9px 8px;overflow:auto}
 .nav a{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:2px 0;border-radius:8px;
-  color:var(--tx2);cursor:pointer;font-size:13.5px;transition:.14s}
+  color:var(--tx2);cursor:pointer;font-size:calc(13.5px * var(--fs));transition:.14s}
 .nav a:hover{background:#18202b;color:var(--tx)}
 .nav a.on{background:rgba(76,141,255,.15);color:#cfe0ff;box-shadow:inset 2px 0 0 var(--blue)}
-.nav a .ic{width:16px;text-align:center;font-size:13px;opacity:.9}
-.nav .grp{font-size:10.5px;color:#4f5a6e;padding:12px 12px 4px;letter-spacing:1px}
-.side-ft{padding:11px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--tx3);line-height:1.7}
+.nav a .ic{width:16px;text-align:center;font-size:calc(13px * var(--fs));opacity:.9}
+.nav .grp{font-size:calc(10.5px * var(--fs));color:#4f5a6e;padding:12px 12px 4px;letter-spacing:1px}
+.side-ft{padding:11px 14px;border-top:1px solid var(--line);font-size:calc(11px * var(--fs));color:var(--tx3);line-height:1.7}
 .side-ft b{color:var(--tx2);font-weight:500}
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 .top{height:54px;flex:0 0 54px;border-bottom:1px solid var(--line);background:var(--bg2);
   display:flex;align-items:center;gap:12px;padding:0 18px}
-.top .crumb{font-size:13px;color:var(--tx2)}
+.top .crumb{font-size:calc(13px * var(--fs));color:var(--tx2)}
 .top .crumb b{color:var(--tx);font-weight:500}
 .top .sp{flex:1}
 .content{flex:1;overflow:auto;padding:18px 20px 90px}
 
 .btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:8px;
-  border:1px solid var(--line2);background:var(--panel2);color:var(--tx);font-size:13px;cursor:pointer;transition:.14s;white-space:nowrap}
+  border:1px solid var(--line2);background:var(--panel2);color:var(--tx);font-size:calc(13px * var(--fs));cursor:pointer;transition:.14s;white-space:nowrap}
 .btn:hover{background:var(--panel3);border-color:#3a465c}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
 .btn.primary:hover{background:#3d7ef2}
 .btn.ghost{background:transparent}
-.btn.sm{height:26px;padding:0 9px;font-size:12px;border-radius:6px}
+.btn.sm{height:26px;padding:0 9px;font-size:calc(12px * var(--fs));border-radius:6px}
 .btn.danger{color:#ffb4be;border-color:#5a2a35;background:#2a1820}
 .btn.danger:hover{background:#3a1d27}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-select,input,textarea{font-family:inherit;font-size:13px;background:var(--panel2);color:var(--tx);
+select,input,textarea{font-family:inherit;font-size:calc(13px * var(--fs));background:var(--panel2);color:var(--tx);
   border:1px solid var(--line2);border-radius:8px;padding:7px 9px;outline:none;width:100%}
 select:focus,input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(76,141,255,.13)}
 textarea{resize:vertical;line-height:1.6}
-label.fl{display:block;font-size:12px;color:var(--tx2);margin:0 0 5px}
+label.fl{display:block;font-size:calc(12px * var(--fs));color:var(--tx2);margin:0 0 5px}
 .field{margin-bottom:12px}
 .row{display:flex;gap:10px}
 .row>*{flex:1;min-width:0}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
 .card-hd{display:flex;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid var(--line)}
-.card-hd h3{margin:0;font-size:13.5px;font-weight:500;letter-spacing:.2px}
+.card-hd h3{margin:0;font-size:calc(13.5px * var(--fs));font-weight:500;letter-spacing:.2px}
 .card-hd .sp{flex:1}
 .card-bd{padding:14px 15px}
 .card-bd.tight{padding:0}
 .muted{color:var(--tx2)}
 .dim{color:var(--tx3)}
-.tiny{font-size:11.5px}
+.tiny{font-size:calc(11.5px * var(--fs))}
 .mono{font-variant-numeric:tabular-nums;font-family:"JetBrains Mono",Consolas,monospace}
-.badge{display:inline-flex;align-items:center;height:21px;padding:0 8px;border-radius:5px;font-size:11.5px;white-space:nowrap;border:1px solid transparent}
+.badge{display:inline-flex;align-items:center;height:21px;padding:0 8px;border-radius:5px;font-size:calc(11.5px * var(--fs));white-space:nowrap;border:1px solid transparent}
 .b-slate{background:rgba(102,113,138,.16);color:#a8b3c8;border-color:rgba(102,113,138,.3)}
 .b-blue{background:rgba(76,141,255,.14);color:#8fb8ff;border-color:rgba(76,141,255,.3)}
 .b-amber{background:rgba(245,165,36,.13);color:#f7c46a;border-color:rgba(245,165,36,.28)}
@@ -84,53 +110,53 @@ label.fl{display:block;font-size:12px;color:var(--tx2);margin:0 0 5px}
 .b-gray{background:rgba(120,130,150,.1);color:#7e8899;border-color:rgba(120,130,150,.22)}
 .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
 .kpi .k{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden}
-.kpi .k .lb{font-size:12px;color:var(--tx2)}
-.kpi .k .vl{font-size:27px;font-weight:600;margin-top:6px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
-.kpi .k .sub{font-size:11.5px;color:var(--tx3);margin-top:2px}
+.kpi .k .lb{font-size:calc(12px * var(--fs));color:var(--tx2)}
+.kpi .k .vl{font-size:calc(27px * var(--fs));font-weight:600;margin-top:6px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.kpi .k .sub{font-size:calc(11.5px * var(--fs));color:var(--tx3);margin-top:2px}
 .kpi .k.alert .vl{color:#ff8b9b}
 .kpi .k.ok .vl{color:#5fe0ae}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;font-weight:500;color:var(--tx2);font-size:12px;padding:9px 12px;background:#131923;
+table{width:100%;border-collapse:collapse;font-size:calc(13px * var(--fs))}
+th{text-align:left;font-weight:500;color:var(--tx2);font-size:calc(12px * var(--fs));padding:9px 12px;background:var(--th);
   border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;z-index:2}
-td{padding:10px 12px;border-bottom:1px solid #1c2431;vertical-align:middle}
-tbody tr:hover{background:#161d27}
+td{padding:10px 12px;border-bottom:1px solid var(--cellline);vertical-align:middle}
+tbody tr:hover{background:var(--hover)}
 tbody tr.click{cursor:pointer}
 tbody tr:last-child td{border-bottom:none}
 tbody tr.sel{background:rgba(76,141,255,.07)}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 .tbl-wrap{overflow:auto}
-.empty{padding:40px 20px;text-align:center;color:var(--tx3);font-size:13px}
-.pager{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--tx2)}
+.empty{padding:40px 20px;text-align:center;color:var(--tx3);font-size:calc(13px * var(--fs))}
+.pager{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);font-size:calc(12px * var(--fs));color:var(--tx2)}
 .pager .sp{flex:1}
 .grid-2{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:14px;align-items:start}
 .stack>*+*{margin-top:14px}
 .hr{height:1px;background:var(--line);margin:12px 0}
 .hidden{display:none!important}
-.tag{display:inline-block;padding:1px 7px;border-radius:4px;background:#1e2635;color:#9fb0c8;font-size:11px;margin-right:4px}
-.item{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid #1c2431}
+.tag{display:inline-block;padding:1px 7px;border-radius:4px;background:var(--chipbg);color:#9fb0c8;font-size:calc(11px * var(--fs));margin-right:4px}
+.item{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid var(--cellline)}
 .item:last-child{border-bottom:none}
-.item:hover{background:#161d27}
-.item .tm{width:48px;flex:0 0 48px;font-size:12.5px;color:var(--tx2);font-variant-numeric:tabular-nums}
+.item:hover{background:var(--hover)}
+.item .tm{width:48px;flex:0 0 48px;font-size:calc(12.5px * var(--fs));color:var(--tx2);font-variant-numeric:tabular-nums}
 .item .bd{flex:1;min-width:0}
-.item .bd .t1{font-size:13px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.item .bd .t2{font-size:11.5px;color:var(--tx3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .bd .t1{font-size:calc(13px * var(--fs));display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.item .bd .t2{font-size:calc(11.5px * var(--fs));color:var(--tx3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .item .ops{display:flex;gap:6px;opacity:.55;transition:.15s}
 .item:hover .ops{opacity:1}
 .avatar{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;
-  font-size:11.5px;background:#243044;color:#9db6dd;flex:0 0 26px;font-weight:500}
+  font-size:calc(11.5px * var(--fs));background:var(--avbg);color:var(--avtx);flex:0 0 26px;font-weight:500}
 
 .calbar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.cal .wd{background:#131923;padding:8px;text-align:center;color:var(--tx2);font-size:12px}
+.cal .wd{background:var(--th);padding:8px;text-align:center;color:var(--tx2);font-size:calc(12px * var(--fs))}
 .cal .cell{background:var(--panel);min-height:92px;padding:6px 8px;cursor:pointer;position:relative;transition:.12s}
-.cal .cell:hover{background:#1a212c}
-.cal .cell.dim{background:#10141c;color:var(--tx3)}
-.cal .cell .d{font-size:12px;color:var(--tx2);font-variant-numeric:tabular-nums}
+.cal .cell:hover{background:var(--hover2)}
+.cal .cell.dim{background:var(--dimcell);color:var(--tx3)}
+.cal .cell .d{font-size:calc(12px * var(--fs));color:var(--tx2);font-variant-numeric:tabular-nums}
 .cal .cell.dim .d{color:#4d5668}
-.cal .cell.today .d{color:#fff;background:var(--blue);width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11.5px}
-.cal .cell .n{position:absolute;right:8px;top:7px;font-size:11px;color:var(--tx2)}
+.cal .cell.today .d{color:#fff;background:var(--blue);width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:calc(11.5px * var(--fs))}
+.cal .cell .n{position:absolute;right:8px;top:7px;font-size:calc(11px * var(--fs));color:var(--tx2)}
 .cal .cell .ev{margin-top:5px;display:flex;flex-direction:column;gap:3px}
-.cal .cell .ev span{font-size:10.5px;padding:1px 5px;border-radius:4px;background:#1e2635;color:#9fb0c8;
+.cal .cell .ev span{font-size:calc(10.5px * var(--fs));padding:1px 5px;border-radius:4px;background:var(--chipbg);color:#9fb0c8;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cal .cell .ev span.od{background:rgba(240,85,107,.16);color:#ff96a5}
 .cal .cell .ev span.dn{background:rgba(46,204,143,.13);color:#5fe0ae}
@@ -143,8 +169,8 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
 .modal.wide{max-width:720px}
 @keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.99)}to{opacity:1;transform:none}}
 .modal-hd{display:flex;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line)}
-.modal-hd h3{margin:0;font-size:14px;font-weight:500}
-.modal-hd .x{margin-left:auto;background:none;border:none;color:var(--tx2);font-size:20px;cursor:pointer;line-height:1;padding:0 2px}
+.modal-hd h3{margin:0;font-size:calc(14px * var(--fs));font-weight:500}
+.modal-hd .x{margin-left:auto;background:none;border:none;color:var(--tx2);font-size:calc(20px * var(--fs));cursor:pointer;line-height:1;padding:0 2px}
 .modal-hd .x:hover{color:#fff}
 .modal-bd{padding:16px 18px;max-height:66vh;overflow:auto}
 .modal-ft{display:flex;justify-content:flex-end;gap:9px;padding:13px 18px;border-top:1px solid var(--line)}
@@ -154,21 +180,21 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
   box-shadow:-20px 0 50px rgba(0,0,0,.45);animation:slide .18s ease-out}
 @keyframes slide{from{transform:translateX(24px);opacity:.6}to{transform:none;opacity:1}}
 .drawer-hd{padding:15px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
-.drawer-hd h3{margin:0;font-size:14px;font-weight:500}
-.drawer-hd .x{margin-left:auto;background:none;border:none;color:var(--tx2);font-size:20px;cursor:pointer}
+.drawer-hd h3{margin:0;font-size:calc(14px * var(--fs));font-weight:500}
+.drawer-hd .x{margin-left:auto;background:none;border:none;color:var(--tx2);font-size:calc(20px * var(--fs));cursor:pointer}
 .drawer-bd{flex:1;overflow:auto;padding:16px}
 .drawer-ft{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px}
 .notif{position:absolute;right:12px;top:46px;width:344px;background:var(--panel);border:1px solid var(--line2);
   border-radius:10px;box-shadow:0 18px 44px rgba(0,0,0,.5);z-index:50;overflow:hidden}
-.notif-hd{display:flex;align-items:center;padding:10px 13px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--tx2)}
+.notif-hd{display:flex;align-items:center;padding:10px 13px;border-bottom:1px solid var(--line);font-size:calc(12.5px * var(--fs));color:var(--tx2)}
 .notif-hd .sp{flex:1}
 .notif-bd{max-height:330px;overflow:auto}
-.nitem{padding:11px 13px;border-bottom:1px solid #1c2431;cursor:pointer}
-.nitem:hover{background:#1a212c}
+.nitem{padding:11px 13px;border-bottom:1px solid var(--cellline);cursor:pointer}
+.nitem:hover{background:var(--hover2)}
 .nitem.unread{background:rgba(76,141,255,.055)}
-.nitem .t{font-size:12.5px;display:flex;gap:6px;align-items:center}
+.nitem .t{font-size:calc(12.5px * var(--fs));display:flex;gap:6px;align-items:center}
 .nitem .t .p{width:5px;height:5px;border-radius:50%;background:var(--blue);flex:0 0 5px}
-.nitem .b{font-size:11.5px;color:var(--tx3);margin-top:2px}
+.nitem .b{font-size:calc(11.5px * var(--fs));color:var(--tx3);margin-top:2px}
 
 .tl{position:relative;padding-left:20px}
 .tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line2)}
@@ -177,18 +203,71 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
   background:var(--panel);border:2px solid #3a465c}
 .tl .n.ok::before{border-color:var(--green)}
 .tl .n.miss::before{border-color:var(--amber)}
-.tl .n .h{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2)}
-.tl .n .c{margin-top:5px;font-size:13px;line-height:1.65;color:#cfd7e6}
-.tl .n .f{margin-top:5px;font-size:11.5px;color:var(--tx3);display:flex;gap:10px}
+.tl .n .h{display:flex;align-items:center;gap:8px;font-size:calc(12px * var(--fs));color:var(--tx2)}
+.tl .n .c{margin-top:5px;font-size:calc(13px * var(--fs));line-height:1.65;color:#cfd7e6}
+.tl .n .f{margin-top:5px;font-size:calc(11.5px * var(--fs));color:var(--tx3);display:flex;gap:10px}
 
 .bars{display:flex;align-items:flex-end;gap:14px;height:132px;padding:6px 4px 0}
 .bars .b{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
 .bars .b .bar{width:100%;max-width:38px;background:linear-gradient(180deg,#4c8dff,#2b5fc4);border-radius:5px 5px 2px 2px;min-height:3px;transition:.2s}
 .bars .b .bar:hover{filter:brightness(1.18)}
-.bars .b .v{font-size:11px;color:var(--tx2);font-variant-numeric:tabular-nums}
-.bars .b .l{font-size:11px;color:var(--tx3)}
-.pbar{height:5px;border-radius:3px;background:#1e2635;overflow:hidden;width:78px;display:inline-block;vertical-align:middle}
+.bars .b .v{font-size:calc(11px * var(--fs));color:var(--tx2);font-variant-numeric:tabular-nums}
+.bars .b .l{font-size:calc(11px * var(--fs));color:var(--tx3)}
+.pbar{height:5px;border-radius:3px;background:var(--chipbg);overflow:hidden;width:78px;display:inline-block;vertical-align:middle}
 .pbar i{display:block;height:100%;background:var(--blue);border-radius:3px}
+
+/* 字号档位 */
+html[data-fs="sm"]{--fs:.92}
+html[data-fs="md"]{--fs:1}
+html[data-fs="lg"]{--fs:1.12}
+html[data-fs="xl"]{--fs:1.26}
+
+/* 外观面板 */
+.prefs{position:absolute;right:10px;top:44px;width:300px;background:var(--panel);border:1px solid var(--line2);
+  border-radius:11px;box-shadow:0 18px 44px rgba(0,0,0,.5);z-index:52;padding:13px 14px}
+.prefs h4{margin:0 0 8px;font-size:calc(12px * var(--fs));color:var(--tx2);font-weight:500;letter-spacing:.4px}
+.prefs .grp{margin-bottom:13px}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{flex:1;min-width:56px;height:28px;border-radius:7px;border:1px solid var(--line2);background:var(--panel2);
+  color:var(--tx2);font-size:calc(12px * var(--fs));cursor:pointer;transition:.14s}
+.seg button:hover{background:var(--panel3);color:var(--tx)}
+.seg button.on{background:rgba(76,141,255,.16);border-color:var(--blue);color:#8fb8ff}
+.sw{display:flex;gap:7px;flex-wrap:wrap}
+.sw i{width:38px;height:26px;border-radius:6px;border:2px solid transparent;cursor:pointer;display:block;position:relative}
+.sw i.on{border-color:var(--blue)}
+.sw i span{position:absolute;left:0;right:0;bottom:0;height:9px;border-radius:0 0 4px 4px}
+
+/* 呼叫台 */
+.callwrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;align-items:start}
+.callhead{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.callhead .prog{flex:1;height:6px;background:var(--panel3);border-radius:3px;overflow:hidden}
+.callhead .prog i{display:block;height:100%;background:var(--blue)}
+.callcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.callname{font-size:calc(22px * var(--fs));font-weight:600;letter-spacing:.5px}
+.callphone{font-family:"JetBrains Mono",Consolas,monospace;font-size:calc(19px * var(--fs));letter-spacing:1px;margin-top:6px}
+.resbtns{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+.resbtn{height:52px;border-radius:9px;border:1px solid var(--line2);background:var(--panel2);color:var(--tx);
+  font-size:calc(13px * var(--fs));cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:.14s}
+.resbtn:hover{background:var(--panel3)}
+.resbtn.on{border-color:var(--blue);background:rgba(76,141,255,.14);color:#8fb8ff;box-shadow:0 0 0 3px rgba(76,141,255,.1)}
+.resbtn small{font-size:calc(10px * var(--fs));color:var(--tx3)}
+.resbtn.on small{color:#8fb8ff}
+.callhist{max-height:280px;overflow:auto}
+.callhist .n{padding:9px 0;border-bottom:1px solid var(--cellline)}
+.callhist .n:last-child{border-bottom:none}
+.selbox{max-height:170px;overflow:auto;border:1px solid var(--line2);border-radius:8px;padding:6px}
+.selbox label{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:calc(12.5px * var(--fs));cursor:pointer}
+.selbox label:hover{background:var(--hover2)}
+.kbdrow{display:flex;gap:14px;flex-wrap:wrap;font-size:calc(11px * var(--fs));color:var(--tx3)}
+.kbdrow b{color:var(--tx2);font-weight:500}
+.qitem{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--cellline)}
+.qitem:last-child{border-bottom:none}
+.qitem .qn{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--panel3);color:var(--tx3);
+  font-size:calc(10.5px * var(--fs));display:flex;align-items:center;justify-content:center}
+.qitem .qname{font-size:calc(12.5px * var(--fs));color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qitem .badge{flex:0 0 auto;white-space:nowrap}
+.row2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.row2 .sv{font-size:calc(19px * var(--fs));font-weight:600;font-variant-numeric:tabular-nums}
 
 /* 登录 */
 .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
@@ -196,61 +275,142 @@ tbody tr.sel{background:rgba(76,141,255,.07)}
 .login .box{width:100%;max-width:880px;display:grid;grid-template-columns:1.05fr .95fr;
   background:var(--panel);border:1px solid var(--line2);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .login .lft{padding:40px 36px;border-right:1px solid var(--line);display:flex;flex-direction:column}
-.login .lft h2{margin:0 0 6px;font-size:21px;letter-spacing:.5px}
-.login .lft .sub{margin:0 0 22px;font-size:12.5px;color:var(--tx3);line-height:1.8}
+.login .lft h2{margin:0 0 6px;font-size:calc(21px * var(--fs));letter-spacing:.5px}
+.login .lft .sub{margin:0 0 22px;font-size:calc(12.5px * var(--fs));color:var(--tx3);line-height:1.8}
 .login .lft ul{margin:0;padding:0;list-style:none}
-.login .lft li{font-size:12.5px;color:var(--tx2);padding:5px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
+.login .lft li{font-size:calc(12.5px * var(--fs));color:var(--tx2);padding:5px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
 .login .lft li b{color:#8fb8ff;font-weight:500;flex:0 0 14px}
-.login .lft .ft{margin-top:auto;font-size:11px;color:#4f5a6e;line-height:1.7;padding-top:20px}
+.login .lft .ft{margin-top:auto;font-size:calc(11px * var(--fs));color:#4f5a6e;line-height:1.7;padding-top:20px}
 .login .rgt{padding:36px 34px;background:#12171f}
-.login .rgt h3{margin:0 0 3px;font-size:15px;font-weight:500}
-.login .rgt .hint{margin:0 0 20px;font-size:12px;color:var(--tx3)}
+.login .rgt h3{margin:0 0 3px;font-size:calc(15px * var(--fs));font-weight:500}
+.login .rgt .hint{margin:0 0 20px;font-size:calc(12px * var(--fs));color:var(--tx3)}
 .login .rgt .field{margin-bottom:14px}
-.login .rgt input{height:38px;font-size:13.5px}
-.login .rgt .btn{width:100%;height:38px;justify-content:center;font-size:13.5px;margin-top:4px}
+.login .rgt input{height:38px;font-size:calc(13.5px * var(--fs))}
+.login .rgt .btn{width:100%;height:38px;justify-content:center;font-size:calc(13.5px * var(--fs));margin-top:4px}
 .login .err{background:rgba(240,85,107,.1);border:1px solid rgba(240,85,107,.32);color:#ffa9b6;
-  font-size:12px;padding:8px 11px;border-radius:7px;margin-bottom:12px;display:flex;gap:7px;align-items:center}
+  font-size:calc(12px * var(--fs));padding:8px 11px;border-radius:7px;margin-bottom:12px;display:flex;gap:7px;align-items:center}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
-.chip{font-size:11.5px;padding:4px 9px;border-radius:6px;background:#1b2330;border:1px solid #2b3546;
+.chip{font-size:calc(11.5px * var(--fs));padding:4px 9px;border-radius:6px;background:var(--chipbg);border:1px solid var(--chipbd);
   color:#9fb0c8;cursor:pointer;transition:.14s}
-.chip:hover{background:#243044;color:#cfe0ff;border-color:#3a4a63}
-.login .rgt .demo{margin-top:14px;font-size:11px;color:#5a6679;line-height:1.7}
+.chip:hover{background:var(--avbg);color:#cfe0ff;border-color:#3a4a63}
+.login .rgt .demo{margin-top:14px;font-size:calc(11px * var(--fs));color:#5a6679;line-height:1.7}
+.logincfg{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.logincfg .seg{flex:0 0 auto}
+.lchips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.lchips span{font-size:calc(11px * var(--fs));color:var(--tx2);background:var(--chipbg);border:1px solid var(--chipbd);
+  border-radius:5px;padding:3px 8px}
+.seg.mini button{height:24px;min-width:48px;font-size:calc(11.5px * var(--fs));border-radius:6px}
+.sw.mini{gap:5px}
+.sw.mini i{width:26px;height:19px;border-radius:5px}
+.sw.mini i span{height:6px}
 
 /* 权限矩阵 / 数据体检 */
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:14px}
-.tabs a{padding:9px 14px;font-size:13px;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a{padding:9px 14px;font-size:calc(13px * var(--fs));color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tabs a:hover{color:var(--tx)}
 .tabs a.on{color:#cfe0ff;border-bottom-color:var(--blue)}
 .matrix td,.matrix th{padding:8px 12px}
-.matrix .grp{background:#131923;color:#7d8ba3;font-size:11px;letter-spacing:.6px;padding:5px 12px}
-.matrix .cap{font-size:12.5px;color:var(--tx)}
-.matrix .cap small{display:block;color:#5d6879;font-size:11px;margin-top:1px}
-input[type=checkbox]{width:15px;height:15px;accent-color:#4c8dff;cursor:pointer;vertical-align:-2px}
+.matrix .grp{background:var(--th);color:#7d8ba3;font-size:calc(11px * var(--fs));letter-spacing:.6px;padding:5px 12px}
+.matrix .cap{font-size:calc(12.5px * var(--fs));color:var(--tx)}
+.matrix .cap small{display:block;color:#5d6879;font-size:calc(11px * var(--fs));margin-top:1px}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;width:15px;height:15px;border:1px solid var(--line2);
+  border-radius:4px;background:var(--panel2);cursor:pointer;vertical-align:-2px;position:relative;transition:.12s;flex:0 0 15px}
+input[type=checkbox]:hover{border-color:var(--blue)}
+input[type=checkbox]:checked{background:var(--blue);border-color:var(--blue)}
+input[type=checkbox]:checked:after{content:'';position:absolute;left:4.5px;top:1px;width:4px;height:8px;
+  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+html[data-theme="contrast"] input[type=checkbox]{border-color:#fff}
+html[data-theme="contrast"] input[type=checkbox]:checked:after{border-color:#000}
 input[type=checkbox]:disabled{cursor:not-allowed;opacity:.4}
-.banner{display:flex;align-items:center;gap:11px;background:rgba(245,165,36,.07);border:1px solid rgba(245,165,36,.22);
-  border-radius:9px;padding:10px 13px;font-size:12px;color:#e8c894;margin-bottom:12px;line-height:1.6}
+.banner{display:flex;align-items:center;gap:11px;background:rgba(245,165,36,.07);border:1px solid rgba(245,165,36,.22);  border-radius:9px;padding:10px 13px;font-size:calc(12px * var(--fs));color:#e8c894;margin-bottom:12px;line-height:1.6}
 .banner .sp{flex:1}
+.bico{width:16px;height:16px;flex:0 0 16px;border-radius:50%;border:1.5px solid currentColor;position:relative;opacity:.85}
+.bico:after{content:'!';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:calc(10px * var(--fs));font-weight:700;line-height:1}
 .bulkbar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:45;display:flex;align-items:center;gap:12px;
-  background:#1b2433;border:1px solid #33415a;border-radius:11px;padding:9px 14px;box-shadow:0 16px 40px rgba(0,0,0,.55)}
-.bulkbar .n{font-size:13px}
+  background:var(--panel3);border:1px solid #33415a;border-radius:11px;padding:9px 14px;box-shadow:0 16px 40px rgba(0,0,0,.55)}
+.bulkbar .n{font-size:calc(13px * var(--fs))}
 .bulkbar .n b{color:#8fb8ff}
 .groupbox{border:1px solid var(--line);border-radius:9px;margin-bottom:10px;overflow:hidden}
-.groupbox .gh{display:flex;align-items:center;gap:9px;padding:9px 12px;background:#131923;font-size:12.5px}
+.groupbox .gh{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--th);font-size:calc(12.5px * var(--fs))}
 .groupbox .gh .sp{flex:1}
 .toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:99;
-  background:#1d2735;border:1px solid #33415a;color:#dfe7f5;padding:10px 16px;border-radius:9px;font-size:13px;
+  background:#1d2735;border:1px solid #33415a;color:#dfe7f5;padding:10px 16px;border-radius:9px;font-size:calc(13px * var(--fs));
   box-shadow:0 14px 34px rgba(0,0,0,.5);animation:tin .18s ease-out;display:flex;align-items:center;gap:8px;max-width:80vw}
 .toast.ok{border-color:#2b6b52;background:#152a22;color:#a9ebcd}
 .toast.warn{border-color:#6b5324;background:#2a2317;color:#f6d79a}
 .toast.err{border-color:#6b2b36;background:#2a161c;color:#ffb3bf}
 @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
-.help{font-size:11.5px;color:var(--tx3);margin-top:5px;line-height:1.7}
-.warnbox{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.28);border-radius:8px;padding:9px 12px;font-size:12px;color:#f0cd94;line-height:1.65}
-.infobox{background:rgba(76,141,255,.08);border:1px solid rgba(76,141,255,.24);border-radius:8px;padding:9px 12px;font-size:12px;color:#a9c6f5;line-height:1.65}
-.redbox{background:rgba(240,85,107,.08);border:1px solid rgba(240,85,107,.26);border-radius:8px;padding:9px 12px;font-size:12px;color:#ffb3bf;line-height:1.65}
+.help{font-size:calc(11.5px * var(--fs));color:var(--tx3);margin-top:5px;line-height:1.7}
+.warnbox{background:rgba(245,165,36,.09);border:1px solid rgba(245,165,36,.28);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:#f0cd94;line-height:1.65}
+.infobox{background:rgba(76,141,255,.08);border:1px solid rgba(76,141,255,.24);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:#a9c6f5;line-height:1.65}
+.redbox{background:rgba(240,85,107,.08);border:1px solid rgba(240,85,107,.26);border-radius:8px;padding:9px 12px;font-size:calc(12px * var(--fs));color:#ffb3bf;line-height:1.65}
 .masknum{font-family:"JetBrains Mono",Consolas,monospace;letter-spacing:.5px}
-.eye{background:none;border:none;color:#6f7d95;cursor:pointer;font-size:12px;padding:0 3px}
+.eye{background:none;border:none;color:#6f7d95;cursor:pointer;font-size:calc(12px * var(--fs));padding:0 3px}
 .eye:hover{color:#8fb8ff}
+
+/* 浅色 / 护眼主题：把深色底写死的颜色改写一遍 */
+html[data-theme="light"] .nav a:hover,html[data-theme="eye"] .nav a:hover{background:var(--hover2);color:var(--tx)}
+html[data-theme="light"] .nav a.on,html[data-theme="eye"] .nav a.on{background:rgba(37,99,235,.10);color:var(--blue)}
+html[data-theme="light"] .nav .grp,html[data-theme="eye"] .nav .grp{color:var(--tx3)}
+html[data-theme="light"] .btn:hover,html[data-theme="eye"] .btn:hover{border-color:var(--line2);background:var(--panel3)}
+html[data-theme="light"] .btn.danger,html[data-theme="eye"] .btn.danger{color:#a3243a;border-color:#efc3cb;background:#fdf1f3}
+html[data-theme="light"] .btn.danger:hover,html[data-theme="eye"] .btn.danger:hover{background:#fbe3e7}
+html[data-theme="light"] .b-slate,html[data-theme="eye"] .b-slate{background:#eef1f6;color:#4e5b70;border-color:#dbe2ec}
+html[data-theme="light"] .b-blue,html[data-theme="eye"] .b-blue{background:#e8effd;color:#1e50b5;border-color:#c9dafb}
+html[data-theme="light"] .b-amber,html[data-theme="eye"] .b-amber{background:#fdf3e2;color:#8a5b06;border-color:#f2ddb7}
+html[data-theme="light"] .b-green,html[data-theme="eye"] .b-green{background:#e6f7ef;color:#0b7a51;border-color:#c3e9d8}
+html[data-theme="light"] .b-red,html[data-theme="eye"] .b-red{background:#fdecef;color:#a3243a;border-color:#f5c9d1}
+html[data-theme="light"] .b-purple,html[data-theme="eye"] .b-purple{background:#f1ecfe;color:#5b3fbf;border-color:#ddd1fa}
+html[data-theme="light"] .b-gray,html[data-theme="eye"] .b-gray{background:#f0f2f5;color:#5c6675;border-color:#e0e5ec}
+html[data-theme="light"] .kpi .k.alert .vl,html[data-theme="eye"] .kpi .k.alert .vl{color:var(--red)}
+html[data-theme="light"] .kpi .k.ok .vl,html[data-theme="eye"] .kpi .k.ok .vl{color:var(--green)}
+html[data-theme="light"] .tag,html[data-theme="eye"] .tag{color:var(--tx2)}
+html[data-theme="light"] .cal .cell.dim .d,html[data-theme="eye"] .cal .cell.dim .d{color:var(--tx3)}
+html[data-theme="light"] .cal .cell .ev span,html[data-theme="eye"] .cal .cell .ev span{color:var(--tx2)}
+html[data-theme="light"] .cal .cell .ev span.od,html[data-theme="eye"] .cal .cell .ev span.od{background:#fdecef;color:#a3243a}
+html[data-theme="light"] .cal .cell .ev span.dn,html[data-theme="eye"] .cal .cell .ev span.dn{background:#e6f7ef;color:#0b7a51}
+html[data-theme="light"] .cal .cell .ev span.cn,html[data-theme="eye"] .cal .cell .ev span.cn{background:#f0f2f5;color:#8b94a3}
+html[data-theme="light"] .tl .n .c,html[data-theme="eye"] .tl .n .c{color:var(--tx)}
+html[data-theme="light"] .matrix .grp,html[data-theme="eye"] .matrix .grp{color:var(--tx2)}
+html[data-theme="light"] .matrix .cap small,html[data-theme="eye"] .matrix .cap small{color:var(--tx3)}
+html[data-theme="light"] .banner,html[data-theme="eye"] .banner{background:#fdf6e7;border-color:#f0dcb4;color:#7a5a12}
+html[data-theme="light"] .warnbox,html[data-theme="eye"] .warnbox{background:#fdf6e7;border-color:#f0dcb4;color:#7a5a12}
+html[data-theme="light"] .infobox,html[data-theme="eye"] .infobox{background:#eef4fe;border-color:#cddcfa;color:#22467f}
+html[data-theme="light"] .redbox,html[data-theme="eye"] .redbox{background:#fdeef0;border-color:#f3c9d1;color:#a3243a}
+html[data-theme="light"] .toast,html[data-theme="eye"] .toast{background:var(--panel);border-color:var(--line2);color:var(--tx)}
+html[data-theme="light"] .toast.ok,html[data-theme="eye"] .toast.ok{border-color:#a9dcc4;background:#effaf4;color:#0b7a51}
+html[data-theme="light"] .toast.warn,html[data-theme="eye"] .toast.warn{border-color:#efd9ab;background:#fdf7ea;color:#8a5b06}
+html[data-theme="light"] .toast.err,html[data-theme="eye"] .toast.err{border-color:#f2c3cc;background:#fdeef0;color:#a3243a}
+html[data-theme="light"] .eye,html[data-theme="eye"] .eye{color:var(--tx3)}
+html[data-theme="light"] .eye:hover,html[data-theme="eye"] .eye:hover{color:var(--blue)}
+html[data-theme="light"] .seg button.on,html[data-theme="eye"] .seg button.on{color:var(--blue)}
+html[data-theme="light"] .resbtn.on,html[data-theme="eye"] .resbtn.on{color:var(--blue)}
+html[data-theme="light"] .resbtn.on small,html[data-theme="eye"] .resbtn.on small{color:var(--blue)}
+html[data-theme="light"] .tabs a.on,html[data-theme="eye"] .tabs a.on{color:var(--blue)}
+html[data-theme="light"] .bulkbar,html[data-theme="eye"] .bulkbar{background:var(--panel);border-color:var(--line2)}
+html[data-theme="light"] .bulkbar .n b,html[data-theme="eye"] .bulkbar .n b{color:var(--blue)}
+html[data-theme="light"] .modal-hd .x:hover,html[data-theme="eye"] .modal-hd .x:hover{color:var(--tx)}
+html[data-theme="light"] ::-webkit-scrollbar-thumb,html[data-theme="eye"] ::-webkit-scrollbar-thumb{background:var(--line2)}
+html[data-theme="light"] .login,html[data-theme="eye"] .login{background:radial-gradient(900px 500px at 18% 0%,#dbe6f7 0%,transparent 62%),var(--bg)}
+html[data-theme="light"] .login .box,html[data-theme="eye"] .login .box{box-shadow:0 24px 60px rgba(20,35,60,.14)}
+html[data-theme="light"] .login .rgt,html[data-theme="eye"] .login .rgt{background:#f7f9fc}
+html[data-theme="light"] .login .lft li b,html[data-theme="eye"] .login .lft li b{color:var(--blue)}
+html[data-theme="light"] .login .lft .ft,html[data-theme="eye"] .login .lft .ft{color:var(--tx3)}
+html[data-theme="light"] .login .rgt .demo,html[data-theme="eye"] .login .rgt .demo{color:var(--tx3)}
+html[data-theme="light"] .login .err,html[data-theme="eye"] .login .err{color:#a3243a}
+html[data-theme="light"] .chip,html[data-theme="eye"] .chip{color:var(--tx2)}
+html[data-theme="light"] .chip:hover,html[data-theme="eye"] .chip:hover{color:var(--blue);border-color:var(--line2)}
+html[data-theme="light"] .avatar,html[data-theme="eye"] .avatar{background:var(--avbg);color:var(--avtx)}
+/* 高对比主题：把半透明底改为实色边框，确保可读 */
+html[data-theme="contrast"] .b-slate,html[data-theme="contrast"] .b-blue,html[data-theme="contrast"] .b-amber,
+html[data-theme="contrast"] .b-green,html[data-theme="contrast"] .b-red,html[data-theme="contrast"] .b-purple,
+html[data-theme="contrast"] .b-gray{background:#000;border-color:currentColor}
+html[data-theme="contrast"] .banner{background:#000;border-color:#ffc247;color:#ffc247}
+html[data-theme="contrast"] .nav a.on{background:#000;color:#79b8ff;box-shadow:inset 2px 0 0 #79b8ff}
+html[data-theme="contrast"] .nav a:hover{background:#1a1a1a;color:#fff}
+html[data-theme="contrast"] .toast{background:#000;border-color:#fff;color:#fff}
+html[data-theme="contrast"] .infobox,html[data-theme="contrast"] .warnbox,html[data-theme="contrast"] .redbox{background:#000}
 </style>
 </head>
 <body>
@@ -441,7 +601,12 @@ function buildSeed() {
     agent: ['customer.view', 'customer.create', 'customer.edit', 'phone.reveal', 'note.create', 'task.create', 'task.cancel']
   };
 
-  const settings = { cycleDays: 2, cycleMax: 3, maskPhone: true, exportLimit: 200, revealDailyLimit: 20 };
+  const settings = { cycleDays: 2, cycleMax: 3, maskPhone: true, exportLimit: 200, revealDailyLimit: 20, theme: 'dark', fs: 'md', lang: 'zh' };
+
+  const teams = [
+    { id: 1, name: '华东一组', supervisorId: 2 },
+    { id: 2, name: '华南二组', supervisorId: 6 }
+  ];
 
   const customers = CUST_SEED.map((r, i) => ({
     id: i + 1, name: r[0], phone: r[1], company: r[2], source: r[3], category: r[4],
@@ -497,9 +662,25 @@ function buildSeed() {
     { id: 4, at: iso(dAt(-2, 10, 5)), userId: 1, action: '禁用账号', detail: '账号 test01 已禁用' }
   ];
 
+  const logins = [];
+  const devs = ['Windows 10 · Chrome 129', 'Windows 11 · Edge 128', 'Windows 10 · Chrome 128', 'macOS · Safari 17'];
+  const ips = ['192.168.1.34', '192.168.1.51', '192.168.1.77', '192.168.1.102', '192.168.1.118'];
+  for (let d = -6; d <= 0; d++) {
+    [1, 2, 3, 4, 5, 6, 7, 8].forEach((uid, k) => {
+      if ((d + k) % 3 === 0) return;
+      logins.push({
+        id: logins.length + 1, userId: uid, username: null, ok: true,
+        at: iso(dAt(d, 8 + (k % 9), (k * 7) % 60)),
+        ip: ips[(k + d + 8) % ips.length], device: devs[(k + 3) % devs.length], note: '密码登录'
+      });
+    });
+  }
+  logins.push({ id: 900, userId: null, username: 'test01', ok: false, at: iso(dAt(-1, 21, 12)), ip: '192.168.1.200', device: 'Windows 10 · Chrome 128', note: '账号已禁用' });
+  logins.push({ id: 901, userId: 5, username: null, ok: false, at: iso(dAt(-2, 8, 41)), ip: '192.168.1.77', device: 'Windows 10 · Chrome 129', note: '密码错误 1 次' });
+
   return {
-    users, roles, settings, customers, notes, tasks, notifications, audit, reveals: [],
-    meta: { seedDay: ymd(now()), seq: { customer: 100, note: 200, task: 300, notif: 400, audit: 500, user: 10 } }
+    users, roles, settings, teams, customers, notes, tasks, notifications, audit, reveals: [], logins,
+    meta: { seedDay: ymd(now()), seq: { customer: 100, note: 200, task: 300, notif: 400, audit: 500, user: 10, login: 1000, team: 3 } }
   };
 }
 
@@ -525,7 +706,9 @@ const state = {
   page: 1, pageSize: 10, calY: now().getFullYear(), calM: now().getMonth(),
   calMode: 'month', drawer: null, modal: null, notif: false,
   fResult: '', fEmp: '', custId: null, dhTab: 'dup',
-  selected: new Set(), revealed: new Set(), loginErr: '', loginUser: ''
+  selected: new Set(), revealed: new Set(), loginErr: '', loginUser: '',
+  prefs: false, callIdx: 0, callResult: '', callNote: '', callStatus: '', callSkip: new Set(), callDone: new Set(),
+  logTab: 'login', permUser: null
 };
 
 /* ---------- 查询 ---------- */
@@ -534,6 +717,13 @@ const getUser = id => DB.users.find(u => u.id === +id);
 const getTask = id => DB.tasks.find(t => t.id === +id);
 const teamIds = mid => DB.users.filter(u => u.managerId === mid).map(u => u.id);
 const activeUsers = () => DB.users.filter(u => u.active);
+// 小组归属：员工看自己主管是哪个组的组长；主管看自己是哪个组的组长
+function teamOfUser(u) {
+  if (!u) return null;
+  if (u.role === 'agent') return DB.teams.find(t => t.supervisorId === u.managerId) || null;
+  return DB.teams.find(t => t.supervisorId === u.id) || null;
+}
+function teamName(u) { const t = teamOfUser(u); return t ? t.name : '—'; }
 
 /* ---------- 权限 ---------- */
 function can(p) {
@@ -663,6 +853,235 @@ function noPerm(text) {
   return '<div class="card"><div class="empty">' + (text || '你没有该功能的权限') + '<div class="help" style="margin-top:8px">如需开通，请联系管理员在「权限管理」中授权。</div></div></div>';
 }
 
+/* ---------- 外观：主题 / 字号 / 语言 ---------- */
+const THEMES = [
+  { id: 'dark', zh: '深色', en: 'Dark', bg: '#0c0f15', panel: '#151a23', tx: '#e8ecf4' },
+  { id: 'light', zh: '浅色', en: 'Light', bg: '#f4f6fa', panel: '#ffffff', tx: '#17202e' },
+  { id: 'contrast', zh: '高对比', en: 'Contrast', bg: '#000000', panel: '#111111', tx: '#ffffff' },
+  { id: 'eye', zh: '护眼', en: 'Eye-care', bg: '#dde8d3', panel: '#f1f7ea', tx: '#1d2a1a' }
+];
+const FSIZES = [{ id: 'sm', zh: '小', en: 'S' }, { id: 'md', zh: '中', en: 'M' }, { id: 'lg', zh: '大', en: 'L' }, { id: 'xl', zh: '特大', en: 'XL' }];
+let LANG = 'zh';
+
+function applyPrefs() {
+  const st = DB.settings;
+  document.documentElement.setAttribute('data-theme', st.theme || 'dark');
+  document.documentElement.setAttribute('data-fs', st.fs || 'md');
+  document.documentElement.setAttribute('lang', st.lang === 'en' ? 'en' : 'zh-CN');
+  LANG = st.lang || 'zh';
+  document.title = LANG === 'en' ? 'Outbound CRM · Prototype v2.0' : '外呼 CRM · 交互原型 v2.0';
+}
+function prefsPanel() {
+  const st = DB.settings;
+  const sw = THEMES.map(t =>
+    '<i class="' + (st.theme === t.id ? 'on' : '') + '" data-act="set-theme" data-id="' + t.id + '" title="' + (LANG === 'en' ? t.en : t.zh) + '" ' +
+    'style="background:' + t.bg + ';border:1px solid ' + (st.theme === t.id ? 'var(--blue)' : 'var(--line2)') + '">' +
+    '<span style="background:' + t.panel + '"></span></i>').join('');
+  return '<div class="prefs">' +
+    '<div class="grp"><h4>' + (LANG === 'en' ? 'Theme' : '主题') + '</h4><div class="sw">' + sw + '</div>' +
+    '<div class="tiny dim" style="margin-top:6px">' + (LANG === 'en' ? THEMES.find(t => t.id === st.theme).en : THEMES.find(t => t.id === st.theme).zh) + '</div></div>' +
+    '<div class="grp"><h4>' + (LANG === 'en' ? 'Font size' : '字号') + '</h4><div class="seg">' +
+    FSIZES.map(f => '<button class="' + (st.fs === f.id ? 'on' : '') + '" data-act="set-fs" data-id="' + f.id + '">' + (LANG === 'en' ? f.en : f.zh) + '</button>').join('') + '</div></div>' +
+    '<div class="grp" style="margin-bottom:0"><h4>' + (LANG === 'en' ? 'Language' : '语言') + '</h4><div class="seg">' +
+    '<button class="' + (st.lang !== 'en' ? 'on' : '') + '" data-act="set-lang" data-id="zh">中文</button>' +
+    '<button class="' + (st.lang === 'en' ? 'on' : '') + '" data-act="set-lang" data-id="en">English</button></div></div>' +
+    '</div>';
+}
+
+/* ---------- 中英文案 ---------- */
+const EN = {
+  '工作台': 'Dashboard', '客户': 'Customer', '客户体检': 'Data health', '回访日历': 'Calendar',
+  '呼叫记事': 'Call notes', '呼叫': 'Call console', '主管看板': 'Team board', '用户管理': 'Users',
+  '权限管理': 'Permissions', '系统设置': 'Settings', '日志': 'Logs', '客户详情': 'Customer',
+  '客户管理': 'Customers', '登录': 'Sign in', '登 录': 'Sign in', '退出登录': 'Sign out',
+  '重置数据': 'Reset demo', '演示切换': 'Demo switch', '账号': 'Account', '密码': 'Password',
+  '当前密码': 'Current password', '新密码': 'New password', '确认新密码': 'Confirm password', '确认密码': 'Confirm password',
+  '保存': 'Save', '取消': 'Cancel', '关闭': 'Close', '确认': 'Confirm',
+  '确定': 'OK', '删除': 'Delete', '编辑': 'Edit', '新增': 'New',
+  '新增客户': 'New customer', '保存记事': 'Save note', '保存并下一位': 'Save & next', '搜索': 'Search',
+  '全部': 'All', '操作': 'Action', '状态': 'Status', '备注': 'Notes',
+  '姓名': 'Name', '电话': 'Phone', '联系电话': 'Phone', '公司': 'Company',
+  '来源': 'Source', '分类': 'Grade', '负责人': 'Owner', '执行人': 'Assignee',
+  '直属主管': 'Supervisor', '角色': 'Role', '启用': 'Active', '已禁用': 'Disabled',
+  '禁用': 'Disable', '当前账号': 'Current account', '重置密码': 'Reset password', '修改密码': 'Change password',
+  '设置密码': 'Set password', '新建': 'Create', '客户 / 公司': 'Customer / company', '号码质量': 'Number',
+  '未接/呼叫': 'Miss / calls', '下次回访': 'Next callback', '最近联系': 'Last contact', '来源渠道': 'Source',
+  '客户来源': 'Source pool', '跟进时间线': 'Timeline', '回访安排': 'Callbacks', '客户资料': 'Profile',
+  '今日待回访': 'Due today', '逾期未回访': 'Overdue callbacks', '今日已登记外呼': 'Calls logged today', '我的客户': 'My customers',
+  '可见客户': 'Visible customers', '团队客户': 'Team customers', '今日回访': 'Today', '快捷操作': 'Quick actions',
+  '最近呼叫记事': 'Recent notes', '客户资产待处理': 'Asset issues', '重复客户组': 'Duplicate groups', '无效 / 异常号码': 'Invalid numbers',
+  '待重呼 / 待回收': 'Recycle queue', '逾期': 'Overdue', '按计划时间升序': 'Sorted by due time', '今天没有待回访，可以安排新客户': 'Nothing due today — schedule new calls',
+  '没有逾期，保持住': 'No overdue items', '还没有记事': 'No notes yet', '暂无数据': 'No data', '待联系': 'To contact',
+  '跟进中': 'Following', '有意向': 'Interested', '已成交': 'Won', '无意向': 'Not interested',
+  '已接通': 'Connected', '无人接听': 'No answer', '占线': 'Busy', '号码无效': 'Invalid number',
+  '拒绝联系': 'Refused', '待处理': 'Pending', '待回访': 'Pending', '已完成': 'Done',
+  '已取消': 'Cancelled', '已逾期': 'Overdue', '即将到期': 'Due soon', '已超时': 'Late',
+  '禁呼': 'Do not call', '禁止联系': 'Do not call', '号码异常': 'Bad numbers', '已标无效': 'Marked invalid',
+  '格式异常': 'Bad format', '有效': 'Valid', '管理员': 'Administrator', '主管': 'Supervisor',
+  '员工': 'Agent', '全部状态': 'All statuses', '全部负责人': 'All owners', '全部员工': 'All agents',
+  '全部结果': 'All results', '全部客户': 'All customers', '待重呼': 'To recycle', '重复客户': 'Duplicates',
+  '共': 'Total', '上一页': 'Prev', '下一页': 'Next', '已选': 'Selected',
+  '分配给…': 'Assign to…', '标记无效': 'Mark invalid', '取消选择': 'Clear', '导出': 'Export',
+  '上传 XLSX': 'Upload XLSX', '导入 XLSX': 'Import XLSX', '下载模板': 'Template', '打开客户体检': 'Open data health',
+  '分配客户给下属': 'Assign customers', '团队情况': 'Team overview', '安排回访': 'Schedule callback', '写跟进': 'Log call',
+  '详情': 'Detail', '处理': 'Handle', '转移': 'Transfer', '新增呼叫记事': 'New call note',
+  '完成回访并登记记事': 'Complete callback & log', '联系时间': 'Call time', '联系结果': 'Result', '记事内容': 'Notes',
+  '更新客户状态（可选）': 'Update status (optional)', '保持不变': 'Keep current', '同时安排下一次回访': 'Also schedule next callback', '回访事项': 'Subject',
+  '计划时间': 'Scheduled', '提前提醒': 'Remind before', '创建回访': 'Create callback', '改期': 'Reschedule',
+  '新的计划时间': 'New time', '改期原因 *': 'Reason *', '确认改期': 'Confirm', '取消回访': 'Cancel callback',
+  '取消原因 *': 'Reason *', '确认取消': 'Confirm cancel', '转移客户': 'Transfer customer', '新负责人': 'New owner',
+  '同时转移未完成回访': 'Move open callbacks', '确认转移': 'Confirm', '批量分配客户': 'Bulk assign', '分配给': 'Assign to',
+  '同步转移未完成回访': 'Move open callbacks', '给对方发一条站内提醒': 'Notify the assignee', '确认分配': 'Confirm assign', '合并重复客户': 'Merge duplicates',
+  '保留哪一条作为主记录': 'Keep as master', '确认合并': 'Confirm merge', '上传客户 XLSX（预览）': 'Upload customer XLSX (preview)', '分配方式': 'Distribution',
+  '统一分配给指定人': 'All to one person', '平均分配给下属（推荐）': 'Evenly across team (recommended)', '暂不分配，先留在我名下': 'Leave with me', '指定负责人（选「统一分配」时生效）': 'Owner (for single mode)',
+  '确认导入 5 条': 'Import 5 rows', '导出客户': 'Export customers', '导出范围': 'Scope', '当前筛选结果': 'Current filter',
+  '仅我负责的客户': 'Only mine', '号码处理': 'Phone numbers', '脱敏（中间四位隐藏）': 'Masked', '明文号码（高风险，逐次留痕）': 'Full numbers (audited)',
+  '确认导出': 'Export', '新增账号': 'New account', '登录账号': 'Username', '编辑账号': 'Edit account',
+  '创建账号': 'Create', '角色权限': 'Role permissions', '功能': 'Capability', '个人额外授权': 'Per-user grants',
+  '数据范围（按角色固定）': 'Data scope (fixed by role)', '客户资产规则': 'Asset rules', '周期重呼间隔（天）': 'Recycle interval (days)', '最大重呼次数': 'Max attempts',
+  '单次导出上限（条）': 'Export limit', '每日查看完整号码上限': 'Daily reveal limit', '列表中默认脱敏显示手机号': 'Mask phone numbers by default', '数据备份': 'Backup',
+  '立即备份': 'Back up now', '操作审计': 'Audit log', '登录日志': 'Login log', '时间': 'Time',
+  '操作人': 'Operator', '结果': 'Result', '设备': 'Device', '成功': 'Success',
+  '失败': 'Failed', '主题': 'Theme', '字号': 'Font size', '语言': 'Language',
+  '深色': 'Dark', '浅色': 'Light', '高对比': 'Contrast', '护眼': 'Eye-care',
+  '小': 'S', '中': 'M', '大': 'L', '特大': 'XL',
+  '呼叫队列': 'Call queue', '跳过': 'Skip', '退出队列': 'Exit queue', '第': 'No.',
+  '位': '', '本次结果': 'Result', '历史记事': 'History', '累计呼叫': 'Total calls',
+  '未接通': 'Not reached', '今日剩余': 'Left today', '完整号码': 'Full numbers', '查看完整号码': 'Reveal number',
+  '数据范围': 'Scope', '本人 +': 'Self +', '名下属': 'reports', '仅本人客户': 'Own customers only',
+  '小组成员': 'Team members', '组员归属': 'Member assignment', '小组名': 'Team name', '转移组员': 'Move member',
+  '新主管': 'New supervisor', '顺序分配': 'Sequential', '随机分配': 'Random', '数量': 'Count',
+  '分配': 'Assign', '按数量分配': 'Assign by count', '我名下客户': 'My customers', '团队全部客户': 'All team customers',
+  '第一次登录必须修改初始密码': 'You must change the initial password', '无导出权限': 'No export permission', '今天': 'Today', '列表': 'List',
+  '小组': 'Team', '待办': 'Tasks', '管理': 'Manage', '组员': 'Members',
+  '组长': 'Team lead', '记事': 'Notes', '说明': 'Note', '业务': 'Business',
+  '人数': 'Members', '合并…': 'Merge…', '客户数': 'Customers', '按时率': 'On-time',
+  '月视图': 'Month', '未联系': 'Not contacted', '记录人': 'Author', '转移到': 'Move to',
+  '↧ 导出': '↧ Export', '下属统计': 'Team stats', '今日完成': 'Done today', '今日登记': 'Logged today',
+  '作废记事': 'Void note', '号码相同': 'Same number', '周期重呼': 'Recycle', '回工作台': 'Back to dashboard',
+  '密码登录': 'Password login', '密码规则': 'Password policy', '导入客户': 'Import customers', '小组管理': 'Team management',
+  '小组：—': 'Team: —', '当前逾期': 'Overdue now', '手工建档': 'Create manually', '批量分配': 'Bulk assign',
+  '操作日志': 'Audit log', '数据体检': 'Data health', '本组概况': 'Team overview', '权限配置': 'Permission setup',
+  '查看客户': 'View customers', '查看日历': 'Open calendar', '每日自动': 'Daily auto', '禁用账号': 'Disable account',
+  '编辑客户': 'Edit customers', '联系客户': 'Contacted', '负责客户': 'Owned', '账号管理': 'Account admin',
+  '重设密码': 'Reset password', '需填原因': 'Reason required', '· 管理员': ' · Administrator', '停呼并留痕': 'Stop calling, audited',
+  '含周期重呼': 'incl. recycle', '含批量分配': 'incl. bulk assign', '建议主记录': 'Suggested master', '本人与下属': 'Me + team',
+  '账号已禁用': 'Account disabled', '队列已清空': 'Queue cleared', '▦ 安排回访': '▦ Schedule', '▩ 团队情况': '▩ Team',
+  '人工登记次数': 'Manually logged', '今日完成回访': 'Callbacks done today', '今日登记外呼': 'Calls logged today', '修改我的密码': 'Change my password',
+  '团队统计看板': 'Team board', '外呼 CRM': 'Outbound CRM', '导入客户名单': 'Import customer list', '导出明文号码': 'Export full numbers',
+  '当前逾期回访': 'Overdue callbacks', '最近团队动态': 'Recent team activity', '标记无效号码': 'Mark invalid number', '登记呼叫记事': 'Log a call note',
+  '记录外呼结果': 'Log call result', '重新加载队列': 'Reload queue', '重置演示数据': 'Reset demo data', '＋ 新增客户': '＋ New customer',
+  '＋ 新增账号': '＋ New account', '＋ 新建小组': '＋ New team', '⇄ 按数量分配': '⇄ Assign by count', '周期规则、备份': 'Cycle rules & backup',
+  '姓名 / 账号': 'Name / account', '按完成时间统计': 'By completion time', '改资料、改状态': 'Edit profile & status', '每次查看写审计': 'Every view audited',
+  '角色与个人授权': 'Roles & grants', '账号与直属关系': 'Accounts & reporting lines', '列表、详情、搜索': 'List, detail, search', '号码中间四位隐藏': 'Middle 4 digits hidden',
+  '导出客户（脱敏）': 'Export (masked)', '改名 / 换组长': 'Rename / change lead', '高风险，逐次留痕': 'High risk, audited each time', '↥ 上传 XLSX': '↥ Upload XLSX',
+  '⇄ 分配客户给下属': '⇄ Assign to team', '分配 / 转移客户': 'Assign / transfer', '数据范围：全部客户': 'Scope: all customers', '近 7 日登记外呼': 'Calls logged, last 7 days',
+  '客户名单属于公司资产': 'Customer list is a company asset', '管理员可管理全部账号': 'Admin manages all accounts', '系统管理员 登录系统': 'System admin signed in', '该角色已拥有全部权限': 'This role already has every permission',
+  '↥ 上传客户 XLSX': '↥ Upload customer XLSX', '账号 test01 已禁用': 'Account test01 disabled', '客户资产 · 原型 v2.0': 'Customer assets · Prototype v2.0', '新增 / 禁用 / 重置密码': 'Create / disable / reset password',
+  '全部客户、全部账号、可导出明文号码': 'All customers, all accounts, full-number export', '仅本人负责的客户；不可导出、不可分配': 'Own customers only; no export, no assignment', '修改立即生效 · 管理员固定全部权限': 'Takes effect immediately · admin always has all', '脱敏导出 · 团队范围 · 26 条': 'Masked export · team scope · 26 rows',
+  '点击姓名查看预览 · 数据为当前团队范围': 'Click a name to preview · team scope', '本人 + 直属下属的客户；可分配客户、上传名单': 'Own + direct reports; can assign and upload', '最近备份：10-20 03:00 · 保留最近 14 份': 'Last backup 10-20 03:00 · keep 14 copies', '本机备份防误操作，不防硬盘损坏；应再把备份复制到另一台设备。': 'Local backups guard against mistakes, not disk failure — copy them to another machine.',
+  '数据范围不随权限点变化，避免「有查看权限但看到别人客户」的越权。': 'Data scope never follows permission points, so "can view" never leaks other owners\' customers.', '系统管理员 当前角色：管理员。以下为角色未包含、可单独授予的权限：': 'System admin · role: Administrator. These permissions are outside the role and can be granted individually:', '数据权限：当前身份可见 33 / 33 位客户。管理员可见全部客户。': 'Data scope: 33 / 33 customers visible. Admin sees all.', '用于临时场景，例如让某个员工临时导出一次数据。授权与撤销都会写审计。': 'For temporary cases, e.g. letting one agent export once. Grants and revocations are audited.',
+  '· 被他人重设密码后，该账号下次登录会被强制要求修改，旧会话立即失效。': '· After a reset by someone else the account must change its password at next sign-in, and old sessions die.', '登录失败也会记录，用于发现异常尝试；真实系统应同时按 IP 做失败限速。': 'Failed sign-ins are logged to spot unusual attempts; a real system should also rate-limit by IP.', '批次 #20261019-01 · 成功 42 / 跳过 6 / 失败 2': 'Batch #20261019-01 · 42 ok / 6 skipped / 2 failed', '今天的回访和待联系客户都处理完了。可以回工作台看看逾期，或让主管分配新名单。': 'Today\'s callbacks and to-contact customers are done. Check overdue items on the dashboard, or ask your supervisor for a new list.',
+  '· 员工可自行修改密码；主管可重设本组组员的密码；管理员可重设全部账号的密码。': '· Agents change their own password; supervisors reset their team; admins reset anyone.', '修改后立即生效。真实系统这些值应存在 app_settings 表并留变更审计。': 'Applied immediately. A real system stores these in app_settings and audits changes.', '· 真实系统存 bcrypt 摘要，登录失败 5 次锁定 10 分钟，并记录 IP。': '· A real system stores bcrypt hashes, locks for 10 min after 5 failures, and records IPs.', '客户体检把「重复、打不通、反复打不通」三类问题集中处理，避免坐席把时间花在无效号码上。': 'Data health groups duplicates, unreachable numbers and repeat misses so agents stop wasting time.',
+  '转移会改变该组员可见的客户范围（客户仍归本人，不随组长变化）；已完成回访与历史记事保留。': 'Moving a member changes their visible scope (customers stay with their owner, not the team lead); completed callbacks and notes are kept.', '备份方式：SQLite 一致性备份（VACUUM INTO），不在运行中直接复制 crm.db': 'Method: consistent SQLite backup (VACUUM INTO) — never copy crm.db while running', '日历直接读取回访任务，不维护第二套日期。红=逾期 · 绿=已完成 · 灰划线=已取消。点击任意日期查看当天安排。': 'The calendar reads callback tasks directly — no second copy of dates. Red = overdue · green = done · struck grey = cancelled. Click any day to see it.', '判定规则：标准化手机号相同，或姓名 + 公司完全相同。合并后记事与未完成回访会转移到主记录，重复记录隐藏但保留可追溯。': 'Rule: same normalized phone, or same name + company. Notes and open callbacks move to the master record; duplicates are hidden but traceable.',
+  '权限在服务端按「角色 + 数据范围」双重校验：员工访问他人客户详情、日历、记事、导出、搜索建议都会被拒绝，不只是隐藏按钮。': 'The server checks role + data scope on every call: an agent reaching for someone else\'s customer, calendar, notes, export or search suggestion is denied — not merely hidden.', '统计口径：登记外呼 = 未作废记事数；联系客户 = 有记事的客户去重数；已接通 = 人工标记为已接通；当前逾期 = 待处理且计划时间早于今日 0 点。系统不采集通话时长与真实接通率。': 'Definitions: logged calls = non-voided notes; contacted = distinct customers with notes; connected = manually marked connected; overdue = pending and due before today 00:00. No call duration or true connect rate is collected.', '客户名单属于公司资产：': 'Customer list is a company asset:', '手机号默认脱敏；查看完整号码与导出都会写入审计，明文导出仅管理员可用。': 'phones are masked by default; revealing and exporting are audited, and full-number export is admin-only.',
+  '当前身份可导出 明文。': 'Your export level: full numbers.', '当前身份可导出 脱敏数据。': 'Your export level: masked data.', '当前身份无导出权限。': 'You have no export permission.', '周一': 'Mon',
+  '周二': 'Tue', '周三': 'Wed', '周四': 'Thu', '周五': 'Fri',
+  '周六': 'Sat', '周日': 'Sun', '今天 · 全部': 'Today · all', '本月': 'This month',
+  '搜索姓名 / 手机号 / 公司': 'Search name / phone / company', '请输入账号': 'Enter account', '请输入密码': 'Enter password', '至少 6 位': 'At least 6 characters',
+  '例如：华东一组': 'e.g. East China Team 1', '客户说了什么、达成什么、下一步…': 'What the customer said, what was agreed, next step…', '后续跟进': 'Follow-up', '写跟进并完成': 'Log call & complete',
+  '这天没有回访安排': 'No callbacks this day', '暂无登录记录': 'No sign-in records', '暂无操作记录': 'No activity yet', '还没有历史记事，这是第一次联系': 'No notes yet — this is the first contact',
+  '已保存，队列已清空': 'Saved. Queue is clear.', '请先选择联系结果': 'Pick a call result first', '管理员为你设置了初始密码，修改后才能继续使用系统。': 'An administrator set your initial password. Change it before you continue.', '首次登录必须修改初始密码': 'Change the initial password on first sign-in',
+  '临时密码只显示这一次，请通过当面或内部 IM 告知本人。': 'The temporary password is shown once — pass it on in person or via internal IM.', '重设后该账号下次登录必须自行修改密码，旧会话立即失效，操作写入审计。': 'After a reset the account must change its password at next sign-in, old sessions die, and the action is audited.', '从客户池里取出指定数量，按顺序或随机分给组员。适合每天把新名单摊给坐席。': 'Take a fixed number of customers from the pool and hand them out sequentially or at random — the daily way to spread a new list across seats.', '数量超过池内客户数时按实际数量分配；每次分配写入审计并给对方发提醒。': 'If the count exceeds the pool, the real number is used. Every run is audited and the assignee is notified.',
+  '小组名会显示在用户管理、权限管理和侧边栏；组长决定该组的默认数据范围。': 'The team name shows in Users, Permissions and the sidebar; the lead defines the default scope.', '新建后请到「转移组员」把员工放进这个组。': 'After creating it, use "Move member" to place agents in the team.', '只有管理员可以转移组员。主管可在「用户管理」里新增本组组员。': 'Only an admin can move members. Supervisors add agents from Users.', '小组名与组长在「权限管理 → 小组管理」里设置，管理员可把组员在组之间转移。': 'Set names and leads under Permissions → Team management; an admin can move members between teams.',
+  '以下为角色未包含、可单独授予的权限：': 'Permissions outside the role that can be granted individually:', '请填写记事内容': 'Please write the note', '该客户已禁止联系，无法安排回访': 'This customer is marked do-not-call; cannot schedule', '该客户号码已标记无效，无法安排回访': 'This number is marked invalid; cannot schedule',
+  '已保存，下一位': 'Saved. Next up: ', '队列已重新加载': 'Queue reloaded', '只能重设自己组员的密码': 'You can only reset passwords of your own team members', '已有同名小组': 'A team with that name already exists',
+  '请填写小组名': 'Please enter a team name', '小组已更新': 'Team updated', '小组已创建，去「转移组员」把员工放进来': 'Team created — use "Move member" to add agents', '至少选择一名组员': 'Select at least one agent',
+  '客户池里没有可分配的客户': 'Nothing left in the pool to assign', '密码已更新': 'Password updated', '当前密码不正确': 'Current password is wrong', '新密码至少 6 位': 'New password must be at least 6 characters',
+  '两次输入的新密码不一致': 'The two new passwords do not match', '新密码不能与当前密码相同': 'New password must differ from the current one', '该号码已存在客户：': 'A customer with this number already exists: ',
+  '包含已在该组员名下的客户（重新分摊）': 'Include customers already owned by them (rebalance)',
+  '批量分配最少 50 位；少量客户请用「分配给…」': 'Bulk assign needs at least 50 — use "Assign to…" for a few',
+  '队列预览': 'Queue preview', '本次会话': 'This session', '已处理': 'Handled', '剩余': 'Left',
+  '今日接通': 'Connected today', '这是队列最后一位': 'This is the last one in the queue', '接下来': 'Next',
+  '客户来源': 'Source pool', '分配方式': 'Distribution', '组员（可多选）': 'Agents (multi-select)',
+  '改名 / 换组长': 'Rename / change lead', '新建小组': 'New team', '小组名': 'Team name', '组长（主管）': 'Team lead (supervisor)'
+};
+const EN_RULES = [
+  [/^共 (\d+) 条（已筛选）$/, 'Total $1 (filtered)'],
+  [/^共 (\d+) 条 · 人工登记，非电话系统核验数据$/, '$1 notes · manually logged, not telephony-verified'],
+  [/^共 (\d+) 条$/, 'Total $1'],
+  [/^已选 (\d+) 位客户$/, '$1 selected'],
+  [/^第 (\d+) \/ (\d+) 位 · 剩余 (\d+) 位$/, 'No. $1 / $2 · $3 left'],
+  [/^第 (\d+) \/ (\d+) 位$/, 'No. $1 / $2'],
+  [/^(\d+) 分钟前$/, '$1 min ago'],
+  [/^(\d+) 小时前$/, '$1 h ago'],
+  [/^(\d+) 天前$/, '$1 d ago'],
+  [/^逾期 (\d+) 天$/, 'Overdue $1 d'],
+  [/^最早逾期 (\d+) 天前$/, 'Oldest $1 d ago'],
+  [/^其中已过时 (\d+) 条$/, '$1 of them late'],
+  [/^含号码异常 (\d+) 位$/, 'incl. $1 bad numbers'],
+  [/^已接通 (\d+) 条$/, 'Connected $1'],
+  [/^较昨日 ([-+]?\d+) 条$/, '$1 vs yesterday'],
+  [/^涉及 (\d+) 名员工$/, 'Across $1 agents'],
+  [/^今日新增 (\d+)$/, 'New today $1'],
+  [/^(\d+) 个小组 · (\d+) 名员工$/, '$1 teams · $2 agents'],
+  [/^(\d+) 人$/, '$1 members'],
+  [/^(\d+) 条$/, '$1 items'],
+  [/^(\d+) 位$/, '$1'],
+  [/^密码错误 (\d+) 次$/, 'Wrong password x$1'],
+  [/^今日剩余 (\d+) 次$/, '$1 left today'],
+  [/^今日已查看完整号码 (\d+) 次$/, 'Full numbers viewed today: $1'],
+  [/^完整号码：今日剩余 (\d+) 次$/, 'Full numbers left today: $1'],
+  [/^小组：(.+)$/, 'Team: $1'],
+  [/^组长 (.+)$/, 'Lead $1'],
+  [/^数据范围：全部客户$/, 'Scope: all customers'],
+  [/^数据范围：本人 \+ (\d+) 名下属$/, 'Scope: self + $1 reports'],
+  [/^数据范围：仅本人客户$/, 'Scope: own customers only'],
+  [/^全部账号 · 最近 (\d+) 条$/, 'All accounts · latest $1'],
+  [/^本人及直属下属 · 最近 (\d+) 条$/, 'Me + direct reports · latest $1'],
+  [/^最近 (\d+) 条 · 含号码查看与导出$/, 'Latest $1 · includes number views & exports'],
+  [/^最近 (\d+) 条$/, 'Latest $1'],
+  [/^(\d+) 年 (\d+) 月$/, '$2 / $1'],
+  [/^(\d{4})\/(\d{2})\/(\d{2})（周(.)）$/, '$1-$2-$3'],
+  [/^(.+) · 执行人 (.+)$/, '$1 · assignee $2'],
+  [/^欢迎回来，(.+)$/, 'Welcome back, $1'],
+  [/^数量（(\d+)[–-](\d+)）$/, 'Count ($1–$2)'],
+  [/^(.+) · 现属 (.+)$/, '$1 · now under $2'],
+  [/^(.+) · 员工$/, '$1 · Agent'],
+  [/^(.+) · 主管$/, '$1 · Supervisor'],
+  [/^(.+) · 管理员$/, '$1 · Administrator']
+];
+function trText(s) {
+  if (EN[s]) return EN[s];
+  for (const [re, rep] of EN_RULES) if (re.test(s)) return s.replace(re, rep);
+  return null;
+}
+function applyLang() {
+  if (LANG !== 'en') return;
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+  const nodes = [];
+  while (w.nextNode()) {
+    const p = w.currentNode.parentNode;
+    if (!p || /^(SCRIPT|STYLE)$/.test(p.nodeName)) continue;
+    nodes.push(w.currentNode);
+  }
+  nodes.forEach(n => {
+    const raw = n.nodeValue;
+    const s = raw.trim();
+    if (!s) return;
+    const t = trText(s);
+    if (t) n.nodeValue = raw.replace(s, t);
+  });
+  document.querySelectorAll('[placeholder]').forEach(el => {
+    const t = trText(el.getAttribute('placeholder').trim());
+    if (t) el.setAttribute('placeholder', t);
+  });
+  document.querySelectorAll('[title]').forEach(el => {
+    const t = trText(el.getAttribute('title').trim());
+    if (t) el.setAttribute('title', t);
+  });
+}
+
 /* ---------- 登录 ---------- */
 function loginView() {
   const demo = [
@@ -675,11 +1094,15 @@ function loginView() {
     '<h2>外呼 CRM</h2>' +
     '<p class="sub">局域网部署的客户资产与外呼跟进系统。<br>客户名单是公司资产，系统按角色、按人、按次保护。</p>' +
     '<ul>' +
-    '<li><b>①</b><span>坐席只看到自己名下的客户，手机号默认脱敏</span></li>' +
-    '<li><b>②</b><span>主管通过 XLSX 上传名单，批量分配给下属</span></li>' +
-    '<li><b>③</b><span>每次查看完整号码、每次导出都写入审计</span></li>' +
-    '<li><b>④</b><span>重复客户合并、无效号码停呼、未接通按周期重呼</span></li>' +
+    '<li><b>①</b><span>坐席只看到自己名下的客户，手机号默认脱敏，且不能导出</span></li>' +
+    '<li><b>②</b><span>主管通过 XLSX 上传名单，按数量、顺序或随机分配给下属</span></li>' +
+    '<li><b>③</b><span>呼叫台一屏看到客户资料与历史记事，登记结果后自动跳下一位</span></li>' +
+    '<li><b>④</b><span>四套主题、四档字号、中英文全界面切换</span></li>' +
     '</ul>' +
+    '<div class="lchips">' +
+    ['登录与账号', '三级权限', '小组管理', '客户资产保护', 'XLSX 上传 / 导出', '按量分配', '呼叫台', '去重 / 无效 / 周期重呼', '登录与操作日志', '主题 / 字号 / 双语']
+      .map(t => '<span>' + t + '</span>').join('') +
+    '</div>' +
     '<div class="ft">原型数据存于本浏览器 localStorage，不联网、不上传。<br>账号密码仅用于演示流程，真实系统使用 bcrypt + 服务端会话。</div>' +
     '</div>' +
     '<div class="rgt">' +
@@ -694,6 +1117,16 @@ function loginView() {
     '<div class="chips">' + demo.map(d =>
       '<span class="chip" data-act="fill-login" data-id="' + d.u + '">' + d.n + ' / ' + d.p + '</span>').join('') + '</div>' +
     '<div class="demo">' + demo.map(d => d.n + '：' + d.r).join('　·　') + '</div>' +
+    '<div class="logincfg">' +
+    '<span class="tiny dim">界面</span>' +
+    '<div class="seg mini">' +
+    '<button class="' + (DB.settings.lang !== 'en' ? 'on' : '') + '" data-act="set-lang" data-id="zh">中文</button>' +
+    '<button class="' + (DB.settings.lang === 'en' ? 'on' : '') + '" data-act="set-lang" data-id="en">English</button>' +
+    '</div>' +
+    '<div class="sw mini">' + THEMES.map(t =>
+      '<i class="' + (DB.settings.theme === t.id ? 'on' : '') + '" data-act="set-theme" data-id="' + t.id + '" title="' + t.zh + '" ' +
+      'style="background:' + t.bg + '"><span style="background:' + t.panel + '"></span></i>').join('') + '</div>' +
+    '</div>' +
     '</div></div></div>';
 }
 
@@ -701,6 +1134,7 @@ function loginView() {
 function navItems() {
   const items = [];
   items.push({ id: 'dashboard', label: '工作台', ic: '◉' });
+  items.push({ id: 'call', label: '呼叫', ic: '☎' });
   items.push({ id: 'customers', label: '客户', ic: '▤' });
   if (can('customer.merge') || can('customer.invalid')) items.push({ id: 'datahealth', label: '客户体检', ic: '⌗' });
   items.push({ id: 'calendar', label: '回访日历', ic: '▦' });
@@ -708,6 +1142,7 @@ function navItems() {
   if (can('report.team')) items.push({ id: 'board', label: '主管看板', ic: '▩' });
   if (can('user.manage')) items.push({ id: 'users', label: '用户管理', ic: '☰' });
   if (can('perm.manage')) items.push({ id: 'perms', label: '权限管理', ic: '⊞' });
+  if (can('user.manage')) items.push({ id: 'logs', label: '日志', ic: '≡' });
   if (can('setting.manage')) items.push({ id: 'settings', label: '系统设置', ic: '⚙' });
   return items;
 }
@@ -723,9 +1158,10 @@ function shell(content) {
 
   return '<div class="app">' +
     '<aside class="side">' +
-    '<div class="brand"><h1><span class="dot"></span>外呼 CRM</h1><p>客户资产 · 原型 v1.0</p></div>' +
+    '<div class="brand"><h1><span class="dot"></span>外呼 CRM</h1><p>客户资产 · 原型 v2.0</p></div>' +
     '<nav class="nav">' + nav + '</nav>' +
     '<div class="side-ft"><b>' + esc(u.name) + '</b> · ' + roleName +
+    '<br>小组：' + esc(teamName(u)) +
     '<br>数据范围：' + (u.role === 'admin' ? '全部客户' : u.role === 'supervisor' ? '本人 + ' + teamIds(u.id).length + ' 名下属' : '仅本人客户') +
     '<br>完整号码：' + (can('phone.reveal') ? '今日剩余 ' + revealQuota().left + ' 次' : '无权限') +
     '<br><a data-act="logout" style="color:#5b6678;cursor:pointer">退出登录</a> · <a data-act="reset" style="color:#5b6678;cursor:pointer">重置数据</a></div>' +
@@ -734,7 +1170,11 @@ function shell(content) {
     '<header class="top">' +
     '<div class="crumb">' + crumb() + '</div><div class="sp"></div>' +
     '<span class="tiny dim">演示切换</span>' +
-    '<select style="width:110px;height:28px;padding:2px 6px;font-size:12px" data-change="switch-user">' + switchOpts + '</select>' +
+    '<select style="width:110px;height:28px;padding:2px 6px;font-size:calc(12px * var(--fs))" data-change="switch-user">' + switchOpts + '</select>' +
+    '<div style="position:relative">' +
+    '<button class="btn ghost" data-act="toggle-prefs" style="height:30px" title="主题 / 字号 / 语言">Aa</button>' +
+    (state.prefs ? prefsPanel() : '') +
+    '</div>' +
     '<div style="position:relative">' +
     '<button class="btn ghost" data-act="toggle-notif" style="height:30px">🔔 <span class="mono">' + unread + '</span></button>' +
     (state.notif ? notifPanel() : '') +
@@ -750,7 +1190,7 @@ function crumb() {
   const map = {
     dashboard: '工作台', customers: '客户管理', customer: '客户详情', datahealth: '客户体检',
     calendar: '回访日历', notes: '呼叫记事', board: '主管看板', users: '用户管理',
-    perms: '权限管理', settings: '系统设置'
+    perms: '权限管理', settings: '系统设置', call: '呼叫', logs: '日志'
   };
   if (state.view === 'customer') {
     const c = getCustomer(state.custId);
@@ -769,7 +1209,7 @@ function notifPanel() {
   return '<div class="notif">' +
     '<div class="notif-hd">提醒 <span class="sp"></span><a data-act="read-all" style="cursor:pointer;color:#8fb8ff">全部已读</a></div>' +
     '<div class="notif-bd">' + body + '</div>' +
-    '<div style="padding:8px 13px;border-top:1px solid #232b39;font-size:11px;color:#69748a">已读不代表回访完成；关闭网页后不再弹提醒</div></div>';
+    '<div style="padding:8px 13px;border-top:1px solid var(--line);font-size:calc(11px * var(--fs));color:#69748a">已读不代表回访完成；关闭网页后不再弹提醒</div></div>';
 }
 
 /* ---------- 工作台 ---------- */
@@ -826,9 +1266,9 @@ function dashboardView() {
     '<div class="card"><div class="card-hd"><h3>客户资产待处理</h3><span class="sp"></span>' +
     '<button class="btn sm" data-act="nav" data-id="datahealth">打开客户体检</button></div>' +
     '<div class="card-bd" style="display:flex;gap:10px;text-align:center">' +
-    '<div style="flex:1"><div style="font-size:20px;font-weight:600;color:#f7c46a">' + dg.length + '</div><div class="tiny dim">重复客户组</div></div>' +
-    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:20px;font-weight:600;color:#ff96a5">' + inv.length + '</div><div class="tiny dim">无效 / 异常号码</div></div>' +
-    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:20px;font-weight:600;color:#8fb8ff">' + (cy.waiting.length + cy.recycle.length) + '</div><div class="tiny dim">待重呼 / 待回收</div></div>' +
+    '<div style="flex:1"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:#f7c46a">' + dg.length + '</div><div class="tiny dim">重复客户组</div></div>' +
+    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:#ff96a5">' + inv.length + '</div><div class="tiny dim">无效 / 异常号码</div></div>' +
+    '<div style="flex:1;border-left:1px solid #232b39"><div style="font-size:calc(20px * var(--fs));font-weight:600;color:#8fb8ff">' + (cy.waiting.length + cy.recycle.length) + '</div><div class="tiny dim">待重呼 / 待回收</div></div>' +
     '</div></div>' : '';
 
   return kpi +
@@ -914,17 +1354,19 @@ function customersView() {
 
   const allSel = rows.length && rows.every(c => state.selected.has(c.id));
 
-  return '<div class="banner">🛡 <span><b>客户名单属于公司资产</b>：手机号默认脱敏；查看完整号码与导出都会写入审计，' +
-    '明文导出仅管理员可用。当前身份可导出 ' + (can('customer.export.full') ? '明文' : can('customer.export') ? '脱敏数据' : '（无导出权限）') + '。</span>' +
+  return '<div class="banner"><i class="bico"></i><span><b>客户名单属于公司资产：</b> ' +
+    '<span>手机号默认脱敏；查看完整号码与导出都会写入审计，明文导出仅管理员可用。</span> ' +
+    (can('customer.export.full') ? '当前身份可导出 明文。' : can('customer.export') ? '当前身份可导出 脱敏数据。' : '当前身份无导出权限。') + '</span>' +
     '<span class="sp"></span><span class="tiny">今日已查看完整号码 ' + revealQuota().used + ' 次</span></div>' +
     '<div class="card">' +
     '<div class="card-hd" style="flex-wrap:wrap;gap:8px">' +
-    '<input placeholder="搜索姓名 / 手机号 / 公司" value="' + esc(state.q) + '" data-input="q" style="width:210px">' +
-    '<select data-change="f-status" style="width:112px">' + statusOpts + '</select>' +
-    '<select data-change="f-quality" style="width:112px">' + qOpts + '</select>' +
-    (state.user.role !== 'agent' ? '<select data-change="f-owner" style="width:120px">' + ownerOpts + '</select>' : '') +
+    '<input placeholder="搜索姓名 / 手机号 / 公司" value="' + esc(state.q) + '" data-input="q" style="width:240px">' +
+    '<select data-change="f-status" style="width:132px">' + statusOpts + '</select>' +
+    '<select data-change="f-quality" style="width:132px">' + qOpts + '</select>' +
+    (state.user.role !== 'agent' ? '<select data-change="f-owner" style="width:136px">' + ownerOpts + '</select>' : '') +
     '<span class="sp"></span>' +
     (can('customer.import') ? '<button class="btn" data-act="import">↥ 上传 XLSX</button>' : '') +
+    (can('customer.assign') ? '<button class="btn" data-act="assign-plan">⇄ 按数量分配</button>' : '') +
     (can('customer.export') ? '<button class="btn" data-act="export">↧ 导出</button>' : '<button class="btn" disabled title="当前角色无导出权限，需管理员在权限管理中授权">🔒 导出</button>') +
     (can('customer.create') ? '<button class="btn primary" data-act="new-customer">＋ 新增客户</button>' : '') +
     '</div>' +
@@ -964,9 +1406,9 @@ function customerView() {
 
   const head = '<div class="card"><div class="card-bd">' +
     '<div style="display:flex;align-items:flex-start;gap:14px">' +
-    '<div style="width:44px;height:44px;border-radius:11px;background:#243044;display:flex;align-items:center;justify-content:center;font-size:15px;color:#9db6dd">' + esc(shortName(c.name)) + '</div>' +
+    '<div style="width:44px;height:44px;border-radius:11px;background:var(--avbg);display:flex;align-items:center;justify-content:center;font-size:calc(15px * var(--fs));color:var(--avtx)">' + esc(shortName(c.name)) + '</div>' +
     '<div style="flex:1;min-width:0">' +
-    '<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><span style="font-size:17px;font-weight:600">' + esc(c.name) + '</span>' +
+    '<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><span style="font-size:calc(17px * var(--fs));font-weight:600">' + esc(c.name) + '</span>' +
     custBadge(c.status) + (c.dnc ? '<span class="badge b-red">禁止联系</span>' : '') +
     (bad ? '<span class="badge b-red">号码异常</span>' : '') +
     '<span class="tag">' + esc(c.category) + '</span><span class="tag">' + esc(c.source) + '</span></div>' +
@@ -1014,7 +1456,7 @@ function customerView() {
     '<div class="card"><div class="card-hd"><h3>回访安排</h3><span class="badge b-blue">待处理 ' + pending.length + '</span></div>' +
     '<div class="card-bd tight">' + taskList + '</div></div>' +
     '<div class="card"><div class="card-hd"><h3>客户资料</h3></div><div class="card-bd">' +
-    '<table style="font-size:12.5px"><tbody>' +
+    '<table style="font-size:calc(12.5px * var(--fs))"><tbody>' +
     '<tr><td class="dim" style="width:78px;border:none;padding:5px 0">公司</td><td style="border:none;padding:5px 0">' + esc(c.company) + '</td></tr>' +
     '<tr><td class="dim" style="border:none;padding:5px 0">来源</td><td style="border:none;padding:5px 0">' + esc(c.source) + '</td></tr>' +
     '<tr><td class="dim" style="border:none;padding:5px 0">分类</td><td style="border:none;padding:5px 0">' + esc(c.category) + '</td></tr>' +
@@ -1144,7 +1586,7 @@ function calendarView() {
 
   return '<div class="calbar">' +
     '<button class="btn sm" data-act="cal-prev">‹</button>' +
-    '<b style="font-size:14px;min-width:110px;display:inline-block;text-align:center">' + y + ' 年 ' + (m + 1) + ' 月</b>' +
+    '<b style="font-size:calc(14px * var(--fs));min-width:110px;display:inline-block;text-align:center">' + y + ' 年 ' + (m + 1) + ' 月</b>' +
     '<button class="btn sm" data-act="cal-next">›</button>' +
     '<button class="btn sm" data-act="cal-today">今天</button>' +
     '<span style="flex:1"></span>' +
@@ -1263,15 +1705,21 @@ function usersView() {
     const mgr = u.managerId ? getUser(u.managerId) : null;
     const cnt = DB.customers.filter(c => c.ownerId === u.id && !c.mergedInto).length;
     const self = u.id === state.user.id;
+    const canPwd = isAdmin || (u.managerId === state.user.id && u.role === 'agent');
+    const tm = teamOfUser(u);
     return '<tr><td><div style="display:flex;align-items:center;gap:8px">' + avatar(u.name) + '<div>' + esc(u.name) +
       '<div class="tiny dim mono">' + esc(u.username) + '</div></div></div></td>' +
       '<td><span class="badge b-' + ({ admin: 'purple', supervisor: 'blue', agent: 'slate' }[u.role]) + '">' +
       ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</span></td>' +
+      '<td class="tiny">' + (tm ? '<span class="badge b-blue">' + esc(tm.name) + '</span>' : '<span class="dim">—</span>') + '</td>' +
       '<td class="tiny">' + (mgr ? esc(mgr.name) : '<span class="dim">—</span>') + '</td>' +
       '<td class="num">' + cnt + '</td>' +
-      '<td>' + (u.active ? '<span class="badge b-green">启用</span>' : '<span class="badge b-gray">已禁用</span>') + '</td>' +
-      '<td><div style="display:flex;gap:6px">' +
-      '<button class="btn sm" data-act="reset-pwd" data-id="' + u.id + '">重置密码</button>' +
+      '<td>' + (u.active ? '<span class="badge b-green">启用</span>' : '<span class="badge b-gray">已禁用</span>') +
+      (u.mustChange ? '<div class="tiny" style="color:#f2b54b;margin-top:2px">待改密</div>' : '') + '</td>' +
+      '<td><div style="display:flex;gap:6px;flex-wrap:wrap">' +
+      (self ? '<button class="btn sm" data-act="change-pwd">修改我的密码</button>'
+        : (canPwd ? '<button class="btn sm" data-act="set-pwd" data-id="' + u.id + '">重设密码</button>'
+          : '<button class="btn sm" disabled title="只能重设自己组员的密码">🔒 重设密码</button>')) +
       (isAdmin && !self ? '<button class="btn sm" data-act="edit-user" data-id="' + u.id + '">编辑</button>' : '') +
       (self ? '<span class="dim tiny" style="padding:4px 0">当前账号</span>'
         : '<button class="btn sm" data-act="toggle-user" data-id="' + u.id + '">' + (u.active ? '禁用' : '启用') + '</button>') +
@@ -1281,7 +1729,25 @@ function usersView() {
   return '<div class="card"><div class="card-hd"><h3>账号与直属关系</h3><span class="sp"></span>' +
     '<span class="tiny dim">' + (isAdmin ? '管理员可管理全部账号' : '主管仅可管理自己的直属下属') + '</span>' +
     '<button class="btn primary" data-act="new-user">＋ 新增账号</button></div>' +
-    '<div class="tbl-wrap"><table><thead><tr><th>姓名 / 账号</th><th>角色</th><th>直属主管</th><th class="num">负责客户</th><th>状态</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+    '<div class="tbl-wrap"><table><thead><tr><th>姓名 / 账号</th><th>角色</th><th>小组</th><th>直属主管</th><th class="num">负责客户</th><th>状态</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+    '<div class="grid-2" style="margin-top:14px">' +
+    '<div class="card"><div class="card-hd"><h3>密码规则</h3></div><div class="card-bd">' +
+    '<div class="tiny dim" style="line-height:1.9">' +
+    '· 员工可自行修改密码；主管可重设本组组员的密码；管理员可重设全部账号的密码。<br>' +
+    '· 被他人重设密码后，该账号下次登录会被强制要求修改，旧会话立即失效。<br>' +
+    '· 真实系统存 bcrypt 摘要，登录失败 5 次锁定 10 分钟，并记录 IP。</div>' +
+    '</div></div>' +
+    '<div class="card"><div class="card-hd"><h3>本组概况</h3></div><div class="card-bd">' +
+    (DB.teams.filter(t => isAdmin || t.supervisorId === state.user.id).map(t => {
+      const mem = DB.users.filter(u => u.managerId === t.supervisorId);
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #232c3d">' +
+        '<b style="font-size:calc(13px * var(--fs))">' + esc(t.name) + '</b>' +
+        '<span class="tiny dim">组长 ' + esc((getUser(t.supervisorId) || {}).name || '—') + '</span>' +
+        '<span class="sp" style="flex:1"></span>' +
+        '<span class="badge b-slate">' + mem.length + ' 人</span></div>';
+    }).join('') || '<div class="tiny dim">暂未设置小组</div>') +
+    '<div class="help">小组名与组长在「权限管理 → 小组管理」里设置，管理员可把组员在组之间转移。</div>' +
+    '</div></div></div>' +
     '<div class="infobox" style="margin-top:12px">权限在服务端按「角色 + 数据范围」双重校验：员工访问他人客户详情、日历、记事、导出、搜索建议都会被拒绝，不只是隐藏按钮。' +
     (isAdmin ? '' : '主管新增账号时角色固定为员工、直属主管固定为自己。') + '</div>';
 }
@@ -1297,7 +1763,7 @@ function permsView() {
       rows += '<tr><td class="cap">' + p.n + '<small>' + p.d + '</small></td>' +
         ['admin', 'supervisor', 'agent'].map(r => {
           const on = (DB.roles[r] || []).includes(p.id);
-          if (r === 'admin') return '<td style="text-align:center"><span style="color:#5fe0ae;font-size:13px">✓</span></td>';
+          if (r === 'admin') return '<td style="text-align:center"><span style="color:#5fe0ae;font-size:calc(13px * var(--fs))">✓</span></td>';
           return '<td style="text-align:center"><input type="checkbox" ' + (on ? 'checked' : '') +
             ' data-role-perm="' + r + '|' + p.id + '"></td>';
         }).join('') + '</tr>';
@@ -1309,17 +1775,54 @@ function permsView() {
   const pu = getUser(pick);
   const extra = pu ? (pu.extra || []) : [];
   const extraChips = PERMS.filter(p => !(DB.roles[pu.role] || []).includes(p.id)).map(p =>
-    '<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 9px;border:1px solid #2d3748;border-radius:7px;margin:0 6px 6px 0;cursor:pointer;' + (extra.includes(p.id) ? 'background:rgba(76,141,255,.12);border-color:#3a5a8a' : '') + '">' +
+    '<label style="display:inline-flex;align-items:center;gap:6px;font-size:calc(12px * var(--fs));padding:5px 9px;border:1px solid #2d3748;border-radius:7px;margin:0 6px 6px 0;cursor:pointer;' + (extra.includes(p.id) ? 'background:rgba(76,141,255,.12);border-color:#3a5a8a' : '') + '">' +
     '<input type="checkbox" data-user-perm="' + p.id + '" ' + (extra.includes(p.id) ? 'checked' : '') + '> ' + p.n + '</label>').join('');
 
-  return '<div class="card"><div class="card-hd"><h3>角色权限</h3><span class="sp"></span>' +
+  const isAdmin = state.user.role === 'admin';
+
+  // 小组管理：只有管理员能改名、换组长、转移组员
+  const teamRows = DB.teams.map(t => {
+    const mem = DB.users.filter(u => u.managerId === t.supervisorId);
+    const sup = getUser(t.supervisorId);
+    return '<tr><td><b style="font-size:calc(13px * var(--fs))">' + esc(t.name) + '</b></td>' +
+      '<td class="tiny">' + (sup ? esc(sup.name) : '<span class="dim">—</span>') + '</td>' +
+      '<td><div style="display:flex;flex-wrap:wrap;gap:5px">' +
+      (mem.length ? mem.map(u => '<span class="badge b-slate">' + esc(u.name) + '</span>').join('')
+        : '<span class="tiny dim">暂无组员</span>') + '</div></td>' +
+      '<td class="num">' + mem.length + '</td>' +
+      '<td>' + (isAdmin ? '<button class="btn sm" data-act="team-edit" data-id="' + t.id + '">改名 / 换组长</button>' : '<span class="tiny dim">—</span>') + '</td></tr>';
+  }).join('');
+
+  const supList = DB.users.filter(u => u.role === 'supervisor' || u.role === 'admin');
+  const moveForm = isAdmin ? '<form data-form="move-member"><div class="row" style="align-items:flex-end">' +
+    '<div class="field"><label class="fl">组员</label><select name="member">' +
+    DB.users.filter(u => u.role === 'agent').map(u =>
+      '<option value="' + u.id + '">' + esc(u.name) + ' · 现属 ' + (getUser(u.managerId) || { name: '无' }).name + '</option>').join('') +
+    '</select></div>' +
+    '<div class="field"><label class="fl">转移到</label><select name="supervisor">' +
+    supList.map(u => '<option value="' + u.id + '">' + esc(u.name) + ' · ' + ({ admin: '管理员', supervisor: '主管' }[u.role]) + '</option>').join('') +
+    '</select></div>' +
+    '<div class="field" style="flex:0 0 auto"><button class="btn primary" style="height:34px">转移</button></div>' +
+    '</div>' +
+    '<div class="help">转移会改变该组员可见的客户范围（客户仍归本人，不随组长变化）；已完成回访与历史记事保留。</div>' +
+    '</form>' : '<div class="help">只有管理员可以转移组员。主管可在「用户管理」里新增本组组员。</div>';
+
+  const teamCard = '<div class="card"><div class="card-hd"><h3>小组管理</h3><span class="sp"></span>' +
+    '<span class="tiny dim">' + DB.teams.length + ' 个小组 · ' + DB.users.filter(u => u.role === 'agent').length + ' 名员工</span>' +
+    (isAdmin ? '<button class="btn primary" data-act="new-team">＋ 新建小组</button>' : '') + '</div>' +
+    '<div class="tbl-wrap"><table><thead><tr><th>小组名</th><th>组长</th><th>组员</th><th class="num">人数</th><th>操作</th></tr></thead><tbody>' +
+    (teamRows || emptyRow(5, '还没有小组，点右上角新建')) + '</tbody></table></div>' +
+    '<div class="card-bd" style="border-top:1px solid #232c3d;padding-top:14px">' + moveForm + '</div></div>';
+
+  return teamCard +
+    '<div class="card" style="margin-top:14px"><div class="card-hd"><h3>角色权限</h3><span class="sp"></span>' +
     '<span class="tiny dim">修改立即生效 · 管理员固定全部权限</span></div>' +
     '<div class="tbl-wrap"><table class="matrix"><thead><tr><th style="width:46%">功能</th>' +
     '<th style="text-align:center;width:18%">管理员</th><th style="text-align:center;width:18%">主管</th><th style="text-align:center;width:18%">员工</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
     '<div class="grid-2" style="margin-top:14px">' +
     '<div class="card"><div class="card-hd"><h3>数据范围（按角色固定）</h3></div><div class="card-bd">' +
-    '<table style="font-size:12.5px"><tbody>' +
+    '<table style="font-size:calc(12.5px * var(--fs))"><tbody>' +
     '<tr><td class="dim" style="border:none;padding:6px 0;width:80px">管理员</td><td style="border:none;padding:6px 0">全部客户、全部账号、可导出明文号码</td></tr>' +
     '<tr><td class="dim" style="border:none;padding:6px 0">主管</td><td style="border:none;padding:6px 0">本人 + 直属下属的客户；可分配客户、上传名单</td></tr>' +
     '<tr><td class="dim" style="border:none;padding:6px 0">员工</td><td style="border:none;padding:6px 0">仅本人负责的客户；不可导出、不可分配</td></tr>' +
@@ -1349,7 +1852,7 @@ function settingsView() {
     '<div class="field"><label class="fl">最大重呼次数</label><input type="number" min="1" max="10" value="' + st.cycleMax + '" data-set="cycleMax"></div></div>' +
     '<div class="row"><div class="field"><label class="fl">单次导出上限（条）</label><input type="number" min="10" max="5000" value="' + st.exportLimit + '" data-set="exportLimit"></div>' +
     '<div class="field"><label class="fl">每日查看完整号码上限</label><input type="number" min="1" max="200" value="' + st.revealDailyLimit + '" data-set="revealDailyLimit"></div></div>' +
-    '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8;margin-top:4px">' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-top:4px">' +
     '<input type="checkbox" ' + (st.maskPhone ? 'checked' : '') + ' data-set="maskPhone"> 列表中默认脱敏显示手机号</label>' +
     '<div class="help">修改后立即生效。真实系统这些值应存在 app_settings 表并留变更审计。</div>' +
     '</div></div>' +
@@ -1366,6 +1869,161 @@ function settingsView() {
     '<div class="tbl-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>操作</th><th>详情</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
 }
 
+/* ---------- 呼叫台 ---------- */
+function callQueue() {
+  const u = state.user;
+  const mine = DB.customers.filter(c => canSeeCustomer(c) && c.ownerId === u.id && !c.dnc && !c.invalid && isMobile(c.phone)
+    && c.status !== '已成交' && c.status !== '无意向');
+  const tasks = DB.tasks.filter(t => t.assigneeId === u.id && t.status === 'pending').sort((a, b) => ts(a.scheduledAt) - ts(b.scheduledAt));
+  const seen = new Set(), out = [];
+  tasks.forEach(t => {
+    if (seen.has(t.custId)) return;
+    const c = getCustomer(t.custId);
+    if (!c || c.dnc || c.invalid) return;
+    seen.add(t.custId); out.push({ c, t });
+  });
+  mine.filter(c => !seen.has(c.id) && !hasPending(c.id) && c.status === '待联系').forEach(c => { seen.add(c.id); out.push({ c, t: null }); });
+  mine.filter(c => !seen.has(c.id) && !hasPending(c.id)).forEach(c => { seen.add(c.id); out.push({ c, t: null }); });
+  return out.filter(x => !state.callSkip.has(x.c.id) && !state.callDone.has(x.c.id));
+}
+function callView() {
+  const q = callQueue();
+  if (!q.length) {
+    return '<div class="card"><div class="empty" style="padding:60px 20px">' +
+      '<div style="font-size:calc(30px * var(--fs));margin-bottom:10px">✓</div>' +
+      '<div style="font-size:calc(15px * var(--fs));color:#e8ecf4">队列已清空</div>' +
+      '<div class="help">今天的回访和待联系客户都处理完了。可以回工作台看看逾期，或让主管分配新名单。</div>' +
+      '<div style="margin-top:14px"><button class="btn" data-act="call-reset">重新加载队列</button> ' +
+      '<button class="btn primary" data-act="nav" data-id="dashboard">回工作台</button></div></div></div>';
+  }
+  const cur = q[0], c = cur.c;
+  const a = attemptsOf(c.id);
+  const nc = nextCallback(c.id);
+  const shown = state.revealed.has(c.id) ? normPhone(c.phone) : maskPhone(c.phone);
+  const notes = custNotes(c.id).slice(0, 5);
+  const RESULTS = ['已接通', '无人接听', '占线', '号码无效', '拒绝联系'];
+  const total = q.length + state.callDone.size;
+  const pos = state.callDone.size + 1;
+
+  const head = '<div class="callhead">' +
+    '<div><div style="font-size:calc(13px * var(--fs))">呼叫队列</div>' +
+    '<div class="tiny dim">第 ' + pos + ' / ' + total + ' 位 · 剩余 ' + q.length + ' 位</div></div>' +
+    '<div class="prog"><i style="width:' + Math.round((pos - 1) / Math.max(1, total) * 100) + '%"></i></div>' +
+    '<button class="btn sm" data-act="call-skip">跳过</button>' +
+    '<button class="btn sm" data-act="nav" data-id="dashboard">退出队列</button>' +
+    '</div>';
+
+  const left = '<div class="callcard">' +
+    '<div style="display:flex;align-items:flex-start;gap:12px">' +
+    '<div><div class="callname">' + esc(c.name) + '</div>' +
+    '<div class="tiny dim" style="margin-top:2px">' + esc(c.company) + ' · ' + esc(c.category) + ' · ' + esc(c.source) + '</div>' +
+    '<div class="callphone">' + shown +
+    (can('phone.reveal') && !state.revealed.has(c.id) ? ' <button class="eye" data-act="reveal" data-id="' + c.id + '">查看完整号码</button>' : '') + '</div></div>' +
+    '<div style="margin-left:auto;text-align:right">' + custBadge(c.status) +
+    '<div class="tiny dim" style="margin-top:6px">累计呼叫 ' + a.total + ' 次 · 未接 ' + a.miss + ' 次</div>' +
+    (a.last ? '<div class="tiny dim" style="margin-top:2px">上次结果：' + a.last + '</div>' : '') +
+    (nc ? '<div class="tiny dim" style="margin-top:2px">下次回访 ' + fmtDT(nc) + '</div>' : '') +
+    '</div></div>' +
+    '<div class="resbtns">' + RESULTS.map((r, i) =>
+      '<button class="resbtn ' + (state.callResult === r ? 'on' : '') + '" data-act="call-result" data-id="' + r + '">' +
+      r + '<small>' + (i + 1) + '</small></button>').join('') + '</div>' +
+    '<div class="row"><div class="field" style="flex:2"><label class="fl">记事内容</label>' +
+    '<textarea rows="3" data-input="callNote" placeholder="客户说了什么、达成什么、下一步…">' + esc(state.callNote) + '</textarea></div>' +
+    '<div class="field"><label class="fl">更新客户状态（可选）</label>' +
+    '<select data-change="call-status">' +
+    '<option value="">保持不变</option>' +
+    ['待联系', '跟进中', '有意向', '已成交', '无意向'].map(s => '<option value="' + s + '"' + (state.callStatus === s ? ' selected' : '') + '>' + s + '</option>').join('') +
+    '</select>' +
+    '<button class="btn primary" data-act="call-save" style="width:100%;margin-top:9px;height:36px">保存并下一位</button>' +
+    '<button class="btn danger" data-act="call-dnc" data-id="' + c.id + '" style="width:100%;margin-top:7px">标记禁止联系</button>' +
+    '</div></div>' +
+    '<div class="kbdrow"><span><b>1–5</b> 选择结果</span><span><b>Enter</b> 保存并下一位</span><span><b>Ctrl+→</b> 跳过</span>' +
+    (cur.t ? '<span>关联回访：<b>' + esc(cur.t.title) + '</b>（保存后自动完成）</span>' : '<span>该客户暂无待办，保存后会记一条记事</span>') + '</div>' +
+    '</div>';
+
+  const hist = '<div class="card"><div class="card-hd"><h3>历史记事</h3><span class="badge b-slate">' + notes.length + '</span><span class="sp"></span>' +
+    '<button class="btn sm" data-act="open-customer" data-id="' + c.id + '">客户详情</button></div>' +
+    '<div class="card-bd"><div class="callhist">' +
+    (notes.length ? notes.map(n => {
+      const uu = getUser(n.userId);
+      return '<div class="n"><div class="tiny dim">' + fmtDT(n.at) + ' · ' + (uu ? esc(uu.name) : '') + ' ' + resultBadge(n.result) + '</div>' +
+        '<div style="font-size:calc(12.5px * var(--fs));margin-top:3px;line-height:1.6">' + esc(n.content) + '</div></div>';
+    }).join('') : '<div class="empty" style="padding:20px">还没有历史记事，这是第一次联系</div>') +
+    '</div></div>' +
+    '<div class="hr"></div>' +
+    '<div class="tiny dim">未接通的客户会按系统规则（每 ' + DB.settings.cycleDays + ' 天，最多 ' + DB.settings.cycleMax + ' 次）自动排下一次，不需要手工建任务。</div>' +
+    '</div>';
+
+  // 队列预览 + 本次会话进度，让右侧不留大片空白
+  const next = q.slice(1, 5);
+  const doneToday = DB.notes.filter(n => n.userId === state.user.id && !n.voided && sameDay(new Date(n.at), now())).length;
+  const connToday = DB.notes.filter(n => n.userId === state.user.id && !n.voided && n.result === '已接通' && sameDay(new Date(n.at), now())).length;
+  const queueCard = '<div class="card"><div class="card-hd"><h3>队列预览</h3><span class="sp"></span>' +
+    '<span class="tiny dim">接下来 ' + next.length + ' 位</span></div>' +
+    '<div class="card-bd tight">' +
+    (next.length ? next.map((x, i) => {
+      const nc2 = nextCallback(x.c.id);
+      return '<div class="qitem"><span class="qn">' + (i + 2) + '</span>' +
+        '<div style="min-width:0"><div class="qname">' + esc(x.c.name) + '</div>' +
+        '<div class="tiny dim">' + esc(x.c.company) + (nc2 ? ' · ' + fmtDT(nc2) : '') + '</div></div>' +
+        custBadge(x.c.status) + '</div>';
+    }).join('') : '<div class="empty" style="padding:16px">这是队列最后一位</div>') +
+    '</div></div>' +
+    '<div class="card" style="margin-top:12px"><div class="card-hd"><h3>本次会话</h3></div><div class="card-bd">' +
+    '<div class="row2"><div><div class="tiny dim">已处理</div><div class="sv">' + state.callDone.size + '</div></div>' +
+    '<div><div class="tiny dim">剩余</div><div class="sv">' + q.length + '</div></div>' +
+    '<div><div class="tiny dim">今日登记</div><div class="sv">' + doneToday + '</div></div>' +
+    '<div><div class="tiny dim">今日接通</div><div class="sv">' + connToday + '</div></div></div>' +
+    '<div class="help">登记结果后自动跳下一位；队列按「到期回访 → 待联系 → 其他在跟客户」排序。</div>' +
+    '</div></div>';
+
+  return head + '<div class="callwrap"><div class="stack">' + left + '</div><div class="stack">' + hist + queueCard + '</div></div>';
+}
+
+/* ---------- 日志 ---------- */
+function logsView() {
+  if (!can('user.manage')) return noPerm('你没有查看日志的权限');
+  const ids = scopeIds();
+  const tab = state.logTab;
+  const tabs = '<div class="tabs">' +
+    '<a data-act="log-tab" data-id="login" class="' + (tab === 'login' ? 'on' : '') + '">登录日志</a>' +
+    '<a data-act="log-tab" data-id="audit" class="' + (tab === 'audit' ? 'on' : '') + '">操作日志</a></div>';
+
+  if (tab === 'login') {
+    const list = DB.logins.filter(l => (l.userId && ids.includes(l.userId)) || (!l.userId && state.user.role === 'admin'))
+      .sort((a, b) => ts(b.at) - ts(a.at)).slice(0, 120);
+    const rows = list.length ? list.map(l => {
+      const u = l.userId ? getUser(l.userId) : null;
+      return '<tr><td class="mono tiny">' + fmtDT(l.at) + '</td>' +
+        '<td>' + (u ? esc(u.name) : '<span class="dim">' + esc(l.username || '未知') + '</span>') +
+        (u ? '<div class="tiny dim">' + esc(u.username) + '</div>' : '') + '</td>' +
+        '<td class="tiny">' + (u ? ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) : '<span class="dim">—</span>') + '</td>' +
+        '<td>' + (l.ok ? '<span class="badge b-green">成功</span>' : '<span class="badge b-red">失败</span>') + '</td>' +
+        '<td class="mono tiny">' + esc(l.ip) + '</td>' +
+        '<td class="tiny dim">' + esc(l.device) + '</td>' +
+        '<td class="tiny dim">' + esc(l.note) + '</td></tr>';
+    }).join('') : emptyRow(7, '暂无登录记录');
+    return tabs +
+      '<div class="card"><div class="card-hd"><h3>登录日志</h3><span class="sp"></span>' +
+      '<span class="tiny dim">' + (state.user.role === 'admin' ? '全部账号' : '本人及直属下属') + ' · 最近 ' + list.length + ' 条</span></div>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>时间</th><th>账号</th><th>角色</th><th>结果</th><th>IP</th><th>设备</th><th>说明</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>' +
+      '<div class="help">登录失败也会记录，用于发现异常尝试；真实系统应同时按 IP 做失败限速。</div>';
+  }
+
+  const list = DB.audit.filter(a => ids.includes(a.userId)).slice(0, 120);
+  const rows = list.length ? list.map(a => {
+    const u = getUser(a.userId);
+    return '<tr><td class="mono tiny">' + fmtDT(a.at) + '</td>' +
+      '<td class="tiny">' + (u ? esc(u.name) : '—') + '</td>' +
+      '<td class="tiny">' + esc(a.action) + '</td>' +
+      '<td class="tiny dim">' + esc(a.detail) + '</td></tr>';
+  }).join('') : emptyRow(4, '暂无操作记录');
+  return tabs +
+    '<div class="card"><div class="card-hd"><h3>操作日志</h3><span class="sp"></span>' +
+    '<span class="tiny dim">' + (state.user.role === 'admin' ? '全部账号' : '本人及直属下属') + ' · 最近 ' + list.length + ' 条</span></div>' +
+    '<div class="tbl-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>操作</th><th>详情</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+}
+
 /* ---------- 抽屉 ---------- */
 function drawerHtml() {
   const d = state.drawer;
@@ -1377,8 +2035,8 @@ function drawerHtml() {
     body = list.length ? list.map(t => {
       const c = getCustomer(t.custId);
       return '<div class="card" style="margin-bottom:9px"><div class="card-bd" style="padding:11px 13px">' +
-        '<div style="display:flex;align-items:center;gap:8px"><b style="font-size:13px">' + fmtHm(t.scheduledAt) + '</b>' +
-        '<span style="font-size:13px">' + (c ? esc(c.name) : '') + '</span>' + taskBadge(t) + '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px"><b style="font-size:calc(13px * var(--fs))">' + fmtHm(t.scheduledAt) + '</b>' +
+        '<span style="font-size:calc(13px * var(--fs))">' + (c ? esc(c.name) : '') + '</span>' + taskBadge(t) + '</div>' +
         '<div class="tiny dim" style="margin-top:3px">' + esc(t.title) + ' · ' + (getUser(t.assigneeId) || {}).name +
         (t.rescheduleCount ? ' · 改期 ' + t.rescheduleCount + ' 次' : '') + '</div>' +
         (t.status === 'pending' ? '<div style="display:flex;gap:6px;margin-top:8px">' +
@@ -1394,9 +2052,9 @@ function drawerHtml() {
     if (!t) return '';
     const c = getCustomer(t.custId);
     title = '回访任务';
-    body = '<div style="font-size:15px;font-weight:600">' + esc(t.title) + '</div>' +
+    body = '<div style="font-size:calc(15px * var(--fs));font-weight:600">' + esc(t.title) + '</div>' +
       '<div class="tiny dim" style="margin:4px 0 12px">' + (c ? esc(c.name) + ' · ' + esc(c.company) : '') + '</div>' +
-      '<table style="font-size:12.5px"><tbody>' +
+      '<table style="font-size:calc(12.5px * var(--fs))"><tbody>' +
       '<tr><td class="dim" style="border:none;padding:5px 0;width:80px">计划时间</td><td style="border:none;padding:5px 0">' + fmtDT(t.scheduledAt) + ' ' + taskBadge(t) + '</td></tr>' +
       '<tr><td class="dim" style="border:none;padding:5px 0">原计划</td><td style="border:none;padding:5px 0">' + fmtDT(t.originalScheduledAt) + (t.rescheduleCount ? ' <span class="badge b-amber">改期 ' + t.rescheduleCount + ' 次</span>' : '') + '</td></tr>' +
       '<tr><td class="dim" style="border:none;padding:5px 0">执行人</td><td style="border:none;padding:5px 0">' + esc((getUser(t.assigneeId) || {}).name) + '</td></tr>' +
@@ -1422,16 +2080,16 @@ function drawerHtml() {
     title = u.name + ' · 工作预览';
     body = '<div class="kpi" style="grid-template-columns:1fr 1fr;margin-bottom:12px">' +
       kpiCard('负责客户', uc.length, '', '') + kpiCard('当前逾期', od.length, '', od.length ? 'alert' : 'ok') + '</div>' +
-      '<div style="font-size:12.5px;color:#98a3b8;margin:10px 0 6px">今日待办</div>' +
+      '<div style="font-size:calc(12.5px * var(--fs));color:#98a3b8;margin:10px 0 6px">今日待办</div>' +
       (pend.filter(t => sameDay(new Date(t.scheduledAt), now())).map(t => {
         const c = getCustomer(t.custId);
-        return '<div class="item" style="padding:9px 0;border-color:#1c2431"><div class="tm">' + fmtHm(t.scheduledAt) + '</div>' +
+        return '<div class="item" style="padding:9px 0;border-color:var(--cellline)"><div class="tm">' + fmtHm(t.scheduledAt) + '</div>' +
           '<div class="bd"><div class="t1">' + (c ? esc(c.name) : '') + ' ' + taskBadge(t) + '</div><div class="t2">' + esc(t.title) + '</div></div></div>';
       }).join('') || '<div class="tiny dim" style="padding:6px 0">今天没有安排</div>') +
-      '<div class="hr"></div><div style="font-size:12.5px;color:#98a3b8;margin:6px 0">最近记事</div>' +
+      '<div class="hr"></div><div style="font-size:calc(12.5px * var(--fs));color:#98a3b8;margin:6px 0">最近记事</div>' +
       (un.slice(0, 5).map(n => {
         const c = getCustomer(n.custId);
-        return '<div style="padding:8px 0;border-bottom:1px solid #1c2431"><div class="tiny">' +
+        return '<div style="padding:8px 0;border-bottom:1px solid var(--cellline)"><div class="tiny">' +
           '<b>' + (c ? esc(c.name) : '') + '</b> ' + resultBadge(n.result) + ' <span class="dim">' + fmtDT(n.at) + '</span></div>' +
           '<div class="tiny dim" style="margin-top:2px">' + esc(n.content) + '</div></div>';
       }).join('') || '<div class="tiny dim">暂无</div>');
@@ -1454,8 +2112,8 @@ function modalHtml() {
     inner = '<div class="modal-hd"><h3>' + (isComplete ? '完成回访并登记记事' : '新增呼叫记事') + '</h3><button class="x" data-act="close-modal">×</button></div>' +
       '<form data-form="note" data-cust="' + m.custId + '" data-task="' + (m.taskId || '') + '">' +
       '<div class="modal-bd">' +
-      '<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:#1a212c;border-radius:8px;margin-bottom:14px">' +
-      avatar(c.name) + '<div><div style="font-size:13px">' + esc(c.name) + ' <span class="dim tiny">' + esc(c.company) + '</span></div>' +
+      '<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--hover2);border-radius:8px;margin-bottom:14px">' +
+      avatar(c.name) + '<div><div style="font-size:calc(13px * var(--fs))">' + esc(c.name) + ' <span class="dim tiny">' + esc(c.company) + '</span></div>' +
       '<div class="tiny dim mono">' + maskPhone(c.phone) + '</div></div>' +
       '<span style="margin-left:auto">' + custBadge(c.status) + '</span></div>' +
       (t ? '<div class="infobox" style="margin-bottom:12px">本次回访：' + esc(t.title) + ' · 计划 ' + fmtDT(t.scheduledAt) + '</div>' : '') +
@@ -1467,7 +2125,7 @@ function modalHtml() {
       '<option value="">保持不变</option>' +
       ['待联系', '跟进中', '有意向', '已成交', '无意向'].map(s => '<option value="' + s + '"' + (s === c.status ? ' selected' : '') + '>' + s + '</option>').join('') +
       '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8;margin:14px 0 0">' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin:14px 0 0">' +
       '<input type="checkbox" name="next" data-change="toggle-next"> 同时安排下一次回访</label>' +
       '<div id="nextBox" class="hidden" style="margin-top:12px;padding:12px;background:#12171f;border:1px solid #232b39;border-radius:8px">' +
       '<div class="field"><label class="fl">回访事项</label><input name="nextTitle" placeholder="例如：确认报价反馈"></div>' +
@@ -1539,7 +2197,7 @@ function modalHtml() {
       '<div class="modal-bd"><div class="tiny dim" style="margin-bottom:12px">' + esc(c.name) + ' · 当前负责人 ' + esc((getUser(c.ownerId) || {}).name) + '</div>' +
       '<div class="field"><label class="fl">新负责人</label><select name="owner">' +
       assignTargets().filter(u => u.id !== c.ownerId).map(u => '<option value="' + u.id + '">' + esc(u.name) + ' · ' + ({ admin: '管理员', supervisor: '主管', agent: '员工' }[u.role]) + '</option>').join('') + '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8"><input type="checkbox" name="moveTasks" checked> 同时转移未完成回访</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8"><input type="checkbox" name="moveTasks" checked> 同时转移未完成回访</label>' +
       '<div class="help">已完成回访与历史记事保留原执行人/记录人，统计可追溯。</div></div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认转移</button></div></form>';
   } else if (m.type === 'bulk-assign') {
@@ -1550,8 +2208,8 @@ function modalHtml() {
       '<div class="modal-bd">' +
       '<div class="infobox" style="margin-bottom:12px">已选 <b>' + n + '</b> 位客户' + (names ? '（' + esc(names) + (n > 4 ? ' 等' : '') + '）' : '') + '，将整批转给同一位负责人。分配会写入审计，原负责人立即失去访问权。</div>' +
       '<div class="field"><label class="fl">分配给</label><select name="owner">' + assignOptions() + '</select></div>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8;margin-bottom:8px"><input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
-      '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#98a3b8"><input type="checkbox" name="notify" checked> 给对方发一条站内提醒</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8;margin-bottom:8px"><input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8"><input type="checkbox" name="notify" checked> 给对方发一条站内提醒</label>' +
       '<div class="help">呼叫中心的常见做法：主管每天把新导入的名单平均分给下属，避免抢客户。</div>' +
       '</div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认分配</button></div></form>';
@@ -1564,7 +2222,7 @@ function modalHtml() {
       '<div class="modal-bd">' +
       '<div class="warnbox" style="margin-bottom:12px">合并不可撤销。被合并的记录会隐藏，记事与未完成回访转移到主记录。</div>' +
       '<div class="field"><label class="fl">保留哪一条作为主记录</label><select name="master">' + opts + '</select></div>' +
-      '<table style="font-size:12px"><thead><tr><th>客户</th><th>记事</th><th>待办</th><th>负责人</th></tr></thead><tbody>' +
+      '<table style="font-size:calc(12px * var(--fs))"><thead><tr><th>客户</th><th>记事</th><th>待办</th><th>负责人</th></tr></thead><tbody>' +
       g.items.map(c => '<tr><td>' + esc(c.name) + '</td><td>' + custNotes(c.id).length + '</td><td>' +
         DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').length + '</td><td class="tiny">' + esc((getUser(c.ownerId) || {}).name) + '</td></tr>').join('') +
       '</tbody></table></div>' +
@@ -1592,7 +2250,7 @@ function modalHtml() {
       '</select></div>' +
       '<div class="field"><label class="fl">指定负责人（选「统一分配」时生效）</label><select name="owner">' +
       assignOptions() + '</select></div>' +
-      '<div style="max-height:200px;overflow:auto;border:1px solid #232b39;border-radius:8px"><table style="font-size:12px"><thead><tr>' +
+      '<div style="max-height:200px;overflow:auto;border:1px solid #232b39;border-radius:8px"><table style="font-size:calc(12px * var(--fs))"><thead><tr>' +
       '<th>姓名</th><th>电话</th><th>公司</th><th>结果</th></tr></thead><tbody>' +
       rows.map(r => '<tr><td>' + (r[0] || '<span class="badge b-red">空</span>') + '</td><td class="mono tiny">' + r[1] + '</td><td class="tiny">' + r[2] + '</td>' +
         '<td>' + (r[3] === 'ok' ? '<span class="badge b-green">新增</span>' : r[3] === 'dup' ? '<span class="badge b-amber">' + r[4] + '</span>' : '<span class="badge b-red">' + r[4] + '</span>') + '</td></tr>').join('') +
@@ -1605,7 +2263,7 @@ function modalHtml() {
     inner = '<div class="modal-hd"><h3>导出客户</h3><button class="x" data-act="close-modal">×</button></div>' +
       '<form data-form="export">' +
       '<div class="modal-bd">' +
-      '<div class="banner" style="margin-bottom:12px">🛡 <span>导出会把客户名单带离系统。本次导出将记录操作人、时间、范围与条数。</span></div>' +
+      '<div class="banner" style="margin-bottom:12px"><i class="bico"></i><span>导出会把客户名单带离系统。本次导出将记录操作人、时间、范围与条数。</span></div>' +
       '<div class="row"><div class="field"><label class="fl">导出范围</label><select name="scope">' +
       '<option value="filtered">当前筛选结果（' + total + ' 条）</option>' +
       '<option value="mine">仅我负责的客户</option>' +
@@ -1648,6 +2306,79 @@ function modalHtml() {
       '<div class="warnbox">调整直属关系会改变该账号可见的客户范围；历史记事与已完成回访不随之转移。</div>' +
       '</div>' +
       '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">保存</button></div></form>';
+  } else if (m.type === 'change-pwd') {
+    const force = !!m.force;
+    inner = '<div class="modal-hd"><h3>' + (force ? '首次登录必须修改初始密码' : '修改密码') + '</h3>' +
+      (force ? '' : '<button class="x" data-act="close-modal">×</button>') + '</div>' +
+      '<form data-form="change-pwd">' +
+      '<div class="modal-bd">' +
+      (force ? '<div class="warnbox" style="margin-bottom:12px">管理员为你设置了初始密码，修改后才能继续使用系统。</div>' : '') +
+      '<div class="field"><label class="fl">当前密码</label><input type="password" name="old" required></div>' +
+      '<div class="row"><div class="field"><label class="fl">新密码</label><input type="password" name="p1" placeholder="至少 6 位" required></div>' +
+      '<div class="field"><label class="fl">确认新密码</label><input type="password" name="p2" required></div></div>' +
+      '<div class="help">密码修改后其他会话应立即失效；真实系统存 bcrypt 摘要，不保存明文。</div>' +
+      '</div>' +
+      '<div class="modal-ft">' + (force ? '<button type="button" class="btn" data-act="logout">退出登录</button>' : '<button type="button" class="btn" data-act="close-modal">取消</button>') +
+      '<button class="btn primary">保存新密码</button></div></form>';
+  } else if (m.type === 'set-pwd') {
+    const u = getUser(m.userId);
+    const self = u.id === state.user.id;
+    inner = '<div class="modal-hd"><h3>' + (self ? '修改我的密码' : '重设密码 · ' + esc(u.name)) + '</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="set-pwd" data-id="' + u.id + '">' +
+      '<div class="modal-bd">' +
+      (self ? '<div class="field"><label class="fl">当前密码</label><input type="password" name="old" required></div>' : '') +
+      '<div class="field"><label class="fl">新密码</label><input name="p1" value="' + esc(m.suggest || '') + '" placeholder="至少 6 位" required></div>' +
+      '<div class="field"><label class="fl">确认新密码</label><input name="p2" value="' + esc(m.suggest || '') + '" required></div>' +
+      (self ? '' : '<div class="warnbox">重设后该账号下次登录必须自行修改密码，旧会话立即失效，操作写入审计。</div>') +
+      '<div class="help">临时密码只显示这一次，请通过当面或内部 IM 告知本人。</div>' +
+      '</div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">确认修改</button></div></form>';
+  } else if (m.type === 'assign-plan') {
+    const agents = assignTargets().filter(u => u.role === 'agent');
+    const pool = {
+      filtered: filteredCustomers().length,
+      mine: visibleCustomers().filter(c => c.ownerId === state.user.id).length,
+      team: visibleCustomers().length
+    };
+    inner = '<div class="modal-hd"><h3>按数量分配客户</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="assign-plan">' +
+      '<div class="modal-bd">' +
+      '<div class="infobox" style="margin-bottom:12px">从客户池里取出指定数量，按顺序或随机分给组员。适合每天把新名单摊给坐席。</div>' +
+      '<div class="row"><div class="field"><label class="fl">客户来源</label><select name="scope">' +
+      '<option value="filtered">当前筛选结果（' + pool.filtered + '）</option>' +
+      '<option value="mine">我名下客户（' + pool.mine + '）</option>' +
+      '<option value="team">团队全部客户（' + pool.team + '）</option>' +
+      '</select></div>' +
+      '<div class="field"><label class="fl">数量（50–1000）</label><input type="number" name="count" min="50" max="1000" step="10" value="50" required></div></div>' +
+      '<div class="field"><label class="fl">分配方式</label><select name="mode">' +
+      '<option value="seq">顺序分配（按客户顺序轮流）</option>' +
+      '<option value="rand">随机分配（打乱后轮流）</option></select></div>' +
+      '<div class="field"><label class="fl">组员（可多选）</label><div class="selbox">' +
+      (agents.length ? agents.map((u, i) => '<label><input type="checkbox" name="t" value="' + u.id + '" checked> ' +
+        esc(u.name) + ' <span class="dim tiny">· 当前 ' + DB.customers.filter(c => c.ownerId === u.id && !c.mergedInto).length + ' 位</span></label>').join('')
+        : '<div class="tiny dim" style="padding:8px">没有可分配的组员</div>') +
+      '</div></div>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8">' +
+      '<input type="checkbox" name="includeOwned" checked> 包含已在该组员名下的客户（重新分摊）</label>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:calc(12.5px * var(--fs));color:#98a3b8">' +
+      '<input type="checkbox" name="moveTasks" checked> 同步转移未完成回访</label>' +
+      '<div class="help">数量超过池内客户数时按实际数量分配；每次分配写入审计并给对方发提醒。</div>' +
+      '</div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">开始分配</button></div></form>';
+  } else if (m.type === 'team') {
+    const t = m.teamId ? DB.teams.find(x => x.id === m.teamId) : null;
+    const isNew = !t;
+    inner = '<div class="modal-hd"><h3>' + (isNew ? '新建小组' : '设置小组') + '</h3><button class="x" data-act="close-modal">×</button></div>' +
+      '<form data-form="team" data-id="' + (isNew ? '' : t.id) + '">' +
+      '<div class="modal-bd">' +
+      '<div class="field"><label class="fl">小组名</label><input name="name" value="' + (isNew ? '' : esc(t.name)) + '" placeholder="例如：华东一组" required></div>' +
+      '<div class="field"><label class="fl">组长（主管）</label><select name="supervisor">' +
+      DB.users.filter(u => u.role === 'supervisor' || u.role === 'admin').map(u =>
+        '<option value="' + u.id + '"' + (!isNew && t.supervisorId === u.id ? ' selected' : '') + '>' + esc(u.name) + '</option>').join('') + '</select></div>' +
+      '<div class="help">小组名会显示在用户管理、权限管理和侧边栏；组长决定该组的默认数据范围。' +
+      (isNew ? '新建后请到「转移组员」把员工放进这个组。' : '') + '</div>' +
+      '</div>' +
+      '<div class="modal-ft"><button type="button" class="btn" data-act="close-modal">取消</button><button class="btn primary">保存</button></div></form>';
   }
   return '<div class="mask"><div class="modal' + (m.type === 'perms' ? ' wide' : '') + '">' + inner + '</div></div>';
 }
@@ -1665,16 +2396,19 @@ function viewHtml() {
     case 'users': return usersView();
     case 'perms': return permsView();
     case 'settings': return settingsView();
+    case 'call': return callView();
+    case 'logs': return logsView();
     default: return '';
   }
 }
 function render() {
-  if (!state.user) { $app.innerHTML = loginView(); return; }
+  if (!state.user) { $app.innerHTML = loginView(); applyLang(); return; }
   const sc = document.getElementById('content');
   const st = sc ? sc.scrollTop : 0;
   $app.innerHTML = shell(viewHtml());
   const nc = document.getElementById('content');
   if (nc) nc.scrollTop = st;
+  applyLang();
 }
 
 /* ---------- 动作 ---------- */
@@ -1683,15 +2417,37 @@ function expireNotifs(taskId) {
   DB.notifications.forEach(n => { if (n.taskId === taskId && n.status !== 'expired') n.status = 'expired'; });
 }
 function closeModal() { state.modal = null; render(); }
+function logLogin(userId, username, ok, note) {
+  const ips = ['192.168.1.34', '192.168.1.51', '192.168.1.77', '192.168.1.102', '192.168.1.118'];
+  DB.logins.push({
+    id: nextId('login'), userId: userId || null, username: username || null, ok,
+    at: iso(now()), ip: ips[Math.floor(Math.random() * ips.length)],
+    device: 'Windows 10 · Chrome 129', note
+  });
+}
 function doLogin(username, pwd) {
-  const u = DB.users.find(x => x.username === String(username).trim());
-  state.loginUser = String(username).trim();
-  if (!u || u.pwd !== pwd) { state.loginErr = '账号或密码不正确'; return false; }
-  if (!u.active) { state.loginErr = '该账号已被禁用，请联系管理员'; return false; }
+  const uname = String(username).trim();
+  const u = DB.users.find(x => x.username === uname);
+  state.loginUser = uname;
+  if (!u || u.pwd !== pwd) {
+    state.loginErr = '账号或密码不正确';
+    logLogin(u ? u.id : null, uname, false, u ? '密码错误' : '账号不存在');
+    saveDB();
+    return false;
+  }
+  if (!u.active) {
+    state.loginErr = '该账号已被禁用，请联系管理员';
+    logLogin(u.id, uname, false, '账号已禁用');
+    saveDB();
+    return false;
+  }
   state.user = u; state.loginErr = ''; state.loginUser = ''; state.view = 'dashboard'; state.page = 1;
-  state.selected.clear(); state.revealed.clear();
+  state.selected.clear(); state.revealed.clear(); state.callDone.clear(); state.callSkip.clear();
+  state.callResult = ''; state.callNote = ''; state.callStatus = '';
   try { localStorage.setItem(SESS, String(u.id)); } catch (e) { }
+  logLogin(u.id, u.username, true, '密码登录');
   audit('登录', u.name + ' 登录系统');
+  if (u.mustChange) state.modal = { type: 'change-pwd', force: true };
   saveDB();
   return true;
 }
@@ -1885,8 +2641,99 @@ const A = {
     saveDB(); toast('已为 ' + u.name + ' 生成初始密码（原型模拟）');
   },
   'new-user'(id, task) { if (!can('user.manage')) return; state.modal = { type: 'user' }; render(); },
-  'edit-user'(id, task) { if (state.user.role !== 'admin') return; state.modal = { type: 'edit-user', id: +id }; render(); }
+  'edit-user'(id, task) { if (state.user.role !== 'admin') return; state.modal = { type: 'edit-user', id: +id }; render(); },
+  'toggle-prefs'(id, task) { state.prefs = !state.prefs; render(); },
+  'set-theme'(id, task) { DB.settings.theme = id; saveDB(); applyPrefs(); state.prefs = true; render(); },
+  'set-fs'(id, task) { DB.settings.fs = id; saveDB(); applyPrefs(); state.prefs = true; render(); },
+  'set-lang'(id, task) { DB.settings.lang = id; saveDB(); applyPrefs(); state.prefs = true; render(); toast(id === 'en' ? 'Language switched to English' : '界面已切换为中文'); },
+  'log-tab'(id, task) { state.logTab = id; render(); },
+  'call-result'(id, task) { state.callResult = id; render(); },
+  'call-skip'(id, task) {
+    const q = callQueue();
+    if (q.length) { state.callSkip.add(q[0].c.id); state.callResult = ''; state.callNote = ''; state.callStatus = ''; }
+    render();
+  },
+  'call-reset'(id, task) { state.callSkip.clear(); state.callDone.clear(); state.callResult = ''; state.callNote = ''; render(); toast('队列已重新加载'); },
+  'call-save'(id, task) { saveCall(); },
+  'call-dnc'(id, task) {
+    const c = getCustomer(id);
+    const r = prompt('标记禁止联系需要填写原因：');
+    if (!r) return;
+    c.dnc = true; c.status = '无意向';
+    DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
+      t.status = 'cancelled'; t.cancelReason = '客户在呼叫中要求停止联系'; expireNotifs(t.id);
+    });
+    audit('标记禁呼', c.name + ' · 原因：' + r);
+    state.callDone.add(c.id); saveDB(); render(); toast('已标记禁止联系，跳到下一位');
+  },
+  'change-pwd'(id, task) { state.modal = { type: 'change-pwd' }; render(); },
+  'set-pwd'(id, task) {
+    const u = getUser(id);
+    if (!u) return;
+    if (state.user.role !== 'admin' && u.managerId !== state.user.id) { toast('只能重设自己组员的密码', 'err'); return; }
+    state.modal = { type: 'set-pwd', userId: u.id, suggest: 'Crm' + Math.floor(100000 + Math.random() * 899999) };
+    render();
+  },
+  'assign-plan'(id, task) {
+    if (!can('customer.assign')) return toast('无分配权限', 'err');
+    state.modal = { type: 'assign-plan' }; render();
+  },
+  'team-edit'(id, task) {
+    if (state.user.role !== 'admin') return toast('只有管理员可以修改小组', 'err');
+    state.modal = { type: 'team', teamId: +id }; render();
+  },
+  'new-team'(id, task) {
+    if (state.user.role !== 'admin') return;
+    state.modal = { type: 'team', teamId: 0 }; render();
+  }
 };
+
+function shuffle(a) {
+  const r = a.slice();
+  for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; }
+  return r;
+}
+function saveCall() {
+  const q = callQueue();
+  if (!q.length) return;
+  const cur = q[0], c = cur.c;
+  if (!state.callResult) { toast('请先选择联系结果', 'warn'); return; }
+  const at = iso(now());
+  const note = {
+    id: nextId('note'), custId: c.id, at, result: state.callResult,
+    content: state.callNote.trim() || ('（' + state.callResult + '）'), userId: state.user.id, voided: false
+  };
+  DB.notes.push(note);
+  c.lastContactAt = at;
+  if (state.callStatus) c.status = state.callStatus;
+  if (cur.t) {
+    cur.t.status = 'completed'; cur.t.completedAt = at; cur.t.completedBy = state.user.id;
+    cur.t.completionNoteId = note.id; expireNotifs(cur.t.id);
+  }
+  if (state.callResult === '号码无效') {
+    c.invalid = true; c.invalidReason = '呼叫台标记：号码无效';
+    DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
+      t.status = 'cancelled'; t.cancelReason = '号码无效，停止呼叫'; expireNotifs(t.id);
+    });
+  } else if (state.callResult === '无人接听' || state.callResult === '占线') {
+    const a = attemptsOf(c.id);
+    if (a.miss < DB.settings.cycleMax && !hasPending(c.id)) {
+      const d = addDays(now(), DB.settings.cycleDays); d.setHours(10, 0, 0, 0);
+      DB.tasks.push({
+        id: nextId('task'), custId: c.id, title: '周期重呼（第 ' + (a.miss + 1) + ' 次）',
+        assigneeId: c.ownerId, scheduledAt: iso(d), originalScheduledAt: iso(d),
+        status: 'pending', remindBefore: 30, rescheduleCount: 0,
+        completedAt: null, completedBy: null, cancelReason: null, createdAt: iso(now()), version: 1
+      });
+    }
+  }
+  state.callDone.add(c.id);
+  state.callResult = ''; state.callNote = ''; state.callStatus = '';
+  audit('呼叫台登记', c.name + ' · ' + note.result);
+  saveDB(); render();
+  const nq = callQueue();
+  toast(nq.length ? '已保存，下一位：' + nq[0].c.name : '已保存，队列已清空');
+}
 
 document.addEventListener('click', e => {
   if (e.target.type === 'checkbox' && !e.target.dataset.act) return;
@@ -2221,6 +3068,106 @@ document.addEventListener('submit', e => {
     u.managerId = fd.get('manager') ? +fd.get('manager') : null;
     audit('编辑账号', u.name + ' · 角色 ' + role + ' · 直属 ' + (u.managerId ? (getUser(u.managerId) || {}).name : '无'));
     saveDB(); state.modal = null; render(); toast('账号已更新，数据范围随之变化');
+    return;
+  }
+
+  if (kind === 'change-pwd') {
+    const u = state.user;
+    const old = fd.get('old'), p1 = fd.get('p1'), p2 = fd.get('p2');
+    if (old !== u.pwd) { toast('当前密码不正确', 'err'); return; }
+    if (String(p1).length < 6) { toast('新密码至少 6 位', 'warn'); return; }
+    if (p1 !== p2) { toast('两次输入的新密码不一致', 'err'); return; }
+    if (p1 === old) { toast('新密码不能与当前密码相同', 'warn'); return; }
+    u.pwd = p1; u.mustChange = false;
+    audit('修改密码', u.name + ' 修改了自己的密码');
+    saveDB(); state.modal = null; render(); toast('密码已更新');
+    return;
+  }
+
+  if (kind === 'set-pwd') {
+    const u = getUser(f.dataset.id);
+    const p1 = fd.get('p1'), p2 = fd.get('p2');
+    if (u.id === state.user.id && fd.get('old') !== u.pwd) { toast('当前密码不正确', 'err'); return; }
+    if (String(p1).length < 6) { toast('新密码至少 6 位', 'warn'); return; }
+    if (p1 !== p2) { toast('两次输入的新密码不一致', 'err'); return; }
+    u.pwd = p1;
+    if (u.id !== state.user.id) u.mustChange = true;
+    audit('重设密码', u.name + '（' + u.username + '）· 由 ' + state.user.name + ' 重设，下次登录需修改');
+    saveDB(); state.modal = null; render();
+    toast(u.id === state.user.id ? '密码已更新' : '已重设 ' + u.name + ' 的密码，请告知临时密码');
+    return;
+  }
+
+  if (kind === 'assign-plan') {
+    const targets = fd.getAll('t').map(Number).filter(Boolean);
+    if (!targets.length) { toast('至少选择一名组员', 'warn'); return; }
+    const count = Math.min(1000, Math.max(1, +fd.get('count') || 0));
+    if (count < 50) { toast('批量分配最少 50 位；少量客户请用「分配给…」', 'warn'); return; }
+    const scope = fd.get('scope'), mode = fd.get('mode');
+    let pool;
+    if (scope === 'mine') pool = visibleCustomers().filter(c => c.ownerId === state.user.id);
+    else if (scope === 'team') pool = visibleCustomers();
+    else pool = filteredCustomers();
+    if (!fd.get('includeOwned')) pool = pool.filter(c => !targets.includes(c.ownerId));
+    pool = pool.filter(c => !c.dnc);
+    if (mode === 'rand') pool = shuffle(pool);
+    const picked = pool.slice(0, count);
+    if (!picked.length) { toast('客户池里没有可分配的客户', 'warn'); return; }
+    const counts = {};
+    picked.forEach((c, i) => {
+      const owner = targets[i % targets.length];
+      c.ownerId = owner;
+      counts[owner] = (counts[owner] || 0) + 1;
+      if (fd.get('moveTasks')) {
+        DB.tasks.filter(t => t.custId === c.id && t.status === 'pending').forEach(t => {
+          t.assigneeId = owner;
+          DB.notifications.filter(n => n.taskId === t.id).forEach(n => { n.status = 'expired'; });
+        });
+      }
+    });
+    const dist = Object.keys(counts).map(uid => (getUser(+uid) || {}).name + ' ' + counts[uid]).join('、');
+    targets.forEach(uid => DB.notifications.unshift({
+      id: nextId('notif'), userId: uid, taskId: 0,
+      title: '收到 ' + (counts[uid] || 0) + ' 位新客户',
+      body: '由 ' + state.user.name + ' 分配（' + (mode === 'rand' ? '随机' : '顺序') + '），请尽快首次联系',
+      createdAt: iso(now()), status: 'unread'
+    }));
+    audit('按数量分配', picked.length + ' 位客户 · ' + (mode === 'rand' ? '随机' : '顺序') + ' · ' + dist);
+    saveDB(); state.modal = null; render();
+    toast('已分配 ' + picked.length + ' 位：' + dist);
+    return;
+  }
+
+  if (kind === 'team') {
+    const name = fd.get('name').trim();
+    const sid = +fd.get('supervisor');
+    if (!name) { toast('请填写小组名', 'warn'); return; }
+    if (DB.teams.some(t => t.name === name && String(t.id) !== f.dataset.id)) { toast('已有同名小组', 'warn'); return; }
+    let t = f.dataset.id ? DB.teams.find(x => x.id === +f.dataset.id) : null;
+    if (t) {
+      t.name = name; t.supervisorId = sid;
+      audit('设置小组', t.name + ' · 组长 ' + (getUser(sid) || {}).name);
+      toast('小组已更新');
+    } else {
+      t = { id: nextId('team'), name, supervisorId: sid };
+      DB.teams.push(t);
+      audit('新建小组', t.name + ' · 组长 ' + (getUser(sid) || {}).name);
+      toast('小组已创建，去「转移组员」把员工放进来');
+    }
+    saveDB(); state.modal = null; render();
+    return;
+  }
+
+  if (kind === 'move-member') {
+    const uid = +fd.get('member'), sid = +fd.get('supervisor');
+    const u = getUser(uid);
+    if (state.user.role !== 'admin') { toast('只有管理员可以转移组员', 'err'); return; }
+    const old = u.managerId;
+    if (old === sid) { toast(u.name + ' 已在该组', 'warn'); return; }
+    u.managerId = sid;
+    audit('转移组员', u.name + ' · ' + (getUser(old) || {}).name + ' → ' + (getUser(sid) || {}).name);
+    saveDB(); render();
+    toast(u.name + ' 已转给 ' + (getUser(sid) || {}).name);
     return;
   }
 });
