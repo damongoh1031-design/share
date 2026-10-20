@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>外呼 CRM · 对标成熟产品的优化建议</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#0b0e14; --panel:#111722; --panel2:#161d2b; --line:#222b3a; --line2:#2f3a4d;
+  --tx:#e8ecf4; --tx2:#98a3b8; --tx3:#69748a;
+  --blue:#4c8dff; --purple:#a78bfa; --green:#2ecc8f; --amber:#f5a524; --red:#f0556b; --cyan:#38bdf8;
+  --mono:"JetBrains Mono",Consolas,"Courier New",monospace;
+}
+html,body{margin:0;background:var(--bg);color:var(--tx);
+  font:14px/1.65 "Microsoft YaHei","PingFang SC",system-ui,-apple-system,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:30px 26px 90px}
+header{margin-bottom:8px}
+h1{margin:0 0 6px;font-size:24px;letter-spacing:.4px;font-weight:600}
+.sub{color:var(--tx2);font-size:13px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:5px;border:1px solid var(--line2);color:var(--tx2);margin-left:8px;vertical-align:3px}
+h2{font-size:16px;margin:34px 0 14px;font-weight:600;display:flex;align-items:center;gap:10px}
+h2 .n{width:22px;height:22px;border-radius:6px;background:var(--panel2);border:1px solid var(--line2);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--tx3);font-family:var(--mono)}
+h2 .h{font-size:12px;color:var(--tx3);font-weight:400}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.card .bd{padding:16px 18px}
+.verdict{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+@media(max-width:900px){.verdict{grid-template-columns:1fr}}
+.v{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:9px;padding:13px 16px}
+.v.b{border-left-color:var(--blue)} .v.g{border-left-color:var(--green)} .v.a{border-left-color:var(--amber)}
+.v .t{font-size:13px;font-weight:600;margin-bottom:4px}
+.v .d{font-size:12.5px;color:var(--tx2);line-height:1.7}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:var(--tx2);font-size:11.5px;padding:8px 12px;background:#141b26;
+  border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid #1a2230;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+td.c,th.c{text-align:center}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.dots{letter-spacing:2px;font-size:12px}
+.d3{color:var(--green)} .d2{color:var(--amber)} .d1{color:var(--red)} .d0{color:#3c4658}
+.pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;border:1px solid;white-space:nowrap}
+.p0{color:#ffb4be;border-color:#5a2a35;background:#2a1820}
+.p1{color:#a9c6f5;border-color:#2a3f5f;background:#16202f}
+.p2{color:var(--tx3);border-color:var(--line2);background:var(--panel2)}
+.px{color:#7e8899;border-color:#3a3f4a;background:#15181d;text-decoration:line-through}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:960px){.grid2{grid-template-columns:1fr}}
+.opt{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 17px}
+.opt h3{margin:0 0 3px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.opt .why{font-size:12px;color:var(--tx3);margin-bottom:10px}
+.opt .row{display:grid;grid-template-columns:56px 1fr;gap:8px;font-size:12.5px;margin-bottom:7px;line-height:1.7}
+.opt .row b{color:var(--tx3);font-weight:400;font-size:11.5px;padding-top:1px}
+.opt .row span{color:var(--tx2)}
+.opt .row span em{font-style:normal;color:var(--tx);background:rgba(76,141,255,.1);
+  border:1px solid rgba(76,141,255,.25);border-radius:4px;padding:0 5px}
+.opt .kpi{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line2);font-size:12px;color:var(--tx3)}
+.opt .kpi b{color:var(--green);font-weight:500}
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:960px){.road{grid-template-columns:1fr}}
+.ph{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.ph .hd{padding:11px 16px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:9px}
+.ph .hd b{font-size:13.5px}
+.ph .hd span{font-size:11.5px;color:var(--tx3)}
+.ph .bd{padding:12px 16px}
+.ph ul{margin:0;padding-left:17px;font-size:12.5px;color:var(--tx2);line-height:1.9}
+.ph ul li::marker{color:var(--tx3)}
+.ph .out{margin-top:10px;font-size:11.5px;color:var(--tx3);border-top:1px dashed var(--line2);padding-top:8px}
+.no{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 17px}
+.no .it{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #1a2230;font-size:12.5px;color:var(--tx2)}
+.no .it:last-child{border-bottom:none}
+.no .it i{color:var(--red);font-style:normal;flex:0 0 14px;font-weight:600}
+.no .it b{color:var(--tx);font-weight:500}
+.metric{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:900px){.metric{grid-template-columns:1fr}}
+.mt{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.mt .n{font-size:12.5px;font-weight:600;margin-bottom:3px}
+.mt .f{font-family:var(--mono);font-size:11.5px;color:var(--cyan);margin-bottom:6px}
+.mt .d{font-size:11.5px;color:var(--tx3);line-height:1.7}
+.note{font-size:12px;color:var(--tx3);line-height:1.8}
+code{font-family:var(--mono);font-size:11.5px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:4px;padding:1px 5px;color:#a9c6f5}
+svg .ax{stroke:#2b3546;stroke-width:1}
+svg .q{stroke:#2b3546;stroke-width:1;stroke-dasharray:4 4}
+svg .pt{cursor:default}
+svg .pt circle{transition:.15s}
+svg .pt:hover circle{r:7}
+.lg{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--tx3);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>外呼 CRM · 对标成熟产品的优化建议<span class="tag">2026-10</span></h1>
+  <div class="sub">对标对象：Salesforce / HubSpot / 纷享销客 / 销售易（CRM 侧），Genesys / Five9 / 容联七陌 / 天润融通（外呼侧）</div>
+</header>
+
+<div class="verdict">
+  <div class="v">
+    <div class="t">① 你的系统里没有「通话」这件事</div>
+    <div class="d">所有呼叫都是人工登记，没有 CDR、没有录音。结果是：无法验证坐席是否真打了、真实接通率不可知、质检无从下手、AI 没有数据可用。
+      <b>这是最该补的一块，优先级高于任何界面优化。</b></div>
+  </div>
+  <div class="v a">
+    <div class="t">② 合规风险被低估了</div>
+    <div class="d">2025 年工信部在推号码保护试点、多地通管局明确「严禁营销外呼」。你现在只有一个客户级 <code>dnc</code> 标记，
+      没有全局禁呼库、没有频次上限、没有外呼时段限制。<b>这不是功能，是保命。</b></div>
+  </div>
+  <div class="v b">
+    <div class="t">③ 只有「分配」，没有「回收」</div>
+    <div class="d">成熟 CRM 的核心是客户资源<b>流转</b>：公海 / 私海 / 保护期 / 领取上限 / 到期自动回收。
+      你现在分下去就归坐席了，主管只能靠人肉发现谁在囤客户。</div>
+  </div>
+  <div class="v g">
+    <div class="t">④ AI 的正确切入点是「通话后」，不是「通话前」</div>
+    <div class="d">AI 首轮外呼在名单质量差、合规敏感的场景里风险大于收益；而「录音转写 + 摘要 + 自动打标签 + 质检」是纯增益，
+      且不需要客户同意之外的额外条件。</div>
+  </div>
+</div>
+
+<h2><span class="n">1</span>能力对照：成熟系统有什么，你现在有什么<span class="h">● 完备　● 部分　○ 缺失</span></h2>
+<div class="card"><div class="bd" style="padding:0">
+<table>
+  <thead><tr>
+    <th style="width:26%">能力</th><th class="c" style="width:8%">现状</th><th style="width:34%">成熟产品的做法</th><th>差距说明</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>客户主数据 / 去重合并</td><td class="c dots d3">●●●</td><td>手机号标准化唯一索引 + 合并保留主记录 + 变更历史</td><td>已达标，去重规则和合并留痕都做了</td></tr>
+    <tr><td>权限与数据范围</td><td class="c dots d3">●●●</td><td>角色 + 数据范围 + 字段级权限 + 记录共享</td><td>三层模型已达标；缺字段级（如隐藏成本价）</td></tr>
+    <tr><td>审计留痕</td><td class="c dots d3">●●●</td><td>不可篡改 append-only + 关键操作双人复核</td><td>已有，但可被前端清空；生产需服务端 append-only</td></tr>
+    <tr><td>导入导出</td><td class="c dots d3">●●●</td><td>模板校验 + 分批事务 + 失败行回执</td><td>已达标</td></tr>
+    <tr><td>任务与提醒</td><td class="c dots d2">●●○</td><td>任务引擎 + 站内/短信/企微多通道 + 升级提醒</td><td>只有站内提醒，没有多渠道，没有「提醒没人处理就升级给主管」</td></tr>
+    <tr><td>公海 / 私海流转</td><td class="c dots d1">●○○</td><td>领取上限、保护期、到期自动回收、跨组流转审批</td><td><b>只有分配，没有回收</b>；客户会沉淀在坐席名下</td></tr>
+    <tr><td>跟进节奏 / SLA</td><td class="c dots d1">●○○</td><td>按客户等级设不同跟进时限，超时预警并扣分</td><td>有「周期重呼」，但那是给未接通的，不是给「该跟进没跟进」的</td></tr>
+    <tr><td>目标与过程管理</td><td class="c dots d2">●●○</td><td>日/周/月目标 + 完成度 + 坐席排行 + 异常预警</td><td>有结果报表，<b>没有目标</b>，也没有「今天该打多少」</td></tr>
+    <tr><td>软电话 / 点击拨号</td><td class="c dots d0">○○○</td><td>WebRTC 软电话、点击拨号、自动弹屏、话后小结计时</td><td><b>完全缺失</b>。坐席在系统外拨号，系统不知道</td></tr>
+    <tr><td>通话记录 CDR</td><td class="c dots d0">○○○</td><td>主叫/被叫/振铃/接通/挂断/时长/挂断方/录音 URL</td><td><b>完全缺失</b>。所有统计都是「人工登记口径」</td></tr>
+    <tr><td>录音与质检</td><td class="c dots d0">○○○</td><td>100% 录音 + ASR 转写 + 违禁语命中 + 评分卡</td><td><b>完全缺失</b>。管理只能靠听，听不过来</td></tr>
+    <tr><td>号码保护（AXB 中间号）</td><td class="c dots d0">○○○</td><td>坐席看到中间号，客户看到公司号，双向隐藏真实号码</td><td><b>完全缺失</b>。2025 年工信部已开号码保护试点，是行业方向</td></tr>
+    <tr><td>合规闸门</td><td class="c dots d1">●○○</td><td>全局 DNC 库 + 频次上限（同一号码 X 天 N 次）+ 时段限制 + 主叫鉴权</td><td>只有单条客户 <code>dnc</code>；换个客户记录就能再打一次</td></tr>
+    <tr><td>AI 能力</td><td class="c dots d0">○○○</td><td>通话摘要、意向评分、话术推荐、质检评分、AI 外呼</td><td><b>完全缺失</b>。2026 年这已是标配</td></tr>
+    <tr><td>企微 / 移动端</td><td class="c dots d0">○○○</td><td>客户加微、会话存档、手机 App / 小程序</td><td>缺失；但外呼场景优先级低于上面几项</td></tr>
+  </tbody>
+</table>
+</div></div>
+<div class="note" style="margin-top:8px">评分标准：●●● 可上线　●●○ 能用但缺关键环节　●○○ 有雏形　○○○ 没有。
+  这张表里 <b>5 个 ○○○ 集中在「通话」相关</b>，正好对应第 ① 条结论。</div>
+
+<h2><span class="n">2</span>优先级矩阵：价值 × 成本<span class="h">左上角是立刻要做的</span></h2>
+<div class="card"><div class="bd">
+<svg viewBox="0 0 760 480" style="width:100%;height:auto;max-width:860px;display:block;margin:0 auto">
+  <rect x="60" y="30" width="330" height="222" fill="rgba(46,204,143,.05)"/>
+  <rect x="390" y="30" width="330" height="222" fill="rgba(76,141,255,.05)"/>
+  <rect x="60" y="252" width="330" height="178" fill="rgba(120,130,150,.04)"/>
+  <rect x="390" y="252" width="330" height="178" fill="rgba(240,85,107,.04)"/>
+  <line class="q" x1="390" y1="30" x2="390" y2="430"/>
+  <line class="q" x1="60" y1="252" x2="720" y2="252"/>
+  <line class="ax" x1="60" y1="430" x2="720" y2="430"/>
+  <line class="ax" x1="60" y1="30" x2="60" y2="430"/>
+  <text x="390" y="456" fill="#69748a" font-size="11" text-anchor="middle">实施成本 →</text>
+  <text x="22" y="240" fill="#69748a" font-size="11" transform="rotate(-90 22 240)" text-anchor="middle">业务价值 →</text>
+  <text x="70" y="46" fill="#2ecc8f" font-size="11" opacity=".7">立即做 · 高价值低成本</text>
+  <text x="710" y="46" fill="#4c8dff" font-size="11" text-anchor="end" opacity=".75">值得投入 · 高价值高成本</text>
+  <text x="70" y="424" fill="#69748a" font-size="11">顺手做</text>
+  <text x="710" y="424" fill="#f0556b" font-size="11" text-anchor="end" opacity=".75">先不做</text>
+
+  <!-- x = 90+(cost-1)/4*600 ; y = 410-(value-1)/4*315 -->
+  <g class="pt"><circle cx="165" cy="95" r="6" fill="#2ecc8f"/><text x="177" y="88" fill="#cfe0ff" font-size="11.5">合规闸门（DNC / 频次 / 时段）</text></g>
+  <g class="pt"><circle cx="240" cy="95" r="6" fill="#2ecc8f"/><text x="252" y="119" fill="#cfe0ff" font-size="11.5">公海回收 + 保护期</text></g>
+  <g class="pt"><circle cx="240" cy="174" r="6" fill="#2ecc8f"/><text x="252" y="193" fill="#cfe0ff" font-size="11.5">客户分级 + 跟进 SLA</text></g>
+  <g class="pt"><circle cx="315" cy="174" r="6" fill="#2ecc8f"/><text x="327" y="160" fill="#cfe0ff" font-size="11.5">目标管理</text></g>
+  <g class="pt"><circle cx="240" cy="252" r="6" fill="#2ecc8f"/><text x="252" y="246" fill="#cfe0ff" font-size="11.5">未接通自动短信</text></g>
+
+  <g class="pt"><circle cx="540" cy="95" r="6" fill="#4c8dff"/><text x="552" y="88" fill="#cfe0ff" font-size="11.5">软电话 + 通话记录 CDR</text></g>
+  <g class="pt"><circle cx="390" cy="174" r="6" fill="#4c8dff"/><text x="402" y="167" fill="#8fb8ff" font-size="11.5">AI 通话摘要</text></g>
+  <g class="pt"><circle cx="540" cy="174" r="6" fill="#4c8dff"/><text x="552" y="198" fill="#cfe0ff" font-size="11.5">录音 + 关键词质检</text></g>
+  <g class="pt"><circle cx="390" cy="252" r="6" fill="#a78bfa"/><text x="402" y="246" fill="#c4b1ff" font-size="11.5">企微集成</text></g>
+
+  <g class="pt"><circle cx="690" cy="252" r="6" fill="#69748a"/><text x="678" y="276" fill="#98a3b8" font-size="11.5" text-anchor="end">全量 AI 质检</text></g>
+  <g class="pt"><circle cx="615" cy="252" r="6" fill="#69748a"/><text x="603" y="246" fill="#98a3b8" font-size="11.5" text-anchor="end">AI 首轮外呼</text></g>
+  <g class="pt"><circle cx="540" cy="331" r="6" fill="#3c4658"/><text x="528" y="335" fill="#69748a" font-size="11.5" text-anchor="end">移动端 App</text></g>
+  <g class="pt"><circle cx="540" cy="410" r="6" fill="#3c4658"/><text x="528" y="414" fill="#69748a" font-size="11.5" text-anchor="end">工单 / 报价 / 订单</text></g>
+</svg>
+<div class="lg">
+  <span><i style="color:#2ecc8f">●</i> 绿色 = 立刻做</span>
+  <span><i style="color:#4c8dff">●</i> 蓝色 = 规划做</span>
+  <span><i style="color:#a78bfa">●</i> 紫色 = 有条件做</span>
+  <span><i style="color:#69748a">●</i> 灰色 = 先不做</span>
+</div>
+</div></div>
+
+<h2><span class="n">3</span>九个具体优化项<span class="h">按优先级排序，每项都写清楚「市面怎么做 → 你缺什么 → 怎么补」</span></h2>
+
+<div class="grid2">
+
+<div class="opt">
+  <h3>合规闸门 <span class="pill p0">P0</span></h3>
+  <div class="why">保命项。一次投诉可能换来整个号段被封。</div>
+  <div class="row"><b>市面</b><span>全局 DNC 库（按<b>号码</b>而非客户记录）、频次上限（同一号码 7 天内 ≤ 2 次）、外呼时段（9:00–20:00，节假日可配）、主叫号码鉴权与备案。</span></div>
+  <div class="row"><b>现状</b><span><code>dnc</code> 挂在客户记录上。同一号码换条记录、换个坐席，还能再打一次。</span></div>
+  <div class="row"><b>建议</b><span>建 <em>dnc_numbers</em> 表（号码唯一，全局生效，永久保留）；<em>call_gate()</em> 在外呼前统一校验「DNC + 频次 + 时段」，不通过直接拦并记原因。</span></div>
+  <div class="kpi">验收：任何坐席对同一号码 7 天内第 3 次外呼被拦，且主管能看到拦截明细。<b>约 3 人日</b></div>
+</div>
+
+<div class="opt">
+  <h3>公海回收 + 保护期 <span class="pill p0">P0</span></h3>
+  <div class="why">成熟 CRM 的核心机制，你现在完全没有。</div>
+  <div class="row"><b>市面</b><span>客户分公海/私海；领取有上限（如每人 200 条）；保护期（如 15 天）内必须有一次有效跟进，否则自动退回公海；退回时清空负责人、保留跟进历史。</span></div>
+  <div class="row"><b>现状</b><span>只有「分配」，分下去就永久归坐席。客户会沉淀，主管靠人肉发现。</span></div>
+  <div class="row"><b>建议</b><span>加 <em>pool</em> 状态（public / owned）、<em>protectUntil</em>、<em>claimLimit</em>；每天定时任务扫描「保护期到期且无有效跟进」→ 退回公海并发通知。</span></div>
+  <div class="kpi">验收：坐席 A 领 20 条，15 天不跟进，第 16 天自动回公海，主管收到汇总。<b>约 4 人日</b></div>
+</div>
+
+<div class="opt">
+  <h3>软电话 + 通话记录 CDR <span class="pill p1">P1</span></h3>
+  <div class="why">技术第一优先。没有它，后面所有优化都是猜。</div>
+  <div class="row"><b>市面</b><span>WebRTC 软电话嵌入浏览器，点号码即拨；通话结束回写 CDR（主叫/被叫/振铃/接通/时长/挂断方/录音）。坐席不需要手填「已接通」。</span></div>
+  <div class="row"><b>现状</b><span>坐席在系统外用手机或话机拨号，回来手工登记。真实性、及时性、完整性都不可控。</span></div>
+  <div class="row"><b>建议</b><span>不碰语音网关，直接接云通信 SIP 中继（阿里云/腾讯云/容联）。系统只做三件事：<em>发起呼叫</em>、<em>接收 CDR 回调</em>、<em>用 CDR 自动生成记事草稿</em>。</span></div>
+  <div class="kpi">验收：坐席点一下号码就通；通话结束 5 秒内系统自动生成一条待确认记事。<b>约 8–10 人日（含联调）</b></div>
+</div>
+
+<div class="opt">
+  <h3>客户分级 + 跟进 SLA <span class="pill p0">P0</span></h3>
+  <div class="why">把「该跟进」变成系统能算的东西。</div>
+  <div class="row"><b>市面</b><span>A/B/C 分级，各设跟进时限（A 类 24h、B 类 3 天、C 类 7 天）；超时进预警，连续超时降级或退回公海。</span></div>
+  <div class="row"><b>现状</b><span>有「周期重呼」，但那是针对未接通的；「联系上了但 10 天没再跟进」系统不管。</span></div>
+  <div class="row"><b>建议</b><span>给客户加 <em>grade</em> 与 <em>slaHours</em>；<em>slaBreach()</em> 计算超时客户，进主管看板的「异常预警」区，并给坐席生成待办。</span></div>
+  <div class="kpi">验收：A 类客户 24 小时无跟进，坐席和主管同时看到红色预警。<b>约 2 人日</b></div>
+</div>
+
+<div class="opt">
+  <h3>目标管理 <span class="pill p0">P0</span></h3>
+  <div class="why">现在只有「昨天做了什么」，没有「今天该做多少」。</div>
+  <div class="row"><b>市面</b><span>日/周/月目标（呼出量、接通量、有效通话时长、成交数），实时完成度，坐席排行，落后自动提醒。</span></div>
+  <div class="row"><b>现状</b><span>主管看板有 KPI，但都是历史结果，没有目标值，也没有「距目标还差多少」。</span></div>
+  <div class="row"><b>建议</b><span>加 <em>targets</em> 表（按人/按组/按周期/按指标）；看板每个 KPI 卡下方显示进度条与差额；坐席工作台显示「今日还差 12 通」。</span></div>
+  <div class="kpi">验收：主管设「每人每天 80 通」，坐席工作台实时显示进度。<b>约 2 人日</b></div>
+</div>
+
+<div class="opt">
+  <h3>未接通自动短信 <span class="pill p0">P0</span></h3>
+  <div class="why">性价比最高的一个小功能。</div>
+  <div class="row"><b>市面</b><span>外呼未接通 → 自动发一条短信（含公司名、来电事由、回电方式）；短信回复可回流成线索。</span></div>
+  <div class="row"><b>现状</b><span>未接通就只是「未接通」，客户永远不知道你来过电话。</span></div>
+  <div class="row"><b>建议</b><span>接短信网关，在「无人接听」结果上挂一个自动短信模板；同号码 24 小时内只发一次，避免变骚扰。</span></div>
+  <div class="kpi">验收：未接后 10 秒内客户收到短信，系统记一条触达。<b>约 1.5 人日</b></div>
+</div>
+
+<div class="opt">
+  <h3>录音 + 关键词质检 <span class="pill p1">P1</span></h3>
+  <div class="why">管理杠杆：从「听不过来」变成「只看有问题的」。</div>
+  <div class="row"><b>市面</b><span>100% 录音留存；违禁语（承诺收益、辱骂、冒充身份）实时命中；抽检评分卡（开场白/身份确认/需求挖掘/异议处理/结束语）。</span></div>
+  <div class="row"><b>现状</b><span>没有录音，质检不存在。</span></div>
+  <div class="row"><b>建议</b><span>录音随 CDR 一起落地；先做<em>关键词命中</em>（规则引擎，成本低、可解释），命中即标红推给主管；评分卡人工抽检。</span></div>
+  <div class="kpi">验收：每天自动筛出 5 通「含违禁语」的通话给主管复核。<b>约 5 人日</b></div>
+</div>
+
+<div class="opt">
+  <h3>AI 通话摘要 + 自动标签 <span class="pill p1">P1</span></h3>
+  <div class="why">AI 最稳、ROI 最高的落点。</div>
+  <div class="row"><b>市面</b><span>通话结束 → ASR 转写 → 大模型生成 3 行摘要 + 意向等级 + 关键异议 + 下一步建议，自动填进记事，坐席只确认。</span></div>
+  <div class="row"><b>现状</b><span>坐席手写记事，质量参差，有的只写「未接」两个字。</span></div>
+  <div class="row"><b>建议</b><span>放在 CDR 之后做：有录音才有转写。先做「摘要 + 标签」两个字段，不做实时辅助，避免坐席分心。</span></div>
+  <div class="kpi">验收：记事填写时间从 60 秒降到 10 秒，且内容完整率提升。<b>约 5 人日 + 模型成本</b></div>
+</div>
+
+<div class="opt">
+  <h3>企微集成 <span class="pill p2">P2</span></h3>
+  <div class="why">国内外呼场景的实际工作流在微信里。</div>
+  <div class="row"><b>市面</b><span>一键加企微、会话存档反哺客户画像、企微侧发资料、客户朋友圈触达。</span></div>
+  <div class="row"><b>现状</b><span>系统里只有电话号码，客户在微信里的互动完全看不到。</span></div>
+  <div class="row"><b>建议</b><span>先做「一键加微 + 加微状态回写」（谁加了、什么时候加的），会话存档涉及合规评估，放后面。</span></div>
+  <div class="kpi">验收：客户详情能看到「已加微 / 未加微」，主管能统计加微率。<b>约 4 人日</b></div>
+</div>
+
+</div>
+
+<h2><span class="n">4</span>分三阶段落地<span class="h">P0 全部是低成本的机制补齐，不要拖</span></h2>
+<div class="road">
+  <div class="ph">
+    <div class="hd"><b>阶段一 · 机制补齐</b><span>2 周</span></div>
+    <div class="bd">
+      <ul>
+        <li>全局 DNC 库 + 频次/时段闸门</li>
+        <li>公海回收 + 保护期 + 领取上限</li>
+        <li>客户分级 + 跟进 SLA 预警</li>
+        <li>目标管理 + 完成度</li>
+        <li>未接通自动短信</li>
+      </ul>
+      <div class="out">产出：客户不再沉淀，违规外呼被拦，主管第一次能看到「谁落后」。</div>
+    </div>
+  </div>
+  <div class="ph">
+    <div class="hd"><b>阶段二 · 打通通话</b><span>1 个月</span></div>
+    <div class="bd">
+      <ul>
+        <li>接云通信 SIP 中继</li>
+        <li>WebRTC 软电话 + 点击拨号</li>
+        <li>CDR 回调 + 自动生成记事草稿</li>
+        <li>录音留存 + 关键词质检</li>
+        <li>AI 摘要 + 自动标签</li>
+      </ul>
+      <div class="out">产出：统计口径从「人工登记」变成「通话事实」，质检和 AI 有了数据基础。</div>
+    </div>
+  </div>
+  <div class="ph">
+    <div class="hd"><b>阶段三 · 提效与扩展</b><span>1 季度</span></div>
+    <div class="bd">
+      <ul>
+        <li>号码保护（AXB 中间号）</li>
+        <li>话术库 + 实时提示（Copilot）</li>
+        <li>企微集成 + 加微率统计</li>
+        <li>实时坐席看板 + 异常预警</li>
+        <li>全量 AI 质检 + 评分卡</li>
+      </ul>
+      <div class="out">产出：从「管得住」到「管得好」，坐席产能可对比、可复制。</div>
+    </div>
+  </div>
+</div>
+
+<h2><span class="n">5</span>明确不要做的六件事<span class="h">成熟产品有，但你的场景不该有</span></h2>
+<div class="no">
+  <div class="it"><i>✕</i><div><b>预测式外呼。</b>需要稳定名单量 + 历史接通率模型 + 足够坐席池，你们规模不够；而且未接通的空响本身就是投诉源。</div></div>
+  <div class="it"><i>✕</i><div><b>AI 首轮外呼。</b>名单来源不干净时，AI 只会更快地制造投诉。合规成本远高于省下的人力。</div></div>
+  <div class="it"><i>✕</i><div><b>自研语音网关 / 话机对接。</b>用云通信 SIP 中继，别碰硬件和信令。这是运营商和云厂商的活。</div></div>
+  <div class="it"><i>✕</i><div><b>复杂商机 / 报价 / 订单 / 合同。</b>你们做的是「名单 + 外呼 + 意向筛选」，不是 6 个月的长周期销售。加了只会让坐席多点 5 个字段。</div></div>
+  <div class="it"><i>✕</i><div><b>多级组织架构。</b>一层主管→坐席已经够用。层级一多，数据范围规则会指数级复杂。</div></div>
+  <div class="it"><i>✕</i><div><b>原生移动 App。</b>坐席在工位用电脑，主管偶尔看数据，响应式网页足够。真要移动端，做小程序，不做 App。</div></div>
+</div>
+
+<h2><span class="n">6</span>先定指标，再谈优化<span class="h">没有基线的优化都是感觉</span></h2>
+<div class="metric">
+  <div class="mt">
+    <div class="n">北极星：有效通话时长 / 坐席 / 天</div>
+    <div class="f">= Σ 接通且时长 ≥ 30s 的通话</div>
+    <div class="d">为什么不用「呼出量」：呼出量可以被空号刷高。有效通话时长同时约束了「打得够多」和「打得有效」。</div>
+  </div>
+  <div class="mt">
+    <div class="n">接通率</div>
+    <div class="f">= 接通数 / 外呼数</div>
+    <div class="d">低于 15% 说明名单质量或号码状态有问题；低于 8% 先停下来洗名单，别加人。</div>
+  </div>
+  <div class="mt">
+    <div class="n">话后处理时长 ACW</div>
+    <div class="f">= 挂断到提交记事的秒数</div>
+    <div class="d">超过 90 秒说明记事太麻烦（字段多、要手写）。这是 AI 摘要最直接的价值点。</div>
+  </div>
+  <div class="mt">
+    <div class="n">SLA 达成率</div>
+    <div class="f">= 按时跟进客户数 / 应跟进客户数</div>
+    <div class="d">比「今日登记数」更能反映坐席是否在挑客户打。</div>
+  </div>
+  <div class="mt">
+    <div class="n">客户沉淀率</div>
+    <div class="f">= 超过保护期未跟进的客户数 / 在跟客户数</div>
+    <div class="d">公海机制上线后，这个指标会立刻暴露「谁在囤客户」。</div>
+  </div>
+  <div class="mt">
+    <div class="n">投诉率 / 退订率</div>
+    <div class="f">= 投诉或要求退订的号码数 / 触达号码数</div>
+    <div class="d">合规红线指标。行业经验值超过 0.1% 就该停下来查名单来源。</div>
+  </div>
+</div>
+
+<h2><span class="n">7</span>如果只能做三件事</h2>
+<div class="card"><div class="bd">
+<div class="note" style="font-size:13px;line-height:2">
+<b>1. 合规闸门（DNC + 频次 + 时段）</b> —— 3 人日，避免封号，是所有业务的前提。<br>
+<b>2. 公海回收 + 保护期</b> —— 4 人日，让客户资源真正流转起来，主管第一次能管住「囤客户」。<br>
+<b>3. 软电话 + CDR</b> —— 10 人日，把「人工登记」换成「通话事实」，之后所有统计、质检、AI 才有意义。<br>
+<span style="color:var(--tx3)">这三件事做完，你的系统才从「客户名单管理工具」变成「外呼作业系统」。其余的优化，都是在这三件事之上的锦上添花。</span>
+</div>
+</div></div>
+
+<div class="note" style="margin-top:26px;border-top:1px solid var(--line);padding-top:14px">
+  参考依据：工信部《关于开展号码保护服务业务试点的通知》（2025-07）、工信部《关于加强呼叫中心业务管理的通知》（2020）、
+  地方通管局 2025 年呼叫中心业务规范会议要点（严禁营销外呼）、纷享销客帮助中心「客户和公海管理」规则说明、
+  2026 年 AI 外呼行业公开资料（ASR 准确率 98%+、MOS 4.2+）。<br>
+  具体产品功能以各家最新版本为准，本文只取行业通行做法，不做厂商对比。
+</div>
+
+</div>
+</body>
+</html>
