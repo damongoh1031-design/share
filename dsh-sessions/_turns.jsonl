@@ -1,2 +1,1 @@
-{"ts": "2026-10-21 17:55:38", "session": "session-test-001", "title": "测试会话", "turn": "1", "role": "user", "summary": "你好，这是一条测试用户消息 token: <REDACTED>"}
-{"ts": "2026-10-21 17:55:38", "session": "session-test-001", "title": "测试会话", "turn": "1", "role": "assistant", "summary": "这是助手的回复内容。"}
+{"ts": "2026-10-21 18:19:16", "session": "session-ae79d704-2f80-497b-b0e8-6bf0c45e6f7c", "title": "配置dsh-hook自动总结会话同步GitHub", "turn": "1", "role": "assistant", "summary": "\" type=\"text\">m00263 已完成配置并端到端验证通过。 ## 做了什么 **确认环境**：`DSH_PROFILE=desktop`，dsh-hooks 0.14.4 装在 `C:\\Users\\Admin\\.dsh\\profiles\\desktop\\node_modules\\dsh-hooks`；PAT…"}
