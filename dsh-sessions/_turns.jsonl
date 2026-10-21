@@ -1,0 +1,2 @@
+{"ts": "2026-10-21 17:55:38", "session": "session-test-001", "title": "测试会话", "turn": "1", "role": "user", "summary": "你好，这是一条测试用户消息 token: <REDACTED>"}
+{"ts": "2026-10-21 17:55:38", "session": "session-test-001", "title": "测试会话", "turn": "1", "role": "assistant", "summary": "这是助手的回复内容。"}
