@@ -98,3 +98,31 @@ These instructions apply to work under `KB`. Use them as guidance when relevant;
 上级AGENT.MD适用。KB/是唯一知识库；一个稳定主题一个英文slug，原地更新版本/日期/索引，不建会话或版本碎片。不放旧规范拷贝，不把planned写implemented。必有frontmatter、一句话结论、可复用操作、坑与反直觉、未核实；结论标证据范围。KB只沉淀知识，不替代docs产品/契约/验收规范。
 
 </system-reminder>
+
+---
+
+## [user] 2026-10-22 16:47:30 · source=tool-jobs
+
+background job pwsh-2d77f3c2780443b3 (pwsh: node --test desktop/test/import-performance.test.cjs desktop/test/import-core.test.cjs desktop/test/customer-ops.test.cjs desktop/test/core.test.cjs desktop/test/security.test.cjs desktop/test/sec01-fixes.test.cjs desktop/test/sec01-merge-context.test.cjs desktop/test/sec01-protocol.test.cjs; Write-Output "EXIT=$LASTEXITCODE") finished [status: completed, exit code: 0]. Read its output with job_output.
+
+---
+
+## [user] 2026-10-22 16:50:15 · source=time-context
+
+Time sampled while preparing turn 1, step 41: 2026-10-22T16:50:15+08:00[Asia/Kuala_Lumpur]
+Browser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.
+Elapsed since the preceding step context: 10m 8s.
+
+---
+
+## [user] 2026-10-22 16:52:49 · source=tool-jobs
+
+background job pwsh-244027d708444991 (pwsh: node --test desktop/test/import-performance.test.cjs desktop/test/import-core.test.cjs desktop/test/customer-ops.test.cjs desktop/test/core.test.cjs desktop/test/security.test.cjs desktop/test/sec01-fixes.test.cjs desktop/test/sec01-merge-context.test.cjs desktop/test/sec01-protocol.test.cjs; Write-Output "EXIT=$LASTEXITCODE") finished [status: completed, exit code: 0]. Read its output with job_output.
+
+---
+
+## [user] 2026-10-22 17:00:29 · source=time-context
+
+Time sampled while preparing turn 1, step 66: 2026-10-22T17:00:28+08:00[Asia/Kuala_Lumpur]
+Browser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.
+Elapsed since the preceding step context: 10m 13s.
