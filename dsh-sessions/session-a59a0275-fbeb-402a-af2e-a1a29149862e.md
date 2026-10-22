@@ -147,3 +147,52 @@ attached 模式则用 `transport: "streamable-http"`, `url: "http://localhost:80
 - 工具少是**刻意设计**：`go_context`、`go_file_metadata`、`go_file_diagnostics`、`go_references` 默认关闭（token 太贵或模型容易传错参数），可在 gopls 设置里通过 `MCPTools` 显式打开。
 
 需要的话我可以现在就把它接进 DSH（一条 `mcp_connector_configure`），接完顺手验证工具能不能列出来。
+
+---
+
+## [user] 2026-10-22 12:26:02 · source=user
+
+安装cli：Context7
+
+---
+
+## [assistant] turn 2 · 2026-10-22 12:27:20 · 78516 ms
+
+已装好并实测跑通。
+
+## 安装结果
+
+- **包**：`ctx7` v0.8.1（Upstash 官方发布，主页 context7.com，仓库 upstash/context7）
+- **位置**：`C:\Users\Admin\AppData\Local\hermes\node\ctx7.cmd`（npm 全局 prefix）
+- **验证**：`--version` → 0.8.1；文档查询真实可用
+
+## 实测两条
+
+```
+ctx7 library go "goroutines and channels"
+```
+→ 解析出 4 个可用库 ID：`/golang/go`（9662 片段）、`/websites/go_dev_doc`、`/golang/website`、`/websites/go_dev_ref`
+
+```
+ctx7 docs /golang/go "context cancellation with timeout"
+```
+→ 返回 5,690 字符，含 `context.WithTimeout` 签名/参数/返回值 + Go 源码里 HTTP/2 重试退避的真实片段。匿名即可用，不需要 API key。
+
+## 命令一览
+
+| 命令 | 用途 |
+|---|---|
+| `ctx7 library <name> [query]` | 库名 → Context7 library ID |
+| `ctx7 docs <libraryId> <query>` | 按库 ID 拉取文档/代码片段 |
+| `ctx7 setup --claude/--cursor/--vscode/--codex/--gemini ...` | 自动写入对应 agent 配置（支持 `--mcp` 或 `--cli` 两种模式、`-p` 项目级） |
+| `ctx7 login` / `whoami` / `logout` | 登录提额（当前 Not logged in） |
+| `ctx7 upgrade` | 自升级 |
+
+## 两个本地坑（已踩到）
+
+1. **PowerShell 执行策略**：本机五个作用域全是 `Undefined`（Windows 客户端默认 Restricted），所以 `ctx7` 解析到 `ctx7.ps1` 会被拒：`无法加载文件 ... 在此系统上禁止运行脚本`。直接用 `ctx7.cmd` 即可；想彻底解决需 `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`——这属于改安全策略，我没动，你点头我再改。
+2. **`ctx7 setup` 没有 DSH 目标**：只认 Claude Code / Cursor / VS Code / Codex / Gemini / Copilot / OpenCode / Devin / Antigravity。
+
+## 要不要顺手接进 DSH
+
+DSH 侧走 MCP 连接器更顺（Context7 官方托管端点，HTTP 传输），接上后我这边能直接调 `resolve-library-id` / `get-library-docs`，不用你手动敲 CLI。一条 `mcp_connector_configure` 的事——要接就说一声。
