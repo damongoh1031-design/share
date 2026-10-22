@@ -196,3 +196,38 @@ ctx7 docs /golang/go "context cancellation with timeout"
 ## 要不要顺手接进 DSH
 
 DSH 侧走 MCP 连接器更顺（Context7 官方托管端点，HTTP 传输），接上后我这边能直接调 `resolve-library-id` / `get-library-docs`，不用你手动敲 CLI。一条 `mcp_connector_configure` 的事——要接就说一声。
+
+---
+
+## [user] 2026-10-22 12:29:35 · source=user
+
+安装MCP：Context7\官方 gopls 内置 MCP\PLAYLIGHT
+
+---
+
+## [assistant] turn 3 · 2026-10-22 12:30:49 · 73694 ms
+
+<acp tokens="18" type="text">m00092</acp>
+三个 MCP 都已装好并**逐个功能验证通过**（不是只看配置状态）。
+
+| 连接 | 传输 | 端点 / 命令 | 工具数 | 验证 |
+|---|---|---|---|---|
+| **Context7** | streamable-http | `https://mcp.context7.com/mcp` | 2（resolve-library-id / query-docs） | ✅ 实际解析出 `/golang/exp` |
+| **gopls**（官方内置） | stdio | `C:\Users\Admin\.local\bin\gopls.exe mcp` | 8 | ✅ `go_workspace` 正常响应 |
+| **Playwright** | stdio | `node ...\@playwright\mcp\cli.js --browser chrome --headless` | ~20 | ✅ 真实打开 example.com 并取回快照 |
+
+状态全部 `已连接 / ok`，均为 global 范围、始终注入。
+
+## 验证细节
+
+- **Context7**：调 `resolve-library-id("golang")` 返回真实库条目，说明 HTTP 链路和匿名额度都通。CLI（`ctx7`）和 MCP 两条路现在并存，互不冲突。
+- **gopls**：`go_workspace` 返回「This is not a Go workspace」——这是**正确响应**，证明服务端起来了，只是当前工作目录不是 Go module。
+- **Playwright**：直接复用系统 Chrome（`C:\Program Files\Google\Chrome\Application\chrome.exe`），**没下载 chromium**（省了 150MB+）；导航到 example.com 成功，标题、URL、快照都拿到了。
+
+## 三个注意点
+
+1. **gopls 要指到 Go 项目**：它按进程 cwd 判断 workspace。当前 cwd 是 DSH 默认工作区（非 Go module），所以 Go 工具会一直提示「不是 Go workspace」。把你 Go 项目路径给我，我把连接器的 `cwd` 改过去就能用了。
+2. **Playwright 产物落盘**：快照默认写到工作区下 `.playwright-mcp\`（这次生成了 `page-2026-10-22T04-30-33-195Z.yml`）。要换目录加 `--output-dir`；想看见浏览器窗口就去掉 `--headless`。
+3. **Context7 额度**：匿名能用但有限速；要提额就配 API key（`ctx7 login` 拿 key，再给连接器加 `Authorization: Bearer ...` 头）。
+
+需要我现在把 gopls 的 cwd 指到你的 Go 项目、或者清掉 `.playwright-mcp` 测试残留吗？
