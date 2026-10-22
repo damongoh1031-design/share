@@ -98,3 +98,19 @@ These instructions apply to work under `KB`. Use them as guidance when relevant;
 上级AGENT.MD适用。KB/是唯一知识库；一个稳定主题一个英文slug，原地更新版本/日期/索引，不建会话或版本碎片。不放旧规范拷贝，不把planned写implemented。必有frontmatter、一句话结论、可复用操作、坑与反直觉、未核实；结论标证据范围。KB只沉淀知识，不替代docs产品/契约/验收规范。
 
 </system-reminder>
+
+---
+
+## [user] 2026-10-22 15:44:27 · source=tool-jobs
+
+background job pwsh-52e03f8e425640d5 (pwsh: @'
+const fs=require('fs'),os=require('os'),path=require('path'),cp=require('child_process'),crypto=require('crypto');const root=fs.mkdtempSync(path.join(os.tmpdir(),'cc-s06-suite-'));let code=1;try{const env={...process.env,CC_CRM_LAN_SCOPE:crypto.randomUUID()};for(const k of ['APPDATA','LOCALAPPDATA','TEMP','TMP']){env[k]=path.join(root,k);fs.mkdirSync(env[k]);}code=cp.spawnSync(process.execPath,['--test','desktop/test/customer-ops.test.cjs','desktop/test/security.test.cjs'],{stdio:'inherit',env}).status ?? 1;}finally{fs.rmSync(root,{recursive:true,force:true});}process.exitCode=code;
+'@ | & 'C:/Users/Admin/AppData/Local/hermes/node/node.exe') finished [status: completed, exit code: 0]. Read its output with job_output.
+
+---
+
+## [user] 2026-10-22 15:46:27 · source=time-context
+
+Time sampled while preparing turn 1, step 31: 2026-10-22T15:46:27+08:00[Asia/Kuala_Lumpur]
+Browser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.
+Elapsed since the preceding step context: 10m 24s.
