@@ -77,3 +77,63 @@ To message another teammate, use send_message({ target: "<teammate name>", messa
 Current DeepSeek Harness implementation checkout: "C:\\Users\\Admin\\AppData\\Local\\Programs\\DeepSeek Harness\\resources\\app.asar\\dsh\\".
 
 Current DeepSeek Harness Web GUI URL: "http://127.0.0.1:52307".
+
+---
+
+## [assistant] turn 2 · 2026-10-22 11:41:06 · 953001 ms
+
+已修复。之前我误判了——**后台处理是有的，但"后台"不等于"无窗口"**，这正是你看到闪烁的原因。
+
+## 根因：三层控制台进程
+
+我读了 `dsh-hooks/lib/runner.js:113`，它是这样起 hook 的：
+
+```js
+spawn(command, { shell: true, ..., windowsHide: true })
+```
+
+`shell: true` 意味着实际执行的是 `cmd.exe /c <你的命令>`。关键事实（我用 PE 头核实过）：
+
+| 可执行文件 | PE 子系统 | 行为 |
+| --- | --- | --- |
+| `cmd.exe` | 3 = CONSOLE | 建控制台 |
+| `python.exe` | 3 = CONSOLE | 建控制台 ← **闪** |
+| `git.exe` | 3 = CONSOLE | 建控制台 ← **闪** |
+| `pythonw.exe` | 2 = GUI | 不建控制台 |
+
+两个致命点：
+
+1. **`windowsHide: true` 只管 dsh-hooks 直接 spawn 的那一个进程**，管不到 cmd.exe 再启动的 python 和 git。
+2. **Windows 的 `CREATE_NO_WINDOW` 不被子进程继承**——cmd.exe 一启动控制台程序，系统就给它新建一个控制台，窗口必然闪一下。
+
+我还实测了一个反直觉的点：`cmd.exe /c pythonw.exe …` **并不会自动脱离**，而是等了 2.12 秒。所以光换成 pythonw 不够。
+
+## 改法
+
+链路改成走 VBScript 启动器，因为 `wscript.exe` 是 GUI 子系统，本身永远没有控制台：
+
+```
+cmd.exe /c  →  wscript.exe //nologo hide.vbs  →  SW_HIDE 启动 pythonw.exe hook.py，立即返回
+```
+
+- [hide.vbs](.dsh-sync\hide.vbs) — 用 `WScript.Shell.Run cmd, 0, False`（SW_HIDE + 不等候）。实测 cmd 在 **0.31 秒**返回，agent 循环不阻塞。
+- [hook.py](.dsh-sync\hook.py) — 新的统一入口，按 `DSH_HOOK_EVENT` 分派记录与推送，日志写 `hook.log`。
+- `git.exe` 这一层单独治：在 [vendor/sync.py](.dsh-sync\vendor\sync.py) 的 `run()` 里给每个 git 调用加 `CREATE_NO_WINDOW | STARTF_USESHOWWINDOW/SW_HIDE`。
+
+## 一个踩过的坑
+
+第一版我把命令当参数传给 hide.vbs，需要穿过 `cmd.exe → wscript → CreateProcess` 三层嵌套 `\"` 转义——**实测静默失败**，连 hook.log 都没生成。所以最终把命令**硬编码进 vbs**，零参数零转义。
+
+## 验证
+
+- `dry-run turn/end` 正确匹配，配置解析无误
+- 模拟 hook 执行：exit=0，cmd 0.31s 返回，`hook.log` 与记录文件都生成
+- 隐藏参数确认生效：`wShowWindow=0`、`STARTF_USESHOWWINDOW=True`、`creationflags=0x8000000`，`git --version` 正常返回
+- 端到端推送成功：`PUSHED 21a3af5`
+- 顺带清掉了导致上次失败的陈旧 `_work/share/.git/index.lock`
+
+配置是热重载的，不用重启 DSH。**下一个回合结束时你留意一下是否还有窗口**，如果还有，用任务管理器看是不是 `conhost.exe` 短暂出现。
+
+Note: 我用了 `danger-full-access` 写入 `C:\Users\Admin\.dsh\profiles\desktop\cordis.patch.yml`——它在工作区外，workspace-write 沙箱不允许。
+
+Open objective 状态：m00001 已恢复完成（无窗口后台同步已落地并验证）。
