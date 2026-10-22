@@ -126,3 +126,20 @@ background job pwsh-244027d708444991 (pwsh: node --test desktop/test/import-perf
 Time sampled while preparing turn 1, step 66: 2026-10-22T17:00:28+08:00[Asia/Kuala_Lumpur]
 Browser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.
 Elapsed since the preceding step context: 10m 13s.
+
+---
+
+## [assistant] turn 1 · 2026-10-22 17:02:39 · 1354977 ms
+
+完成 core 最小优化及红绿测试，已向 Lead 交接；仅写入：
+
+- [core.cjs](<desktop/src/core.cjs>)：共享每轮 refresh 的原始事件、排序、完成事件及客户事实索引，消除逐客户全事件扫描和逐行 Lamport 全扫描。仍完整 replay、验签、权限及 epoch 校验，无授权缓存。
+- [import-performance.test.cjs](<desktop/test/import-performance.test.cjs>)：新增结构性能计数、内容突变、新权限、旧 epoch 回归和可选 20k 实测。
+
+**验证结果**
+- 首次红测：exit **1**，200 客户事件回调访问 **122823**；优化后 **1019**。
+- 状态前值查找红测：exit **1**，访问 **98742**；优化后 **0**。
+- 专项及 SEC01 回归：exit **0**，**66 通过、0 失败、1 可选压测跳过**。
+- 20,000 行真实导入：exit **0**，每批 100 行、保持原事务，导入后完整 refresh 仍为 20,000 客户。耗时 **969993ms，约 16 分 10 秒**；首批 416ms、末批 7911ms、最慢批 12255ms。
+
+未跑 build；未改事务、DDL、Store 方法、依赖或协议。**剩余累计完整 replay 成本仍明显，本次不能宣称 20k 秒级导入；界面响应恢复仍需 Lead 的 worker 路径。**
