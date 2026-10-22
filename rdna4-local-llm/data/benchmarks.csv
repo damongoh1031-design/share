@@ -1,0 +1,50 @@
+dimension,metric,gemma4_12b,gemma4_26b_a4b,qwen3_6_35b_a3b,gemma4_31b,source,grade,note
+intelligence,MMLU-Pro,77.2,82.6,85.2,85.2,official model cards,A,
+intelligence,GPQA Diamond,78.8,82.3,86.0,84.3,official model cards,A,
+intelligence,AIME26 (no tools),77.5,88.3,92.7,89.2,official model cards,A,
+intelligence,LiveCodeBench v6,72.0,77.1,80.4,80.0,official model cards,A,
+intelligence,Codeforces ELO,1659,1718,,2150,official model cards,A,
+intelligence,HLE (no tools),5.2,8.7,21.4,19.5,official model cards,A,real difficulty separator
+intelligence,BigBench Extra Hard,53.0,64.8,,74.4,official model cards,A,
+intelligence,C-Eval (Chinese),,82.5,90.0,82.6,Qwen card (Gemma cols self-run),B,Qwen self-evaluated Gemma
+intelligence,MRCR v2 8needle 128k,43.4,44.1,,66.4,official model cards,A,26B barely beats 12B
+agent,Tau2 (avg 3),69.0,68.2,,76.9,Gemma 4 official card,A,26B < 12B inversion
+agent,TAU3-Bench,,59.0,67.2,67.5,Qwen3.6 official card,B,
+agent,SWE-bench Verified,,17.4,73.4,52.0,Qwen3.6 official card,B,competitor score depressed
+agent,SWE-bench Pro,,13.8,49.5,35.7,Qwen3.6 official card,B,
+agent,Terminal-Bench 2.0,,34.2,51.5,42.9,Qwen3.6 official card,B,
+agent,Tool Decathlon,,12.0,26.9,21.2,Qwen3.6 official card,B,
+agent,MCPMark,,14.2,37.0,18.1,Qwen3.6 official card,B,
+agent,MCP-Atlas,,50.0,62.8,57.2,Qwen3.6 official card,B,
+agent,Claw-Eval Avg,,58.8,68.7,48.5,Qwen3.6 official card,B,
+agent,Claw-Eval Pass^3,,28.0,50.0,25.0,Qwen3.6 official card,B,
+agent,SkillsBench Avg5,,12.3,28.7,23.6,Qwen3.6 official card,B,
+multimodal,MMMU Pro,69.1,73.8,,76.9,Gemma 4 official card,A,
+multimodal,MATH-Vision,79.7,82.4,,85.6,Gemma 4 official card,A,
+multimodal,OmniDocBench 1.5 (lower better),0.164,0.149,,0.131,Gemma 4 official card,A,
+multimodal,VideoMME,,,82.5,75.3,Qwen3.6 official card,B,
+multimodal,VideoMMMU,,76.0,80.4,77.6,Qwen3.6 official card,B,
+architecture,total params (B),11.95,25.2,35.0,30.7,official model cards,A,
+architecture,active params (B),11.95,3.8,3.0,30.7,official model cards,A,
+architecture,layers,48,30,40,60,official model cards,A,
+architecture,sliding window,1024,1024,,1024,official model cards,A,
+architecture,native context,262144,262144,262144,262144,official model cards,A,
+architecture,experts (total/active),,128/8,256/8,,official model cards,A,
+architecture,attention layout,,full,hybrid 3:1 (DeltaNet:GA),full,official model cards,A,
+quantization,Q4_K_M size (GiB),6.87,15.64,,,HF API siblings,A,
+quantization,recommended quant,Q4_K_M (QAT),Q4_K_M (QAT),IQ4_XS,,repo README,A,
+quantization,quant size (GiB),6.87,15.64,17.44,,HF API siblings,A,
+quantization,effective bpw,4.9,4.9,4.32,derived,C,QAT vs IQ4_XS
+quantization,mmproj size (GiB),0.16,1.11,0.84,,HF API siblings,A,
+quantization,MTP draft size (GiB),0.24,0.23,,,HF API siblings,A,
+performance,theoretical ceiling (tok/s),46.6,130,200,derived from 320GB/s,C,roofline upper bound
+performance,estimated real (tok/s),26-32,25-40,15-22,estimate,D,not measured on host
+performance,estimated with MTP (tok/s),40+,35-50,,,estimate,D,
+deployment,weights fit 15.2 GiB,TRUE,FALSE,FALSE,arithmetic,A,
+deployment,cpu offload needed,none,>=1.2 GiB,>=2.3 GiB,arithmetic,A,
+deployment,128K context KV (GiB),0.2,0.2,1.3-2.6,derived,C,Gemma sliding window makes KV free
+instruction,thinking control,system prompt <|think|>,system prompt <|think|>,chat_template_kwargs,official model cards,A,
+instruction,system role,native,native,supported,official model cards,A,
+instruction,soft switch,none,none,/think /nothink NOT supported,official model cards,A,
+instruction,variant calibration,Balanced,Balanced,Aggressive,repo README,A,
+instruction,disclaimer injection risk,low,low,high,repo README,C,
