@@ -85,3 +85,65 @@ Current DeepSeek Harness Web GUI URL: "http://127.0.0.1:52307".
 ## [user] 2026-10-22 12:22:27 · source=user-approval
 
 The approval policy changed from "ask" to "never" (changed by the user).
+
+---
+
+## [assistant] turn 1 · 2026-10-22 12:23:51 · 160002 ms
+
+已在本机实测确认：你的环境里最好的那个方案**已经装好了**。结论如下。
+
+## 1. 首选：官方 gopls 内置 MCP（Go 团队维护）
+
+gopls ≥ v0.20 自带 MCP server。你本机是 `gopls v0.24.0` + `go1.27.3`，我实际拉起 `gopls mcp` 做了握手，返回 `serverInfo: gopls v1.0.0`，协议 `2025-06-18`，工具列表如下（共 8 个）：
+
+| 工具 | 作用 |
+|---|---|
+| `go_workspace` | 判断 module / workspace / GOPATH 结构（会话开头必用） |
+| `go_search` | 模糊搜符号（类型、函数、`pkg.Symbol`），上限 100 条 |
+| `go_file_context` | 一个文件依赖了同包哪些声明 |
+| `go_package_api` | 包的公开 API 摘要 |
+| `go_symbol_references` | 改代码前查符号所有引用（支持 `T.M`、`lib.T.M`） |
+| `go_diagnostics` | 全工作区编译/静态诊断，改完必跑 |
+| `go_rename_symbol` | 跨工作区重命名，返回待应用 edits |
+| `go_vulncheck` | 对 `./...` 跑漏洞检查（动 go.mod 后必跑） |
+
+两种运行模式（官方文档 `gopls/doc/features/mcp.md`）：
+
+- **detached（stdio）**：`gopls mcp` —— 独立无头 LSP，只能看到**已保存**的文件
+- **attached（SSE）**：`gopls serve -mcp.listen=localhost:8092` → `http://localhost:8092/sessions/1` —— 复用你编辑器里那个 LSP 会话，能看见**未保存**的 buffer
+
+另外 `gopls mcp -instructions > gopls-mcp.md` 可以导出官方给模型的作业指导（读代码工作流 / 编辑后必须跑 diagnostics 等），建议一并喂给 agent。
+
+价值点：它不是 grep，是**类型检查器级别**的语义——接口由哪些具体类型实现、跨包同名符号、被遮蔽的作用域都能精确解析。
+
+## 2. 社区增强版（官方 8 个工具不够用时）
+
+- **xieyuschen/gopls-mcp** — 60★, BSD-3, 活跃（2026-10-18）。gopls 的 fork，专攻语义任务，官方 benchmark 称比 grep 导航少 2–4× 工具调用；有 Claude Code / Codex 插件，Windows 一条 `irm https://gopls-mcp.org/install.ps1 | iex`。注意：它是社区项目，非 Google 官方。
+- **hloiseau/mcp-gopls** — 104★, Apache-2.0，2026-06 还在更新，LSP 分析 + 测试 + 覆盖率。
+- **Yantrio/mcp-gopls** — 46★，2025-06 后基本停更，仅作参考。
+- **mickeyinfoshan/lsp-mcp** — 2★，Go/TS/Python 多语言 LSP 桥。
+
+## 3. 如果你是想「用 Go 写 MCP Server」
+
+- **modelcontextprotocol/go-sdk** — 5,256★，官方 SDK，与 Google 合作维护，活跃。gopls 自己的 MCP 就是用它写的。
+- **mark3labs/mcp-go** — 9,180★, MIT，社区最流行。
+- `ktr0731/go-mcp` 已归档，README 直接指向官方 SDK，别再用。
+
+## 4. 通用型（配合 Go 开发）
+
+GitHub MCP（**你本机已连接**，PR/issue/代码搜索）最实用；其余按需加数据库（Postgres/SQLite）、文档检索（Context7 类）、浏览器（本机市场已上架 Chrome DevTools）。本机连接器市场 9 个里**没有 Go 专用项**，所以 gopls 只能走自定义 stdio 配置。
+
+## 5. 在 DSH 里接上它
+
+```json
+{ "name": "gopls", "transport": "stdio", "command": "gopls", "args": ["mcp"] }
+```
+
+attached 模式则用 `transport: "streamable-http"`, `url: "http://localhost:8092/sessions/1"`（需先手动起 `gopls serve -mcp.listen=localhost:8092`）。
+
+## 6. 两个实测踩到的坑
+
+- gopls 首次运行要写 `%LOCALAPPDATA%\gopls` 缓存。我最初在 workspace-write 沙箱下直接报 `can't write executable hash: ... Access is denied`，放开文件权限后正常。若在受限环境里接，记得放行这个目录。
+- 工具少是**刻意设计**：`go_context`、`go_file_metadata`、`go_file_diagnostics`、`go_references` 默认关闭（token 太贵或模型容易传错参数），可在 gopls 设置里通过 `MCPTools` 显式打开。
+
+需要的话我可以现在就把它接进 DSH（一条 `mcp_connector_configure`），接完顺手验证工具能不能列出来。
