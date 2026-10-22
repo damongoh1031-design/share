@@ -4,3 +4,7 @@
 *.md text
 *.py text
 *.html text
+*.sh text eol=lf
+*.yaml text
+*.yml text
+*.service text eol=lf
