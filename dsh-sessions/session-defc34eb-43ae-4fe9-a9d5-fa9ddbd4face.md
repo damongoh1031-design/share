@@ -72,3 +72,24 @@ Elapsed since the preceding model-visible message: unavailable.
 ## [user] 2026-10-26 15:55:27 · source=tool-jobs
 
 background job pwsh-486ac5ba9ad54a2b (pwsh: $root = 'C:\Users\Admin\.dsh\tools\rea'; New-Item -ItemType Directory -Path $root -Force | Out-Null; $version = 'v24.22.1'; $archive = "node-$version-win-x64.zip"; Invoke-WebRequest "https://nodejs.org/dist/$version/SHASUMS256.txt" -OutFile "$root\SHASUMS256.txt"; Invoke-WebRequest "https://nodejs.org/dist/$version/$archive" -OutFile "$root\$archive"; $expected = ((Select-String -Path "$root\SHASUMS256.txt" -Pattern "  $archive`$").Line -split '\s+')[0]; $actual = (Get-FileHash "$root\$archive" -Algorithm SHA256).Hash; if (!$expected -or $actual -ne $expected) { throw 'Node archive SHA256 verification failed' }; Expand-Archive -Path "$root\$archive" -DestinationPath $root -Force; & "$root\node-$version-win-x64\node.exe" --version; Write-Output "SHA256 verified: $actual") finished [status: completed, exit code: 0]. Read its output with job_output.
+
+---
+
+## [assistant] turn 1 · 2026-10-26 15:58:42 · 354892 ms
+
+已完成安装，并已在 **DeepSeek Harness 中全局启用**，当前会话可以直接调用。
+
+| 项目 | 验证结果 |
+|---|---|
+| 官方软件包 | `rea-agents@6.8.0` |
+| 独立运行环境 | Node.js `24.22.1`，下载 SHA-256 已校验，未替换原有 Node |
+| 连接方式 | 本地 `stdio` |
+| 启用状态 | **已连接 · 始终注入 · 全局** |
+| 工具发现 | **229 个 MCP 工具** |
+| 实际调用 | `mcp__rea__binary_session` 成功返回，确认服务版本为 `6.8.0`、客户端为 `dsh-mcp-client` |
+
+**无需重启，当前会话已生效。**
+
+注意：MCP 已安装可用，但不代表所有逆向分析后端都已配齐。目前 **Ghidra、JADX、ADB 等尚未配置**；需要这些后端的原生反编译、Android 分析功能，后续须补装。其余不依赖这些后端的功能可按需使用。
+
+官方来源：[morluto/rea](https://github.com/morluto/rea)。
