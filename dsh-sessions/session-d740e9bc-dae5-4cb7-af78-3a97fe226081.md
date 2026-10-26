@@ -206,3 +206,86 @@ CariCari 列出的公司座机是 **03-8090 0600**。如果这是交易或承包
 你可以把查询结果截图发来，遮住自己的账户资料。我可以帮助判断它是**众包备注、用户自设名称还是商家认证信息**，以及它是否真正支持你提供的两个候选名称。无需提供密码或验证码。
 
 **截至目前，最直接的公开关联仍是上一轮找到的 [Netro Construction 商家资料](https://exa.ai/library/place/d98zk86jkc9)，该页列出 `+60122089323`；这不是 Truecaller 的结果，也尚未证明 Yee Sin Choy 与该号码的关系。**
+
+---
+
+## [user] 2026-10-26 15:43:27 · source=user
+
+通过github寻找有什么接口可以搜索到以上号码
+
+---
+
+## [assistant] turn 3 · 2026-10-26 15:45:11 · 104237 ms
+
+已在 GitHub 找到相关项目，并检查了部分源码和问题记录。**结论是：有“调用来电识别数据库”的代码，但本次没有找到一个已验证可用、无需授权，就能可靠返回 `0122089323` 名称的接口。**
+
+尤其要区分：**仓库有接口代码 ≠ 接口仍能用 ≠ 数据库一定收录这个号码。**
+
+## 找到的主要项目
+
+| 项目 | 数据源／功能 | 授权及可用性判断 | 对这次查询的价值 |
+|---|---|---|---|
+| [sumithemmadi/truecallerjs](https://github.com/sumithemmadi/truecallerjs) | 非官方 Truecaller 查询库，可处理显示名称和来电标签 | 需要登录获得自己的 `installationId`；有尚未解决的登录／OTP 问题 | **最接近你要的 Truecaller 查询，但不能免登录直接查** |
+| [ni554n/truecallerjs_bot](https://github.com/ni554n/truecallerjs_bot) | 把 TruecallerJS 包装成 Telegram bot | 仍依赖 Truecaller；文档提供登录和已有 token 登录方式 | **只是换了操作界面，不是另一个独立数据库** |
+| [cutypie2351/phone-number-lookup](https://github.com/cutypie2351/phone-number-lookup) | 聚合 CallerID、Sync.ME、CallApp、Eyecon、Truecaller | 源码包含硬编码的账户／设备身份参数及 token，来源和授权不明 | **可用于了解接口来源，不建议直接执行原脚本** |
+| [ctkqiang/MalaysianOSINT](https://github.com/ctkqiang/MalaysianOSINT) | 对接马来西亚 Semak Mule 等查询 | 我确认源码中存在 Semak Mule HTTP 客户端；这不等于有正式开放 API 授权或服务保证 | **可查诈骗举报方向，不能回答机主叫什么** |
+
+## 1. TruecallerJS：值得关注，但卡在账户授权
+
+我读取的 [项目说明](https://github.com/sumithemmadi/truecallerjs#readme) 明确写明：
+
+- 它**不是 Truecaller 官方产品**。
+- 查询依赖 Truecaller 服务。
+- 使用前需要登录，并取得 `installationId`。
+
+同时，项目存在公开故障报告：
+
+- [#165：VERIFICATION FAILED, not sending OTP](https://github.com/sumithemmadi/truecallerjs/issues/165)  
+  用户报告输入登录号码后登录失败；本次查看时仍为 **Open**。
+- [#162：Verification Failed - NOT Sending OTP](https://github.com/sumithemmadi/truecallerjs/issues/162)
+
+**判断：**这是一个真实存在的接口封装项目，但不能据 README 就保证现在能成功登录，或保证马来西亚号码有返回。**我没有用它取得目标号码的结果，也没有使用仓库示例凭据查询。**
+
+## 2. 多库聚合项目：确实有接口，但不宜直接拿来查
+
+我实际读取了 [phone-number-lookup 的查询源码](https://github.com/cutypie2351/phone-number-lookup/blob/main/lookup.py)，确认它包含以下模块：
+
+- **CallerID／aunumber**
+- **Sync.ME**
+- **CallApp**
+- **Eyecon**
+- **Truecaller**
+
+问题不只是“可能过时”，还有几个具体风险：
+
+1. **硬编码身份凭据**  
+   部分模块直接使用固定 token、用户标识或设备标识。公开在 GitHub 并不代表获得了使用授权。
+
+2. **错误可能被显示成“没有数据”**  
+   例如 CallApp 模块会把响应解析异常概括为 `No Data Found`。接口失效、鉴权失败和真正查无记录，可能被混为一谈。
+
+3. **缺少请求超时**  
+   多处网络请求没有设置超时，直接运行存在长时间卡住的风险。
+
+4. **地区参数不适合直接照搬**  
+   Truecaller 模块硬编码了 `countryCode=IL`，而不是马来西亚 `MY`。
+
+**因此，我没有运行这个原脚本，也没有使用其中的硬编码凭据。不能把它列为“已验证能查到该号码”的管道。**
+
+## 3. Telegram bot 不是免授权捷径
+
+[truecallerjs_bot](https://github.com/ni554n/truecallerjs_bot) 的说明显示，它基于 TruecallerJS，提供登录及 `installation_id` 登录方式。
+
+它**没有解决底层授权问题**。此外，把自己的账户 token 或验证码交给他人运营的 bot，会增加账户泄露风险，不建议这样做。
+
+## 针对这个号码，当前能得出的结论
+
+| 你想确认的事项 | 当前状态 |
+|---|---|
+| GitHub 有没有 Truecaller 接口封装？ | **有：TruecallerJS** |
+| 有没有聚合多个众包数据库的项目？ | **有，但所检查项目存在硬编码凭据和可靠性问题** |
+| 是否已通过这些接口查到 `0122089323` 的名称？ | **没有** |
+| 能否确认 Truecaller 将其标记为 Yee Sin Choy 或 Netro Construction？ | **目前不能** |
+| 是否已有号码与商家的公开关联？ | **有：[此前找到的商家资料](https://exa.ai/library/place/d98zk86jkc9)列出 Netro Construction 与 `+60122089323`** |
+
+**我的建议：若只查这一个号码，优先用自己的账户在 Truecaller 官方 App／网页查询，而不是安装这些聚合脚本。** 若一定要程序化处理，则应先确认平台允许的访问方式和自有账户授权，再做单点测试；即使返回姓名，也只应视为来电显示／众包标签，不能当作机主实名或公司授权证明。
