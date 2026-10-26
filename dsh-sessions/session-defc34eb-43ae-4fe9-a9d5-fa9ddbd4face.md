@@ -93,3 +93,18 @@ background job pwsh-486ac5ba9ad54a2b (pwsh: $root = 'C:\Users\Admin\.dsh\tools\r
 注意：MCP 已安装可用，但不代表所有逆向分析后端都已配齐。目前 **Ghidra、JADX、ADB 等尚未配置**；需要这些后端的原生反编译、Android 分析功能，后续须补装。其余不依赖这些后端的功能可按需使用。
 
 官方来源：[morluto/rea](https://github.com/morluto/rea)。
+
+---
+
+## [user] 2026-10-26 16:09:41 · source=user
+
+https://github.com/Panniantong/Agent-Reach
+安装以上CLI，并确保在你deepseek harness中启用
+
+---
+
+## [user] 2026-10-26 16:09:41 · source=time-context
+
+Time sampled while preparing turn 2, step 1: 2026-10-26T16:09:41+08:00[Asia/Kuala_Lumpur]
+Browser time zone for this request: Asia/Kuala_Lumpur. Interpret otherwise-unqualified dates and times in this zone.
+Elapsed since the preceding model-visible message: 10m 58s.
