@@ -289,3 +289,57 @@ CariCari 列出的公司座机是 **03-8090 0600**。如果这是交易或承包
 | 是否已有号码与商家的公开关联？ | **有：[此前找到的商家资料](https://exa.ai/library/place/d98zk86jkc9)列出 Netro Construction 与 `+60122089323`** |
 
 **我的建议：若只查这一个号码，优先用自己的账户在 Truecaller 官方 App／网页查询，而不是安装这些聚合脚本。** 若一定要程序化处理，则应先确认平台允许的访问方式和自有账户授权，再做单点测试；即使返回姓名，也只应视为来电显示／众包标签，不能当作机主实名或公司授权证明。
+
+---
+
+## [user] 2026-10-26 15:48:42 · source=user
+
+尝试使用 phone-number-lookup 来查询，验证这个项目是否有效
+
+---
+
+## [user] 2026-10-26 15:48:42 · source=time-context
+
+Time sampled while preparing turn 4, step 1: 2026-10-26T15:48:41+08:00[Asia/Kuala_Lumpur]
+Browser time zone for this request: Asia/Kuala_Lumpur. Interpret otherwise-unqualified dates and times in this zone.
+Elapsed since the preceding model-visible message: 3m 30s.
+
+---
+
+## [assistant] turn 4 · 2026-10-26 15:49:34 · 52413 ms
+
+我做了**不使用仓库硬编码凭据的单点接口测试**。结果是：**尚未查到该号码的众包名称，也不能据此认定整个项目有效或失效。**
+
+需要明确：**这次没有运行原版 `phone-number-lookup` 全流程**，因为它会自动使用来源和授权不明的账户 token／设备身份。用户授权测试项目，并不等于获得了这些第三方账户的使用权。
+
+## 本次实际测试
+
+目标号码统一为国际格式：`+60122089323`。
+
+| 项目中的模块 | 本次测试方式 | 实际响应 | 结论 |
+|---|---|---|---|
+| Truecaller | 使用项目中的查询端点，将国家设为 `MY`，**不附账户 token** | HTTP **400**；`{"status":40010,"message":"Missing authentication parameter."}` | 查询端点有响应，但**需要鉴权，不能匿名查询** |
+| CallApp | 使用项目中的查询端点，**不附硬编码的 `myp`、`tk`、`cvc` 身份参数** | HTTP **525**，响应正文为空 | 该匿名请求未返回数据；**不能判断是鉴权、服务状态还是其他原因，更不能当作“号码未收录”** |
+| CallerID、Sync.ME、Eyecon | 未执行 | — | 原代码涉及固定身份／鉴权参数，本次没有使用 |
+
+源码依据：[phone-number-lookup 查询模块](https://github.com/cutypie2351/phone-number-lookup/blob/main/lookup.py)。
+
+## 这次验证说明了什么？
+
+**确认了：**
+- Truecaller 模块并不是“拿到代码就能免登录查询”。
+- 本次 CallApp 匿名请求没有产出可用记录。
+- 没有任何返回支持 **Yee Sin Choy** 或 **Netro Construction** 这两个名称。
+
+**没有确认：**
+- 用合法、自有且有效的授权运行时，项目是否能正常工作。
+- 这些数据库是否收录了目标号码。
+- 原脚本的全部模块是否有效。
+
+另外，源码中的 CallApp 模块会把部分解析异常显示成 **`No Data Found`**。因此，**直接运行脚本看到“没有数据”，也不足以证明号码未收录**，必须同时检查 HTTP 状态、鉴权结果和原始响应。
+
+### 下一步的可行方式
+
+要完成真正的端到端验证，需要**平台允许的访问方式及你自己合法取得的授权**，再隔离测试对应模块；不要使用仓库里的陌生 token，也不要把密码、验证码或 token 发到聊天里。
+
+**当前准确结论：这个项目不能被视为已验证可用的免授权号码查询工具；本次测试没有查到目标号码的众包名称。**
