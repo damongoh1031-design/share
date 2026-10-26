@@ -1,16 +1,16 @@
 # malaysiayp 电话号码目录 · 交付物
 
-导出时间：2026-10-23 14:00:29
+导出时间：2026-10-26 16:08:01
 数据源：`data/malaysiayp_full.csv.sqlite3`（采集脚本 v3.0.0）
 
 ## 一、文件清单
 
 | 文件 | 行数 | 说明 |
 |---|---:|---|
-| `malaysiayp_all.csv` | 181060 | **主交付**。全部有效记录，含座机与手机 |
-| `malaysiayp_mobile.csv` | 26339 | 仅马来西亚手机号（`01X-XXXXXXX` / `011-XXXXXXXX`） |
-| `malaysiayp_all_extended.csv` | 181060 | 11 列诊断版，含 `raw_phone` / `phone_status` / `entry_id` |
-| `malaysiayp_quarantine.csv` | 5391 | 号码无效或缺失的记录，供人工排查 |
+| `malaysiayp_all.csv` | 202956 | **主交付**。全部有效记录，含座机与手机 |
+| `malaysiayp_mobile.csv` | 27944 | 仅马来西亚手机号（`01X-XXXXXXX` / `011-XXXXXXXX`） |
+| `malaysiayp_all_extended.csv` | 202973 | 11 列诊断版，含 `raw_phone` / `phone_status` / `entry_id` |
+| `malaysiayp_quarantine.csv` | 6469 | 号码无效或缺失的记录，供人工排查 |
 | `meta.json` | — | 行数 / 字节数 / SHA256 / 覆盖度 |
 
 ## 二、列定义
@@ -30,12 +30,12 @@
 
 | 指标 | 值 |
 |---|---:|
-| 已完成页 / 已入队页 | 11331 / 34347（32.99%） |
+| 已完成页 / 已入队页 | 12935 / 34347（37.66%） |
 | 分类总数 | 1243 |
 | 已索引分类 | 1181 |
 | 未索引分类 | 62 |
 | 估计真实总页数 | 34345 – 37079（中值 35681） |
-| **估计真实覆盖率** | **≈ 31.76%** |
+| **估计真实覆盖率** | **≈ 36.25%** |
 
 > 当前为**阶段快照**，不是终版。采集仍在进行，覆盖率会持续上升。
 > 未索引分类尚未展开页数，因此 `pages_queued_known` 会低估总量。
