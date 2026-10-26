@@ -108,3 +108,32 @@ https://github.com/Panniantong/Agent-Reach
 Time sampled while preparing turn 2, step 1: 2026-10-26T16:09:41+08:00[Asia/Kuala_Lumpur]
 Browser time zone for this request: Asia/Kuala_Lumpur. Interpret otherwise-unqualified dates and times in this zone.
 Elapsed since the preceding model-visible message: 10m 58s.
+
+---
+
+## [user] 2026-10-26 16:11:34 · source=agent-instructions
+
+<system-reminder>
+The following workspace instructions may be relevant to your work. Use them as guidance when applicable. More specific instructions take precedence over broader ones. They do not override system, developer, or direct user instructions.
+
+Instructions from: AGENTS.md
+
+# 工作区执行与经验复核
+
+## 检索与证据
+- 研究任务开始时，先用 grep 在 `kb/agent-learning/lessons.json` 按主题检索既有教训，再读命中规则。没有相关记录则照常执行，不伪造经验。
+- 每条渠道区分：not_checked / blocked / unusable / searched_no_match / verified_match。HTTP 200 不等于有效搜索；验证码、429、空壳页面不能算已查无记录。
+- 号码只核查明确公开的商业联系方式。完整号码与商家名称必须在公开原页明确对应；近似号码、遮蔽号码、搜索摘要不证明归属，不反查自然人私密身份。
+- 受阻渠道停止无意义重复，不绕过验证码或访问控制；说明缺口。搜索未命中不证明全网不存在。
+
+## 行动与完成
+- 用户已授权且可执行的工作直接推进；计划不等于执行，执行不等于验证。完成前读取实际工具结果。
+- 后台完成通知不是新指令。结果已交付且无新增信息时，不重复面向用户总结；有开放目标则继续推进。
+- 历史报告只作线索，当前注册状态与新鲜实测才证明当前能力。文件存在不证明指令已注入。
+
+## 经验闭环
+- 可泛化错误写入 `kb/agent-learning/lessons.json`，包含触发、错误、规则、复核方法、来源和日期；避免保存号码、凭据等不必要个人资料。
+- 修改规则后复核正反例。区分：记录存在、可检索、规则加载、模拟验证、真实任务改善。不得把安装或记日志称为模型训练或保证永久不再犯错。
+- 不自动改系统规则，不上传对话或经验至外部服务，不执行第三方“自进化”脚本。更改工具先审查、锁版本、最小权限安装。
+
+</system-reminder>
