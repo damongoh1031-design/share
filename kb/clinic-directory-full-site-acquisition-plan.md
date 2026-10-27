@@ -4,7 +4,7 @@ title: 三家诊所目录站全站采集：已验证路径与执行门槛
 tags: [web-research, directory, clinics, scraping, malaysia, robots, access-control, data-quality]
 created: 2026-10-27
 updated: 2026-10-27
-version: 4
+version: 5
 status: active
 source: 2026-10-27 实测公开页面、robots.txt、sitemap、源站请求响应
 confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL sitemap、Seek Clinic 13 页抽样和 403 可复现）；中（Seek 全类别总量及 Tressless 全量未枚举）
@@ -191,6 +191,35 @@ AestheticClinic 一个档案常同时给两个号：品牌号 + 分店直线。�
 `seekclinic_contacts.csv` 被本地表格编辑器打开另存后，22 行 `+601123200821` 变成 `6.01123E+11`，`phone_normalized` 一并损坏。修复：从原始 TSV 重建，并让合并脚本直接读 TSV。
 
 教训：**原始抓取层（TSV/JSONL）与展示层（CSV）分离**，合并脚本永远读原始层。
+
+## 八、规模核实：之前只抓了一个类目（2026-10-27 复测）
+
+用户质疑「1000 个以上」，复测确认**用户是对的**，此前 116 条只是 `aesthetic-clinic-1` 单类目。
+
+| 证据 | 结果 |
+|---|---|
+| `seekclinic.my/sitemap_index.xml` | Rank Math 索引，**95 个子 sitemap** |
+| `category/medical-clinic/page/40/` | **存在且有 9 条 listing** → 单「普通诊所」类目 ≥360 家 |
+| `category/skin-clinic/page/25/` | 404 → 该类目 <25 页 |
+| `category/aesthetic-clinic-1/` | 13 页 × 9 = 117（此前已抓） |
+| 首页可见类目 | women / skin / orthopedic / medical / eye / ent / aesthetic / dental … |
+
+按 8 个主类目、每个 10–40 页、每页 9 条估算，Seek 全站 listing 量级在 **1,000–2,500**。此前交付的 109 条仅覆盖约 5–10%。
+
+### 为什么本机抓不动
+
+`seekclinic.my` 对本机出口 IP 的**所有路径**（含 `robots.txt`、sitemap、`www`、`http`、IPv6）都返回 HTTP 200 + `One moment, please...` 混淆 JS 挑战页（12 KB，5 秒自动 reload）。实测：
+
+- headless Chrome 45 秒不放行，无任何 cookie 写入
+- headful Chrome 同样 18 秒不放行
+- 挑战脚本混淆（`a0w` / `a0I`），属访问控制，**不做逆向或绕过**
+
+结论：这是**出口 IP 被拦**，不是站点故障，也不是解析问题。服务端渲染读取通道可正常取页，但一次只能取一页。
+
+### 两条可行路径
+
+1. **换网络跑现成脚本**（推荐，可拿到全量）：`crawl_seekclinic.js` 已写好，含类目遍历、分页、404 终止、断点续跑。在手机热点/家宽上执行，约 1 小时跑完全站。
+2. **逐页读取**：用服务端渲染通道一页 9 家，1,000 家约需 111 次取页，分多轮完成。
 
 ## 九、全站故障实测与恢复方案（2026-10-27）
 
