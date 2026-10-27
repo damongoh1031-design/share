@@ -4,7 +4,7 @@ title: 三家诊所目录站全站采集：已验证路径与执行门槛
 tags: [web-research, directory, clinics, scraping, malaysia, robots, access-control, data-quality]
 created: 2026-10-27
 updated: 2026-10-27
-version: 3
+version: 4
 status: active
 source: 2026-10-27 实测公开页面、robots.txt、sitemap、源站请求响应
 confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL sitemap、Seek Clinic 13 页抽样和 403 可复现）；中（Seek 全类别总量及 Tressless 全量未枚举）
@@ -122,13 +122,13 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 | 目标 | 状态 | 下一步 |
 |---|---|---|
 | Clinic RX 官方官网 10 家分店 | **已实做完成** | 使用本地 CSV；若要扩展到所有诊所品牌，逐个官方站点分别建来源 |
-| AestheticClinic.my 100 家 profile URLs | **URL 可完整枚举；电话未全量提取** | 获得许可/正常访问通路后逐条读取 |
+| AestheticClinic.my 100 家 profile URLs | **已实做完成：100/100，0 失败，83 家有号** | 17 家 Source Only 本就无号，非抓取失败 |
 | Seek Clinic aesthetic 类别 | **已实做完成：109 个唯一号码** | 换其他类别时复用同一流程；末页边界需另行确认 |
-| Tressless 全球目录 | **未全量枚举** | 先申请官方数据授权；不绕过其明确 WAF/归档限制 |
+| Tressless 全球目录 | **仅 MY 3 条可读样本，用于跨源核对** | 全站批量不可行：Cloudflare 全站挑战 + 列表页无电话字段 + 详情 URL 大量 404 |
 
 ## 七、实取结果：Seek Clinic 109 个唯一联系人（2026-10-27）
 
-这是本任务中唯一完成结构化落地的目录站采集。
+这是本任务中第一个完成结构化落地的目录站采集。
 
 | 指标 | 数值 | 口径 |
 |---|---|---|
@@ -158,7 +158,41 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 5. 对共享号码写 `notes=shared number across N listings`，禁止在报表里当成 N 个独立门店。
 6. 抽样 4–5 条进详情页复核名称/电话/地址，任一不符即回退重取。
 
-## 八、全站故障实测与恢复方案（2026-10-27）
+## 八、三站合并成品（2026-10-27 最终）
+
+**主交付：`combined_clinics.csv`（201 家机构，一家一行，含主号码与号码角色）。**
+
+| 文件 | 行数 | 用途 |
+|---|---|---|
+| `combined_clinics.csv` | 201 | 一家机构一行，`primary_phone` + `primary_phone_role` |
+| `combined_contacts.csv` | 206 | 一个唯一号码一行，含多机构共用标记 |
+| `combined_contacts_detail.csv` | 246 | 一条源记录一行，可回溯到具体页面 |
+| `combined_conflicts.csv` | 38 | 同一机构被列出多个号码（品牌号 + 分店直线） |
+
+数据构成：Seek 116 条 listing → 109 唯一号；AestheticClinic 100 个 profile → 127 个号码实例、107 唯一号、83 有号 / 17 无号 / 0 失败；Tressless 3 条（跨源核对用）。
+
+| 指标 | 值 | 说明 |
+|---|---|---|
+| 唯一号码 | 206 | E.164 归一后 |
+| 唯一机构 | 201 | 名称归一后 |
+| 主号码去重 | 176 | 201 家里只有 176 个不同主号码 |
+| 跨源互证号码 | 11 | 两站以上同时出现，最强真实性证据 |
+| 品牌共用号（≥3 家） | 5 | 如 `+60102103921` 被 Clinic RX 全马 7 店共用 |
+| 多号码机构 | 38 | 品牌号 + 分店直线并存，不是数据错误 |
+
+跨源互证样例：`+60102103921` Clinic RX（三站都有）、`+60103681400` Kaiteki SS2 PJ（Seek 写 `+60103681400`，Tressless 写 `+60 10-368 1400`，归一后一致）、`+601161268288` Dr Chong Mid Valley、`+60133015758` Pinnacle Melaka。
+
+### 号码角色必须分开
+
+AestheticClinic 一个档案常同时给两个号：品牌号 + 分店直线。例：Clinic RX Dataran Cheras = `+60102103921`（品牌）+ `+60143288758`（分店）。**报表取分店直线，不要取品牌号**，否则 7 家分店显示同一个电话。`primary_phone_role` 字段即为此设：181 家 branch_direct，20 家只能 brand_shared。
+
+### 真实踩坑：CSV 被表格软件改成科学计数法
+
+`seekclinic_contacts.csv` 被本地表格编辑器打开另存后，22 行 `+601123200821` 变成 `6.01123E+11`，`phone_normalized` 一并损坏。修复：从原始 TSV 重建，并让合并脚本直接读 TSV。
+
+教训：**原始抓取层（TSV/JSONL）与展示层（CSV）分离**，合并脚本永远读原始层。
+
+## 九、全站故障实测与恢复方案（2026-10-27）
 
 已对固定的 15 个 URL 做本机有界健康检查，结果见 `outputs/clinic-directories/sitecheck_results.csv`；检查器为 `check_sites.py`，不遍历目录、不解挑战、不重试 403。
 
@@ -181,7 +215,7 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 
 更完整的逐类矩阵见 `outputs/clinic-directories/fault-recovery.md`；限频与停机默认值见 `collector_config.json`。仅在取得书面许可/API/官方导出并确定允许路径、字段、速率及再发布范围后，才按 URL manifest → 低频抓取 → checkpoint → 字段质检 → 总量对账的流程执行全量任务。
 
-## 九、未核实项
+## 十、未核实项
 
 - AestheticClinic 100 个 profile 中 Complete/Source Only 的准确比例与有效号码数量。
 - Seek Clinic 95 个 sitemap 的类型与总 listing 数；分类之外有无重复/已下线记录。

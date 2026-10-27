@@ -1,0 +1,20 @@
+Combined clinic contact build report
+checked_at                    : 2026-10-27
+raw source records            : 246
+  seekclinic.my               : 116
+  aestheticclinic.my          : 127
+  tressless.com               : 3
+records rejected (bad phone)  : 0
+unique phone numbers          : 206
+unique clinics                : 201
+brand-shared numbers (>=3 use): 5
+multi-source confirmed phones : 11
+multi-source confirmed clinics: 1
+phones shared by >1 clinic    : 14
+clinics listed with >1 number : 38
+
+aestheticclinic profiles read : 100
+tressless records read        : 3
+csv sci-notation rows repaired: 0
+
+corrections applied:
