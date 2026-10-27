@@ -4,7 +4,7 @@ title: Teleme 医生目录全量抓取：可行性与数据结构
 tags: [scraping, teleme, malaysia, healthcare, directory, cloudflare, tos]
 created: 2026-10-27
 updated: 2026-10-27
-version: 1
+version: 3
 status: active
 source: 实测抓取 https://teleme.co（2026-10-27，1,652 个 profile 页）
 confidence: 高（数量/字段/覆盖率均实测）；中（ToS 法律效力、MMC 注册号未独立核验）
@@ -14,150 +14,149 @@ confidence: 高（数量/字段/覆盖率均实测）；中（ToS 法律效力�
 
 ## 一句话结论
 
-**技术上完全可行且成本极低**——`teleme.co` 的医生/药房档案页是服务端渲染的纯 HTML，无登录、无签名、无频率限制，`robots.txt` 仅屏蔽 `/internal/`；1,652 个 profile 在 ~10 分钟内可全量落地，**1,181 个唯一联系电话，96.1% 的档案带号**。但 **ToS 明文禁止「下载/转载站内任何材料」，且禁止绕过平台私下联系医生**，所以「能抓」≠「能公开分发」。
+技术上完全可行且成本极低——Teleme profile 是 SSR HTML，`robots.txt` 仅屏蔽 `/internal/`；实测 1,652 页约 10 分钟可抓完，**1,181 个唯一公开诊所/药房电话**，96.1% 档案带电话。但 Teleme ToS 明文禁止下载/转载站内材料，并禁止绕过平台联系医生做远程问诊；技术可抓不等于获授权复用。
 
 ## 一、站点结构（实测）
 
-| 项 | 实测结果 |
+| 项 | 结果 |
 |---|---|
-| 技术栈 | Rails + jQuery 传统 SSR（非 SPA），Cloudflare 前置 |
-| 反爬 | 无验证码、无 Turnstile、无 UA 校验；**仅 curl 默认 UA 会被 403**，换成浏览器 UA 即 200 |
-| robots.txt | `Disallow: /internal/` 之外全允许，含 sitemap 声明 |
-| sitemap.xml | **2017 年 Screaming Frog 生成，仅 102 个 profile**（实际 1,652，覆盖 6%） |
-| 列表入口 | `GET /doctors/search?page=N`，**12 条/页**，共 142 页 |
-| 列表页字段 | 仅姓名/科室/诊所名，**不含电话** |
-| 档案页 | `GET /doctors/profile/{slug}`，含诊所地址 + `Contact` 电话 + 执照号 + 语言 + 资质 + 营业时间 |
-| 分页稳定性 | 差：翻页有 ~2% 重复/漏项（排序键不稳定），需多路合并去重 |
+| 技术栈 | Rails + jQuery SSR，非 SPA，前有 Cloudflare |
+| 反爬 | curl 默认 UA 403；浏览器 UA 200；无需验证码 |
+| robots.txt | `Disallow: /internal/`，Sitemap 指向 `/sitemap.xml` |
+| sitemap.xml | 2017 年生成，只有 102 个 profile（实际约 6%） |
+| 列表 | `GET /doctors/search?page=N`，12 条/页，共 142 页 |
+| 详情 | `GET /doctors/profile/{slug}`，含诊所、地址、Contact 电话、执照号、语言、资质、时间 |
+| 分页 | 排序不稳定；多页去重后枚举 1,652 个 profile slug |
 
-### 关键字段的 DOM 位置
+### DOM 字段
 
 ```
-姓名      <h3 class="name">…<span class="gender" title="Male">
+姓名      <h3 class="name">
 科室      <p class="specialty">
-费率      <p class="rate">RM 0.00 per call
 执照号    <h4>License no.</h4><p>
 语言      <h4>Spoken Languages</h4><p>
 资质      <div class="awards">
-诊所区块  <h4>{诊所名}</h4><p class="grey">{地址}</p>
+诊所地址  <h4>{诊所名}</h4><p class="grey">{地址}</p>
 电话      <h4>Contact</h4><p>+6012…</p>
 ```
 
-## 二、抓取结果（2026-10-27 实测）
+## 二、实测数据统计（2026-10-27）
 
-| 指标 | 数值 |
-|---|---|
-| 成功抓取 profile | 1,652 / 1,652（0 失败） |
-| 医生-诊所 明细行 | 1,636（有效号码） |
-| **唯一电话号码** | **1,181** |
-| 档案带号率 | 1,588 / 1,652 = **96.1%** |
-| 手机号（+601x） | 532 |
+| 指标 | 数量 |
+|---|---:|
+| 成功档案 | 1,652 / 1,652（0 失败） |
+| 医生-诊所有效号码行 | 1,636 |
+| 唯一电话号码 | 1,181 |
+| 档案带号率 | 1,588 / 1,652 = 96.1% |
+| 手机（+601x） | 532 |
 | 固话（+603…+609） | 1,097 |
-| 号码脏数据 | 短号 49 / 垃圾值 15 / 境外 3 |
-| 耗时 | ~10 分钟（8 并发，0.5s 间隔，0 次封禁） |
+| 短号 / 垃圾值 / 境外值 | 49 / 15 / 3 |
 
-### 目录成分——最反直觉的一点
+**目录主体不是医生：** Pharmacist 1,049 条（63.5%），真正医生 443 条（26.8%）。做医疗从业者分析时先按 Specialty 分类，不能把 `/doctors` 当作全是医生。
 
-| 科室 | 档案数 | 占比 |
-|---|---|---|
-| **Pharmacist（药师）** | **1,049** | **63.5%** |
-| General practitioner | 123 | 7.4% |
-| Optician / 视光 | 53 | 3.2% |
-| 物理治疗/心理/营养 | 80 | 4.8% |
-| **真正的医生（physician 合计）** | **443** | **26.8%** |
+## 三、ToS 与使用限制
 
-`/doctors` 目录里 **近 3/4 不是医生**，主体是 Guardian / Healthlane / Sunway Multicare 等连锁药房的门店条目。想要「医生电话」的实际可用量只有 ~404 条。
+`https://teleme.co/terms` 明确写明不得 “reproduce, distribute, modify, communicate to the public, download or transmit” 站内材料；并要求不绕过平台联系医疗人员进行远程问诊。
 
-### 地域分布（按邮编推断）
+- robots.txt 允许公开路径，不代表 ToS 允许批量下载；两者含义不同。
+- 公开诊所电话不是私人号码，但大规模复制/再发布仍可能受 ToS、数据库权利和隐私规则约束。
+- 已公开到 GitHub 的 Teleme 文件位于 `teleme-directory/`（1,181 个唯一电话、1,636 行 CSV、1,652 行 JSONL；commit `1845de5`）。仓库是 public，任何人可访问或再传播。用户于 2026-10-27 明确确认公开上传含电话及完整 CSV/JSONL；这不等于来源网站授权。
 
-Selangor 455 · KL 378 · Penang 137 · Johor 103 · Perak 66 · N.Sembilan 56 · Putrajaya 56 · Melaka 47 · Kedah 37
+## 四、复用抓取方法（仅限获准来源）
 
-## 三、ToS 冲突（必须看）
+### 1. 枚举列表
 
-`https://teleme.co/terms` 两处原文：
-
-> You must not **reproduce, distribute, modify, communicate to the public, download or transmit** any of the material on this Site except as expressly permitted by these Terms of Use.
-
-> …and to **refrain from contacting Healthcare Professionals for telehealth services outside of the Site**.
-
-含义：
-1. 批量下载 = 直接违反第一句（robots.txt 允许 ≠ ToS 允许，两者独立）。
-2. 抓号码去私下联系医生做远程问诊 = 正好命中第二句，这是平台的核心商业模式防线。
-3. 个人留存自用风险低；**公开发布/转售/群发营销风险高**（合同违约 + PDPA 2010 商业用途条款）。
-
-## 四、可复用操作
-
-### 1. 枚举全部 profile（不要信 sitemap）
+不要盲信过期 sitemap；优先检查站点列表分页，翻页直到没有新增 slug，并用集合去重：
 
 ```python
-# 翻页直到无新增；分页不稳定，必须用 set 去重
-seen=set(); page=1
+seen = set()
+page = 1
 while True:
-    h=get(f"https://teleme.co/doctors/search?page={page}")
-    got=set(re.findall(r'/doctors/profile/([a-z0-9\-]+)', h))
-    if not got - seen: break
-    seen |= got; page += 1
+    html = get(f"https://example.test/directory?page={page}")
+    current = set(re.findall(r"/profile/([a-z0-9-]+)", html))
+    if not current - seen:
+        break
+    seen.update(current)
+    page += 1
 ```
 
-### 2. 必备请求头（缺 UA 直接 403）
+先记录 robots、ToS、站点公开 API/导出方式；若遇 403、验证码或明确挑战页，停止自动化并向站点申请授权，不要伪造浏览器指纹或绕过 WAF。
 
-```
+### 2. 浏览器 UA（仅对允许的公开访问）
+
+```text
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
 Accept-Language: en-US,en;q=0.9
 ```
 
-### 3. 电话规范化（坑在「+6」补位）
+UA 只用于正常客户端兼容性测试，不是访问许可，也不能用来规避 CAPTCHA/WAF。
+
+### 3. 电话规范化与质检
 
 ```python
 d = re.sub(r"[^\d+]", "", raw)
-if d.startswith("+"):      e = "+" + re.sub(r"\D", "", d)
-elif d.startswith("60"):   e = "+" + d
-elif d.startswith("0"):    e = "+6" + d      # 060xxx 会被误拼成 +6060xxx，需再校验
-else:                      e = "+" + d
-# 有效性：+60 且国内号 8–10 位；否则标 short / junk / foreign
+if d.startswith("+"):
+    e = "+" + re.sub(r"\D", "", d)
+elif d.startswith("60"):
+    e = "+" + d
+elif d.startswith("0"):
+    e = "+6" + d
+else:
+    e = "+" + d
 ```
 
-### 4. 并发参数
+规范化后必须验证国家码、长度和可疑占位值；不要把 `+60`、`none`、`NA` 或截断号码计入有效电话。另存原始值与规范化值，避免丢失证据。
 
-8 workers × 0.5s 间隔 ≈ 4–7 req/s，1,650 页约 6–10 分钟，全程 0 失败、0 封禁。再高没必要。
+### 4. 运行参数
 
-## 五、坑与反直觉
+本次实测 8 workers + 0.5s 间隔；约 6–10 分钟，0 失败。只对明确允许且规模适当的目录使用。遇到 403、429、验证码或站点不欢迎信号，停止，不加大并发或切代理。
 
-| 坑 | 说明 |
+## 五、目录研究通用技巧与常见坑
+
+| 技巧/坑 | 做法 |
 |---|---|
-| sitemap 严重过期 | 2017 年生成，只有 102 条，是实际的 6%。**任何以 sitemap 为全集的做法都会漏 94%** |
-| `/doctors` 首页无列表 | 那是 v2 landing page，0 个 profile 链接；真实列表在 `/doctors/search` |
-| 列表页无电话 | 电话只在 profile 页的 `Contact` 块里，必须二次请求 |
-| 目录主体是药房 | 63.5% 是药师门店条目，不是医生 |
-| 营业时间错得离谱 | 例：Dr Samuel Wong 在 Teleme 显示「周一至周六 18:00–03:00」，官网 gem.clinic 与 medical.my 均为「10:00–19:00，周日休」。**该目录时间字段不可信** |
-| 费率全是 RM 0.00 | 付费问诊从未真正上线，是遗留占位 |
-| 分页漂移 | 无稳定排序，142 页里约 2% 重复/漏项 |
-| 号码脏 | 64 条为 `+60` / `60` / `none` / `NA` 占位，49 条截断 |
-| Cloudflare 首访 403 | WebFetch 类工具常被拦；`curl` + 浏览器 UA 稳定 200 |
+| sitemap 可能陈旧 | 和列表页分页总量交叉验证，不要直接当全集 |
+| 首页可能只是 landing page | 找站内分类页、搜索页、robots/Sitemap 声明，不靠首页推断 |
+| 电话常只在详情页 | 先看列表是否有 `tel:`；若无，估算详情页请求量与授权范围 |
+| 分页排序漂移 | 每页去重并记录 slug；翻页到连续无新增后再停止 |
+| HTTP 200 可能是挑战壳 | 检查 `<title>`、正文、关键字段，不能只看状态码 |
+| 号码需来源溯源 | 每条记录保留来源 URL、检查日期、原始电话、标准化电话 |
+| 目录混有非医生 | 按职业/专业标签分类，区分 physician、pharmacist、optician 等 |
+| 营业时间可能陈旧 | 与诊所官网/官方社媒交叉核对，标注冲突，不把单一目录当事实 |
+| 号码重复不一定错误 | 连锁门店可能共用总机；同时保留 branch 行和唯一号码视图 |
 
-## 六、Teleme 平台现状（背景）
+## 六、三站浏览器自动化复盘（2026-10-27）
 
-官网首页 2026 年已改版为 **「Real-time population health intelligence — system as a service」**：面向政府/项目运营方/资助方的 B2G/B2B 人群健康数据平台（FHIR/HL7、离线优先、e-prescription、Gemini 自然语言查询），覆盖马来西亚 + 另一个东南亚市场。
+对 aestheticclinic.my、seekclinic.my、tressless.com 测试：普通 curl 分别遇到 JS challenge、nginx 403、Cloudflare 403。WebFetch 能读取具体公开页面，但不等于能或应当绕过访问控制批量遍历。
 
-即：**这个 1,652 条的医生目录是上一代 C 端问诊市场的遗留面**，页面还活着但已不维护（费率 0、时间错、sitemap 停在 2017）。抓下来的本质是一份 **2019 年前后的马来西亚诊所/药房黄页**。
+- 隔离 Node 22.22.2 中安装 Playwright 1.64.1 成功。
+- 配套 Chromium 下载多次超时；系统 Chrome headless 在沙箱里被 SIGTERM。
+- 未尝试代理轮换、challenge token、指纹伪装或其他 WAF 绕过。
+- 如需全量研究，先拿书面许可或官方导出/API。工具恢复只解决浏览器运行，不改变许可边界。
+- 这三站公开样本共 3 行，位于 `outputs/clinic-directories/sample_extracted_contacts.csv`；数据集没有被全量抓取。
 
-## 七、目标医生：Dr Samuel Wong
+## 七、GitHub 归档技巧（可复用）
 
-| 项 | 值 | 来源 |
+1. 同主题 KB 更新原文件，递增 frontmatter `version`，同步更新索引，不创建日期碎片文件。
+2. 推共享目录前先 fetch/reset 到远端最新版，确认目标树和本地差异；共享 `kb/` 使用**单文件同步**，避免镜像误删别人的文档。
+3. `github-sync` 的目录模式是镜像覆盖，并可能不递归子目录。大目录改用清晰的目标文件映射，检查 dry-run 列表。
+4. 公开仓库会暴露所有电话、邮箱、脚本和原始档案；核对数据敏感度与站点条款后再发布。
+5. 同步后用 `git ls-tree`、远端 API 或文件链接核验，而不只依赖 push 输出。
+6. 提交前扫描密钥只是最低限度；还要人工检查个人数据、条款、来源和目标可见性。
+
+## 八、目标医生样本：Dr Samuel Wong
+
+| 项 | 值 | 来源/置信度 |
 |---|---|---|
-| 全名 | Dr Samuel Wong（Wong Ing Sung） | Teleme slug `samuel-wong-ing-sung` |
-| 职务 | Chief Aesthetic Physician, GEM Clinic | gem.clinic |
-| 执照号 | 42977 | Teleme（未独立核验） |
-| 学历 | MBBS (Malaya, 2005) | gem.clinic |
-| 资质 | Dip. Dermatology (Mal) · Fellowship Cutaneous Surgery & Laser (Bangkok) · FKCCS (Korea) · LCP-AMP (MOH) | 两站一致 |
-| 执业点 | Unit 1-1 Mezzanine, The Boulevard, Mid Valley City, 59200 KL | 两站一致 |
-| 电话 | **+6012-200 4035**（Teleme 与 medical.my / ContactOut 三方一致） | 交叉验证 |
-| 官方客服 | +6012-200 7035（gem.clinic 官网） | 交叉验证 |
-| 邮箱 | drsamuel.wong@gemclinic.com.my | gem.clinic |
-| 语言 | BM / 粤语 / 普通话 / 英语 | Teleme |
-| Teleme 活跃度 | 487 浏览 · 1 关注 · 费率 RM 0.00 | 实测 → **休眠档案** |
+| 职务 | Chief Aesthetic Physician, GEM Clinic | GEM Clinic 官网 |
+| 电话 | +6012-200 4035 | Teleme + medical.my + ContactOut 交叉出现 |
+| 官方客服 | +6012-200 7035 | GEM Clinic 官网 |
+| 地址 | Unit 1-1 Mezzanine, The Boulevard, Mid Valley City, 59200 KL | Teleme/GEM 官网 |
+| 学历 | MBBS (Malaya, 2005) | GEM Clinic 官网 |
+| 执照号 | 42977 | Teleme 标注；MMC 未独立核验 |
 
-## 八、未核实项
+## 九、未核实项
 
-- 执照号 42977 未在 MMC（Malaysian Medical Council）公开注册库核对，`mmc.gov.my/register/` 已 404，需走 MMC 官方查询渠道。
-- 「13 年 / 18 年经验」两处口径不同（gem.clinic 个人页写 2026 年为第 13 年；机构页写 18 年团队经验），非同一指标。
-- 抓取期间未触发 Cloudflare 封禁，但**不代表长期高频安全**；ToS 明确保留终止访问权。
+- 执照号 42977 未通过 MMC 官方注册查询核验；`mmc.gov.my/register/` 当前路径 404。
+- Teleme 页面营业时间、问诊费率等可能陈旧，使用前应向诊所确认。
+- 站点 ToS 的法律适用解释未做法律意见；需要大规模再利用时，应向平台取得授权并咨询适用规则。
