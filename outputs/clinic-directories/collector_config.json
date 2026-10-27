@@ -1,0 +1,25 @@
+{
+  "scope": "public directory research only; do not crawl beyond granted permission",
+  "respect_robots": true,
+  "respect_terms": true,
+  "single_host_rate_limit_seconds": 2,
+  "max_retries": 2,
+  "retry_statuses": [408, 425, 429, 500, 502, 503, 504],
+  "stop_statuses": [401, 403],
+  "stop_on_captcha_or_challenge": true,
+  "max_pages_per_run": 200,
+  "max_records_per_run": 2000,
+  "checkpoint_every_records": 25,
+  "dedupe_keys": ["source_url", "normalized_phone", "branch_name"],
+  "required_fields": ["source_site", "source_url", "name", "phone_raw", "checked_at"],
+  "phone_country": "MY",
+  "never": [
+    "proxy_rotation",
+    "captcha_solving",
+    "challenge_token_reuse",
+    "browser_fingerprint_spoofing",
+    "retry_403",
+    "crawl_disallowed_paths",
+    "contact_people_outside_published_business_routes"
+  ]
+}

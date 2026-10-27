@@ -4,7 +4,7 @@ title: 三家诊所目录站全站采集：已验证路径与执行门槛
 tags: [web-research, directory, clinics, scraping, malaysia, robots, access-control, data-quality]
 created: 2026-10-27
 updated: 2026-10-27
-version: 1
+version: 2
 status: active
 source: 2026-10-27 实测公开页面、robots.txt、sitemap、源站请求响应
 confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL sitemap、Seek Clinic 13 页抽样和 403 可复现）；中（Seek 全类别总量及 Tressless 全量未枚举）
@@ -126,7 +126,30 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 | Seek Clinic aesthetic 类别 | **本次读取 page 1–13；本机程序化访问受 403** | 有许可的正常浏览器/API 通道后解析全部分类页 |
 | Tressless 全球目录 | **未全量枚举** | 先申请官方数据授权；不绕过其明确 WAF/归档限制 |
 
-## 七、未核实项
+## 七、全站故障实测与恢复方案（2026-10-27）
+
+已对固定的 15 个 URL 做本机有界健康检查，结果见 `outputs/clinic-directories/sitecheck_results.csv`；检查器为 `check_sites.py`，不遍历目录、不解挑战、不重试 403。
+
+| 域名 | 实测 | 判断 | 可执行的恢复方式 |
+|---|---|---|---|
+| AestheticClinic.my | robots、sitemap、目录索引及详情 URL 均返回 HTTP 200，但约 12 KB，标题为 `One moment, please...` | JS challenge 壳；HTTP 200 不代表拿到页面字段 | 停止自动枚举；请求站方许可、官方导出/API 或无挑战的授权通道。不得自动解题或重放挑战令牌 |
+| Seek Clinic | robots、sitemap、分类页 1/2/13/14 均为 HTTP 403、548 字节 nginx 响应 | 访问拒绝；无法用当前本机 HTTP 流程结构化导出 | 立即停止该 host；向站方申请授权/导出。不得代理轮换或伪装指纹 |
+| Tressless | robots.txt 为 200；sitemap、目录索引、Clinic RX 档案为 Cloudflare 403（约 4.9–6 KB）；robots 注释提及 profile challenge 与 archive crawler 限制 | 全站 sitemap/档案不可用，且存在明确爬虫限制信号 | 不做全站枚举；申请官方 API/数据导出和书面许可 |
+
+浏览器自动化依赖曾安装成功，但配套 Chromium 下载超时，系统 headless Chrome 在沙箱被终止。即使修复浏览器环境，也不能把 WAF/403 当成单纯的工具故障来绕过；只有正常获准的访问路径才可继续。
+
+### 故障分类和处理规则
+
+- DNS/连接超时：最多 2 次指数退避；失败 URL 记入队列，从 checkpoint 续跑。
+- 408/425/5xx：最多 2 次有限退避；429 尊重 Retry-After 并暂停该域名。
+- 401/403、challenge 壳、CAPTCHA、登录墙：立即停该域名/路径；不换代理、不伪装浏览器、不自动解验证码。
+- robots 禁止路径：跳过并标注；ToS 不明：标记 `terms_unverified`，不推断许可。
+- 分页重复或连续两页无新 URL：停止并核查边界；字段缺失保留原状并标记，不猜号码。
+- 中断：原子保存 checkpoint，成功记录不重抓；原始行保留，另生成去重视图。
+
+更完整的逐类矩阵见 `outputs/clinic-directories/fault-recovery.md`；限频与停机默认值见 `collector_config.json`。仅在取得书面许可/API/官方导出并确定允许路径、字段、速率及再发布范围后，才按 URL manifest → 低频抓取 → checkpoint → 字段质检 → 总量对账的流程执行全量任务。
+
+## 八、未核实项
 
 - AestheticClinic 100 个 profile 中 Complete/Source Only 的准确比例与有效号码数量。
 - Seek Clinic 95 个 sitemap 的类型与总 listing 数；分类之外有无重复/已下线记录。
