@@ -1,0 +1,72 @@
+{
+ "doctors_crawled": 1652,
+ "doctors_with_phone": 1588,
+ "coverage_pct": 96.1,
+ "doctor_clinic_rows": 1636,
+ "unique_phones": 1181,
+ "mobile_vs_landline": {
+  "mobile": 532,
+  "landline": 1097,
+  "other": 7
+ },
+ "doctors_with_license_no": 1652,
+ "phone_quality": {
+  "ok": 1636,
+  "short": 49,
+  "junk": 15,
+  "foreign": 3
+ },
+ "non_physician_profiles": 1209,
+ "physician_profiles": 443,
+ "physicians_with_phone": 404,
+ "top_specialties": [
+  [
+   "Pharmacist",
+   1049
+  ],
+  [
+   "General practitioner",
+   123
+  ],
+  [
+   "Optician",
+   42
+  ],
+  [
+   "Physiotherapy, rehabilitation & sports therapy",
+   32
+  ],
+  [
+   "Psychologist",
+   24
+  ],
+  [
+   "Dietician/Nutritionist",
+   24
+  ],
+  [
+   "Ophthalmologist (general)",
+   15
+  ],
+  [
+   "General medical physician",
+   14
+  ],
+  [
+   "Obstetrician & Gynaecologist (infertility)",
+   12
+  ],
+  [
+   "Oncologist (cancer physician)",
+   12
+  ],
+  [
+   "Obstetrician & Gynaecologist (general OBGYN)",
+   12
+  ],
+  [
+   "Health Coach",
+   11
+  ]
+ ]
+}
