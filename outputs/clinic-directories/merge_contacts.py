@@ -86,14 +86,22 @@ if seek_path.exists():
             "person": "",
         })
 
-# --- Seek Clinic, additional categories (medical-clinic, pages 1-8) ---
-seek_med = ROOT / "seekclinic_medical_raw.tsv"
-if seek_med.exists():
+# --- Seek Clinic, additional categories (medical-clinic pages 1-24, then 25-100) ---
+for med_name in ("seekclinic_medical_raw.tsv", "seekclinic_medical2_raw.tsv",
+                 "seekclinic_medical3_raw.tsv", "seekclinic_medical4_raw.tsv",
+                 "seekclinic_medical5_raw.tsv"):
+    seek_med = ROOT / med_name
+    if not seek_med.exists():
+        continue
     for line in seek_med.read_text(encoding="utf-8-sig").splitlines():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        name, phone_raw, address, url, page = line.split("|")
+        parts = line.split("|")
+        if len(parts) != 5:
+            print(f"WARN: skipping malformed line in {med_name}: {line[:80]}")
+            continue
+        name, phone_raw, address, url, page = parts
         records.append({
             "source_site": "seekclinic.my",
             "source_url": url,
@@ -103,6 +111,7 @@ if seek_med.exists():
             "state": "",
             "extra": f"category=medical-clinic; listing_page={page}",
             "person": "",
+            "record_type": "seekclinic.my:medical-clinic",
         })
 
 # --- AestheticClinic ---
