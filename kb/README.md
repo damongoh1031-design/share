@@ -11,3 +11,4 @@
 | [malaysiayp-crawl-supervision-runbook](malaysiayp-crawl-supervision-runbook.md) | malaysiayp 全量采集 · 无人值守运行手册（常驻守护 + 看门狗 + 告警，含陈旧 ALERT 判定） | stable | 2026-10-20 |
 | [github-pat-mint-without-cli](github-pat-mint-without-cli.md) | 无 gh CLI、只有账号密码时，用脚本自动开通 GitHub 推送权限 | stable | 2026-10-13 |
 | [teleme-doctor-directory-scrape](teleme-doctor-directory-scrape.md) | Teleme 医生目录全量抓取：可行性与数据结构 | active | 2026-10-27 |
+| [malaysia-clinic-directory-sources](malaysia-clinic-directory-sources.md) | 马来西亚医美诊所目录站：联系方式可采集性对比 | active | 2026-10-27 |
