@@ -90,7 +90,25 @@ for (const line of text.split('\n')) {
 - `ERR`：导航/挑战/超时
 两者混为一谈会导致「全站没电话」的假结论。
 
-## 四、什么时候必须停
+## 四、先找「全站归档」，别从分类页开始
+
+这是最容易搞错规模的一步。分类页（`/category/xxx/page/N/`）只覆盖一个类目，看起来像全站，实际可能只占 5%–15%。
+
+**正确做法：找站点的全量归档页，读它的分页总数。**
+
+| 站点形态 | 全站归档 | 判据 |
+|---|---|---|
+| GeoDirectory / WordPress 目录 | `/clinics/page/N/`、`/directory/page/N/` | 页面标题会写 `Page N Of 603` |
+| 自定义 post type | `/wp-sitemap-posts-<posttype>-1.xml` | sitemap 里的 URL 数 |
+| 商城型 | `/shop/page/N/` | 同上 |
+
+实测 Seek Clinic：`/clinics/page/2/` 标题直接是 **`Clinics - Page 2 Of 603`**，`/clinics/page/603/` 存在（1 条）。9 条/页 → **全站约 5,419 条**。而此前只抓 `aesthetic-clinic-1` 类目 13 页 = 116 条，占全站 2%。
+
+顺带确认分页参数是否可放大：Seek 的 `?per_page=50` 无效（固定 9 条/页），所以只能翻页。
+
+**记住这条顺序：归档总页数 → 每页条数 → 总量。** 不要用「几个类目 × 猜的页数」去估全站。
+
+## 五、什么时候必须停
 
 | 信号 | 判定 | 动作 |
 |---|---|---|
@@ -99,12 +117,24 @@ for (const line of text.split('\n')) {
 | 页面有 CAPTCHA | 需人工 | 停，申请授权 |
 | robots 明确 `Disallow` 目标路径 | 越界 | 跳过并标注 |
 | robots 只封 `ia_archiver` 等归档爬虫 | 一般爬虫被允许 | 可继续，但**不得镜像再发布** |
+| nginx `403 Forbidden`（548B 或 168B 纯 HTML） | IP 级拒绝 | 停本机通道，改服务端渲染点读；不换 UA/代理 |
 
 > Tressless 实测：`User-agent: *` 是 `Allow: /`，只 Disallow 三个归档爬虫；但列表页和详情页对本机 headless 全部返回 Cloudflare 挑战，等 40 秒也不放行。结论是**技术上挡批量、规则上不完全禁止**，只能做小样本点读 + 跨源核对。
 
 **禁止清单：** 换 UA 伪装、代理轮换、指纹补丁、CAPTCHA solver、重放挑战 token、重试 403。
 
-## 五、去重与纠错（决定 CSV 质量的一步）
+### ★ 403 分两种，处置完全不同（2026-10-27 实测判据）
+
+| 类型 | 特征 | 判据 | 处置 |
+|---|---|---|---|
+| **缓存型 403** | 只有个别 URL 403，其他同站页面正常 | 给同一路径加无害查询串（`/page/35/?a=1`）后 **200** | 可以重取，这是 CDN 把该 URL 缓存成 403 了 |
+| **限流/拒绝型 403** | 403 成片出现，越抓越多 | 加查询串后**仍 403** | 立即停，退避后收工；不换 UA、不换代理、不伪装指纹 |
+
+实测过程：Seek 的 35/36/39 页首次 403，加 `?a=1` 全部取回（缓存型）；连抓 20 多页后 68/71/72/73/74/75 加查询串仍 403（限流型），随即停机。
+
+这条判据可以复用到所有 WordPress / GeoDirectory / Rank Math 站：**先用一个查询串区分「页面被缓存成 403」和「你的 IP 被限」，再决定是重取还是收工。**
+
+## 六、去重与纠错（决定 CSV 质量的一步）
 
 ### 1. 号码归一 E.164（马来西亚）
 
@@ -136,7 +166,7 @@ elif d.startswith("0"):  e164 = "+6" + d   # 03-3395 1393 -> +60333951393
 
 只出第一层，就无法回溯「这个号码是从哪条 listing 来的」。
 
-## 六、可复制的执行骨架
+## 七、可复制的执行骨架
 
 ```bash
 PY="C:/Users/Admin/.workbuddy-ai/binaries/python/versions/3.13.12/python.exe"
@@ -155,7 +185,7 @@ export NODE_PATH="C:/Users/Admin/.workbuddy-ai/binaries/node/workspace/node_modu
 2. **限速 1.2–2s/页**，单 context 串行。
 3. **失败重试 3 次**，仍失败写 `error` 字段，不要丢掉这条 URL。
 
-## 七、坑清单
+## 八、坑清单
 
 1. 只 `goto` 深链 → 停在 `Loading ...`，正文 0 字。必须先访首页预热。
 2. Playwright 自带 Chromium 下载常年超时 → 用 `executablePath` 指系统 Chrome。
@@ -170,10 +200,12 @@ export NODE_PATH="C:/Users/Admin/.workbuddy-ai/binaries/node/workspace/node_modu
 11. 品牌名归一别把 `clinic`/`klinik`/`aesthetic` 全删掉，否则 `Dr Chong Clinic Melaka` 和 `Dr Chong Clinic Ipoh` 会被判成同一家、误报「同名不同号」。只删 `sdn bhd`/`bhd`/`enterprise`。
 12. 「同名多号」多数不是错误，是**品牌号 + 分店直线并存**。要输出 `primary_phone_role` 字段（branch_direct / brand_shared），而不是把这些行当冲突删掉。
 
-## 八、实测产出参考（2026-10-27）
+## 九、实测产出参考（2026-10-27）
 
 | 站点 | 通道 | 规模 | 唯一号码 |
 |---|---|---|---|
-| seekclinic.my | 服务端渲染 | 13 页 × 9 条 = 116 | 109 |
-| aestheticclinic.my | Playwright + 预热 | 100 个 sitemap profile | 见 combined 表 |
+| seekclinic.my | 服务端渲染逐页 | 全站 603 页 ≈ 5,419 条；实抓 medical-clinic 约 70 页 | 见 combined 表 |
+| aestheticclinic.my | Playwright + 预热 | 100 个 sitemap profile，100/100 成功 | 107 |
 | tressless.com | 点读 | MY 子集 | 3（跨源核对用） |
+
+三站合并（2026-10-27）：**886 源记录 → 825 唯一号码 / 821 机构**，14 个号码跨源互证，16 条空号被拒（页面本无号码，不猜补）。

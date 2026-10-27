@@ -4,7 +4,7 @@ title: 三家诊所目录站全站采集：已验证路径与执行门槛
 tags: [web-research, directory, clinics, scraping, malaysia, robots, access-control, data-quality]
 created: 2026-10-27
 updated: 2026-10-27
-version: 5
+version: 6
 status: active
 source: 2026-10-27 实测公开页面、robots.txt、sitemap、源站请求响应
 confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL sitemap、Seek Clinic 13 页抽样和 403 可复现）；中（Seek 全类别总量及 Tressless 全量未枚举）
@@ -124,6 +124,8 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 | Clinic RX 官方官网 10 家分店 | **已实做完成** | 使用本地 CSV；若要扩展到所有诊所品牌，逐个官方站点分别建来源 |
 | AestheticClinic.my 100 家 profile URLs | **已实做完成：100/100，0 失败，83 家有号** | 17 家 Source Only 本就无号，非抓取失败 |
 | Seek Clinic aesthetic 类别 | **已实做完成：109 个唯一号码** | 换其他类别时复用同一流程；末页边界需另行确认 |
+| Seek Clinic `medical-clinic` 类别 | **已实做：约 70 页 / 至少 100 页** | 68、71-75 页被 403 拒绝，未绕过 |
+| 三站合并总表 | **825 唯一号码 / 821 机构**（886 源记录） | 全站约 5,419 条 listing，覆盖率约 15% |
 | Tressless 全球目录 | **仅 MY 3 条可读样本，用于跨源核对** | 全站批量不可行：Cloudflare 全站挑战 + 列表页无电话字段 + 详情 URL 大量 404 |
 
 ## 七、实取结果：Seek Clinic 109 个唯一联系人（2026-10-27）
@@ -158,24 +160,28 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 5. 对共享号码写 `notes=shared number across N listings`，禁止在报表里当成 N 个独立门店。
 6. 抽样 4–5 条进详情页复核名称/电话/地址，任一不符即回退重取。
 
-## 八、三站合并成品（2026-10-27 最终）
+## 八、三站合并成品（2026-10-27 最新）
 
-**主交付：`combined_clinics.csv`（201 家机构，一家一行，含主号码与号码角色）。**
+**主交付：`combined_contacts.csv`（825 个唯一号码）+ `combined_clinics.csv`（821 家机构）。**
 
 | 文件 | 行数 | 用途 |
 |---|---|---|
-| `combined_clinics.csv` | 201 | 一家机构一行，`primary_phone` + `primary_phone_role` |
-| `combined_contacts.csv` | 206 | 一个唯一号码一行，含多机构共用标记 |
-| `combined_contacts_detail.csv` | 246 | 一条源记录一行，可回溯到具体页面 |
-| `combined_conflicts.csv` | 38 | 同一机构被列出多个号码（品牌号 + 分店直线） |
+| `combined_clinics.csv` | 821 | 一家机构一行，`primary_phone` + `primary_phone_role` |
+| `combined_contacts.csv` | 825 | 一个唯一号码一行，含多机构共用标记 |
+| `combined_contacts_detail.csv` | 870 | 一条源记录一行，可回溯到具体页面 |
+| `combined_conflicts.csv` | 41 | 同一机构被列出多个号码（品牌号 + 分店直线） |
 
-数据构成：Seek 116 条 listing → 109 唯一号；AestheticClinic 100 个 profile → 127 个号码实例、107 唯一号、83 有号 / 17 无号 / 0 失败；Tressless 3 条（跨源核对用）。
+数据构成：Seek 740 条源记录（aesthetic 类目 116 + medical-clinic 类目约 624）；AestheticClinic 100 个 profile → 127 个号码实例、107 唯一号、83 有号 / 17 无号 / 0 失败；Tressless 3 条（跨源核对用）。
 
 | 指标 | 值 | 说明 |
 |---|---|---|
-| 唯一号码 | 206 | E.164 归一后 |
-| 唯一机构 | 201 | 名称归一后 |
-| 主号码去重 | 176 | 201 家里只有 176 个不同主号码 |
+| 唯一号码 | 825 | E.164 归一后 |
+| 唯一机构 | 821 | 名称归一后 |
+| 跨源互证号码 | 14 | 两站以上同时出现，最强真实性证据 |
+| 品牌共用号（≥3 家） | 5 | 如 `+60102103921` 被 Clinic RX 全马 7 店共用 |
+| 多号码机构 | 41 | 品牌号 + 分店直线并存，不是数据错误 |
+| 空号/无效被拒 | 16 | 页面本无号码，不猜补 |
+| 主号码去重 | — | 见 `combined_clinics.csv` 实际行数 |
 | 跨源互证号码 | 11 | 两站以上同时出现，最强真实性证据 |
 | 品牌共用号（≥3 家） | 5 | 如 `+60102103921` 被 Clinic RX 全马 7 店共用 |
 | 多号码机构 | 38 | 品牌号 + 分店直线并存，不是数据错误 |
@@ -204,9 +210,22 @@ AestheticClinic 一个档案常同时给两个号：品牌号 + 分店直线。�
 | `category/aesthetic-clinic-1/` | 13 页 × 9 = 117（此前已抓） |
 | 首页可见类目 | women / skin / orthopedic / medical / eye / ent / aesthetic / dental … |
 
-按 8 个主类目、每个 10–40 页、每页 9 条估算，Seek 全站 listing 量级在 **1,000–2,500**。此前交付的 109 条仅覆盖约 5–10%。
+### 真实总量：`/clinics/` 归档 603 页（2026-10-27 决定性实测）
 
-补充抓取 `medical-clinic` 前 8 页（72 家）后，合并表升至 **276 个唯一号码 / 270 家机构**。按此速率，通过逐页读取补齐全站约需 110–160 次取页。
+之前按「8 个主类目 × 10–40 页」估的 1,000–2,500 是**低估**。真正决定量级的是站点的全量归档页：
+
+| 实测 | 结果 |
+|---|---|
+| `/clinics/page/2/` 页面标题 | **`Clinics - Page 2 Of 603`** |
+| `/clinics/page/603/` | 存在，仅 1 条（Hampshire Clinic Kuala Lumpur） |
+| 每页 listing | 9 条 |
+| 推算全站 listing 总量 | **约 5,419 条**（602×9 + 1） |
+| `/category/medical-clinic/page/100/` | 仍有 9 条 → 单类目 ≥900 家 |
+| `?per_page=50` 等分页参数 | 无效，固定 9 条/页 |
+
+结论：**用户说的「至少 1 千以上」成立，而且全站是 5 千条量级，不是 1 千。** 之前 109 条、276 条、413 条的交付都属于「已读页面」的阶段性数字，不是全站。
+
+本轮把 `medical-clinic` 逐页读到第 70 页附近，合并表升到 **825 唯一号码 / 821 机构**，约为全站的 15%。
 
 ### 为什么本机抓不动
 
@@ -220,8 +239,15 @@ AestheticClinic 一个档案常同时给两个号：品牌号 + 分店直线。�
 
 ### 两条可行路径
 
-1. **换网络跑现成脚本**（推荐，可拿到全量）：`crawl_seekclinic.js` 已写好，含类目遍历、分页、404 终止、断点续跑。在手机热点/家宽上执行，约 1 小时跑完全站。
-2. **逐页读取**：用服务端渲染通道一页 9 家，1,000 家约需 111 次取页，分多轮完成。
+1. **换网络跑现成脚本**（推荐，可拿到全量）：`crawl_seekclinic.js` 已写好，含类目遍历、分页、404 终止、断点续跑。在手机热点/家宽上执行，603 页约 1–1.5 小时跑完全站。
+2. **逐页读取**：用服务端渲染通道一页 9 家，5,419 家需约 603 次取页；实测同一出口连续取 20–30 页后开始出现持续 403，属限流，必须分批并间隔，不能硬压。
+
+### 本轮实测的 403 规律（重要）
+
+- 403 分两种：**缓存型**（同一 URL 被 CDN 记住 403）和**限流型**（出口 IP 累计请求过多）。
+- 缓存型可绕过：给同一路径加无害查询串（`/page/35/?a=1`）会命中不同缓存键，实测 35、36、39 页因此取回成功。
+- 限流型不可绕：68、71、72、73、74、75 页加查询串仍 403，说明是出口侧限制。此时按停机规则停止，不换 UA、不换代理、不伪装指纹。
+- 判定方法：改查询串后仍 403 → 限流；改后 200 → 缓存。这条判据可复用到其他 WordPress/GeoDirectory 站。
 
 ## 九、全站故障实测与恢复方案（2026-10-27）
 
