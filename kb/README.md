@@ -12,3 +12,4 @@
 | [github-pat-mint-without-cli](github-pat-mint-without-cli.md) | 无 gh CLI、只有账号密码时，用脚本自动开通 GitHub 推送权限 | stable | 2026-10-13 |
 | [teleme-doctor-directory-scrape](teleme-doctor-directory-scrape.md) | Teleme 医生目录全量抓取：可行性与数据结构 | active · v3 | 2026-10-27 |
 | [malaysia-clinic-directory-sources](malaysia-clinic-directory-sources.md) | 马来西亚医美诊所目录站：联系方式可采集性对比 | active · v4 | 2026-10-27 |
+| [clinic-directory-full-site-acquisition-plan](clinic-directory-full-site-acquisition-plan.md) | 三家诊所目录站全站采集：已验证路径与执行门槛 | active · v1 | 2026-10-27 |
