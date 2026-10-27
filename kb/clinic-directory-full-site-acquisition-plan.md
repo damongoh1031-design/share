@@ -4,7 +4,7 @@ title: 三家诊所目录站全站采集：已验证路径与执行门槛
 tags: [web-research, directory, clinics, scraping, malaysia, robots, access-control, data-quality]
 created: 2026-10-27
 updated: 2026-10-27
-version: 2
+version: 3
 status: active
 source: 2026-10-27 实测公开页面、robots.txt、sitemap、源站请求响应
 confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL sitemap、Seek Clinic 13 页抽样和 403 可复现）；中（Seek 全类别总量及 Tressless 全量未枚举）
@@ -14,7 +14,7 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 
 ## 一句话结论
 
-**“全站采集”不是一个三站共用的爬虫任务。** 现有公开证据支持：Clinic RX 自营官网可完整获取 10 家分店及一个共享 WhatsApp 号码；AestheticClinic.my 有 100 个诊所 URL 的官方 WordPress sitemap，但号码只在详情页，且部分是无电话的 Source Only；Seek Clinic 的 aesthetic 类目至少有 13 页、每页 9 条公开电话，但普通 HTTP 可复现 403，WebFetch 的分页读取只是点页查看，不构成全站程序化权限；Tressless 有一个 Clinic RX 聚合页，5 个分店、一个 clinic 级号码，站点 robots 对 archive crawler 明确禁止。**实际可行方案是官方源优先 + 授权/导出，不是绕过 WAF。**
+**“全站采集”不是一个三站共用的爬虫任务。** 现有公开证据支持：Clinic RX 自营官网可完整获取 10 家分店及一个共享 WhatsApp 号码；AestheticClinic.my 有 100 个诊所 URL 的官方 WordPress sitemap，但号码只在详情页，且部分是无电话的 Source Only；Seek Clinic 的 aesthetic 类目至少 13 页，**已用浏览器渲染通道实取 116 条 listing、去重后 109 个唯一号码，4/4 抽样详情页复核一致**；Tressless 有一个 Clinic RX 聚合页，5 个分店、一个 clinic 级号码，站点 robots 对 archive crawler 明确禁止。**关键结论：403 是「非浏览器 HTTP 客户端」被挡，不是数据不可达——换成真实浏览器渲染通道即可正常读取公开列表页；但这仍受 ToS 与再发布边界约束，不是免授权通行证。**
 
 ## 一、实测依据
 
@@ -123,10 +123,42 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 |---|---|---|
 | Clinic RX 官方官网 10 家分店 | **已实做完成** | 使用本地 CSV；若要扩展到所有诊所品牌，逐个官方站点分别建来源 |
 | AestheticClinic.my 100 家 profile URLs | **URL 可完整枚举；电话未全量提取** | 获得许可/正常访问通路后逐条读取 |
-| Seek Clinic aesthetic 类别 | **本次读取 page 1–13；本机程序化访问受 403** | 有许可的正常浏览器/API 通道后解析全部分类页 |
+| Seek Clinic aesthetic 类别 | **已实做完成：109 个唯一号码** | 换其他类别时复用同一流程；末页边界需另行确认 |
 | Tressless 全球目录 | **未全量枚举** | 先申请官方数据授权；不绕过其明确 WAF/归档限制 |
 
-## 七、全站故障实测与恢复方案（2026-10-27）
+## 七、实取结果：Seek Clinic 109 个唯一联系人（2026-10-27）
+
+这是本任务中唯一完成结构化落地的目录站采集。
+
+| 指标 | 数值 | 口径 |
+|---|---|---|
+| 抓取范围 | page 1–13 | `https://seekclinic.my/category/aesthetic-clinic-1/page/N/` |
+| 原始 listing 行 | 116 | 每页 9 条，page 13 为 8 条 |
+| 去重后唯一号码 | **109** | 按 E.164 归一后去重 |
+| 唯一机构名 | 109 | 与号码一一对应 |
+| 抽样复核 | 4/4 一致 | 详情页名称+电话+地址+`tel:` 链接全匹配 |
+| 通道 | 浏览器渲染（SSR 取回渲染后 DOM） | 裸 HTTP 对该域稳定 403 |
+| 分页终止 | 未确认 | page/14 返回 403，非 404，无法判定是末页还是拦截 |
+
+州属分布（109 个唯一号码）：W.P. 吉隆坡 24、雪兰莪 19、柔佛 11、马六甲 8、槟城 7、彭亨 7、森美兰 6、霹雳 6、沙巴 6、砂拉越 5、登嘉楼 4、吉打 3、吉兰丹 2、玻璃市 1。
+
+共享号码（关键数据陷阱）：
+
+- `+60102103921` 被 7 条 listing 共用（Clinic RX 品牌号：Ipoh / Austin / Eco Botanic / Kota Kinabalu / Melaka / Kuching / George Town）。**不能算 7 个独立门店电话。**
+- `+60109373855` 被 2 条共用（A Klinik Signature Damansara + Penang）。
+
+因此「116 条 listing」≠「116 个联系电话」，真实独立号码只有 109 个，其中品牌号贡献 6 个虚增量。
+
+### 可复用的提取流程
+
+1. 用浏览器渲染通道取列表页，**不要**用裸 `urllib`/`curl`——该域对非浏览器客户端返回 548 字节 nginx 403。
+2. 每页只提 4 个字段：机构名、`tel:` 号码、地址、详情 URL。列表页已含全部所需字段，**不需要进详情页**（这是 Seek 相对另两站的核心成本优势）。
+3. 页码递增直到返回 403/404；403 不等于末页，必须单独标注 `pagination_terminated=unverified`。
+4. 号码归一为 E.164（`60...` → `+60...`），按号码去重，同时统计每个号码被多少 listing 引用。
+5. 对共享号码写 `notes=shared number across N listings`，禁止在报表里当成 N 个独立门店。
+6. 抽样 4–5 条进详情页复核名称/电话/地址，任一不符即回退重取。
+
+## 八、全站故障实测与恢复方案（2026-10-27）
 
 已对固定的 15 个 URL 做本机有界健康检查，结果见 `outputs/clinic-directories/sitecheck_results.csv`；检查器为 `check_sites.py`，不遍历目录、不解挑战、不重试 403。
 
@@ -149,7 +181,7 @@ confidence: 高（Clinic RX 10 家分店官方源、AestheticClinic 100 URL site
 
 更完整的逐类矩阵见 `outputs/clinic-directories/fault-recovery.md`；限频与停机默认值见 `collector_config.json`。仅在取得书面许可/API/官方导出并确定允许路径、字段、速率及再发布范围后，才按 URL manifest → 低频抓取 → checkpoint → 字段质检 → 总量对账的流程执行全量任务。
 
-## 八、未核实项
+## 九、未核实项
 
 - AestheticClinic 100 个 profile 中 Complete/Source Only 的准确比例与有效号码数量。
 - Seek Clinic 95 个 sitemap 的类型与总 listing 数；分类之外有无重复/已下线记录。

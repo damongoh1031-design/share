@@ -1,0 +1,42 @@
+Seek Clinic capture build report
+checked_at            : 2026-10-27
+raw listing rows      : 116
+exact duplicate rows  : 0
+unique phone numbers  : 109
+unique clinic names   : 109
+sample rows (seed 20261027): 100
+
+rows per listing page:
+  page  1: 9
+  page  2: 9
+  page  3: 9
+  page  4: 9
+  page  5: 9
+  page  6: 9
+  page  7: 9
+  page  8: 9
+  page  9: 9
+  page 10: 9
+  page 11: 9
+  page 12: 9
+  page 13: 8
+
+unique phones by state:
+  W.P. Kuala Lumpur    24
+  Selangor             19
+  Johor                11
+  Malacca              8
+  Penang               7
+  Pahang               7
+  Negeri Sembilan      6
+  Perak                6
+  Sabah                6
+  Sarawak              5
+  Terengganu           4
+  Kedah                3
+  Kelantan             2
+  Perlis               1
+
+shared numbers:
+  +60102103921 used by 7 listings
+  +60109373855 used by 2 listings
