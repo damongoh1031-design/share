@@ -4,122 +4,111 @@ title: 马来西亚医美诊所目录站：联系方式可采集性对比
 tags: [scraping, malaysia, healthcare, aesthetic-clinic, cloudflare, waf, directory]
 created: 2026-10-27
 updated: 2026-10-27
-version: 1
+version: 2
 status: active
 source: 实测 https://www.aestheticclinic.my · https://seekclinic.my · https://tressless.com（2026-10-27）
-confidence: 高（反爬表现、号码位置、分页边界均实测）；中（seekclinic 总页数为区间推断；tressless 总量未穷举）
+confidence: 高（已访问页面字段、公开号码与浏览器自动化限制）；中（目录量级推断）
 ---
 
 # 马来西亚医美诊所目录站：联系方式可采集性对比
 
 ## 一句话结论
 
-**三家都有联系电话，但全部需要「真浏览器」才能拿到**——纯 `curl` 一律被挡（两家 Cloudflare 挑战、一家 nginx 403）。性价比排序：`seekclinic.my`（号码直接在列表页）> `aestheticclinic.my`（字段最全但仅部分记录有号）> `tressless.com`（全球分散、只有 clinic 级单号、且站点明文反对抓取）。**这三家与 Teleme 完全不是一个难度层级**：Teleme 是裸奔的 SSR，这三家都有 WAF。
+三站均公布诊所联系方式，但当前环境下**仅能通过网页渲染获取少量页面内容，不能安全/合规地全量绕过其 WAF 做批量 dump**。Playwright JS 包已装入隔离 Node 环境，但浏览器下载源超时，且已有 headless Chrome 在沙箱中被 SIGTERM。更重要的是，tressless 明确说明其档案页对非浏览器访问加挑战并主动阻挡 archive crawler；不应规避这些访问控制。可确认的 3 个示例联系方式已导出。
 
-## 一、反爬与可达性（实测）
+## 一、三个目标页面的公开字段
 
-| 站点 | 纯 curl | robots.txt | 拦截类型 | 绕过方式 |
+| 站点 / 目标 | 姓名 / 机构 | 电话 | 其他字段 | 当前可访问性 |
 |---|---|---|---|---|
-| aestheticclinic.my | **挑战页**（`<title>One moment, please...`，5s 后 JS 自动 reload） | 宽松：仅 `Disallow: /wp-admin/` | 全站 JS challenge（连 `/robots.txt`、`/wp-sitemap.xml` 都返回挑战页） | 执行 JS 的渲染器 |
-| seekclinic.my | **403 Forbidden**（nginx，168 字节空壳） | 不可读（同样 403） | TLS/指纹级 WAF，补全 `Accept`/`Sec-Fetch-*`/HTTP2 仍 403 | 真实浏览器指纹 |
-| tressless.com | **403**（Cloudflare `Attention Required`） | 全站 `Allow: /`，但**明文注释说明 profile 页对所有非浏览器挑战门禁**，并禁 `ia_archiver`/`archive.org_bot` | Cloudflare WAF + 挑战 | 渲染器（且违背站点明示意图） |
+| aestheticclinic.my · Clinic RX Dataran Cheras | CLINIC RX（Dataran Cheras） | +60102103921；+60143288758 | CKAPS item 5476；地址；营业时间；关联医生 Chok Jun Hoong（APC 分店匹配、LCP 已检查） | WebFetch 可读；curl 返回 JS challenge；robots 仅禁 `/wp-admin/` |
+| seekclinic.my · MZ Clinic | MZ Clinic (Aesthetic & Wellness) 医美皮肤诊所 | +60129115975 | 地址、网站、服务、营业时间、评分 | WebFetch 可读；curl 403 nginx，即使补浏览器常见请求头仍 403 |
+| tressless.com · Clinic RX | Clinic RX | +60102103921 | 5 个马来西亚分店地址；语言；官网链接；无具名执业者 | WebFetch 可读；curl Cloudflare 403；robots 注释说明 profile challenge 与 archive WAF 拦截意图 |
 
-> 关键对比：Teleme 只需换浏览器 UA 即 200。这三家换 UA 无效，必须过 JS 挑战。
+号码均为诊所公开业务联系号码，不是私人号码。
 
-## 二、号码在哪一层（决定采集成本）
+## 二、自动化安装/访问测试（2026-10-27）
 
-| 站点 | 号码位置 | 每页请求数 | 附加字段 |
-|---|---|---|---|
-| **seekclinic.my** | **列表页直接内嵌 `<a href="tel:+60...">`** | **1 请求 / 9 家** | 名称、完整地址、电话、评分、分类 |
-| aestheticclinic.my | 详情页 `Phone or contact route`（可 1–2 个号） | 1 请求 / 1 家 | 地址、营业时间、CKAPS premises ID、坐标、关联医生 MMC APC 链接、核验日期 |
-| tressless.com | 详情页 clinic 级 **1 个号**；分店页无号 | 1 请求 / 1 家 | 5 个分店地址、语言、网站 |
+| 项目 | 结果 |
+|---|---|
+| 隔离 Node.js | 22.22.2 |
+| Playwright npm 包 | 已安装到 `C:/Users/Admin/.workbuddy-ai/binaries/node/workspace`，版本 1.64.1 |
+| 配套 Chromium | 下载失败：`cdn.playwright.dev` 多次连接超时；当前缓存只有旧版 Chromium 1228，与该 Playwright 版本不匹配 |
+| 系统 Chrome headless | 本地 `--dump-dom` 在当前沙箱执行时被 SIGTERM；未成功渲染 |
+| 反爬挑战处理 | 未尝试规避 Cloudflare、nginx WAF、CAPTCHA 或访问限制 |
+| 全量抓取 | **未运行**。仅导出 3 条页面级样本，避免将少量公开查询扩展为未经许可的批量复制 |
 
-**seekclinic 是唯一「列表页即含号」的站**——这是它性价比最高的根本原因。
+## 三、量级估算与可采集路径
 
-## 三、规模
+| 站点 | 估算量级 | 页面数据形态 | 预期成本 |
+|---|---:|---|---|
+| aestheticclinic.my | 100 条 premises 记录（站点自述） | `/clinics/` 索引页列出记录；联系方式需逐个详情页读取；`Source Only` 条目没有号码 | 若有许可并有正常浏览器会话，约 100 个详情页请求 |
+| seekclinic.my | 约 100–150 条（推断） | 分类页每页 9 条，号码直接出现在列表页 `tel:` 链接 | 若站点允许，约 12–17 个分类页请求；当前 WAF 拒绝脚本请求 |
+| tressless.com | 全球数千（站点列表未显示总数） | clinic 详情页可见 clinic 级号码；分店页不一定有独立号码 | 全球目录不适合作为马来西亚黄页；站点明确阻挡归档抓取 |
 
-| 站点 | 量级 | 依据 |
-|---|---|---|
-| aestheticclinic.my | **100 条** premises 记录 | `/clinics/` 自述 "100 published premises records"，全部链接在单页内 |
-| seekclinic.my | **约 130 家**（aesthetic-clinic 分类） | 9 条/页；`page/12` 有内容、`page/18` 与 `page/25` 均 404 → 13–17 页 |
-| tressless.com | **数千**（全球） | 覆盖 US / BR / IN / CA / MY 等，列表无总数 |
+以上估算不等于已核验总量。Seek Clinic 页数边界仅抽查了第 12、18、25 页；AestheticClinic 的 100 条中 Complete 与 Source Only 的具体比例尚未统计。
 
-## 四、号码覆盖率——最容易踩的坑
+## 四、访问控制与边界
 
-`aestheticclinic.my` 的 100 条**不是都有电话**，分两种状态：
+- `robots.txt` 只是爬虫声明，不等于对大规模复制的授权。
+- `aestheticclinic.my` 的 robots 相对宽松，但实际全站有 JS challenge；challenge 本身不是建议去对抗的目标。
+- `seekclinic.my` 返回 nginx 403；不要更换代理、伪装指纹或做绕过。
+- `tressless.com` robots 注释明确提到 profile challenge 与 archive crawler 的 WAF 阻挡意图；全站批量复制前应取得书面许可。
+- 三站 ToS 本轮未能逐一完整核读；规模化采集前应检查条款并向网站确认许可。
+- 用途限定为个人查找公开诊所业务联系方式；不要用于群发营销或对公众再发布未经许可的目录副本。
 
-| 状态 | 字段 | 有无电话 |
-|---|---|---|
-| **Complete**（如 Clinic RX Dataran Cheras） | 地址 + 电话 + 营业时间 + 坐标 + 关联医生 | **有**（实测 +60102103921 / +60143288758） |
-| **Source Only**（如 Clinic RX Penang 3723） | 仅 CKAPS 法定名称 + 地址 | **无**（明写 "Contact details, coordinates, doctors, hours and treatments are not yet independently verified"） |
-
-所以「100 条记录」≠「100 个号码」。抓之前必须先按 `Profile completeness` 字段过滤，否则会拿到大量空号记录。
-
-`tressless.com` 同理：一家 5 个分店只给 1 个 clinic 级号码，分店页无独立号码。
-
-## 五、可复用操作
-
-### 1. 判断站点是否可用纯 HTTP 采集（30 秒判定）
-
-```bash
-curl -sS -L --max-time 20 -A "Mozilla/5.0 ... Chrome/131.0.0.0" -o /dev/null \
-  -w "%{http_code} %{size_download}\n" "https://target/robots.txt"
-```
-
-- `200` + 正常文本 → 可纯 HTTP
-- `200` + `<title>One moment, please...` → JS challenge
-- `403` + 极小体积（<600B）→ WAF 直接拒
-- `403` + Cloudflare 页 → Cloudflare WAF
-
-### 2. 三站的枚举路径
-
-```
-seekclinic.my   /category/aesthetic-clinic-1/page/N/      9 条/页，N=1..~17
-aestheticclinic.my  /clinics/  （单页含全部 100 条链接）
-                    /clinics/{slug}-{postcode}-{ckapsId}/  详情
-tressless.com   /hair-loss-specialists/clinics             分页列表
-                /hair-loss-specialists/clinics/{cc}/{state}/{city}/{slug}
-```
-
-### 3. 号码提取（三站通用）
-
-```python
-# 最稳：先取 tel: 链接，再退回正则
-phones = re.findall(r'href="tel:([^"]+)"', html)
-if not phones:
-    phones = re.findall(r'\+60\d{8,10}', re.sub(r'[\s\-]', '', html))
-```
-
-`seekclinic.my` 与 `tressless.com` 都用标准 `tel:` 链接，提取零歧义。
-
-### 4. 无浏览器环境下的退路
-
-本机 `chrome --headless=new --dump-dom` 在当前沙箱会被 SIGTERM，不可用。可行路径只有两条：
-1. 服务端渲染型抓取工具（本会话中 WebFetch 可过三站全部挑战，实测 3/3 成功）。
-2. 本机 Playwright/agent-browser + 关闭沙箱限制。
-
-## 六、坑与反直觉
+## 五、坑与反直觉
 
 | 坑 | 说明 |
 |---|---|
-| robots.txt 宽松 ≠ 可抓 | aestheticclinic.my 的 robots 只禁 `wp-admin`，但全站挂 JS 挑战；`seekclinic.my` 的 robots 本身都 403 读不到。**robots 与 WAF 是两套独立机制** |
-| tressless 明文反对抓取 | robots.txt 注释原文：profile 页对所有非浏览器「challenge-gated」，并说 WAF 规则会兜底封禁 archive 爬虫。这是**明确表达的不欢迎**，绕过属于主动规避 |
-| 「记录数」≠「号码数」 | aestheticclinic.my 100 条里 Source Only 的记录完全没有联系方式 |
-| 同名连锁多分店 | Clinic RX 在 aestheticclinic 有 6+ 个分店记录，同一品牌不同 premises ID，必须按 `{postcode}-{CKAPS id}` 区分 |
-| 号码可能是「联系路径」而非号码 | aestheticclinic 的字段名叫 "Phone **or contact route**"，个别记录填的是 WhatsApp 或表单链接 |
-| seekclinic 营业时间自相矛盾 | MZ Clinic 列表页写 "Tuesday: 12 to 7 AM, 10 AM to 7 PM"（两个时间段叠在一起），**时间字段不可直接使用** |
-| 全球站不适合做本地黄页 | tressless 是 hair-loss 专科全球目录，马来西亚只有零星几条，且无分店号 |
+| HTTP 200 不代表拿到页面 | aestheticclinic 的 HTTP 200 内容是 `One moment, please...` 自动重载挑战壳 |
+| robots 允许不等于可以全量复制 | WAF / 服务条款 / 数据库权利是独立因素 |
+| 记录数不等于号码数 | AestheticClinic 的 Source Only 记录只有 CKAPS 名称、地址，无电话 |
+| 连锁分店不能合并成单一号码 | Clinic RX 多个地址都重复一个品牌号码；仍需保留分店层级 |
+| 联系号码可能过时 | 目录数据需与诊所官网或官方联系页核验 |
+| 营业时间有异常 | Seek Clinic 的 MZ Clinic 周二同时列 `12 to 7 AM` 和 `10 AM to 7 PM`，需向诊所核实 |
+| 浏览器自动化被阻不代表可以绕过 | 浏览器只用于正常页面渲染；若触发挑战或拒绝访问，应停止并寻求许可 |
 
-## 七、合规提示
+## 六、可复用操作
 
-- `seekclinic.my` / `aestheticclinic.my`：robots 未禁止，但 WAF 存在本身是技术性意愿表达；个人少量查询可，规模化采集需自行承担风险。
-- `tressless.com`：**明确反对**。若要采集，建议先向其申请，而非绕过 WAF。
-- 所有号码均为诊所对外公布的接诊电话，非个人私人号码；不得用于群发营销。
+### 1. 先做单页可达性检查
+
+```bash
+curl -sS -L --max-time 20 \
+  -A "Mozilla/5.0 ... Chrome/131.0.0.0" \
+  -o page.html -w "%{http_code} %{size_download} %{content_type}\n" \
+  "https://target.example/page"
+```
+
+检查响应标题与正文；挑战页即使 HTTP 200 也视为未访问到内容。
+
+### 2. 只从公开页面提取业务号码
+
+```python
+phones = re.findall(r'href="tel:([^"]+)"', html)
+```
+
+把号码、页面 URL、抓取日期和分店地址一起保存；不得把重复的品牌号码误当作分店独立号码。
+
+### 3. Playwright 安装路径
+
+```bash
+NODE="C:/Users/Admin/.workbuddy-ai/binaries/node/versions/22.22.2-6/node.exe"
+NPM="C:/Users/Admin/.workbuddy-ai/binaries/node/versions/22.22.2-6/node_modules/npm/bin/npm-cli.js"
+cd "C:/Users/Admin/.workbuddy-ai/binaries/node/workspace"
+"$NODE" "$NPM" install playwright
+"$NODE" "$NPM" exec --yes -- playwright install chromium
+```
+
+安装成功也不代表能访问被 WAF 拦截的页面；不应使用代理轮换、伪造挑战令牌或其他绕过机制。
+
+## 七、已提取样本
+
+样本 CSV：`outputs/clinic-directories/sample_extracted_contacts.csv`。包含上述三条机构记录、号码、地址、来源 URL 和检查日期。
 
 ## 八、未核实项
 
-- `seekclinic.my` 精确总页数（实测 `page/12` 有、`page/18` 无，落在 13–17 页区间）。
-- `seekclinic.my` 其他分类（skin-treatment / hifu / botox 等）的条目数与去重后的诊所总数。
-- `tressless.com` 马来西亚条目总数未穷举。
-- `aestheticclinic.my` 100 条中 Complete / Source Only 的确切比例未逐条统计。
-- 三站的 ToS 正文未逐条阅读（`seekclinic.my/terms` 同样受 403 保护，需渲染器才能读取）。
+- 三站各自的 ToS 对自动化访问、批量复制和复用数据的完整规定。
+- Seek Clinic 精确总页数和跨分类去重后的总诊所数。
+- AestheticClinic 100 条记录中可用电话的准确条数。
+- Tressless 的马来西亚诊所总量和各分店独立号码。
+- 当前 Playwright Chromium 下载源是否可恢复；不影响本轮遵守访问限制的结论。
