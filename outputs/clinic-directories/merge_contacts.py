@@ -86,6 +86,25 @@ if seek_path.exists():
             "person": "",
         })
 
+# --- Seek Clinic, additional categories (medical-clinic, pages 1-8) ---
+seek_med = ROOT / "seekclinic_medical_raw.tsv"
+if seek_med.exists():
+    for line in seek_med.read_text(encoding="utf-8-sig").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        name, phone_raw, address, url, page = line.split("|")
+        records.append({
+            "source_site": "seekclinic.my",
+            "source_url": url,
+            "name": name,
+            "phone_raw": phone_raw,
+            "address": address,
+            "state": "",
+            "extra": f"category=medical-clinic; listing_page={page}",
+            "person": "",
+        })
+
 # --- AestheticClinic ---
 ac_path = ROOT / "aestheticclinic_profiles.jsonl"
 ac_rows = 0

@@ -206,6 +206,8 @@ AestheticClinic 一个档案常同时给两个号：品牌号 + 分店直线。�
 
 按 8 个主类目、每个 10–40 页、每页 9 条估算，Seek 全站 listing 量级在 **1,000–2,500**。此前交付的 109 条仅覆盖约 5–10%。
 
+补充抓取 `medical-clinic` 前 8 页（72 家）后，合并表升至 **276 个唯一号码 / 270 家机构**。按此速率，通过逐页读取补齐全站约需 110–160 次取页。
+
 ### 为什么本机抓不动
 
 `seekclinic.my` 对本机出口 IP 的**所有路径**（含 `robots.txt`、sitemap、`www`、`http`、IPv6）都返回 HTTP 200 + `One moment, please...` 混淆 JS 挑战页（12 KB，5 秒自动 reload）。实测：
