@@ -1,0 +1,6 @@
+{
+  "_comment": "基督 / 天主 / 福音 / 恩典类团体。注意中文关键词会大量返回台港新美加页面，exclude 里必须带境外地名。",
+  "keep": "教会|教會|教堂|church|christian|christ|gospel|福音|团契|團契|天主|cathedral|parish|catholic|卫理|衛理|methodist|浸信|baptist|长老会|長老會|presbyter|信义|信義|luther|神召|assemblies|圣公|聖公|anglican|宣道|布道|佈道|耶稣|耶穌|主日|牧区|牧區|宣教|灵恩|靈恩|使徒|圣道|聖道|恩典|grace|查经|查經|祷告|禱告|事工|ministry|fellowship|chapel|bible|基甸|青年归主|学园传道|cru|navigator|ymca|ywca",
+  "drop": "补习|補習|診所|诊所|clinic|美容|旅游|旅遊|保險|保险|地产|房地產|汽车|汽車|餐厅|餐廳|美食|咖啡|直播|网店|代购|代購|按摩|美甲|招聘|课程|課程|学院|大學|大学|中学|中學|小学|小學|幼儿园|幼兒園|安亲|安親|殡葬|殯葬|风水|風水|命理|塔罗|塔羅|alumni|校友|神学院|神學院|书局|書局|书坊|書坊|出版社|音乐教室|音樂教室",
+  "exclude": "伊斯兰|伊斯蘭|清真|masjid|surau|muslim|islam|佛|寺|廟|庙|德教|道觀|道观|印度教|hindu|巴黎|Paris|纽约|New York|NYC|洛杉矶|Los Angeles|旧金山|三藩市|西雅图|Seattle|芝加哥|Chicago|休斯顿|Houston|达拉斯|Dallas|多伦多|Toronto|温哥华|Vancouver|卡加利|Calgary|伦敦|London|曼彻斯特|Manchester|悉尼|Sydney|墨尔本|Melbourne|布里斯本|Brisbane|珀斯|Perth|奥克兰|Auckland|台北|臺北|高雄|台中|台南|新北|桃园|桃園|香港|九龍|九龙|澳门|澳門|新加坡|Singapore|雅加达|Jakarta|泗水|Surabaya|曼谷|Bangkok|马尼拉|Manila|仰光|Yangon|首尔|Seoul|东京|東京|大阪"
+}

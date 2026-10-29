@@ -1,0 +1,6 @@
+{
+  "_comment": "寺庙 / 德教会 / 佛教团体。用法: node fb_search.js q.txt out.csv assets/rules-temple.json _raw/fb_cookies.json",
+  "keep": "寺|廟|庙|庵|堂|宮|宫|觀|观|壇|坛|精舍|禅林|禪林|佛堂|佛教|佛学会|佛學會|居士|莲社|蓮社|念佛|德教|德總|德总|紫阁|紫閣|善社|阁|閣|会馆|會館|公会|公會|联合会|聯合會|总会|總會|理事会|理事會|temple|buddhist|buddhism|dhamma|dharma|vihara|monastery|dejiao|association|society|foundation",
+  "drop": "补习|補習|診所|诊所|clinic|美容|旅游|旅遊|保險|保险|地产|房地產|汽车|汽車|手机店|電腦|餐厅|餐廳|美食|咖啡|直播|网店|代购|代購|按摩|美甲|招聘|课程|課程|学院|學院|大学|大學|中学|中學|小学|小學|幼儿园|幼兒園|安亲|安親|殡葬|殯葬|风水|風水|命理|塔罗|塔羅|alumni|校友|素食店|素料|神料店|香庄|香莊|往生|骨灰|墓园|墓園",
+  "exclude": "伊斯兰|伊斯蘭|清真|masjid|surau|muslim|islam|基督|基督|church|cathedral|天主|catholic|印度教|hindu|koyil|兴都|興都"
+}
