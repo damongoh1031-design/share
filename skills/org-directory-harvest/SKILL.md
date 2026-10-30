@@ -29,6 +29,63 @@ agent_created: true
 **关键判断：座机大面积停用，手机才是实际联络方式。** 但手机几乎只出现在
 Facebook 帖子配图里，所以 L3 + OCR 不是锦上添花，而是整个任务的价值所在。
 
+## 两种任务形态：机构通讯录 vs 人名库
+
+同一套技能，两种交付物，流程不同：
+
+| | 机构通讯录 | **人名库（理事名表）** |
+|---|---|---|
+| 目标 | 每个组织一条：地址/电话/电邮/官网 | 每个**人**一条：姓名/英文名/职务/公司/电话 |
+| 主来源 | 官网「联络我们」+ 会员名录 | 官网「理事会 / 董事会 / 委员会名表」 |
+| 难点 | 机构去重、分类、州属 | 名表是无结构文本流，版式多；同名同职务要合并 |
+| 典型产出 | 200–450 个组织 | **800–1,200 位负责人** |
+
+> 用户说「资料太少了」「先找出成员姓名」时，指的是第二种。此时不要再去补机构字段，
+> 直接切到名表采集。
+
+### 名表采集三步
+
+1. **发现名表页**（不要靠搜索引擎，见 pitfalls 34）
+   - WordPress 站：`/wp-json/wp/v2/pages?per_page=100&_fields=id,link,title`，
+     按 `理事|董事|委员会|名表|committee|board|council` 过滤（`scripts/wp_probe.py`）
+   - 任意站：抓首页导航，按同一批关键词筛链接（`scripts/nav_links.py`）
+   - JS 渲染的分页（jet-engine 等）：必须 Playwright 逐页点，见 pitfalls 中的分页条
+2. **解析**（`scripts/list_parsers.py`）
+   - 五种版式：`role_first` / `name_first` / `en_pair` / `en_role` / `en_pairs`
+   - 每份名表在 `SRC` 配置表里加一行（文件、机构名、版式、起止标记）
+   - **职务判定必须早于姓名判定**，否则「主席/财政/董事」会被当成人名
+3. **合并**
+   - 去重键 `(机构, 规范化姓名)`，多职务用 `；` 合并
+   - 同一来源里 `acccim` 用 `role/name/honors`、`klsccci` 用 `position/name`，
+     必须做字段别名（`pick(r,'role','position')`）
+
+### 英文名：马来西亚场景的硬需求
+
+马来西亚华人普遍不用完整中文名，报章与 Facebook 一律用英文名
+（`拿督洪锡倡` = `Dato' Ang Saik Cheong`）。**只有中文名的人，检索命中率接近零。**
+
+拿双语姓名最快的办法：找「同一份列表的两个语言版本」，按序号 zip：
+
+```python
+# scripts/bilingual_pairs.py 的做法
+en = json.loads(get('https://site/en/wp-json/wp/v2/pic-member?per_page=100&_fields=id,title,link'))
+zh = json.loads(get('https://site/wp-json/wp/v2/pic-member?per_page=100&_fields=id,title,link'))
+pairs = [(a['title']['rendered'], b['title']['rendered']) for a, b in zip(en, zh)]
+```
+
+先用 `/wp-json/wp/v2/types` 看有哪些自定义类型，人名类通常叫
+`pic-member` / `honorary-president` / `past-presidents` / `team` / `people`。
+中总这样拿到 84 对官方中英姓名。
+
+### 号码：不要指望「姓名搜号码」
+
+实测（2026-10-30，12 人样本）：DDG 命中 0 且很快限流；Bing 能返回结果但查询被泛化，
+`site:` 查询为空，摘要里没有电话。**搜索引擎不索引社团领袖的个人手机。**
+
+个人手机只在两处：① 名表里的 `Mobile:` 栏（吉打中总那种，42 人 42 个手机）；
+② Facebook 贴文的名片/海报照片（走 OCR）。所以：**先把带电话栏的名表找全**，
+再用公司名去抓企业官网 Contact 页，最后才轮到 FB 相册 OCR。
+
 ## 标准流程
 
 ### 第 1 步 摸清站点结构（30 分钟，决定后面 8 小时）
@@ -165,6 +222,11 @@ python <github-sync>/sync.py --repo <repo> --src <f> --dest <path>/<f> --dry-run
 | `scripts/fb_harvest.js` | 登录态采正文/电话/大图 | `urls.txt outdir [scroll] [maxImg] [cookies]` |
 | `scripts/ocr_inc.py` | 增量离线 OCR | `<imgdir> --cache --max` |
 | `scripts/curate_posters.py` | 海报证据包 + CSV | `--slugmap --out --exclude` |
+| `scripts/fetch_text.py` | 抓网页（curl 优先）+ HTML→逐行文本 | `import` 用 |
+| `scripts/wp_probe.py` | **批量探测各站的名表页**（WP REST + 关键词筛） | 改 `SITES` 后直接跑 |
+| `scripts/nav_links.py` | 抓首页导航，列出名表/联络类链接 | 改 `SITES` 后直接跑 |
+| `scripts/list_parsers.py` | **五种版式的理事名表解析器** | 改 `SRC` 配置表后直接跑 |
+| `scripts/bilingual_pairs.py` | 中英双语姓名对照（双语言列表按序号 zip） | 改 `TYPES` 后直接跑 |
 
 依赖：`playwright`（用系统 Chrome）、`rapidocr-onnxruntime`、`openpyxl`、`requests`。
 
@@ -194,6 +256,9 @@ python <github-sync>/sync.py --repo <repo> --src <f> --dest <path>/<f> --dry-run
 - [ ] 排除项（如伊斯兰团体）在搜索层和合并层**双重**拦截
 - [ ] xlsx 说明页写明采集日期、来源层级、未核实项
 - [ ] GitHub 同步 `deletions=0`
+- [ ] 人名库：职务判定早于姓名判定；抽查有没有叫「主席」「财政」的人
+- [ ] 人名库：同一人的多职务已用 `；` 合并成一行
+- [ ] 人名库：有英文名的比例写进报告（马来西亚场景应 ≥ 40%）
 
 ## 参考
 
