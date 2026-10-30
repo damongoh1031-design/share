@@ -110,9 +110,33 @@ python scripts/curate_posters.py --slugmap _raw/slug_map.json --out 海报证据
 
 ### 第 6 步 合并去重 + 分类
 
-- 以 slug 为主键去重，同 slug 多条时**合并** tel/mobile/email，不要覆盖。
+**这一步最容易做错，做错了整份名录就废了。** 直接用 `scripts/org_match.py`，
+不要自己写名称匹配：
+
+```python
+from org_match import simp, similar, same_org, dedup, merge_place_branches, is_foreign
+
+orgs = [o for o in orgs if not is_foreign(o['org'], emails, websites)]  # 先剔境外
+orgs = merge_place_branches(orgs)     # 「…笨珍属会」↔「笨珍中华总商会」
+orgs = dedup(orgs)                    # 中英文重复条目合并，号码不丢
+```
+
+铁律（详见 `references/pitfalls.md` 第 16–24 条）：
+
+1. **搜索关键词只能用来发现页面，绝不能用来判定身份。**
+   `qmap[slug] = idx[query]` 会把用宽泛词搜到的地方商会全部并进全国总会。
+2. **缩写相同 ≠ 同一机构**（吉打 / 吉兰丹中总都叫 KCCCI）。
+3. **母会与分会 / 属会 / 青商团 / 妇女组 一律独立成条。**
+4. **境外同名机构极多**（Guam、Mauritius、Tampa Bay 的中国商会），
+   优先按邮箱域名与官网 TLD 剔除，比按名字可靠。
+5. **繁体先转简体**再分类、再比对。
+
+其余规则：
+
 - 分类用**带否定的正则**，见 `references/pitfalls.md` 的分类陷阱表。
-- 州属推断顺序：地址里的英文州名 → 城市/地名提示 → **最后一个** 5 位邮编。
+  注意「中华总商会」里含「华总」二字，商会判定必须排在华总之前。
+- 州属推断顺序：地址里的英文州名 → 城市/地名提示 → **最后一个** 5 位邮编；
+  最后再把 `Johor/Penang/…` 之类的英文写法统一成中文州名。
 - 每条记录标 `layer`（L1/L2/L3/L4）和 `source`，方便回溯。
 
 ### 第 7 步 出 xlsx
@@ -136,6 +160,7 @@ python <github-sync>/sync.py --repo <repo> --src <f> --dest <path>/<f> --dry-run
 | 文件 | 作用 | 关键参数 |
 |---|---|---|
 | `scripts/my_phone.py` | 马来西亚号码归一化/校验 + 州属推断 | 直接运行即自测 |
+| `scripts/org_match.py` | **机构名归一 / 相似度 / 去重 / 分支归并** | `python org_match.py` 自测；也可 `import` |
 | `scripts/fb_search.js` | 登录态搜主页，按规则过滤 | `queries.txt out.csv rules.json cookies.json` |
 | `scripts/fb_harvest.js` | 登录态采正文/电话/大图 | `urls.txt outdir [scroll] [maxImg] [cookies]` |
 | `scripts/ocr_inc.py` | 增量离线 OCR | `<imgdir> --cache --max` |
