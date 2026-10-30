@@ -4,15 +4,15 @@ title: 中国报地方版（chinapress.com.my）全站新闻联系人姓名与�
 tags: [web-scraping, 联系人提取, 马来西亚, 电话号码, wordpress, elasticsearch, 中国报]
 created: 2026-10-30
 updated: 2026-10-30
-version: 2
+version: 3
 status: done
-source: https://kl.chinapress.com.my/ · https://mk.chinapress.com.my/
+source: https://kl.chinapress.com.my/ · https://mk.chinapress.com.my/ · https://perak.chinapress.com.my/
 confidence: 已核实（抓取量、API 结构、边际收益实测）；社区实证（姓名准确率抽样）；推断（未扫描长尾文章的电话量）
 ---
 
 ## 一句话结论
 
-中国报各地方版无 sitemap、无 REST API、分类页无分页，唯一全量通道是站内搜索的 Elasticsearch 代理 `search.chinapress.com.my/full-search-{site}`。同一套方法已跑通两个分站：雪隆版（kl）提取 **9,010 条**、马六甲版（mk）提取 **5,061 条**。
+中国报各地方版无 sitemap、无 REST API、分类页无分页，唯一全量通道是站内搜索的 Elasticsearch 代理 `search.chinapress.com.my/full-search-{site}`。同一套方法已跑通三个分站：雪隆版（kl）**9,010 条**、马六甲版（mk）**5,061 条**、霹雳版（perak）**9,253 条**，合计 **23,324 条**记录。
 
 ## 分站后缀表（一次侦察，全马通用）
 
@@ -22,11 +22,11 @@ confidence: 已核实（抓取量、API 结构、边际收益实测）；社区�
 | `mk` | 马六甲 | mk.chinapress.com.my | ✅ 已跑，5,061 条 |
 | `jhr` | 柔佛 | johor.chinapress.com.my | 同结构，未跑 |
 | `png` | 槟城 | penang.chinapress.com.my | 同结构，未跑 |
-| `perak` | 霹雳 | perak.chinapress.com.my | 同结构，未跑 |
+| `perak` | 霹雳 | perak.chinapress.com.my | ✅ 已跑，9,253 条 |
 | `n9` | 森美兰 | n9.chinapress.com.my | 同结构，未跑 |
 | `ec` | 东海岸 | eastcoast.chinapress.com.my | 同结构，未跑 |
 
-脚本已参数化：`SITE=mk python scripts/cp_site_01_scan.py`，输出 `mk_articles.jsonl` / `chinapress_mk_contacts.csv`。
+脚本已参数化：`SITE=perak python scripts/cp_site_01_scan.py`，输出 `perak_articles.jsonl` / `chinapress_perak_contacts.csv`。
 
 ## 搜索 API（核心）
 
@@ -46,22 +46,24 @@ curl -s -X POST "https://search.chinapress.com.my/full-search-mk" \
 
 文章页用 `https://{site}.chinapress.com.my/?p={post_id}` 直达（实测标题一致，无需拼中文 slug）。
 
-## 两站结果对比（2026-10-30 口径）
+## 三站结果对比（2026-10-30 口径）
 
-| 指标 | 雪隆 kl | 马六甲 mk |
-|---|---|---|
-| 扫描到文章（去重前） | 73,700+ | 23,800+ |
-| 落盘文章池 | 22,088 | 10,086 |
-| 含电话文章 | 5,447 | 2,657 |
-| 提取记录 | **9,010** | **5,061** |
-| 带姓名 | 3,999（44%） | 2,419（48%） |
-| 唯一号码 | 4,938 | 2,367 |
-| 唯一姓名 | 2,627 | 1,370 |
-| 时间跨度 | 2017-01 ~ 2026-10 | 2017-01 ~ 2026-10 |
-| 姓名准确率（抽样 20–25 条） | 76–80% | ~70–75% |
-| 号码误报率 | ≈0 | ≈0 |
+| 指标 | 雪隆 kl | 马六甲 mk | 霹雳 perak |
+|---|---|---|---|
+| 扫描到文章（去重前） | 73,700+ | 23,800+ | 81,000+ |
+| 落盘文章池 | 22,088 | 10,086 | 17,541 |
+| 含电话文章 | 5,447 | 2,657 | 4,737 |
+| 提取记录 | **9,010** | **5,061** | **9,253** |
+| 带姓名 | 3,999（44%） | 2,419（48%） | 4,908（53%） |
+| 唯一号码 | 4,938 | 2,367 | 4,298 |
+| 唯一姓名 | 2,627 | 1,370 | 2,666 |
+| 时间跨度 | 2017-01 ~ 2026-10 | 2017-01 ~ 2026-10 | 2017-01 ~ 2026-10 |
+| 姓名准确率（抽样 20–25 条） | 76–80% | ~70–75% | ~85% |
+| 号码误报率 | ≈0 | ≈0 | ≈0 |
 
-号码前缀地理自洽：kl 前三是 `012/016/033`（吉隆坡 03 区），mk 前三是 `012/016/062`（马六甲 06 区），可直接用于地域校验。
+号码前缀地理自洽，可直接用于地域校验：kl `012/016/033`（吉隆坡 03 区）、mk `012/016/062`（马六甲 06 区）、perak `012/016/052`（霹雳 05 区）。
+
+perak 带姓名比例最高（53%）—— 霹雳版社团/庙宇活动通告占比大，`会长卢颖焜：016-5938333、总务宗广胜：012-5762444` 这类格式规整，比 kl 的时政新闻好提。
 
 ## 覆盖度是实测出来的，不是猜的
 
@@ -73,8 +75,11 @@ curl -s -X POST "https://search.chinapress.com.my/full-search-mk" \
 | mk | 1 | 联系方式词（27 词） | 10,003 | 2,618 |
 | mk | 2 | 高频字（22 词） | 39 | 39 |
 | mk | 3 | 活动通告词 + 地名（30 词） | 13,778 | **0** |
+| perak | 1 | 联系方式词（27 词） | 17,460 | 4,663 |
+| perak | 2 | 高频字 + 地名（23 词） | 37,143 | 74 |
+| perak | 3 | 活动通告词 + 地名（31 词） | 26,264 | 2 |
 
-**判断"遍历完了"的量化标准**：新词扫到的文章里含电话比例降到 0.1% 以下即饱和。mk 第三轮 13,778 篇新增 0 篇含电话，可以确定覆盖完毕。不要靠感觉停。
+**判断"遍历完了"的量化标准**：新词扫到的文章里含电话比例降到 0.1% 以下即饱和。mk 第三轮 13,778 篇新增 0 篇、perak 第三轮 26,264 篇新增 2 篇（0.008%），可以确定覆盖完毕。不要靠感觉停。
 
 吞吐：24 并发约 56 请求/秒。kl 第一轮 4,116 请求 73 秒；mk 全流程不到 3 分钟。
 
@@ -120,7 +125,8 @@ r"(?<![\d/.\-])(?:\+?60[\s\-]?|0)(?:1[0-9]|[2-9])(?:[\s\-]?\d{3,4}){1,2}[\s\-]?\
 |---|---|
 | `chinapress_kl_contacts.csv` | 雪隆版，9,010 行，utf-8-sig |
 | `chinapress_mk_contacts.csv` | 马六甲版，5,061 行，utf-8-sig |
-| `cp_articles.jsonl` / `mk_articles.jsonl` | 正文中间层（22,088 / 10,086 篇） |
+| `chinapress_perak_contacts.csv` | 霹雳版，9,253 行，utf-8-sig |
+| `cp_articles.jsonl` / `mk_articles.jsonl` / `perak_articles.jsonl` | 正文中间层（22,088 / 10,086 / 17,541 篇） |
 | `scripts/cp_site_01_scan.py` | 第一轮：联系方式关键词全量扫描（`SITE=` 参数化） |
 | `scripts/cp_site_01b_broad.py` | 二/三轮：广度扫描，只存含电话文章，断点续抓 |
 | `scripts/cp_site_02_extract.py` | 姓名 + 电话提取（两站共用，含全部过滤规则） |
